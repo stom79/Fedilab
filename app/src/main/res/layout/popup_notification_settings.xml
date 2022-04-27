@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/fab_margin">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mark_all_as_read"
+            style="@style/MyOutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mark_all_as_read"
+            android:textAlignment="textStart"
+            app:icon="@drawable/ic_compose_sensitive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+         <androidx.appcompat.widget.SwitchCompat
+             android:id="@+id/display_all_categories"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:text="@string/display_all_categories" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/mark_all_as_read">
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/types_of_notifications_to_display" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/display_types_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/mark_all_as_read">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_mentions"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_mentions"
+                app:icon="@drawable/ic_baseline_message_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_favourites"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_favourites"
+                app:icon="@drawable/ic_baseline_star_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_reblogs"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_reblogs"
+                app:icon="@drawable/ic_baseline_repeat_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_poll_results"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_poll_results"
+                app:icon="@drawable/ic_baseline_poll_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_updates_from_people"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_updates_from_people"
+                app:icon="@drawable/ic_baseline_home_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_follows"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_follows"
+                app:icon="@drawable/ic_baseline_person_add_alt_1_24" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/more"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minHeight="0dp"
+            android:text="@string/more_actions"
+            android:textAllCaps="false"
+            android:textColor="@color/red_1"
+            app:icon="@drawable/ic_baseline_expand_more_24"
+            app:iconTint="@color/red_1"
+            app:rippleColor="@color/red_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/clear_all_notif"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clear_all_notif"
+            android:textColor="@color/red_1"
+            android:visibility="gone"
+            app:icon="@drawable/ic_baseline_delete_24"
+            app:iconTint="@color/red_1"
+            app:rippleColor="@color/red_1"
+            app:strokeColor="@color/red_1" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</ScrollView>

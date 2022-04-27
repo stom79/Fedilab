@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Ireki menua</string>
+    <string name="navigation_drawer_close">Itxi menua</string>
+    <string name="action_about">Honi buruz</string>
+    <string name="action_about_instance">Instantziari buruz</string>
+    <string name="action_privacy">Pribatutasuna</string>
+    <string name="action_cache">Cachea</string>
+    <string name="action_logout">Amaitu saioa</string>
+    <string name="login">Hasi saioa</string>
+    <!-- common -->
+    <string name="close">Itxi</string>
+    <string name="yes">Bai</string>
+    <string name="no">Ez</string>
+    <string name="cancel">Utzi</string>
+    <string name="download">Deskargatu</string>
+    <string name="download_file">Deskargatu %1$s</string>
+    <string name="save_over">Multimedia gordeta</string>
+    <string name="download_from" formatted="false">Fitxategia: %1$s</string>
+    <string name="password">Pasahitza</string>
+    <string name="email">E-maila</string>
+    <string name="accounts">Kontuak</string>
+    <string name="toots">Toot-ak</string>
+    <string name="tags">Etiketak</string>
+    <string name="save">Gorde</string>
+    <string name="restore">Berrezarri</string>
+    <string name="no_result">Emaitzarik ez!</string>
+    <string name="instance">Instantzia</string>
+    <string name="instance_example">Instantzia: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Orain %1$s kontuarekin dabil</string>
+    <string name="add_account">Gehitu kontu bat</string>
+    <string name="clipboard">Toot-aren edukia arbelera kopiatu da</string>
+    <string name="clipboard_url">Toot-aren URL-a arbelera kopiatu da</string>
+    <string name="change">Aldatu</string>
+    <string name="choose_picture">Hautatu irudi bat…</string>
+    <string name="clear">Garbitu</string>
+    <string name="camera">Kamera</string>
+    <string name="delete_all">Ezabatu guztiak</string>
+    <string name="translate_toot">Itzuli toot hau.</string>
+    <string name="schedule">Programatu</string>
+    <string name="text_size">Testuaren eta ikonoen tamainak</string>
+    <string name="text_size_change">Aldatu testuaren tamaina:</string>
+    <string name="icon_size_change">Aldatu ikonoaren tamaina:</string>
+    <string name="next">Hurrengoa</string>
+    <string name="previous">Aurrekoa</string>
+    <string name="open_with">Honekin ireki</string>
+    <string name="validate">Onartu</string>
+    <string name="media">Multimedia</string>
+    <string name="share_with">Partekatu honekin</string>
+    <string name="shared_via">Fedilab bidez partekatua</string>
+    <string name="replies">Erantzunak</string>
+    <string name="username">Erabiltzaile-izena</string>
+    <string name="drafts">Zirriborroak</string>
+    <string name="favourite">Gogokoak</string>
+    <string name="follow">Jarraitzaile berriak</string>
+    <string name="mention">Aipamenak</string>
+    <string name="reblog">Bultzadak</string>
+    <string name="show_boosts">Erakutsi bultzadak</string>
+    <string name="show_replies">Erakutsi erantzunak</string>
+    <string name="action_open_in_web">Ireki nabigatzailean</string>
+    <string name="translate">Itzuli</string>
+    <string name="please_wait">Itxaron segundo batzuk ekintza hau abiatu aurretik.</string>
+    <!--- Menu -->
+    <string name="home_menu">Hasiera</string>
+    <string name="local_menu">Tokiko denbora-lerroa</string>
+    <string name="global_menu">Federatutako denbora-lerroa</string>
+    <string name="neutral_menu_title">Aukerak</string>
+    <string name="favorites_menu">Gogokoak</string>
+    <string name="communication_menu_title">Komunikazioa</string>
+    <string name="muted_menu">Mutututako erabiltzaileak</string>
+    <string name="blocked_menu">Blokeatutako erabiltzaileak</string>
+    <string name="notifications">Jakinarazpenak</string>
+    <string name="follow_request">Jarraitzeko eskaerak</string>
+    <string name="settings">Ezarpenak</string>
+    <string name="delete_account_title">Ezabatu kontu bat</string>
+    <string name="delete_account_message" formatted="false">Ezabatu %1$s kontua aplikaziotik?</string>
+    <string name="send_email">Bidali e-mail bat</string>
+    <string name="click_to_change">Egin klik bide-izenean berau aldatzeko</string>
+    <string name="failed">Huts egin du!</string>
+    <string name="scheduled_toots">Programatutako toot-ak</string>
+    <string name="disclaimer_full">Beheko informazioak ez du erabiltzailearen profila bere osotasunean adierazten.</string>
+    <string name="insert_emoji">Txertatu emojia</string>
+    <string name="no_emoji">Aplikazioak ez ditu emoji pertsonalizatuak jaso oraingoz.</string>
+    <string name="push_notif">Push notifications</string>
+    <string name="logout_confirmation">Ziur saioa amaitu nahi duzula?</string>
+    <string name="logout_account_confirmation">Ziur @%1$s@%2$s saioa amaitu nahi duzula?</string>
+    <!-- Status -->
+    <string name="no_status">Ez dago toot-ik bistaratzeko</string>
+    <string name="no_stories">Ez dago istoriorik bistaratzeko</string>
+    <string name="stories">Istorioak</string>
+    <string name="reblog_by">%1$s(e)k bultzatua</string>
+    <string name="favourite_add">Gehitu toot hau zure gogokoetara?</string>
+    <string name="favourite_remove">Kendu toot hau zure gogokoetatik?</string>
+    <string name="reblog_add">Bultzada eman toot honi?</string>
+    <string name="reblog_remove">Bultzada kendu toot honi?</string>
+    <string name="pin_add">Finkatu toot hau?</string>
+    <string name="pin_remove">Desfinkatu toot hau?</string>
+    <string name="more_action_1">Mututu</string>
+    <string name="more_action_2">Blokeatu</string>
+    <string name="more_action_3">Salatu</string>
+    <string name="more_action_4">Kendu</string>
+    <string name="more_action_5">Kopiatu</string>
+    <string name="more_action_6">Partekatu</string>
+    <string name="more_action_7">Aipatu</string>
+    <string name="more_action_8">Denbora baterako mutututa</string>
+    <string name="more_action_9">Ezabatu eta berridatzi</string>
+    <string-array name="more_action_confirm">
+        <item>Mututu kontu hau?</item>
+        <item>Blokeatu kontu hau?</item>
+        <item>Salatu toot hau?</item>
+        <item>Blokeatu domeinu hau?</item>
+        <item>Desmututu kontu hau?</item>
+        <item>Desblokeatu kontu hau?</item>
+    </string-array>
+    <string-array name="action_notification">
+        <item>Jakinarazi</item>
+        <item>Isilik</item>
+    </string-array>
+    <string-array name="more_action_owner_confirm">
+        <item>Kendu toot hau?</item>
+        <item>Ezabatu eta berridatzi toot hau?</item>
+    </string-array>
+    <string name="bookmarks">Gogokoak</string>
+    <string name="bookmark_add">Gehitu gogokoetara</string>
+    <string name="bookmark_remove">Kendu gogokoa</string>
+    <string name="bookmarks_empty">Ez dago gogokorik bistaratzeko</string>
+    <string name="status_bookmarked">Mezua gogokoetara gehitu da!</string>
+    <string name="status_unbookmarked">Mezua gogokoetatik kendu da!</string>
+    <!-- Date -->
+    <string name="date_seconds">%d s</string>
+    <string name="date_minutes">%d m</string>
+    <string name="date_hours">%d h</string>
+    <string name="date_day">%d e</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">Segundo %d</item>
+        <item quantity="other">%d segundo</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">Minutu %d</item>
+        <item quantity="other">%d minutu</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">Ordu %d</item>
+        <item quantity="other">%d ordu</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">Egun %d</item>
+        <item quantity="other">%d egun</item>
+    </plurals>
+    <!-- TOOT -->
+    <string name="toot_cw_placeholder">Abisua</string>
+    <string name="toot_placeholder">Zer duzu buruan?</string>
+    <string name="toot_it">TOOT!</string>
+    <string name="queet_it">QUEET!</string>
+    <string name="cw">CW</string>
+    <string name="toot_title">Idatzi toot bat</string>
+    <string name="toot_title_reply">Erantzun toot bati</string>
+    <string name="queet_title">Idatzi queet bat</string>
+    <string name="queet_title_reply">Erantzun queet bat</string>
+    <string name="toot_select_image">Hautatu multimedia bat</string>
+    <string name="toot_select_image_error">Errorea gertatu da multimedia aukeratzean!</string>
+    <string name="toot_delete_media">Ezabatu multimedia hau?</string>
+    <string name="toot_error_no_content">Zure toot-a hutsik dago!</string>
+    <string name="toot_visibility_tilte">Toot-aren ikusgaitasuna</string>
+    <string name="toots_visibility_tilte">Toot-en lehenetsitako ikusgaitasuna: </string>
+    <string name="toot_sent">Toot-a bidali da!</string>
+    <string name="toot_reply_content_title">Toot honi erantzuten ari zara:</string>
+    <string name="toot_sensitive">Eduki hunkigarria?</string>
+    <string-array name="toot_visibility">
+        <item>Argitaratu denbora-lerro publikoetan</item>
+        <item>Ez argitaratu denbora-lerro publikoetan</item>
+        <item>Bidali jarraitzaileei besterik ez</item>
+        <item>Bidali aipatutako erabiltzaileei besterik ez</item>
+    </string-array>
+    <string name="no_draft">Zirriborrorik ez!</string>
+    <string name="choose_toot">Hautatu toot bat</string>
+    <string name="choose_accounts">Hautatu kontu bat</string>
+    <string name="select_accounts">Hautatu kontu batzuk</string>
+    <string name="remove_draft">Kendu zirriborroa?</string>
+    <string name="show_reply">Sakatu botoia jatorrizko toot-a erakusteko</string>
+    <string name="upload_form_description">Deskribatu ikusmen arazoak dituztenentzat</string>
+    <!-- Instance -->
+    <string name="instance_no_description">Ez dago deskripziorik eskuragarri!</string>
+    <!-- About -->
+    <string name="about_vesrion">Bertsioa: %1$s</string>
+    <string name="about_developer">Garatzailea:</string>
+    <string name="about_license">Lizentzia: </string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Iturburu kodea: </string>
+    <string name="about_yandex">Toot-en itzulpena:</string>
+    <string name="about_thekinrar">Bilatu instantziak:</string>
+    <string name="thanks_text_logo">Ikonoaren diseinatzailea:</string>
+    <!-- Conversation -->
+    <string name="conversation">Elkarrizketa</string>
+    <!-- Accounts -->
+    <string name="no_accounts">Bistaratzeko konturik ez</string>
+    <string name="no_follow_request">Jarraipen eskaririk ez</string>
+    <string name="status_cnt">Toot-ak \n %1$s</string>
+    <string name="following_cnt">Jarraitzen \n %1$s</string>
+    <string name="followers_cnt">Jarraitzaileak \n %1$s</string>
+    <string name="pins_cnt">Finkatua \n %d</string>
+    <string name="authorize">Baimendu</string>
+    <string name="reject">Ukatu</string>
+    <!-- Scheduled toots -->
+    <string name="no_scheduled_toots">Ez dago programatutako toot-ik bistaratzeko!</string>
+    <string name="no_scheduled_toots_indications">Idatzi toot bat eta hautatu <b>Programatu</b> goiko menuan.</string>
+    <string name="remove_scheduled">Ezabatu programatutako toot-a?</string>
+    <string name="media_count">Multimedia: %d</string>
+    <string name="toot_scheduled">Toot-a programatu da!</string>
+    <string name="toot_scheduled_date">Programatutako data orain baino beranduago izan behar du!</string>
+    <string name="warning_battery">Bateria aurreztea gaituta dago! Agian ez dabil behar bezala.</string>
+    <!-- timed mute -->
+    <string name="timed_mute_date_error">Mututzeko denbora minutu bat baino gehiago izan behar da.</string>
+    <string name="timed_mute_date">%1$s mututu da %2$s arte.\n Kontu hau desmututu dezakezu bere profiletik.</string>
+    <string name="timed_mute_profile">%1$s mututu da %2$s arte.\n Egin klik hemen kontu hau desmututu nahi baduzu.</string>
+    <!-- Notifications -->
+    <string name="no_notifications">Jakinarazpenik ez bistaratzeko</string>
+    <string name="notif_mention">erabiltzaileak aipatu zaitu</string>
+    <string name="notif_status">wrote a new message</string>
+    <string name="notif_reblog">erabiltzaileak zure mezuari bultzada eman dio</string>
+    <string name="notif_favourite">erabiltzaileak zure mezua gogoko du</string>
+    <string name="notif_follow">zu jarraitzen hasi da</string>
+    <string name="notif_follow_request">zu jarraitzea eskatu du</string>
+    <plurals name="other_notifications">
+        <item quantity="one">eta beste jakinarazpen bat</item>
+        <item quantity="other">eta beste %d jakinarazpen</item>
+    </plurals>
+    <plurals name="likes">
+        <item quantity="one">gogoko %d</item>
+        <item quantity="other">%d gogoko</item>
+    </plurals>
+    <string name="delete_notification_ask">Ezabatu jakinarazpen bat?</string>
+    <string name="delete_notification_ask_all">Ezabatu jakinarazpen guztiak?</string>
+    <string name="delete_notification">Jakinarazpena ezabatu da!</string>
+    <string name="delete_notification_all">Jakinarazpen guztiak ezabatu dira!</string>
+    <!-- HEADER -->
+    <string name="following">Jarraitzen</string>
+    <string name="followers">Jarraitzaileak</string>
+    <string name="pinned_toots">Finkatuta</string>
+    <!-- TOAST -->
+    <string name="client_error">Ezin izan da bezero id-a eskuratu!</string>
+    <string name="connect_error">Ezin izan da instantziaren domeinura konektatu!</string>
+    <string name="no_internet">Ez dago Internet konexiorik!</string>
+    <string name="toast_block">Kontua blokeatua izan da!</string>
+    <string name="toast_unblock">Kontua ez dago jada blokeatuta!</string>
+    <string name="toast_mute">Kontua mututua izan da!</string>
+    <string name="toast_unmute">Kontua ez dago jada mututua!</string>
+    <string name="toast_follow">Kontua jarraitzen hasi zara!</string>
+    <string name="toast_unfollow">Ez duzu jada kontu hau jarraitzen!</string>
+    <string name="toast_reblog">Toot-ari bultzada eman zaio!</string>
+    <string name="toast_unreblog">Toot-ari bultzada kendu zaio!</string>
+    <string name="toast_favourite">Toot-a zure gogokoetara gehitu da!</string>
+    <string name="toast_unfavourite">Toot-a zure gogokoetatik kendu da!</string>
+    <string name="toast_report">Toot-a salatu da!</string>
+    <string name="toast_unstatus">Toot-a ezabatu da!</string>
+    <string name="toast_pin">Toot-a finkatu da!</string>
+    <string name="toast_unpin">Toot-a desfinkatu da!</string>
+    <string name="toast_error">Errore bat gertatu da!</string>
+    <string name="toast_code_error">Errore bat gertatu da! Instantziak ez du baimen koderik itzuli!</string>
+    <string name="toast_error_instance">Instantziaren domeinua ez dirudi baliozkoa!</string>
+    <string name="toast_error_loading_account">Errore bat gertatu da kontuen artean aldatzean!</string>
+    <string name="toast_error_search">Errore bat gertatu da bilatu bitartean!</string>
+    <string name="toast_update_credential_ok">Profileko datuak gorde dira!</string>
+    <string name="nothing_to_do">Ezin da ekintzarik egin</string>
+    <string name="toast_saved">Multimedia gorde da!</string>
+    <string name="toast_error_translate">Errore bat gertatu da itzuli bitartean!</string>
+    <string name="toast_error_translations_disabled">Itzulpenak ezarpenetan desgaituta daude</string>
+    <string name="toast_toot_saved">Zirriborroa gordeta!</string>
+    <string name="toast_error_char_limit">Ziur instantzia honek hainbeste karaktere onartzen dituela? Orokorrean, balio hau 500 inguru izaten da.</string>
+    <string name="toast_visibility_changed">%1$s kontuaren toot-en ikusgaitasuna aldatu da</string>
+    <!-- Settings -->
+    <string name="set_toots_page">Toot kopurua kargako</string>
+    <string name="set_attachment_always">Beti</string>
+    <string name="set_attachment_wifi">WIFI</string>
+    <string name="set_attachment_ask">Galdetu</string>
+    <string name="set_attachment_action">Kargatu multimedia</string>
+    <string name="load_attachment">Kargatu irudiak</string>
+    <string name="load_attachment_spoiler">Erakutsi gehiago…</string>
+    <string name="load_attachment_spoiler_less">Erakutsi gutxiago…</string>
+    <string name="load_sensitive_attachment">Eduki hunkigarria</string>
+    <string name="set_disable_gif">Desgaitu GIF abatarrak</string>
+    <string name="set_folder_title">Bidea: </string>
+    <string name="set_auto_store_toot">Gorde zirriborroak automatikoki</string>
+    <string name="set_auto_add_media_url">Gehitu multimediaren URLa toot-etan</string>
+    <string name="set_notif_follow">Jakinarazi norbaitek jarraitzen dizunean</string>
+    <string name="set_notif_follow_share">Jakinarazi norbaitek zure mezuari bultzada ematean</string>
+    <string name="set_notif_follow_add">Jakinarazi norbaitek zure mezua gogoko duenean</string>
+    <string name="set_notif_follow_mention">Jakinarazi norbaitek aipatzen zaituenean</string>
+    <string name="set_notif_follow_poll">Jakinarazi inkesta bat amaitu denean</string>
+    <string name="set_notif_status">Notify for new posts</string>
+    <string name="set_share_validation">Baieztatu bultzada eman aurretik</string>
+    <string name="set_share_validation_fav">Baieztatu gogokoetara gehitu aurretik</string>
+    <string name="set_wifi_only">Jakinarazi WIFI bidez besterik ez</string>
+    <string name="set_notify">Jakinarazi?</string>
+    <string name="set_notif_silent">Jakinarazpen isilak</string>
+    <string name="set_nsfw_timeout">NSFW ikusteko denbora-muga (segundoak, 0 itzalita)</string>
+    <string name="set_med_desc_timeout">Multimediaren deskripzioaren denbora-muga (segundoak, 0 desgaituta esan nahi du)</string>
+    <string name="settings_title_profile">Editatu profila</string>
+    <string name="settings_title_custom_sharing">Partekatze pertsonalizatua</string>
+    <string name="settings_custom_sharing_url">Zure partekatze pertsonalizaturako URL-a&#8230;</string>
+    <string name="set_profile_description">Bio…</string>
+    <string name="set_lock_account">Blokeatu kontua</string>
+    <string name="set_save_changes">Gorde aldaketak</string>
+    <string name="set_header_picture_overlay">Hautatu goibururako irudi bat</string>
+    <string name="set_fit_preview">Doitu irudien aurrebistak</string>
+    <string name="set_automatically_split_toot">Zatitu automatikoki 500 karakteretik gorako toot-ak erantzunetan</string>
+    <string name="note_no_space">Baimendutako 160 karaktereetara heldu zara!</string>
+    <string name="username_no_space">Baimendutako 30 karaktereetara heldu zara!</string>
+    <string name="settings_time_from">Nondik</string>
+    <string name="settings_time_to">nora</string>
+    <string name="settings_time_greater">Denbora %1$s baino gehiago izan behar da</string>
+    <string name="settings_time_lower">Denbora %1$s baino gutxiago izan behar da</string>
+    <string name="settings_hour_init">Hasiera ordua</string>
+    <string name="settings_hour_end">Amaiera ordua</string>
+    <string name="embedded_browser">Erabili aplikazio barneko nabigatzailea</string>
+    <string name="custom_tabs">Fitxa pertsonalak</string>
+    <string name="use_javascript">Gaitu JavaScript</string>
+    <string name="expand_cw">Hedatu automatikoki CW</string>
+    <string name="use_cookies">Baimendu hirugarrengoen cookie-ak</string>
+    <string name="your_api_key">Zure API gakoa, Yandex erabiltzeko hutsik laga dezakezu</string>
+    <string-array name="settings_theme">
+        <item>Iluna</item>
+        <item>Argia</item>
+        <item>Beltza</item>
+    </string-array>
+    <string name="set_led_colour">Ezarri LEDaren kolorea:</string>
+    <string-array name="led_colours">
+        <item>Urdina</item>
+        <item>Ziana</item>
+        <item>Magenta</item>
+        <item>Berdea</item>
+        <item>Gorria</item>
+        <item>Horia</item>
+        <item>Zuria</item>
+    </string-array>
+    <string name="action_follow">Jarraitu</string>
+    <string name="action_unblock">Desblokeatu</string>
+    <string name="action_mute">Mututu</string>
+    <string name="action_unmute">Desmututu</string>
+    <string name="request_sent">Eskaera bidalita</string>
+    <string name="followed_by">Zu jarraitzen</string>
+    <string name="action_search">Bilatu</string>
+    <string name="set_capitalize">Lehen letra maiuskulaz erantzunetan</string>
+    <string name="set_resize_picture">Aldatu irudien tamaina</string>
+    <string name="set_resize_video">Aldatu tamaina bideoei</string>
+    <!-- Quick settings for notifications -->
+    <string name="settings_popup_title">Push jakinarazpenak</string>
+    <string name="settings_popup_message">        Berretsi jaso nahi dituzun push jakinarazpenak.
+        Jakinarazpen hauek gero ezarpenetan aktibatu edo desaktibatu ditzakezu (Jakinarazpenak fitxa).
+    </string>
+    <!-- CACHE -->
+    <string name="cache_title">Garbitu cache-a</string>
+    <string name="cache_message">%1$s datu daude cachean.\n\nEzabatu nahi dituzu?</string>
+    <string name="cache_units">Mb</string>
+    <string name="toast_cache_clear">Cache-a garbitu da! %1$s askatu dira</string>
+    <!-- ACTIVITY CUSTOM SHARING -->
+    <string name="title_header_custom_sharing">Izenburua</string>
+    <string name="title_hint_custom_sharing">Izenburua&#8230;</string>
+    <string name="description_header_custom_sharing">Deskripzioa</string>
+    <string name="keywords_header_custom_sharing">Hitz gakoak</string>
+    <string name="keywords_hint_custom_sharing">Hitz gakoak&#8230;</string>
+    <!-- ACTIVITY CACHE -->
+    <string name="action_sync">Sinkronizatu</string>
+    <string name="action_filter">Iragazi</string>
+    <string name="owner_cached_toots">Zure toot-ak</string>
+    <string name="owner_cached_notifications">Zure jakinarazpenak</string>
+    <string name="v_public">Publikoa</string>
+    <string name="v_unlisted">Zerrendatu gabea</string>
+    <string name="v_private">Pribatua</string>
+    <string name="v_direct">Zuzena</string>
+    <string name="v_keywords">Hitz gako batzuk…</string>
+    <string name="show_media">Erakutsi multimedia</string>
+    <string name="show_pinned">Erakutsi finkatuta</string>
+    <string name="filter_no_result">Ez da emaitzarik aurkitu!</string>
+    <string name="data_backup_toots">Egin %1$s kontuko toot-en babes-kopia</string>
+    <string name="data_backup_success">%1$s toot inportatu dira</string>
+    <string name="data_backup_notification_success">%1$s jakinarazpen berri inportatu dira</string>
+    <string-array name="filter_order">
+        <item>Data behera</item>
+        <item>Data gora</item>
+    </string-array>
+    <string-array name="filter_select">
+        <item>Ez</item>
+        <item>Bakarrik</item>
+        <item>Biak</item>
+    </string-array>
+    <string name="owner_cached_toots_empty">Ez da toot-ik aurkitu datu-basean. Erabili menuko sinkronizatu botoia eskuratzeko.</string>
+    <!-- PRIVACY -->
+    <string name="privacy_data_title">Grabatutako datuak</string>
+    <string name="privacy_data">        Kontuen oinarrizko informazioa besterik ez da gordetzen gailuetan
+        Datu hauek guztiz konfidentzialak dira eta bakarrik aplikazioak erabili ditzake.
+        Aplikazioa ezabatzean datu hauek ere ezabatzen dira.\n
+        &#9888; Saioa eta pasahitzak ez dira inoiz gordetzen. Instantzia batekin autentifikazio segurua (SSL) ezartzean besterik ez dira erabiltzen.
+    </string>
+    <string name="privacy_authorizations_title">Baimenak:</string>
+    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Gailua WIFI sare batera konektatuta dagoen egiaztatzeko erabiltzen da.\n
+        - <b>INTERNET</b>: Instantzia bati itaunketak egiteko erabiltzen da.\n
+        - <b>WRITE_EXTERNAL_STORAGE</b>: Multimedia gordetzeko edo aplikazioa SD txartelera eramateko erabiltzen da.\n
+        - <b>READ_EXTERNAL_STORAGE</b>: Toot-etara multimedia gehitzeko erabilytzen da.\n
+        - <b>BOOT_COMPLETED</b>: Jakinarazpen zerbitzua abiatzeko erabiltzen da.\n
+        - <b>WAKE_LOCK</b>: Jakinarazpen zerbitzuan zehar erabiltzen da.
+    </string>
+    <string name="privacy_API_authorizations_title">APIaren baimenak:</string>
+    <string name="privacy_API_authorizations">        - <b>Irakurri</b>: Irakurri datuak.\n
+        - <b>Idatzi</b>: Bidali mezuak eta igo mezuetarako multimedia.\n
+        - <b>Jarraitu</b>: Jarraitu, jarraitzeari utzi, blokeatu, desblokeatu.\n\n
+        <b>&#9888; Ekintza hauek erabiltzaileak eskatuta besterik ez dira burutzen.</b>
+    </string>
+    <string name="privacy_API_title">Jarraipena eta liburutegiak</string>
+    <string name="privacy_API">        Aplikazioak <b>ez du jarraipen tresnarik erabiltzen</b> (audientziaren neurria, erroreen jakinarazpena, eta abar.) eta ez du publizitaterik.\n\n
+        Liburutegien erabilera minimizatu da: \n
+        - <b>Glide</b>: Multimedia kudeatzeko\n
+        - <b>Android-Job</b>: Zerbitzuak kudeatzeko\n
+        - <b>PhotoView</b>: Irudiak kudeatzeko\n
+    </string>
+    <string name="privacy_API_yandex_title">Toot-en itzulpena</string>
+    <string name="privacy_API_yandex_authorizations">        Aplikazioak ttot-ak itzultzeko aukera ematen du gailuaren locale eta Yandex API-a erabiliz.\n
+        Yandex-ek bere pribatutasun politika du eta hemen aurkitu daiteke: https://yandex.ru/legal/confidential/?lang=en
+    </string>
+    <string name="thanks_text_dev">        Eskerrik asko:
+    </string>
+    <string name="filter_regex">Iragazi adierazpen erregularrak erabiliz</string>
+    <string name="search">Bilatu</string>
+    <string name="delete">Ezabatu</string>
+    <string name="fetch_more_toots">Jaso toot gehiago…</string>
+    <!-- About lists -->
+    <string name="action_lists">Zerrendak</string>
+    <string name="action_lists_confirm_delete">Ziur betiko ezabatu nahi duzula zerrenda hau?</string>
+    <string name="action_lists_empty_content">Ez dago ezer zerrenda honetan. Zerrenda honetako kideek mezu berriak bidaltzean, hemen agertuko dira.</string>
+    <string name="action_lists_add_to">Gehitu zerrendara</string>
+    <string name="action_lists_create">Gehitu zerrenda</string>
+    <string name="action_lists_delete">Ezabatu zerrenda</string>
+    <string name="action_lists_update">Editatu zerrenda</string>
+    <string name="action_lists_title_placeholder">Zerrenda berriaren izena</string>
+    <string name="action_lists_add_user">Kontua zerrendara gehitu da!</string>
+    <string name="action_lists_empty">Ez duzu zerrendarik oraindik!</string>
+    <!-- Migration -->
+    <string name="account_moved_to">%1$s %2$s(e)ra mugitu da</string>
+    <string name="issue_login_title">Autentifikazioa ez dabil?</string>
+    <string name="issue_login_message">        <b>Hona lagundu dezaketen egiaztaketa batzuk:</b>\n\n
+        - Egiaztatu ez dagoela akatsik instantziaren izenean\n\n
+        - Egiaztatu instantzia ez dagoela erorita\n\n
+        - Bi faktoreetako autentifikazioa erabiltzen baduzu (2FA), erabili beheko esteka (behin instantziaren izena bete eta gero)\n\n
+        - Esteka hori erabili dezakezu 2FA erabiltzen ez baduzu ere\n\n
+        - Oraindik ez badabil, ireki arazo bat Framagit kontu honetan https://framagit.org/tom79/fedilab/issues
+    </string>
+    <string name="media_ready">Multimedia kargatu da. Egin klik hemen berau bistaratzeko.</string>
+    <string name="data_export_start">Ekintza honek denbora behar dezake. Bukatzean jakinaraziko zaizu.</string>
+    <string name="data_export_running">Oraindik abian, itxaron mesedez…</string>
+    <string name="data_export">Esportatu mezuak</string>
+    <string name="data_export_toots">Esportatu %1$s(e)ren mezuak</string>
+    <string name="data_export_success">%1$s toot esportatu dira %2$stik.</string>
+    <string name="data_export_error">Zerbait ez da behar bezala joan %1$s(e)ko datuak esportatzean</string>
+    <string name="data_export_error_simple">Zerbait ez da behar bezala joan datuak esportatzean!</string>
+    <string name="data_import_error_simple">Zerbait ez da behar bezala joan datuak inportatzean!</string>
+    <!-- Proxy -->
+    <string name="proxy_set">Proxya</string>
+    <string name="proxy_enable">Gaitu proxya?</string>
+    <string name="poxy_host">Ostalaria</string>
+    <string name="poxy_port">Ataka</string>
+    <string name="poxy_login">Saioa</string>
+    <string name="poxy_password">Pasahitza</string>
+    <string name="set_share_details">Gehitu toot-aren xehetasunak partekatzean</string>
+    <string name="support_the_app_on_liberapay">Babestu aplikazioa Liberapay bidez</string>
+    <string name="alert_regex">Errore bat dago adierazpen erregularrean!</string>
+    <string name="toast_instance_unavailable">Ez da denbora-lerrorik aurkitu instantzia honetan!</string>
+    <string name="delete_instance">Ezabatu instantzia hau?</string>
+    <string name="which_language">Itzuli</string>
+    <string name="follow_instance">Jarraitu instantzia</string>
+    <string name="toast_instance_already_added">Dagoeneko jarraitzen duzu instantzia hau!</string>
+    <string name="toast_instance_followed">Instantzia jarraituta!</string>
+    <string name="action_partnership">Lankidetzak</string>
+    <string name="neutral_menu_information">Informazioa</string>
+    <string name="hide_boost">Ezkutatu %s(r)en bultzadak</string>
+    <string name="endorse">Nabarmendu profilean</string>
+    <string name="show_boost">Erakutzi %s(r)en bultzadak</string>
+    <string name="unendorse">Ez nabarmendu profilean</string>
+    <string name="toast_endorse">Kontu hau orain profilean nabarmentzen da</string>
+    <string name="toast_unendorse">Kontu hau ez da jada profilean nabarmentzen</string>
+    <string name="toast_show_boost">Bultzadak orain erakusten dira!</string>
+    <string name="toast_hide_boost">Bultzadak orain ezkutatzen dira!</string>
+    <string name="direct_message">Mezu zuzena</string>
+    <string name="filters">Iragazkiak</string>
+    <string name="action_filters_empty_content">Ez dago iragazkirik bistaratzeko. Bat sortu dezakezu \"+\" botoia sakatuz.</string>
+    <string name="filter_keyword">Hitz gakoa edo esaldia</string>
+    <string name="context_home">Hasierako denbora-lerroa</string>
+    <string name="context_public">Denbora-lerro publikoak</string>
+    <string name="context_notification">Jakinarazpenak</string>
+    <string name="context_conversation">Elkarrizketak</string>
+    <string name="filter_keyword_explanations">Bat egingo du testua eta toot-aren eduki abisua maiuskulak zein minuskulak erabiltzen baditu</string>
+    <string name="context_drop">Bota ezkutatu ordez</string>
+    <string name="context_drop_explanations">Iragazitako toot-ak behin betiko desagertuko dira, gero iragazkia kentzen bada ere</string>
+    <string name="context_whole_word_explanations">Hitz gakoa edo esaldia soilik alfanumerikoa bada, bakarrik hitz osoarekin bat datorrenean aplikatuko da</string>
+    <string name="context_whole_word">Hitz osoa</string>
+    <string name="filter_context">Iragazkien testuinguruak</string>
+    <string name="filter_context_explanations">Iragazkia aplikatzeko testuinguru bat edo gehiago</string>
+    <string name="filter_expire">Iraungitze data</string>
+    <string name="action_filter_delete">Ezabatu iragazkia?</string>
+    <string name="action_update_filter">Eguneratu iragazkia</string>
+    <string name="action_filter_create">Sortu iragazkia</string>
+    <string name="how_to_follow">Nor jarraitu</string>
+    <string name="action_who_to_follow_empty_content">Ez dago konturik zerrendan oraindik!</string>
+    <string name="follow_account">Jarraitu</string>
+    <string name="select_all">Hautatu denak</string>
+    <string name="unselect_all">Deshautatu denak</string>
+    <string name="follow_trunk">%s jarraituta!</string>
+    <string name="create_list_trunk">%s zerrenda sortzen</string>
+    <string name="add_account_list_trunk">Kontuak zerrendara gehitzen</string>
+    <string name="account_added_list_trunk">Kontuak zerrendara gehitu dira</string>
+    <string name="adding_account_list_trunk">Kontuak zerrendara gehitzen</string>
+    <string name="action_list_add">Ez duzu zerrendarik gehitu oraindik. Sakatu \"+\" botoia berri bat gehitzeko.</string>
+    <string name="about_trunk">Nor jarraitu</string>
+    <string name="about_trunk_action">Trunk APIa</string>
+    <string name="toast_impossible_to_follow">Ezin da/dira kontua/k jarraitu</string>
+    <string name="retrieve_remote_account">Urruneko kontua eskuratzen</string>
+    <string name="expand_image">Hedatu automatikoki ezkutatutako multimedia</string>
+    <string name="channel_notif_follow">Jarraipen berria</string>
+    <string name="channel_notif_boost">Bultzada berria</string>
+    <string name="channel_notif_fav">Gogoko berria</string>
+    <string name="channel_notif_mention">Aipamen berria</string>
+    <string name="channel_notif_poll">Inkesta amaituta</string>
+    <string name="channel_notif_toot">Toot berria</string>
+    <string name="channel_notif_backup">Toot-en babes-kopia</string>
+    <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_media">Multimediaren deskarga</string>
+    <string name="set_notif_sound">Aldatu jakinarazpen-soinua</string>
+    <string name="select_sound">Hautatu doinua</string>
+    <string name="set_enable_time_slot">Gaitu denbora-tartea</string>
+    <string name="how_to_videos">Laguntza bideoak</string>
+    <string name="retrieve_remote_conversation">Urruneko haria eskuratzen!</string>
+    <string name="no_blocked_domain">Ez dago blokeatutako domeinurik!</string>
+    <string name="unblock_domain_confirm">Desblokeatu domeinua</string>
+    <string name="unblock_domain_confirm_message">Ziur al zaude %s desblokeatu nahi duzula?</string>
+    <string name="block_domain_confirm_message">Ziur al zaude %s blokeatu nahi duzula?</string>
+    <string name="blocked_domains">Blokeatutako domeinuak</string>
+    <string name="block_domain">Blokeatu domeinua</string>
+    <string name="toast_block_domain">Domeinu hau blokeatuta dago</string>
+    <string name="toast_unblock_domain">Domeinua ez dago jada blokeatuta!</string>
+    <string name="retrieve_remote_status">Urruneko mezua jasotzen</string>
+    <string name="comment">Iruzkina</string>
+    <string name="peertube_instance">Peertube instantzia</string>
+    <string name="no_comments">Izan bideo honetan iruzkin bat uzten lehena goian eskuinean dagoen botoiarekin!</string>
+    <string name="number_view_video">%s ikustaldi</string>
+    <string name="duration_video">Iraupena: %s</string>
+    <string name="add_remote_instance">Gehitu instantzia bat</string>
+    <string name="comment_no_allowed_peertube">Iruzkinak ez daude aktibatuta bideo honetan!</string>
+    <string name="pickup_resolution">Hautatu bereizmen bat</string>
+    <string name="peertube_favorites">Peertubeko gogokoak</string>
+    <string name="bookmark_add_peertube">Bideoa gogokoetara gehitu da!</string>
+    <string name="bookmark_remove_peertube">Bideoa gogokoetatik kendu da!</string>
+    <string name="bookmark_peertube_empty">Ez dago Peertubeko bideorik gogokoetan!</string>
+    <string name="channel">Kanala</string>
+    <string name="videos">Bideoak</string>
+    <string name="channels">Kanalak</string>
+    <string name="set_display_emoji">Erabili Emoji One</string>
+    <string name="information">Informazioa</string>
+    <string name="set_display_card">Erakutsi aurrebistak toot guztietan</string>
+    <string name="thanks_text_ux">Interfazearen diseinatzaile berria</string>
+    <string name="set_display_video_preview">Erakutsi bideoen aurrebista</string>
+    <string name="account_id_clipbloard">Kontuaren id-a arbelera kopiatu da!</string>
+    <string name="set_change_locale">Aldatu hizkuntza</string>
+    <string name="default_language">Lehenetsitako hizkuntza</string>
+    <string name="truncate_long_toots">Moztu toot luzeak</string>
+    <string name="set_truncate_toot">Moztu \'x\' lerro baino gehiago dituzten tootak. Zerok desaktibatuta dagoela esan nahi du.</string>
+    <string name="display_toot_truncate">Erakutsi gehiago</string>
+    <string name="hide_toot_truncate">Erakutsi gutxiago</string>
+    <string name="manage_tags">Kudeatu etiketak</string>
+    <string name="tags_already_stored">Etiketa badago aurretik!</string>
+    <string name="tags_stored">Etiketa gorde da!</string>
+    <string name="tags_renamed">Etiketa aldatu da!</string>
+    <string name="tags_deleted">Etiketa ezabatu da!</string>
+    <string name="schedule_boost">Programatu bultzada</string>
+    <string name="boost_scheduled">Bultzada programatu da!</string>
+    <string name="no_scheduled_boosts">Ez dago programatutako bultzadarik bistaratzeko!</string>
+    <string name="no_scheduled_boosts_indications"><![CDATA[Ireko toot baten menua eta hautatu <b>programatu bultzada</b>.]]></string>
+    <string name="art_menu">Arte denbora-lerroa</string>
+    <string name="open_menu">Ireki menua</string>
+    <string name="go_back">Joan atzera</string>
+    <string name="app_logo">Aplikazioaren logoa</string>
+    <string name="profile_picture">Profilaren Irudia</string>
+    <string name="profile_banner">Profileko banda</string>
+    <string name="contact_instance_admin">Kontaktatu instantziaren administratzailearekin</string>
+    <string name="add_new">Gehitu berria</string>
+    <string name="mastohost_logo">MastoHost logoa</string>
+    <string name="emoji_picker">Emoji hautatzailea</string>
+    <string name="refresh">Berritu</string>
+    <string name="expand_conversation">Hedatu elkarrizketa</string>
+    <string name="remove_account">Kendu kontu bat</string>
+    <string name="delete_domain">Ezabat blokeatutako domeinua</string>
+    <string name="custom_emoji_picker">Emoji pertsonalizatuen hautatzailea</string>
+    <string name="play_video">Erreproduzitu bideoa</string>
+    <string name="new_toot">Toot berria</string>
+    <string name="card_view_image">Txartelaren irudia</string>
+    <string name="hide_media">Ezkutatu multimedia</string>
+    <string name="favicon">Gune-ikurra</string>
+    <string name="media_description">Deskripzioa gehitzeko multimedia</string>
+    <string-array name="filter_expire">
+        <item>Inoiz ez</item>
+        <item>30 minutu</item>
+        <item>ordu 1</item>
+        <item>6 ordu</item>
+        <item>12 ordu</item>
+        <item>egun 1</item>
+        <item>aste 1</item>
+    </string-array>
+    <string name="showcase_instance">        Eremu honetan, zure instantziaren hostalari izena idatzi behar duzu.\nAdibidez, zure kontua https://mastodon.eus helbidean sortu baduzu\nIdatzi <b>mastodon.eus</b> (https:// gabe)\n
+       Idazten hasi zaitezke eta izenak proposatuko zaizkizu.\n\n
+       ⚠ Konektatu botoiak instantzia baliogarria bada eta martxan badago funtzionatuko du, bestela ez!
+    </string>
+    <string name="more_information">Informazio gehiago</string>
+    <!-- languages not translated -->
+    <string name="languages">Hizkuntzak</string>
+    <string name="show_media_only">Multimedia besterik ez</string>
+    <string name="show_media_nsfw">Erakutsi NSFW</string>
+    <string name="crowdin_translations">Crowdin itzulpenak</string>
+    <string name="crowdin_manager">Crowdin kudeatzailea</string>
+    <string name="translation_app">Aplikazioaren itzulpena</string>
+    <string name="about_crowdin">Crowdin-i buruz</string>
+    <string name="bot">Bota</string>
+    <string name="pixelfed_instance">Pixelfed instantzia</string>
+    <string name="mastodon_instance">Mastodon instantzia</string>
+    <string name="any_tags">Hauetako edozein</string>
+    <string name="all_tags">Hauek guztiak</string>
+    <string name="none_tags">Hauetako bat ere ez</string>
+    <string name="some_words_any">Hitz hauetako edozein (zuriunez banatuta)</string>
+    <string name="some_words_all">Hitz hauek guztiak (zuriunez banatuta)</string>
+    <string name="some_tags">Gehitu iragazi beharreko hitzak (zuriuneekin bereizita)</string>
+    <string name="change_tag_column">Aldatu zutabearen izena</string>
+    <string name="misskey_instance">Misskey instantzia</string>
+    <string name="toast_no_apps">Ez dago esteka hau onartzen duen aplikaziorik zure gailuan instalatuta.</string>
+    <string name="subscriptions">Harpidetzak</string>
+    <string name="overview">Bista orokorra</string>
+    <string name="trending">Joerak</string>
+    <string name="recently_added">Berriki gehituta</string>
+    <string name="local">Tokikoa</string>
+    <string name="upload_video">Igo</string>
+    <string name="reply">Erantzun</string>
+    <string name="delete_comment">Ezabatu iruzkin bat</string>
+    <string name="delete_comment_confirm">Ziur iruzkin hau ezabatu nahi duzula?</string>
+    <string name="fullscreen">Pantaila osoko bideoa</string>
+    <string name="set_video_mode">Bideorako modua</string>
+    <string name="file_to_upload">Hautatu igo nahi duzun fitxategia</string>
+    <string name="my_videos">Nire bideoak</string>
+    <string name="title">Izenburua</string>
+    <string name="license">Lizentzia</string>
+    <string name="category">Kategoria</string>
+    <string name="language">Hizkuntza</string>
+    <string name="peertube_nsfw">Bideo honek helduei zuzendutako edukia du</string>
+    <string name="peertube_enable_comments">Gaitu bideoen iruzkinak</string>
+    <string name="update_video">Eguneratu bideoa</string>
+    <string name="description">Deskribapena</string>
+    <string name="toast_peertube_video_updated">Bideoa eguneratua izan da!</string>
+    <string name="toast_cancelled">Igoera ezeztatuta!</string>
+    <string name="upload_video_success">Bideoa igo da!</string>
+    <string name="uploading">Igotzen, itxaron mesedez…</string>
+    <string name="video_uploaded_action">Sakatu hemen bideoaren datuak editatzeko.</string>
+    <string name="delete_video">Ezabatu bideoa</string>
+    <string name="delete_video_confirmation">Bideo hau ezabatu nahi duzula ziur al zaude?</string>
+    <string name="display_nsfw_videos">Erakutsi bideo hunkigarriak</string>
+    <string name="no_video_to_display">Ez dago bideorik bistaratzeko!</string>
+    <string name="leave_a_comment">Egin iruzkin bat</string>
+    <string name="share">Partekatu</string>
+    <string name="choose_schedule">Hautatu programazio modua</string>
+    <string name="device_schedule">Gailutik</string>
+    <string name="server_schedule">Zerbitzaritik</string>
+    <string name="toots_server">Tootak (zerbitzaria)</string>
+    <string name="toots_client">Tootak (gailua)</string>
+    <string name="modify">Aldatu</string>
+    <string name="set_display_content_after_fetch_more">Erakutsi toot berriak \"jaso gehiago\" botoiaren gainetik</string>
+    <string name="settings_category_label_timelines">Denbora-lerroak</string>
+    <string name="settings_category_label_interface">Interfazea</string>
+    <string name="contact">Kontaktuak</string>
+    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> erabiltzaileak zure <b>%2$s</b> bideoan iruzkina egin du]]></string>
+    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> erabiltzaileak zure <b>%2$s</b> kanala jarraitzen du]]></string>
+    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> erabiltzaileak zure kontua jarraitzen du]]></string>
+    <string name="peertube_video_published"><![CDATA[Zure <b>%1$s</b> bideoa argitaratu da]]></string>
+    <string name="peertube_video_import_success"><![CDATA[Zure <b>%1$s</b> bideoa ongi inportatu da]]></string>
+    <string name="peertube_video_import_error"><![CDATA[Zure <b>%1$s</b> bideoa inportatzean huts egin du]]></string>
+    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> erabiltzaileak <b>%2$s</b> bideo berria argitaratu du]]></string>
+    <string name="peertube_video_blacklist"><![CDATA[Zure <b>%1$s</b> bideoa zerrenda beltzean sartu da]]></string>
+    <string name="peertube_video_unblacklist"><![CDATA[Zure <b>%1$s</b> bideoa zerrenda beltzetik kendu da]]></string>
+    <string name="export_data">Esportatu datuak</string>
+    <string name="import_data">Inportatu datuak</string>
+    <string name="toot_select_import">Hautatu inportatu beharreko fitxategia</string>
+    <string name="toot_select_file_error">Errore bat gertatu da babes-kopia fitxategi bat hautatzean!</string>
+    <string name="add_public_comment">Gehitu iruzkin publikoa</string>
+    <string name="send_comment">Bidali iruzkina</string>
+    <string name="toast_toot_saved_error">Ez dago Internet konexiorik. Zure mezua zirriborroetan gorde da.</string>
+    <string name="action_plain_text">Testu laua</string>
+    <string name="action_html">HTML</string>
+    <string name="action_markdown">Markdown</string>
+    <string name="action_logout_account">Amaitu saioa kontu honekin</string>
+    <string name="all">Denak</string>
+    <string name="about_opencollective">Babestu aplikazioa</string>
+    <string name="more_about_opencollective">Open Collective-k talde bat erraz sortzea, finantziazioa eskuratzea, eta gardenki kudeatzea errazten du.</string>
+    <string name="copy_link">Kopiatu esteka</string>
+    <string name="connect_instance">Konektatu</string>
+    <string name="set_normal">Arrunta</string>
+    <string name="set_compact">Trinkoa</string>
+    <string name="set_console">Kontsola</string>
+    <string name="set_mode">Ezarri pantaila-modua</string>
+    <string name="set_security_provider">Ezarri segurtasun hornitzailea</string>
+    <string name="update_tracking_domains">Eguneratu jarraipen-domeinuak</string>
+    <string name="tracking_db_updated">Jarraipen datu-basea eguneratu da!</string>
+    <string name="calls_blocked">http deiak aplikazioak blokeatuta</string>
+    <string name="list_of_blocked_domains">Blokeatutako deien zerrenda</string>
+    <string name="submit">Bidali</string>
+    <string name="data_base_exported">Datu-basea esportatu da!</string>
+    <string name="featured_hashtags">Nabarmendutako traolak</string>
+    <string name="filter_timeline_with_a_tag">Iragazi denbora-lerroa etiketekin</string>
+    <string name="no_tags">Etiketarik ez</string>
+    <string name="set_hide_delete_notification_on_tab">Ezkutatu \"ezabatu\" botoia jakinarazpenen fitxan</string>
+    <string name="set_retrieve_metadata_share_from_extras">Erantsi irudi bat URL bat partekatzean</string>
+    <!-- end languages -->
+    <string name="poll">Inkesta</string>
+    <string name="polls">Inkestak</string>
+    <string name="create_poll">Sortu inkesta bat</string>
+    <string name="poll_choice_1">1. aukera</string>
+    <string name="poll_choice_2">2. aukera</string>
+    <string name="poll_choice_s">%d. aukera</string>
+    <string name="poll_invalid_choices">Gutxienez bi aukera behar dira inkesta bat egiteko!</string>
+    <string name="done">Egina</string>
+    <string name="poll_finish_at">amaiera: %s</string>
+    <string name="refresh_poll">Freskatu inkesta</string>
+    <string name="vote">Eman botoa</string>
+    <string name="notif_poll">Zuk erantzun duzun inkesta bat bukatu da</string>
+    <string name="notif_poll_self">Zuk bidalitako inkesta bat amaitu da</string>
+    <string name="settings_category_notif_customize">Pertsonalizatu</string>
+    <string name="settings_category_notif_categories">Kategoriak</string>
+    <string name="settings_category_notif_time_slot">Denbora tartea</string>
+    <string name="settings_category_notif_advanced">Aurreratua</string>
+    <string name="set_display_new_badge">Erakutsi \'berria\' ikurra irakurri gabeko toot-etan</string>
+    <string name="peertube_menu">Peertube</string>
+    <string name="move_timeline">Aldatu denbora-lerroa lekuz</string>
+    <string name="hide_timeline">Ezkutatu denbora-lerroa</string>
+    <string name="reorder_timelines">Antolatu denbora-lerroak</string>
+    <string name="reorder_list_deleted">Zerrenda behin betiko ezabatuta</string>
+    <string name="reorder_instance_removed">Jarraitutako instantzia kenduta</string>
+    <string name="reorder_tag_removed">Finkatutako etiketa kenduta</string>
+    <string name="undo">Desegin</string>
+    <string name="visible_tabs_needed">Bi fitxa ikusgai mantendu behar dituzu!</string>
+    <string name="action_reorder_timeline">Antolatu denbora-lerroak</string>
+    <string name="warning_main_timeline">Denbora-lerro nagusiak ezkutatu besterik ezin dira egin!</string>
+    <string name="action_bbcode">BBCode</string>
+    <string name="set_sensitive_content">Beti markatu multimedia mingarri gisa</string>
+    <string name="gnu_instance">GNU instantzia</string>
+    <string name="cached_status">Cachean gordetako mezua</string>
+    <string name="set_forward_tags">Birbidali etiketak erantzunetan</string>
+    <string name="set_long_press_media">Sakatu luze multimedia gordetzeko</string>
+    <string name="set_blur_sensitive">Lausotu multimedia hunkigarria</string>
+    <string name="set_display_timeline_in_list">Bistaratu denbora-lerroak zerrenda batean</string>
+    <string name="display_timeline">Bistaratu denbora-lerroak</string>
+    <string name="set_display_bot_icon">Markatu bot kontuak toot-etan</string>
+    <string name="add_tags">Kudeatu etiketak</string>
+    <string name="set_remember_position">Gogoratu posizioa hasiera debora-lerroan</string>
+    <string name="history">Historiala</string>
+    <string name="playlists">Erreprodukzio-zerrendak</string>
+    <string name="display_name">Pantaila-izena</string>
+    <string name="action_playlist_add">Ez duzu erreprodukzio-zerrendarik. Sakatu \'+\' ikonoa erreprodukzio-zerrenda berria gehitzeko</string>
+    <string name="error_display_name">Pantaila-izen bat eman behar duzu!</string>
+    <string name="error_channel_mandatory">Kanala beharrezkoa da erreprodukzio-zerrenda publikoa bada.</string>
+    <string name="action_playlist_create">Sortu erreprodukzio-zerrenda</string>
+    <string name="action_playlist_empty_content">Ez dago ezer erreprodukzio-zerrenda honetan oraindik.</string>
+    <string name="redo">berregin</string>
+    <string name="gallery">Galeria</string>
+    <string name="label_emoji">Emoji</string>
+    <string name="label_sticker">Eranskailua</string>
+    <string name="label_eraser">Ezabagailua</string>
+    <string name="label_text">Testua</string>
+    <string name="label_filter">Iragazi</string>
+    <string name="label_brush">Brotxa</string>
+    <string name="confirm_exit_editing">Ziur al zaude irudia gorde gabe atera nahi duzula?</string>
+    <string name="discard">Baztertu</string>
+    <string name="saving">Gordetzen…</string>
+    <string name="image_saved">Irudia ongi gorde da!</string>
+    <string name="save_image_failed">Huts egin du irudia gordetzean</string>
+    <string name="opacity">Opakutasuna</string>
+    <string name="set_photo_editor">Gaitu argazki-editorea</string>
+    <string name="add_poll_item">Gehitu elementu bat inkestara</string>
+    <string name="remove_poll_item">Kendu inkestako azken elementua</string>
+    <string name="mute_conversation">Mututu elkarrizketa</string>
+    <string name="unmute_conversation">Desmututu elkarrizketa</string>
+    <string name="toast_unmute_conversation">Elkarrizketa ez dago jada mutututa!</string>
+    <string name="toast_mute_conversation">Elkarrizketa mutututa dago</string>
+    <string name="app_features">Ireki aplikazioaren ezaugarriak</string>
+    <string name="timed_mute">Denbora baterako mutututa</string>
+    <string name="mention_account">Aipatu kontua</string>
+    <string name="refresh_cache">Freskatu cachea</string>
+    <string name="mention_status">Aipatu mezua</string>
+    <string name="action_news">Berriak</string>
+    <string name="category_general">Orokorra</string>
+    <string name="category_regional">Eskualdekoa</string>
+    <string name="category_art">Artea</string>
+    <string name="category_journalism">Kazetaritza</string>
+    <string name="category_activism">Aktibismoa</string>
+    <string name="category_games">Bideo-jolasak</string>
+    <string name="category_tech">Teknologia</string>
+    <string name="category_adult">Helduentzako edukia</string>
+    <string name="category_furry">Furry</string>
+    <string name="category_food">Janaria</string>
+    <string name="instance_logo">Instantziaren logoa</string>
+    <string name="toast_error_instance_reg">Arazoren bat egon da instantzia eskuragarriak egiaztatzean!</string>
+    <string name="join_mastodon">Elkartu Mastodon-era</string>
+    <string name="pickup_instance_category">Aukeratu instantzia bat kategoria bat hautatuz, gero sakatu egiaztatu botoia.</string>
+    <string name="pickup_instance_peertube">Aukeratu instantzia egiaztatze botoian sakatuz.</string>
+    <string name="users">%1$s erabiltzaile</string>
+    <string name="password_confirm">Berretsi pasahitza</string>
+    <string name="agreement_check">%1$s eta %2$s onartzen ditut</string>
+    <string name="server_rules">zerbitzariaren arauak</string>
+    <string name="tos">zerbitzuaren baldintzak</string>
+    <string name="sign_up">Erregistratu</string>
+    <string name="validation_needed">Instantzia hau gonbidapenen bidez dabil. Zure kontua eskuz onartu behar du administratzaile batek zuk erabili ahal izateko.</string>
+    <string name="all_field_filled">Bete eremu guztiak!</string>
+    <string name="password_error">Pasahitzak ez datoz bat!</string>
+    <string name="email_error">E-maila ez dirudi baliozkoa!</string>
+    <string name="username_indicator">Zure erabiltzaile-izena bakana izango da %1$s instantzian</string>
+    <string name="email_indicator">Baieztapen e-mail bat jasoko duzu</string>
+    <string name="password_indicator">Erabili gutxienez 8 karaktere</string>
+    <string name="password_too_short">Pasahitzak gutxienez 8 karaktere izan behar ditu</string>
+    <string name="username_error">Erabiltzaile-izenak hizkiak, zenbakiak eta azpimarrak besterik ezin ditu izan</string>
+    <string name="account_created">Kontua sortuta!</string>
+    <string name="account_created_message">        Zure kontua sortu da!\n\n
+       Berretsi e-mail helbidea 48 ordu igaron aurretik.\n\n
+        Kontura konektatu zaitezke <b>%1$s</b> lehen eremuan idatziz eta <b>Konektatu</b> sakatuz.\n\n
+        <b>Garrantzitsua</b>: Zure instantziak balioztatzea eskatzen badu, e-mail bat jasoko duzu behin balioztatuta dagonean!
+    </string>
+    <string name="save_draft">Gorde mezua zirriborroetan?</string>
+    <string name="administration">Administrazioa</string>
+    <string name="reports">Salaketak</string>
+    <string name="no_reports">Ez dago salaketarik bistaratzeko!</string>
+    <string name="reconnect_account">Berriro konektatu kontua</string>
+    <string name="reconnect_account_message">Aplikazioak huts egin du administrazio ezaugarriak atzitzean. Kontua berriro konektatu behar zenezake ingurune egokia izateko.</string>
+    <string name="unresolved">Ebatzi gabe</string>
+    <string name="remote">Urrunekoa</string>
+    <string name="active">Aktiboa</string>
+    <string name="pending">Egiteke</string>
+    <string name="disabled">Desgaitua</string>
+    <string name="silenced">Isilarazita</string>
+    <string name="suspended">Etenda</string>
+    <string name="permissions">Baimenak</string>
+    <string name="email_status">E-mailaren egoera</string>
+    <string name="login_status">Saioaren egoera</string>
+    <string name="joined">Elkartze-data</string>
+    <string name="recent_ip">Azken IP helbidea</string>
+    <string name="warn">Abisatu</string>
+    <string name="disable">Desgaitu</string>
+    <string name="silence">Isilarazi</string>
+    <string name="email_user">Jakinarazi erabiltzaileari e-mail bidez</string>
+    <string name="custom_warning">Abisu pertsonalizatua</string>
+    <string name="user">Erabiltzailea</string>
+    <string name="moderator">Moderatzailea</string>
+    <string name="administrator">Administratzailea</string>
+    <string name="confirmed">Baieztatuta</string>
+    <string name="unconfirmed">Baieztatu gabe</string>
+    <string name="list_reported_statuses">Salatutako mezuak</string>
+    <string name="account">Kontua</string>
+    <string name="unsilence">Ez isilarazi</string>
+    <string name="undisable">Ez desgaitu</string>
+    <string name="suspend">Eten</string>
+    <string name="unsuspend">Ez eten</string>
+    <string name="account_silenced">Kontua isilarazita dago!</string>
+    <string name="account_unsilenced">Kontua ez dago jada isilarazita!</string>
+    <string name="account_suspended">Kontua etenda dago!</string>
+    <string name="account_unsuspended">Kontua ez dago jada etenda!</string>
+    <string name="account_disabled">Kontua desgaituta dago!</string>
+    <string name="account_undisabled">Kontua ez dago jada desgaituta!</string>
+    <string name="account_warned">Kontuari abisua eman zio!</string>
+    <string name="set_display_admin_menu">Bistaratu administrazio menua</string>
+    <string name="set_display_admin_toot">Bistaratu administrazio ezaugarria mezuetan</string>
+    <string name="allow">Baimendu</string>
+    <string name="account_approved">Kontua onartu da!</string>
+    <string name="account_rejected">Kontua ukatu da!</string>
+    <string name="assign_to_me">Esleitu niri</string>
+    <string name="unassign">Kendu esleipena</string>
+    <string name="mark_resolved">Markatu ebatzita gisa</string>
+    <string name="mark_unresolved">Markatu ebatzi gabeko gisa</string>
+    <string name="toast_empty_content">Edukia hutsik!</string>
+    <string name="set_display_fedilab_features_button">Bistaratu Fedilaben ezaugarrien botoia</string>
+    <string name="audio">Aplikazioak audioa grabatzeko baimena behar du</string>
+    <string name="voice_message">Ahots-mezua</string>
+    <string name="set_quick_reply">Gaitu erantzun azkarra</string>
+    <string name="reply_might_be_useless">Erantzuten ari zaren kontuak agian ez du zure mezua ikusiko!</string>
+    <string name="set_remember_position_indication">Desgaituta badago, aplikazioak beti kargatuko ditu azken mezuak</string>
+    <string name="set_blur_sensitive_indication">Desgaituta badago, multimedia hunkigarria botoi batekin ezkutatuko da</string>
+    <string name="set_long_press_media_indication">Gorde multimedia tamaina osoan aurrebistetan luze sakatuz</string>
+    <string name="set_display_timeline_in_list_indication">Gehitu botoi bat goi-eskuin erpinean etiketa, instantzia eta zerrenda guztiak erakusteko</string>
+    <string name="set_enable_time_slot_indication">Denbora tarte horretan aplikazioak jakinarazpenak igorriko ditu. Denbora tartea alderantzikatu dezakezu (adib. isildu) eskuineko kontrolarekin.</string>
+    <string name="set_display_fedilab_features_button_indication">Bistaratu Fedilab botoi bat profilaren argazkiaren azpian. Aplikazio barneko ezaugarriak atzitzeko lasterbide bat da.</string>
+    <string name="set_quick_reply_indication">Baimendu denbora-lerroetan zuzenean mezuen azpian erantzutea</string>
+    <string name="set_fit_preview_indication">Aurrebistak ez dira mozten denbora-lerroetan</string>
+    <string name="set_display_video_preview_indication">Baimendu txertatutako bideoak denbora-lerroetan bertan erreproduzitzea</string>
+    <string name="set_display_content_after_fetch_more_indication">Baimendu jaso gehiago botoia sakatzean bistaratzen diren mezuak irakurtzeko modua alderantzikatzea</string>
+    <string name="set_security_provider_indication">Aukera honek zifratze suite berriak onartzea baimentzen du. Android gailu zaharretan erabilgarria da edo zure instantziara konektatzeko arazoak badituzu.</string>
+    <string name="set_video_mode_indication">Peertube bideoentzako besterik ez. Aldatu modua ezin badituzu erreproduzitu.</string>
+    <string name="featured_hashtags_indication">Etiketa hauek profilen mezuak iragaztea ahalbidetzen dute. Laster-menua erabili beharko duzu hauek ikusteko.</string>
+    <string name="set_capitalize_indication">Txertatu lerro saltoa automatikoki aipamenaren ostean lehen hitza letra larriz jartzeko</string>
+    <string name="settings_title_custom_sharing_indication">Ahalbidetu eduki sortzaileei mezuak bere RSS jarioen bidez partekatzea</string>
+    <string name="compose">Idazketa</string>
+    <string name="upload_image_maximum_retry_times">Gehieneko saiakera kopurua multimedia igotzean</string>
+    <string name="new_folder">Sortu karpeta berria hemen</string>
+    <string name="folder_name">Sartu karpetaren izena</string>
+    <string name="valid_folder_name">Sartu baliozko karpeta izen bat</string>
+    <string name="folder_exists">Karpeta hau badago aurretik.\n Eman beste izen bat karpetarentzat</string>
+    <string name="select">Hautatu</string>
+    <string name="default_directory">Direktorio lehenetsia</string>
+    <string name="folder">Karpeta</string>
+    <string name="create_folder">Sortu karpeta</string>
+    <string name="set_display_confirm">Bistaratu laster-jakinarazpen bat ekintzaren bat burutu eta gero (bultzada, gogokoa, eta abar)?</string>
+    <string name="muted_instance_exported">Mutututako instantziak esportatu dira!</string>
+    <string name="add_instances">Gehitu instantzia bat</string>
+    <string name="export_instances">Esportatu instantziak</string>
+    <string name="import_instances">Inportatu instantziak</string>
+    <string name="set_crash_reports">Kraskatze txostenak</string>
+    <string name="set_enable_crash_report">Gaitu kraskatze txostenak</string>
+    <string name="set_enable_crash_report_indication">Gaituta badago, krakatze txosten bat sortuko da lokalean eta gero partekatu ahal izango duzu.</string>
+    <string name="crash_title">Fedilab gelditu da :(</string>
+    <string name="crash_message">Kraskatze txostena e-mail bidez bidali diezadakezu. Konpontzen lagunduko dit :)\n\nEdukia gehitu dezakezu. Eskerrik asko!</string>
+    <string name="set_wysiwyg">Erabili wysiwyg</string>
+    <string name="set_wysiwyg_indication">Gaituz gero, testuei formatua erraz emateko tresnak izango dituzu.</string>
+    <string name="action_stats">Estatistikak</string>
+    <string name="total_statuses">Mezuak guztira</string>
+    <string name="number_boosts">Bultzada kopurua</string>
+    <string name="number_favourites">Gogoko kopurua</string>
+    <string name="number_mentions">Aipamen kopurua</string>
+    <string name="number_follows">Jarraitze kopurua</string>
+    <string name="number_polls">Inkesta kopurua</string>
+    <string name="number_replies">Erantzun kopurua</string>
+    <string name="number_statuses">Mezu kopurua</string>
+    <string name="statuses">Mezuak</string>
+    <string name="visibility">Ikusgaitasuna</string>
+    <string name="number_with_media">Multimediadun kopurua</string>
+    <string name="number_with_sensitive_media">Hunkigarri kopurua</string>
+    <string name="number_with_cw">CW duten kopurua</string>
+    <string name="first_toot_date">Lehen mezuaren data</string>
+    <string name="last_toot_date">Azken mezuaren data</string>
+    <string name="first_notification_date">Lehen jakinarazpen data</string>
+    <string name="last_notification_date">Azken jakinarazpen data</string>
+    <string name="frequency">Maiztasuna</string>
+    <string name="toot_per_day">%s mezu eguneko</string>
+    <string name="notification_per_day">%s jakinarazpen eguneko</string>
+    <string name="date_range">Data-barrutia</string>
+    <string name="action_groups">Taldeak</string>
+    <string name="no_messages">Talderik ez!</string>
+    <string name="set_disable_animated_emoji">Desgaitu animatutako emoji pertsonalizatuak</string>
+    <string name="owner_charts">Diagramak</string>
+    <string name="display_charts">Erakutsi diagramak</string>
+    <string name="collecting_data_wait">Aplikazioa zure datu lokalak biltzen ari da, itxaron mesedez...</string>
+    <string name="set_backup">Babes-kopia</string>
+    <string name="set_auto_backup">Mezuen babes-kopia automatikoa</string>
+    <string name="set_auto_backup_indication">Aukera hau kontu bakoitzeko da. Zure mezuak lokalki datu-basean gordeko dituen zerbitzu bat abiatuko du. Honek estatistikak eta diagramak ahalbidetzen ditu</string>
+    <string name="set_auto_backup_notifications">Jakinarazpenen babes-kopia automatikoa</string>
+    <string name="set_auto_backup_notifications_indication">Aukera hau kontuko da. Automatikoki zure jakinarazpenak datu-base lokalean gordeko dituen zerbitzu bat abiatuko du. Honek estatistikak eta diagramak ahalbidetzen ditu</string>
+    <string name="report_account">Salatu kontua</string>
+    <string name="send_invitation">Bidali gonbidapen bat</string>
+    <string name="registration_closed">Zure instantziak ez du kontu berri bat erregistratzea baimentzen!</string>
+    <plurals name="number_of_vote">
+        <item quantity="one">boto %d</item>
+        <item quantity="other">%d boto</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">Bozkatzaile %d</item>
+        <item quantity="other">%d bozkatzaile</item>
+    </plurals>
+    <string-array name="poll_choice_type">
+        <item>Aukera bakarra</item>
+        <item>Hainbat aukera</item>
+    </string-array>
+    <string-array name="poll_duration">
+        <item>5 minutu</item>
+        <item>30 minutu</item>
+        <item>Ordu 1</item>
+        <item>6 ordu</item>
+        <item>Egun 1</item>
+        <item>3 egun</item>
+        <item>7 egun</item>
+    </string-array>
+    <string-array name="settings_video_mode">
+        <item>Webview</item>
+        <item>Jario zuzena</item>
+    </string-array>
+    <string name="join_instance">\"%1$s\" nire instantziara elkartzeko, Fedilab deskargatu dezakezu:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nGero ireki beheko esteka Fedilab erabilita eta sortu zure kontua:)\n\n%4$s    </string>
+    <string name="poll_duplicated_entry">Zure inkestak ezin ditu bikoiztutako aukerak izan!</string>
+    <string name="all_accounts">Kontu guztientzat</string>
+    <string name="database_cache">Datu-basearen cachea</string>
+    <string name="cache_timeline_clear">Garbitu zure hasiera denbora-lerroaren cachea</string>
+    <string name="cache_owntoots_clear">Garbitu cacheko mezuak</string>
+    <string name="cache_bookmarks_clear">Garbitu gogokoak</string>
+    <string name="file_cache">Fitxategiak cachean</string>
+    <string name="total_notifications">Jakinarazpenak guztira</string>
+    <string name="hide_menu_items">Ezkutatu menuko elementuak</string>
+    <string name="top_notification">Fedilabek zuzeneko jakinarazpenak erabiltzen ditu</string>
+    <string name="top_notification_message">%2$s gertaera dituzten %1$s kontuentzat</string>
+    <string name="set_allow_live_notifications">%1$s(r)entzako zuzeneko jakinarazpenak</string>
+    <string name="set_allow_live_notifications_indication">Zuzeneko jakinarazpenak gaituko dira kontu honentzat.</string>
+    <string name="set_clear_cache_exit">Garbitu cachea irtetean</string>
+    <string name="set_clear_cache_exit_indication">Cachea (multimedia, mezuak, barneko nabigatzailearen datuak) automatikoki ezabatuko da aplikaziotik irtetean.</string>
+    <string name="unfollow_confirm">Kontu hau jarraitzeari utzi nahi diozu?</string>
+    <string name="set_unfollow_validation">Erakutsi baieztapen elkarrizketa-koadroa jarraitzeari utzi aurretik</string>
+    <string name="set_invidious">Erabili Invidio.us Youtube-ren ordez</string>
+    <string name="set_invidious_indication">Invidio.us Youtube ikusteko ordezko interfaze bat da</string>
+    <string name="set_invidious_host">Sartu zure ostalari pertsonalizatua edo laga hutsik invidio.us erabiltzeko</string>
+    <string name="set_nitter">Erabili Nitter Twitter-en ordez</string>
+    <string name="set_nitter_indication">Nitter pribatutasuna aintzat duen Twitter interfaze libre bat da.</string>
+    <string name="set_nitter_host">Sartu zure ostalari pertsonalizatua edo laga hutsik nitter.net erabiltzeko</string>
+    <string name="set_bibliogram">Ordeztu Instagram Bibliogram-ekin</string>
+    <string name="set_bibliogram_indication">Bibliogram pribatutasuna aintzat duen Instagram interfaze libre bat da.</string>
+    <string name="set_bibliogram_host">Sartu zure ostalari pertsonalizatua edo laga hutsik bibliogram.art erabiltzeko</string>
+    <string name="set_libreddit">Replace Reddit with Libreddit</string>
+    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
+    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
+    <string name="replace_medium">Replace Medium links</string>
+    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_host">Default: scribe.rip</string>
+    <string name="replace_wikipedia">Replace Wikipedia links</string>
+    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_wikipedia_host">Default: wikiless.org</string>
+    <string name="set_hide_status_bar">Ezkutatu Fedilab jakinarazpen-barra</string>
+    <string name="set_hide_status_bar_indication">Egoera barran geratzen den jakinarazpena ezkutatzeko, sakatu begiaren ikonoa eta desmarkatu \"Erakutsi egoera-barran\"</string>
+    <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
+    <string name="no_live_notif">Zuzeneko jakinarazpenik ez</string>
+    <string name="live_notif">Live notifications</string>
+    <string name="no_live_indication">Jakinarazpenak 15 minutuero jasoko dira.</string>
+    <string name="action_add_notes">Gehitu oharrak</string>
+    <string name="note_for_account">Kontuarentzako oharrak</string>
+    <string name="set_resize_picture_indication">Baimendu irudi handiak tamainaz txikiagotzea kalitatean aldaketa nabarmenik gabe.</string>
+    <string name="set_resize_video_indication">Baimendu bideoak konprimitzea kalitatea mantenduz.</string>
+    <string name="please_wait_compression">Aplikazioa multimedia konprimitzen ari da, honek luze hartu dezake…</string>
+    <string name="change_app_icon_experimental">Aldatu aplikazioaren ikonoa</string>
+    <string name="click_to_change_the_app_icon">Sakatu aplikazioaren ikonoa aldatzeko</string>
+    <string name="post">Mezua</string>
+    <string name="post_visibility_tilte">Mezuaren ikusgaitasuna</string>
+    <string name="add_photo_pixelfed">Sakatu hemen argazkian gehitzeko</string>
+    <string name="add_photo_indication_pixelfed">Onartutako formatuak: jpeg, png, gif  \n\nGehieneko fitxategiaren tamaina: 15 MB  \n\nAlbumek 4 argazki edo bideo bildu itzakete</string>
+    <string name="upload_media">Igo multimedia</string>
+    <string name="pixelfed_compose_placeholder">Gehitu azpititulua nahiez gero</string>
+    <string name="long_api_error">Aplikazioak errore mezu oso luze bat jaso du %1$s APItik</string>
+    <string name="message_preview">Mezuaren aurrebista</string>
+    <string name="report_mention">Gehitu aipamenak mezu bakoitzean</string>
+    <string name="fetch_conversation">Elkarrizketa jasotzen</string>
+    <string name="order_by">Ordena</string>
+    <string name="title_video_peertube">Bideoaren izenburua</string>
+    <string name="join_peertube">Elkartu Peertube-ra</string>
+    <string name="agreement_check_peertube">16 urte edo gehiago ditut eta instantzia honen %1$s onartzen ditut</string>
+    <string name="link_color_title">Estekak</string>
+    <string name="link_color">Aldatu mezuetako esteken koloreak (URL-ak, aipamenak, etiketak, eta abar)</string>
+    <string name="boost_header_color_title">Bultzaden goiburua</string>
+    <string name="displayname_title">Aldatu mezuen goialdeko pantaila-izenaren kolorea</string>
+    <string name="username_title">Aldatu mezuen goialdeko erabiltzaile-izenaren kolorea</string>
+    <string name="boost_header_color">Aldatu bultzaden goiburuen kolorea</string>
+    <string name="background_status_title">Bidalketak</string>
+    <string name="background_status">Mezuen atzealdearen kolorea denbora-lerroetan</string>
+    <string name="reset_color">Berrezarri koloreak</string>
+    <string name="clik_reset">Sakatu hemen zure kolore pertsonalizatu guztiak leheneratzeko</string>
+    <string name="reset">Leheneratu</string>
+    <string name="icons_color_title">Ikonoak</string>
+    <string name="icons_color">Denbora-lerroen azpialdeko botoien kolorea</string>
+    <string name="pin_tag">Finkatu etiketa hau</string>
+    <string name="logo_of_the_instance">Instantziaren logoa</string>
+    <string name="edit_profile">Editatu profila</string>
+    <string name="make_an_action">Burutu ekintza bat</string>
+    <string name="translation">Itzulpena</string>
+    <string name="image_preview">Irudiaren aurrebista</string>
+    <string name="text_color_title">Testuaren kolorea</string>
+    <string name="text_color">Aldatu mezuen testuaren kolorea</string>
+    <string name="apply_changes">Aplikatu aldaketak</string>
+    <string name="restart_message">Aplikazioa berrabiarazi behar duzu aldaketak aplikatzeko</string>
+    <string name="restart">Berrabiarazi</string>
+    <string name="pref_custom_theme">Erabili azal pertsonalizatua</string>
+    <string name="pref_custom_theme_summary">Baimendu goian hautatutako azalaren koloreak gainidaztea</string>
+    <string name="theming">Gaiak</string>
+    <string name="store_before">Lehenbizi gorde</string>
+    <string name="data_export_theme">Azala esportatu da</string>
+    <string name="data_export_theme_success">Azala ongi esportatu da CSV gisa</string>
+    <string name="pref_colored_status_bar_summary">Aplikatu kolore nagusia egoera barrari</string>
+    <string name="pref_colored_status_bar_title">Egoera barraren kolorea</string>
+    <string name="restore_default_theme">Berrezarri lehenetsitako azal bat</string>
+    <string name="import_theme">Inportatu azal bat</string>
+    <string name="import_theme_title">Sakatu hemen aurretik esportatutako azal bat inportatzeko</string>
+    <string name="export_theme">Esportatu azala</string>
+    <string name="export_theme_title">Sakatu hemen oraingo azala esportatzeko</string>
+    <string name="theme_file_error">Errore bat gertatu da azalaren fitxategia hautatzean</string>
+    <string name="label_theme_picker">Azal hautatzailea</string>
+    <string name="pref_theme_summary">Hautatu aurrez instalatutako azal bat</string>
+    <string name="pref_theme_title">Azalak</string>
+    <string name="pref_colored_navigation_bar_summary">Aplikatu kolore nagusia nabigazio barrari</string>
+    <string name="pref_colored_navigation_bar_title">Nabigazio barraren kolorea</string>
+    <string name="pref_background_color_summary">Aplikazioaren edukien atzeko kolorea.</string>
+    <string name="pref_background_color_title">Atzeko kolorea</string>
+    <string name="pref_accent_color_summary">Interfazearen atal hautatuak nabarmentzen ditu.</string>
+    <string name="pref_accent_color_title">Nabarmentze kolorea</string>
+    <string name="pref_primary_color_summary">Zure aplikazioan gehien erabiliko dena.</string>
+    <string name="pref_primary_color_title">Kolore nagusia</string>
+    <string name="export_bookmarks">Esportatu gogokoak instantziara</string>
+    <string name="import_bookmarks">Inportatu gogokoak instantziatik</string>
+    <string name="user_count">Erabiltzaile kopurua</string>
+    <string name="status_count">Mezu kopurua</string>
+    <string name="instance_count">Instantzia kopurua</string>
+    <string name="blocked">Blokeatuta</string>
+    <string name="poll_finish_in">Amaitzeko %s</string>
+    <string name="release_note_title">Zer dago berri %s bertsioan</string>
+    <string name="follow_account_update">Nire kontua jarraitu dezakezu eguneraketetarako</string>
+    <string name="no_instance_reccord">Instantzia hau ez dago eskuragarri https://instances.social gunean</string>
+    <string name="display_full_link">Erakutsi esteka osoa</string>
+    <string name="share_link">Partekatu esteka</string>
+    <string name="link_copy">URL-a arbelera kopiatu da</string>
+    <string name="open_other_app">Ireki beste aplikazio batekin</string>
+    <string name="check_redirect">Egiaztatu birbideratzea</string>
+    <string name="no_redirect">URL honek ez du birbideratzen</string>
+    <string name="redirect_detected">%1$s \n\n helbideak \n\n %2$s helbidera birbideratzen du</string>
+    <string name="set_user_agent">Aldatu erabiltzaile-agentea</string>
+    <string name="set_user_agent_hint">Ezarri erabiltzaile-agente pertsonalizatu bat edo laga hutsik</string>
+    <string name="set_user_agent_indication">API deietarako eta barne nabigatzailean erabilitako erabiltzaile-agentea pertsonalizatzeko aukera ematen du.</string>
+    <string name="set_utm_parameters">Kendu UTM parametroak</string>
+    <string name="set_utm_parameters_indication">Aplikazioak automatikoki kenduko ditu URL baten UTM parametroak hau bisitatu aurretik.</string>
+    <string name="action_trends">Joerak</string>
+    <string name="trending_now">Joera orain</string>
+    <string name="talking_about">%d pertsona hitz egiten</string>
+    <string name="twitter_accounts">Twitter kontuak (Nitter bidez)</string>
+    <string name="list_of_twitter_accounts">Twitter erabiltzaile-izenak zuriunez bereizita</string>
+    <string name="identity_proofs">Identitate frogak</string>
+    <string name="verified_user">Egiaztatutako identitatea</string>
+    <string name="verified_by">Egiaztatzailea: %1$s (%2$s)</string>
+    <string name="remove_notification">Ezabatu jakinarazpena</string>
+    <string name="display_more_options">Erakutsi aukera gehiago</string>
+    <string name="pixelfed_story">Pixelfed istorio bat da</string>
+    <string name="story_indication">Igo multimedia, automatikoki gehituko da zure Pixelfed istoriora.</string>
+    <string name="added_to_story">Multimedia ongi gehitu da zure istoriora!</string>
+    <string name="action_disabled">Ekintza desgaituta</string>
+    <string name="action_unfollow">Utzi jarraitzeari</string>
+    <string name="error_destination_path">Okerren bat egon da, egiaztatu zure deskargen direktorioa ezarpenetan.</string>
+    <string name="action_announcements">Iragarpenak</string>
+    <string name="no_announcements">Iragarpenik ez!</string>
+    <string name="add_reaction">Gehitu erreakzioa</string>
+    <string name="set_custom_tabs_indication">Erabili zure gogoko nabigatzailea aplikazio barruan. Desmarkatu ezaugarri hau estekak kanpoan irekitzeko.</string>
+    <string name="set_video_cache">Bideo cachea MB-tan, zerok cacherik ez esan nahi du.</string>
+    <string name="set_watermark">Watermarks</string>
+    <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>
+    <string name="no_distributors_found">No distributors found!</string>
+    <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
+    <string name="select_distributors">Select a distributor</string>
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "479837431022",
+    "project_id": "pc-api-4835782490875392372-140",
+    "storage_bucket": "pc-api-4835782490875392372-140.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479837431022:android:1102a97a55202beb547fff",
+        "android_client_info": {
+          "package_name": "app.fedilab.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479837431022-mettpakdcso72c35djvikfc57l4i7n53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCklTEEgLUxy__0Vzcr5_H179kYPXGjmGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479837431022-mettpakdcso72c35djvikfc57l4i7n53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

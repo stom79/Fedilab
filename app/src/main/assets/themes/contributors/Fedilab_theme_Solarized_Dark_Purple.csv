@@ -1,0 +1,15 @@
+base_theme,2
+author,Fedilab
+name,Solarized Dark - Purple
+theme_boost_header_color,-16506327
+theme_text_header_1_line,-1120043
+theme_text_header_2_line,-1120043
+theme_statuses_color,-16304574
+theme_link_color,-14251054
+theme_icons_color,-7102047
+pref_color_background,-16766154
+pref_color_navigation_bar,true
+pref_color_status_bar,true
+theme_accent,-9670204
+theme_text_color,-133405
+theme_primary,-16304574

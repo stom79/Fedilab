@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.preference.SwitchPreference
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNFOLLOW_VALIDATION"
+        app:summary="@string/set_unfollow_validation"
+        app:title="@string/set_unfollow_validation_title" />
+
+    <androidx.preference.SwitchPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CLEAR_CACHE_EXIT"
+        app:summary="@string/set_clear_cache_exit_indication"
+        app:title="@string/set_clear_cache_exit" />
+
+    <androidx.preference.SwitchPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_SEND_CRASH_REPORTS"
+        app:summary="@string/set_enable_crash_report_indication"
+        app:title="@string/set_enable_crash_report" />
+
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="100"
+        android:max="1000"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_VIDEO_CACHE"
+        app:showSeekBarValue="true"
+        app:title="@string/set_video_cache" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="5"
+        android:max="30"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_NSFW_TIMEOUT"
+        app:showSeekBarValue="true"
+        app:title="@string/set_nsfw_timeout" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="3"
+        android:max="30"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MED_DESC_TIMEOUT"
+        app:showSeekBarValue="true"
+        app:title="@string/set_med_desc_timeout" />
+</PreferenceScreen>

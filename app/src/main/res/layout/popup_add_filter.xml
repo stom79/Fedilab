@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 20222 Thomas Schneider
+
+    This file is a part of Fedilab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with Fedilab; if not,
+    see <http://www.gnu.org/licenses>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/add_phrase"
+            android:text="@string/filter_keyword" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_keyword_explanations"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/add_phrase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_context"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_context_explanations"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            android:id="@+id/contextDescription"
+            android:textSize="12sp" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/context_home"
+                    android:layout_width="0dp"
+                    app:buttonTint="@color/cyanea_accent_dark_reference"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/context_home" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/context_public"
+                    app:buttonTint="@color/cyanea_accent_dark_reference"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/context_public" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/context_notification"
+                    android:layout_width="0dp"
+                    app:buttonTint="@color/cyanea_accent_dark_reference"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/context_notification" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/context_conversation"
+                    android:layout_width="0dp"
+                    app:buttonTint="@color/cyanea_accent_dark_reference"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/context_conversation" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/context_drop"
+            app:buttonTint="@color/cyanea_accent_dark_reference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/context_drop" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/context_drop_explanations"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            android:textSize="12sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/context_whole_word"
+            android:layout_width="match_parent"
+            app:buttonTint="@color/cyanea_accent_dark_reference"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/context_whole_word" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/context_whole_word_explanations"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_expire" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/filter_expire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>

@@ -1,0 +1,88 @@
+package app.fedilab.android.services;
+/* Copyright 2022 Thomas Schneider
+ *
+ * This file is a part of Fedilab
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Fedilab; if not,
+ * see <http://www.gnu.org/licenses>. */
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.unifiedpush.android.connector.MessagingReceiver;
+
+import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.NotificationsHelper;
+import app.fedilab.android.helper.PushNotifications;
+
+
+public class CustomReceiver extends MessagingReceiver {
+
+
+    public CustomReceiver() {
+        super();
+    }
+
+
+    @Override
+    public void onMessage(@NotNull Context context, @NotNull byte[] message, @NotNull String slug) {
+        // Called when a new message is received. The message contains the full POST body of the push message
+        Log.v(Helper.TAG, "onMessage: " + slug);
+        new Thread(() -> {
+            try {
+               /* ECDH ecdh = ECDH.getInstance(slug);
+                Log.v(Helper.TAG, "ecdh: " + ecdh);
+                if (ecdh == null) {
+                    return;
+                }*/
+                //String decrypted = ecdh.uncryptMessage(context, String.valueOf(message));
+                // Log.v(Helper.TAG, "decrypted: " + decrypted);
+                NotificationsHelper.task(context, slug);
+                // Log.v(Helper.TAG, "decrypted: " + decrypted);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }).start();
+    }
+
+    @Override
+    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
+        super.onReceive(context, intent);
+    }
+
+    @Override
+    public void onNewEndpoint(@Nullable Context context, @NotNull String endpoint, @NotNull String slug) {
+        if (context != null) {
+            PushNotifications
+                    .registerPushNotifications(context, endpoint, slug);
+        }
+        Log.v(Helper.TAG, "onNewEndpoint: " + slug);
+    }
+
+
+    @Override
+    public void onRegistrationFailed(@Nullable Context context, @NotNull String s) {
+        Log.v(Helper.TAG, "onRegistrationFailed: " + s);
+    }
+
+    @Override
+    public void onUnregistered(@Nullable Context context, @NotNull String s) {
+        Log.v(Helper.TAG, "onUnregistered: " + s);
+    }
+}
+

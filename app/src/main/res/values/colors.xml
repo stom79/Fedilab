@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PrivateResource">
+
+
+    <!-- Header Profile-->
+    <!-- Header Profile DARK-->
+
+    <color name="dark_text_toot_header">#d9d9d9</color>
+
+
+    <color name="dark_text">#f3f3f3</color>
+    <color name="dark_icon">#606984</color>
+    <color name="marked_icon">#ca8f04</color>
+    <color name="boost_icon">#2b90d9</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="transparent_grey">#77000000</color>
+    <color name="white">#FFF</color>
+
+    <color name="background_image">#282c37</color>
+    <color name="green_1">#009688</color>
+    <color name="red_1">#F44336</color>
+    <color name="green">#B2DFDB</color>
+    <color name="red">#FFCDD2</color>
+    <color name="titleb">#D7CCC8</color>
+    <color name="black">#000</color>
+    <color name="black_3">#222</color>
+    <!-- Mastodon color scheme -->
+    <color name="mastodonC1__">#585c67</color>
+    <color name="mastodonC1___">#454b5b</color>
+    <color name="mastodonC1">#282c37</color>
+    <color name="mastodonC1_">#313543</color>
+    <color name="mastodonC2">#9baec8</color>
+    <color name="mastodonC3">#d9e1e8</color>
+    <color name="mastodonC3__">#efefef</color>
+    <color name="mastodonC4__">#772b90d9</color>
+    <color name="mastodonC4___">#9FBEDD</color>
+    <color name="mastodonC4">#2b90d9</color>
+
+
+    <!-- Primary & accent colors -->
+    <color name="notif_dark_1">#313543</color>
+    <color name="notif_dark_3">#393f4f</color>
+
+    <color name="notif_black_1">#000000</color>
+
+    <color name="notif_light_1">#ffffff</color>
+
+    <color name="verified_text">#79bd9a</color>
+    <color name="verified_background">#5579bd9a</color>
+
+
+    <!-- Action icon at the bottom -->
+    <color name="action_light">#617684</color>
+    <color name="action_dark">#d9d9d9</color>
+    <color name="action_black">#d9d9d9</color>
+
+    <!-- Header boosted/header -->
+    <color name="action_light_header">#617684</color>
+
+    <!-- Card border -->
+    <color name="cardBorderLight">#393f4f</color>
+    <color name="cardBorderDark">#393f4f</color>
+
+
+    <color name="black_link_toot">#27a7fc</color>
+    <color name="dark_link_toot">#27a7fc</color>
+    <color name="light_link_toot">#27a7fc</color>
+
+
+    <color name="positive_thumbs">#2b90d9</color>
+    <color name="negative_thumbs">#F44336</color>
+
+    <color name="peertube_orange">#F1680D</color>
+
+    <color name="unfollow">#c52404</color>
+
+    <color name="pixelfed_like">#dc3545</color>
+
+    <color name="console_name">#5E8D87</color>
+    <color name="console_reblog_name">#5F819D</color>
+    <color name="console_marker">#CC6666</color>
+
+    <color name="bot_background">#B3808080</color>
+
+    <!-- COLOR PICKER -->
+    <color name="blue_color_picker">#0066FF</color>
+    <color name="brown_color_picker">#AF593E</color>
+    <color name="green_color_picker">#01A368</color>
+    <color name="orange_color_picker">#FF861F</color>
+    <color name="red_color_picker">#ED0A3F</color>
+    <color name="red_orange_color_picker">#FF3F34</color>
+    <color name="sky_blue_color_picker">#76D7EA</color>
+    <color name="violet_color_picker">#8359A3</color>
+    <color name="yellow_color_picker">#FBE870</color>
+    <color name="yellow_green_color_picker">#C5E17A</color>
+
+
+    <color name="custom_features_button_black">#144365</color>
+
+    <color name="custom_features_panel_background">#14161B</color>
+    <color name="custom_features_panel_background_light">#E0E0E0</color>
+
+
+    <color name="chart_boost">#D32F2F</color>
+    <color name="chart_reply">#388E3C</color>
+    <color name="chart_status">#0288D1</color>
+
+
+    <color name="chart_notif_boost">#D32F2F</color>
+    <color name="chart_notif_fav">#388E3C</color>
+    <color name="chart_notif_mention">#0288D1</color>
+    <color name="chart_notif_follow">#512DA8</color>
+
+    <!-- TOASTY -->
+    <color name="defaultTextColor">#2e2e2e</color>
+    <color name="errorColor">#EF5350</color>
+    <color name="infoColor">#42A5F5</color>
+    <color name="successColor">#66BB6A</color>
+    <color name="warningColor">#c8c8c8</color>
+    <color name="normalColor">#c8c8c8</color>
+
+
+    <color name="dark_blockquote">#5E68A0</color>
+
+    <color name="cyanea_primary_reference">#0288D1</color>
+    <color name="cyanea_accent_reference">#2b90d9</color>
+
+
+    <color name="dark_icon_theme">#f3f3f3</color>
+    <color name="black_icon_theme">#606984</color>
+
+
+    <color name="rainbow_1">#ff0000</color>
+    <color name="rainbow_2">#ffa500</color>
+    <color name="rainbow_3">#ffff00</color>
+    <color name="rainbow_4">#008000</color>
+    <color name="rainbow_5">#0000ff</color>
+    <color name="rainbow_6">#4b0082</color>
+    <color name="rainbow_7">#ee82ee</color>
+
+    <color name="decoration_1">#E57373</color> <!-- Red 300 -->
+    <color name="decoration_2">#BA68C8</color> <!-- Purple 300 -->
+    <color name="decoration_3">#FFD54F</color> <!-- Amber 300 -->
+    <color name="decoration_4">#64B5F6</color> <!-- Blue 300 -->
+    <color name="decoration_5">#81C784</color> <!-- Green 300 -->
+    <color name="decoration_6">#4DB6AC</color> <!-- Teal 300 -->
+    <color name="decoration_7">#FF8A65</color> <!-- Deep Orange 300 -->
+    <color name="decoration_8">#4DD0E1</color> <!-- Cyan 300 -->
+    <color name="decoration_9">#AED581</color> <!-- Light Green 300 -->
+    <color name="decoration_10">#9575CD</color> <!-- Deep Purple 300 -->
+    <color name="decoration_11">#FFB74D</color> <!-- Orange 300 -->
+    <color name="decoration_12">#4FC3F7</color> <!-- Light Blue 300 -->
+    <color name="decoration_13">#DCE775</color> <!-- Lime 300 -->
+    <color name="decoration_14">#7986CB</color> <!-- Indigo 300 -->
+    <color name="decoration_15">#9E9E9E</color> <!-- Gray 500 -->
+
+</resources>

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2021 Thomas Schneider
+
+    This file is a part of Fedilab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with Fedilab; if not,
+    see <http://www.gnu.org/licenses>
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:backgroundTint="?backgroundColorLight"
+    android:layout_marginTop="12dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="6dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/add_remove_status"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/add_status"
+            android:padding="0dp"
+            android:src="@drawable/ic_compose_thread_add_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/content_spoiler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:hint="@string/eg_sensitive_content"
+            android:singleLine="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/add_remove_status" />
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:gravity="top|start"
+            android:minLines="6"
+            app:layout_constraintTop_toBottomOf="@id/content_spoiler" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/sensitive_media"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginTop="6dp"
+            android:minHeight="36dp"
+            android:text="@string/set_sensitive_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content"
+            app:layout_constraintWidth_default="wrap" />
+
+        <HorizontalScrollView
+            android:id="@+id/attachments_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            app:layout_constraintTop_toBottomOf="@id/sensitive_media">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/attachments_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingEnd="6dp"
+                tools:ignore="RtlSymmetry" />
+
+        </HorizontalScrollView>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/text_area_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            app:layout_constraintTop_toBottomOf="@id/attachments_list_container" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_attach"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/ic_compose_attach"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_sensitive"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/ic_compose_sensitive"
+            app:layout_constraintStart_toEndOf="@id/button_attach"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_visibility"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/ic_compose_visibility_public"
+            app:layout_constraintStart_toEndOf="@id/button_sensitive"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_emoji"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@string/emoji_picker"
+            android:src="@drawable/ic_compose_emoji"
+            app:layout_constraintStart_toEndOf="@id/button_visibility"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/character_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="0"
+            app:layout_constraintBottom_toTopOf="@id/character_progress"
+            app:layout_constraintEnd_toStartOf="@id/button_post"
+            app:layout_constraintStart_toEndOf="@id/button_emoji"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="HardcodedText" />
+
+        <ProgressBar
+            android:id="@+id/character_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="48dp"
+            android:layout_height="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_post"
+            app:layout_constraintStart_toEndOf="@id/button_emoji"
+            app:layout_constraintTop_toBottomOf="@id/character_count" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_post"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="@color/cyanea_accent_dark_reference"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_compose_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/attachment_choices_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="?backgroundColorLight"
+            android:elevation="2dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="button_attach_image,button_attach_audio,button_attach_video,button_close_attachment_panel,button_poll,button_attach_manual"
+            app:flow_maxElementsWrap="3"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_attach_image"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_compose_attach_image" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_attach_audio"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_compose_attach_audio" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_attach_video"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_compose_attach_video" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_attach_manual"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_compose_attach_more" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_close_attachment_panel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_baseline_close_24" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button_poll"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_compose_poll" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/visibility_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginTop="6dp"
+            android:background="?backgroundColorLight"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/button_visibility_direct"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minHeight="36dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_compose_visibility_direct"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:text="@string/v_direct"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_close_visibility_panel"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_baseline_close_24" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/button_visibility_private"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="36dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_compose_visibility_private"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="@string/followers_only"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/button_visibility_unlisted"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="36dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_compose_visibility_unlisted"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="@string/v_unlisted"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/button_visibility_public"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="36dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_compose_visibility_public"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:text="@string/v_public"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

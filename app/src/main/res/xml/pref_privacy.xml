@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:summary="Rewrite links to use alternative frontends"
+        app:title="Alternative frontends">
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_INVIDIOUS"
+            app:summary="@string/replace_youtube_description"
+            app:title="@string/replace_youtube" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_INVIDIOUS_HOST"
+            app:dependency="@string/SET_INVIDIOUS"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_INVIDIOUS_HOST"
+            app:summary="@string/DEFAULT_INVIDIOUS_HOST"
+            app:title="@string/replace_youtube_host"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NITTER"
+            app:summary="@string/replace_twitter_description"
+            app:title="@string/replace_twitter" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_NITTER_HOST"
+            app:dependency="@string/SET_NITTER"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NITTER_HOST"
+            app:summary="@string/DEFAULT_NITTER_HOST"
+            app:title="@string/replace_twitter_host"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_BIBLIOGRAM"
+            app:summary="@string/replace_instagram_description"
+            app:title="@string/replace_instagram" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_BIBLIOGRAM_HOST"
+            app:dependency="@string/SET_BIBLIOGRAM"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_BIBLIOGRAM_HOST"
+            app:summary="@string/DEFAULT_BIBLIOGRAM_HOST"
+            app:title="@string/replace_instagram_host"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_LIBREDDIT"
+            app:summary="@string/replace_reddit_description"
+            app:title="@string/replace_reddit" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_LIBREDDIT_HOST"
+            app:dependency="@string/SET_LIBREDDIT"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_LIBREDDIT_HOST"
+            app:title="@string/replace_reddit_host"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/REPLACE_MEDIUM"
+            app:summary="@string/replace_medium_description"
+            app:title="@string/replace_medium" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_REPLACE_MEDIUM_HOST"
+            app:dependency="@string/REPLACE_MEDIUM"
+            app:iconSpaceReserved="false"
+            app:key="@string/REPLACE_MEDIUM_HOST"
+            app:title="@string/replace_medium_host"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/other">
+
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_FILTER_UTM"
+            app:summary="@string/set_utm_parameters_indication"
+            app:title="@string/set_utm_parameters" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

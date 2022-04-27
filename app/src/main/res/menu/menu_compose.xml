@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_photo_camera"
+        android:icon="@drawable/ic_baseline_camera_alt_24"
+        android:title="@string/camera"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_contacts"
+        android:icon="@drawable/ic_baseline_contact_page_24"
+        android:title="@string/contact"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_microphone"
+        android:icon="@drawable/ic_baseline_mic_24"
+        android:title="@string/voice_message"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_schedule"
+        android:icon="@drawable/ic_baseline_schedule_send_24"
+        android:title="@string/schedule"
+        app:showAsAction="never" />
+</menu>

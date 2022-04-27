@@ -1,0 +1,5 @@
+rootProject.name = "Fedilab"
+include ':app'
+include ':autoimageslider'
+include ':mytransl'
+include ':ratethisapp'

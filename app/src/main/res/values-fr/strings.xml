@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Ouvrir le menu</string>
+    <string name="navigation_drawer_close">Fermer le menu</string>
+    <string name="action_about">À propos</string>
+    <string name="action_about_instance">À propos de l’instance</string>
+    <string name="action_privacy">Confidentialité</string>
+    <string name="action_cache">Cache</string>
+    <string name="action_logout">Déconnexion</string>
+    <string name="login">Connexion</string>
+    <!-- common -->
+    <string name="close">Fermer</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="cancel">Annuler</string>
+    <string name="download">Télécharger</string>
+    <string name="download_file">Télécharger %1$s</string>
+    <string name="save_over">Enregistrement terminé</string>
+    <string name="download_from" formatted="false">Fichier : %1$s</string>
+    <string name="password">Mot de passe</string>
+    <string name="email">Email</string>
+    <string name="accounts">Comptes</string>
+    <string name="toots">Pouets</string>
+    <string name="tags">Étiquettes</string>
+    <string name="save">Sauvegarder</string>
+    <string name="restore">Restaurer</string>
+    <string name="no_result">Aucun résultat !</string>
+    <string name="instance">Instance</string>
+    <string name="instance_example">Instance : mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Utilisation du compte %1$s</string>
+    <string name="add_account">Ajouter un compte</string>
+    <string name="clipboard">Le contenu du pouet a été copié dans le presse-papier</string>
+    <string name="clipboard_url">L\'URL du pouet a été copiée dans le presse-papier</string>
+    <string name="change">Changer</string>
+    <string name="choose_picture">Sélectionnez une photo…</string>
+    <string name="clear">Nettoyer</string>
+    <string name="camera">Appareil photo</string>
+    <string name="delete_all">Tout effacer</string>
+    <string name="translate_toot">Traduire ce pouet.</string>
+    <string name="schedule">Programmer</string>
+    <string name="text_size">Taille du texte et des icônes</string>
+    <string name="text_size_change">Modifier la taille du texte :</string>
+    <string name="icon_size_change">Modifier la taille des icônes :</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
+    <string name="open_with">Ouvrir avec</string>
+    <string name="validate">Valider</string>
+    <string name="media">Médias</string>
+    <string name="share_with">Partager avec</string>
+    <string name="shared_via">Partagé via Fedilab</string>
+    <string name="replies">Réponses</string>
+    <string name="username">Nom d’utilisateur</string>
+    <string name="drafts">Brouillons</string>
+    <string name="favourite">Favoris</string>
+    <string name="follow">Nouveaux⋅elles abonné⋅e⋅s</string>
+    <string name="mention">Mentions</string>
+    <string name="reblog">Partages</string>
+    <string name="show_boosts">Afficher les partages</string>
+    <string name="show_replies">Afficher les réponses</string>
+    <string name="action_open_in_web">Ouvrir dans le navigateur</string>
+    <string name="translate">Traduire</string>
+    <string name="please_wait">Veuillez patienter quelques secondes avant de faire cette action.</string>
+    <!--- Menu -->
+    <string name="home_menu">Accueil</string>
+    <string name="local_menu">Fil public local</string>
+    <string name="global_menu">Fil public global</string>
+    <string name="neutral_menu_title">Options</string>
+    <string name="favorites_menu">Favoris</string>
+    <string name="communication_menu_title">Communication</string>
+    <string name="muted_menu">Utilisateurs en sourdine</string>
+    <string name="blocked_menu">Utilisateurs bloqués</string>
+    <string name="notifications">Notifications</string>
+    <string name="follow_request">Demandes d’abonnements</string>
+    <string name="settings">Paramètres</string>
+    <string name="delete_account_title">Supprimer un compte</string>
+    <string name="delete_account_message" formatted="false">Supprimer le compte %1$s de l’application ?</string>
+    <string name="send_email">Envoyer un Email</string>
+    <string name="click_to_change">Cliquer sur le chemin pour le changer</string>
+    <string name="failed">Erreur !</string>
+    <string name="scheduled_toots">Pouets programmés</string>
+    <string name="disclaimer_full">Les données ci-dessous peuvent ne pas refléter ce profil dans sa totalité.</string>
+    <string name="insert_emoji">Insérer un émoji</string>
+    <string name="no_emoji">L’application n’a pas encore collecté d’emojis personnalisés.</string>
+    <string name="push_notif">Notifications poussées</string>
+    <string name="logout_confirmation">Voulez-vous vraiment vous déconnecter?</string>
+    <string name="logout_account_confirmation">Voulez-vous vraiment déconnecter le compte @%1$s@%2$s?</string>
+    <!-- Status -->
+    <string name="no_status">Aucun pouet à afficher !</string>
+    <string name="no_stories">Aucune histoire à afficher</string>
+    <string name="stories">Histoires</string>
+    <string name="reblog_by">Partagé par %1$s</string>
+    <string name="favourite_add">Ajouter ce pouet aux favoris ?</string>
+    <string name="favourite_remove">Supprimer ce pouet des favoris ?</string>
+    <string name="reblog_add">Partager ce pouet ?</string>
+    <string name="reblog_remove">Supprimer ce pouet des partages ?</string>
+    <string name="pin_add">Épingler ce pouet ?</string>
+    <string name="pin_remove">Désépingler ce pouet ?</string>
+    <string name="more_action_1">Ignorer</string>
+    <string name="more_action_2">Bloquer</string>
+    <string name="more_action_3">Signaler</string>
+    <string name="more_action_4">Supprimer</string>
+    <string name="more_action_5">Copier</string>
+    <string name="more_action_6">Partager</string>
+    <string name="more_action_7">Mentionner</string>
+    <string name="more_action_8">Temporairement muet</string>
+    <string name="more_action_9">Supprimer &amp; réécrire</string>
+    <string-array name="more_action_confirm">
+        <item>Masquer ce compte ?</item>
+        <item>Bloquer ce compte ?</item>
+        <item>Signaler ce pouet ?</item>
+        <item>Désirez-vous bloquer ce domaine ?</item>
+        <item>Ne plus masquer ce compte ?</item>
+        <item>Débloquer ce compte ?</item>
+    </string-array>
+    <string-array name="action_notification">
+        <item>Notifier</item>
+        <item>Silencier</item>
+    </string-array>
+    <string-array name="more_action_owner_confirm">
+        <item>Supprimer ce pouet ?</item>
+        <item>Supprimer &amp; réécrire ce pouet ?</item>
+    </string-array>
+    <string name="bookmarks">Signets</string>
+    <string name="bookmark_add">Ajouter aux signets</string>
+    <string name="bookmark_remove">Supprimer le signet</string>
+    <string name="bookmarks_empty">Aucun signet à afficher</string>
+    <string name="status_bookmarked">Le pouet a été ajouté aux signets !</string>
+    <string name="status_unbookmarked">Le pouet a été supprimé des signets !</string>
+    <!-- Date -->
+    <string name="date_seconds">%d s</string>
+    <string name="date_minutes">%d min</string>
+    <string name="date_hours">%d h</string>
+    <string name="date_day">%d j</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d seconde</item>
+        <item quantity="other">%d secondes</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d heure</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d jour</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <!-- TOOT -->
+    <string name="toot_cw_placeholder">Avertissement</string>
+    <string name="toot_placeholder">Qu’avez-vous en tête ?</string>
+    <string name="toot_it">POUET !</string>
+    <string name="queet_it">QUEET!</string>
+    <string name="cw">cw</string>
+    <string name="toot_title">Écrire un pouet</string>
+    <string name="toot_title_reply">Répondre à un pouet</string>
+    <string name="queet_title">Rédiger un queet</string>
+    <string name="queet_title_reply">Répondre à un queet</string>
+    <string name="toot_select_image">Sélectionnez un média</string>
+    <string name="toot_select_image_error">Une erreur s’est produite lors de la sélection du média !</string>
+    <string name="toot_delete_media">Supprimer le média ?</string>
+    <string name="toot_error_no_content">Votre pouet est vide !</string>
+    <string name="toot_visibility_tilte">Visibilité du pouet</string>
+    <string name="toots_visibility_tilte">Visibilité des pouets par défaut : </string>
+    <string name="toot_sent">Le pouet a été envoyé !</string>
+    <string name="toot_reply_content_title">Vous répondez à ce pouet :</string>
+    <string name="toot_sensitive">Contenu sensible ?</string>
+    <string-array name="toot_visibility">
+        <item>Afficher dans les fils publics</item>
+        <item>Ne pas afficher dans les fils publics</item>
+        <item>N\'afficher que pour vos abonné·e·s</item>
+        <item>N\'afficher que pour les personnes mentionnées</item>
+    </string-array>
+    <string name="no_draft">Aucun brouillon !</string>
+    <string name="choose_toot">Choisissez un pouet</string>
+    <string name="choose_accounts">Choisissez un compte</string>
+    <string name="select_accounts">Sélectionnez des comptes</string>
+    <string name="remove_draft">Supprimer le brouillon ?</string>
+    <string name="show_reply">Cliquer sur le bouton pour afficher le pouet d’origine</string>
+    <string name="upload_form_description">Décrire pour les malvoyants</string>
+    <!-- Instance -->
+    <string name="instance_no_description">Aucune description !</string>
+    <!-- About -->
+    <string name="about_vesrion">Version %1$s</string>
+    <string name="about_developer">Développeur :</string>
+    <string name="about_license">Licence : </string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Code source : </string>
+    <string name="about_yandex">Traduction des pouets :</string>
+    <string name="about_thekinrar">Recherche d’instances :</string>
+    <string name="thanks_text_logo">Concepteur de l’icône :</string>
+    <!-- Conversation -->
+    <string name="conversation">Conversation</string>
+    <!-- Accounts -->
+    <string name="no_accounts">Aucun compte à afficher</string>
+    <string name="no_follow_request">Aucune demande d’abonnement</string>
+    <string name="status_cnt">Pouets \n %1$s</string>
+    <string name="following_cnt">Abonnements \n %1$s</string>
+    <string name="followers_cnt">Abonné·e·s \n %1$s</string>
+    <string name="pins_cnt">Épinglés %d</string>
+    <string name="authorize">Autoriser</string>
+    <string name="reject">Rejeter</string>
+    <!-- Scheduled toots -->
+    <string name="no_scheduled_toots">Aucun pouet programmé à afficher !</string>
+    <string name="no_scheduled_toots_indications">Rédigez un pouet, puis choisissez <b>Programmer</b> dans le menu du haut.</string>
+    <string name="remove_scheduled">Supprimer le pouet programmé ?</string>
+    <string name="media_count">Média(s): %d</string>
+    <string name="toot_scheduled">Le pouet a été programmé !</string>
+    <string name="toot_scheduled_date">La date doit être supérieure à l’heure actuelle !</string>
+    <string name="warning_battery">L’économiseur de batterie est activé ! Il se peut que cela ne fonctionne pas comme prévu.</string>
+    <!-- timed mute -->
+    <string name="timed_mute_date_error">Le délai pour rendre muet doit être supérieur à une minute.</string>
+    <string name="timed_mute_date">%1$s est muet jusqu’au %2$s.\n Vous pouvez annuler cette action en vous rendant sur son profil.</string>
+    <string name="timed_mute_profile">%1$s est muet jusqu’au %2$s.\n Cliquez ici pour annuler.</string>
+    <!-- Notifications -->
+    <string name="no_notifications">Aucune notification à afficher</string>
+    <string name="notif_mention">vous a mentionné</string>
+    <string name="notif_status">a écrit un nouveau message</string>
+    <string name="notif_reblog">a partagé votre pouet</string>
+    <string name="notif_favourite">a ajouté votre pouet à ses favoris</string>
+    <string name="notif_follow">vous suit</string>
+    <string name="notif_follow_request">a demandé à vous suivre</string>
+    <plurals name="other_notifications">
+        <item quantity="one">et %d autre notification</item>
+        <item quantity="other">et %d autres notifications</item>
+    </plurals>
+    <plurals name="likes">
+        <item quantity="one">%d aime</item>
+        <item quantity="other">%d aimes</item>
+    </plurals>
+    <string name="delete_notification_ask">Supprimer une notification ?</string>
+    <string name="delete_notification_ask_all">Supprimer toutes les notifications ?</string>
+    <string name="delete_notification">La notification a été supprimée!</string>
+    <string name="delete_notification_all">Toutes les notifications ont été supprimées !</string>
+    <!-- HEADER -->
+    <string name="following">Suit</string>
+    <string name="followers">Abonné·e·s</string>
+    <string name="pinned_toots">Épinglé</string>
+    <!-- TOAST -->
+    <string name="client_error">Impossible d’obtenir l’id du client !</string>
+    <string name="connect_error">Impossible de se connecter au domaine de l\'instance !</string>
+    <string name="no_internet">Aucune connexion Internet !</string>
+    <string name="toast_block">Le compte a été bloqué !</string>
+    <string name="toast_unblock">Le compte n\'est plus bloqué !</string>
+    <string name="toast_mute">Le compte a été masqué !</string>
+    <string name="toast_unmute">Le compte n\'est plus masqué !</string>
+    <string name="toast_follow">Le compte est suivi !</string>
+    <string name="toast_unfollow">Le compte n\'est plus suivi !</string>
+    <string name="toast_reblog">Le pouet a été partagé !</string>
+    <string name="toast_unreblog">Le pouet a été supprimé des partages !</string>
+    <string name="toast_favourite">Le pouet a été ajouté aux favoris !</string>
+    <string name="toast_unfavourite">Le pouet a été supprimé des favoris !</string>
+    <string name="toast_report">Le pouet a été signalé !</string>
+    <string name="toast_unstatus">Le pouet a été supprimé !</string>
+    <string name="toast_pin">Le pouet a été épinglé !</string>
+    <string name="toast_unpin">Le pouet a été désépinglé !</string>
+    <string name="toast_error">Oups ! Une erreur s’est produite !</string>
+    <string name="toast_code_error">Une erreur s’est produite ! L’instance n’a retourné aucun code d\autorisation !</string>
+    <string name="toast_error_instance">Le nom de l’instance ne semble pas être valide !</string>
+    <string name="toast_error_loading_account">Une erreur s’est produite pendant le chargement du compte !</string>
+    <string name="toast_error_search">Une erreur s’est produite lors de la recherche !</string>
+    <string name="toast_update_credential_ok">Les données du profil ont été sauvegardées !</string>
+    <string name="nothing_to_do">Aucune action ne peut être réalisée</string>
+    <string name="toast_saved">Le média a été enregistré !</string>
+    <string name="toast_error_translate">Une erreur est survenue lors de la traduction !</string>
+    <string name="toast_error_translations_disabled">Les traductions sont désactivées dans les paramètres</string>
+    <string name="toast_toot_saved">Brouillon enregistré !</string>
+    <string name="toast_error_char_limit">Êtes-vous sûr que cette instance autorise ce nombre de caractères ? Habituellement, cette valeur est proche de 500 caractères.</string>
+    <string name="toast_visibility_changed">La visibilité des pouets a été changée pour le compte %1$s</string>
+    <!-- Settings -->
+    <string name="set_toots_page">Nombre de pouets par chargement</string>
+    <string name="set_attachment_always">Toujours</string>
+    <string name="set_attachment_wifi">WIFI</string>
+    <string name="set_attachment_ask">Demander</string>
+    <string name="set_attachment_action">Charger les médias</string>
+    <string name="load_attachment">Charger les images</string>
+    <string name="load_attachment_spoiler">Afficher le contenu ?</string>
+    <string name="load_attachment_spoiler_less">Afficher moins…</string>
+    <string name="load_sensitive_attachment">Charger les images sensibles</string>
+    <string name="set_disable_gif">Désactiver l’animation des avatars</string>
+    <string name="set_folder_title">Destination : </string>
+    <string name="set_auto_store_toot">Enregistrer les brouillons automatiquement</string>
+    <string name="set_auto_add_media_url">Ajouter l’URL des médias dans les pouets</string>
+    <string name="set_notif_follow">Notifier lorsque quelqu’un me suit</string>
+    <string name="set_notif_follow_share">Notifier lorsque quelqu’un partage mes pouets</string>
+    <string name="set_notif_follow_add">Notifier lorsque quelqu’un ajoute mes pouets à ses favoris</string>
+    <string name="set_notif_follow_mention">Notifier lorsque quelqu’un me mentionne</string>
+    <string name="set_notif_follow_poll">Me notifier lorsqu’un sondage est terminé</string>
+    <string name="set_notif_status">Notifier des nouveaux messages</string>
+    <string name="set_share_validation">Confirmer avant de partager</string>
+    <string name="set_share_validation_fav">Confirmer avant d’ajouter aux favoris</string>
+    <string name="set_wifi_only">Notifier en WIFI seulement</string>
+    <string name="set_notify">Notifier ?</string>
+    <string name="set_notif_silent">Utiliser le vibreur</string>
+    <string name="set_nsfw_timeout">Délai d’affichage NSFW (en secondes, 0 signifie aucun délai)</string>
+    <string name="set_med_desc_timeout">Délai de l\'affichage de la description des médias (en secondes, 0 signifie désactivé)</string>
+    <string name="settings_title_profile">Modifier le profil</string>
+    <string name="settings_title_custom_sharing">Partage personnalisé</string>
+    <string name="settings_custom_sharing_url">Votre URL de partage personnalisé&#8230;</string>
+    <string name="set_profile_description">Présentation…</string>
+    <string name="set_lock_account">Verrouiller le compte</string>
+    <string name="set_save_changes">Enregistrer les modifications</string>
+    <string name="set_header_picture_overlay">Choisissez une image d’entête</string>
+    <string name="set_fit_preview">Voir l’aperçu d’image en entier</string>
+    <string name="set_automatically_split_toot">Fractionnement automatique au-delà de 500 caractères</string>
+    <string name="note_no_space">Vous avez atteint les 160 caractères autorisés !</string>
+    <string name="username_no_space">Vous avez atteint les 30 caractères autorisés !</string>
+    <string name="settings_time_from">Entre</string>
+    <string name="settings_time_to">et</string>
+    <string name="settings_time_greater">L’horaire doit être plus grand que %1$s</string>
+    <string name="settings_time_lower">L’horaire doit être plus petit que %1$s</string>
+    <string name="settings_hour_init">Heure de début</string>
+    <string name="settings_hour_end">Heure de fin</string>
+    <string name="embedded_browser">Utiliser le navigateur intégré</string>
+    <string name="custom_tabs">Onglets personnalisés</string>
+    <string name="use_javascript">Activer Javascript</string>
+    <string name="expand_cw">Afficher automatiquement le contenu masqué</string>
+    <string name="use_cookies">Autoriser les cookies tiers</string>
+    <string name="your_api_key">Votre clé API, vous pouvez laisser vide pour Yandex</string>
+    <string-array name="settings_theme">
+        <item>Sombre</item>
+        <item>Clair</item>
+        <item>Noir</item>
+    </string-array>
+    <string name="set_led_colour">Couleur de la LED :</string>
+    <string-array name="led_colours">
+        <item>Bleu</item>
+        <item>Cyan</item>
+        <item>Magenta</item>
+        <item>Vert</item>
+        <item>Rouge</item>
+        <item>Jaune</item>
+        <item>Blanc</item>
+    </string-array>
+    <string name="action_follow">Suivre</string>
+    <string name="action_unblock">Débloquer</string>
+    <string name="action_mute">Masquer</string>
+    <string name="action_unmute">Afficher</string>
+    <string name="request_sent">Demande envoyée</string>
+    <string name="followed_by">Vous suit</string>
+    <string name="action_search">Recherche</string>
+    <string name="set_capitalize">Première lettre en majuscule pour les réponses</string>
+    <string name="set_resize_picture">Redimensionner les images</string>
+    <string name="set_resize_video">Redimensionner les vidéos</string>
+    <!-- Quick settings for notifications -->
+    <string name="settings_popup_title">Notifications poussées</string>
+    <string name="settings_popup_message">        Veuillez confirmer les notifications que vous souhaitez recevoir.
+        Vous pourrez les activer ou les désactiver plus tard dans les paramètres (onglet Notifications).
+    </string>
+    <!-- CACHE -->
+    <string name="cache_title">Nettoyage du cache</string>
+    <string name="cache_message">Il y a %1$s de données en cache.\n\nSouhaitez-vous les supprimer ?</string>
+    <string name="cache_units">Mo</string>
+    <string name="toast_cache_clear">Le cache a été nettoyé ! %1$s ont été libérés</string>
+    <!-- ACTIVITY CUSTOM SHARING -->
+    <string name="title_header_custom_sharing">Titre</string>
+    <string name="title_hint_custom_sharing">Titre&#8230;</string>
+    <string name="description_header_custom_sharing">Description</string>
+    <string name="keywords_header_custom_sharing">Mots clés</string>
+    <string name="keywords_hint_custom_sharing">Mots clés&#8230;</string>
+    <!-- ACTIVITY CACHE -->
+    <string name="action_sync">Synchroniser</string>
+    <string name="action_filter">Filtrer</string>
+    <string name="owner_cached_toots">Mes pouets</string>
+    <string name="owner_cached_notifications">Vos notifications</string>
+    <string name="v_public">Public</string>
+    <string name="v_unlisted">Non-listé</string>
+    <string name="v_private">Privé</string>
+    <string name="v_direct">Direct</string>
+    <string name="v_keywords">Quelques mots-clés…</string>
+    <string name="show_media">Pouets avec médias</string>
+    <string name="show_pinned">Pouets épinglés</string>
+    <string name="filter_no_result">Aucun résultat avec ce filtre !</string>
+    <string name="data_backup_toots">Sauvegarde des pouets pour %1$s</string>
+    <string name="data_backup_success">%1$s nouveaux pouets ont été importés</string>
+    <string name="data_backup_notification_success">%1$s nouvelles notifications ont été importées</string>
+    <string-array name="filter_order">
+        <item>Dates descendantes</item>
+        <item>Dates ascendantes</item>
+    </string-array>
+    <string-array name="filter_select">
+        <item>Non</item>
+        <item>Seulement</item>
+        <item>Les deux</item>
+    </string-array>
+    <string name="owner_cached_toots_empty">Aucun pouet trouvé en base de données. Veuillez utiliser le bouton synchroniser du menu pour les importer.</string>
+    <!-- PRIVACY -->
+    <string name="privacy_data_title">Données enregistrées</string>
+    <string name="privacy_data">       Seules les informations de base des comptes connectés sont enregistrées sur l’appareil.
+        Ces données sont strictement confidentielles et ne sont utilisables que par l’application. La suppression de l’application entraîne immédiatement la suppression de ces données.\n
+        &#9888; Les identifiants et les mots de passe ne sont jamais enregistrés, ils ne sont utilisés que lors de l’authentification sécurisée (SSL) vers l’instance.
+    </string>
+    <string name="privacy_authorizations_title">Autorisations de l’application :</string>
+    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b> : Utilisée pour savoir si l’appareil est connecté au WIFI.\n
+        - <b>INTERNET</b> : Utilisée pour les requêtes vers l’instance.\n
+        - <b>WRITE_EXTERNAL_STORAGE</b> : Utilisée pour télécharger les médias / déplacer sur la carte SD.\n
+        - <b>READ_EXTERNAL_STORAGE</b> : Utilisée pour ajouter des médias aux pouets.\n
+        - <b>BOOT_COMPLETED</b> : Utilisée pour lancer le service de notifications quand l’appareil démarre.\n
+        - <b>WAKE_LOCK</b> : Utilisée lors du service de notifications.
+    </string>
+    <string name="privacy_API_authorizations_title">Autorisations de l’API :</string>
+    <string name="privacy_API_authorizations">        - <b>Read</b> : Lire les données du compte.\n
+        - <b>Write</b> : Envoyer des messages et attacher des médias aux messages.\n
+        - <b>Follow</b> : S’abonner, se désabonner, bloquer, débloquer.\n\n
+        <b>&#9888; Ces actions ne sont réalisées qu’à la demande de l’utilisateur·rice.</b>
+    </string>
+    <string name="privacy_API_title">Suivi et bibliothèques</string>
+    <string name="privacy_API">        L’application n’utilise <b>aucun outil de suivi</b> (mesure d\'audience, rapport d’erreurs, etc.) et elle ne comporte aucune publicité.\n\n
+        L’utilisation de bibliothèques est réduite au strict minimum :\n
+        - <b>Glid</b> : Pour la gestion des médias\n
+        - <b>Android-Job</b> : Pour la gestion des services\n
+        - <b>PhotoView</b> : Pour la gestion des images\n
+    </string>
+    <string name="privacy_API_yandex_title">Traduction des pouets</string>
+    <string name="privacy_API_yandex_authorizations">        L’application offre la possibilité de traduire les pouets en utilisant les paramètres régionaux de l’appareil et l’API de Yandex.\n
+        Yandex a sa propre politique de confidentialité qui peut être consultée à l\'adresse suivante : https://yandex.ru/legal/confidential/?lang=en
+    </string>
+    <string name="thanks_text_dev">        Merci à :
+    </string>
+    <string name="filter_regex">Filtrer avec une expression régulière</string>
+    <string name="search">Rechercher</string>
+    <string name="delete">Supprimer</string>
+    <string name="fetch_more_toots">Retrouver plus de pouets…</string>
+    <!-- About lists -->
+    <string name="action_lists">Listes</string>
+    <string name="action_lists_confirm_delete">Êtes-vous sûr de vouloir supprimer définitivement cette liste ?</string>
+    <string name="action_lists_empty_content">Il n’y a rien dans cette liste pour l’instant.</string>
+    <string name="action_lists_add_to">Ajouter à la liste</string>
+    <string name="action_lists_create">Ajouter une liste</string>
+    <string name="action_lists_delete">Supprimer la liste</string>
+    <string name="action_lists_update">Modifier la liste</string>
+    <string name="action_lists_title_placeholder">Titre de la nouvelle liste</string>
+    <string name="action_lists_add_user">Le compte a été ajouté à la liste !</string>
+    <string name="action_lists_empty">Vous n’avez pas encore de listes !</string>
+    <!-- Migration -->
+    <string name="account_moved_to">%1$s a été déplacé vers %2$s</string>
+    <string name="issue_login_title">Problème de connexion ?</string>
+    <string name="issue_login_message"><b>Voici quelques vérifications qui pourraient aider :</b> \n\n 
+- Vérifier qu’il n’y a pas d’erreur dans le nom de l’instance\n\n 
+- Vérifiez que votre instance est fonctionnelle\n\n 
+- Si vous utilisez l’authentification en deux étapes (2FA), veuillez utiliser le lien en bas (une fois le nom de l’instance renseigné) \n\n 
+- Vous pouvez également utiliser ce lien sans utiliser la 2FA\n\n 
+- Si cela ne fonctionne toujours pas, vous pouvez reporter ce problème sur FramaGit : https://framagit.org/tom79/fedilab/issues    </string>
+    <string name="media_ready">L’image a été chargée. Cliquez ici pour l’afficher.</string>
+    <string name="data_export_start">Cela peut être assez long. Vous serez notifié·e une fois l’exportation finie.</string>
+    <string name="data_export_running">Exportation en cours, veuillez patienter…</string>
+    <string name="data_export">Exporter vos pouets</string>
+    <string name="data_export_toots">Pouets exportés pour %1$s</string>
+    <string name="data_export_success">%1$s pouets sur %2$s ont été exportés.</string>
+    <string name="data_export_error">Une erreur est survenue lors de l’exportation des pouets pour %1$s</string>
+    <string name="data_export_error_simple">Quelque chose a mal tourné lors de l’exportation de données !</string>
+    <string name="data_import_error_simple">Quelque chose a mal tourné lors de l’importation de données !</string>
+    <!-- Proxy -->
+    <string name="proxy_set">Proxy</string>
+    <string name="proxy_enable">Activer le proxy ?</string>
+    <string name="poxy_host">Serveur</string>
+    <string name="poxy_port">Port</string>
+    <string name="poxy_login">Identifiant</string>
+    <string name="poxy_password">Mot de passe</string>
+    <string name="set_share_details">Ajouter les détails du pouet en le partageant</string>
+    <string name="support_the_app_on_liberapay">Soutenir l’app sur Liberapay</string>
+    <string name="alert_regex">Il y a une erreur dans l’expression régulière !</string>
+    <string name="toast_instance_unavailable">Aucun fil n’a été trouvé sur cette instance !</string>
+    <string name="delete_instance">Désirez-vous effacer cette instance ?</string>
+    <string name="which_language">Traduire en</string>
+    <string name="follow_instance">Suivre l’instance</string>
+    <string name="toast_instance_already_added">Vous suivez déjà cette instance !</string>
+    <string name="toast_instance_followed">Maintenant, vous suivez cette instance !</string>
+    <string name="action_partnership">Partenariats</string>
+    <string name="neutral_menu_information">Information</string>
+    <string name="hide_boost">Masquer les boosts de %s</string>
+    <string name="endorse">Recommander</string>
+    <string name="show_boost">Afficher les boosts de %s</string>
+    <string name="unendorse">Ne pas recommander</string>
+    <string name="toast_endorse">Ce compte est maintenant recommandé sur votre profil</string>
+    <string name="toast_unendorse">Ce compte n’est plus recommandé sur votre profil</string>
+    <string name="toast_show_boost">Les boosts sont maintenant masqués !</string>
+    <string name="toast_hide_boost">Les boosts sont maintenant masqués !</string>
+    <string name="direct_message">Message direct</string>
+    <string name="filters">Filtres</string>
+    <string name="action_filters_empty_content">Aucun filtre à afficher. Vous pouvez en créer un en cliquant sur le bouton « + ».</string>
+    <string name="filter_keyword">Mot clé ou une expression</string>
+    <string name="context_home">Fil principal</string>
+    <string name="context_public">Fils publics</string>
+    <string name="context_notification">Notifications</string>
+    <string name="context_conversation">Discussions</string>
+    <string name="filter_keyword_explanations">Sera trouvé sans que la casse ou l’avertissement de contenu du pouet soit pris en compte</string>
+    <string name="context_drop">Supprimer plutôt que de cacher</string>
+    <string name="context_drop_explanations">Les pouets filtrés disparaîtront irrémédiablement, même si le filtre est supprimé ultérieurement</string>
+    <string name="context_whole_word_explanations">Lorsque le mot-clef ou la phrase-clef est uniquement alphanumérique, ça sera uniquement appliqué s’il correspond au mot entier</string>
+    <string name="context_whole_word">Mot entier</string>
+    <string name="filter_context">Contextes du filtre</string>
+    <string name="filter_context_explanations">Un ou plusieurs contextes où le filtre devrait s’appliquer</string>
+    <string name="filter_expire">Expire après</string>
+    <string name="action_filter_delete">Supprimer le filtre ?</string>
+    <string name="action_update_filter">Mettre à jour le filtre</string>
+    <string name="action_filter_create">Créer un filtre</string>
+    <string name="how_to_follow">Suggestion de comptes</string>
+    <string name="action_who_to_follow_empty_content">Actuellement, cette liste ne contient aucun compte !</string>
+    <string name="follow_account">Suivre</string>
+    <string name="select_all">Tout sélectionner</string>
+    <string name="unselect_all">Tout désélectionner</string>
+    <string name="follow_trunk">%s est suivi !</string>
+    <string name="create_list_trunk">Création de la liste %s</string>
+    <string name="add_account_list_trunk">Rajout des comptes à la liste</string>
+    <string name="account_added_list_trunk">Les comptes ont été ajoutés à la liste</string>
+    <string name="adding_account_list_trunk">Ajout des comptes dans la liste</string>
+    <string name="action_list_add">Vous n\'avez pas encore créé de liste. Cliquez sur le bouton \"+\" pour en ajouter une.</string>
+    <string name="about_trunk">Comptes suggérés</string>
+    <string name="about_trunk_action">API Trunk</string>
+    <string name="toast_impossible_to_follow">Abonnement impossible au(x) compte(s)</string>
+    <string name="retrieve_remote_account">Recherche du compte distant</string>
+    <string name="expand_image">Étendre automatiquement les médias cachés</string>
+    <string name="channel_notif_follow">Nouvel abonnement</string>
+    <string name="channel_notif_boost">Nouveau partage</string>
+    <string name="channel_notif_fav">Nouveau Favori</string>
+    <string name="channel_notif_mention">Nouvelle mention</string>
+    <string name="channel_notif_poll">Sondage terminé</string>
+    <string name="channel_notif_toot">Nouveau pouet</string>
+    <string name="channel_notif_backup">Sauvegarde des Pouets</string>
+    <string name="channel_notif_status">Nouveaux messages</string>
+    <string name="channel_notif_media">Téléchargement des Médias</string>
+    <string name="set_notif_sound">Changer le son des notifications</string>
+    <string name="select_sound">Choisir une sonnerie</string>
+    <string name="set_enable_time_slot">Activer le créneau horaire</string>
+    <string name="how_to_videos">Tutoriels vidéo</string>
+    <string name="retrieve_remote_conversation">Récupération du fil distant !</string>
+    <string name="no_blocked_domain">Aucun domaine bloqué !</string>
+    <string name="unblock_domain_confirm">Débloquer le domaine</string>
+    <string name="unblock_domain_confirm_message">Confirmez-vous le déblocage de %s ?</string>
+    <string name="block_domain_confirm_message">Êtes-vous sûr de vouloir bloquer %s ?</string>
+    <string name="blocked_domains">Les domaines bloqués</string>
+    <string name="block_domain">Bloquer le domaine</string>
+    <string name="toast_block_domain">Le domaine est bloqué</string>
+    <string name="toast_unblock_domain">Le domaine n\'est plus bloqué !</string>
+    <string name="retrieve_remote_status">Récupération du statut distant</string>
+    <string name="comment">Commenter</string>
+    <string name="peertube_instance">Instance PeerTube</string>
+    <string name="no_comments">Soyez le·a premier·ère à laisser un commentaire sur cette vidéo en utilisant le bouton supérieur droit !</string>
+    <string name="number_view_video">%s vues</string>
+    <string name="duration_video">Durée : %s</string>
+    <string name="add_remote_instance">Ajouter une instance</string>
+    <string name="comment_no_allowed_peertube">Les commentaires sur cette vidéos ont été désactivés !</string>
+    <string name="pickup_resolution">Choisissez une résolution</string>
+    <string name="peertube_favorites">Favoris PeerTube</string>
+    <string name="bookmark_add_peertube">La vidéo est rajoutée aux favoris !</string>
+    <string name="bookmark_remove_peertube">La vidéo a été retirée de vos favoris !</string>
+    <string name="bookmark_peertube_empty">Il n’y a aucune vidéo Peertube dans vos favoris !</string>
+    <string name="channel">Chaîne</string>
+    <string name="videos">Vidéos</string>
+    <string name="channels">Chaînes</string>
+    <string name="set_display_emoji">Utiliser les EmojiOne</string>
+    <string name="information">information</string>
+    <string name="set_display_card">Afficher les aperçus dans tous les pouets</string>
+    <string name="thanks_text_ux">Nouveau·lle UX/UI Designer·use</string>
+    <string name="set_display_video_preview">Afficher les aperçus des vidéos</string>
+    <string name="account_id_clipbloard">L’ID du compte été copié vers le presse-papiers !</string>
+    <string name="set_change_locale">Changer de langue</string>
+    <string name="default_language">Langue par défaut</string>
+    <string name="truncate_long_toots">Tronquer les longs pouets</string>
+    <string name="set_truncate_toot">Tronquer les pouets dépassant « x » lignes. Zéro signifie désactivé.</string>
+    <string name="display_toot_truncate">Afficher plus</string>
+    <string name="hide_toot_truncate">Afficher moins</string>
+    <string name="manage_tags">Gestion des étiquettes</string>
+    <string name="tags_already_stored">Cette étiquette existe déjà !</string>
+    <string name="tags_stored">L’étiquette a été restaurée !</string>
+    <string name="tags_renamed">L’étiquette a été modifiée !</string>
+    <string name="tags_deleted">L’étiquette a été supprimée !</string>
+    <string name="schedule_boost">Programmer un boost</string>
+    <string name="boost_scheduled">Le boost est programmé !</string>
+    <string name="no_scheduled_boosts">Aucun boost programmé à afficher !</string>
+    <string name="no_scheduled_boosts_indications"><![CDATA[Ouvrez le menu d’un pouet puis choisissez <b>Programmer un boost</b>.]]></string>
+    <string name="art_menu">Fil artistique</string>
+    <string name="open_menu">Ouvrir le menu</string>
+    <string name="go_back">Retour</string>
+    <string name="app_logo">Logo de l’application</string>
+    <string name="profile_picture">Photo du profil</string>
+    <string name="profile_banner">Bannière du profil</string>
+    <string name="contact_instance_admin">Contacter l’administrateur de l’instance</string>
+    <string name="add_new">Ajouter un nouveau</string>
+    <string name="mastohost_logo">Logo de MastoHost</string>
+    <string name="emoji_picker">Sélecteur d’émojis</string>
+    <string name="refresh">Actualiser</string>
+    <string name="expand_conversation">Développer la conversation</string>
+    <string name="remove_account">Supprimer un compte</string>
+    <string name="delete_domain">Supprimer le domaine bloqué</string>
+    <string name="custom_emoji_picker">Sélecteur d’émojis personnalisé</string>
+    <string name="play_video">Lire la vidéo</string>
+    <string name="new_toot">Nouveau pouet</string>
+    <string name="card_view_image">Image de la carte</string>
+    <string name="hide_media">Masquer les médias</string>
+    <string name="favicon">Favicon</string>
+    <string name="media_description">Image où la description va être ajoutée</string>
+    <string-array name="filter_expire">
+        <item>Jamais</item>
+        <item>30 minutes</item>
+        <item>1 heure</item>
+        <item>6 heures</item>
+        <item>12 heures</item>
+        <item>1 jour</item>
+        <item>1 semaine</item>
+    </string-array>
+    <string name="showcase_instance">Renseignez le nom de domaine de votre instance dans ce champs.\nPar exemple, si vous avez créé un compte sur https://mastodon.social\nécrivez simplement <b>mastodon.social</b>(sans le https://)\n
+Commencez à saisir les premières lettres et des domaines vous seront suggérés. \n\n
+Le bouton de connexion s’activera une fois qu’un domaine valide sera renseigné et que l’instance est active !    </string>
+    <string name="more_information">Plus d’informations</string>
+    <!-- languages not translated -->
+    <string name="languages">Langues</string>
+    <string name="show_media_only">Médias seulement</string>
+    <string name="show_media_nsfw">Images sensibles</string>
+    <string name="crowdin_translations">Traductions de Crowdin</string>
+    <string name="crowdin_manager">Manager des traductions Crowdin</string>
+    <string name="translation_app">Traduire l’application</string>
+    <string name="about_crowdin">À propos de Crowdin</string>
+    <string name="bot">Robot</string>
+    <string name="pixelfed_instance">Instance PixelFed</string>
+    <string name="mastodon_instance">Instance Mastodon</string>
+    <string name="any_tags">N’importe lequel</string>
+    <string name="all_tags">Tous</string>
+    <string name="none_tags">Aucun</string>
+    <string name="some_words_any">N’importe lequel de ces mots (séparés par des espaces)</string>
+    <string name="some_words_all">Tous ces mots (séparés par des espaces)</string>
+    <string name="some_tags">Ajouter quelques mots à filtrer (séparés par un espace)</string>
+    <string name="change_tag_column">Renommer la colonne</string>
+    <string name="misskey_instance">Instance Misskey</string>
+    <string name="toast_no_apps">Aucune application prenant en charge ce lien n’est installée sur votre appareil.</string>
+    <string name="subscriptions">Abonnements</string>
+    <string name="overview">Vue d’ensemble</string>
+    <string name="trending">Tendances</string>
+    <string name="recently_added">Récemment ajoutées</string>
+    <string name="local">Locales</string>
+    <string name="upload_video">Téléverser</string>
+    <string name="reply">Répondre</string>
+    <string name="delete_comment">Supprimer le commentaire</string>
+    <string name="delete_comment_confirm">Etes-vous sûr de vouloir supprimer ce commentaire ?</string>
+    <string name="fullscreen">Vidéo plein écran</string>
+    <string name="set_video_mode">Mode pour les vidéos</string>
+    <string name="file_to_upload">Sélectionnez un fichier à transférer</string>
+    <string name="my_videos">Mes vidéos</string>
+    <string name="title">Titre</string>
+    <string name="license">Licence</string>
+    <string name="category">Catégorie</string>
+    <string name="language">Langue</string>
+    <string name="peertube_nsfw">Cette vidéo contient du contenu pour adultes</string>
+    <string name="peertube_enable_comments">Activer les commentaires</string>
+    <string name="update_video">Mettre à jour la vidéo</string>
+    <string name="description">Description</string>
+    <string name="toast_peertube_video_updated">La vidéo a été mise à jour !</string>
+    <string name="toast_cancelled">Transfert annulé !</string>
+    <string name="upload_video_success">La vidéo a été transférée !</string>
+    <string name="uploading">Transfert en cours, veuillez patienter …</string>
+    <string name="video_uploaded_action">Cliquez ici pour éditer les données de la vidéo.</string>
+    <string name="delete_video">Supprimer la vidéo</string>
+    <string name="delete_video_confirmation">Êtes-vous sûr de vouloir supprimer cette vidéo ?</string>
+    <string name="display_nsfw_videos">Afficher les vidéos sensibles</string>
+    <string name="no_video_to_display">Aucune vidéo n’est disponible !</string>
+    <string name="leave_a_comment">Laisser un commentaire</string>
+    <string name="share">Partager</string>
+    <string name="choose_schedule">Choisissez un mode pour la planification</string>
+    <string name="device_schedule">Depuis l’appareil</string>
+    <string name="server_schedule">Depuis le serveur</string>
+    <string name="toots_server">Pouets (Serveur)</string>
+    <string name="toots_client">Pouets (Appareil)</string>
+    <string name="modify">Modifier</string>
+    <string name="set_display_content_after_fetch_more">Afficher les nouveaux pouets au-dessus du bouton « Afficher le contenu ? »</string>
+    <string name="settings_category_label_timelines">Les fils</string>
+    <string name="settings_category_label_interface">Interface</string>
+    <string name="contact">Contacts</string>
+    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> a commenté votre vidéo <b>%2$s</b>]]></string>
+    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> suit votre chaîne <b>%2$s</b>]]></string>
+    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> suit votre compte]]></string>
+    <string name="peertube_video_published"><![CDATA[Votre vidéo <b>%1$s</b> a été publiée]]></string>
+    <string name="peertube_video_import_success"><![CDATA[L’importation de votre vidéo <b>%1$s</b> a réussi]]></string>
+    <string name="peertube_video_import_error"><![CDATA[Échec lors de l’importation de votre vidéo <b>%1$s</b>]]></string>
+    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> a publié une nouvelle vidéo : <b>%2$s</b>]]></string>
+    <string name="peertube_video_blacklist"><![CDATA[Votre vidéo <b>%1$s</b> a été blacklisté]]></string>
+    <string name="peertube_video_unblacklist"><![CDATA[Votre vidéo <b>%1$s</b> n’est plus blacklisté]]></string>
+    <string name="export_data">Exporter les données</string>
+    <string name="import_data">Importer les données</string>
+    <string name="toot_select_import">Sélectionner le fichier à importer</string>
+    <string name="toot_select_file_error">Une erreur s’est produite lors de la sélection du fichier de sauvegarde !</string>
+    <string name="add_public_comment">Ajouter un commentaire public</string>
+    <string name="send_comment">Envoyer un commentaire</string>
+    <string name="toast_toot_saved_error">Il n’y a pas de connexion Internet. Votre message a été stocké dans les brouillons.</string>
+    <string name="action_plain_text">Texte brut</string>
+    <string name="action_html">HTML</string>
+    <string name="action_markdown">Markdown</string>
+    <string name="action_logout_account">Déconnexion du compte</string>
+    <string name="all">Tout</string>
+    <string name="about_opencollective">Soutenir l’application</string>
+    <string name="more_about_opencollective">Open Collective permet aux groupes de créer rapidement un collectif, de collecter des fonds et de les gérer de manière transparente.</string>
+    <string name="copy_link">Copier le lien</string>
+    <string name="connect_instance">Connecter</string>
+    <string name="set_normal">Normal</string>
+    <string name="set_compact">Compact</string>
+    <string name="set_console">Terminal</string>
+    <string name="set_mode">Définir le mode d’affichage</string>
+    <string name="set_security_provider">Patcher le fournisseur de sécurité</string>
+    <string name="update_tracking_domains">Mettre à jour les domaines de suivi</string>
+    <string name="tracking_db_updated">La base de données de suivi a été mise à jour !</string>
+    <string name="calls_blocked">appels http bloqués par l’application</string>
+    <string name="list_of_blocked_domains">Liste des appels bloqués</string>
+    <string name="submit">Envoyer</string>
+    <string name="data_base_exported">La base de données a été exportée!</string>
+    <string name="featured_hashtags">Hashtags recommandés</string>
+    <string name="filter_timeline_with_a_tag">Filtrer la timeline avec des tags</string>
+    <string name="no_tags">Aucune étiquette</string>
+    <string name="set_hide_delete_notification_on_tab">Cacher le bouton de suppression de notification sur l\'onglet de notification</string>
+    <string name="set_retrieve_metadata_share_from_extras">Attacher une image lors du partage d\'une URL</string>
+    <!-- end languages -->
+    <string name="poll">Sondage</string>
+    <string name="polls">Sondages</string>
+    <string name="create_poll">Créer un sondage</string>
+    <string name="poll_choice_1">Choix 1</string>
+    <string name="poll_choice_2">Choix 2</string>
+    <string name="poll_choice_s">Choix %d</string>
+    <string name="poll_invalid_choices">Vous avez besoin d\'au moins deux choix pour le sondage !</string>
+    <string name="done">Fait</string>
+    <string name="poll_finish_at">fin à %s</string>
+    <string name="refresh_poll">Actualiser le sondage</string>
+    <string name="vote">Voter</string>
+    <string name="notif_poll">Un sondage auquel vous avez participé est maintenant terminé</string>
+    <string name="notif_poll_self">Un sondage que vous avez publié est maintenant terminé</string>
+    <string name="settings_category_notif_customize">Personnaliser</string>
+    <string name="settings_category_notif_categories">Catégories</string>
+    <string name="settings_category_notif_time_slot">Créneau horaire</string>
+    <string name="settings_category_notif_advanced">Avancé</string>
+    <string name="set_display_new_badge">Afficher le badge \'new\' sur les pouets non lus</string>
+    <string name="peertube_menu">PeerTube</string>
+    <string name="move_timeline">Déplacer le fil</string>
+    <string name="hide_timeline">Cacher le fil</string>
+    <string name="reorder_timelines">Réorganiser les fils</string>
+    <string name="reorder_list_deleted">Liste supprimée définitivement</string>
+    <string name="reorder_instance_removed">Instance suivie supprimée</string>
+    <string name="reorder_tag_removed">Balise épinglée supprimée</string>
+    <string name="undo">Annuler</string>
+    <string name="visible_tabs_needed">Vous devez garder deux onglets visibles !</string>
+    <string name="action_reorder_timeline">Réorganiser les fils</string>
+    <string name="warning_main_timeline">Les fils principaux ne peuvent qu’être masqués !</string>
+    <string name="action_bbcode">BBCode</string>
+    <string name="set_sensitive_content">Toujours marquer le média comme sensible</string>
+    <string name="gnu_instance">Instance GNU</string>
+    <string name="cached_status">Statut en cache</string>
+    <string name="set_forward_tags">Transférer les tags dans les réponses</string>
+    <string name="set_long_press_media">Appui long pour stocker les médias</string>
+    <string name="set_blur_sensitive">Flouter les médias sensibles</string>
+    <string name="set_display_timeline_in_list">Afficher les fils publics en liste</string>
+    <string name="display_timeline">Afficher les fils publics</string>
+    <string name="set_display_bot_icon">Marquer les comptes bot dans les pouets</string>
+    <string name="add_tags">Gestion des étiquettes</string>
+    <string name="set_remember_position">Se rappeler de la position sur le fil principal</string>
+    <string name="history">Historique</string>
+    <string name="playlists">Listes de lecture</string>
+    <string name="display_name">Nom d\'affichage</string>
+    <string name="action_playlist_add">Vous n\'avez aucune liste de lecture. Cliquez sur l\'icône « + » pour en ajouter une</string>
+    <string name="error_display_name">Vous devez fournir un nom d\'affichage !</string>
+    <string name="error_channel_mandatory">Un canal est requis lorsque la liste de lecture est publique.</string>
+    <string name="action_playlist_create">Créer une liste de lecture</string>
+    <string name="action_playlist_empty_content">Cette liste de lecture est vide.</string>
+    <string name="redo">rétablir</string>
+    <string name="gallery">Galerie</string>
+    <string name="label_emoji">Émoji</string>
+    <string name="label_sticker">Autocollant</string>
+    <string name="label_eraser">Gomme</string>
+    <string name="label_text">Texte</string>
+    <string name="label_filter">Filtre</string>
+    <string name="label_brush">Pinceau</string>
+    <string name="confirm_exit_editing">Êtes-vous sûr de vouloir quitter sans enregistrer l\'image ?</string>
+    <string name="discard">Abandonner</string>
+    <string name="saving">Enregistrement …</string>
+    <string name="image_saved">Image enregistrée avec succès !</string>
+    <string name="save_image_failed">Échec de l\'enregistrement de l\'image</string>
+    <string name="opacity">Transparence</string>
+    <string name="set_photo_editor">Activer l\'éditeur d\'images</string>
+    <string name="add_poll_item">Ajouter un élément de sondage</string>
+    <string name="remove_poll_item">Supprimer le dernier élément de sondage</string>
+    <string name="mute_conversation">Mettre la conversation en sourdine</string>
+    <string name="unmute_conversation">Enlever la sourdine de la discussion</string>
+    <string name="toast_unmute_conversation">La conversation n\'est plus mise en sourdine !</string>
+    <string name="toast_mute_conversation">La conversation est mise en sourdine</string>
+    <string name="app_features">Ouvrez les fonctionnalités de l\'application</string>
+    <string name="timed_mute">Temporairement muet</string>
+    <string name="mention_account">Mentionner le compte</string>
+    <string name="refresh_cache">Rafraîchir le cache</string>
+    <string name="mention_status">Mentionner le statut</string>
+    <string name="action_news">Actualité</string>
+    <string name="category_general">Général</string>
+    <string name="category_regional">Régional</string>
+    <string name="category_art">Art</string>
+    <string name="category_journalism">Journalisme</string>
+    <string name="category_activism">Activisme</string>
+    <string name="category_games">Jeux</string>
+    <string name="category_tech">Technologie</string>
+    <string name="category_adult">Contenu pour adultes</string>
+    <string name="category_furry">Furry</string>
+    <string name="category_food">Nourriture</string>
+    <string name="instance_logo">Logo de l’instance</string>
+    <string name="toast_error_instance_reg">Une erreur s\'est produite lors de la vérification des instances disponibles !</string>
+    <string name="join_mastodon">Rejoindre Mastodon</string>
+    <string name="pickup_instance_category">Choisissez une instance dans l\'une des catégories puis cliquez sur un bouton de vérification.</string>
+    <string name="pickup_instance_peertube">Choisissez une instance en appuyant sur le bouton cocher.</string>
+    <string name="users">%1$s utilisateur·rice·s</string>
+    <string name="password_confirm">Confirmer le mot de passe</string>
+    <string name="agreement_check">J\'accepte les %1$s et les %2$s</string>
+    <string name="server_rules">règles du serveur</string>
+    <string name="tos">conditions de service</string>
+    <string name="sign_up">S’inscrire</string>
+    <string name="validation_needed">Cette instance fonctionne avec des invitations. Votre compte devra être approuvé manuellement par un·e administrateur·rice pour qu\'il devienne utilisable.</string>
+    <string name="all_field_filled">Veuillez remplir tous les champs !</string>
+    <string name="password_error">Les mots de passe ne sont pas identiques !</string>
+    <string name="email_error">L\'e-mail ne semble pas être valide !</string>
+    <string name="username_indicator">Votre nom d\'utilisateur·rice sera unique sur %1$s</string>
+    <string name="email_indicator">Vous recevrez un e-mail de confirmation</string>
+    <string name="password_indicator">Utilisez au moins 8 caractères</string>
+    <string name="password_too_short">Le mot de passe doit contenir au moins 8 caractères</string>
+    <string name="username_error">Le nom d\'utilisateur·rice doit contenir uniquement des lettres, des chiffres et des caractères de soulignement</string>
+    <string name="account_created">Compte créé !</string>
+    <string name="account_created_message">        Your account has been created!\n\n
+        Think to validate your email within the 48 next hours.\n\n
+        You can now connect your account by writing <b>%1$s</b> in the first field and click on <b>Connect</b>.\n\n
+        <b>Important</b>: If your instance required validation, you will receive an email once it is validated!
+    </string>
+    <string name="save_draft">Enregistrer le message dans dans les brouillons ?</string>
+    <string name="administration">Administration</string>
+    <string name="reports">Rapports</string>
+    <string name="no_reports">Aucun rapport à afficher !</string>
+    <string name="reconnect_account">Reconnecter le compte</string>
+    <string name="reconnect_account_message">L\'application n\'a pas accès aux fonctionnalités d\'administration. Vous devrez peut-être reconnecter le compte pour obtenir les autorisations nécessaires.</string>
+    <string name="unresolved">Non résolu</string>
+    <string name="remote">Distant</string>
+    <string name="active">Actif</string>
+    <string name="pending">En attente</string>
+    <string name="disabled">Désactivé</string>
+    <string name="silenced">Réduit au silence</string>
+    <string name="suspended">Suspendu</string>
+    <string name="permissions">Permissions</string>
+    <string name="email_status">Statut de l\'e-mail</string>
+    <string name="login_status">État de connexion</string>
+    <string name="joined">Inscrit le</string>
+    <string name="recent_ip">IP la plus récente</string>
+    <string name="warn">Avertir</string>
+    <string name="disable">Désactiver</string>
+    <string name="silence">Mettre en sourdine</string>
+    <string name="email_user">Notifier l\'utilisateur·rice par e-mail</string>
+    <string name="custom_warning">Avertissement personnalisé</string>
+    <string name="user">Utilsateur·rice</string>
+    <string name="moderator">Modérateur·rice</string>
+    <string name="administrator">Administrateur·rice</string>
+    <string name="confirmed">Confirmée</string>
+    <string name="unconfirmed">Non confirmée</string>
+    <string name="list_reported_statuses">Publications signalées</string>
+    <string name="account">Compte</string>
+    <string name="unsilence">Annuler la sourdine</string>
+    <string name="undisable">Annuler la désactivation</string>
+    <string name="suspend">Suspendre</string>
+    <string name="unsuspend">Annuler la suspension</string>
+    <string name="account_silenced">Le compte est mis en sourdine !</string>
+    <string name="account_unsilenced">Le compte n\'est plus mis en sourdine !</string>
+    <string name="account_suspended">Le compte est suspendu !</string>
+    <string name="account_unsuspended">Le compte n\'est plus suspendu !</string>
+    <string name="account_disabled">Le compte est désactivé !</string>
+    <string name="account_undisabled">Le compte n\'est plus désactivé !</string>
+    <string name="account_warned">Le compte a été averti !</string>
+    <string name="set_display_admin_menu">Afficher le menu administrateur</string>
+    <string name="set_display_admin_toot">Afficher la fonctionnalité d\'admin dans les pouets</string>
+    <string name="allow">Autoriser</string>
+    <string name="account_approved">Le compte est approuvé !</string>
+    <string name="account_rejected">Le compte est rejeté !</string>
+    <string name="assign_to_me">Me l’attribuer</string>
+    <string name="unassign">Annuler l\'assignation</string>
+    <string name="mark_resolved">Marquer comme résolu</string>
+    <string name="mark_unresolved">Marquer comme non résolu</string>
+    <string name="toast_empty_content">Contenu vide !</string>
+    <string name="set_display_fedilab_features_button">Afficher le bouton des fonctionnalités de Fedilab</string>
+    <string name="audio">L\'application a besoin d\'accéder à l\'enregistrement audio</string>
+    <string name="voice_message">Message vocal</string>
+    <string name="set_quick_reply">Activer la réponse rapide</string>
+    <string name="reply_might_be_useless">Le compte auquel vous répondez ne peut voir votre message !</string>
+    <string name="set_remember_position_indication">Si désactivé, l\'application chargera toujours les derniers statuts</string>
+    <string name="set_blur_sensitive_indication">Si désactivé, les médias sensibles seront cachés avec un bouton</string>
+    <string name="set_long_press_media_indication">Enregistre les médias en plein format lors d\'un appui long sur les prévisualisations</string>
+    <string name="set_display_timeline_in_list_indication">Ajoute un bouton dans le coin supérieur droit pour lister tous les tags/instances/listes</string>
+    <string name="set_enable_time_slot_indication">Durant cette période de temps, l’application enverra des notifications. Vous pouvez inverser (i. e. : silencer) ce laps de temps à l’aide du sélecteur.</string>
+    <string name="set_display_fedilab_features_button_indication">Affiche un bouton Fedilab. C\'est un raccourci pour accéder aux fonctionnalités de l\'application.</string>
+    <string name="set_quick_reply_indication">Permet de répondre directement dans les fils, en bas des statuts</string>
+    <string name="set_fit_preview_indication">Les aperçus ne seront pas rognés dans les fils</string>
+    <string name="set_display_video_preview_indication">Autoriser à lire les vidéos intégrées directement dans les fils</string>
+    <string name="set_display_content_after_fetch_more_indication">Permet d’inverser la façon de lire les publications affichées après avoir cliqué sur le bouton pour retrouver plus de pouets</string>
+    <string name="set_security_provider_indication">Cette option permet de prendre en charge les suites de chiffrement récentes. Elle est utile pour les anciens appareils Android ou si vous ne n\'arrivez pas vous connecter à votre instance.</string>
+    <string name="set_video_mode_indication">Exclusivement pour les vidéos Peertube. Basculez vers ce mode si vous ne pouvez pas les lire.</string>
+    <string name="featured_hashtags_indication">Ces tags permettent de filtrer les statuts dans les profils. Vous devrez utiliser le menu contextuel pour les voir.</string>
+    <string name="set_capitalize_indication">Insère automatiquement une nouvelle ligne après la mention afin de mettre la première lettre en majuscule</string>
+    <string name="settings_title_custom_sharing_indication">Permet aux créateurs de contenu de partager leurs statuts sur leurs flux RSS</string>
+    <string name="compose">Rédaction</string>
+    <string name="upload_image_maximum_retry_times">Nombre maximum de tentatives lors du téléversement de médias</string>
+    <string name="new_folder">Créer un nouveau dossier ici</string>
+    <string name="folder_name">Entrez le nom du dossier</string>
+    <string name="valid_folder_name">Veuillez saisir un nom de dossier valide</string>
+    <string name="folder_exists">Ce dossier existe déjà.\n Veuillez fournir un autre nom pour le dossier</string>
+    <string name="select">Sélectionner</string>
+    <string name="default_directory">Dossier par défaut</string>
+    <string name="folder">Dossier</string>
+    <string name="create_folder">Créer un dossier</string>
+    <string name="set_display_confirm">Afficher un message après qu’une action soit terminée (partage, favori, etc.) ?</string>
+    <string name="muted_instance_exported">Les instances mises en sourdine ont été exportées !</string>
+    <string name="add_instances">Ajouter une instance</string>
+    <string name="export_instances">Exporter des instances</string>
+    <string name="import_instances">Importer des instances</string>
+    <string name="set_crash_reports">Rapports de plantage</string>
+    <string name="set_enable_crash_report">Activer les rapports de plantage</string>
+    <string name="set_enable_crash_report_indication">Si activé, un rapport de plantage sera créé localement et vous pourrez le partager.</string>
+    <string name="crash_title">Fedilab s’est arrêté :(</string>
+    <string name="crash_message">Vous pouvez m’envoyer le rapport d’erreur par mail. Cela aidera à corriger le problème :)\n\nVous pouvez y ajouter des informations supplémentaires. Merci !</string>
+    <string name="set_wysiwyg">Utiliser l’éditeur visuel</string>
+    <string name="set_wysiwyg_indication">Lorsque cette option est activée, vous pouvez mettre en forme votre texte facilement via des outils.</string>
+    <string name="action_stats">Statistiques</string>
+    <string name="total_statuses">Total des publications</string>
+    <string name="number_boosts">Nombre de partages</string>
+    <string name="number_favourites">Nombre de favoris</string>
+    <string name="number_mentions">Nombre de mentions</string>
+    <string name="number_follows">Nombre d\'abonnements</string>
+    <string name="number_polls">Nombre de sondages</string>
+    <string name="number_replies">Nombre de réponses</string>
+    <string name="number_statuses">Nombre de publications</string>
+    <string name="statuses">Publications</string>
+    <string name="visibility">Visibilité</string>
+    <string name="number_with_media">Contenant des médias</string>
+    <string name="number_with_sensitive_media">Contenant des médias sensibles</string>
+    <string name="number_with_cw">Ayant avertissement de contenu</string>
+    <string name="first_toot_date">Date de première publication</string>
+    <string name="last_toot_date">Date de dernière publication</string>
+    <string name="first_notification_date">Date de la première notification</string>
+    <string name="last_notification_date">Date de la dernière notification</string>
+    <string name="frequency">Fréquence</string>
+    <string name="toot_per_day">%s publications par jour</string>
+    <string name="notification_per_day">%s notifications par jour</string>
+    <string name="date_range">Période</string>
+    <string name="action_groups">Groupes</string>
+    <string name="no_messages">Aucun groupe !</string>
+    <string name="set_disable_animated_emoji">Désactiver les émojis animés personnalisés</string>
+    <string name="owner_charts">Graphiques</string>
+    <string name="display_charts">Afficher les graphiques</string>
+    <string name="collecting_data_wait">L’application collecte vos données locales, veuillez patienter …</string>
+    <string name="set_backup">Sauvegarder</string>
+    <string name="set_auto_backup">Sauvegarde automatique des publications</string>
+    <string name="set_auto_backup_indication">Cette option est spécifique à chaque compte. Elle lancera un service qui va automatiquement stocker vos publications localement dans une base de données. Cela permet d’avoir des statistiques et des graphiques</string>
+    <string name="set_auto_backup_notifications">Sauvegarde automatique des notifications</string>
+    <string name="set_auto_backup_notifications_indication">Cette option est spécifique à chaque compte. Elle lancera un service qui enregistrera automatiquement vos notifications dans une base de données locale. Cela permet d’avoir des statistiques et des graphiques</string>
+    <string name="report_account">Signaler le compte</string>
+    <string name="send_invitation">Envoyer une invitation</string>
+    <string name="registration_closed">Votre instance ne permet pas de créer de nouveaux comptes !</string>
+    <plurals name="number_of_vote">
+        <item quantity="one">%d voix</item>
+        <item quantity="other">%d voix</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">%d votant</item>
+        <item quantity="other">%d votants</item>
+    </plurals>
+    <string-array name="poll_choice_type">
+        <item>Choix unique</item>
+        <item>Choix multiple</item>
+    </string-array>
+    <string-array name="poll_duration">
+        <item>5 minutes</item>
+        <item>30 minutes</item>
+        <item>1 heure</item>
+        <item>6 heures</item>
+        <item>1 jour</item>
+        <item>3 jours</item>
+        <item>7 jours</item>
+    </string-array>
+    <string-array name="settings_video_mode">
+        <item>Torrent</item>
+        <item>Flux direct</item>
+    </string-array>
+    <string name="join_instance">Pour rejoindre mon instance « %1$s », vous pouvez télécharger Fedilab :\n\nF-Droid : %2$s\nGoogle : %3$s\n\nEnsuite ouvrez le lien ci-dessous avec Fedilab et créez votre compte :)\n\n%4$s
+    </string>
+    <string name="poll_duplicated_entry">Votre sondage ne peut contenir des options dupliquées !</string>
+    <string name="all_accounts">Pour tous les comptes</string>
+    <string name="database_cache">Cache de la base de données</string>
+    <string name="cache_timeline_clear">Vider le cache de votre fil principal</string>
+    <string name="cache_owntoots_clear">Effacer vos publications mises en cache</string>
+    <string name="cache_bookmarks_clear">Effacer vos signets</string>
+    <string name="file_cache">Fichiers en cache</string>
+    <string name="total_notifications">Notifications totales</string>
+    <string name="hide_menu_items">Cacher les éléments du menu</string>
+    <string name="top_notification">Fedilab est à l’écoute des notifications en direct</string>
+    <string name="top_notification_message">Pour %1$s comptes avec %2$s événements</string>
+    <string name="set_allow_live_notifications">Notifications en direct pour %1$s</string>
+    <string name="set_allow_live_notifications_indication">Les notifications en direct seront activées uniquement pour ce compte.</string>
+    <string name="set_clear_cache_exit">Vider le cache en quittant</string>
+    <string name="set_clear_cache_exit_indication">Le cache (média, messages en caches, données du navigateur intégré) sera automatiquement vidé lorsque vous quittez l’application.</string>
+    <string name="unfollow_confirm">Voulez-vous vous désabonner de ce compte ?</string>
+    <string name="set_unfollow_validation">Afficher une boîte de dialogue de confirmation avant tout désabonnement</string>
+    <string name="set_invidious">Remplacer YouTube par Invidio.us</string>
+    <string name="set_invidious_indication">Indivious est une alternative visuelle pour YouTube</string>
+    <string name="set_invidious_host">Entrez votre nom de domaine personnalisé ou laissez vide pour utiliser invidio.us</string>
+    <string name="set_nitter">Remplacer Twitter par Nitter</string>
+    <string name="set_nitter_indication">Nitter est une alternative visuelle open source pour Twitter axée sur la vie privée.</string>
+    <string name="set_nitter_host">Entrez votre nom de domaine personnalisé ou laissez vide pour utiliser nitter.net</string>
+    <string name="set_bibliogram">Remplacer Instagram par Bibliogram</string>
+    <string name="set_bibliogram_indication">Bibliogram est une interface ouverte en alternative à Instagram axée sur la confidentialité.</string>
+    <string name="set_bibliogram_host">Entrez votre hôte personnalisé ou laissez vide pour utiliser bibliogram.art</string>
+    <string name="set_libreddit">Remplacer Reddit par Libreddit</string>
+    <string name="set_libreddit_indication">Libreddit est une alternative ouverte à l\'interface de Reddit axée sur la protection de la vie privée.</string>
+    <string name="set_libreddit_host">Entrez votre hôte personnalisé ou laissez vide pour utiliser libredd.it</string>
+    <string name="replace_medium">Remplacer les liens Medium</string>
+    <string name="replace_medium_description">Remplacer les liens medium.com par une interface open source axée sur la confidentialité.</string>
+    <string name="replace_medium_host">Par défaut: scribe.rip</string>
+    <string name="replace_wikipedia">Remplacer les liens Wikipédia</string>
+    <string name="replace_wikipedia_description">Remplacer les liens Wikipédia par une interface open source axée sur la confidentialité.</string>
+    <string name="replace_wikipedia_host">Par défaut: wikiless.org</string>
+    <string name="set_hide_status_bar">Masquer la barre de notification de Fedilab</string>
+    <string name="set_hide_status_bar_indication">Pour cacher le reste de la notification dans la barre de statut, cliquez sur le bouton en forme d\'œil, puis décochez: \"Afficher dans la barre de statut\"</string>
+    <string name="set_push_notifications">Utilise un système de notifications poussées pour obtenir des notifications en temps réel.</string>
+    <string name="no_live_notif">Aucune notification en direct</string>
+    <string name="live_notif">Notifications en direct</string>
+    <string name="no_live_indication">Les notifications seront récupérées toutes les 15 minutes.</string>
+    <string name="action_add_notes">Ajouter des notes</string>
+    <string name="note_for_account">Notes pour le compte</string>
+    <string name="set_resize_picture_indication">Permet de comprimer de grandes photos en photos plus petites avec une perte de qualité d\'image très petite ou négligeable.</string>
+    <string name="set_resize_video_indication">Permet de compresser les vidéos tout en préservant leur qualité.</string>
+    <string name="please_wait_compression">L\'application est en train de compresser le média, cela peut être assez long…</string>
+    <string name="change_app_icon_experimental">Changer l’icône de l’application</string>
+    <string name="click_to_change_the_app_icon">Appuyez pour changer l’icône de l’application</string>
+    <string name="post">Poster</string>
+    <string name="post_visibility_tilte">Visibilité du post</string>
+    <string name="add_photo_pixelfed">Appuyez ici pour ajouter des photos</string>
+    <string name="add_photo_indication_pixelfed">Formats acceptés: jpeg, png, gif \n\nTaille maximale du fichier : 15 Mo \n\nLes albums peuvent contenir jusqu’à 4 photos ou vidéos</string>
+    <string name="upload_media">Téléverser un média</string>
+    <string name="pixelfed_compose_placeholder">Ajouter une légende optionnelle</string>
+    <string name="long_api_error">L’application a reçu un très long message d’erreur de l’API %1$s</string>
+    <string name="message_preview">Aperçu du message</string>
+    <string name="report_mention">Ajouter les mentions dans chaque message</string>
+    <string name="fetch_conversation">Récupération de la discussion</string>
+    <string name="order_by">Trier par</string>
+    <string name="title_video_peertube">Titre de la vidéo</string>
+    <string name="join_peertube">Rejoignez Peertube</string>
+    <string name="agreement_check_peertube">J\'ai au moins 16 ans et je suis d\'accord avec les %1$s de cette instance</string>
+    <string name="link_color_title">Liens</string>
+    <string name="link_color">Changer la couleur des liens (URL, mentions, tags, etc.) dans les messages</string>
+    <string name="boost_header_color_title">En-tête des partages</string>
+    <string name="displayname_title">Changer la couleur du nom affiché en haut des messages</string>
+    <string name="username_title">Changer la couleur du nom de l\'utilisateur en haut des messages</string>
+    <string name="boost_header_color">Modifie la couleur de l’en-tête des partages</string>
+    <string name="background_status_title">Posts</string>
+    <string name="background_status">Couleur du fond des post des fils</string>
+    <string name="reset_color">Réinitialiser les couleurs</string>
+    <string name="clik_reset">Cliquez ici pour réinitialiser toutes vos couleurs personnalisées</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="icons_color_title">Icônes</string>
+    <string name="icons_color">Couleur des icônes du bas dans les fils</string>
+    <string name="pin_tag">Épingler ce tag</string>
+    <string name="logo_of_the_instance">Logo de l\'instance</string>
+    <string name="edit_profile">Éditer le profil</string>
+    <string name="make_an_action">Faire une action</string>
+    <string name="translation">Traduction</string>
+    <string name="image_preview">Aperçu de l\'image</string>
+    <string name="text_color_title">Couleur du texte</string>
+    <string name="text_color">Changer la couleur du texte dans les publications/messages</string>
+    <string name="apply_changes">Appliquer les modifications</string>
+    <string name="restart_message">Vous devez redémarrer l\'application pour appliquer les modifications</string>
+    <string name="restart">Redémarrer</string>
+    <string name="pref_custom_theme">Utiliser un thème personnalisé</string>
+    <string name="pref_custom_theme_summary">Permettre de modifier les couleurs du thème sélectionné ci-dessus</string>
+    <string name="theming">Thème</string>
+    <string name="store_before">Sauvegarder au préalable</string>
+    <string name="data_export_theme">Le thème a été exporté</string>
+    <string name="data_export_theme_success">Le thème a été exporté avec succès en CSV</string>
+    <string name="pref_colored_status_bar_summary">Appliquer la couleur primaire à la barre d\'état</string>
+    <string name="pref_colored_status_bar_title">Couleur de la barre d\'état</string>
+    <string name="restore_default_theme">Restaurer un thème par défaut</string>
+    <string name="import_theme">Importer un thème</string>
+    <string name="import_theme_title">Appuyez ici pour importer un thème depuis un export précédent</string>
+    <string name="export_theme">Exporter le thème</string>
+    <string name="export_theme_title">Appuyez ici pour exporter le thème actuel</string>
+    <string name="theme_file_error">Une erreur s\'est produite lors de la sélection du fichier de thème</string>
+    <string name="label_theme_picker">Sélecteur de thème</string>
+    <string name="pref_theme_summary">Sélectionner un thème préinstallé</string>
+    <string name="pref_theme_title">Thèmes</string>
+    <string name="pref_colored_navigation_bar_summary">Appliquer la couleur principale à la barre de navigation</string>
+    <string name="pref_colored_navigation_bar_title">Couleur de la barre de navigation</string>
+    <string name="pref_background_color_summary">Couleur sous-jacente du contenu de l’application.</string>
+    <string name="pref_background_color_title">Couleur du fond</string>
+    <string name="pref_accent_color_summary">Les Accents sélectionnent des parties de l\'interface utilisateur.</string>
+    <string name="pref_accent_color_title">Couleur d\'accentuation</string>
+    <string name="pref_primary_color_summary">Affiché le plus souvent dans l\'application.</string>
+    <string name="pref_primary_color_title">Couleur primaire</string>
+    <string name="export_bookmarks">Exporter les signets vers l\'instance</string>
+    <string name="import_bookmarks">Importer les signets de l\'instance</string>
+    <string name="user_count">Nombre d\'utilisateurs</string>
+    <string name="status_count">Nombre de statuts</string>
+    <string name="instance_count">L’instance comprend</string>
+    <string name="blocked">Bloqué</string>
+    <string name="poll_finish_in">Fin dans %s</string>
+    <string name="release_note_title">Quoi de neuf dans %s</string>
+    <string name="follow_account_update">Vous pouvez suivre mon compte pour les mises à jour</string>
+    <string name="no_instance_reccord">Cette instance n’est pas disponible sur https://instances.social</string>
+    <string name="display_full_link">Afficher le lien complet</string>
+    <string name="share_link">Partager le lien</string>
+    <string name="link_copy">L\'url a été copiée dans le presse-papiers</string>
+    <string name="open_other_app">Ouvrir avec une autre application</string>
+    <string name="check_redirect">Vérifier la redirection</string>
+    <string name="no_redirect">Cette URL ne redirige pas</string>
+    <string name="redirect_detected">%1$s\n\nredirige vers\n\n%2$s</string>
+    <string name="set_user_agent">Modifier l\'agent d\'utilisateur</string>
+    <string name="set_user_agent_hint">Définir un agent utilisateur personnalisé ou laisser vide</string>
+    <string name="set_user_agent_indication">Permet de personnaliser l\'agent de l\'utilisateur utilisé pour les appels de l\'api ou avec le navigateur intégré.</string>
+    <string name="set_utm_parameters">Supprimer les paramètres UTM</string>
+    <string name="set_utm_parameters_indication">L’application supprimera automatiquement les paramètres UTM des URL avant de visiter un lien.</string>
+    <string name="action_trends">Tendances</string>
+    <string name="trending_now">Tendance en ce moment</string>
+    <string name="talking_about">%d personnes en parlent</string>
+    <string name="twitter_accounts">Comptes Twitter (via Nitter)</string>
+    <string name="list_of_twitter_accounts">Noms d\'utilisateurs Twitter séparés par un espace</string>
+    <string name="identity_proofs">Preuves d’identité</string>
+    <string name="verified_user">Identité vérifiée</string>
+    <string name="verified_by">Vérifié par %1$s (%2$s)</string>
+    <string name="remove_notification">Supprimer la notification</string>
+    <string name="display_more_options">Afficher plus d\'options</string>
+    <string name="pixelfed_story">C\'est une histoire Pixelfed</string>
+    <string name="story_indication">Téléversez un média, il sera automatiquement ajouté à votre histoire Pixelfed.</string>
+    <string name="added_to_story">Média ajouté avec succès à votre histoire!</string>
+    <string name="action_disabled">Action désactivée</string>
+    <string name="action_unfollow">Se désabonner</string>
+    <string name="error_destination_path">Une erreur s’est produite, veuillez vérifier votre répertoire de téléchargement dans les paramètres.</string>
+    <string name="action_announcements">Annonces</string>
+    <string name="no_announcements">Aucune annonce !</string>
+    <string name="add_reaction">Ajouter une réaction</string>
+    <string name="set_custom_tabs_indication">Utiliser votre navigateur favori dans l’application. Désélectionner cette fonction pour ouvrir les liens en externe.</string>
+    <string name="set_video_cache">Cache vidéo en Mo, zéro signifie pas de cache.</string>
+    <string name="set_watermark">Filigranes</string>
+    <string name="set_watermark_indication">Ajouter automatiquement un filigrane au bas des images. Le texte peut être personnalisé pour chaque compte.</string>
+    <string name="no_distributors_found">Aucun distributeur trouvé !</string>
+    <string name="no_distributors_explanation">Vous avez besoin d’un distributeur pour recevoir des notifications poussées.\nVous trouverez plus de détails sur %1$s.\n\nVous pouvez également désactiver les notifications poussées dans les paramètres pour ignorer ce message.</string>
+    <string name="select_distributors">Sélectionnez un distributeur</string>
+</resources>

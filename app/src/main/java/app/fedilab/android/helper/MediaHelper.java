@@ -1,0 +1,403 @@
+package app.fedilab.android.helper;
+/* Copyright 2022 Thomas Schneider
+ *
+ * This file is a part of Fedilab
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with Fedilab; if not,
+ * see <http://www.gnu.org/licenses>. */
+
+import static android.content.Context.DOWNLOAD_SERVICE;
+import static app.fedilab.android.helper.Helper.notify_user;
+
+import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.AudioFormat;
+import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.text.format.DateFormat;
+import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.github.piasy.rxandroidaudio.AudioRecorder;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
+import app.fedilab.android.R;
+import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.databinding.DatetimePickerBinding;
+import app.fedilab.android.databinding.PopupRecordBinding;
+import es.dmoral.toasty.Toasty;
+
+public class MediaHelper {
+
+
+    /**
+     * Manage downloads with URLs, does not concern images, they are moved with Glide cache.
+     *
+     * @param context Context
+     * @param url     String download url
+     */
+    public static long manageDownloadsNoPopup(final Context context, final String url) {
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        final DownloadManager.Request request;
+        try {
+            request = new DownloadManager.Request(Uri.parse(url.trim()));
+        } catch (Exception e) {
+            Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            return -1;
+        }
+        try {
+            String mime = getMimeType(url);
+
+            final String fileName = URLUtil.guessFileName(url, null, null);
+            request.allowScanningByMediaScanner();
+            String myDir;
+            if (mime.toLowerCase().startsWith("video")) {
+                myDir = Environment.DIRECTORY_MOVIES + "/" + context.getString(R.string.app_name);
+            } else if (mime.toLowerCase().startsWith("audio")) {
+                myDir = Environment.DIRECTORY_MUSIC + "/" + context.getString(R.string.app_name);
+            } else {
+                myDir = Environment.DIRECTORY_DOWNLOADS;
+            }
+
+            if (!new File(myDir).exists()) {
+                new File(myDir).mkdir();
+            }
+            if (mime.toLowerCase().startsWith("video")) {
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, context.getString(R.string.app_name) + "/" + fileName);
+            } else if (mime.toLowerCase().startsWith("audio")) {
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, context.getString(R.string.app_name) + "/" + fileName);
+            } else {
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+            }
+
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+            return dm.enqueue(request);
+        } catch (Exception e) {
+            Toasty.error(context, context.getString(R.string.error_destination_path), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+
+    /**
+     * Download from Glid cache
+     *
+     * @param context Context
+     * @param url     String
+     */
+    public static void manageMove(Context context, String url, boolean share) {
+        Glide.with(context)
+                .asFile()
+                .load(url)
+                .into(new CustomTarget<File>() {
+                    @Override
+                    public void onResourceReady(@NotNull File file, Transition<? super File> transition) {
+                        final String fileName = URLUtil.guessFileName(url, null, null);
+
+                        final String targeted_folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/" + context.getString(R.string.app_name);
+                        if (!new File(targeted_folder).exists()) {
+                            new File(targeted_folder).mkdir();
+                        }
+                        FileInputStream fis = null;
+                        FileOutputStream fos = null;
+                        FileChannel in = null;
+                        FileChannel out = null;
+                        try {
+                            File backupFile = new File(targeted_folder + "/" + fileName);
+                            //noinspection ResultOfMethodCallIgnored
+                            backupFile.createNewFile();
+                            fis = new FileInputStream(file);
+                            fos = new FileOutputStream(backupFile);
+                            in = fis.getChannel();
+                            out = fos.getChannel();
+                            long size = in.size();
+                            in.transferTo(0, size, out);
+                            String mime = getMimeType(url);
+                            final Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            Uri uri = Uri.fromFile(backupFile);
+                            intent.setDataAndType(uri, mime);
+                            if (!share) {
+                                notify_user(context, BaseMainActivity.accountWeakReference.get(), intent, BitmapFactory.decodeResource(context.getResources(),
+                                        R.mipmap.ic_launcher), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
+                                Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
+                            } else {
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                shareIntent.setType(mime);
+                                try {
+                                    context.startActivity(shareIntent);
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                if (fis != null)
+                                    fis.close();
+                            } catch (Throwable ignore) {
+                            }
+                            try {
+                                if (fos != null)
+                                    fos.close();
+                            } catch (Throwable ignore) {
+                            }
+                            try {
+                                if (in != null && in.isOpen())
+                                    in.close();
+                            } catch (Throwable ignore) {
+                            }
+
+                            try {
+                                if (out != null && out.isOpen())
+                                    out.close();
+                            } catch (Throwable ignore) {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+    }
+
+    public static String formatSeconds(int seconds) {
+        return getTwoDecimalsValue(seconds / 3600) + ":"
+                + getTwoDecimalsValue(seconds / 60) + ":"
+                + getTwoDecimalsValue(seconds % 60);
+    }
+
+    private static String getTwoDecimalsValue(int value) {
+        if (value >= 0 && value <= 9) {
+            return "0" + value;
+        } else {
+            return value + "";
+        }
+    }
+
+
+    public static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
+
+    public static Uri dispatchTakePictureIntent(Activity activity) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri photoFileUri = null;
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile(activity);
+            } catch (IOException ignored) {
+                Toasty.error(activity, activity.getString(R.string.toot_select_image_error), Toast.LENGTH_LONG).show();
+            }
+            // Continue only if the File was successfully created
+
+            if (photoFile != null) {
+                photoFileUri = FileProvider.getUriForFile(activity,
+                        BuildConfig.APPLICATION_ID + ".fileProvider",
+                        photoFile);
+            }
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFileUri);
+            activity.startActivityForResult(takePictureIntent, ComposeActivity.TAKE_PHOTO);
+        }
+        return photoFileUri;
+    }
+
+    private static File createImageFile(Context context) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        String mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    /**
+     * Record media
+     *
+     * @param activity Activity
+     * @param listener ActionRecord
+     */
+    public static void recordAudio(Activity activity, ActionRecord listener) {
+        String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.wav";
+        AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
+        File mAudioFile = new File(filePath);
+        PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
+        AlertDialog.Builder audioPopup = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        audioPopup.setView(binding.getRoot());
+        AlertDialog alert = audioPopup.create();
+        alert.show();
+        Timer timer = new Timer();
+        AtomicInteger count = new AtomicInteger();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                activity.runOnUiThread(() -> {
+                    int value = count.getAndIncrement();
+                    String minutes = "00";
+                    String seconds;
+                    if (value > 60) {
+                        minutes = String.valueOf(value / 60);
+                        seconds = String.valueOf(value % 60);
+                    } else {
+                        seconds = String.valueOf(value);
+                    }
+                    if (minutes.length() == 1) {
+                        minutes = "0" + minutes;
+                    }
+                    if (seconds.length() == 1) {
+                        seconds = "0" + seconds;
+                    }
+                    binding.counter.setText(String.format(Locale.getDefault(), "%s:%s", minutes, seconds));
+                });
+            }
+        }, 1000, 1000);
+        binding.record.setOnClickListener(v -> {
+            mAudioRecorder.stopRecord();
+            timer.cancel();
+            alert.dismiss();
+            listener.onRecorded(filePath);
+        });
+        mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
+                AudioFormat.ENCODING_PCM_16BIT, MediaRecorder.AudioEncoder.AAC,
+                48000,
+                128000,
+                mAudioFile);
+        mAudioRecorder.startRecord();
+    }
+
+    /**
+     * Schedule a message
+     *
+     * @param activity - Activity
+     * @param listener - OnSchedule
+     */
+    public static void scheduleMessage(Activity activity, OnSchedule listener) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        DatetimePickerBinding binding = DatetimePickerBinding.inflate(activity.getLayoutInflater());
+
+        dialogBuilder.setView(binding.getRoot());
+        final AlertDialog alertDialog = dialogBuilder.create();
+
+        if (DateFormat.is24HourFormat(activity)) {
+            binding.timePicker.setIs24HourView(true);
+        }
+        //Buttons management
+        binding.dateTimeCancel.setOnClickListener(v -> alertDialog.dismiss());
+        binding.dateTimeNext.setOnClickListener(v -> {
+            binding.datePicker.setVisibility(View.GONE);
+            binding.timePicker.setVisibility(View.VISIBLE);
+            binding.dateTimePrevious.setVisibility(View.VISIBLE);
+            binding.dateTimeNext.setVisibility(View.GONE);
+            binding.dateTimeSet.setVisibility(View.VISIBLE);
+        });
+        binding.dateTimePrevious.setOnClickListener(v -> {
+            binding.datePicker.setVisibility(View.VISIBLE);
+            binding.timePicker.setVisibility(View.GONE);
+            binding.dateTimePrevious.setVisibility(View.GONE);
+            binding.dateTimeNext.setVisibility(View.VISIBLE);
+            binding.dateTimeSet.setVisibility(View.GONE);
+        });
+        binding.dateTimeSet.setOnClickListener(v -> {
+            int hour, minute;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                hour = binding.timePicker.getHour();
+                minute = binding.timePicker.getMinute();
+            } else {
+                hour = binding.timePicker.getCurrentHour();
+                minute = binding.timePicker.getCurrentMinute();
+            }
+            Calendar calendar = new GregorianCalendar(binding.datePicker.getYear(),
+                    binding.datePicker.getMonth(),
+                    binding.datePicker.getDayOfMonth(),
+                    hour,
+                    minute);
+            final long[] time = {calendar.getTimeInMillis()};
+
+            if ((time[0] - new Date().getTime()) < 60000) {
+                Toasty.warning(activity, activity.getString(R.string.toot_scheduled_date), Toast.LENGTH_LONG).show();
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
+                String date = sdf.format(calendar.getTime());
+                listener.scheduledAt(date);
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+
+    //Listener for recording media
+    public interface ActionRecord {
+        void onRecorded(String file);
+    }
+
+    public interface OnSchedule {
+        void scheduledAt(String scheduledDate);
+    }
+
+
+}

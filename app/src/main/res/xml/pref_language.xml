@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListPreference
+        app:entries="@array/SET_TRANSLATE_VALUES"
+        app:entryValues="@array/SET_TRANSLATE_ENTRIES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DEFAULT_LOCALE_NEW"
+        app:summary="@string/set_push_notifications"
+        app:title="@string/set_change_locale"
+        app:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="notification_type"
+        app:title="@string/type_of_notifications"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            app:defaultValue="PUSH_NOTIFICATIONS"
+            app:entries="@array/set_notification_type_value"
+            app:entryValues="@array/SET_NOTIFICATION_TYPE_VALUE"
+            app:key="@string/SET_NOTIFICATION_TYPE"
+            app:summary="@string/set_push_notifications"
+            app:title="@string/type_of_notifications_title"
+            app:dialogTitle="@string/type_of_notifications"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="notifications_enabled"
+        app:summary="@string/disable_notifications"
+        app:title="@string/settings_category_notif_categories">
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_FOLLOW"
+            app:title="@string/set_notif_follow" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_MENTION"
+            app:title="@string/set_notif_follow_mention" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_FAVOURITE"
+            app:title="@string/set_notif_follow_add" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_SHARE"
+            app:title="@string/set_notif_follow_share" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_POLL"
+            app:title="@string/set_notif_follow_poll" />
+        <SwitchPreference
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_STATUS"
+            app:title="@string/set_notif_status" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="notification_sounds"
+        app:summary="@string/select_sound"
+        app:title="@string/notification_sounds"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:icon="@drawable/ic_baseline_chat_bubble_24"
+            app:key="button_mention"
+            app:title="@string/channel_notif_mention" />
+        <Preference
+            app:icon="@drawable/ic_person"
+            app:key="button_follow"
+            app:title="@string/channel_notif_follow" />
+        <Preference
+            app:icon="@drawable/ic_baseline_repeat_24"
+            app:key="button_reblog"
+            app:title="@string/channel_notif_boost" />
+        <Preference
+            app:icon="@drawable/ic_baseline_star_24"
+            app:key="button_favourite"
+            app:title="@string/channel_notif_fav" />
+        <Preference
+            app:icon="@drawable/ic_baseline_poll_24"
+            app:key="button_poll"
+            app:title="@string/channel_notif_poll" />
+        <Preference
+            app:icon="@drawable/ic_baseline_message_24"
+            app:key="button_status"
+            app:title="@string/channel_notif_status" />
+        <Preference
+            app:icon="@drawable/ic_baseline_perm_media_24"
+            app:key="button_media"
+            app:title="@string/channel_notif_media" />
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_SILENT"
+            app:title="@string/set_notif_silent" />
+
+        <ListPreference
+            app:defaultValue="0"
+            app:dependency="@string/SET_NOTIF_SILENT"
+            app:dialogTitle="@string/set_led_colour"
+            app:entries="@array/led_colours"
+            app:entryValues="@array/SET_LED_COLOUR_VALUES"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_LED_COLOUR_VAL"
+            app:title="@string/set_led_colour"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="notification_time_slot"
+        app:summary="@string/set_enable_time_slot_indication"
+        app:title="@string/set_enable_time_slot">
+        <SwitchPreference
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_ENABLE_TIME_SLOT"
+            app:title="@string/set_enable_time_slot" />
+        <app.fedilab.android.helper.settings.TimePreference
+            app:defaultValue="22:00"
+            app:dependency="@string/SET_ENABLE_TIME_SLOT"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_TIME_FROM"
+            app:title="@string/settings_time_from"
+            app:useSimpleSummaryProvider="true" />
+        <app.fedilab.android.helper.settings.TimePreference
+            app:defaultValue="7:00"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_TIME_TO"
+            app:dependency="@string/SET_ENABLE_TIME_SLOT"
+            app:title="@string/settings_time_to"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="1"
+            app:dependency="@string/SET_ENABLE_TIME_SLOT"
+            app:dialogTitle="@string/notifications_are"
+            app:entries="@array/action_notification"
+            app:entryValues="@array/SET_ACTION_NOTIFICATION_VALUE"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIFICATION_ACTION"
+            app:title="@string/notifications_are"
+            app:useSimpleSummaryProvider="true" />
+    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+</PreferenceScreen>

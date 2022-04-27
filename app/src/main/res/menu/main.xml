@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_about_instance"
+        android:title="@string/action_about_instance"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_cache"
+        android:title="@string/action_cache"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_proxy"
+        android:title="@string/proxy_set"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout_account"
+        android:title="@string/action_logout_account"
+        app:showAsAction="never" />
+</menu>

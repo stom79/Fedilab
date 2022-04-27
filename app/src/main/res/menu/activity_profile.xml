@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_direct_message"
+        android:icon="@drawable/ic_baseline_mail_outline_24"
+        android:title="@string/direct_message"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_to_list"
+        android:icon="@drawable/ic_baseline_view_list_24"
+        android:title="@string/action_lists_add_to"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_open_browser"
+        android:icon="@drawable/ic_baseline_open_with_24"
+        android:title="@string/action_open_in_web"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_mute"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/more_action_1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_block"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/more_action_2"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_mention"
+        android:icon="@drawable/ic_baseline_chat_bubble_outline_24"
+        android:title="@string/more_action_7"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter"
+        android:title="@string/filter_timeline_with_a_tag"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_hide_boost"
+        android:title="@string/hide_boost"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_endorse"
+        android:title="@string/endorse"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_follow_instance"
+        android:icon="@drawable/ic_baseline_public_24"
+        android:title="@string/follow_instance"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_report"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/more_action_3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_block_instance"
+        android:icon="@drawable/ic_baseline_block_24"
+        android:title="@string/block_domain"
+        app:showAsAction="never" />
+</menu>

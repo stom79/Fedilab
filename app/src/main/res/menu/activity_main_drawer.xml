@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_drafts"
+            android:icon="@drawable/ic_baseline_drafts_24"
+            android:title="@string/drafts" />
+        <item
+            android:id="@+id/nav_reorder"
+            android:icon="@drawable/ic_baseline_reorder_24"
+            android:title="@string/reorder_timelines" />
+
+        <item
+            android:id="@+id/nav_interactions"
+            android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+            android:title="@string/interactions" />
+
+        <item
+            android:id="@+id/nav_filter"
+            android:icon="@drawable/ic_baseline_filter_list_24"
+            android:title="@string/filters" />
+
+        <item
+            android:id="@+id/nav_list"
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:title="@string/action_lists" />
+        <item
+            android:id="@+id/nav_scheduled"
+            android:icon="@drawable/ic_baseline_schedule_24"
+            android:title="@string/scheduled" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/settings" />
+    </group>
+</menu>

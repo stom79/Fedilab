@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="launch_custom_theme"
+        app:summary="@string/pref_theme_base_summary"
+        app:title="@string/pref_theme_base" />
+
+    <androidx.preference.SwitchPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="use_custom_theme"
+        app:summary="@string/pref_custom_theme_new_summary"
+        app:title="@string/pref_custom_theme" />
+
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="contributors_themes"
+        app:summary="@string/pref_contributor_summary"
+        app:title="@string/pref_contributor" />
+
+    <androidx.preference.PreferenceCategory
+        android:key="cyanea_preference_category"
+        android:title="@string/customize_timelines"
+        app:iconSpaceReserved="false">
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_link_color"
+            app:summary="@string/link_color"
+            app:title="@string/link_color_title" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_boost_header_color"
+            app:summary="@string/boost_header_color"
+            app:title="@string/boost_header_color_title" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_text_header_1_line"
+            app:summary="@string/displayname_title"
+            app:title="@string/display_name" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_text_header_2_line"
+            app:summary="@string/username_title"
+            app:title="@string/username" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_statuses_color"
+            app:summary="@string/background_status"
+            app:title="@string/background_status_title" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_icons_color"
+            app:summary="@string/icons_color"
+            app:title="@string/icons_color_title" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            app:defaultValue="-1"
+            app:iconSpaceReserved="false"
+            app:key="theme_text_color"
+            app:summary="@string/text_color"
+            app:title="@string/text_color_title" />
+
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="reset_pref"
+            app:summary="@string/clik_reset"
+            app:title="@string/reset_color" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="pref_import"
+            app:summary="@string/import_theme_title"
+            app:title="@string/import_theme" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="pref_export"
+            app:summary="@string/export_theme_title"
+            app:title="@string/export_theme" />
+
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

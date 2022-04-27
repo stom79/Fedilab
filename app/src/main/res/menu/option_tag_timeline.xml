@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/action_displayname"
+        android:title="@string/change_tag_column"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_show_media_only"
+        android:checkable="true"
+        android:title="@string/show_media_only"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+    <item
+        android:id="@+id/action_show_nsfw"
+        android:checkable="true"
+        android:title="@string/show_media_nsfw"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_any"
+        android:title="@string/any_tags"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_all"
+        android:title="@string/all_tags"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_none"
+        android:title="@string/none_tags"
+        app:showAsAction="always" />
+    <!-- <item
+        android:id="@+id/action_delete"
+        app:showAsAction="always"
+        android:title="@string/delete" /> -->
+</menu>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_EXPAND_CW"
+        app:title="@string/expand_cw" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_EXPAND_MEDIA"
+        app:title="@string/expand_image" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="true"
+        app:key="@string/SET_NOTIF_VALIDATION"
+        app:title="@string/set_share_validation" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_NOTIF_VALIDATION_FAV"
+        app:title="@string/set_share_validation_fav" />
+    <SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:showSeekBarValue="true"
+        android:summary="@string/set_truncate_toot"
+        android:defaultValue="0"
+        android:max="20"
+        app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
+        app:title="@string/set_toots_page" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_LONG_PRESS_MEDIA"
+        app:title="@string/set_long_press_media" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_FULL_PREVIEW"
+        android:summary="@string/set_fit_preview_indication"
+        app:title="@string/set_fit_preview" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_DISABLE_GIF"
+        app:title="@string/set_disable_gif" />
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
+        app:title="@string/set_disable_animated_emoji" />
+
+    <androidx.preference.SwitchPreference
+        app:iconSpaceReserved="false"
+        android:defaultValue="false"
+        app:key="@string/SET_DISPLAY_CARD"
+        app:title="@string/set_display_card" />
+
+    <androidx.preference.SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:showSeekBarValue="true"
+        android:defaultValue="40"
+        android:max="80"
+        app:key="@string/SET_STATUSES_PER_CALL"
+        app:title="@string/set_toots_page" />
+
+    <androidx.preference.SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:showSeekBarValue="true"
+        android:defaultValue="40"
+        android:max="80"
+        app:key="@string/SET_ACCOUNTS_PER_CALL"
+        app:title="@string/set_accounts_page" />
+
+    <androidx.preference.SeekBarPreference
+        app:iconSpaceReserved="false"
+        app:showSeekBarValue="true"
+        android:defaultValue="30"
+        android:max="30"
+        app:key="@string/SET_NOTIFICATIONS_PER_CALL"
+        app:title="@string/set_notifications_page" />
+</androidx.preference.PreferenceScreen>

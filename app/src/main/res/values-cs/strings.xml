@@ -1,0 +1,1156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Otevřít nabídku</string>
+    <string name="navigation_drawer_close">Zavřít nabídku</string>
+    <string name="action_about">O aplikaci</string>
+    <string name="action_about_instance">O instanci</string>
+    <string name="action_privacy">Soukromí</string>
+    <string name="action_cache">Cache</string>
+    <string name="action_logout">Odhlásit</string>
+    <string name="login">Přihlásit</string>
+    <!-- common -->
+    <string name="close">Zavřít</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
+    <string name="cancel">Zrušit</string>
+    <string name="download">Stáhnout</string>
+    <string name="download_file">Stáhnout %1$s</string>
+    <string name="save_over">Média uložena</string>
+    <string name="download_from" formatted="false">Soubor: %1$s</string>
+    <string name="password">Heslo</string>
+    <string name="email">Email</string>
+    <string name="accounts">Účty</string>
+    <string name="toots">Tooty</string>
+    <string name="tags">Štítky</string>
+    <string name="save">Uložit</string>
+    <string name="restore">Obnovit</string>
+    <string name="no_result">Žádné výsledky!</string>
+    <string name="instance">Instance</string>
+    <string name="instance_example">Instance: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Nyní používáte účet %1$s</string>
+    <string name="add_account">Přidat účet</string>
+    <string name="clipboard">Obsah tootu byl zkopírován do schránky</string>
+    <string name="clipboard_url">Adresa tootu byla zkopírována do schránky</string>
+    <string name="change">Změnit</string>
+    <string name="choose_picture">Vybrat obrázek…</string>
+    <string name="clear">Vyčistit</string>
+    <string name="camera">Fotoaparát</string>
+    <string name="delete_all">Smazat všechno</string>
+    <string name="translate_toot">Přeložit tento toot.</string>
+    <string name="schedule">Naplánovat</string>
+    <string name="text_size">Velikost textu a ikony</string>
+    <string name="text_size_change">Změnit aktualní velikost textu:</string>
+    <string name="icon_size_change">Změnit velikost ikony:</string>
+    <string name="next">Další</string>
+    <string name="previous">Předchozí</string>
+    <string name="open_with">Otevřít čím</string>
+    <string name="validate">Ověřit</string>
+    <string name="media">Média</string>
+    <string name="share_with">Sdílet s</string>
+    <string name="shared_via">Sdílet prostřednictvím Fedilab</string>
+    <string name="replies">Odpovědi</string>
+    <string name="username">Uživatelské jméno</string>
+    <string name="drafts">Koncepty</string>
+    <string name="favourite">Oblíbené</string>
+    <string name="follow">Noví sledující</string>
+    <string name="mention">Zmínky</string>
+    <string name="reblog">Boosty</string>
+    <string name="show_boosts">Zobrazit boosty</string>
+    <string name="show_replies">Zobrazit odpovědi</string>
+    <string name="action_open_in_web">Otevřít v prohlížeči</string>
+    <string name="translate">Přeložit</string>
+    <string name="please_wait">Prosím počkejte několik sekund před provedením této akce.</string>
+    <!--- Menu -->
+    <string name="home_menu">Domů</string>
+    <string name="local_menu">Místní časová osa</string>
+    <string name="global_menu">Federovaná časová osa</string>
+    <string name="neutral_menu_title">Nastavení</string>
+    <string name="favorites_menu">Oblíbené</string>
+    <string name="communication_menu_title">Komunikace</string>
+    <string name="muted_menu">Ztlumení uživatelé</string>
+    <string name="blocked_menu">Blokovaní uživatelé</string>
+    <string name="notifications">Oznámení</string>
+    <string name="follow_request">Žádost o sledování</string>
+    <string name="settings">Nastavení</string>
+    <string name="delete_account_title">Smazat účet</string>
+    <string name="delete_account_message" formatted="false">Odstranit účet %1$s z aplikace?</string>
+    <string name="send_email">Poslat e-mail</string>
+    <string name="click_to_change">Klikněte na cestu pro změnu</string>
+    <string name="failed">Neúspěšné!</string>
+    <string name="scheduled_toots">Naplánované tooty</string>
+    <string name="disclaimer_full">Níže uvedené informace mohou popisovat uživatelský profil neúplně.</string>
+    <string name="insert_emoji">Vložit smajlík</string>
+    <string name="no_emoji">Aplikace prozatím nenačetla uživatelské smajlíky.</string>
+    <string name="push_notif">Push notifications</string>
+    <string name="logout_confirmation">Are you sure you want to logout?</string>
+    <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+    <!-- Status -->
+    <string name="no_status">Žádné tooty k zobrazení</string>
+    <string name="no_stories">No stories to display</string>
+    <string name="stories">Stories</string>
+    <string name="reblog_by">Boostnuto uživatelem %1$s</string>
+    <string name="favourite_add">Přidat tento toot k oblíbeným?</string>
+    <string name="favourite_remove">Odstranit tento toot z oblíbených?</string>
+    <string name="reblog_add">Boostnout tento toot?</string>
+    <string name="reblog_remove">Zrušit boost?</string>
+    <string name="pin_add">Připnout tento toot?</string>
+    <string name="pin_remove">Odepnout tento toot?</string>
+    <string name="more_action_1">Ztlumit</string>
+    <string name="more_action_2">Blokovat</string>
+    <string name="more_action_3">Nahlásit</string>
+    <string name="more_action_4">Odstranit</string>
+    <string name="more_action_5">Kopírovat</string>
+    <string name="more_action_6">Sdílet</string>
+    <string name="more_action_7">Zmínit</string>
+    <string name="more_action_8">Časově omezené ztlumení</string>
+    <string name="more_action_9">Smazat a přepsat</string>
+    <string-array name="more_action_confirm">
+        <item>Ztlumit tento účet?</item>
+        <item>Blokovat tento účet?</item>
+        <item>Nahlásit tento toot?</item>
+        <item>Blokovat tuto doménu?</item>
+        <item>Zrušit ztlumení tohoto účtu?</item>
+        <item>Unblock this account?</item>
+    </string-array>
+    <string-array name="action_notification">
+        <item>Oznámit</item>
+        <item>Tichý režim</item>
+    </string-array>
+    <string-array name="more_action_owner_confirm">
+        <item>Odstranit tento toot?</item>
+        <item>Smazat a přepsat tento toot?</item>
+    </string-array>
+    <string name="bookmarks">Záložky</string>
+    <string name="bookmark_add">Přidat do záložek</string>
+    <string name="bookmark_remove">Odstranit záložku</string>
+    <string name="bookmarks_empty">Záložky jsou prázdné</string>
+    <string name="status_bookmarked">Toot byl přidán do záložek!</string>
+    <string name="status_unbookmarked">Toot byl odstraněn ze záložek!</string>
+    <!-- Date -->
+    <string name="date_seconds">%d s</string>
+    <string name="date_minutes">%d m</string>
+    <string name="date_hours">%d h</string>
+    <string name="date_day">%d d</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d second</item>
+        <item quantity="few">%d seconds</item>
+        <item quantity="many">%d seconds</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minute</item>
+        <item quantity="few">%d minutes</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d hour</item>
+        <item quantity="few">%d hours</item>
+        <item quantity="many">%d hours</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d day</item>
+        <item quantity="few">%d days</item>
+        <item quantity="many">%d days</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <!-- TOOT -->
+    <string name="toot_cw_placeholder">Varování</string>
+    <string name="toot_placeholder">Co se vám honí hlavou?</string>
+    <string name="toot_it">TOOTNOUT!</string>
+    <string name="queet_it">QUEETNOUT!</string>
+    <string name="cw">cw</string>
+    <string name="toot_title">Napsat toot</string>
+    <string name="toot_title_reply">Odpovědět na toot</string>
+    <string name="queet_title">Napsat queet</string>
+    <string name="queet_title_reply">Odpovědět na queet</string>
+    <string name="toot_select_image">Vybrat média</string>
+    <string name="toot_select_image_error">Nastala chyba při výběru média!</string>
+    <string name="toot_delete_media">Smazat médium?</string>
+    <string name="toot_error_no_content">Váš toot je prázdný!</string>
+    <string name="toot_visibility_tilte">Viditelnost tootu</string>
+    <string name="toots_visibility_tilte">Defaultní viditelnost tootů: </string>
+    <string name="toot_sent">Toot byl odeslán!</string>
+    <string name="toot_reply_content_title">Odpovídáte na tento toot:</string>
+    <string name="toot_sensitive">Citlivý obsah?</string>
+    <string-array name="toot_visibility">
+        <item>Posílat na veřejné časové osy</item>
+        <item>Neposílat na veřejnou časovou osu</item>
+        <item>Posílat pouze sledujícím</item>
+        <item>Posílat pouze zmíněným uživatelům</item>
+    </string-array>
+    <string name="no_draft">Žádné koncepty!</string>
+    <string name="choose_toot">Vyberte toot</string>
+    <string name="choose_accounts">Vyberte účet</string>
+    <string name="select_accounts">Vyberte účty</string>
+    <string name="remove_draft">Odstranit koncept?</string>
+    <string name="show_reply">Klepněte na tlačítko pro zobrazení původního tootu</string>
+    <string name="upload_form_description">Popsat pro zrakově postižené</string>
+    <!-- Instance -->
+    <string name="instance_no_description">Popis není dostupný!</string>
+    <!-- About -->
+    <string name="about_vesrion">Release %1$s</string>
+    <string name="about_developer">Vývojář:</string>
+    <string name="about_license">Licence: </string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Zdrojový kód: </string>
+    <string name="about_yandex">Překládat tooty:</string>
+    <string name="about_thekinrar">Prohledat instance:</string>
+    <string name="thanks_text_logo">Návrh ikon:</string>
+    <!-- Conversation -->
+    <string name="conversation">Konverzace</string>
+    <!-- Accounts -->
+    <string name="no_accounts">Žádný účet k zobrazení</string>
+    <string name="no_follow_request">Není požadavek ke sledování</string>
+    <string name="status_cnt">Tooty \n %1$s</string>
+    <string name="following_cnt">Sleduji \n %1$s</string>
+    <string name="followers_cnt">Sledující \n %1$s</string>
+    <string name="pins_cnt">Připnuto \n %d</string>
+    <string name="authorize">Povolit</string>
+    <string name="reject">Odmítnout</string>
+    <!-- Scheduled toots -->
+    <string name="no_scheduled_toots">Žádné naplánované tooty k zobrazení!</string>
+    <string name="no_scheduled_toots_indications">Napište toot a zvolte <b>Plánovat</b> z horního menu.</string>
+    <string name="remove_scheduled">Odstranit naplánovaný toot?</string>
+    <string name="media_count">Média: %d</string>
+    <string name="toot_scheduled">Toot byl naplánován!</string>
+    <string name="toot_scheduled_date">Plánované datum musí být vyšší než aktuální hodina!</string>
+    <string name="warning_battery">Spořič baterie je aktivován! Nemusí fungovat podle očekávání.</string>
+    <!-- timed mute -->
+    <string name="timed_mute_date_error">Časový interval pro ztlumení musí být vyšší než jedna minuta.</string>
+    <string name="timed_mute_date">%1$s byl ztlumen až do %2$s. \n Ztišení účtu můžete zrušit z jeho/její profilové stránky.</string>
+    <string name="timed_mute_profile">%1$s je ztlumen do %2$s. \n Klikněte zde pro zrušení ztišení.</string>
+    <!-- Notifications -->
+    <string name="no_notifications">Žádné upozornění k zobrazení</string>
+    <string name="notif_mention">vás zmínil/a</string>
+    <string name="notif_status">wrote a new message</string>
+    <string name="notif_reblog">boostnul/a váš toot</string>
+    <string name="notif_favourite">si oblíbil/a váš toot</string>
+    <string name="notif_follow">vás sleduje</string>
+    <string name="notif_follow_request">asked to follow you</string>
+    <plurals name="other_notifications">
+        <item quantity="one">and další upozornění</item>
+        <item quantity="few">and %d další upozornění</item>
+        <item quantity="many">and %d dalších upozornění</item>
+        <item quantity="other">and %d dalších oznámení</item>
+    </plurals>
+    <plurals name="likes">
+        <item quantity="one">%d se líbí</item>
+        <item quantity="few">%d se líbí</item>
+        <item quantity="many">%d se líbí</item>
+        <item quantity="other">%d se líbí</item>
+    </plurals>
+    <string name="delete_notification_ask">Smazat oznámení?</string>
+    <string name="delete_notification_ask_all">Smazat všechna oznámení?</string>
+    <string name="delete_notification">Oznámení bylo smazáno!</string>
+    <string name="delete_notification_all">Všechna oznámení byla smazána!</string>
+    <!-- HEADER -->
+    <string name="following">Sleduji</string>
+    <string name="followers">Sledující</string>
+    <string name="pinned_toots">Připnuto</string>
+    <!-- TOAST -->
+    <string name="client_error">Nelze načíst klientské id!</string>
+    <string name="connect_error">Nelze se připojit k doméně instance!</string>
+    <string name="no_internet">Nejste připojeni k internetu!</string>
+    <string name="toast_block">Tento účet je zablokován!</string>
+    <string name="toast_unblock">Účet není nadále blokován!</string>
+    <string name="toast_mute">Účet byl ztlumen!</string>
+    <string name="toast_unmute">Účet není nadále ztlumen!</string>
+    <string name="toast_follow">Účet je sledován!</string>
+    <string name="toast_unfollow">Účet není nadále sledován!</string>
+    <string name="toast_reblog">Toot byl boostnut!</string>
+    <string name="toast_unreblog">Toot již není boostnut!</string>
+    <string name="toast_favourite">Toot byl přidán k oblíbeným!</string>
+    <string name="toast_unfavourite">Toot byl odstraněn z oblíbených!</string>
+    <string name="toast_report">Toot byl nahlášen!</string>
+    <string name="toast_unstatus">Toot byl smazán!</string>
+    <string name="toast_pin">Toot byl připnut!</string>
+    <string name="toast_unpin">Toot byl odepnut!</string>
+    <string name="toast_error">Oops! Došlo k chybě!</string>
+    <string name="toast_code_error">Došlo k chybě! Instance nevrátila autorizační kód!</string>
+    <string name="toast_error_instance">Tato doména není platná!</string>
+    <string name="toast_error_loading_account">Došlo k chybě při přepínání mezi účty!</string>
+    <string name="toast_error_search">Při vyhledávání došlo k chybě!</string>
+    <string name="toast_update_credential_ok">Profil byl uložen!</string>
+    <string name="nothing_to_do">Nelze vykonat akci</string>
+    <string name="toast_saved">Média byla uložena!</string>
+    <string name="toast_error_translate">Při překladu došlo k chybě!</string>
+    <string name="toast_error_translations_disabled">Překlady jsou vypnuty v nastavení</string>
+    <string name="toast_toot_saved">Koncept uložen!</string>
+    <string name="toast_error_char_limit">Jste si jisti, že tato instance dovoluje tento počet znaků? Obvyklá hodnota je 500 znaků.</string>
+    <string name="toast_visibility_changed">Viditelnost tootů byla změněna pro účet %1$s</string>
+    <!-- Settings -->
+    <string name="set_toots_page">Počet tootů pro jedno nahrání</string>
+    <string name="set_attachment_always">Vždy</string>
+    <string name="set_attachment_wifi">WIFI</string>
+    <string name="set_attachment_ask">Zeptat se</string>
+    <string name="set_attachment_action">Nahrát média</string>
+    <string name="load_attachment">Nahrát obrázky</string>
+    <string name="load_attachment_spoiler">Ukázat víc…</string>
+    <string name="load_attachment_spoiler_less">Ukázat méně…</string>
+    <string name="load_sensitive_attachment">Citlivý obsah</string>
+    <string name="set_disable_gif">Zakázat GIF avatary</string>
+    <string name="set_folder_title">Cesta: </string>
+    <string name="set_auto_store_toot">Ukládat koncepty automaticky</string>
+    <string name="set_auto_add_media_url">Přidat URL médií v tootu</string>
+    <string name="set_notif_follow">Oznámení v případě sledování</string>
+    <string name="set_notif_follow_share">Oznámení v případě boostnutí vašeho tootu</string>
+    <string name="set_notif_follow_add">Oznámení v případě oblíbení vašeho tootu</string>
+    <string name="set_notif_follow_mention">Oznámení v případě, že vás někdo zmíní</string>
+    <string name="set_notif_follow_poll">Oznámení po skončení ankety</string>
+    <string name="set_notif_status">Notify for new posts</string>
+    <string name="set_share_validation">Zobrazit potvrzení před boostnutí</string>
+    <string name="set_share_validation_fav">Zobrazit potvrzení před oblíbením</string>
+    <string name="set_wifi_only">Oznámení pouze na WIFI</string>
+    <string name="set_notify">Oznámení?</string>
+    <string name="set_notif_silent">Tichá oznámení</string>
+    <string name="set_nsfw_timeout">NSFW prodleva (vteřiny, 0 znamená vypnuto)</string>
+    <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
+    <string name="settings_title_profile">Upravit profil</string>
+    <string name="settings_title_custom_sharing">Vlastní sdílení</string>
+    <string name="settings_custom_sharing_url">Vaše vlastní sdílecí URL&#8230;</string>
+    <string name="set_profile_description">Bio…</string>
+    <string name="set_lock_account">Zamknout účet</string>
+    <string name="set_save_changes">Uložit změny</string>
+    <string name="set_header_picture_overlay">Vyberte obrázek do hlavičky</string>
+    <string name="set_fit_preview">Přizpůsobit náhled obrázků</string>
+    <string name="set_automatically_split_toot">Automaticky rozdělit tooty nad 500 znaků do odpovědí</string>
+    <string name="note_no_space">Bylo dosaženo 160ti znakového limitu!</string>
+    <string name="username_no_space">Bylo dosaženo 30ti znakového limitu!</string>
+    <string name="settings_time_from">Mezi</string>
+    <string name="settings_time_to">a</string>
+    <string name="settings_time_greater">Čas musí být vyšší než %1$s</string>
+    <string name="settings_time_lower">Čas musí být nižší než %1$s</string>
+    <string name="settings_hour_init">Počáteční čas</string>
+    <string name="settings_hour_end">Koncový čas</string>
+    <string name="embedded_browser">Použít vestavěný prohlížeč</string>
+    <string name="custom_tabs">Uživatelské záložky</string>
+    <string name="use_javascript">Povolit JavaScript</string>
+    <string name="expand_cw">Automaticky ukázat cw</string>
+    <string name="use_cookies">Povolit soubory cookie třetích stran</string>
+    <string name="your_api_key">Váš API klíč, prázdné pro Yandex</string>
+    <string-array name="settings_theme">
+        <item>Tmavé</item>
+        <item>Světlé</item>
+        <item>Černá</item>
+    </string-array>
+    <string name="set_led_colour">Barva LED:</string>
+    <string-array name="led_colours">
+        <item>Modrá</item>
+        <item>Tyrkysová</item>
+        <item>Fialová</item>
+        <item>Zelená</item>
+        <item>Červená</item>
+        <item>Žlutá</item>
+        <item>Bílá</item>
+    </string-array>
+    <string name="action_follow">Následovat</string>
+    <string name="action_unblock">Odblokovat</string>
+    <string name="action_mute">Ztlumit</string>
+    <string name="action_unmute">Zrušit ztlumení</string>
+    <string name="request_sent">Žádost odeslána</string>
+    <string name="followed_by">Sleduje vás</string>
+    <string name="action_search">Hledat</string>
+    <string name="set_capitalize">První písmeno velké v odpovědích</string>
+    <string name="set_resize_picture">Změnit velikost obrázků</string>
+    <string name="set_resize_video">Resize videos</string>
+    <!-- Quick settings for notifications -->
+    <string name="settings_popup_title">Push oznámení</string>
+    <string name="settings_popup_message">        Prosím potvrďte push oznámení, která chcete dostávat.
+        Toto nastavení můžete změnit později v Nastavení (záložka Oznámení).
+    </string>
+    <!-- CACHE -->
+    <string name="cache_title">Vyprázdnit cache</string>
+    <string name="cache_message">V cache je %1$s dat.\n\nChcete je odstranit?</string>
+    <string name="cache_units">Mb</string>
+    <string name="toast_cache_clear">Cache byla vyprázdněna! %1$s bylo uvolněno</string>
+    <!-- ACTIVITY CUSTOM SHARING -->
+    <string name="title_header_custom_sharing">Název</string>
+    <string name="title_hint_custom_sharing">Název&#8230;</string>
+    <string name="description_header_custom_sharing">Popis</string>
+    <string name="keywords_header_custom_sharing">Klíčová slova</string>
+    <string name="keywords_hint_custom_sharing">Klíčová slova&#8230;</string>
+    <!-- ACTIVITY CACHE -->
+    <string name="action_sync">Synchronizovat</string>
+    <string name="action_filter">Filtrovat</string>
+    <string name="owner_cached_toots">Vaše tooty</string>
+    <string name="owner_cached_notifications">Your notifications</string>
+    <string name="v_public">Veřejné</string>
+    <string name="v_unlisted">Skryté</string>
+    <string name="v_private">Soukromé</string>
+    <string name="v_direct">Přímé</string>
+    <string name="v_keywords">Některá klíčová slova…</string>
+    <string name="show_media">Zobrazit média</string>
+    <string name="show_pinned">Zobrazit připnuté</string>
+    <string name="filter_no_result">Nebyly nalezeny odpovídající výsledky!</string>
+    <string name="data_backup_toots">Zálohovat tooty pro uživatele %1$s</string>
+    <string name="data_backup_success">%1$s nových tootů bylo importováno</string>
+    <string name="data_backup_notification_success">%1$s new notifications have been imported</string>
+    <string-array name="filter_order">
+        <item>Dates descending</item>
+        <item>Dates ascending</item>
+    </string-array>
+    <string-array name="filter_select">
+        <item>Ne</item>
+        <item>Pouze</item>
+        <item>Oba</item>
+    </string-array>
+    <string name="owner_cached_toots_empty">V databázi nebyly nalezeny žádné tooty. Prosím použijte synchronizační tlačítko v menu pro obnovení.</string>
+    <!-- PRIVACY -->
+    <string name="privacy_data_title">Zaznamenaná data</string>
+    <string name="privacy_data">V zařízení jsou uloženy pouze základní informace o účtech.
+Tyto informace jsou přísně tajné a mohou být použity pouze aplikací.
+Smazaní aplikace okamžitě odstraní tyto údaje.\n
+Uživatelské jméno a heslo nejsou nikdy ukládány. Jsou použity pouze během bezpečného přihlášení (SSL) k instanci.    </string>
+    <string name="privacy_authorizations_title">Oprávnění:</string>
+    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Použito k detekci WiFi připojení.\n
+        - <b>INTERNET</b>: Použito ke komunikaci s instancí.\n
+        - <b>WRITE_EXTERNAL_STORAGE</b>: Použito k ukládání médií nebo k přesunu aplikace na SD kartu.\n
+        - <b>READ_EXTERNAL_STORAGE</b>: Použito pro přidání medií k tootům.\n
+        - <b>BOOT_COMPLETED</b>: Použito k aktivaci oznamovací služby.\n
+        - <b>WAKE_LOCK</b>: Použito během oznamovací služby.
+    </string>
+    <string name="privacy_API_authorizations_title">API oprávnění:</string>
+    <string name="privacy_API_authorizations">        - <b>Čtení</b>: Čtení dat.\n
+        - <b>Zápis</b>: Zveřejňování příspěvků a nahrávání médií k příspěvkům.\n
+        - <b>Sledování</b>: Sledování, zrušení sledování, blokování, odblokování.\n\n
+        <b>&#9888; Tyto akce jsou vykonány pouze na vyžádání uživatele.</b>
+    </string>
+    <string name="privacy_API_title">Sledování a Knihovny</string>
+    <string name="privacy_API">        Aplikace <b>nepoužívá sledovací nástroje</b> (měření návštěvnosti, hlášení chyb, atd.) a neobsahuje reklamy.\n\n
+        Použití knihoven je minimální: \n
+        - <b>Glide</b>: Správa médií\n
+        - <b>Android-Job</b>: Správa služeb\n
+        - <b>PhotoView</b>: Správa obrázků\n
+    </string>
+    <string name="privacy_API_yandex_title">Překlad tootů</string>
+    <string name="privacy_API_yandex_authorizations">        Aplikace umožňuje překlad tootů do jazyka zařízení s použitím služby Yandex API.\n
+        Yandex má svá vlastní pravidla pro soukromí uživatelských dat zde: https://yandex.ru/legal/confidential/?lang=en
+    </string>
+    <string name="thanks_text_dev">Poděkování:    </string>
+    <string name="filter_regex">Filtrování regulárními výrazy</string>
+    <string name="search">Hledat</string>
+    <string name="delete">Odstranit</string>
+    <string name="fetch_more_toots">Načíst více tootů…</string>
+    <!-- About lists -->
+    <string name="action_lists">Seznamy</string>
+    <string name="action_lists_confirm_delete">Jsi si jist/a, že chceš trvale odstranit tento seznam?</string>
+    <string name="action_lists_empty_content">Tento seznam je zatím prázdný. Jakmile členové seznamu zvěřejní nové tooty, objeví se zde.</string>
+    <string name="action_lists_add_to">Přidat do seznamu</string>
+    <string name="action_lists_create">Přidat seznam</string>
+    <string name="action_lists_delete">Odstranit seznam</string>
+    <string name="action_lists_update">Upravit seznam</string>
+    <string name="action_lists_title_placeholder">Nový název seznamu</string>
+    <string name="action_lists_add_user">The account was added to the list!</string>
+    <string name="action_lists_empty">You don\'t have any lists yet!</string>
+    <!-- Migration -->
+    <string name="account_moved_to">%1$s se přesunul do %2$s</string>
+    <string name="issue_login_title">Přihlášení nefunguje?</string>
+    <string name="issue_login_message">        <b>Zde jsou kontroly, které by vám mohly pomoct:</b>\n\n
+        - Zkontrolujte, že ve jmménu instance není překlep\n\n
+        - Ověřte, že vaše instance běží\n\n
+        - V případě, že používáte dvoufaktorovou autentizaci (2FA), použijte prosím odkaz dole (jakmile je vyplněno jméno instance)\n\n
+        - Můžete také použít tento link bez použití 2FA\n\n
+        - Pokud problém přetrvává, vytvořte tiket na  https://framagit.org/tom79/fedilab/issues
+    </string>
+    <string name="media_ready">Média byla nahrána. Klikněte pro zobrazení.</string>
+    <string name="data_export_start">Tato akce může trvat dlouho. Po dokončení obdržíte oznámení.</string>
+    <string name="data_export_running">Zpracovávám, prosím čekejte…</string>
+    <string name="data_export">Exportovat tooty</string>
+    <string name="data_export_toots">Exportovat tooty pro uživatele %1$s</string>
+    <string name="data_export_success">%1$s tootů z %2$s bylo exportováno.</string>
+    <string name="data_export_error">Něco se pokazilo během exportu dat pro uživatele %1$s</string>
+    <string name="data_export_error_simple">Něco se pokazilo během exportovaní dat!</string>
+    <string name="data_import_error_simple">Něco se pokazilo během nahrávaní dat!</string>
+    <!-- Proxy -->
+    <string name="proxy_set">Proxy</string>
+    <string name="proxy_enable">Povolit proxy?</string>
+    <string name="poxy_host">Host</string>
+    <string name="poxy_port">Port</string>
+    <string name="poxy_login">Přihlašovací jméno</string>
+    <string name="poxy_password">Heslo</string>
+    <string name="set_share_details">Přidat podrobnosti tootu při sdílení</string>
+    <string name="support_the_app_on_liberapay">Podpořit aplikaci na Liberapay</string>
+    <string name="alert_regex">Chyba v regulárním výrazu!</string>
+    <string name="toast_instance_unavailable">Časová osa nenalezena na této instanci!</string>
+    <string name="delete_instance">Odstranit instanci?</string>
+    <string name="which_language">Přeložit v</string>
+    <string name="follow_instance">Sledovat instanci</string>
+    <string name="toast_instance_already_added">Tuto instanci již sledujete!</string>
+    <string name="toast_instance_followed">Instance je sledována!</string>
+    <string name="action_partnership">Partnerství</string>
+    <string name="neutral_menu_information">Informace</string>
+    <string name="hide_boost">Skrýt boosty od %s</string>
+    <string name="endorse">Zmínit v profilu</string>
+    <string name="show_boost">Zobrazit boosty od %s</string>
+    <string name="unendorse">Neuvádět v profilu</string>
+    <string name="toast_endorse">Účet je nyní zmíněn v profilu</string>
+    <string name="toast_unendorse">Účet není nadále zmíněn v profilu</string>
+    <string name="toast_show_boost">Boosty jsou nyní zobrazeny!</string>
+    <string name="toast_hide_boost">Boosty jsou nyní skryty!</string>
+    <string name="direct_message">Přímá zpráva</string>
+    <string name="filters">Filtry</string>
+    <string name="action_filters_empty_content">Žádné filtry k zobrazení. Můžete vytvořit nový filtr klepnutím na tlačítko \"+\".</string>
+    <string name="filter_keyword">Klíčové slovo nebo fráze</string>
+    <string name="context_home">Domovská časová osa</string>
+    <string name="context_public">Veřejná časová osa</string>
+    <string name="context_notification">Oznámení</string>
+    <string name="context_conversation">Konverzace</string>
+    <string name="filter_keyword_explanations">Velikost písmen ani varování o obsahu nebudou brána v potaz</string>
+    <string name="context_drop">Zahodit místo skrytí</string>
+    <string name="context_drop_explanations">Filtrované tooty zmizí nezvratně i v případě, že je filtr později odstraněn</string>
+    <string name="context_whole_word_explanations">V případě, že klíčové slovo nebo fráze je pouze alfanumerické, filtr se uplatní pouze pokud odpovídá celému slovu</string>
+    <string name="context_whole_word">Celé slovo</string>
+    <string name="filter_context">Kontext filtru</string>
+    <string name="filter_context_explanations">Jeden nebo několik kontextů pro aplikaci filtru</string>
+    <string name="filter_expire">Vyprší po</string>
+    <string name="action_filter_delete">Vymazat filtr?</string>
+    <string name="action_update_filter">Aktualizovat filtr</string>
+    <string name="action_filter_create">Vytvořit filtr</string>
+    <string name="how_to_follow">Návrhy sledování</string>
+    <string name="action_who_to_follow_empty_content">Momentálně není k dispozici žádný účet!</string>
+    <string name="follow_account">Následovat</string>
+    <string name="select_all">Vybrat vše</string>
+    <string name="unselect_all">Zrušit výběr</string>
+    <string name="follow_trunk">%s je sledován!</string>
+    <string name="create_list_trunk">Vytvářím seznam %s</string>
+    <string name="add_account_list_trunk">Přidávám účty do seznamu</string>
+    <string name="account_added_list_trunk">Účty byly přidány do seznamu</string>
+    <string name="adding_account_list_trunk">Přidávám účty do seznamu</string>
+    <string name="action_list_add">Žádný seznam dosud nebyl vytvořen. Můžete vytvořit nový seznam klepnutím na tlačítko \"+\".</string>
+    <string name="about_trunk">Návrhy sledování</string>
+    <string name="about_trunk_action">Trunk API</string>
+    <string name="toast_impossible_to_follow">Účet/účty nemohou být sledovány</string>
+    <string name="retrieve_remote_account">Načítám vzdálený účet</string>
+    <string name="expand_image">Automaticky zobrazovat skrytá média</string>
+    <string name="channel_notif_follow">Nový sledující</string>
+    <string name="channel_notif_boost">Nový boost</string>
+    <string name="channel_notif_fav">Nové oblíbení</string>
+    <string name="channel_notif_mention">Nová zmínka</string>
+    <string name="channel_notif_poll">Anketa skončila</string>
+    <string name="channel_notif_toot">Nový toot</string>
+    <string name="channel_notif_backup">Záloha tootů</string>
+    <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_media">Stahování médií</string>
+    <string name="set_notif_sound">Výchozí zvuk oznámení</string>
+    <string name="select_sound">Vybrat tón</string>
+    <string name="set_enable_time_slot">Zapnout rozvrh oznámení</string>
+    <string name="how_to_videos">Videonávody</string>
+    <string name="retrieve_remote_conversation">Načítám vzdálenou konverzaci!</string>
+    <string name="no_blocked_domain">Žádné blokované domény!</string>
+    <string name="unblock_domain_confirm">Odblokovat doménu</string>
+    <string name="unblock_domain_confirm_message">Určitě chcete odblokovat %s?</string>
+    <string name="block_domain_confirm_message">Určitě chcete zablokovat %s?\n\nJiž z této domény neuvidíte ve všech veřejných časových osách ani v oznámeních žádný obsah. Vaši sledující z této domény budou odstraněni.</string>
+    <string name="blocked_domains">Blokované domény</string>
+    <string name="block_domain">Zablokovat doménu</string>
+    <string name="toast_block_domain">Doména je blokována</string>
+    <string name="toast_unblock_domain">Doména není nadále blokována!</string>
+    <string name="retrieve_remote_status">Načítám vzdálený toot</string>
+    <string name="comment">Komentovat</string>
+    <string name="peertube_instance">Peertube instance</string>
+    <string name="no_comments">Zanechte první komentáře pro toto video. Klepněte na tlačítko vpravo nahoře!</string>
+    <string name="number_view_video">%s zhlédnutí</string>
+    <string name="duration_video">Doba trvání: %s</string>
+    <string name="add_remote_instance">Přidat instanci</string>
+    <string name="comment_no_allowed_peertube">Pro toto vide nejsou povoleny komentáře!</string>
+    <string name="pickup_resolution">Vyberte rozlišení</string>
+    <string name="peertube_favorites">Oblíbené na PeerTube</string>
+    <string name="bookmark_add_peertube">Video bylo přidáno do záložek!</string>
+    <string name="bookmark_remove_peertube">Video bylo odstraněno ze záložek!</string>
+    <string name="bookmark_peertube_empty">V oblíbených nemíte žádná videa na PeerTube!</string>
+    <string name="channel">Kanál</string>
+    <string name="videos">Videa</string>
+    <string name="channels">Kanály</string>
+    <string name="set_display_emoji">Použít Emoji One</string>
+    <string name="information">Informace</string>
+    <string name="set_display_card">Zobrazit náhled ve všech tootech</string>
+    <string name="thanks_text_ux">Nový UX/UI návrhář</string>
+    <string name="set_display_video_preview">Zobrazit náhled videa</string>
+    <string name="account_id_clipbloard">Identifikátor účtu byl zkopírován do schránky!</string>
+    <string name="set_change_locale">Změna jazyka</string>
+    <string name="default_language">Základní jazyk</string>
+    <string name="truncate_long_toots">Ořezat dlouhé tooty</string>
+    <string name="set_truncate_toot">Ořezat tooty delší než \'x\' řádků. 0 znamená vypnuto.</string>
+    <string name="display_toot_truncate">Zobrazit více</string>
+    <string name="hide_toot_truncate">Zobrazit méně</string>
+    <string name="manage_tags">Spravovat štítky</string>
+    <string name="tags_already_stored">Štítek již existuje!</string>
+    <string name="tags_stored">Štítek byl uložen!</string>
+    <string name="tags_renamed">Štítek byl změněn!</string>
+    <string name="tags_deleted">Štítek byl smazán!</string>
+    <string name="schedule_boost">Naplánovat boost</string>
+    <string name="boost_scheduled">Boost je naplánováo!</string>
+    <string name="no_scheduled_boosts">Žádný naplánovaý boost k zobrazení!</string>
+    <string name="no_scheduled_boosts_indications"><![CDATA[Otevřete menu tootu a vyberte <b>Naplánovat boost</b>.]]></string>
+    <string name="art_menu">Art časová osa</string>
+    <string name="open_menu">Otevřete nabídku</string>
+    <string name="go_back">Zpět</string>
+    <string name="app_logo">Logo aplikace</string>
+    <string name="profile_picture">Profilový obrázek</string>
+    <string name="profile_banner">Profilová hlavička</string>
+    <string name="contact_instance_admin">Kontaktovat administrátora instance</string>
+    <string name="add_new">Přidat nový</string>
+    <string name="mastohost_logo">MastoHost logo</string>
+    <string name="emoji_picker">Výběr emotikonů</string>
+    <string name="refresh">Načíst znovu</string>
+    <string name="expand_conversation">Ukázat celou konverzaci</string>
+    <string name="remove_account">Odebrat účet</string>
+    <string name="delete_domain">Smazat blokovanou doménu</string>
+    <string name="custom_emoji_picker">Uživatelský výběr emoji</string>
+    <string name="play_video">Přehrát video</string>
+    <string name="new_toot">Nový toot</string>
+    <string name="card_view_image">Obrázek karty</string>
+    <string name="hide_media">Skrýt média</string>
+    <string name="favicon">Favicon</string>
+    <string name="media_description">Médium pro přidání popisu</string>
+    <string-array name="filter_expire">
+        <item>Nikdy</item>
+        <item>30 minut</item>
+        <item>1 hodina</item>
+        <item>6 hodin</item>
+        <item>12 hodin</item>
+        <item>1 den</item>
+        <item>1 týden</item>
+    </string-array>
+    <string name="showcase_instance">        V tomto políčku vyplňte jméno vaší instance.\nPokud jste například vytvořili váš účet na https://mastodon.social\nvyplňte pouze <b>mastodon.social</b>  (bez https://)\n
+        Začněte psát první znaky pro návrh.\n\n
+        ⚠ Tlačítko přihlášení bude fungovat pouze v případě, že je jméno instance platné a instance běží!
+    </string>
+    <string name="more_information">Více informací</string>
+    <!-- languages not translated -->
+    <string name="languages">Jazyky</string>
+    <string name="show_media_only">Pouze média</string>
+    <string name="show_media_nsfw">Zobrazit NSFW</string>
+    <string name="crowdin_translations">Překlady Crowdin</string>
+    <string name="crowdin_manager">Crowdin manažer</string>
+    <string name="translation_app">Překlad aplikace</string>
+    <string name="about_crowdin">O Crowdin</string>
+    <string name="bot">Bot</string>
+    <string name="pixelfed_instance">Pixelfed instance</string>
+    <string name="mastodon_instance">Instance Mastodon</string>
+    <string name="any_tags">Kterýkoliv</string>
+    <string name="all_tags">Všechny</string>
+    <string name="none_tags">Žádný</string>
+    <string name="some_words_any">Kterékoliv slovo (odělené mezerami)</string>
+    <string name="some_words_all">Všechna slova (oddělená mezerami)</string>
+    <string name="some_tags">Add some words to filter (space-separated)</string>
+    <string name="change_tag_column">Změnit název sloupce</string>
+    <string name="misskey_instance">Misskey instance</string>
+    <string name="toast_no_apps">Na vašem zařízení není nainstalována žádná aplikace podporující tento odkaz.</string>
+    <string name="subscriptions">Předplatné</string>
+    <string name="overview">Přehled</string>
+    <string name="trending">Populární</string>
+    <string name="recently_added">Naposledy přidané</string>
+    <string name="local">Místní</string>
+    <string name="upload_video">Nahrát</string>
+    <string name="reply">Odpověděť</string>
+    <string name="delete_comment">Odstranit komentář</string>
+    <string name="delete_comment_confirm">Jste si jisti, že chcete smazat tento komentář?</string>
+    <string name="fullscreen">Video přes celou obrazovku</string>
+    <string name="set_video_mode">Režim pro videa</string>
+    <string name="file_to_upload">Vybrat soubor pro nahrání</string>
+    <string name="my_videos">Moje videa</string>
+    <string name="title">Název</string>
+    <string name="license">Licence</string>
+    <string name="category">Kategorie</string>
+    <string name="language">Jazyk</string>
+    <string name="peertube_nsfw">Toto video je určeno pro dospělé nebo obsahuje explicitní obsah</string>
+    <string name="peertube_enable_comments">Povolit komentáře k videu</string>
+    <string name="update_video">Aktualizace videa</string>
+    <string name="description">Popis</string>
+    <string name="toast_peertube_video_updated">Video bylo aktualizováno!</string>
+    <string name="toast_cancelled">Nahrávání zrušeno!</string>
+    <string name="upload_video_success">Video bylo nahráno!</string>
+    <string name="uploading">Nahrávám, prosím čekejte…</string>
+    <string name="video_uploaded_action">Klepněte zde pro editaci video dat.</string>
+    <string name="delete_video">Odstranit video</string>
+    <string name="delete_video_confirmation">Jste si jistý/á, že chcete smazat toto video?</string>
+    <string name="display_nsfw_videos">Zobrazit NSFW (18+) videa</string>
+    <string name="no_video_to_display">Žádné videa k zobrazení!</string>
+    <string name="leave_a_comment">Zanechat komentář</string>
+    <string name="share">Sdílet</string>
+    <string name="choose_schedule">Zvolte plánovací režim</string>
+    <string name="device_schedule">Ze zařízení</string>
+    <string name="server_schedule">Ze serveru</string>
+    <string name="toots_server">Tooty (Server)</string>
+    <string name="toots_client">Tooty (zařízení)</string>
+    <string name="modify">Upravit</string>
+    <string name="set_display_content_after_fetch_more">Zobrazit nové tooty nad tlačítkem „Načíst více“</string>
+    <string name="settings_category_label_timelines">Časové osi</string>
+    <string name="settings_category_label_interface">Rozhraní</string>
+    <string name="contact">Kontakty</string>
+    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> okomentoval/a vaše video <b>%2$s</b>]]></string>
+    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> sleduje váš kanál <b>%2$s</b>]]></string>
+    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> sleduje váš účet]]></string>
+    <string name="peertube_video_published"><![CDATA[Vaše video <b>%1$s</b> bylo publikováno]]></string>
+    <string name="peertube_video_import_success"><![CDATA[Import vašeho videa <b>%1$s</b> uspěl]]></string>
+    <string name="peertube_video_import_error"><![CDATA[Import vašeho videa <b>%1$s</b> selhal]]></string>
+    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> publikoval/a nové video: <b>%2$s</b>]]></string>
+    <string name="peertube_video_blacklist"><![CDATA[Vaše video <b>%1$s</b> bylo přidáno na černou listinu]]></string>
+    <string name="peertube_video_unblacklist"><![CDATA[Vaše video <b>%1$s</b> bylo odstraněno z černé listiny]]></string>
+    <string name="export_data">Exportovat data</string>
+    <string name="import_data">Importovat data</string>
+    <string name="toot_select_import">Vyberte soubor, který chcete importovat</string>
+    <string name="toot_select_file_error">Při výběru zálohového souboru nastala chyba!</string>
+    <string name="add_public_comment">Přidat veřejný komentář</string>
+    <string name="send_comment">Odeslat komentář</string>
+    <string name="toast_toot_saved_error">Nelze se připojit k internetu. Vaše zpráva byla uložena do konceptů.</string>
+    <string name="action_plain_text">Prostý text</string>
+    <string name="action_html">HTML</string>
+    <string name="action_markdown">Markdown</string>
+    <string name="action_logout_account">Odhlásit účet</string>
+    <string name="all">Vše</string>
+    <string name="about_opencollective">Podpoř aplikaci</string>
+    <string name="more_about_opencollective">Open Collective umožňuje skupinám rychle založit kolektiv, získávat finanční prostředky a spravovat je transparentně.</string>
+    <string name="copy_link">Kopírovat odkaz</string>
+    <string name="connect_instance">Připojit k</string>
+    <string name="set_normal">Normální</string>
+    <string name="set_compact">Kompaktní</string>
+    <string name="set_console">Konzola</string>
+    <string name="set_mode">Nastavit režim zobrazení</string>
+    <string name="set_security_provider">Spravit poskytovatele bezpečnosti</string>
+    <string name="update_tracking_domains">Aktualizovat sledování domén</string>
+    <string name="tracking_db_updated">Základ sledovaných dat byl aktualizován!</string>
+    <string name="calls_blocked">volání http je blokováné aplikací</string>
+    <string name="list_of_blocked_domains">Seznam blokovaných domén</string>
+    <string name="submit">Odeslat</string>
+    <string name="data_base_exported">Databáze byla exportována!</string>
+    <string name="featured_hashtags">Zvýrazněné hashtagy</string>
+    <string name="filter_timeline_with_a_tag">Filtrovat časovou osu s hashtagy</string>
+    <string name="no_tags">Žádné hashtagy</string>
+    <string name="set_hide_delete_notification_on_tab">Skrýt tlačítko pro vymazání oznámení ze záložky oznámení</string>
+    <string name="set_retrieve_metadata_share_from_extras">Připojit při sdílení URL obrázek</string>
+    <!-- end languages -->
+    <string name="poll">Anketa</string>
+    <string name="polls">Ankety</string>
+    <string name="create_poll">Vytvořit anketu</string>
+    <string name="poll_choice_1">Volba 1</string>
+    <string name="poll_choice_2">Volba 2</string>
+    <string name="poll_choice_s">Volba %d</string>
+    <string name="poll_invalid_choices">Pro anketu potřebujete alespoň dvě volby!</string>
+    <string name="done">Hotovo</string>
+    <string name="poll_finish_at">skončit po %s</string>
+    <string name="refresh_poll">Obnovit anketu</string>
+    <string name="vote">Hlasovat</string>
+    <string name="notif_poll">Anketa, ve které jste hlasoval/a, skončila</string>
+    <string name="notif_poll_self">Vaše anketa skončila</string>
+    <string name="settings_category_notif_customize">Přizpůsobit</string>
+    <string name="settings_category_notif_categories">Kategorie</string>
+    <string name="settings_category_notif_time_slot">Časový slot</string>
+    <string name="settings_category_notif_advanced">Pokročilé</string>
+    <string name="set_display_new_badge">Zobrazit \"new\" na nových tootech</string>
+    <string name="peertube_menu">PeerTube</string>
+    <string name="move_timeline">Přesunout časovou osu</string>
+    <string name="hide_timeline">Skrýt časovou osu</string>
+    <string name="reorder_timelines">Změnit pořadí časových os</string>
+    <string name="reorder_list_deleted">Seznam trvale smazán</string>
+    <string name="reorder_instance_removed">Sledovaná instance odstraněna</string>
+    <string name="reorder_tag_removed">Připnuté značky odstraněny</string>
+    <string name="undo">Vrátit zpět</string>
+    <string name="visible_tabs_needed">Musíte si nechat dvě viditelné karty!</string>
+    <string name="action_reorder_timeline">Změnit pořadí časových os</string>
+    <string name="warning_main_timeline">Hlavní časové linie mohou být pouze skryty!</string>
+    <string name="action_bbcode">BBCode</string>
+    <string name="set_sensitive_content">Vždy označovat média jako citlivá</string>
+    <string name="gnu_instance">GNU instance</string>
+    <string name="cached_status">Cached status</string>
+    <string name="set_forward_tags">Forward tags in replies</string>
+    <string name="set_long_press_media">Long press to store media</string>
+    <string name="set_blur_sensitive">Rozostřít citlivá média</string>
+    <string name="set_display_timeline_in_list">Display timelines in a list</string>
+    <string name="display_timeline">Zobraz časové osy</string>
+    <string name="set_display_bot_icon">Mark bot accounts in toots</string>
+    <string name="add_tags">Spravovat štítky</string>
+    <string name="set_remember_position">Remember the position in Home timeline</string>
+    <string name="history">Historie</string>
+    <string name="playlists">Playlisty</string>
+    <string name="display_name">Zobrazované jméno</string>
+    <string name="action_playlist_add">You don\'t have any playlists. Tap on the \"+\" icon to add a new playlist</string>
+    <string name="error_display_name">Musíte zadat zobrazované jméno!</string>
+    <string name="error_channel_mandatory">The channel is required when the playlist is public.</string>
+    <string name="action_playlist_create">Vytvořit playlist</string>
+    <string name="action_playlist_empty_content">Na tomto playlistu není zatím nic.</string>
+    <string name="redo">provést znovu</string>
+    <string name="gallery">Galerie</string>
+    <string name="label_emoji">Emoji</string>
+    <string name="label_sticker">Nálepka</string>
+    <string name="label_eraser">Guma</string>
+    <string name="label_text">Text</string>
+    <string name="label_filter">Filtr</string>
+    <string name="label_brush">Štětec</string>
+    <string name="confirm_exit_editing">Jste si jisti, že chcete skončit bez uložení obrázku?</string>
+    <string name="discard">Zahodit</string>
+    <string name="saving">Ukladáno…</string>
+    <string name="image_saved">Image Saved Successfully!</string>
+    <string name="save_image_failed">Nepodařilo se uložit obrázek</string>
+    <string name="opacity">Průhlednost</string>
+    <string name="set_photo_editor">Povolit editor fotografií</string>
+    <string name="add_poll_item">Přidat položku ankety</string>
+    <string name="remove_poll_item">Odstranit poslední možnost z ankety</string>
+    <string name="mute_conversation">Ztišit konverzaci</string>
+    <string name="unmute_conversation">Unmute conversation</string>
+    <string name="toast_unmute_conversation">The conversation is no longer muted!</string>
+    <string name="toast_mute_conversation">The conversation is muted</string>
+    <string name="app_features">Otevřít vlastnosti aplikace</string>
+    <string name="timed_mute">Časované ztlumení</string>
+    <string name="mention_account">Mention the account</string>
+    <string name="refresh_cache">Obnovit cache</string>
+    <string name="mention_status">Zmínit status</string>
+    <string name="action_news">Novinky</string>
+    <string name="category_general">Základní</string>
+    <string name="category_regional">Regionální</string>
+    <string name="category_art">Umění</string>
+    <string name="category_journalism">Žurnalistika</string>
+    <string name="category_activism">Aktivismus</string>
+    <string name="category_games">Hrání</string>
+    <string name="category_tech">Technologie</string>
+    <string name="category_adult">Obsah pro dospělé</string>
+    <string name="category_furry">Furry</string>
+    <string name="category_food">Jídlo</string>
+    <string name="instance_logo">Logo of the instance</string>
+    <string name="toast_error_instance_reg">Something went wrong when checking available instances!</string>
+    <string name="join_mastodon">Připojte se k Mastodonu</string>
+    <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
+    <string name="pickup_instance_peertube">Choose an instance by tapping on a check button.</string>
+    <string name="users">%1$s users</string>
+    <string name="password_confirm">Confirm password</string>
+    <string name="agreement_check">I agree to %1$s and %2$s</string>
+    <string name="server_rules">pravidla serveru</string>
+    <string name="tos">podmínky užití</string>
+    <string name="sign_up">Registrovat se</string>
+    <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
+    <string name="all_field_filled">Please, fill all the fields!</string>
+    <string name="password_error">Passwords don\'t match!</string>
+    <string name="email_error">The email doesn\'t seem to be valid!</string>
+    <string name="username_indicator">Your username will be unique on %1$s</string>
+    <string name="email_indicator">You will be sent a confirmation e-mail</string>
+    <string name="password_indicator">Použijte minimálně 8 znaků</string>
+    <string name="password_too_short">Heslo musí mít minimálně 8 znaků</string>
+    <string name="username_error">Username should only contain letters, numbers and underscores</string>
+    <string name="account_created">Účet vytvořen!</string>
+    <string name="account_created_message">        Your account has been created!\n\n
+        Think to validate your email within the 48 next hours.\n\n
+        You can now connect your account by writing <b>%1$s</b> in the first field and click on <b>Connect</b>.\n\n
+        <b>Important</b>: If your instance required validation, you will receive an email once it is validated!
+    </string>
+    <string name="save_draft">Save the message in drafts?</string>
+    <string name="administration">Administrace</string>
+    <string name="reports">Reports</string>
+    <string name="no_reports">No reports to display!</string>
+    <string name="reconnect_account">Reconnect the account</string>
+    <string name="reconnect_account_message">The application failed to access the admin features. You might need to reconnect the account for having the correct scope.</string>
+    <string name="unresolved">Unresolved</string>
+    <string name="remote">Remote</string>
+    <string name="active">Active</string>
+    <string name="pending">Pending</string>
+    <string name="disabled">Disabled</string>
+    <string name="silenced">Silenced</string>
+    <string name="suspended">Suspended</string>
+    <string name="permissions">Permissions</string>
+    <string name="email_status">Email status</string>
+    <string name="login_status">Login status</string>
+    <string name="joined">Joined</string>
+    <string name="recent_ip">Most recent IP</string>
+    <string name="warn">Warn</string>
+    <string name="disable">Disable</string>
+    <string name="silence">Silence</string>
+    <string name="email_user">Notify the user per e-mail</string>
+    <string name="custom_warning">Custom warning</string>
+    <string name="user">User</string>
+    <string name="moderator">Moderator</string>
+    <string name="administrator">Administrator</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="unconfirmed">Not confirmed</string>
+    <string name="list_reported_statuses">Reported statuses</string>
+    <string name="account">Account</string>
+    <string name="unsilence">Undo silence</string>
+    <string name="undisable">Undo disable</string>
+    <string name="suspend">Suspend</string>
+    <string name="unsuspend">Undo suspend</string>
+    <string name="account_silenced">The account is silenced!</string>
+    <string name="account_unsilenced">The account is no longer silenced!</string>
+    <string name="account_suspended">The account is suspended!</string>
+    <string name="account_unsuspended">The account is no longer suspended!</string>
+    <string name="account_disabled">The account is disabled!</string>
+    <string name="account_undisabled">The account is no longer disabled!</string>
+    <string name="account_warned">The account has been warned!</string>
+    <string name="set_display_admin_menu">Display the admin menu</string>
+    <string name="set_display_admin_toot">Display the admin feature in statuses</string>
+    <string name="allow">Allow</string>
+    <string name="account_approved">The account is approved!</string>
+    <string name="account_rejected">The account is rejected!</string>
+    <string name="assign_to_me">Assign to me</string>
+    <string name="unassign">Unassign</string>
+    <string name="mark_resolved">Mark as resolved</string>
+    <string name="mark_unresolved">Mark as unresolved</string>
+    <string name="toast_empty_content">Empty content!</string>
+    <string name="set_display_fedilab_features_button">Display Fedilab features button</string>
+    <string name="audio">The application needs to access audio recording</string>
+    <string name="voice_message">Voice message</string>
+    <string name="set_quick_reply">Enable quick reply</string>
+    <string name="reply_might_be_useless">The account you are replying might not see your message!</string>
+    <string name="set_remember_position_indication">If disabled, the app will always load last statuses</string>
+    <string name="set_blur_sensitive_indication">If disabled, sensitive media will be hidden with a button</string>
+    <string name="set_long_press_media_indication">Store media in full size with a long press on previews</string>
+    <string name="set_display_timeline_in_list_indication">Add an ellipse button at the top right for listing all tags/instances/lists</string>
+    <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
+    <string name="set_display_fedilab_features_button_indication">Display a Fedilab button below profile picture. It is a shortcut for accessing in-app features.</string>
+    <string name="set_quick_reply_indication">Allow to reply directly in timelines below statuses</string>
+    <string name="set_fit_preview_indication">Previews will not be cropped in timelines</string>
+    <string name="set_display_video_preview_indication">Allow to play embedded videos directly in timelines</string>
+    <string name="set_display_content_after_fetch_more_indication">Allow to reverse the way to read statuses that are displayed once tapping the fetch more button</string>
+    <string name="set_security_provider_indication">This option allows to support recent cipher suites. It is useful for older Android devices or if you cannot connect to your instance.</string>
+    <string name="set_video_mode_indication">Exclusively for Peertube videos. Switch this mode if you cannot play them.</string>
+    <string name="featured_hashtags_indication">These tags will allow to filter statuses from profiles. You will have to use the context menu for seeing them.</string>
+    <string name="set_capitalize_indication">Automatically insert a line break after the mention to capitalize the first letter</string>
+    <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
+    <string name="compose">Compose</string>
+    <string name="upload_image_maximum_retry_times">Maximum retry times when uploading media</string>
+    <string name="new_folder">Create a new Folder here</string>
+    <string name="folder_name">Enter the folder name</string>
+    <string name="valid_folder_name">Please enter a valid folder name</string>
+    <string name="folder_exists">This folder already exists.\n Please provide another name for the folder</string>
+    <string name="select">Select</string>
+    <string name="default_directory">Default Directory</string>
+    <string name="folder">Folder</string>
+    <string name="create_folder">Create folder</string>
+    <string name="set_display_confirm">Display a toast message after an action has been completed (boost, fav, etc.)?</string>
+    <string name="muted_instance_exported">Muted instances have been exported!</string>
+    <string name="add_instances">Add an instance</string>
+    <string name="export_instances">Export instances</string>
+    <string name="import_instances">Import instances</string>
+    <string name="set_crash_reports">Crash reports</string>
+    <string name="set_enable_crash_report">Enable crash reports</string>
+    <string name="set_enable_crash_report_indication">If enabled, a crash report will be created locally and then you will be able to share it.</string>
+    <string name="crash_title">Fedilab přestal fungovat :(</string>
+    <string name="crash_message">Pošlete mi mailem údaje o chybě. Pomůžete tak při opravě :)\n\nMůžete přidat dodatečný obsah. Děkuji!</string>
+    <string name="set_wysiwyg">Use the wysiwyg</string>
+    <string name="set_wysiwyg_indication">When enabled, you will be able to format your text easily with tools.</string>
+    <string name="action_stats">Statistics</string>
+    <string name="total_statuses">Total statuses</string>
+    <string name="number_boosts">Number of boosts</string>
+    <string name="number_favourites">Number of favourites</string>
+    <string name="number_mentions">Number of mentions</string>
+    <string name="number_follows">Number of follows</string>
+    <string name="number_polls">Number of polls</string>
+    <string name="number_replies">Number of replies</string>
+    <string name="number_statuses">Number of statuses</string>
+    <string name="statuses">Statuses</string>
+    <string name="visibility">Visibility</string>
+    <string name="number_with_media">Number with media</string>
+    <string name="number_with_sensitive_media">Number with sensitive media</string>
+    <string name="number_with_cw">Number with CW</string>
+    <string name="first_toot_date">First status date</string>
+    <string name="last_toot_date">Last status date</string>
+    <string name="first_notification_date">First notification date</string>
+    <string name="last_notification_date">Last notification date</string>
+    <string name="frequency">Frequency</string>
+    <string name="toot_per_day">%s statuses per day</string>
+    <string name="notification_per_day">%s notifications per day</string>
+    <string name="date_range">Date range</string>
+    <string name="action_groups">Groups</string>
+    <string name="no_messages">No groups!</string>
+    <string name="set_disable_animated_emoji">Disable custom animated emojis</string>
+    <string name="owner_charts">Charts</string>
+    <string name="display_charts">Display charts</string>
+    <string name="collecting_data_wait">The application collects your local data, please wait…</string>
+    <string name="set_backup">Backup</string>
+    <string name="set_auto_backup">Auto backup statuses</string>
+    <string name="set_auto_backup_indication">This option is per account. It will launch a service that will automatically store your statuses locally in the database. That allows to get statistics and charts</string>
+    <string name="set_auto_backup_notifications">Auto backup notifications</string>
+    <string name="set_auto_backup_notifications_indication">This option is per account. It will launch a service that will automatically store your notifications locally in the database. That allows to get statistics and charts</string>
+    <string name="report_account">Report account</string>
+    <string name="send_invitation">Send an invitation</string>
+    <string name="registration_closed">Your instance does not allow to register a new account!</string>
+    <plurals name="number_of_vote">
+        <item quantity="one">%d hlas</item>
+        <item quantity="few">%d hlasy</item>
+        <item quantity="many">%d hlasu</item>
+        <item quantity="other">%d hlasů</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">%d voter</item>
+        <item quantity="few">%d voters</item>
+        <item quantity="many">%d voters</item>
+        <item quantity="other">%d voters</item>
+    </plurals>
+    <string-array name="poll_choice_type">
+        <item>Jediná volba</item>
+        <item>Více voleb</item>
+    </string-array>
+    <string-array name="poll_duration">
+        <item>5 minut</item>
+        <item>30 minut</item>
+        <item>1 hodina</item>
+        <item>6 hodin</item>
+        <item>1 den</item>
+        <item>3 dny</item>
+        <item>7 dní</item>
+    </string-array>
+    <string-array name="settings_video_mode">
+        <item>Webové zobrazení</item>
+        <item>Přímé streamovaní</item>
+    </string-array>
+    <string name="join_instance">For joining my instance \"%1$s\", you can download Fedilab:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nThen open the link below with Fedilab and create your account :)\n\n%4$s
+    </string>
+    <string name="poll_duplicated_entry">Your poll can\'t have duplicated options!</string>
+    <string name="all_accounts">For all accounts</string>
+    <string name="database_cache">Database cache</string>
+    <string name="cache_timeline_clear">Clear your home timeline cache</string>
+    <string name="cache_owntoots_clear">Clear your cached statuses</string>
+    <string name="cache_bookmarks_clear">Clear your bookmarks</string>
+    <string name="file_cache">Files in cache</string>
+    <string name="total_notifications">Total notifications</string>
+    <string name="hide_menu_items">Hide menu items</string>
+    <string name="top_notification">Fedilab is running live notifications</string>
+    <string name="top_notification_message">For %1$s accounts with %2$s events</string>
+    <string name="set_allow_live_notifications">Live notifications for %1$s</string>
+    <string name="set_allow_live_notifications_indication">Live notifications will be enabled for this account.</string>
+    <string name="set_clear_cache_exit">Clear cache when leaving</string>
+    <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
+    <string name="unfollow_confirm">Do you want to unfollow this account?</string>
+    <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
+    <string name="set_invidious">Replace Youtube with Invidio.us</string>
+    <string name="set_invidious_indication">Invidious is an alternative front-end to YouTube</string>
+    <string name="set_invidious_host">Enter your custom host or leave blank for using invidious.snopyta.org</string>
+    <string name="set_nitter">Replace Twitter with Nitter</string>
+    <string name="set_nitter_indication">Nitter is an open source alternative Twitter front-end focused on privacy.</string>
+    <string name="set_nitter_host">Enter your custom host or leave blank for using nitter.net</string>
+    <string name="set_bibliogram">Replace Instagram with Bibliogram</string>
+    <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
+    <string name="set_bibliogram_host">Enter your custom host or leave blank for using bibliogram.art</string>
+    <string name="set_libreddit">Replace Reddit with Libreddit</string>
+    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
+    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
+    <string name="replace_medium">Replace Medium links</string>
+    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_host">Default: scribe.rip</string>
+    <string name="replace_wikipedia">Replace Wikipedia links</string>
+    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_wikipedia_host">Default: wikiless.org</string>
+    <string name="set_hide_status_bar">Hide Fedilab notification bar</string>
+    <string name="set_hide_status_bar_indication">For hiding the remaining notification in the status bar, tap on the eye icon button then uncheck: \"Display in status bar\"</string>
+    <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
+    <string name="no_live_notif">No live notifications</string>
+    <string name="live_notif">Live notifications</string>
+    <string name="no_live_indication">Notifications will be fetched every 15 minutes.</string>
+    <string name="action_add_notes">Add notes</string>
+    <string name="note_for_account">Notes for the account</string>
+    <string name="set_resize_picture_indication">Allow to compress large photos into smaller sized photos with very less or negligible loss in quality of the image.</string>
+    <string name="set_resize_video_indication">Allow compressing videos while maintaining their quality.</string>
+    <string name="please_wait_compression">The app is compressing the media, it can be quite long…</string>
+    <string name="change_app_icon_experimental">Change app icon</string>
+    <string name="click_to_change_the_app_icon">Tap to change the app icon</string>
+    <string name="post">Post</string>
+    <string name="post_visibility_tilte">Visibility of the post</string>
+    <string name="add_photo_pixelfed">Tap here to add photos</string>
+    <string name="add_photo_indication_pixelfed">Accepted Formats: jpeg, png, gif  \n\nMax File Size: 15 MB  \n\nAlbums can contain up to 4 photos or videos</string>
+    <string name="upload_media">Upload media</string>
+    <string name="pixelfed_compose_placeholder">Add an optional caption</string>
+    <string name="long_api_error">The app received a very long error message from the API %1$s</string>
+    <string name="message_preview">Message preview</string>
+    <string name="report_mention">Add mentions in each message</string>
+    <string name="fetch_conversation">Fetching conversation</string>
+    <string name="order_by">Order by</string>
+    <string name="title_video_peertube">Title for the video</string>
+    <string name="join_peertube">Join Peertube</string>
+    <string name="agreement_check_peertube">I am at least 16 years old and agree to the %1$s of this instance</string>
+    <string name="link_color_title">Links</string>
+    <string name="link_color">Change the color of links (URLs, mentions, tags, etc.) in messages</string>
+    <string name="boost_header_color_title">Reblogs header</string>
+    <string name="displayname_title">Change the color of display name at the top of messages</string>
+    <string name="username_title">Change the color of the user name at the top of messages</string>
+    <string name="boost_header_color">Change the color of the header for reblogs</string>
+    <string name="background_status_title">Posts</string>
+    <string name="background_status">Background color of posts in timelines</string>
+    <string name="reset_color">Reset colors</string>
+    <string name="clik_reset">Tap here to reset all your custom colors</string>
+    <string name="reset">Reset</string>
+    <string name="icons_color_title">Icons</string>
+    <string name="icons_color">Color of bottom icons in timelines</string>
+    <string name="pin_tag">Pin this tag</string>
+    <string name="logo_of_the_instance">Logo of the instance</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="make_an_action">Make an action</string>
+    <string name="translation">Translation</string>
+    <string name="image_preview">Image preview</string>
+    <string name="text_color_title">Text color</string>
+    <string name="text_color">Change the text color in pots</string>
+    <string name="apply_changes">Apply changes</string>
+    <string name="restart_message">You need to restart the application to apply changes</string>
+    <string name="restart">Restart</string>
+    <string name="pref_custom_theme">Use a custom theme</string>
+    <string name="pref_custom_theme_summary">Allow to override colors of the  selected theme above</string>
+    <string name="theming">Theming</string>
+    <string name="store_before">Store before</string>
+    <string name="data_export_theme">The theme was exported</string>
+    <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
+    <string name="pref_colored_status_bar_summary">Apply the primary color to the status bar</string>
+    <string name="pref_colored_status_bar_title">Status bar color</string>
+    <string name="restore_default_theme">Restore a default theme</string>
+    <string name="import_theme">Import a theme</string>
+    <string name="import_theme_title">Tap here to import a theme from a previous export</string>
+    <string name="export_theme">Export the theme</string>
+    <string name="export_theme_title">Tap here to export the current theme</string>
+    <string name="theme_file_error">An error occurred when selecting the theme file</string>
+    <string name="label_theme_picker">Theme Picker</string>
+    <string name="pref_theme_summary">Select a pre-installed theme</string>
+    <string name="pref_theme_title">Themes</string>
+    <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
+    <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
+    <string name="pref_background_color_summary">The underlying color of the app’s content.</string>
+    <string name="pref_background_color_title">Background color</string>
+    <string name="pref_accent_color_summary">Accents select parts of the UI.</string>
+    <string name="pref_accent_color_title">Accent color</string>
+    <string name="pref_primary_color_summary">Displayed most frequently across your app.</string>
+    <string name="pref_primary_color_title">Primary color</string>
+    <string name="export_bookmarks">Export bookmarks to the instance</string>
+    <string name="import_bookmarks">Import bookmarks from the instance</string>
+    <string name="user_count">User count</string>
+    <string name="status_count">Status count</string>
+    <string name="instance_count">Instance count</string>
+    <string name="blocked">Blocked</string>
+    <string name="poll_finish_in">End in %s</string>
+    <string name="release_note_title">What\'s new in %s</string>
+    <string name="follow_account_update">You can follow my account for updates</string>
+    <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
+    <string name="display_full_link">Display full link</string>
+    <string name="share_link">Share link</string>
+    <string name="link_copy">The URL has been copied to the clipboard</string>
+    <string name="open_other_app">Open with another app</string>
+    <string name="check_redirect">Check redirect</string>
+    <string name="no_redirect">This URL does not redirect</string>
+    <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
+    <string name="set_user_agent">Change the user agent</string>
+    <string name="set_user_agent_hint">Set a custom user agent or leave blank</string>
+    <string name="set_user_agent_indication">Allows to customize the user agent used for api calls or with the built-in browser.</string>
+    <string name="set_utm_parameters">Remove UTM parameters</string>
+    <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
+    <string name="action_trends">Trends</string>
+    <string name="trending_now">Trending now</string>
+    <string name="talking_about">%d people talking</string>
+    <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
+    <string name="list_of_twitter_accounts">Twitter usernames space separated</string>
+    <string name="identity_proofs">Identity proofs</string>
+    <string name="verified_user">Verified identity</string>
+    <string name="verified_by">Verified by %1$s (%2$s)</string>
+    <string name="remove_notification">Delete the notification</string>
+    <string name="display_more_options">Display more options</string>
+    <string name="pixelfed_story">It is a Pixelfed story</string>
+    <string name="story_indication">Upload a media, it will be automatically added to your Pixelfed story.</string>
+    <string name="added_to_story">Media successfully added to your story!</string>
+    <string name="action_disabled">Action disabled</string>
+    <string name="action_unfollow">Unfollow</string>
+    <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
+    <string name="action_announcements">Announcements</string>
+    <string name="no_announcements">No announcements!</string>
+    <string name="add_reaction">Add a reaction</string>
+    <string name="set_custom_tabs_indication">Use your favourite browser inside the app. Uncheck this feature to open links externally.</string>
+    <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
+    <string name="set_watermark">Watermarks</string>
+    <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>
+    <string name="no_distributors_found">No distributors found!</string>
+    <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
+    <string name="select_distributors">Select a distributor</string>
+</resources>

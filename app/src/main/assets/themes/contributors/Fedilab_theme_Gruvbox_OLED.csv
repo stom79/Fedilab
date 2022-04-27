@@ -1,0 +1,15 @@
+base_theme,2
+author,@AntoineD@h.kher.nl
+name,Gruvbox OLED
+theme_boost_header_color,-16777216
+theme_text_header_1_line,-265785
+theme_text_header_2_line,-6777062
+theme_statuses_color,-16777216
+theme_link_color,-2647775
+theme_icons_color,-7175308
+pref_color_background,-16777216
+pref_color_navigation_bar,true
+pref_color_status_bar,true
+theme_accent,-9921174
+theme_text_color,-265785
+theme_primary,-16777216

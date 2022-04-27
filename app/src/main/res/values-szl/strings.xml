@@ -1,0 +1,1156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Ôtwōrz myni</string>
+    <string name="navigation_drawer_close">Zawrzij myni</string>
+    <string name="action_about">Informacyje</string>
+    <string name="action_about_instance">Ô instancyji</string>
+    <string name="action_privacy">Prywatność</string>
+    <string name="action_cache">Pamiyńć cache</string>
+    <string name="action_logout">Ôdloguj</string>
+    <string name="login">Wloguj</string>
+    <!-- common -->
+    <string name="close">Zawrzij</string>
+    <string name="yes">Ja</string>
+    <string name="no">Niy</string>
+    <string name="cancel">Pociep</string>
+    <string name="download">Ściōng</string>
+    <string name="download_file">Ściōng %1$s</string>
+    <string name="save_over">Zbiory spamiyntane</string>
+    <string name="download_from" formatted="false">Zbiōr: %1$s</string>
+    <string name="password">Hasło</string>
+    <string name="email">Email</string>
+    <string name="accounts">Kōnta</string>
+    <string name="toots">Tuty</string>
+    <string name="tags">Tagi</string>
+    <string name="save">Spamiyntej</string>
+    <string name="restore">Prziwrōć</string>
+    <string name="no_result">Żodnych wynikōw!</string>
+    <string name="instance">Instancyjo</string>
+    <string name="instance_example">Instancyjo: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Teroz je używane kōnto %1$s</string>
+    <string name="add_account">Dodej kōnto</string>
+    <string name="clipboard">Zawartość tego tuta była skopiowano do skrytki</string>
+    <string name="clipboard_url">Adresa URL tego tuta była skopiowano do skrytki</string>
+    <string name="change">Umiyń</string>
+    <string name="choose_picture">Wybier ôbrozek…</string>
+    <string name="clear">Wysnoż</string>
+    <string name="camera">Fotoaparat</string>
+    <string name="delete_all">Wymaż wszyjsko</string>
+    <string name="translate_toot">Przełōż tyn tut.</string>
+    <string name="schedule">Zaplanuj</string>
+    <string name="text_size">Srogość ikōn i tekstu</string>
+    <string name="text_size_change">Umiyń srogość teroźnego tekstu:</string>
+    <string name="icon_size_change">Umiyń srogość teroźnyj ikōny:</string>
+    <string name="next">Dalsze</string>
+    <string name="previous">Poprzednie</string>
+    <string name="open_with">Ôtwōrz we</string>
+    <string name="validate">Potwiyrdź</string>
+    <string name="media">Media</string>
+    <string name="share_with">Podziel sie ze</string>
+    <string name="shared_via">Udostympniōne bez Fedilab</string>
+    <string name="replies">Ôdpowiedzi</string>
+    <string name="username">Miano ôd używocza</string>
+    <string name="drafts">Kōncepty</string>
+    <string name="favourite">Ôblubiōne</string>
+    <string name="follow">Nowi śledzōncy</string>
+    <string name="mention">Spōmniynia</string>
+    <string name="reblog">Rozgłoszynia</string>
+    <string name="show_boosts">Pokoż rozgłoszynia</string>
+    <string name="show_replies">Pokoż ôdpowiedzi</string>
+    <string name="action_open_in_web">Ôtwōrz we przeglōndarce</string>
+    <string name="translate">Przełōż</string>
+    <string name="please_wait">Poczekej pora sekund przed tōm akcyjōm.</string>
+    <!--- Menu -->
+    <string name="home_menu">Przodek</string>
+    <string name="local_menu">Lokalno ôś czasu</string>
+    <string name="global_menu">Federowano ôś czasu</string>
+    <string name="neutral_menu_title">Ôpcyje</string>
+    <string name="favorites_menu">Ôblubiōne</string>
+    <string name="communication_menu_title">Kōmunikacyjo</string>
+    <string name="muted_menu">Wyciszyni</string>
+    <string name="blocked_menu">Zablokowani</string>
+    <string name="notifications">Powiadōmiynia</string>
+    <string name="follow_request">Prośby ô śledzynie</string>
+    <string name="settings">Sztelōnki</string>
+    <string name="delete_account_title">Wymaż kōnto</string>
+    <string name="delete_account_message" formatted="false">Wymazać kōnto %1$s ze aplikacyje?</string>
+    <string name="send_email">Wyślij bez email</string>
+    <string name="click_to_change">Tyknij ściyżki, żeby ja zmiynić</string>
+    <string name="failed">Feler!</string>
+    <string name="scheduled_toots">Zaplanowane tuty</string>
+    <string name="disclaimer_full">Informacyjo niżyj może pokazować niypołny profil ôd używocza.</string>
+    <string name="insert_emoji">Wraź emoji</string>
+    <string name="no_emoji">Aplikacyjo na razie niy zebrała ekstra emoji.</string>
+    <string name="push_notif">Push notifications</string>
+    <string name="logout_confirmation">Na zicher chcesz sie ôdlogować?</string>
+    <string name="logout_account_confirmation">Na zicher chcesz ôdlogować @%1$s@%2$s?</string>
+    <!-- Status -->
+    <string name="no_status">Żodnych tutōw do pokozanio</string>
+    <string name="no_stories">Żodnych historyji do pokozanio</string>
+    <string name="stories">Historyje</string>
+    <string name="reblog_by">Rozgłoszōne ôd %1$s</string>
+    <string name="favourite_add">Przidać tyn tut do ôblubiōnych?</string>
+    <string name="favourite_remove">Wymazać tyn tut ze ôblubiōnych?</string>
+    <string name="reblog_add">Rozgłosić tyn tut?</string>
+    <string name="reblog_remove">Niy rozgłoszać tego tuta?</string>
+    <string name="pin_add">Przipnōńć tyn tut?</string>
+    <string name="pin_remove">Ôdepnōńć tyn tut?</string>
+    <string name="more_action_1">Wycisz</string>
+    <string name="more_action_2">Zablokuj</string>
+    <string name="more_action_3">Zgłoś</string>
+    <string name="more_action_4">Wymaż</string>
+    <string name="more_action_5">Kopiuj</string>
+    <string name="more_action_6">Podziel sie</string>
+    <string name="more_action_7">Spōmnij</string>
+    <string name="more_action_8">Czasowe wyciszynie</string>
+    <string name="more_action_9">Wymaż i przeredaguj</string>
+    <string-array name="more_action_confirm">
+        <item>Wyciszyć to kōnto?</item>
+        <item>Zablokować to kōnto?</item>
+        <item>Zgłosić tyn tut?</item>
+        <item>Zablokować ta dōmyna?</item>
+        <item>Niy wyciszać już tego kōnta?</item>
+        <item>Niy blokować już tego kōnta?</item>
+    </string-array>
+    <string-array name="action_notification">
+        <item>Powiadōm</item>
+        <item>Cisza</item>
+    </string-array>
+    <string-array name="more_action_owner_confirm">
+        <item>Wymazać tyn tut?</item>
+        <item>Wymazać i przeredagować tyn tut?</item>
+    </string-array>
+    <string name="bookmarks">Zokłodki</string>
+    <string name="bookmark_add">Przidej do zokłodek</string>
+    <string name="bookmark_remove">Wymaż zokłodka</string>
+    <string name="bookmarks_empty">Żodnych zokłodek do pokozanio</string>
+    <string name="status_bookmarked">Tut bōł przidany do zokłodek!</string>
+    <string name="status_unbookmarked">Tut bōł wymazany ze zokłodek!</string>
+    <!-- Date -->
+    <string name="date_seconds">%d s</string>
+    <string name="date_minutes">%d min</string>
+    <string name="date_hours">%d godz.</string>
+    <string name="date_day">%d d</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d sekunda</item>
+        <item quantity="few">%d sekundy</item>
+        <item quantity="many">%d sekund</item>
+        <item quantity="other">%d sekundy</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minuta</item>
+        <item quantity="few">%d minuty</item>
+        <item quantity="many">%d minut</item>
+        <item quantity="other">%d minuty</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d godzina</item>
+        <item quantity="few">%d godziny</item>
+        <item quantity="many">%d godzin</item>
+        <item quantity="other">%d godziny</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d dziyń</item>
+        <item quantity="few">%d dni</item>
+        <item quantity="many">%d dni</item>
+        <item quantity="other">%d dnia</item>
+    </plurals>
+    <!-- TOOT -->
+    <string name="toot_cw_placeholder">Pozōr</string>
+    <string name="toot_placeholder">Co ci chodzi po gowie?</string>
+    <string name="toot_it">Tutnij</string>
+    <string name="queet_it">Wyślij</string>
+    <string name="cw">cw</string>
+    <string name="toot_title">Napisz tut</string>
+    <string name="toot_title_reply">Ôdpowiydz na tut</string>
+    <string name="queet_title">Napisz kwit</string>
+    <string name="queet_title_reply">Ôdpowiydz na kwit</string>
+    <string name="toot_select_image">Wybier media</string>
+    <string name="toot_select_image_error">Doszło do błyndu przi wybiyraniu medium!</string>
+    <string name="toot_delete_media">Wymazać to medium?</string>
+    <string name="toot_error_no_content">Twōj tut je prōzny!</string>
+    <string name="toot_visibility_tilte">Widzialność tuta</string>
+    <string name="toots_visibility_tilte">Wychodno widzialność tutōw: </string>
+    <string name="toot_sent">Tut bōł wysłany!</string>
+    <string name="toot_reply_content_title">Ôdpowiadosz na tyn tut:</string>
+    <string name="toot_sensitive">Uraźliwo treść?</string>
+    <string-array name="toot_visibility">
+        <item>Pokazuj na publicznych ôsiach czasu</item>
+        <item>Niy pokazuj na publicznych ôsiach czasu</item>
+        <item>Pokazuj ino śledzōncym</item>
+        <item>Pokazuj ino spōmnianym</item>
+    </string-array>
+    <string name="no_draft">Żodnych kōnceptōw!</string>
+    <string name="choose_toot">Wybier tut</string>
+    <string name="choose_accounts">Wybier kōnto</string>
+    <string name="select_accounts">Wybier jakeś kōnta</string>
+    <string name="remove_draft">Wymazać kōncept?</string>
+    <string name="show_reply">Tyknij knefel, żeby pokozać ôryginalny tut</string>
+    <string name="upload_form_description">Ôpis do słabowidzōncych</string>
+    <!-- Instance -->
+    <string name="instance_no_description">Ôpis niydostympny!</string>
+    <!-- About -->
+    <string name="about_vesrion">Wersyjo %1$s</string>
+    <string name="about_developer">Programista:</string>
+    <string name="about_license">Licyncyjo: </string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Kod zdrzōdłowy: </string>
+    <string name="about_yandex">Przekłod tutōw:</string>
+    <string name="about_thekinrar">Szukej instancyji:</string>
+    <string name="thanks_text_logo">Projekt ikōn:</string>
+    <!-- Conversation -->
+    <string name="conversation">Kōnwersacyjo</string>
+    <!-- Accounts -->
+    <string name="no_accounts">Żodnych kōnt do pokozanio</string>
+    <string name="no_follow_request">Żodnych prōśb ô śledzynie</string>
+    <string name="status_cnt">Tuty \n %1$s</string>
+    <string name="following_cnt">Śledzi \n %1$s</string>
+    <string name="followers_cnt">Śledzōm \n %1$s</string>
+    <string name="pins_cnt">Przipniynte \n %d</string>
+    <string name="authorize">Przizwōl</string>
+    <string name="reject">Ôdciep</string>
+    <!-- Scheduled toots -->
+    <string name="no_scheduled_toots">Żodnych zaplanowanych tutōw na dziś!</string>
+    <string name="no_scheduled_toots_indications">Napisz tut i wybier <b>Zaplanuj</b> ze wiyrchnigo myni.</string>
+    <string name="remove_scheduled">Wymazać zaplanowany tut?</string>
+    <string name="media_count">Media: %d</string>
+    <string name="toot_scheduled">Tut je zaplanowany!</string>
+    <string name="toot_scheduled_date">Zaplanowano data musi być niyskorzij niż teroz!</string>
+    <string name="warning_battery">Szanowanie bateryje je aktywne! Może niy robić podle ôczekowań.</string>
+    <!-- timed mute -->
+    <string name="timed_mute_date_error">Czas wyciszynio musi być dugszy niż jedna minuta.</string>
+    <string name="timed_mute_date">Kōnto %1$s je wyciszōne do %2$s.\n Możesz to ôdkozać na jego profilu.</string>
+    <string name="timed_mute_profile">Kōnto %1$s je wyciszōne do %2$s.\n Tyknij sam, żeby to ôdkozać.</string>
+    <!-- Notifications -->
+    <string name="no_notifications">Żodnych powiadōmiyń do pokozanio</string>
+    <string name="notif_mention">spōmino cie</string>
+    <string name="notif_status">wrote a new message</string>
+    <string name="notif_reblog">rozgłoszo twōj status</string>
+    <string name="notif_favourite">lubi twōj status</string>
+    <string name="notif_follow">śledzi cie</string>
+    <string name="notif_follow_request">pyto ô śledzynie</string>
+    <plurals name="other_notifications">
+        <item quantity="one">i inksze powiadōmiynie</item>
+        <item quantity="few">i %d inksze powiadōmiynia</item>
+        <item quantity="many">i %d inkszych powiadōmiyń</item>
+        <item quantity="other">i %d inkszego powiadōmiynio</item>
+    </plurals>
+    <plurals name="likes">
+        <item quantity="one">%d lubi</item>
+        <item quantity="few">%d lubi</item>
+        <item quantity="many">%d lubi</item>
+        <item quantity="other">%d lubi</item>
+    </plurals>
+    <string name="delete_notification_ask">Wymazać powiadōmiynie?</string>
+    <string name="delete_notification_ask_all">Wymazać wszyjske powiadōmiynia?</string>
+    <string name="delete_notification">Powiadōmiynie było wymazane!</string>
+    <string name="delete_notification_all">Wszyjske powiadōmiynia były wymazane!</string>
+    <!-- HEADER -->
+    <string name="following">Śledzi</string>
+    <string name="followers">Śledzōm</string>
+    <string name="pinned_toots">Przipniynte</string>
+    <!-- TOAST -->
+    <string name="client_error">Niy idzie dostać klijynckigo id!</string>
+    <string name="connect_error">Niy idzie sie skuplować ze dōmynōm instancyje!</string>
+    <string name="no_internet">Niy ma połōnczynio ze internetym!</string>
+    <string name="toast_block">Kōnto było zablokowane!</string>
+    <string name="toast_unblock">To kōnto już niy je blokowane!</string>
+    <string name="toast_mute">Kōnto było wyciszōne!</string>
+    <string name="toast_unmute">Kōnto już niy je wyciszōne!</string>
+    <string name="toast_follow">Kōnto je śledzōne!</string>
+    <string name="toast_unfollow">Kōnto już niy je śledzōne!</string>
+    <string name="toast_reblog">Tut bōł rozgłoszōny!</string>
+    <string name="toast_unreblog">Tut już niy je rozgłoszany!</string>
+    <string name="toast_favourite">Tut bōł przidany do ôblubiōnych!</string>
+    <string name="toast_unfavourite">Tut bōł wymazany ze ôblubiōnych!</string>
+    <string name="toast_report">Tut bōł zgłoszōny!</string>
+    <string name="toast_unstatus">Tut bōł wymazany!</string>
+    <string name="toast_pin">Tut bōł przipniynty!</string>
+    <string name="toast_unpin">Tut bōł ôdepniynty!</string>
+    <string name="toast_error">Doszło do błyndu!</string>
+    <string name="toast_code_error">Doszło do błyndu! Instancyjo niy swrōciyła kodu autoryzacyje!</string>
+    <string name="toast_error_instance">Dōmyna instancyje niy wyglōndo na noleżno!</string>
+    <string name="toast_error_loading_account">Doszło do błyndu przi szaltrowaniu miyndzy kōntami!</string>
+    <string name="toast_error_search">Doszło do błyndu przi szukaniu!</string>
+    <string name="toast_update_credential_ok">Dane profilu były spamiyntane!</string>
+    <string name="nothing_to_do">Nic niy idzie zrobić</string>
+    <string name="toast_saved">Zbiōr spamiyntany!</string>
+    <string name="toast_error_translate">Doszło do błyndu przi przekłodaniu!</string>
+    <string name="toast_error_translations_disabled">Przekłady sōm zastawiōne we sztelōnkach</string>
+    <string name="toast_toot_saved">Kōncept spamiyntany!</string>
+    <string name="toast_error_char_limit">Na zicher ta instancyjo zwolo na tyla znakōw? Nojczyńścij to je kole 500.</string>
+    <string name="toast_visibility_changed">Widzialność tutōw była zmiyniōno dlo kōnta %1$s</string>
+    <!-- Settings -->
+    <string name="set_toots_page">Liczba tutōw na wgranie</string>
+    <string name="set_attachment_always">Dycki</string>
+    <string name="set_attachment_wifi">Wifi</string>
+    <string name="set_attachment_ask">Pytej</string>
+    <string name="set_attachment_action">Ladowanie mediōw</string>
+    <string name="load_attachment">Laduj ôbrozki</string>
+    <string name="load_attachment_spoiler">Pokoż wiyncyj…</string>
+    <string name="load_attachment_spoiler_less">Pokoż mynij…</string>
+    <string name="load_sensitive_attachment">Uraźliwo treść</string>
+    <string name="set_disable_gif">Zastow awatary GIF</string>
+    <string name="set_folder_title">Ściyżka: </string>
+    <string name="set_auto_store_toot">Autōmatycznie spamiyntuj kōncepty</string>
+    <string name="set_auto_add_media_url">Przidej URL mediōw we tutach</string>
+    <string name="set_notif_follow">Powiadōm, jak ftoś mie biere śledzić</string>
+    <string name="set_notif_follow_share">Powiadōm, jak ftoś rozgłoszo mōj status</string>
+    <string name="set_notif_follow_add">Powiadōm, jak ftoś lubi mōj status</string>
+    <string name="set_notif_follow_mention">Powiadōm, jak ftoś mie spōmino</string>
+    <string name="set_notif_follow_poll">Powiadōm, jak anketa sie skōńczy</string>
+    <string name="set_notif_status">Notify for new posts</string>
+    <string name="set_share_validation">Pytej ô potwiyrdzynie przed rozgłoszyniym</string>
+    <string name="set_share_validation_fav">Pytej ô potwiyrdzynie przed polubiyniym</string>
+    <string name="set_wifi_only">Powiadōm ino przi Wifi</string>
+    <string name="set_notify">Powiadōmiać?</string>
+    <string name="set_notif_silent">Ciche powiadōmiynia</string>
+    <string name="set_nsfw_timeout">Czas pokazowanio materyji uraźliwych (sekundy, 0 znaczy zastawiōne)</string>
+    <string name="set_med_desc_timeout">Limit czasu ôpisu mediōw (sekundy, 0 znaczy zastawiōny)</string>
+    <string name="settings_title_profile">Edytuj profil</string>
+    <string name="settings_title_custom_sharing">Włosne udostympnianie</string>
+    <string name="settings_custom_sharing_url">Twōj URL włosnego udostympnianio&#8230;</string>
+    <string name="set_profile_description">Biografijo…</string>
+    <string name="set_lock_account">Zablokuj kōnto</string>
+    <string name="set_save_changes">Spamiyntej zmiany</string>
+    <string name="set_header_picture_overlay">Wybier wiyrchni ôbrozek</string>
+    <string name="set_fit_preview">Pokoż cołke ôbrozki</string>
+    <string name="set_automatically_split_toot">Autōmatycznie dziel tuty we ôdpowiedziach, jak skōnczy sie limit znakōw:</string>
+    <string name="note_no_space">Limit 160 znakōw bōł przekroczōny!</string>
+    <string name="username_no_space">Limit 30 znakōw bōł przekroczōny!</string>
+    <string name="settings_time_from">Miyndzy</string>
+    <string name="settings_time_to">a</string>
+    <string name="settings_time_greater">Czas musi być niyskorzij niż %1$s</string>
+    <string name="settings_time_lower">Czas musi być wcześnij niż %1$s</string>
+    <string name="settings_hour_init">Poczōntek</string>
+    <string name="settings_hour_end">Kōniec</string>
+    <string name="embedded_browser">Używej wbudowanyj przeglōndarki</string>
+    <string name="custom_tabs">Włosne karty</string>
+    <string name="use_javascript">Włōncz Javascript</string>
+    <string name="expand_cw">Autōmatycznie pokoż cw</string>
+    <string name="use_cookies">Zwolo na zewnyntrzne cookie</string>
+    <string name="your_api_key">Twōj klucz API, przi Yandex idzie ôstawić prōzne</string>
+    <string-array name="settings_theme">
+        <item>Ciymny</item>
+        <item>Jasny</item>
+        <item>Czorny</item>
+    </string-array>
+    <string name="set_led_colour">Nasztaluj farba LED:</string>
+    <string-array name="led_colours">
+        <item>Modro</item>
+        <item>Cyjan</item>
+        <item>Magynta</item>
+        <item>Zielōno</item>
+        <item>Czerwōno</item>
+        <item>Żōłto</item>
+        <item>Bioło</item>
+    </string-array>
+    <string name="action_follow">Śledź</string>
+    <string name="action_unblock">Ôdblokuj</string>
+    <string name="action_mute">Wycisz</string>
+    <string name="action_unmute">Niy wyciszej</string>
+    <string name="request_sent">Prośba wysłano</string>
+    <string name="followed_by">Śledzi cie</string>
+    <string name="action_search">Szukej</string>
+    <string name="set_capitalize">Ôd srogij litery we ôdpowiedziach</string>
+    <string name="set_resize_picture">Zmiyń srogość ôbrozkōw</string>
+    <string name="set_resize_video">Zmiyń srogość filmōw</string>
+    <!-- Quick settings for notifications -->
+    <string name="settings_popup_title">Powiadōmiynia push</string>
+    <string name="settings_popup_message">        Skoż, kere powiadōmiynia chcesz dostować.
+        Możesz te powiadōmiynia włōnczyć abo zastawiać niyskorzij we sztelōnkach (karta Powiadōmiynia).
+    </string>
+    <!-- CACHE -->
+    <string name="cache_title">Ôprōznij cache</string>
+    <string name="cache_message">Je %1$s danych we cache.\n\nChcesz je wymazać?</string>
+    <string name="cache_units">Mb</string>
+    <string name="toast_cache_clear">Cache ôprōzniōne! %1$s zwolniōne</string>
+    <!-- ACTIVITY CUSTOM SHARING -->
+    <string name="title_header_custom_sharing">Tytuł</string>
+    <string name="title_hint_custom_sharing">Tytuł&#8230;</string>
+    <string name="description_header_custom_sharing">Ôpis</string>
+    <string name="keywords_header_custom_sharing">Słowa kluczowe</string>
+    <string name="keywords_hint_custom_sharing">Słowa kluczowe&#8230;</string>
+    <!-- ACTIVITY CACHE -->
+    <string name="action_sync">Synchrōnizuj</string>
+    <string name="action_filter">Filtrowanie</string>
+    <string name="owner_cached_toots">Twoje tuty</string>
+    <string name="owner_cached_notifications">Twoje powiadōmiynia</string>
+    <string name="v_public">Publiczne</string>
+    <string name="v_unlisted">Niypubliczne</string>
+    <string name="v_private">Prywatne</string>
+    <string name="v_direct">Bezpostrzednie</string>
+    <string name="v_keywords">Pora słōw kluczowych…</string>
+    <string name="show_media">Pokoż zbiōr</string>
+    <string name="show_pinned">Pokoż przipniynte</string>
+    <string name="filter_no_result">Żodne wyniki tymu niy pasujōm!</string>
+    <string name="data_backup_toots">Kopijo ibryczno tutōw ôd %1$s</string>
+    <string name="data_backup_success">%1$s nowych tutōw było zaimportowanych</string>
+    <string name="data_backup_notification_success">%1$s nowych powiadōmiyń było zaimportowanych</string>
+    <string-array name="filter_order">
+        <item>Datami do zadku</item>
+        <item>Datami do przodku</item>
+    </string-array>
+    <string-array name="filter_select">
+        <item>Niy</item>
+        <item>Ino</item>
+        <item>Ôba</item>
+    </string-array>
+    <string name="owner_cached_toots_empty">Żodnych tutōw niy szło znojś we bazie danych. Tyknij knefla synchrōnizacyje we myni, żeby je ściōngnōńć.</string>
+    <!-- PRIVACY -->
+    <string name="privacy_data_title">Trzimane dane</string>
+    <string name="privacy_data">        Ino bazowe informacyje ze kōnt sōm trzimane na maszinie.
+        Te dane sōm blank tajne i może je używać ino aplikacyjo.
+        Skasowanie aplikacyje zaroz wymazuje tyż dane.\n
+        &#9888; Login i hasła nigdy niy sōm trzimane. Sōm ino używane w czasie bezpiecznyj autoryzacyje (SSL) we instancyji.
+    </string>
+    <string name="privacy_authorizations_title">Uprawniynia:</string>
+    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Używane do wykrywanio, czy maszina je skuplowano ze necym Wifi.\n
+        - <b>INTERNET</b>: Używane do pytań do instancyje.\n
+        - <b>WRITE_EXTERNAL_STORAGE</b>: Używane do trzimanio mediōw abo przeniesiynio aplikacyje na karta SD.\n
+        - <b>READ_EXTERNAL_STORAGE</b>: Używane do przidowanio mediōw do tutōw.\n
+        - <b>BOOT_COMPLETED</b>: Używane to aktywowanio usugi powiadōmiyń.\n
+        - <b>WAKE_LOCK</b>: Używane przi usudze powiadōmiyń.
+    </string>
+    <string name="privacy_API_authorizations_title">Uprawniynia API:</string>
+    <string name="privacy_API_authorizations">        - <b>Czytej</b>: Czytej dane.\n
+        - <b>Spamiyntuj</b>: Postuj statusy i wgrowej media dō nich.\n
+        - <b>Śledź</b>: Śledź, niy śledź, blokuj, niy blokuj.\n\n
+        <b>&#9888; Te akcyje sōm kludzōne ino jak uczywocz ich zażōndo.</b>
+    </string>
+    <string name="privacy_API_title">Śledzynie i bibliotyki</string>
+    <string name="privacy_API">        Aplikacyjo <b>niy używo noczyń, co śledzōm</b> (mierzynie publiczności, reportowanie felerōw, etc.) i niy ma w nij żodnych reklam.\n\n
+        Je minimalne użycie bibliotyk: \n
+        - <b>Glide</b>: Sprawio media\n
+        - <b>Android-Job</b>: Sprawio usugi\n
+        - <b>PhotoView</b>: Sprawio ôbrozki\n
+    </string>
+    <string name="privacy_API_yandex_title">Przekłod tutōw</string>
+    <string name="privacy_API_yandex_authorizations">        Aplikacyjo dowo możliwość przekładu tutōw ze użyciym locale masziny i API Yandeksu.\n
+        Yandex mo polityka prywatności, co jōm idzie znojś sam: https://yandex.ru/legal/confidential/?lang=en
+    </string>
+    <string name="thanks_text_dev">        Podziynkowania:
+    </string>
+    <string name="filter_regex">Filtruj bez regularne wyrażynia</string>
+    <string name="search">Szukej</string>
+    <string name="delete">Wymaż</string>
+    <string name="fetch_more_toots">Ściōng wiyncyj tutōw…</string>
+    <!-- About lists -->
+    <string name="action_lists">Listy</string>
+    <string name="action_lists_confirm_delete">Na zicher chcesz doimyntnie wymazać ta lista?</string>
+    <string name="action_lists_empty_content">Jeszcze nic niy ma na tyj liście. Jak jeji czōnkowie ôpublikujōm nowe statusy, to ône sie pokożōm sam.</string>
+    <string name="action_lists_add_to">Przidej do listy</string>
+    <string name="action_lists_create">Przidej lista</string>
+    <string name="action_lists_delete">Wymaż lista</string>
+    <string name="action_lists_update">Edytuj lista</string>
+    <string name="action_lists_title_placeholder">Nowy tytuł listy</string>
+    <string name="action_lists_add_user">Kōnto było dodane do listy!</string>
+    <string name="action_lists_empty">Jeszcze niy mosz żodnych list!</string>
+    <!-- Migration -->
+    <string name="account_moved_to">Kōnto %1$s przeniysiōne do %2$s</string>
+    <string name="issue_login_title">Autoryzacyjo niy funguje?</string>
+    <string name="issue_login_message">        <b>Tukej pora dorad, co mogōm pōmōc:</b>\n\n
+        - Wejzdrzij, czy niy ma literōwek we mianie instancyje\n\n
+        - Wejzdrzij, czy twoja instancyjo funguje\n\n
+        - Jeźli używosz dwuetapowego logowanio (2FA), to użyj linka na spodku (jak już wkludzisz miano instancyje)\n\n
+        - Możesz tyż użyć tego linka bez 2FA\n\n
+        - Jak to durch niy pōmoże, to ôtwōrz problym na FramaGit na https://framagit.org/tom79/fedilab/issues
+    </string>
+    <string name="media_ready">Medium zaladowane. Tyknij sam, żeby je ôbejzdrzeć.</string>
+    <string name="data_export_start">Ta akcyjo może być fest dugo. Dostaniesz powiadōmiynie, jak bydzie gotowo.</string>
+    <string name="data_export_running">Durch pracuje, czekej…</string>
+    <string name="data_export">Eksportuj statusy</string>
+    <string name="data_export_toots">Eksportuj statusy ôd %1$s</string>
+    <string name="data_export_success">%1$s tutōw ze %2$s było wyeksportowanych.</string>
+    <string name="data_export_error">Coś poszło źle przi eksportowaniu danych ôd %1$s</string>
+    <string name="data_export_error_simple">Coś poszło źle przi eksportowaniu danych!</string>
+    <string name="data_import_error_simple">Coś poszło źle przi importowaniu danych!</string>
+    <!-- Proxy -->
+    <string name="proxy_set">Proxy</string>
+    <string name="proxy_enable">Włōnczyć proxy?</string>
+    <string name="poxy_host">Host</string>
+    <string name="poxy_port">Port</string>
+    <string name="poxy_login">Login</string>
+    <string name="poxy_password">Hasło</string>
+    <string name="set_share_details">Przidej informacyje ô tucie przi udostympnianiu</string>
+    <string name="support_the_app_on_liberapay">Spiyrej aplikacyjo na Liberapay</string>
+    <string name="alert_regex">Je feler we wyrażyniu regularnym!</string>
+    <string name="toast_instance_unavailable">Niy szło znojś żodnych raji na tyj instancyji!</string>
+    <string name="delete_instance">Wymazać ta instancyjo?</string>
+    <string name="which_language">Przełōż na</string>
+    <string name="follow_instance">Śledź instancyjo</string>
+    <string name="toast_instance_already_added">Już śledzisz ta instancyjo!</string>
+    <string name="toast_instance_followed">Ta instancyjo je śledzōno!</string>
+    <string name="action_partnership">Partnerstwa</string>
+    <string name="neutral_menu_information">Informacyjo</string>
+    <string name="hide_boost">Skryj rozgłosy ôd %s</string>
+    <string name="endorse">Polecej na profilu</string>
+    <string name="show_boost">Pokazuj rozgłosy ôd %s</string>
+    <string name="unendorse">Niy polecej na profilu</string>
+    <string name="toast_endorse">Kōnto je teroz polecane na profilu</string>
+    <string name="toast_unendorse">Kōnto już niy je polecane na profilu</string>
+    <string name="toast_show_boost">Rozgłosy sōm teroz pokazowane!</string>
+    <string name="toast_hide_boost">Rozgłosy sōm teroz kryte!</string>
+    <string name="direct_message">Bezpostrzednio wiadōmość</string>
+    <string name="filters">Filtry</string>
+    <string name="action_filters_empty_content">Żodnych filtrōw do pokozanio. Możesz jakiś stworzić tykniyńciym we knefel „+”.</string>
+    <string name="filter_keyword">Słowo kluczowe abo fraza</string>
+    <string name="context_home">Dōmowo raja</string>
+    <string name="context_public">Publiczne raje</string>
+    <string name="context_notification">Powiadōmiynia</string>
+    <string name="context_conversation">Godki</string>
+    <string name="filter_keyword_explanations">Srogość liter we tekście ani we upozorniyniu ô zawartości niy majōm znaczynio</string>
+    <string name="context_drop">Ôdciep zamiast kryć</string>
+    <string name="context_drop_explanations">Filtrowane tuty zniknōm doimyntnie, nawet jak filter bydzie wymazany</string>
+    <string name="context_whole_word_explanations">Jak słowo kluczowe abo fraza sōm ino alfanumeryczne, to to bydzie użyte, jak bydzie pasować cołke słowo</string>
+    <string name="context_whole_word">Cołke słowo</string>
+    <string name="filter_context">Kōnteksty filtra</string>
+    <string name="filter_context_explanations">Jedyn abo wiyncyj kōntekstōw, kaj filter winiyn być użyty</string>
+    <string name="filter_expire">Zastow po</string>
+    <string name="action_filter_delete">Wymazać filter?</string>
+    <string name="action_update_filter">Aktualizuj filter</string>
+    <string name="action_filter_create">Stwōrz filter</string>
+    <string name="how_to_follow">Kogo śledzić</string>
+    <string name="action_who_to_follow_empty_content">Niy ma teroz kōnt na liście!</string>
+    <string name="follow_account">Śledź</string>
+    <string name="select_all">Zaznacz wszyjsko</string>
+    <string name="unselect_all">Ôdznacz wszyjsko</string>
+    <string name="follow_trunk">Kōnto %s je śledzōne!</string>
+    <string name="create_list_trunk">Tworzynie listy %s</string>
+    <string name="add_account_list_trunk">Przidowanie kōnt do listy</string>
+    <string name="account_added_list_trunk">Kōnta były przidane do listy</string>
+    <string name="adding_account_list_trunk">Przidowanie kōnt do listy</string>
+    <string name="action_list_add">Niy mosz jeszcze żodnyj listy. Tyknij knefel „+” i dodej nowo.</string>
+    <string name="about_trunk">Kogo śledzić</string>
+    <string name="about_trunk_action">Trunk API</string>
+    <string name="toast_impossible_to_follow">Kōnt(a) niy idzie śledzić</string>
+    <string name="retrieve_remote_account">Ściōnganie zdalnego kōnta</string>
+    <string name="expand_image">Autōmatycznie pokazuj skryte media</string>
+    <string name="channel_notif_follow">Nowe śledzynie</string>
+    <string name="channel_notif_boost">Nowy rozgłos</string>
+    <string name="channel_notif_fav">Nowe ôblubiynie</string>
+    <string name="channel_notif_mention">Nowe spōmniynie</string>
+    <string name="channel_notif_poll">Anketa skōńczōno</string>
+    <string name="channel_notif_toot">Nowy tut</string>
+    <string name="channel_notif_backup">Kopijo ibryczno tutōw</string>
+    <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_media">Ściōnganie mediōw</string>
+    <string name="set_notif_sound">Zmiyń klang powiadōmiyń</string>
+    <string name="select_sound">Wybier tōn</string>
+    <string name="set_enable_time_slot">Aktywuj przedzioł czasowy</string>
+    <string name="how_to_videos">Wideoinstrukcyje</string>
+    <string name="retrieve_remote_conversation">Ściōnganie zdalnyj godki!</string>
+    <string name="no_blocked_domain">Żodnych zablokowanych dōmyn!</string>
+    <string name="unblock_domain_confirm">Ôdblokuj dōmyna</string>
+    <string name="unblock_domain_confirm_message">Na zicher ôdblokować %s?</string>
+    <string name="block_domain_confirm_message">Na zicher zablokować %s?\n\nNiy bydziesz widzieć nic z tyj dōmyny na żodnyj publicznyj raji ani we powiadōmiyniach. Twoji śledzōncy ze tyj dōmyny bydōm ôdłōnczyni.</string>
+    <string name="blocked_domains">Zablokowane dōmyny</string>
+    <string name="block_domain">Zablokuj dōmyna</string>
+    <string name="toast_block_domain">Dōmyna je zablokowano</string>
+    <string name="toast_unblock_domain">Dōmyna już niy je blokowano!</string>
+    <string name="retrieve_remote_status">Ściōnganie zdalnego statusu</string>
+    <string name="comment">Skōmyntuj</string>
+    <string name="peertube_instance">Instancyjo Peertube</string>
+    <string name="no_comments">Bydź piyrszo ôsoba, co ôstawi kōmyntorz pod tym filmym. Tyknij knefla na wiyrchu z prawyj!</string>
+    <string name="number_view_video">%s ôbejzdrzyń</string>
+    <string name="duration_video">Dugość: %s</string>
+    <string name="add_remote_instance">Przidej instancyjo</string>
+    <string name="comment_no_allowed_peertube">Tyn film niy przizwolo na kōmyntorze!</string>
+    <string name="pickup_resolution">Wybier rozdzielczość</string>
+    <string name="peertube_favorites">Ôblubiōne Peertube</string>
+    <string name="bookmark_add_peertube">Film bōł dodany do zokłodek!</string>
+    <string name="bookmark_remove_peertube">Film bōł wymazany ze zokłodek!</string>
+    <string name="bookmark_peertube_empty">Niy ma filmōw Peertube we ôblubiōnych!</string>
+    <string name="channel">Kanał</string>
+    <string name="videos">Filmy</string>
+    <string name="channels">Kanały</string>
+    <string name="set_display_emoji">Użyj Emoji One</string>
+    <string name="information">Informacyjo</string>
+    <string name="set_display_card">Pokazuj podglōnd we wszyjskich tutach</string>
+    <string name="thanks_text_ux">Nowy projektant UX/UI</string>
+    <string name="set_display_video_preview">Pokazuj podglōndy wideo</string>
+    <string name="account_id_clipbloard">Id kōnta było skopiowane do skrytki!</string>
+    <string name="set_change_locale">Zmiyń jynzyk</string>
+    <string name="default_language">Wychodny jynzyk</string>
+    <string name="truncate_long_toots">Przitnij duge tuty</string>
+    <string name="set_truncate_toot">Przitnij tuty dugsze jak \'x\' liniji. Zero ôznaczo zastawiynie.</string>
+    <string name="display_toot_truncate">Pokoż wiyncyj</string>
+    <string name="hide_toot_truncate">Pokoż mynij</string>
+    <string name="manage_tags">Sprawuj tagi</string>
+    <string name="tags_already_stored">Tag już istniyje!</string>
+    <string name="tags_stored">Tag bōł spamiyntany!</string>
+    <string name="tags_renamed">Tag bōł zmiyniōny!</string>
+    <string name="tags_deleted">Tag bōł wymazany!</string>
+    <string name="schedule_boost">Zaplanuj rozgłos</string>
+    <string name="boost_scheduled">Rozgłos zaplanowany!</string>
+    <string name="no_scheduled_boosts">Żodnych zaplanowanych rozgłosōw!</string>
+    <string name="no_scheduled_boosts_indications"><![CDATA[Ôtwōrz myni tuta i wybier <b>Zaplanuj rozgłos</b>.]]></string>
+    <string name="art_menu">Raja kōnsztu</string>
+    <string name="open_menu">Ôtwōrz myni</string>
+    <string name="go_back">Nazod</string>
+    <string name="app_logo">Logo aplikacyje</string>
+    <string name="profile_picture">Profilowy ôbrozek</string>
+    <string name="profile_banner">Profilowy baner</string>
+    <string name="contact_instance_admin">Kōntakt ze administratorym instancyje</string>
+    <string name="add_new">Przidej nowy</string>
+    <string name="mastohost_logo">Logo MastoHost</string>
+    <string name="emoji_picker">Wybōr emoji</string>
+    <string name="refresh">Ôdświyż</string>
+    <string name="expand_conversation">Rozwiń godka</string>
+    <string name="remove_account">Wymaż kōnto</string>
+    <string name="delete_domain">Wymaż zablokowano dōmyna</string>
+    <string name="custom_emoji_picker">Włosny wybōr emoji</string>
+    <string name="play_video">Pokoż film</string>
+    <string name="new_toot">Nowy tut</string>
+    <string name="card_view_image">Ôbrozek przi karcie</string>
+    <string name="hide_media">Skryj media</string>
+    <string name="favicon">Favicon</string>
+    <string name="media_description">Przidej ôpis do medium (do słabowidzōncych)</string>
+    <string-array name="filter_expire">
+        <item>Nigdy</item>
+        <item>30 minut</item>
+        <item>1 godzina</item>
+        <item>6 godzin</item>
+        <item>12 godzin</item>
+        <item>1 dziyń</item>
+        <item>1 tydziyń</item>
+    </string-array>
+    <string name="showcase_instance">W tym polu trzeba wkludzić dōmyna twojij instancyje.\nBez przikłod jak mosz kōnto na https://mastodon.social\n to ino napisz <b>mastodon.social</b>\nMożesz zaczōńć pisać piyrsze litery i pokożōm sie podpowiedzi nazw.
+    </string>
+    <string name="more_information">Wiyncyj informacyji</string>
+    <!-- languages not translated -->
+    <string name="languages">Jynzyki</string>
+    <string name="show_media_only">Ino media</string>
+    <string name="show_media_nsfw">Pokoż 18+</string>
+    <string name="crowdin_translations">Przekłady Crowdin</string>
+    <string name="crowdin_manager">Mynedżer Crowdin</string>
+    <string name="translation_app">Przekłodanie aplikacyje</string>
+    <string name="about_crowdin">Ô Crowdin</string>
+    <string name="bot">Bot</string>
+    <string name="pixelfed_instance">Instancyjo Pixelfed</string>
+    <string name="mastodon_instance">Instancyjo Mastodona</string>
+    <string name="any_tags">Lecykery</string>
+    <string name="all_tags">Wszyjske</string>
+    <string name="none_tags">Żodne</string>
+    <string name="some_words_any">Lecy kere słowa (ôddzielōne spacyjami)</string>
+    <string name="some_words_all">Wszyjske te słowa (ôddzielōne spacyjōm)</string>
+    <string name="some_tags">Przidej pora słōw do filtra (ôddzielōne spacyjōm)</string>
+    <string name="change_tag_column">Przemianuj kolumna</string>
+    <string name="misskey_instance">Instancyjo Misskey</string>
+    <string name="toast_no_apps">Na maszinie niy ma aplikacyje, co spiyro tyn link.</string>
+    <string name="subscriptions">Subskrypcyje</string>
+    <string name="overview">Przeglōnd</string>
+    <string name="trending">Popularne</string>
+    <string name="recently_added">Niydowno przidane</string>
+    <string name="local">Lokalne</string>
+    <string name="upload_video">Wgrej</string>
+    <string name="reply">Ôdpowiydz</string>
+    <string name="delete_comment">Wymaż kōmyntorz</string>
+    <string name="delete_comment_confirm">Na zicher wymazać tyn kōmyntorz?</string>
+    <string name="fullscreen">Film we połnym ekranie</string>
+    <string name="set_video_mode">Tryby wideo</string>
+    <string name="file_to_upload">Wybier zbiōr do wgranio</string>
+    <string name="my_videos">Moje filmy</string>
+    <string name="title">Tytuł</string>
+    <string name="license">Licyncyjo</string>
+    <string name="category">Kategoryjo</string>
+    <string name="language">Jynzyk</string>
+    <string name="peertube_nsfw">We tym filmie sōm materyje do majoryntnych</string>
+    <string name="peertube_enable_comments">Przizwōl na kōmyntorze do filmu</string>
+    <string name="update_video">Aktualizuj film</string>
+    <string name="description">Ôpis</string>
+    <string name="toast_peertube_video_updated">Tyn film bōł zaktualizowany!</string>
+    <string name="toast_cancelled">Wgrowanie pociepniynte!</string>
+    <string name="upload_video_success">Film bōł wgrany!</string>
+    <string name="uploading">Wgrowanie, czekej…</string>
+    <string name="video_uploaded_action">Tyknij sam, żeby edytować dane filmu.</string>
+    <string name="delete_video">Skasuj film</string>
+    <string name="delete_video_confirmation">Na zicher chcesz skasować tyn film?</string>
+    <string name="display_nsfw_videos">Pokazuj filmy 18+</string>
+    <string name="no_video_to_display">Żodnych filmōw do pokozanio!</string>
+    <string name="leave_a_comment">Ôstow kōmyntorz</string>
+    <string name="share">Udostympnij</string>
+    <string name="choose_schedule">Wybier tryb udostympniynio</string>
+    <string name="device_schedule">Ze masziny</string>
+    <string name="server_schedule">Ze serwera</string>
+    <string name="toots_server">Tuty (serwer)</string>
+    <string name="toots_client">Tuty (maszina)</string>
+    <string name="modify">Zmiyń</string>
+    <string name="set_display_content_after_fetch_more">Pokazuj nowe tuty nad kneflym „Ściōng wiyncyj”</string>
+    <string name="settings_category_label_timelines">Raje</string>
+    <string name="settings_category_label_interface">Interfejs</string>
+    <string name="contact">Kōntakty</string>
+    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> kōmyntuje twōj film <b>%2$s</b>]]></string>
+    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> śledzi twōj kanał <b>%2$s</b>]]></string>
+    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> śledzi twoje kōnto]]></string>
+    <string name="peertube_video_published"><![CDATA[Twōj film <b>%1$s</b> bōł ôpublikowany]]></string>
+    <string name="peertube_video_import_success"><![CDATA[Udało sie zaimportować twōj film <b>%1$s</b>]]></string>
+    <string name="peertube_video_import_error"><![CDATA[Niy szło zaimportować twojigo filmu <b>%1$s</b>]]></string>
+    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> publikuje nowy film: <b>%2$s</b>]]></string>
+    <string name="peertube_video_blacklist"><![CDATA[Twōj film <b>%1$s</b> bōł dodany do czornyj listy]]></string>
+    <string name="peertube_video_unblacklist"><![CDATA[Twōj film <b>%1$s</b> bōł wymazany ze czornyj listy]]></string>
+    <string name="export_data">Eksportuj dane</string>
+    <string name="import_data">Importuj dane</string>
+    <string name="toot_select_import">Wybier zbiōr do importu</string>
+    <string name="toot_select_file_error">Doszło do błyndu przi edytowaniu zbioru ibrycznego!</string>
+    <string name="add_public_comment">Przidej publiczny kōmyntorz</string>
+    <string name="send_comment">Wyślij kōmyntorz</string>
+    <string name="toast_toot_saved_error">Niy ma połōnczynio ze internetym. Wiadōmość była spamiyntanio we kōnceptach.</string>
+    <string name="action_plain_text">Zwykły tekst</string>
+    <string name="action_html">HTML</string>
+    <string name="action_markdown">Markdown</string>
+    <string name="action_logout_account">Ôdloguj kōnto</string>
+    <string name="all">Wszyjsko</string>
+    <string name="about_opencollective">Spiyrej aplikacyjo</string>
+    <string name="more_about_opencollective">Open Collective pōmogo grupōm wartko zakłodać spōłdzielnie, zbiyrać piniōndze i sprawować je przejzdrziście.</string>
+    <string name="copy_link">Skopiuj link</string>
+    <string name="connect_instance">Połōncz</string>
+    <string name="set_normal">Normalny</string>
+    <string name="set_compact">Kōmpaktowy</string>
+    <string name="set_console">Kōnsola</string>
+    <string name="set_mode">Wybier tryb pokazowanio</string>
+    <string name="set_security_provider">Spraw Dostawcy Bezpieczyństwa</string>
+    <string name="update_tracking_domains">Aktualizuj dōmyny śledzynio</string>
+    <string name="tracking_db_updated">Baza danych śledzynio była zaktualizowano!</string>
+    <string name="calls_blocked">wywołania http zablokowane ôd aplikacyje</string>
+    <string name="list_of_blocked_domains">Lista zablokowanych wywołań</string>
+    <string name="submit">Wyślij</string>
+    <string name="data_base_exported">Baza danych była wyeksportowano!</string>
+    <string name="featured_hashtags">Wyrōżniōne hasztagi</string>
+    <string name="filter_timeline_with_a_tag">Filtruj raja tagami</string>
+    <string name="no_tags">Żodnych tagōw</string>
+    <string name="set_hide_delete_notification_on_tab">Skryj knefel „wymaż” we karcie powiadōmiyń</string>
+    <string name="set_retrieve_metadata_share_from_extras">Przidej ôbrozek przi udostympnianiu URL</string>
+    <!-- end languages -->
+    <string name="poll">Anketa</string>
+    <string name="polls">Ankety</string>
+    <string name="create_poll">Stwōrz anketa</string>
+    <string name="poll_choice_1">Wybōr 1</string>
+    <string name="poll_choice_2">Wybōr 2</string>
+    <string name="poll_choice_s">Wybōr %d</string>
+    <string name="poll_invalid_choices">Potrza aby dwōch wyborōw do ankety!</string>
+    <string name="done">Gotowe</string>
+    <string name="poll_finish_at">kōniec ô %s</string>
+    <string name="refresh_poll">Ôdświyż anketa</string>
+    <string name="vote">Weluj</string>
+    <string name="notif_poll">Skōńczyła sie anketa ze twojim głosym</string>
+    <string name="notif_poll_self">Skōńczyła sie anketa co była rozgłoszano ôd ciebie</string>
+    <string name="settings_category_notif_customize">Persōnalizuj</string>
+    <string name="settings_category_notif_categories">Kategoryje</string>
+    <string name="settings_category_notif_time_slot">Przedzioł czasowy</string>
+    <string name="settings_category_notif_advanced">Rozszyrzōne</string>
+    <string name="set_display_new_badge">Pokoż znaczek „nowy” przi niyprzeczytanych tutach</string>
+    <string name="peertube_menu">Peertube</string>
+    <string name="move_timeline">Pōnknij raja</string>
+    <string name="hide_timeline">Skryj raja</string>
+    <string name="reorder_timelines">Porzōndkuj raje</string>
+    <string name="reorder_list_deleted">Lista doimyntnie wymazano</string>
+    <string name="reorder_instance_removed">Śledzōno instancyjo wymazano</string>
+    <string name="reorder_tag_removed">Przipniynty tag wymazany</string>
+    <string name="undo">Cofnij</string>
+    <string name="visible_tabs_needed">Musisz mieć dwie widzialne karty!</string>
+    <string name="action_reorder_timeline">Porzōndkuj raje</string>
+    <string name="warning_main_timeline">Głōwne raje mogōm być ino skryte!</string>
+    <string name="action_bbcode">BBCode</string>
+    <string name="set_sensitive_content">Dycki ôznaczej media za uraźliwe</string>
+    <string name="gnu_instance">Instancyjo GNU</string>
+    <string name="cached_status">Status ze pamiyńci cache</string>
+    <string name="set_forward_tags">Przekazuj tagi we ôdpowiedziach</string>
+    <string name="set_long_press_media">Naciś dugo, żeby spamiyntać medium</string>
+    <string name="set_blur_sensitive">Rozmaż uraźliwe media</string>
+    <string name="set_display_timeline_in_list">Pokazuj raje we liście</string>
+    <string name="display_timeline">Pokazuj raje</string>
+    <string name="set_display_bot_icon">Ôznaczej we tutach kōnta botōw</string>
+    <string name="add_tags">Sprawuj tagi</string>
+    <string name="set_remember_position">Pamiyntej pozycyjo na dōmowyj raji</string>
+    <string name="history">Historyjo</string>
+    <string name="playlists">Playlisty</string>
+    <string name="display_name">Miano pokazowane</string>
+    <string name="action_playlist_add">Niy mosz żodnych playlist. Tyknij ikōna „+”, żeby przidać nowo</string>
+    <string name="error_display_name">Musisz wkludzić pokazowane miano!</string>
+    <string name="error_channel_mandatory">Kanał je potrzebny, jak playlista je publiczno.</string>
+    <string name="action_playlist_create">Stwōrz playlista</string>
+    <string name="action_playlist_empty_content">Jeszcze nic niy ma na playliście.</string>
+    <string name="redo">jeszcze roz</string>
+    <string name="gallery">Galeryjo</string>
+    <string name="label_emoji">Emoji</string>
+    <string name="label_sticker">Nalepka</string>
+    <string name="label_eraser">Gumka</string>
+    <string name="label_text">Tekst</string>
+    <string name="label_filter">Filter</string>
+    <string name="label_brush">Pyndzel</string>
+    <string name="confirm_exit_editing">Na zicher chcesz zawrzić bez spamiyntowanio ôbrozka?</string>
+    <string name="discard">Pociep</string>
+    <string name="saving">Spamiyntowanie…</string>
+    <string name="image_saved">Ôbrozek spamiyntany!</string>
+    <string name="save_image_failed">Niy szło spamiyntać ôbrozka</string>
+    <string name="opacity">Przejzdrzistość</string>
+    <string name="set_photo_editor">Włōncz edytōr fotografiji</string>
+    <string name="add_poll_item">Przidej elymynt ankety</string>
+    <string name="remove_poll_item">Wymaż ôstatni elymynt ankety</string>
+    <string name="mute_conversation">Wycisz godka</string>
+    <string name="unmute_conversation">Cofnij wyciszynie godki</string>
+    <string name="toast_unmute_conversation">Godka już niy je wyciszōno!</string>
+    <string name="toast_mute_conversation">Godka je wyciszōno</string>
+    <string name="app_features">Ôtwōrz funkcyje aplikacyje</string>
+    <string name="timed_mute">Czasowe wyciszynie</string>
+    <string name="mention_account">Spōmnij kōnto</string>
+    <string name="refresh_cache">Ôdświyż cache</string>
+    <string name="mention_status">Spōmnij status</string>
+    <string name="action_news">Nowiny</string>
+    <string name="category_general">Ôgōlne</string>
+    <string name="category_regional">Regiōnalne</string>
+    <string name="category_art">Kōnszt</string>
+    <string name="category_journalism">Dziynnikarstwo</string>
+    <string name="category_activism">Aktywizm</string>
+    <string name="category_games">Gry</string>
+    <string name="category_tech">Technologijo</string>
+    <string name="category_adult">Treści do majoryntnych</string>
+    <string name="category_furry">Furry</string>
+    <string name="category_food">Jodło</string>
+    <string name="instance_logo">Logo ôd instancyje</string>
+    <string name="toast_error_instance_reg">Coś poszło źle przi wybadowaniu dostympnych instancyji!</string>
+    <string name="join_mastodon">Przistōmp do Mastodona</string>
+    <string name="pickup_instance_category">Wybier instancyjo bez wybranie kategoryje i tyknij knefla zaznaczanio.</string>
+    <string name="pickup_instance_peertube">Wybier instancyjo bez tykniyńcie knefla zaznaczanio.</string>
+    <string name="users">%1$s używoczōw</string>
+    <string name="password_confirm">Potwiyrdź hasło</string>
+    <string name="agreement_check">Zgodzōm sie na %1$s i %2$s</string>
+    <string name="server_rules">prawidła serwera</string>
+    <string name="tos">warōnki usugi</string>
+    <string name="sign_up">Zaregistruj sie</string>
+    <string name="validation_needed">Ta instancyjo funguje ze zaproszyniami. Twoje kōnto bydzie musiało być ryncznie potwiyrdzōne ôd administratora, podwiela bydzie szło go używać.</string>
+    <string name="all_field_filled">Wypołnij wszyjske pola!</string>
+    <string name="password_error">Hasła niy pasujōm!</string>
+    <string name="email_error">Email niy wyglōndo na noleżny!</string>
+    <string name="username_indicator">Twoje miano używocza bydzie unikalne na %1$s</string>
+    <string name="email_indicator">Dostaniesz email ze potwiyrdzyniym</string>
+    <string name="password_indicator">Użyj aby 8 znakōw</string>
+    <string name="password_too_short">Hasło powinno mieć aby 8 znakōw</string>
+    <string name="username_error">Miano używocza powinno mieć ino litery, numery i podkryślynia</string>
+    <string name="account_created">Kōnto stworzōne!</string>
+    <string name="account_created_message">        Twoje kōnto było stworzōne!\n\n
+        Pōmyśl nad potwiyrdzyniym swojigo emaila bez nojbliższe 48 godzin.\n\n
+        Możesz teroz podłōnczyć swoje kōnto bez wpisanie <b>%1$s</b> we piyrszym polu i tykniyńcie <b>Połōncz</b>.\n\n
+        <b>Ważne</b>: Jeźli twoja instancyjo wymogo weryfikacyje, to dostaniesz email, jak ôna sie udo!
+    </string>
+    <string name="save_draft">Spamiyntać wiadōmość we kōnceptach?</string>
+    <string name="administration">Administracyjo</string>
+    <string name="reports">Zgłoszynia</string>
+    <string name="no_reports">Żodnych zgłoszyń do pokozanio!</string>
+    <string name="reconnect_account">Podłōncz zaś kōnto</string>
+    <string name="reconnect_account_message">Aplikacyjo niy mogła ôtworzić funkcyji administratorskich. Możno bydzie trzeba podłōnczyć kōnto na nowo, żeby mieć połny dostymp.</string>
+    <string name="unresolved">Niyrozwiōnzane</string>
+    <string name="remote">Zdalne</string>
+    <string name="active">Aktywne</string>
+    <string name="pending">Czekajōm</string>
+    <string name="disabled">Zastawiōne</string>
+    <string name="silenced">Wyciszōne</string>
+    <string name="suspended">Zawieszōne</string>
+    <string name="permissions">Uprawniynia</string>
+    <string name="email_status">Status email</string>
+    <string name="login_status">Status sesyje</string>
+    <string name="joined">Registracyjo</string>
+    <string name="recent_ip">Ôstatnie IP</string>
+    <string name="warn">Ôstrzyż</string>
+    <string name="disable">Zastow</string>
+    <string name="silence">Wycisz</string>
+    <string name="email_user">Dej znać używoczowi bez email</string>
+    <string name="custom_warning">Włosne ôstrzyżynie</string>
+    <string name="user">Używocz</string>
+    <string name="moderator">Moderatōr</string>
+    <string name="administrator">Administratōr</string>
+    <string name="confirmed">Potwiyrdzōne</string>
+    <string name="unconfirmed">Niypotwiyrdzōne</string>
+    <string name="list_reported_statuses">Zgłoszōne statusy</string>
+    <string name="account">Kōnto</string>
+    <string name="unsilence">Cofnij cisza</string>
+    <string name="undisable">Prziwrōć</string>
+    <string name="suspend">Zawieś</string>
+    <string name="unsuspend">Ôdwieś</string>
+    <string name="account_silenced">Kōnto je wyciszōne!</string>
+    <string name="account_unsilenced">Kōnto już niy je wyciszōne!</string>
+    <string name="account_suspended">Kōnto je zawieszōne!</string>
+    <string name="account_unsuspended">Kōnto już niy je zawieszōne!</string>
+    <string name="account_disabled">Kōnto je zastawiōne!</string>
+    <string name="account_undisabled">Kōnto już niy je zastawiōne!</string>
+    <string name="account_warned">Kōnto było ôstrzyżōne!</string>
+    <string name="set_display_admin_menu">Pokoż myni administracyjne</string>
+    <string name="set_display_admin_toot">Pokazuj funkcyje administracyjne we statusach</string>
+    <string name="allow">Przizwōl</string>
+    <string name="account_approved">Kōnto je potwiyrdzōne!</string>
+    <string name="account_rejected">Kōnto je ôdciepniynte!</string>
+    <string name="assign_to_me">Przidziel mie</string>
+    <string name="unassign">Niy przidzielej</string>
+    <string name="mark_resolved">Ôznacz za rozwiōnzane</string>
+    <string name="mark_unresolved">Ôznacz za niyrozwiōnzane</string>
+    <string name="toast_empty_content">Prōzno treść!</string>
+    <string name="set_display_fedilab_features_button">Pokazuj knefel funkcyji Fedilab</string>
+    <string name="audio">Aplikacyjo potrzebuje dostympu do nagrowanio audio</string>
+    <string name="voice_message">Głosowo wiadōmość</string>
+    <string name="set_quick_reply">Włōncz wartko ôdpowiydź</string>
+    <string name="reply_might_be_useless">Kōnto, co mu ôdpowiadosz, może niy widzieć tyj wiadōmości!</string>
+    <string name="set_remember_position_indication">Jeźli zastawiōne, aplikacyjo bydzie dycki ladować ôstatnie statusy</string>
+    <string name="set_blur_sensitive_indication">Jeźli zastawiōne, uraźliwe media bydōm skryte za kneflym</string>
+    <string name="set_long_press_media_indication">Spamiyntej media we połnyj srogości po dugim przitrzimaniu na podglōńdzie</string>
+    <string name="set_display_timeline_in_list_indication">Przidej knefel wielokropka na wiyrchu z prawyj ze listōm wszyjskich tagōw/instancyji/list</string>
+    <string name="set_enable_time_slot_indication">W czasie przedziału czasu aplikacyjo bydzie wysyłać powiadōmiynia. Możesz ôdwrōcić (bp. wyciszyć) tyn przedzioł we prawym rozwijanym myni.</string>
+    <string name="set_display_fedilab_features_button_indication">Pokazuj knefel Fedilab pod ôbrozkym profilowym. To je skrōt do funkcyji aplikacyje.</string>
+    <string name="set_quick_reply_indication">Przizwōl na ôdpowiadanie bezpostrzednio we rajach pod statusami</string>
+    <string name="set_fit_preview_indication">Podglōndy niy bydōm przitniynte we rajach</string>
+    <string name="set_display_video_preview_indication">Przizwolo grać wrażōne filmy bezpostrzednio we rajach</string>
+    <string name="set_display_content_after_fetch_more_indication">Przizwolo ôdwrōcić spusōb czytanio statusōw, co sōm pokazowane po tykniyńciu knefla „Ściōng wiyncyj”</string>
+    <string name="set_security_provider_indication">Ta ôpcyjo przizwolo na sparcie nojnowszych zestawōw szyfrōw. Używo sie jij na starszych maszinach z Androidym, jak niy idzie sie połōnczyć ze swojōm instancyjōm.</string>
+    <string name="set_video_mode_indication">Ino do filmōw Peertube. Przeszaltruj tyn tryb, jak niy możesz ich grać.</string>
+    <string name="featured_hashtags_indication">Te tagi przizwolōm na filtrowanie statusōw ze profili. Bydzie trzeba użyć myni kōntekstu, żeby je ôbejzdrzeć.</string>
+    <string name="set_capitalize_indication">Autōmatycznie wraź nowo linijo po spōmniyniu, żeby zaczōńć ôd srogij litery</string>
+    <string name="settings_title_custom_sharing_indication">Przizwōl kreatorōm treści udostympniać swoje statusy we kanałach RSS</string>
+    <string name="compose">Pisanie</string>
+    <string name="upload_image_maximum_retry_times">Limit prōb przi wgrowaniu mediōw</string>
+    <string name="new_folder">Stwōrz sam nowy folder</string>
+    <string name="folder_name">Wkludź miano foldra</string>
+    <string name="valid_folder_name">Wkludź noleżne miano foldra</string>
+    <string name="folder_exists">Taki folder już istniyje.\n Wkludź inksze miano dlo foldra</string>
+    <string name="select">Wybier</string>
+    <string name="default_directory">Wychodny katalog</string>
+    <string name="folder">Folder</string>
+    <string name="create_folder">Stwōrz folder</string>
+    <string name="set_display_confirm">Pokoż wiadōmość sukcesu po skōńczyniu akcyje (rozgłos, lubiynie itd.)?</string>
+    <string name="muted_instance_exported">Wyciszōne instancyje były wyeksportowane!</string>
+    <string name="add_instances">Przidej instancyjo</string>
+    <string name="export_instances">Eksportuj instancyje</string>
+    <string name="import_instances">Importuj instancyje</string>
+    <string name="set_crash_reports">Reporty ô awaryjach</string>
+    <string name="set_enable_crash_report">Włōncz reporty ô awaryjach</string>
+    <string name="set_enable_crash_report_indication">Jeźli włōnczōne, report ô awaryji bydzie stworzōny lokalnie i bydzie szło go wysłać.</string>
+    <string name="crash_title">Fedilab przestoł fungować :(</string>
+    <string name="crash_message">Idzie wysłać report ô awaryji bez email. To pōmoże go sprawić :)\n\nIdzie przidać ekstra treść. Dziynkujymy!</string>
+    <string name="set_wysiwyg">Użyj WYSIWYG</string>
+    <string name="set_wysiwyg_indication">Jeźli włōnczōne, to bydzie szło prosto noczyniym formatować tekst.</string>
+    <string name="action_stats">Statystyki</string>
+    <string name="total_statuses">Wszyjskich statusōw</string>
+    <string name="number_boosts">Liczba rozgłosōw</string>
+    <string name="number_favourites">Liczba polubiyń</string>
+    <string name="number_mentions">Liczba spōmniyń</string>
+    <string name="number_follows">Liczba śledzyń</string>
+    <string name="number_polls">Liczba anket</string>
+    <string name="number_replies">Liczba ôdpowiedzi</string>
+    <string name="number_statuses">Liczba statusōw</string>
+    <string name="statuses">Statusy</string>
+    <string name="visibility">Widzialność</string>
+    <string name="number_with_media">Liczba ze mediami</string>
+    <string name="number_with_sensitive_media">Liczba ze uraźliwymi mediami</string>
+    <string name="number_with_cw">Liczba ze 18+</string>
+    <string name="first_toot_date">Data piyrszego statusu</string>
+    <string name="last_toot_date">Data ôstatnigo statusu</string>
+    <string name="first_notification_date">Data piyrszego powiadōmiynio</string>
+    <string name="last_notification_date">Data ôstatnigo powiadōmiynio</string>
+    <string name="frequency">Czynstość</string>
+    <string name="toot_per_day">%s statusōw na dziyń</string>
+    <string name="notification_per_day">%s powiadōmiyń na dziyń</string>
+    <string name="date_range">Przedzioł dat</string>
+    <string name="action_groups">Grupy</string>
+    <string name="no_messages">Żodnych grup!</string>
+    <string name="set_disable_animated_emoji">Zastow włosne animowane emoji</string>
+    <string name="owner_charts">Diagramy</string>
+    <string name="display_charts">Pokoż diagramy</string>
+    <string name="collecting_data_wait">Aplikacyjo zbiyro twoje lokalne dane, czekej…</string>
+    <string name="set_backup">Kopije ibryczne</string>
+    <string name="set_auto_backup">Autōmatyczne kopije ibryczne statusōw</string>
+    <string name="set_auto_backup_indication">To je ôpcyjo do kożdego kōnta. Ôna aktywuje usuga, co autōmatycznie bydzie trzimać twoje statusy lokalnie we bazie danych. To przizwoli na statystyki i diagramy</string>
+    <string name="set_auto_backup_notifications">Autōmatyczne kopije ibryczne powiadōmiyń</string>
+    <string name="set_auto_backup_notifications_indication">To je ôpcyjo do kożdego kōnta. Ôna aktywuje usuga, co autōmatycznie bydzie trzimać twoje powiadōmiynia lokalnie we bazie danych. To przizwoli na statystyki i diagramy</string>
+    <string name="report_account">Zgłoś kōnto</string>
+    <string name="send_invitation">Wyślij zaproszynie</string>
+    <string name="registration_closed">Twoja instancyjo niy przizwolo na registrowanie nowych kōnt!</string>
+    <plurals name="number_of_vote">
+        <item quantity="one">%d głos</item>
+        <item quantity="few">%d głosy</item>
+        <item quantity="many">%d głosōw</item>
+        <item quantity="other">%d głosu</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">%d anketowany</item>
+        <item quantity="few">%d anketowanych</item>
+        <item quantity="many">%d anketowanych</item>
+        <item quantity="other">%d anketowanego</item>
+    </plurals>
+    <string-array name="poll_choice_type">
+        <item>Pojedynczy wybōr</item>
+        <item>Wiyncyj wyborōw</item>
+    </string-array>
+    <string-array name="poll_duration">
+        <item>5 minut</item>
+        <item>30 minut</item>
+        <item>1 godzina</item>
+        <item>6 godzin</item>
+        <item>1 dziyń</item>
+        <item>3 dni</item>
+        <item>7 dni</item>
+    </string-array>
+    <string-array name="settings_video_mode">
+        <item>Przeglōndarka</item>
+        <item>Bezpostrzedni streaming</item>
+    </string-array>
+    <string name="join_instance">Żeby przistōmpić do mojij instancyje „%1$s”, możesz ściōngnōńć Fedilab:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nÔtwōrz link niżyj we Fedilabie i stwōrz swoje kōnto :)\n\n%4$s
+    </string>
+    <string name="poll_duplicated_entry">Twoja anketa niy może mieć tuplowanych ôpcyji!</string>
+    <string name="all_accounts">Do wszyjskich kōnt</string>
+    <string name="database_cache">Cache bazy danych</string>
+    <string name="cache_timeline_clear">Ôprōznij cache swojij dōmowyj raje</string>
+    <string name="cache_owntoots_clear">Wymaż swoje statusy z cache</string>
+    <string name="cache_bookmarks_clear">Wymaż swoje zokłodki</string>
+    <string name="file_cache">Zbiory we cache</string>
+    <string name="total_notifications">Wszyjskich powiadōmiyń</string>
+    <string name="hide_menu_items">Skryj elymynta myni</string>
+    <string name="top_notification">Fedilab aktywuje powiadōmiynia na żywo</string>
+    <string name="top_notification_message">Do %1$s kōnt ze %2$s wydarzyniami</string>
+    <string name="set_allow_live_notifications">Powiadōmiynia do %1$s</string>
+    <string name="set_allow_live_notifications_indication">Powiadōmiynia na żywo bydōm aktywne do tego kōnta.</string>
+    <string name="set_clear_cache_exit">Wyprōzniej cache przi zawarciu</string>
+    <string name="set_clear_cache_exit_indication">Cache (media, spamiyntane wiadōmości, dane ze wbudowanyj przeglōndarki) bydōm autōmatycznie wymazowane przi zawiyraniu aplikacyje.</string>
+    <string name="unfollow_confirm">Chcesz przestać śledzić to kōnto?</string>
+    <string name="set_unfollow_validation">Pokoż prośba ô potwierdzynie przed przestaniym śledzynio</string>
+    <string name="set_invidious">Zamiyń Youtube na Invidio.us</string>
+    <string name="set_invidious_indication">Invidious to alternatywa do przodnich funkcyji YouTube</string>
+    <string name="set_invidious_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać invidio.us</string>
+    <string name="set_nitter">Zamiyń Twitter na Nitter</string>
+    <string name="set_nitter_indication">Nitter to ôtwartozdrzōdłowo, skupiōno na prywatności alternatywa do przodnich funkcyji Twittera.</string>
+    <string name="set_nitter_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać nitter.net</string>
+    <string name="set_bibliogram">Zamiyń Instagram na Bibliogram</string>
+    <string name="set_bibliogram_indication">Bibliogram to ôtwartozdrzōdłowo, skupiōno na prywatności alternatywa do przodnich funkcyji Instagrama.</string>
+    <string name="set_bibliogram_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać bibliogram.art</string>
+    <string name="set_libreddit">Replace Reddit with Libreddit</string>
+    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
+    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
+    <string name="replace_medium">Replace Medium links</string>
+    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_host">Default: scribe.rip</string>
+    <string name="replace_wikipedia">Replace Wikipedia links</string>
+    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_wikipedia_host">Default: wikiless.org</string>
+    <string name="set_hide_status_bar">Skryj posek powiadōmiyń Fedilab</string>
+    <string name="set_hide_status_bar_indication">Żeby skryć permanyntne powiadōmiynie we posku statusu, tyknij knefel z ôkym i ôdznacz „Pokoż we posku statusu”</string>
+    <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
+    <string name="no_live_notif">Żodnych powiadōmiyń na żywo</string>
+    <string name="live_notif">Live notifications</string>
+    <string name="no_live_indication">Powiadōmiynia bydōm ściōngane co 15 minut.</string>
+    <string name="action_add_notes">Przidej zopiski</string>
+    <string name="note_for_account">Zopiski do kōnta</string>
+    <string name="set_resize_picture_indication">Przizwōl na kōmpresowanie srogich fotografiji do myńszych ze minimalnōm stratōm jakości ôbrazu.</string>
+    <string name="set_resize_video_indication">Przizwōl na kōmpresowanie filmōw przi trzimaniu jejich jakości.</string>
+    <string name="please_wait_compression">Aplikacyjo kōmpresuje media, to może trocha weznōńć…</string>
+    <string name="change_app_icon_experimental">Zmiyń ikōna aplikacyje</string>
+    <string name="click_to_change_the_app_icon">Tyknij, żeby zmiynić ikōna aplikacyje</string>
+    <string name="post">Publikuj</string>
+    <string name="post_visibility_tilte">Widzialność postu</string>
+    <string name="add_photo_pixelfed">Tyknij sam, żeby przidać fotografije</string>
+    <string name="add_photo_indication_pixelfed">Akceptowane formaty: jpeg, png, gif  \n\nMaksymalno srogość zbioru: 15 MB  \n\nWe albumach może być do 4 fotografiji abo filmōw</string>
+    <string name="upload_media">Przidej media</string>
+    <string name="pixelfed_compose_placeholder">Przidej ekstra podpis</string>
+    <string name="long_api_error">Aplikacyjo dostała moc dugo wiadōmość ô felerze ze API %1$s</string>
+    <string name="message_preview">Podglōnd wiadōmości</string>
+    <string name="report_mention">Przidej spōmniynia we wiadōmości</string>
+    <string name="fetch_conversation">Ściōnganie godki</string>
+    <string name="order_by">Porzōndkuj podle</string>
+    <string name="title_video_peertube">Tytuł filmu</string>
+    <string name="join_peertube">Przistōmp do Peertube</string>
+    <string name="agreement_check_peertube">Je mi aby 16 lot i zgodzōm sie na %1$s na tyj instancyji</string>
+    <string name="link_color_title">Linki</string>
+    <string name="link_color">Zmiyń farba linkōw (URL, spōmniynia, tagi itd.) we wiadōmościach</string>
+    <string name="boost_header_color_title">Tytuł reblogōw</string>
+    <string name="displayname_title">Zmiyń farba pokazowanego miana na wiyrchu wiadōmości</string>
+    <string name="username_title">Zmiyń farba miana używocza na wiyrchu wiadōmości</string>
+    <string name="boost_header_color">Zmiyń farba tytułu reblogōw</string>
+    <string name="background_status_title">Posty</string>
+    <string name="background_status">Zadnio farba postōw na rajach</string>
+    <string name="reset_color">Wysnoż farby</string>
+    <string name="clik_reset">Tyknij sam, żeby wysnożyć wszyjske twoje włosne farby</string>
+    <string name="reset">Wysnoż</string>
+    <string name="icons_color_title">Ikōny</string>
+    <string name="icons_color">Farba spodnich ikōn we rajach</string>
+    <string name="pin_tag">Przipnij tyn tag</string>
+    <string name="logo_of_the_instance">Logo instancyje</string>
+    <string name="edit_profile">Edytuj profil</string>
+    <string name="make_an_action">Zrōb coś</string>
+    <string name="translation">Przekłod</string>
+    <string name="image_preview">Podglōnd ôbrozka</string>
+    <string name="text_color_title">Farba tekstu</string>
+    <string name="text_color">Zmiyń farba we postach</string>
+    <string name="apply_changes">Wkludź zmiany</string>
+    <string name="restart_message">Musisz zresztartować aplikacyjo, żeby wkludzić zmiany</string>
+    <string name="restart">Zresztartuj</string>
+    <string name="pref_custom_theme">Użyj włosnego tymatu</string>
+    <string name="pref_custom_theme_summary">Przizwōl na nadpisanie farbōw ôbranego tymatu wyżyj</string>
+    <string name="theming">Tymaty</string>
+    <string name="store_before">Nojprzōd spamiyntej</string>
+    <string name="data_export_theme">Tymat bōł wyeksportowany</string>
+    <string name="data_export_theme_success">Tymat bōł wyeksportowany do CSV</string>
+    <string name="pref_colored_status_bar_summary">Wkludź głōwno farba do poska statusu</string>
+    <string name="pref_colored_status_bar_title">Farba poska statusu</string>
+    <string name="restore_default_theme">Prziwrōć wychodny tymat</string>
+    <string name="import_theme">Importuj tymat</string>
+    <string name="import_theme_title">Tyknij sam, żeby importować tymat ze poprzednigo eksportu</string>
+    <string name="export_theme">Eksportuj tymat</string>
+    <string name="export_theme_title">Tyknij sam, żeby eksportować teroźny tymat</string>
+    <string name="theme_file_error">Doszło do błyndu przi wybiyraniu zbioru tymatu</string>
+    <string name="label_theme_picker">Wybiyrocz tymatōw</string>
+    <string name="pref_theme_summary">Wybier wcześnij zainstalowany tymat</string>
+    <string name="pref_theme_title">Tymaty</string>
+    <string name="pref_colored_navigation_bar_summary">Wkludź głōwno farba do poska nawigacyje</string>
+    <string name="pref_colored_navigation_bar_title">Farba poska nawigacyje</string>
+    <string name="pref_background_color_summary">Farba na zadku zawartości aplikacyje.</string>
+    <string name="pref_background_color_title">Farba zadku</string>
+    <string name="pref_accent_color_summary">Akcyntuj wybrane party interfejsu.</string>
+    <string name="pref_accent_color_title">Farba akcyntu</string>
+    <string name="pref_primary_color_summary">Nojczyńścij pokazowane we aplikacyji.</string>
+    <string name="pref_primary_color_title">Głōwno farba</string>
+    <string name="export_bookmarks">Eksportuj zokłodki do instancyje</string>
+    <string name="import_bookmarks">Importuj zokłodki ze instancyje</string>
+    <string name="user_count">Liczba używoczōw</string>
+    <string name="status_count">Liczba statusōw</string>
+    <string name="instance_count">Liczba instancyji</string>
+    <string name="blocked">Zablokowani</string>
+    <string name="poll_finish_in">Kōniec za %s</string>
+    <string name="release_note_title">Co nowego we %s</string>
+    <string name="follow_account_update">Możesz śledzić nasze kōnto, żeby dostować informacyje</string>
+    <string name="no_instance_reccord">Ta instancyjo niy je dostympno na https://instances.social</string>
+    <string name="display_full_link">Pokoż cołki link</string>
+    <string name="share_link">Udostympnij link</string>
+    <string name="link_copy">Adresa URL była skopiowano do skrytki</string>
+    <string name="open_other_app">Ôtwōrz we inkszyj aplikacyji</string>
+    <string name="check_redirect">Wybadej przekerowanie</string>
+    <string name="no_redirect">Ta adresa URL niy przekerowuje</string>
+    <string name="redirect_detected">%1$s \n\nprzekerowuje do\n\n %2$s</string>
+    <string name="set_user_agent">Zmiyń agynta używocza</string>
+    <string name="set_user_agent_hint">Nasztaluj włosnego agynta używocza abo ôstow prōzne</string>
+    <string name="set_user_agent_indication">Przizwolo na edytowanie agynta używocza do wywołań API abo we wbudowanyj przeglōndarce.</string>
+    <string name="set_utm_parameters">Wymaż parametry UTM</string>
+    <string name="set_utm_parameters_indication">Aplikacyjo autōmatycznie wymaże parametry UTM ze adresy URL przed ôtwarciym linku.</string>
+    <string name="action_trends">Tryndy</string>
+    <string name="trending_now">Teroz we tryńdzie</string>
+    <string name="talking_about">%d ludzi godo</string>
+    <string name="twitter_accounts">Kōnta Twitter (bez Nitter)</string>
+    <string name="list_of_twitter_accounts">Miana używoczōw Twittera ôddzielōne spacyjami</string>
+    <string name="identity_proofs">Dowody tożsamości</string>
+    <string name="verified_user">Zweryfikowano tożsamość</string>
+    <string name="verified_by">Zweryfikowane ôd %1$s (%2$s)</string>
+    <string name="remove_notification">Wymaż powiadōmiynie</string>
+    <string name="display_more_options">Pokoż wiyncyj ôpcyji</string>
+    <string name="pixelfed_story">To je historyjo ze Pixelfed</string>
+    <string name="story_indication">Wgrej medium, ôno bydzie autōmatycznie przidane do twojij historyje Pixelfed.</string>
+    <string name="added_to_story">Medium przidane do twojij historyje!</string>
+    <string name="action_disabled">Akcyjo niyaktywno</string>
+    <string name="action_unfollow">Niy śledź</string>
+    <string name="error_destination_path">Coś poszło źle, wejzdrzij do swojigo katalogu pobiyranio we sztelōnkach.</string>
+    <string name="action_announcements">Ôgłoszynia</string>
+    <string name="no_announcements">Żodnych ôgłoszyń!</string>
+    <string name="add_reaction">Przidej reakcyjo</string>
+    <string name="set_custom_tabs_indication">Użyj swojij preferowanyj przeglōndarki we aplikacyji. Ôdznacz ta funkcyjo, żeby ôtwiyrać linki zewnyntrznie.</string>
+    <string name="set_video_cache">Cache wideo we MB, zero znaczy brak cache.</string>
+    <string name="set_watermark">Znaki wodne</string>
+    <string name="set_watermark_indication">Dodej autōmatycznie znak wodny na spodku ôbrozkōw. Inkszy tekst może być nasztalowany do kożdego kōnta.</string>
+    <string name="no_distributors_found">No distributors found!</string>
+    <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
+    <string name="select_distributors">Select a distributor</string>
+</resources>
