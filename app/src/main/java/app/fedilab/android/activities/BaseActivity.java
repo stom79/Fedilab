@@ -30,16 +30,15 @@ import app.fedilab.android.helper.Helper;
 @SuppressLint("Registered")
 public class BaseActivity extends CyaneaAppCompatActivity {
 
+    static {
+        Helper.installProvider();
+        EmojiManager.install(new EmojiOneProvider());
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Helper.setLocale(this);
-    }
-
-
-    static {
-        Helper.installProvider();
-        EmojiManager.install(new EmojiOneProvider());
     }
 
 }

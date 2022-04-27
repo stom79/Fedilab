@@ -42,10 +42,10 @@ public class ContextActivity extends BaseActivity {
 
     public static boolean expand;
     public static boolean displayCW;
+    public static Resources.Theme theme;
     Fragment currentFragment;
     private Status focusedStatus;
     private ActivityConversationBinding binding;
-    public static Resources.Theme theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

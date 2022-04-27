@@ -986,7 +986,13 @@ public class Helper {
                 .setContentIntent(pIntent)
                 .setContentText(message);
         int ledColour = Color.BLUE;
-        switch (sharedpreferences.getInt(context.getString(R.string.SET_LED_COLOUR_VAL), LED_COLOUR)) {
+        int prefColor;
+        try {
+            prefColor = sharedpreferences.getInt(context.getString(R.string.SET_LED_COLOUR_VAL), LED_COLOUR);
+        } catch (ClassCastException e) {
+            prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL), String.valueOf(LED_COLOUR)));
+        }
+        switch (prefColor) {
             case 0: // BLUE
                 ledColour = Color.BLUE;
                 break;
@@ -1280,6 +1286,32 @@ public class Helper {
         return dateFormat.format(date);
     }
 
+    /**
+     * Change locale
+     *
+     * @param activity - Activity
+     */
+    public static void setLocale(Activity activity) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        String defaultLocaleString = sharedpreferences.getString(activity.getString(R.string.SET_DEFAULT_LOCALE_NEW), null);
+        if (defaultLocaleString != null) {
+            Locale locale;
+            if (defaultLocaleString.equals("zh-CN")) {
+                locale = Locale.SIMPLIFIED_CHINESE;
+            } else if (defaultLocaleString.equals("zh-TW")) {
+                locale = Locale.TRADITIONAL_CHINESE;
+            } else {
+                locale = new Locale(defaultLocaleString);
+            }
+            Locale.setDefault(locale);
+            Resources resources = activity.getResources();
+            Configuration config = resources.getConfiguration();
+            config.setLocale(locale);
+            resources.updateConfiguration(config, resources.getDisplayMetrics());
+
+        }
+    }
+
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
         MENTION,
@@ -1360,32 +1392,6 @@ public class Helper {
                 };
                 mainHandler.post(myRunnable);
             }).start();
-        }
-    }
-
-    /**
-     * Change locale
-     *
-     * @param activity - Activity
-     */
-    public static void setLocale(Activity activity) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        String defaultLocaleString = sharedpreferences.getString(activity.getString(R.string.SET_DEFAULT_LOCALE_NEW), null);
-        if (defaultLocaleString != null) {
-            Locale locale;
-            if (defaultLocaleString.equals("zh-CN")) {
-                locale = Locale.SIMPLIFIED_CHINESE;
-            } else if (defaultLocaleString.equals("zh-TW")) {
-                locale = Locale.TRADITIONAL_CHINESE;
-            } else {
-                locale = new Locale(defaultLocaleString);
-            }
-            Locale.setDefault(locale);
-            Resources resources = activity.getResources();
-            Configuration config = resources.getConfiguration();
-            config.setLocale(locale);
-            resources.updateConfiguration(config, resources.getDisplayMetrics());
-
         }
     }
 }

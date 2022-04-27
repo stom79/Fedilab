@@ -1562,7 +1562,7 @@
     <string name="REPLACE_WIKIPEDIA" translatable="false">REPLACE_WIKIPEDIA</string>
     <string name="REPLACE_WIKIPEDIA_HOST" translatable="false">REPLACE_WIKIPEDIA_HOST</string>
     <string name="DEFAULT_REPLACE_WIKIPEDIA_HOST" translatable="false">wikiless.org</string>
-    <string name="LAST_NOTIFICATION_MAX_ID" translatable="false">LAST_NOTIFICATION_MAX_ID</string>
+    <string name="LAST_NOTIFICATION_ID" translatable="false">LAST_NOTIFICATION_ID</string>
     <string name="type_of_notifications">Type of notifications</string>
     <string name="alternative_frontends">Alternative frontends</string>
     <string name="type_of_notifications_title">Chose the type of notifications</string>

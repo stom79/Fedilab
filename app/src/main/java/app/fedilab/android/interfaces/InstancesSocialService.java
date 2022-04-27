@@ -1,4 +1,4 @@
-package app.fedilab.android;
+package app.fedilab.android.interfaces;
 /* Copyright 2021 Thomas Schneider
  *
  * This file is a part of Fedilab

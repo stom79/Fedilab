@@ -112,8 +112,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
     }
 
 
-
-
     @SuppressWarnings("deprecation")
     @SuppressLint("ApplySharedPref")
     @Override

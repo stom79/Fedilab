@@ -94,21 +94,6 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns all Account in db
-     *
-     * @return Account List<Account>
-     */
-    public List<Account> getPushNotificationAccounts() {
-
-        try {
-            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
-            return cursorToListUserWithOwner(c);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
      * Unserialized a Mastodon Account
      *
      * @param serializedAccount String serialized account
@@ -118,6 +103,21 @@ public class Account implements Serializable {
         Gson gson = new Gson();
         try {
             return gson.fromJson(serializedAccount, app.fedilab.android.client.mastodon.entities.Account.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns all Account in db
+     *
+     * @return Account List<Account>
+     */
+    public List<Account> getPushNotificationAccounts() {
+
+        try {
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
+            return cursorToListUserWithOwner(c);
         } catch (Exception e) {
             return null;
         }

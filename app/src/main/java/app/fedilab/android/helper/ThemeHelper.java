@@ -197,11 +197,6 @@ public class ThemeHelper {
         viewToShow.startAnimation(animateShow);
     }
 
-    public interface SlideAnimation {
-        void onAnimationEnded();
-    }
-
-
     public static List<LinkedHashMap<String, String>> getContributorsTheme(Context context) {
         List<LinkedHashMap<String, String>> linkedHashMaps = new ArrayList<>();
         String[] list;
@@ -219,7 +214,6 @@ public class ThemeHelper {
         }
         return linkedHashMaps;
     }
-
 
     private static LinkedHashMap<String, String> readCSVFile(InputStream inputStream) {
         LinkedHashMap<String, String> readValues = new LinkedHashMap<>();
@@ -248,7 +242,6 @@ public class ThemeHelper {
         }
         return readValues;
     }
-
 
     /**
      * Allow to set colors for tablayout
@@ -281,7 +274,6 @@ public class ThemeHelper {
         materialButton.setIconTint(ThemeHelper.getButtonColorStateList(context));
         materialButton.setBackgroundTintList(ThemeHelper.getBackgroundButtonColorStateList(context));
     }
-
 
     /**
      * Allow to set ThumbDrawable colors for SwitchCompat
@@ -371,5 +363,9 @@ public class ThemeHelper {
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
         intentBD.putExtras(b);
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
+    }
+
+    public interface SlideAnimation {
+        void onAnimationEnded();
     }
 }

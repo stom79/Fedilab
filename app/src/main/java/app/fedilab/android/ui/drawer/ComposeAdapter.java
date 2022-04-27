@@ -104,6 +104,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int searchDeep = 15;
+    private static final int TYPE_COMPOSE = 1;
     public static boolean autocomplete = false;
     public static String[] ALPHA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", ",", "?",
@@ -114,7 +115,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             "..--..", ".-.-.-", ".----.",};
     private final List<Status> statusList;
     private final int TYPE_NORMAL = 0;
-    private static final int TYPE_COMPOSE = 1;
     private final Account account;
     public ManageDrafts manageDrafts;
     List<Emoji> emojis;
@@ -134,6 +134,28 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         composeViewHolder.binding.characterProgress.setProgress(charCount);
     }
 
+    public static StatusDraft prepareDraft(List<Status> statusList, ComposeAdapter composeAdapter, String instance, String user_id) {
+        //Collect all statusCompose
+        List<Status> statusDrafts = new ArrayList<>();
+        List<Status> statusReplies = new ArrayList<>();
+        int i = 0;
+        for (Status status : statusList) {
+
+            //Statuses must be sent
+            if (composeAdapter.getItemViewType(i) == TYPE_COMPOSE) {
+                statusDrafts.add(status);
+            } else {
+                statusReplies.add(status);
+            }
+            i++;
+        }
+        StatusDraft statusDraftDB = new StatusDraft();
+        statusDraftDB.statusReplyList = statusReplies;
+        statusDraftDB.statusDraftList = statusDrafts;
+        statusDraftDB.instance = instance;
+        statusDraftDB.user_id = user_id;
+        return statusDraftDB;
+    }
 
     //Create text when mentioning a toot
     public void loadMentions(Status status) {
@@ -193,7 +215,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.content.requestFocus();
         }
     }
-
 
     public void setStatusCount(int count) {
         statusCount = count;
@@ -366,13 +387,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         notifyItemChanged(statusList.size() - 1);
     }
+    //------- end contact ----->
 
     //Put cursor to the end after changing contacts
     public void putCursor() {
         statusList.get(statusList.size() - 1).setCursorToEnd = true;
         notifyItemChanged(statusList.size() - 1);
     }
-    //------- end contact ----->
 
     private void displayAttachments(ComposeViewHolder holder, int position, int scrollToMediaPosition) {
         if (statusList.size() > position && statusList.get(position).media_attachments != null) {
@@ -566,7 +587,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getItemCount() {
         return statusList.size();
     }
-
 
     /**
      * Initialize text watcher for content writing
@@ -904,29 +924,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         };
         return textw;
-    }
-
-    public static StatusDraft prepareDraft(List<Status> statusList, ComposeAdapter composeAdapter, String instance, String user_id) {
-        //Collect all statusCompose
-        List<Status> statusDrafts = new ArrayList<>();
-        List<Status> statusReplies = new ArrayList<>();
-        int i = 0;
-        for (Status status : statusList) {
-
-            //Statuses must be sent
-            if (composeAdapter.getItemViewType(i) == TYPE_COMPOSE) {
-                statusDrafts.add(status);
-            } else {
-                statusReplies.add(status);
-            }
-            i++;
-        }
-        StatusDraft statusDraftDB = new StatusDraft();
-        statusDraftDB.statusReplyList = statusReplies;
-        statusDraftDB.statusDraftList = statusDrafts;
-        statusDraftDB.instance = instance;
-        statusDraftDB.user_id = user_id;
-        return statusDraftDB;
     }
 
     @SuppressLint("ClickableViewAccessibility")

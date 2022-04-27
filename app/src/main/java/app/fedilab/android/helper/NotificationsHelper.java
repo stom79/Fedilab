@@ -28,7 +28,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,12 +68,11 @@ public class NotificationsHelper {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String[] slugArray = slug.split("@");
-        Log.v(Helper.TAG, "slug: " + slug);
         Account accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
         if (accountDb == null) {
             return;
         }
-        String last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + slug, null);
+        String last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
         //Check which notifications the user wants to see
         boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
         boolean notif_mention = prefs.getBoolean(context.getString(R.string.SET_NOTIF_MENTION), true);
@@ -98,11 +96,12 @@ public class NotificationsHelper {
                 try {
                     Response<List<Notification>> notificationsResponse = notificationsCall.execute();
                     if (notificationsResponse.isSuccessful()) {
-                        List<Notification> notFilteredNotifications = notificationsResponse.body();
-                        notifications.notifications = TimelineHelper.filterNotification(context.getApplicationContext(), notFilteredNotifications);
-                        for (Notification notification : notifications.notifications) {
-                            if (notification != null) {
-                                notification.status = SpannableHelper.convertStatus(context.getApplicationContext(), notification.status);
+                        notifications.notifications = notificationsResponse.body();
+                        if (notifications.notifications != null) {
+                            for (Notification notification : notifications.notifications) {
+                                if (notification != null && notification.status != null) {
+                                    notification.status = SpannableHelper.convertStatus(context.getApplicationContext(), notification.status);
+                                }
                             }
                         }
                         notifications.pagination = MastodonHelper.getPaginationNotification(notifications.notifications);
@@ -137,7 +136,6 @@ public class NotificationsHelper {
 
     public static void onRetrieveNotifications(Context context, Notifications newNotifications, final Account account) {
         List<Notification> notificationsReceived = newNotifications.notifications;
-
         if (notificationsReceived == null || notificationsReceived.size() == 0 || account == null)
             return;
         String key = account.user_id + "@" + account.instance;
@@ -149,7 +147,7 @@ public class NotificationsHelper {
         boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
         boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
         boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
-        final String max_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + key, null);
+        final String max_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + key, null);
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
         for (Notification notif : notificationsReceived) {
@@ -309,10 +307,10 @@ public class NotificationsHelper {
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                                 notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
                                         R.mipmap.ic_launcher), finalNotifType, context.getString(R.string.top_notification), finalMessage1);
-                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + account.user_id + "@" + account.instance, null);
+                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                                 if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();
                                 }
                                 return false;
@@ -322,10 +320,10 @@ public class NotificationsHelper {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                 notify_user(context, account, intent, resource, finalNotifType, context.getString(R.string.top_notification), finalMessage);
-                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + account.user_id + "@" + account.instance, null);
+                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                                 if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_MAX_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();
                                 }
                             }

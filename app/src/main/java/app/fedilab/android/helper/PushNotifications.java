@@ -32,8 +32,10 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.Account;
 import app.fedilab.android.client.mastodon.MastodonNotificationsService;
 import app.fedilab.android.client.mastodon.entities.PushSubscription;
+import app.fedilab.android.exception.DBException;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -76,9 +78,19 @@ public class PushNotifications {
         MastodonNotificationsService mastodonNotificationsService = init(context, BaseMainActivity.currentInstance);
         ECDH finalEcdh = ecdh;
         new Thread(() -> {
+            String[] slugArray = slug.split("@");
+            Account accountDb = null;
+            try {
+                accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            if (accountDb == null) {
+                return;
+            }
             PushSubscription pushSubscription;
             Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(
-                    BaseMainActivity.currentToken,
+                    accountDb.token,
                     endpoint,
                     pubKey,
                     auth,
