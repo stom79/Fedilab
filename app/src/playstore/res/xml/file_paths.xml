@@ -2,7 +2,7 @@
 <paths>
     <external-path
         name="my_images"
-        path="Android/data/app.fedilab.android/files/Pictures" />
+        path="Android/data/app.fedilab.android.test/files/Pictures" />
 
     <cache-path
         name="*"
