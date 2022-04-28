@@ -26,13 +26,13 @@ android {
     }
     productFlavors {
         fdroid {
-            applicationId "fr.gouv.etalab.mastodon"
+            applicationId "fr.gouv.etalab.mastodon.test"
             buildConfigField "boolean", "DONATIONS", "true"
             buildConfigField "boolean", "push", "false"
             flavor = "fdroid"
         }
         playstore {
-            applicationId "app.fedilab.android"
+            applicationId "app.fedilab.android.test"
             buildConfigField "boolean", "DONATIONS", "false"
             buildConfigField "boolean", "push", "true"
             flavor = "playstore"

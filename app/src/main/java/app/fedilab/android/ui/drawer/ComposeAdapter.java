@@ -188,7 +188,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
             if (inReplyToUser != null) {
                 if (capitalize) {
-                    statusDraft.text = inReplyToUser.acct + "\n\n";
+                    statusDraft.text = inReplyToUser.acct + "\n";
                 } else {
                     statusDraft.text = inReplyToUser.acct + " ";
                 }
@@ -196,9 +196,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.content.setText(statusDraft.text);
             statusDraft.cursorPosition = statusDraft.text.length();
             if (statusDraft.mentions.size() > 1) {
-                statusDraft.text += "\n\n";
+                statusDraft.text += "\n";
                 for (Mention mention : statusDraft.mentions) {
-                    if (mention.id != null && mention.acct != null && !mention.id.equals(BaseMainActivity.client_id)) {
+                    if (mention.id != null && mention.acct != null && !mention.id.equals(BaseMainActivity.currentUserID)) {
                         String tootTemp = String.format("@%s ", mention.acct);
                         statusDraft.text = String.format("%s ", (statusDraft.text + tootTemp.trim()));
                     }
@@ -1006,8 +1006,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 pickupMedia(ComposeActivity.mediaType.ALL, position);
             });
             if (statusDraft.visibility == null) {
-                statusDraft.visibility = BaseMainActivity.accountWeakReference.get().mastodon_account.source.privacy;
+                if (position > 0) {
+                    statusDraft.visibility = statusList.get(position - 1).visibility;
+                } else {
+                    statusDraft.visibility = BaseMainActivity.accountWeakReference.get().mastodon_account.source.privacy;
+                }
             }
+
             switch (statusDraft.visibility.toLowerCase()) {
                 case "public":
                     holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);

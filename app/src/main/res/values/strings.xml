@@ -1584,6 +1584,7 @@
     <string name="more_actions">More Actions</string>
     <string name="types_of_notifications_to_display">Types of notifications to display</string>
     <string name="set_unfollow_validation_title">Confirm unfollows</string>
+    <string name="message_has_been_sent">Message has been sent!</string>
 
 
 </resources>

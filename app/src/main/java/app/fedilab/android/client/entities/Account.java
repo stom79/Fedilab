@@ -236,7 +236,7 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns an Account by token
+     * Returns an Account by userId and instance
      *
      * @param userId   String
      * @param instance String
@@ -248,6 +248,24 @@ public class Account implements Serializable {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, Sqlite.COL_USER_ID + " = \"" + userId + "\" AND " + Sqlite.COL_INSTANCE + " = \"" + instance + "\"", null, null, null, null, "1");
+            return cursorToUser(c);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns an Account by token
+     *
+     * @param token String
+     * @return Account {@link Account}
+     */
+    public Account getAccountByToken(String token) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, Sqlite.COL_TOKEN + " = \"" + token + "\"", null, null, null, null, "1");
             return cursorToUser(c);
         } catch (Exception e) {
             return null;
