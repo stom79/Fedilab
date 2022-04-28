@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -55,10 +56,8 @@ public class WebviewActivity extends BaseActivity {
 
     public static List<String> trackingDomains;
     private String url;
-    private String peertubeLinkToFetch;
     private boolean peertubeLink;
     private CustomWebview webView;
-    private Menu defaultMenu;
     private FedilabWebViewClient FedilabWebViewClient;
     private ActivityWebviewBinding binding;
 
@@ -70,11 +69,19 @@ public class WebviewActivity extends BaseActivity {
         binding = ActivityWebviewBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setSupportActionBar(binding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         Bundle b = getIntent().getExtras();
         if (b != null) {
             url = b.getString("url", null);
-            peertubeLinkToFetch = b.getString("peertubeLinkToFetch", null);
             peertubeLink = b.getBoolean("peertubeLink", false);
         }
         if (url == null)
@@ -164,16 +171,13 @@ public class WebviewActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-     /*   if (!peertubeLink)
-            setCount(WebviewActivity.this, "0");*/
-        defaultMenu = menu;
+
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.main_webview, menu);
-        defaultMenu = menu;
         if (peertubeLink) {
             menu.findItem(R.id.action_go).setVisible(false);
             menu.findItem(R.id.action_block).setVisible(false);

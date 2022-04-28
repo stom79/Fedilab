@@ -222,7 +222,7 @@ public class WebviewConnectActivity extends BaseActivity {
                                             editor.commit();
                                             //The user is now authenticated, it will be redirected to MainActivity
                                             Runnable myRunnable = () -> {
-                                                Intent mainActivity = new Intent(WebviewConnectActivity.this, BaseMainActivity.class);
+                                                Intent mainActivity = new Intent(WebviewConnectActivity.this, MainActivity.class);
                                                 startActivity(mainActivity);
                                                 finish();
                                             };

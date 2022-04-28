@@ -64,7 +64,7 @@ public class PinnedTimelineHelper {
         Collections.sort(pinnedTimelineList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
     }
 
-    public static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, List<MastodonList> mastodonLists) {
+    public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, List<MastodonList> mastodonLists) {
         //Values must be initialized if there is no records in db
         if (pinned == null) {
             pinned = new Pinned();
