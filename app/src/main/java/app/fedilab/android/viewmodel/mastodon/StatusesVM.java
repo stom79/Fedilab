@@ -556,7 +556,7 @@ public class StatusesVM extends AndroidViewModel {
 
         new Thread(() -> {
             String errorMessage = null;
-            Call<Status> statusCall = mastodonStatusesService.reblog(token, id, visibility.name().toLowerCase());
+            Call<Status> statusCall = mastodonStatusesService.reblog(token, id, visibility != null ? visibility.name().toLowerCase() : null);
             Status status = null;
             if (statusCall != null) {
                 try {
