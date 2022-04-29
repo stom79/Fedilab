@@ -51,7 +51,6 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -177,6 +176,7 @@ public class Helper {
     public static final String ARG_TYPE_OF_INFO = "ARG_TYPE_OF_INFO";
     public static final String ARG_TOKEN = "ARG_TOKEN";
     public static final String ARG_INSTANCE = "ARG_INSTANCE";
+    public static final String ARG_REMOTE_INSTANCE = "ARG_REMOTE_INSTANCE";
     public static final String ARG_STATUS_ID = "ARG_STATUS_ID";
     public static final String ARG_WORK_ID = "ARG_WORK_ID";
     public static final String ARG_LIST_ID = "ARG_LIST_ID";
@@ -1189,14 +1189,9 @@ public class Helper {
                 attachment.size = Helper.getRealSizeFromUri(context, uri);
                 ContentResolver cR = context.getApplicationContext().getContentResolver();
                 attachment.mimeType = cR.getType(uri);
-                Log.v(Helper.TAG, "uri: " + uri);
-                Log.v(Helper.TAG, "attachment.mimeType: " + attachment.mimeType);
 
                 MimeTypeMap mime = MimeTypeMap.getSingleton();
                 String extension = mime.getExtensionFromMimeType(cR.getType(uri));
-
-                Log.v(Helper.TAG, "mime: " + attachment.mimeType);
-                Log.v(Helper.TAG, "extension: " + attachment.mimeType);
                 if (uri.toString().endsWith("fedilab_recorded_audio.wav")) {
                     extension = "wav";
                     attachment.mimeType = "audio/x-wav";

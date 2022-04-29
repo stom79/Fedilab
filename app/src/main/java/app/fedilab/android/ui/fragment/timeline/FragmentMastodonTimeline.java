@@ -71,7 +71,7 @@ public class FragmentMastodonTimeline extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private Account accountTimeline;
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
-    private String viewModelKey;
+    private String viewModelKey, remoteInstance;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +83,7 @@ public class FragmentMastodonTimeline extends Fragment {
             list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
             search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
             searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
+            remoteInstance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
@@ -93,7 +94,6 @@ public class FragmentMastodonTimeline extends Fragment {
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
-
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -335,6 +335,17 @@ public class FragmentMastodonTimeline extends Fragment {
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
             } else if (direction == DIRECTION.TOP) {
                 timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+            }
+        } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
+            if (direction == null) {
+                timelinesVM.getPublic(null, remoteInstance, false, true, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+            } else if (direction == DIRECTION.BOTTOM) {
+                timelinesVM.getPublic(null, remoteInstance, false, true, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+            } else if (direction == DIRECTION.TOP) {
+                timelinesVM.getPublic(null, remoteInstance, false, true, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
             }
         } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE

@@ -88,9 +88,9 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
                     String tag = pinnedTimeline.tagTimeline.name.replaceAll("#", "");
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, tag);
                 } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
-
+                    String instance = pinnedTimeline.remoteInstance.host;
+                    bundle.putString(Helper.ARG_REMOTE_INSTANCE, instance);
                 }
-
             }
             bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
             fragment.setArguments(bundle);

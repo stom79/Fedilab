@@ -176,7 +176,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
 
                         @Override
                         public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                            if (!response.isSuccessful()) {
+                            if (response.isSuccessful()) {
                                 runOnUiThread(() -> {
                                     dialog.dismiss();
                                     RemoteInstance.InstanceType instanceType = null;

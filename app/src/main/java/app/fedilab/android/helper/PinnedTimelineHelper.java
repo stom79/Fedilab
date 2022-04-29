@@ -305,7 +305,7 @@ public class PinnedTimelineHelper {
                 Bundle bundle = new Bundle();
                 bundle.putString("tag", tagTimeline.name);
                 bundle.putInt("timelineId", tagTimeline.id);
-                bundle.putSerializable("type", Timeline.TimeLineEnum.TAG);
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
                 if (mediaOnly[0])
                     bundle.putString("instanceType", "ART");
                 else
@@ -529,10 +529,10 @@ public class PinnedTimelineHelper {
             }
             fragTransaction.detach(fragmentMastodonTimeline);
             Bundle bundle = new Bundle();
-            bundle.putString("remote_instance", remoteInstance.host != null ? remoteInstance.host : "");
+            bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
             bundle.putString("instanceType", remoteInstance.type.getValue());
             bundle.putString("timelineId", remoteInstance.id);
-            bundle.putSerializable("type", Timeline.TimeLineEnum.REMOTE);
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
             fragmentMastodonTimeline.setArguments(bundle);
             fragTransaction.attach(fragmentMastodonTimeline);
             fragTransaction.commit();
@@ -569,11 +569,11 @@ public class PinnedTimelineHelper {
                     currentFilter[0] = remoteInstance.filteredWith;
                     fragTransaction.detach(fragmentMastodonTimeline);
                     Bundle bundle = new Bundle();
-                    bundle.putString("remote_instance", remoteInstance.host != null ? remoteInstance.host : "");
+                    bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
                     bundle.putString("instanceType", remoteInstance.type.getValue());
                     bundle.putString("timelineId", remoteInstance.id);
                     bundle.putString("currentfilter", remoteInstance.filteredWith);
-                    bundle.putSerializable("type", Timeline.TimeLineEnum.REMOTE);
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                     fragmentMastodonTimeline.setArguments(bundle);
                     fragTransaction.attach(fragmentMastodonTimeline);
                     fragTransaction.commit();
@@ -621,7 +621,7 @@ public class PinnedTimelineHelper {
                 }
                 popup.getMenu().clear();
                 popup.getMenu().close();
-                instanceClick(context, pinned, view, offSetPosition);
+                instanceClick(context, pinned, view, position);
             });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
@@ -638,13 +638,13 @@ public class PinnedTimelineHelper {
                     return;
                 fragTransaction.detach(fragmentMastodonTimeline);
                 Bundle bundle = new Bundle();
-                bundle.putString("remote_instance", remoteInstance.host != null ? remoteInstance.host : "");
+                bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
                 bundle.putString("instanceType", remoteInstance.type.getValue());
                 bundle.putString("timelineId", remoteInstance.id);
                 if (currentFilter[0] != null) {
                     bundle.putString("currentfilter", remoteInstance.filteredWith);
                 }
-                bundle.putSerializable("type", Timeline.TimeLineEnum.REMOTE);
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                 fragmentMastodonTimeline.setArguments(bundle);
                 fragTransaction.attach(fragmentMastodonTimeline);
                 fragTransaction.commit();
