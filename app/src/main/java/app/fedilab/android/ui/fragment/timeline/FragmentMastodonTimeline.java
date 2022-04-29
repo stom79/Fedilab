@@ -70,7 +70,7 @@ public class FragmentMastodonTimeline extends Fragment {
     private TagTimeline tagTimeline;
     private LinearLayoutManager mLayoutManager;
     private Account accountTimeline;
-    private boolean show_replies, show_pinned, media_only, minified;
+    private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
     private String viewModelKey;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -85,8 +85,9 @@ public class FragmentMastodonTimeline extends Fragment {
             searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            show_replies = getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, false);
+            exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
             show_pinned = getArguments().getBoolean(Helper.ARG_SHOW_PINNED, false);
+            exclude_reblogs = !getArguments().getBoolean(Helper.ARG_SHOW_REBLOGS, true);
             media_only = getArguments().getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
@@ -367,17 +368,17 @@ public class FragmentMastodonTimeline extends Fragment {
                 if (show_pinned) {
                     //Fetch pinned statuses to display them at the top
                     accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
-                            .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, show_replies, !show_replies, false, false, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), otherStatuses -> {
                                         otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
                                         initializeStatusesCommonView(otherStatuses);
                                     }));
                 } else {
-                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, show_replies, !show_replies, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 }
             } else if (direction == DIRECTION.BOTTOM) {
-                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, show_replies, !show_replies, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
             } else {
                 flagLoading = false;

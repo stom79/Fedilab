@@ -86,6 +86,7 @@ public class OauthVM extends AndroidViewModel {
             if (tokenCall != null) {
                 try {
                     Response<Token> tokenResponse = tokenCall.execute();
+
                     if (tokenResponse.isSuccessful()) {
                         token = tokenResponse.body();
                     }

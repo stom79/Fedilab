@@ -159,7 +159,7 @@ public class MastodonHelper {
             return pagination;
         }
         pagination.max_id = statusList.get(0).id;
-        pagination.min_id = String.valueOf(Long.parseLong(statusList.get(statusList.size() - 1).id) - 1);
+        pagination.min_id = statusList.get(statusList.size() - 1).id;
         return pagination;
     }
 
@@ -169,7 +169,7 @@ public class MastodonHelper {
             return pagination;
         }
         pagination.max_id = accountList.get(0).id;
-        pagination.min_id = String.valueOf(Long.parseLong(accountList.get(accountList.size() - 1).id) - 1);
+        pagination.min_id = accountList.get(accountList.size() - 1).id;
         return pagination;
     }
 
@@ -179,7 +179,7 @@ public class MastodonHelper {
             return pagination;
         }
         pagination.max_id = scheduledStatusList.get(0).id;
-        pagination.min_id = String.valueOf(Long.parseLong(scheduledStatusList.get(scheduledStatusList.size() - 1).id) - 1);
+        pagination.min_id = scheduledStatusList.get(scheduledStatusList.size() - 1).id;
         return pagination;
     }
 
@@ -189,7 +189,7 @@ public class MastodonHelper {
             return pagination;
         }
         pagination.max_id = conversationList.get(0).id;
-        pagination.min_id = String.valueOf(Long.parseLong(conversationList.get(conversationList.size() - 1).id) - 1);
+        pagination.min_id = conversationList.get(conversationList.size() - 1).id;
         return pagination;
     }
 
@@ -276,8 +276,9 @@ public class MastodonHelper {
         Matcher matcherALink = Patterns.WEB_URL.matcher(contentCount);
         while (matcherALink.find()) {
             final String url = matcherALink.group(1);
-            assert url != null;
-            contentCount = contentCount.replace(url, "abcdefghijklmnopkrstuvw");
+            if (url != null) {
+                contentCount = contentCount.replace(url, "abcdefghijklmnopkrstuvw");
+            }
         }
         int contentLength = contentCount.length() - countWithEmoji(content);
         int cwLength = cwContent.length() - countWithEmoji(cwContent);

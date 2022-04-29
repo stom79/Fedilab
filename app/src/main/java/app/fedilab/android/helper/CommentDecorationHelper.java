@@ -53,7 +53,7 @@ public class CommentDecorationHelper {
         }
         String targetedComment = null;
         for (Status status : statuses) {
-            if (replyToCommentId.compareTo(status.id) == 0) {
+            if (status != null && status.id != null && replyToCommentId.compareTo(status.id) == 0) {
                 targetedComment = status.in_reply_to_id;
                 break;
             }

@@ -51,6 +51,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -187,6 +188,8 @@ public class Helper {
     public static final String ARG_MEDIA_POSITION = "ARG_MEDIA_POSITION";
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
     public static final String ARG_SHOW_REPLIES = "ARG_SHOW_REPLIES";
+    public static final String ARG_SHOW_REBLOGS = "ARG_SHOW_REBLOGS";
+
     public static final String ARG_SHOW_PINNED = "ARG_SHOW_PINNED";
     public static final String ARG_SHOW_MEDIA_ONY = "ARG_SHOW_MEDIA_ONY";
     public static final String ARG_MENTION = "ARG_MENTION";
@@ -251,6 +254,8 @@ public class Helper {
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([/\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
+    public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
+
     // --- Static Map of patterns used in spannable status content
     public static final Map<PatternType, Pattern> patternHashMap;
     public static int counter = 1;
@@ -1184,8 +1189,18 @@ public class Helper {
                 attachment.size = Helper.getRealSizeFromUri(context, uri);
                 ContentResolver cR = context.getApplicationContext().getContentResolver();
                 attachment.mimeType = cR.getType(uri);
+                Log.v(Helper.TAG, "uri: " + uri);
+                Log.v(Helper.TAG, "attachment.mimeType: " + attachment.mimeType);
+
                 MimeTypeMap mime = MimeTypeMap.getSingleton();
                 String extension = mime.getExtensionFromMimeType(cR.getType(uri));
+
+                Log.v(Helper.TAG, "mime: " + attachment.mimeType);
+                Log.v(Helper.TAG, "extension: " + attachment.mimeType);
+                if (uri.toString().endsWith("fedilab_recorded_audio.wav")) {
+                    extension = "wav";
+                    attachment.mimeType = "audio/x-wav";
+                }
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_" + counter, Locale.getDefault());
                 counter++;
                 Date now = new Date();

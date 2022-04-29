@@ -42,13 +42,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+
+import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -59,7 +60,6 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
-import es.dmoral.toasty.Toasty;
 
 
 public class WebviewConnectActivity extends BaseActivity {
@@ -183,15 +183,11 @@ public class WebviewConnectActivity extends BaseActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
                 if (url.contains(Helper.REDIRECT_CONTENT_WEB)) {
-                    String[] val = url.split("code=");
-                    if (val.length < 2) {
-                        Toasty.error(WebviewConnectActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
-                        Intent myIntent = new Intent(WebviewConnectActivity.this, LoginActivity.class);
-                        startActivity(myIntent);
-                        finish();
+                    Matcher matcher = Helper.codePattern.matcher(url);
+                    if (!matcher.find()) {
                         return false;
                     }
-                    String code = val[1];
+                    String code = matcher.group(1);
                     OauthVM oauthVM = new ViewModelProvider(WebviewConnectActivity.this).get(OauthVM.class);
                     //API call to get the user token
                     oauthVM.createToken(currentInstance, "authorization_code", BaseMainActivity.client_id, BaseMainActivity.client_secret, Helper.REDIRECT_CONTENT_WEB, Helper.OAUTH_SCOPES, code)

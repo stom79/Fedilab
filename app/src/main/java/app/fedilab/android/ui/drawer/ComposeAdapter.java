@@ -184,6 +184,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
                 }
             }
+            if (statusDraft.text == null) {
+                statusDraft.text = "";
+            }
             //Put other accounts mentioned at the bottom
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
             if (inReplyToUser != null) {
@@ -562,20 +565,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void buttonState(ComposeViewHolder holder) {
         if (BaseMainActivity.software == null || BaseMainActivity.software.toUpperCase().compareTo("MASTODON") == 0) {
-            Status statusDraft = statusList.get(holder.getAdapterPosition());
-            if (statusDraft.poll == null) {
-                holder.binding.buttonAttachImage.setEnabled(true);
-                holder.binding.buttonAttachVideo.setEnabled(true);
-                holder.binding.buttonAttachAudio.setEnabled(true);
-                holder.binding.buttonAttachManual.setEnabled(true);
-            } else {
-                holder.binding.buttonAttachImage.setEnabled(false);
-                holder.binding.buttonAttachVideo.setEnabled(false);
-                holder.binding.buttonAttachAudio.setEnabled(false);
-                holder.binding.buttonAttachManual.setEnabled(false);
-                holder.binding.buttonPoll.setEnabled(true);
+            if (holder.getAdapterPosition() > 0) {
+                Status statusDraft = statusList.get(holder.getAdapterPosition());
+                if (statusDraft.poll == null) {
+                    holder.binding.buttonAttachImage.setEnabled(true);
+                    holder.binding.buttonAttachVideo.setEnabled(true);
+                    holder.binding.buttonAttachAudio.setEnabled(true);
+                    holder.binding.buttonAttachManual.setEnabled(true);
+                } else {
+                    holder.binding.buttonAttachImage.setEnabled(false);
+                    holder.binding.buttonAttachVideo.setEnabled(false);
+                    holder.binding.buttonAttachAudio.setEnabled(false);
+                    holder.binding.buttonAttachManual.setEnabled(false);
+                    holder.binding.buttonPoll.setEnabled(true);
+                }
+                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() <= 0);
             }
-            holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() <= 0);
         }
     }
 
@@ -612,17 +617,29 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
         textw = new TextWatcher() {
+            private int position;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (count > 2) {
+                    holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
+                }
+                position = start;
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                int currentLength = MastodonHelper.countLength(holder);
+                //Copy/past
+                if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
+                    holder.binding.content.setText(s.delete(instanceInfo.configuration.statusesConf.max_characters - holder.binding.contentSpoiler.getText().length(), (currentLength - holder.binding.contentSpoiler.getText().length())));
+                } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
+                    holder.binding.content.setText(s.delete(position, position + 1));
+                }
                 statusList.get(holder.getAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {
                     buttonVisibility(holder);
@@ -639,7 +656,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             if (s.toString().contains(fedilabHugsTrigger)) {
                                 newContent[0] = s.toString().replaceAll(fedilabHugsTrigger, "");
-                                int currentLength = MastodonHelper.countLength(holder);
+
                                 int toFill = 500 - currentLength;
                                 if (toFill <= 0) {
                                     return;
@@ -720,8 +737,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 searchLength[0] = Math.min(currentCursorPosition[0], searchDeep);
 
 
-                if (currentCursorPosition[0] - (searchLength[0] - 1) < 0 || currentCursorPosition[0] == 0 || currentCursorPosition[0] > s.toString().length())
+                if (currentCursorPosition[0] - (searchLength[0] - 1) < 0 || currentCursorPosition[0] == 0 || currentCursorPosition[0] > s.toString().length()) {
+                    updateCharacterCount(holder);
                     return;
+                }
 
                 String patternh = "^(.|\\s)*(:fedilab_hugs:)$";
                 final Pattern hPattern = Pattern.compile(patternh);
@@ -741,6 +760,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 String[] searchInArray = (s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])).split("\\s");
                 if (searchInArray.length < 1) {
+                    updateCharacterCount(holder);
                     return;
                 }
                 String searchIn = searchInArray[searchInArray.length - 1];
@@ -1099,16 +1119,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
             holder.binding.characterProgress.setMax(instanceInfo.configuration.statusesConf.max_characters);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
+                private int position;
+
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    position = start;
+                    if (count > 2) {
+                        holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    int currentLength = MastodonHelper.countLength(holder);
+                    if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
+                        holder.binding.contentSpoiler.setText(s.delete(instanceInfo.configuration.statusesConf.max_characters - holder.binding.content.getText().length(), (currentLength - holder.binding.content.getText().length())));
+                        buttonVisibility(holder);
+                    } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
+                        buttonVisibility(holder);
+                        holder.binding.contentSpoiler.setText(s.delete(position, position + 1));
+                    }
                     statusList.get(holder.getAdapterPosition()).spoiler_text = s.toString();
                     if (s.toString().trim().length() < 2) {
                         buttonVisibility(holder);
@@ -1199,11 +1233,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         composePollBinding.buttonAddOption.setVisibility(View.VISIBLE);
                     }
-                    int childCount = composePollBinding.optionsListContainer.getChildCount();
-                    if (childCount > 2) {
-                        for (int i = 2; i < childCount; i++) {
-                            ((AppCompatEditText) composePollBinding.optionsListContainer.getChildAt(i)).setHint(context.getString(R.string.poll_choice_s, i + 1));
-                        }
+                    int childCount = composePollBinding.optionsList.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        title.setHint(context.getString(R.string.poll_choice_s, i + 1));
                     }
 
                 });
@@ -1238,9 +1271,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
 
                     ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
-
                     composePollItemBinding.text.setFilters(fArray);
                     composePollItemBinding.text.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                    composePollItemBinding.text.setText(pollItem.title);
                     composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
                     composePollItemBinding.buttonRemove.setOnClickListener(view -> {
                         composePollBinding.optionsList.removeView(view);
@@ -1335,21 +1368,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.poll.expire_in = expire;
 
                     List<Poll.PollItem> pollItems = new ArrayList<>();
-                    Poll.PollItem pollOption1 = new Poll.PollItem();
-                    pollOption1.title = choice1;
-                    pollItems.add(pollOption1);
-
-                    Poll.PollItem pollOption2 = new Poll.PollItem();
-                    pollOption2.title = choice2;
-                    pollItems.add(pollOption2);
-
-                    int childCount = composePollBinding.optionsListContainer.getChildCount();
-                    if (childCount > 2) {
-                        for (int i = 2; i < childCount; i++) {
-                            Poll.PollItem pollItem = new Poll.PollItem();
-                            pollItem.title = ((AppCompatEditText) composePollBinding.optionsListContainer.getChildAt(i)).getText().toString();
-                            pollItems.add(pollItem);
-                        }
+                    int childCount = composePollBinding.optionsList.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        Poll.PollItem pollItem = new Poll.PollItem();
+                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        pollItem.title = title.getText().toString();
+                        pollItems.add(pollItem);
                     }
                     List<String> options = new ArrayList<>();
                     boolean doubleTitle = false;

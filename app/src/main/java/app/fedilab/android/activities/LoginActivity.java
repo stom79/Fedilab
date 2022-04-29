@@ -39,6 +39,8 @@ import androidx.preference.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Matcher;
+
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.Account;
@@ -81,12 +83,12 @@ public class LoginActivity extends BaseActivity {
         //That happens when the user wants to use an external browser
         if (getIntent() != null && getIntent().getData() != null && getIntent().getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {
             String url = getIntent().getData().toString();
-            String[] val = url.split("code=");
-            if (val.length < 2) {
+            Matcher matcher = Helper.codePattern.matcher(url);
+            if (!matcher.find()) {
                 Toasty.error(LoginActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
                 return;
             }
-            String code = val[1];
+            String code = matcher.group(1);
             OauthVM oauthVM = new ViewModelProvider(LoginActivity.this).get(OauthVM.class);
             //We are dealing with a Mastodon API
             if (api == Account.API.MASTODON) {

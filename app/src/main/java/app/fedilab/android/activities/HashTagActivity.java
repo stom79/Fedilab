@@ -17,6 +17,8 @@ package app.fedilab.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -120,7 +122,9 @@ public class HashTagActivity extends BaseActivity {
                         }
                     }
                     if (!canBeAdded) {
-                        Toasty.warning(HashTagActivity.this, getString(R.string.tags_already_stored), Toasty.LENGTH_SHORT).show();
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> Toasty.warning(HashTagActivity.this, getString(R.string.tags_already_stored), Toasty.LENGTH_SHORT).show();
+                        mainHandler.post(myRunnable);
                         return;
                     }
                     PinnedTimeline pinnedTimeline = new PinnedTimeline();

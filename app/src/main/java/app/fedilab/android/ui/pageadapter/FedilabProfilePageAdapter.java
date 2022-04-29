@@ -60,13 +60,17 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
+                bundle.putBoolean(Helper.ARG_SHOW_REPLIES, false);
+                bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, true);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 1:
                 fragmentProfileTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putBoolean(Helper.ARG_SHOW_PINNED, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, true);
+                bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 2:

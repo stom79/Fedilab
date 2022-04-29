@@ -656,7 +656,7 @@ public class ProfileActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.activity_profile, menu);
         if (account != null) {
-            final boolean isOwner = account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
+            final boolean isOwner = account.id != null && account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
             String[] splitAcct = account.acct.split("@");
             //check if user is from the same instance
             if (splitAcct.length <= 1) { //If yes, these entries must be hidden

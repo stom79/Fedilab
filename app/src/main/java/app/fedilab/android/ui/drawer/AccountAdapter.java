@@ -102,9 +102,12 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 doAction = ProfileActivity.action.UNFOLLOW;
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_remove_24);
             } else if (account.relationShip.requested) {
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
                 doAction = ProfileActivity.action.NOTHING;
                 accountViewHolder.binding.followAction.setEnabled(false);
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
+            } else {
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
 
 

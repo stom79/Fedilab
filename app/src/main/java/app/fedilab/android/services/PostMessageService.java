@@ -300,8 +300,8 @@ public class PostMessageService extends IntentService {
             }
         }
 
-        if (scheduledDate == null && token != null) {
-            Account account = null;
+        if (scheduledDate == null && token != null && firstSendMessage != null) {
+            Account account;
             try {
                 account = new Account(PostMessageService.this).getAccountByToken(token);
                 final Intent pendingIntent = new Intent(PostMessageService.this, ContextActivity.class);
