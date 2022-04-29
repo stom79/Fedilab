@@ -265,7 +265,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             binding.drawerLayout.close();
             return false;
         });
-        headerMainBinding.instanceInfoContainer.setOnClickListener(v -> startActivity(new Intent(BaseMainActivity.this, InstanceHealthActivity.class)));
+        headerMainBinding.instanceInfo.setOnClickListener(v -> startActivity(new Intent(BaseMainActivity.this, InstanceHealthActivity.class)));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle b = new Bundle();
@@ -275,6 +275,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     .makeSceneTransitionAnimation(BaseMainActivity.this, headerMainBinding.instanceInfoContainer, getString(R.string.activity_porfile_pp));
             startActivity(intent, options.toBundle());
         });
+        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
         headerMainBinding.changeAccount.setOnClickListener(v -> {
             headerMenuOpen = !headerMenuOpen;
             if (headerMenuOpen) {
