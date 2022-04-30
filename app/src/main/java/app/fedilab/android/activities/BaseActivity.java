@@ -25,6 +25,7 @@ import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 
 
 @SuppressLint("Registered")
@@ -38,6 +39,7 @@ public class BaseActivity extends CyaneaAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
         Helper.setLocale(this);
     }
 

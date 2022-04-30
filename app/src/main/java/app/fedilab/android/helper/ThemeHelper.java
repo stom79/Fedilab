@@ -14,15 +14,20 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static android.content.Context.WINDOW_SERVICE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
@@ -367,5 +372,22 @@ public class ThemeHelper {
 
     public interface SlideAnimation {
         void onAnimationEnded();
+    }
+
+
+    /**
+     * Allow to change font scale in activities
+     *
+     * @param activity      - Activity
+     * @param configuration - Configuration
+     */
+    public static void adjustFontScale(Activity activity, Configuration configuration) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        configuration.fontScale = prefs.getFloat(activity.getString(R.string.SET_FONT_SCALE), 1.0f);
+        DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+        WindowManager wm = (WindowManager) activity.getSystemService(WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        metrics.scaledDensity = configuration.fontScale * metrics.density;
+        activity.getBaseContext().getResources().updateConfiguration(configuration, metrics);
     }
 }

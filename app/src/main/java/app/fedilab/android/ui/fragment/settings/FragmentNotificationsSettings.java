@@ -28,7 +28,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
 import app.fedilab.android.R;
@@ -74,7 +73,7 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             return;
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
         ListPreference SET_NOTIFICATION_TYPE = findPreference(getString(R.string.SET_NOTIFICATION_TYPE));
         if (SET_NOTIFICATION_TYPE != null) {
             SET_NOTIFICATION_TYPE.getContext().setTheme(Helper.dialogStyle());

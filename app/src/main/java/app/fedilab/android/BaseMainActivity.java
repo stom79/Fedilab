@@ -36,6 +36,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -425,6 +428,49 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 } else if (itemId == R.id.action_proxy) {
                     Intent intent = new Intent(BaseMainActivity.this, ProxyActivity.class);
                     startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.action_size) {
+                    float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.0f);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
+                    builder.setTitle(R.string.text_size);
+                    View popup_quick_settings = getLayoutInflater().inflate(R.layout.popup_text_size, new LinearLayout(BaseMainActivity.this), false);
+                    builder.setView(popup_quick_settings);
+                    SeekBar set_text_size = popup_quick_settings.findViewById(R.id.set_text_size);
+                    final TextView set_text_size_value = popup_quick_settings.findViewById(R.id.set_text_size_value);
+                    set_text_size_value.setText(String.format("%s%%", scale * 100));
+
+                    set_text_size.setMax(20);
+
+                    set_text_size.setProgress((((int) (scale * 100) - 80) / 5));
+
+                    set_text_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+                        }
+
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                            int value = 80 + progress * 5;
+                            float scale = (float) (value) / 100.0f;
+                            set_text_size_value.setText(String.format("%s%%", value));
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putFloat(getString(R.string.SET_FONT_SCALE), scale);
+                            editor.apply();
+                        }
+                    });
+                    builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                        BaseMainActivity.this.recreate();
+                        recreate();
+                        dialog.dismiss();
+                    })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                     return true;
                 }
                 return true;

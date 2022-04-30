@@ -1494,6 +1494,7 @@
     <string name="SET_NOTIF_POLL" translatable="false">SET_NOTIF_POLL</string>
     <string name="SET_NOTIF_MEDIA" translatable="false">SET_NOTIF_MEDIA</string>
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
+    <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_NOTIF_FOLLOW_FILTER" translatable="false">SET_NOTIF_FOLLOW_FILTER</string>
     <string name="SET_NOTIF_ADD_FILTER" translatable="false">SET_NOTIF_ADD_FILTER</string>
     <string name="SET_NOTIF_MENTION_FILTER" translatable="false">SET_NOTIF_MENTION_FILTER</string>
