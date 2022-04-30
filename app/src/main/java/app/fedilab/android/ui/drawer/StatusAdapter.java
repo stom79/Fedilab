@@ -39,6 +39,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -279,6 +280,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             }
+        }
+        if (status.isFocused) {
+            float currentTextSize = holder.binding.statusContent.getTextSize();
+            holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize * 1.3f);
+            holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize * 1.3f);
         }
         if (status.card != null && (display_card || status.isFocused) & status.card.description.trim().length() > 0) {
             if (status.card.width > status.card.height) {
