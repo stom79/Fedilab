@@ -142,6 +142,7 @@ public class Helper {
     public static final String INSTANCE_SOCIAL_KEY = "jGj9gW3z9ptyIpB8CMGhAlTlslcemMV6AgoiImfw3vPP98birAJTHOWiu5ZWfCkLvcaLsFZw9e3Pb7TIwkbIyrj3z6S7r2oE6uy6EFHvls3YtapP8QKNZ980p9RfzTb4";
     public static final String WEBSITE_VALUE = "https://fedilab.app";
 
+
     public static final String RECEIVE_TOAST_MESSAGE = "RECEIVE_TOAST_MESSAGE";
     public static final String RECEIVE_TOAST_TYPE = "RECEIVE_TOAST_TYPE";
     public static final String RECEIVE_TOAST_CONTENT = "RECEIVE_TOAST_CONTENT";
@@ -155,6 +156,8 @@ public class Helper {
 
     public static final String BROADCAST_DATA = "BROADCAST_DATA";
     public static final String RECEIVE_REDRAW_TOPBAR = "RECEIVE_REDRAW_TOPBAR";
+    public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
+
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";
     public static final String RECEIVE_MASTODON_LIST = "RECEIVE_MASTODON_LIST";
     public static final String RECEIVE_REDRAW_PROFILE = "RECEIVE_REDRAW_PROFILE";
@@ -163,6 +166,10 @@ public class Helper {
     public static final String ARG_NOTIFICATION_TYPE = "ARG_NOTIFICATION_TYPE";
     public static final String ARG_EXCLUDED_NOTIFICATION_TYPE = "ARG_EXCLUDED_NOTIFICATION_TYPE";
     public static final String ARG_STATUS = "ARG_STATUS";
+    public static final String ARG_STATUS_DELETED = "ARG_STATUS_DELETED";
+    public static final String ARG_STATUS_ACTION = "ARG_STATUS_ACTION";
+    public static final String ARG_STATUS_ACCOUNT_ID_DELETED = "ARG_STATUS_ACCOUNT_ID_DELETED";
+
     public static final String ARG_STATUS_DRAFT = "ARG_STATUS_DRAFT";
     public static final String ARG_STATUS_SCHEDULED = "ARG_STATUS_SCHEDULED";
 

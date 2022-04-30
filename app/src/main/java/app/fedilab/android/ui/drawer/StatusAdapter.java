@@ -53,6 +53,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -62,6 +63,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -410,6 +412,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                     .observe((LifecycleOwner) context, _status -> {
                                                         statusToDeal.reblogged = _status.reblogged;
                                                         statusToDeal.reblogs_count = _status.reblogs_count;
+                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                                         adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                     });
                                         } else {
@@ -422,6 +425,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .observe((LifecycleOwner) context, _status -> {
                                             statusToDeal.reblogged = _status.reblogged;
                                             statusToDeal.reblogs_count = _status.reblogs_count;
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                             adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             } else {
@@ -430,6 +434,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .observe((LifecycleOwner) context, _status -> {
                                             statusToDeal.reblogged = _status.reblogged;
                                             statusToDeal.reblogs_count = _status.reblogs_count;
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                             adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             }
@@ -445,6 +450,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     statusToDeal.reblogged = _status.reblogged;
                                     statusToDeal.reblogs_count = _status.reblogs_count;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                     adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, status));
                                 });
                     } else {
@@ -453,6 +459,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     statusToDeal.reblogged = _status.reblogged;
                                     statusToDeal.reblogs_count = _status.reblogs_count;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                     adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, status));
                                 });
                     }
@@ -467,9 +474,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (confirmFav) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
                     alt_bld.setMessage(context.getString(R.string.favourite_add));
-                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-                        CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
-                    });
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal));
                     alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
                     AlertDialog alert = alt_bld.create();
                     alert.show();
@@ -497,6 +502,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                     .observe((LifecycleOwner) context, _status -> {
                                                         statusToDeal.favourited = _status.favourited;
                                                         statusToDeal.favourites_count = _status.favourites_count;
+                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                                         adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                     });
                                         } else {
@@ -517,6 +523,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .observe((LifecycleOwner) context, _status -> {
                                             statusToDeal.favourited = _status.favourited;
                                             statusToDeal.favourites_count = _status.favourites_count;
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                             adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             }
@@ -532,6 +539,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     statusToDeal.favourited = _status.favourited;
                                     statusToDeal.favourites_count = _status.favourites_count;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                     adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                 });
                     } else {
@@ -540,6 +548,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     statusToDeal.favourited = _status.favourited;
                                     statusToDeal.favourites_count = _status.favourites_count;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
                                     adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                 });
                     }
@@ -968,19 +977,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 });
             }
-            holder.binding.poll.refreshPoll.setOnClickListener(v -> {
-                statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
-                        .observe((LifecycleOwner) context, poll -> {
-                            //Store span elements
-                            int i = 0;
-                            for (Poll.PollItem item : statusToDeal.poll.options) {
-                                poll.options.get(i).span_title = item.span_title;
-                                i++;
-                            }
-                            statusToDeal.poll = poll;
-                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
-                        });
-            });
+            holder.binding.poll.refreshPoll.setOnClickListener(v -> statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
+                    .observe((LifecycleOwner) context, poll -> {
+                        //Store span elements
+                        int i = 0;
+                        for (Poll.PollItem item : statusToDeal.poll.options) {
+                            poll.options.get(i).span_title = item.span_title;
+                            i++;
+                        }
+                        statusToDeal.poll = poll;
+                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                    }));
             holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
             String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, statusToDeal.poll.voters_count, statusToDeal.poll.voters_count);
             if (statusToDeal.poll.expired) {
@@ -1105,6 +1112,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 statusDraft.statusDraftList.add(statusDeleted);
                                 intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                                 context.startActivity(intent);
+                                sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
                             });
                         }
                     });
@@ -1121,16 +1129,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else if (itemId == R.id.action_remove) {
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[0]);
-                    builderInner.setMessage(statusToDeal.text);
+                    builderInner.setMessage(statusToDeal.content);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        builderInner.setMessage(Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString());
+                    else
+                        builderInner.setMessage(Html.fromHtml(statusToDeal.content).toString());
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                        statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                .observe((LifecycleOwner) context, statusDeleted -> {
-                                    statusList.remove(statusToDeal);
-                                    int position = getPositionAsync(notificationList, statusList, status);
-                                    adapter.notifyItemRemoved(position);
-                                });
-                    });
+                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                            .observe((LifecycleOwner) context, statusDeleted -> {
+                                int position = getPositionAsync(notificationList, statusList, status);
+                                statusList.remove(statusToDeal);
+                                adapter.notifyItemRemoved(position);
+                                sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                            }));
                     builderInner.show();
                 } else if (itemId == R.id.action_block_domain) {
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
@@ -1148,35 +1159,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                        accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
-                                .observe((LifecycleOwner) context, relationShip -> {
-                                    Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                                });
-                    });
+                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
                     builderInner.show();
 
                 } else if (itemId == R.id.action_mute_conversation) {
                     if (statusToDeal.muted) {
-                        statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
-                            Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show();
-                        });
+                        statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
                     } else {
-                        statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
-                            Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show();
-                        });
+                        statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
                     }
 
                     return true;
                 } else if (itemId == R.id.action_bookmark) {
                     if (statusToDeal.bookmarked) {
-                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
-                            Toasty.info(context, context.getString(R.string.status_unbookmarked)).show();
-                        });
+                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
                     } else {
-                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
-                            Toasty.info(context, context.getString(R.string.status_bookmarked)).show();
-                        });
+                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
                     }
                 } else if (itemId == R.id.action_timed_mute) {
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
@@ -1186,12 +1188,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setTitle(stringArrayConf[1]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                        accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id)
-                                .observe((LifecycleOwner) context, relationShip -> {
-                                    Toasty.info(context, context.getString(R.string.toast_block)).show();
-                                });
-                    });
+                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_block)).show();
+                            }));
                     builderInner.show();
                 } else if (itemId == R.id.action_translate) {
                     MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
@@ -1301,9 +1302,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder.bindingReport != null) {
             holder.bindingReport.checkbox.setChecked(status.isChecked);
-            holder.bindingReport.checkbox.setOnClickListener(v -> {
-                status.isChecked = !status.isChecked;
-            });
+            holder.bindingReport.checkbox.setOnClickListener(v -> status.isChecked = !status.isChecked);
         }
     }
 
@@ -1323,6 +1322,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     /**
+     * Send a broadcast to other open fragments that content a timeline
+     *
+     * @param context - Context
+     * @param type    - String type for the broadCast (Helper.ARG_STATUS_ACTION / Helper.ARG_STATUS_ACCOUNT_ID_DELETED / Helper.ARG_STATUS_DELETED )
+     * @param status  - Status that is sent (can be null)
+     * @param id      - Id of an account (can be null)
+     */
+    private static void sendAction(@NonNull Context context, @NonNull String type, @Nullable Status status, @Nullable String id) {
+        Bundle b = new Bundle();
+        if (status != null) {
+            b.putSerializable(type, status);
+        }
+        if (id != null) {
+            b.putSerializable(type, id);
+        }
+        Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
+        intentBC.putExtras(b);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
+    }
+
+    /**
      * Will manage the current position of the element in the adapter. Action is async, and position might have changed
      *
      * @param notificationList List<Notification> - Not null when calling from notification adapter
@@ -1330,7 +1350,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param status           Status - Current status
      * @return int - position in real time
      */
-    private static int getPositionAsync(List<Notification> notificationList, List<Status> statusList, Status status) {
+    public static int getPositionAsync(List<Notification> notificationList, List<Status> statusList, Status status) {
         int position = 0;
         if (statusList != null) {
             for (Status _status : statusList) {

@@ -17,6 +17,10 @@ package app.fedilab.android.ui.fragment.timeline;
 
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +78,67 @@ public class FragmentMastodonTimeline extends Fragment {
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
     private String viewModelKey, remoteInstance;
 
+    //Handle actions that can be done in other fragments
+    private final BroadcastReceiver receive_action = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
+                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
+                if (receivedStatus != null && statusAdapter != null) {
+                    int position = getPosition(receivedStatus);
+                    if (position >= 0) {
+                        statuses.get(position).reblog = receivedStatus.reblog;
+                        statuses.get(position).favourited = receivedStatus.favourited;
+                        statuses.get(position).bookmarked = receivedStatus.bookmarked;
+                        statusAdapter.notifyItemChanged(position);
+                    }
+                } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                    List<Status> statusesToRemove = new ArrayList<>();
+                    for (Status status : statuses) {
+                        if (status.account.id.equals(delete_statuses_for_user)) {
+                            statusesToRemove.add(status);
+                        }
+                    }
+                    for (Status statusToRemove : statusesToRemove) {
+                        int position = getPosition(statusToRemove);
+                        if (position >= 0) {
+                            statuses.remove(position);
+                            statusAdapter.notifyItemRemoved(position);
+                        }
+                    }
+                } else if (status_to_delete != null && statusAdapter != null) {
+                    int position = getPosition(status_to_delete);
+                    if (position >= 0) {
+                        statuses.remove(position);
+                        statusAdapter.notifyItemRemoved(position);
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * Return the position of the status in the ArrayList
+     *
+     * @param status - Status to fetch
+     * @return position or -1 if not found
+     */
+    private int getPosition(Status status) {
+        int position = 0;
+        boolean found = false;
+        for (Status _status : statuses) {
+            if (_status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            }
+            position++;
+        }
+        return found ? position : -1;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -94,6 +160,7 @@ public class FragmentMastodonTimeline extends Fragment {
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -237,12 +304,8 @@ public class FragmentMastodonTimeline extends Fragment {
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null) {
-            int startId = 0;
             //There are some statuses present in the timeline
-            if (statuses.size() > 0) {
-                startId = statuses.size();
-            }
-
+            int startId = statuses.size();
             if (direction == DIRECTION.TOP) {
                 statuses.addAll(0, fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(0, fetched_statuses.statuses.size());
@@ -273,6 +336,7 @@ public class FragmentMastodonTimeline extends Fragment {
         if (binding != null) {
             binding.recyclerView.setAdapter(null);
         }
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         statusAdapter = null;
         binding = null;
     }
