@@ -272,6 +272,8 @@
     <string name="toast_unreblog">The toot is no longer boosted!</string>
     <string name="toast_favourite">The toot was added to your favourites!</string>
     <string name="toast_unfavourite">The toot was removed from your favourites!</string>
+    <string name="toast_bookmark">The toot was added to your bookmarks!</string>
+    <string name="toast_unbookmark">The toot was removed from your bookmarks!</string>
     <string name="toast_report">The toot was reported!</string>
     <string name="toast_unstatus">The toot was deleted!</string>
     <string name="toast_pin">The toot was pinned!</string>

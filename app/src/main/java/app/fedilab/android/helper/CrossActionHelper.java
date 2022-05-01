@@ -178,18 +178,32 @@ public class CrossActionHelper {
                 assert statusesVM != null;
                 statusesVM.favourite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_favourite), Toasty.LENGTH_SHORT).show());
+                break;
             case UNFAVOURITE_ACTION:
                 assert statusesVM != null;
                 statusesVM.unFavourite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unfavourite), Toasty.LENGTH_SHORT).show());
+                break;
+            case BOOKMARK_ACTION:
+                assert statusesVM != null;
+                statusesVM.bookmark(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_bookmark), Toasty.LENGTH_SHORT).show());
+                break;
+            case UNBOOKMARK_ACTION:
+                assert statusesVM != null;
+                statusesVM.unBookmark(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unbookmark), Toasty.LENGTH_SHORT).show());
+                break;
             case REBLOG_ACTION:
                 assert statusesVM != null;
                 statusesVM.reblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id, null)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_reblog), Toasty.LENGTH_SHORT).show());
+                break;
             case UNREBLOG_ACTION:
                 assert statusesVM != null;
                 statusesVM.unReblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unreblog), Toasty.LENGTH_SHORT).show());
+                break;
         }
     }
 
@@ -202,6 +216,8 @@ public class CrossActionHelper {
         UNBLOCK_ACTION,
         FAVOURITE_ACTION,
         UNFAVOURITE_ACTION,
+        BOOKMARK_ACTION,
+        UNBOOKMARK_ACTION,
         REBLOG_ACTION,
         UNREBLOG_ACTION
     }

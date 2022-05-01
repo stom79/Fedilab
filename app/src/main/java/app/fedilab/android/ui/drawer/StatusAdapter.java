@@ -207,15 +207,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.actionButtonFavorite.pressOnTouch(false);
         holder.binding.actionButtonBoost.pressOnTouch(false);
+        holder.binding.actionButtonBookmark.pressOnTouch(false);
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_baseline_star_24);
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_star_outline);
+        holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_baseline_bookmark_border_24);
         holder.binding.actionButtonFavorite.setDisableCircle(true);
         holder.binding.actionButtonBoost.setDisableCircle(true);
+        holder.binding.actionButtonBookmark.setDisableCircle(true);
         holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
+        holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
+        holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
         holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
-        holder.binding.actionButtonBoost.setColors(R.color.marked_icon, R.color.marked_icon);
+        //holder.binding.actionButtonBoost.setColors(R.color.marked_icon, R.color.marked_icon);
 
         if (theme_text_header_2_line != -1) {
             Pattern hashAcct;
@@ -310,7 +315,54 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtons.setVisibility(View.GONE);
         } else {
             holder.binding.actionButtons.setVisibility(View.VISIBLE);
+            //Hide or display bookmark button when status is focused
+            if (status.isFocused) {
+                holder.binding.actionButtonBookmark.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonBookmark.setVisibility(View.GONE);
+            }
             //--- ACTIONS ---
+            holder.binding.actionButtonBookmark.setChecked(statusToDeal.bookmarked);
+            //---> BOOKMARK/UNBOOKMARK
+            holder.binding.actionButtonBookmark.setOnLongClickListener(v -> {
+                CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, null, statusToDeal);
+                return true;
+            });
+            holder.binding.actionButtonBookmark.setOnClickListener(v -> {
+                if (remote) {
+                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
+                            .observe((LifecycleOwner) context, results -> {
+                                if (results.statuses != null && results.statuses.size() > 0) {
+                                    Status fetchedStatus = statusList.get(0);
+                                    statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
+                                            .observe((LifecycleOwner) context, _status -> {
+                                                statusToDeal.bookmarked = _status.bookmarked;
+                                                sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                            });
+                                } else {
+                                    Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    if (statusToDeal.bookmarked) {
+                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, _status -> {
+                                    statusToDeal.bookmarked = _status.bookmarked;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                });
+                    } else {
+                        ((SparkButton) v).playAnimation();
+                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, _status -> {
+                                    statusToDeal.bookmarked = _status.bookmarked;
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                });
+                    }
+                }
+            });
             holder.binding.actionButtonFavorite.setChecked(statusToDeal.favourited);
             holder.binding.statusUserInfo.setOnClickListener(v -> {
                 if (remote) {
@@ -445,23 +497,41 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     AlertDialog alert = alt_bld.create();
                     alert.show();
                 } else {
-                    if (statusToDeal.reblogged) {
-                        statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    statusToDeal.reblogged = _status.reblogged;
-                                    statusToDeal.reblogs_count = _status.reblogs_count;
-                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, status));
+                    if (remote) {
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
+                                .observe((LifecycleOwner) context, results -> {
+                                    if (results.statuses != null && results.statuses.size() > 0) {
+                                        Status fetchedStatus = statusList.get(0);
+                                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
+                                                .observe((LifecycleOwner) context, _status -> {
+                                                    statusToDeal.reblogged = _status.reblogged;
+                                                    statusToDeal.reblogs_count = _status.reblogs_count;
+                                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                });
+                                    } else {
+                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                    }
                                 });
                     } else {
-                        ((SparkButton) v).playAnimation();
-                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    statusToDeal.reblogged = _status.reblogged;
-                                    statusToDeal.reblogs_count = _status.reblogs_count;
-                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, status));
-                                });
+                        if (statusToDeal.reblogged) {
+                            statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, _status -> {
+                                        statusToDeal.reblogged = _status.reblogged;
+                                        statusToDeal.reblogs_count = _status.reblogs_count;
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    });
+                        } else {
+                            ((SparkButton) v).playAnimation();
+                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
+                                    .observe((LifecycleOwner) context, _status -> {
+                                        statusToDeal.reblogged = _status.reblogged;
+                                        statusToDeal.reblogs_count = _status.reblogs_count;
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    });
+                        }
                     }
                 }
             });
@@ -492,7 +562,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         alt_bld.setMessage(context.getString(R.string.favourite_add));
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-
                         if (remote) {
                             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                     .observe((LifecycleOwner) context, results -> {
@@ -534,23 +603,40 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     AlertDialog alert = alt_bld.create();
                     alert.show();
                 } else {
-                    if (status.favourited) {
-                        statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    statusToDeal.favourited = _status.favourited;
-                                    statusToDeal.favourites_count = _status.favourites_count;
-                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                    if (remote) {
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
+                                .observe((LifecycleOwner) context, results -> {
+                                    if (results.statuses != null && results.statuses.size() > 0) {
+                                        Status fetchedStatus = statusList.get(0);
+                                        statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
+                                                .observe((LifecycleOwner) context, _status -> {
+                                                    statusToDeal.favourited = _status.favourited;
+                                                    statusToDeal.favourites_count = _status.favourites_count;
+                                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                });
+                                    } else {
+                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                    }
                                 });
                     } else {
-                        ((SparkButton) v).playAnimation();
-                        statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    statusToDeal.favourited = _status.favourited;
-                                    statusToDeal.favourites_count = _status.favourites_count;
-                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
-                                });
+                        if (status.favourited) {
+                            statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, _status -> {
+                                        statusToDeal.favourited = _status.favourited;
+                                        statusToDeal.favourites_count = _status.favourites_count;
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    });
+                        } else {
+                            ((SparkButton) v).playAnimation();
+                            statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, _status -> {
+                                        statusToDeal.favourited = _status.favourited;
+                                        statusToDeal.favourites_count = _status.favourites_count;
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    });
+                        }
                     }
                 }
             });

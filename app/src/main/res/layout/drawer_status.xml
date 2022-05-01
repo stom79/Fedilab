@@ -419,6 +419,20 @@
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
 
+            <com.varunest.sparkbutton.SparkButton
+                android:id="@+id/action_button_bookmark"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                app:sparkbutton_activeImage="@drawable/ic_baseline_bookmark_24"
+                app:sparkbutton_animationSpeed="1.5"
+                app:sparkbutton_iconSize="24dp"
+                app:sparkbutton_inActiveImage="@drawable/ic_baseline_bookmark_border_24"
+                app:sparkbutton_primaryColor="@color/marked_icon"
+                app:sparkbutton_secondaryColor="@color/marked_icon" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
