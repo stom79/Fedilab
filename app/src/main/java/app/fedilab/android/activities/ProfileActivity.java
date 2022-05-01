@@ -834,7 +834,7 @@ public class ProfileActivity extends BaseActivity {
         } else if (itemId == R.id.action_direct_message) {
             Intent intent = new Intent(ProfileActivity.this, ComposeActivity.class);
             Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account);
+            b.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
             b.putString(Helper.ARG_VISIBILITY, "direct");
             intent.putExtras(b);
             startActivity(intent);
@@ -908,7 +908,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle b;
             intent = new Intent(ProfileActivity.this, ComposeActivity.class);
             b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account.acct);
+            b.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
             intent.putExtras(b);
             startActivity(intent);
             return true;

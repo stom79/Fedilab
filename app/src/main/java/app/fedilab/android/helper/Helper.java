@@ -57,6 +57,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
@@ -176,6 +177,7 @@ public class Helper {
     public static final String ARG_STATUS_DRAFT_ID = "ARG_STATUS_DRAFT_ID";
     public static final String ARG_STATUS_REPLY = "ARG_STATUS_REPLY";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
+    public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
     public static final String ARG_STATUS_REPORT = "ARG_STATUS_REPORT";
     public static final String ARG_STATUS_MENTION = "ARG_STATUS_MENTION";
@@ -1410,5 +1412,11 @@ public class Helper {
                 mainHandler.post(myRunnable);
             }).start();
         }
+    }
+
+    public static void showKeyboard(Context context, View view) {
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 }

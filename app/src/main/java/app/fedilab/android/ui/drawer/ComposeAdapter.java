@@ -121,11 +121,16 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
+    private final String visibility;
+    private final app.fedilab.android.client.mastodon.entities.Account mentionedAccount;
 
-    public ComposeAdapter(List<Status> statusList, int statusCount, Account account) {
+    public ComposeAdapter(List<Status> statusList, int statusCount, Account account, app.fedilab.android.client.mastodon.entities.Account mentionedAccount, String visibility) {
         this.statusList = statusList;
         this.statusCount = statusCount;
         this.account = account;
+        this.mentionedAccount = mentionedAccount;
+        this.visibility = visibility;
+
     }
 
     private static void updateCharacterCount(ComposeViewHolder composeViewHolder) {
@@ -213,6 +218,21 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.content.post(() -> {
                 holder.binding.content.setSelection(statusDraft.cursorPosition); //Put cursor at the end
                 buttonVisibility(holder);
+            });
+        } else if (mentionedAccount != null) {
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
+            if (capitalize) {
+                statusDraft.text = mentionedAccount.acct + "\n";
+            } else {
+                statusDraft.text = mentionedAccount.acct + " ";
+            }
+            holder.binding.content.setText(statusDraft.text);
+            updateCharacterCount(holder);
+            holder.binding.content.requestFocus();
+            holder.binding.content.post(() -> {
+                buttonVisibility(holder);
+                holder.binding.content.setSelection(statusDraft.text.length()); //Put cursor at the end
             });
         } else {
             holder.binding.content.requestFocus();
@@ -1025,6 +1045,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.attachmentChoicesPanel.setVisibility(View.GONE);
                 pickupMedia(ComposeActivity.mediaType.ALL, position);
             });
+            //Used for DM
+            if (visibility != null) {
+                statusDraft.visibility = visibility;
+            }
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
@@ -1092,7 +1116,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             displayAttachments(holder, position, -1);
-
             manageMentions(context, statusDraft, holder);
             //For some instances this value can be null, we have to transform the html content
             if (statusDraft.text == null && statusDraft.content != null) {

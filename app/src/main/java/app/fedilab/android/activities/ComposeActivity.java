@@ -97,6 +97,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private String instance, token;
     private Uri photoFileUri;
     private ScheduledStatus scheduledStatus;
+    private String visibility;
+    private app.fedilab.android.client.mastodon.entities.Account accountMention;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             instance = b.getString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance);
             token = b.getString(Helper.ARG_TOKEN, BaseMainActivity.currentToken);
+            visibility = b.getString(Helper.ARG_VISIBILITY, null);
+            accountMention = (app.fedilab.android.client.mastodon.entities.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         //Edit a scheduled status from server
@@ -177,7 +181,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     int statusCount = statusList.size();
                     statusList.addAll(statusDraft.statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account);
+                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
                     composeAdapter.manageDrafts = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -218,7 +222,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     //StatusDraftList at this point should only have one element
                     statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account);
+                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
                     composeAdapter.manageDrafts = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -231,7 +235,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         } else {
             //Compose without replying
             statusList.addAll(statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, 0, account);
+            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
             composeAdapter.manageDrafts = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
