@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class CrossActionHelper {
      * @param targetedStatus  status that is targeted
      */
     public static void doCrossAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Status targetedStatus) {
-
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         new Thread(() -> {
             try {
                 List<Account> accounts = new Account(context).getCrossAccounts();
@@ -76,8 +78,26 @@ public class CrossActionHelper {
                         }
                         builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
+                            boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
+                            boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
                             Account selectedAccount = accountArray[which];
-                            fetchRemote(context, actionType, selectedAccount, targetedAccount, targetedStatus);
+                            if ((actionType == TypeOfCrossAction.REBLOG_ACTION && confirmBoost) || (actionType == TypeOfCrossAction.FAVOURITE_ACTION && confirmFav)) {
+                                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                if (actionType == TypeOfCrossAction.REBLOG_ACTION) {
+                                    alt_bld.setMessage(context.getString(R.string.reblog_add));
+                                } else {
+                                    alt_bld.setMessage(context.getString(R.string.favourite_add));
+                                }
+                                alt_bld.setPositiveButton(R.string.yes, (dia, id) -> {
+                                    fetchRemote(context, actionType, selectedAccount, targetedAccount, targetedStatus);
+                                    dialog.dismiss();
+                                });
+                                alt_bld.setNegativeButton(R.string.cancel, (dia, id) -> dialog.dismiss());
+                                AlertDialog alert = alt_bld.create();
+                                alert.show();
+                            } else {
+                                fetchRemote(context, actionType, selectedAccount, targetedAccount, targetedStatus);
+                            }
                             dialog.dismiss();
                         });
                         builderSingle.show();

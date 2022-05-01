@@ -427,23 +427,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
                     return true;
                 }
-                if (confirmBoost) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
-                    if (statusToDeal.reblogged) {
-                        alt_bld.setMessage(context.getString(R.string.reblog_remove));
-                    } else {
-                        alt_bld.setMessage(context.getString(R.string.reblog_add));
-                    }
-                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-                        CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
-                        dialog.dismiss();
-                    });
-                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                    AlertDialog alert = alt_bld.create();
-                    alert.show();
-                } else {
-                    CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
-                }
+                CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
                 return true;
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
@@ -541,16 +525,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
                     return true;
                 }
-                if (confirmFav) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
-                    alt_bld.setMessage(context.getString(R.string.favourite_add));
-                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal));
-                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                    AlertDialog alert = alt_bld.create();
-                    alert.show();
-                } else {
-                    CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
-                }
+                CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
                 return true;
             });
             holder.binding.actionButtonFavorite.setOnClickListener(v -> {
