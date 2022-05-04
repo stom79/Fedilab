@@ -177,10 +177,14 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
+            } else {
+                matchEnd = matchStart + (newURL.length());
             }
+
             if (!urlText.startsWith("http")) {
                 continue;
             }
+
             if (matchStart >= 0 && matchEnd <= content.length() && matchEnd >= matchStart) {
                 content.setSpan(new ClickableSpan() {
                     @Override

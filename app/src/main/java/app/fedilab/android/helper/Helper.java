@@ -265,6 +265,37 @@ public class Helper {
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
 
+    /*
+     * List from ClearUrls
+     * https://gitlab.com/KevinRoebert/ClearUrls/blob/master/data/data.min.json#L106
+     */
+    private static final String[] UTM_PARAMS = {
+            "utm_\\w+",
+            "ga_source",
+            "ga_medium",
+            "ga_term",
+            "ga_content",
+            "ga_campaign",
+            "ga_place",
+            "yclid",
+            "_openstat",
+            "fb_action_ids",
+            "fb_action_types",
+            "fb_source",
+            "fb_ref",
+            "fbclid",
+            "action_object_map",
+            "action_type_map",
+            "action_ref_map",
+            "gs_l",
+            "mkt_tok",
+            "hmb_campaign",
+            "hmb_medium",
+            "hmb_source",
+            "[\\?|&]ref[\\_]?"
+
+    };
+
     // --- Static Map of patterns used in spannable status content
     public static final Map<PatternType, Pattern> patternHashMap;
     public static int counter = 1;
@@ -613,7 +644,6 @@ public class Helper {
      * @param url     String url to open
      */
     public static void openBrowser(Context context, String url) {
-        //url = transformURL(context, url);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean embedded_browser = sharedpreferences.getBoolean(context.getString(R.string.SET_EMBEDDED_BROWSER), true);
         if (embedded_browser && !url.toLowerCase().startsWith("gemini://")) {
@@ -714,8 +744,35 @@ public class Helper {
                 return "https://" + wikipediaReplaceHost + "/" + path + lang;
             }
         }
+        boolean filterUTM = Helper.getSharedValue(context, context.getString(R.string.SET_FILTER_UTM));
+        if (filterUTM) {
+            return remove_tracking_param(context, url);
+        }
         return url;
     }
+
+    /**
+     * Remove tracking parameters
+     *
+     * @param context          - Context
+     * @param original_content - String original URL
+     * @return cleaned URL
+     */
+    private static String remove_tracking_param(Context context, String original_content) {
+        if (original_content == null)
+            return original_content;
+        String cleaned_content = original_content;
+        for (String utm : UTM_PARAMS) {
+            cleaned_content = cleaned_content.replaceAll("&amp;" + utm + "=[0-9a-zA-Z._-]*", "");
+            cleaned_content = cleaned_content.replaceAll("&" + utm + "=[0-9a-zA-Z._-]*", "");
+            cleaned_content = cleaned_content.replaceAll("\\?" + utm + "=[0-9a-zA-Z._-]*", "?");
+        }
+        if (cleaned_content.endsWith("?")) {
+            cleaned_content = cleaned_content.substring(0, cleaned_content.length() - 1);
+        }
+        return cleaned_content;
+    }
+
 
     @SuppressLint("DefaultLocale")
     public static String withSuffix(long count) {
