@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Ein Fehler während der Auswahl ist aufgetreten!</string>
     <string name="toot_delete_media">Diese Datei löschen?</string>
     <string name="toot_error_no_content">Dein Toot ist leer!</string>
-    <string name="toot_visibility_tilte">Sichtbarkeit des Toot</string>
     <string name="toots_visibility_tilte">Standard-Sichtbarkeit der Toots: </string>
     <string name="toot_sent">Der Toot wurde gesendet!</string>
     <string name="toot_reply_content_title">Du antwortest auf diesen Toot:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Timeout der Medienbeschreibung (Sekunden, 0 bedeutet aus)</string>
     <string name="settings_title_profile">Ändere Profil</string>
     <string name="settings_title_custom_sharing">Benutzerdefiniertes Teilen</string>
-    <string name="settings_custom_sharing_url">Ihre benutzerdefinierte Freigabeadresse &#8230;</string>
+    <string name="settings_custom_sharing_url">Ihre benutzerdefinierte Freigabeadresse …</string>
     <string name="set_profile_description">Über mich…</string>
     <string name="set_lock_account">Konto sperren</string>
     <string name="set_save_changes">Änderungen speichern</string>
@@ -355,10 +354,10 @@
     <string name="toast_cache_clear">Speicher wurde geleert! %1$s wurden freigeben</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Titel</string>
-    <string name="title_hint_custom_sharing">Titel &#8230;</string>
+    <string name="title_hint_custom_sharing">Titel …</string>
     <string name="description_header_custom_sharing">Beschreibung</string>
     <string name="keywords_header_custom_sharing">Schlüsselwörter</string>
-    <string name="keywords_hint_custom_sharing">Schlüsselwörter &#8230;</string>
+    <string name="keywords_hint_custom_sharing">Schlüsselwörter …</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Synchronisieren</string>
     <string name="action_filter">Filter</string>
@@ -390,7 +389,7 @@
     <string name="privacy_data">Auf dem Gerät werden nur allgemeine Informationen aus den Konten gespeichert.
 Diese Daten sind streng vertraulich und können nur von der Anwendung verwendet werden.
 Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
-&#9888; Anmeldedaten und Passwörter werden nie gespeichert. Sie werden nur bei einer sicheren Authentifizierung (TLS) mit einer Instanz verwendet.    </string>
+⚠ Anmeldedaten und Passwörter werden nie gespeichert. Sie werden nur bei einer sicheren Authentifizierung (TLS) mit einer Instanz verwendet.    </string>
     <string name="privacy_authorizations_title">Berechtigungen:</string>
     <string name="privacy_authorizations">- <b>ACCESS_NETWORK_STATE</b>: Erkennen von bestehenden Verbindungen zu WIFI Netzwerken.\n
              - <b>INTERNET</b>: Genutzt für Anfragen an eine Instanz.\n
@@ -402,7 +401,7 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="privacy_API_authorizations">• <b>Lesen</b>: Daten lesen.\n
 • <b>Schreiben</b>: Beiträge veröffentlichen und Dateien hochladen.\n
 • <b>Folgen</b>: Folgen, nicht mehr folgen, blockieren, nicht mehr blockieren.\n\n
-<b>&#9888; Diese Aktionen werden nur auf Verlangen des Benutzers durchgeführt.</b>    </string>
+<b>⚠ Diese Aktionen werden nur auf Verlangen des Benutzers durchgeführt.</b>    </string>
     <string name="privacy_API_title">Tracking und Bibliotheken</string>
     <string name="privacy_API">Die Anwendung <b>nutzt keine Trackingwergzeuge</b>(Zielgruppenbestimmung, Fehlerberichte, etc.) und enthält keinerlei Werbung.\n\n
         Die Nutzung von Bibliotheken ist minimiert:\n
@@ -985,17 +984,11 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="set_clear_cache_exit_indication">Der Cache (Medien, zwischengespeicherte Nachrichten, Daten aus dem eingebauten Browser) wird automatisch gelöscht, wenn die Anwendung verlassen wird.</string>
     <string name="unfollow_confirm">Möchtest du diesem Konto nicht mehr folgen?</string>
     <string name="set_unfollow_validation">Bestätigungsdialog anzeigen, bevor nicht mehr gefolgt wird</string>
-    <string name="set_invidious">Youtube durch Invidio.us ersetzen</string>
     <string name="set_invidious_indication">Invidious ist ein alternatives Frontend zu YouTube</string>
-    <string name="set_invidious_host">Geben Sie Ihren eigenen Host ein oder lassen Sie leer, um invidio.us zu verwenden</string>
     <string name="set_nitter">Twitter mit Nitter ersetzen</string>
-    <string name="set_nitter_indication">Nitter ist eine Open Source Alternative zum Twitter Front-End, mit dem Fokus auf Privatsphäre.</string>
     <string name="set_nitter_host">Geben Sie Ihren eigenen Host ein oder lassen Sie leer, um nitter.net zu verwenden</string>
-    <string name="set_bibliogram">Instagram durch Bibliogram ersetzen</string>
     <string name="set_bibliogram_indication">Bibliogram ist ein alternatives Open-Source-Frontend von Instagram, das sich auf den Datenschutz konzentriert.</string>
-    <string name="set_bibliogram_host">Geben Sie Ihren benutzerdefinierten Host ein oder lassen Sie das Feld für die Verwendung von bibliogram.art frei</string>
     <string name="set_libreddit">Reddit durch Libreddit ersetzen</string>
-    <string name="set_libreddit_indication">Libreddit ist eine Open-Source-Alternative zum Reddit Front-End, das sich auf die Privatsphäre konzentriert.</string>
     <string name="set_libreddit_host">Geben Sie Ihren eigenen Host ein oder lassen Sie leer, um libredd.it zu verwenden</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

@@ -169,7 +169,6 @@
     <string name="toot_select_image_error">Podczas wyboru zawartości wystąpił błąd!</string>
     <string name="toot_delete_media">Usunąć tą zawartość?</string>
     <string name="toot_error_no_content">Twój wpis jest pusty!</string>
-    <string name="toot_visibility_tilte">Widoczność wpisu</string>
     <string name="toots_visibility_tilte">Domyślna widoczność wpisu: </string>
     <string name="toot_sent">Wpis został wysłany!</string>
     <string name="toot_reply_content_title">Odpowiadasz na ten wpis:</string>
@@ -309,7 +308,7 @@
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_profile">Edytuj profil</string>
     <string name="settings_title_custom_sharing">Niestandardowe udostępnianie</string>
-    <string name="settings_custom_sharing_url">Twoje URL do niestandardowego udostępniania&#8230;</string>
+    <string name="settings_custom_sharing_url">Twoje URL do niestandardowego udostępniania…</string>
     <string name="set_profile_description">Biografia…</string>
     <string name="set_lock_account">Zablokuj konto</string>
     <string name="set_save_changes">Zapisz zmiany</string>
@@ -366,10 +365,10 @@
     <string name="toast_cache_clear">Pamięć podręczna została wyczyszczona! Zwolniono %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Tytuł</string>
-    <string name="title_hint_custom_sharing">Tytuł&#8230;</string>
+    <string name="title_hint_custom_sharing">Tytuł…</string>
     <string name="description_header_custom_sharing">Opis</string>
     <string name="keywords_header_custom_sharing">Słowa kluczowe</string>
-    <string name="keywords_hint_custom_sharing">Słowa kluczowe&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Słowa kluczowe…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Synchronizacja</string>
     <string name="action_filter">Filtrowanie</string>
@@ -401,7 +400,7 @@
     <string name="privacy_data">        Tylko podstawowe informacje o koncie są przechowywane na urządzeniu.
         Te dane nie są dostępne dla innych aplikacji.
         Dezinstalacja aplikacji natychmiastowo usuwa wszystkie dane.\n
-        &#9888; Dane logowania nie są przechowywane na urządzeniu. Są użyte tylko podczas pierwszego logowania i przekazywane do instancji szyfrowanym kanałem SSL.
+        ⚠ Dane logowania nie są przechowywane na urządzeniu. Są użyte tylko podczas pierwszego logowania i przekazywane do instancji szyfrowanym kanałem SSL.
     </string>
     <string name="privacy_authorizations_title">Uprawnienia:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Pozwala sprawdzić, czy urządzenie jest połączone z siecią WiFi.\n
@@ -415,7 +414,7 @@
     <string name="privacy_API_authorizations">        - <b>Odczyt</b>: Możliwość odczytu danych.\n
         - <b>Zapis</b>: Wysyłanie wpisów i załączanie multimediów.\n
         - <b>Śledzenie</b>: Śledzenie i blokowanie.\n\n
-        <b>&#9888; Te uprawnienia są wykorzystywane wyłącznie na Twoje żądanie.</b>
+        <b>⚠ Te uprawnienia są wykorzystywane wyłącznie na Twoje żądanie.</b>
     </string>
     <string name="privacy_API_title">Śledzenie i biblioteki</string>
     <string name="privacy_API">        Fedilab <b>nie śledzi Twojej aktywności</b> (zbieranie wrażliwych danych, zgłaszanie błędów) i nie zawiera reklam.\n\n
@@ -1010,17 +1009,11 @@
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Czy chcesz przestać obserwować to konto?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-    <string name="set_invidious">Zastąp linki do YouTube\'a linkami do Invidiousa</string>
     <string name="set_invidious_indication">Invidious jest alternatywnym front-endem dla YouTube</string>
-    <string name="set_invidious_host">Enter your custom host or leave blank for using invidious.snopyta.org</string>
     <string name="set_nitter">Przekieruj linki Twittera do Nitter</string>
-    <string name="set_nitter_indication">Nitter to alternatywna wersja front-end dla Twittera, która skupia się na prywatności.</string>
     <string name="set_nitter_host">Wprowadź swój niestandardowy host lub pozostaw puste, aby użyć nitter.net</string>
-    <string name="set_bibliogram">Replace Instagram with Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram jest alternatywną wersją front-end na Instagramie typu open source, koncentrującą się na prywatności.</string>
-    <string name="set_bibliogram_host">Enter your custom host or leave blank for using bibliogram.art</string>
     <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit to alternatywny, otwarty front-end dla Reddita, skupiający się na prywatności.</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

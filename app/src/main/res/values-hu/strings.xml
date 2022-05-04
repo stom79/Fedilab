@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Hiba történt a média kiválasztásakor!</string>
     <string name="toot_delete_media">Törli ezt a médiát?</string>
     <string name="toot_error_no_content">Ez a tootod üres!</string>
-    <string name="toot_visibility_tilte">A toot láthatósága</string>
     <string name="toots_visibility_tilte">A tootok alapértelmezett láthatósága: </string>
     <string name="toot_sent">A tootot el lett küldve!</string>
     <string name="toot_reply_content_title">Erre a tootra válaszolsz:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Médialeírás időtúllépése (mp, 0 érték kikapcsolja)</string>
     <string name="settings_title_profile">Profil szerkesztése</string>
     <string name="settings_title_custom_sharing">Egyéni megosztás</string>
-    <string name="settings_custom_sharing_url">Az egyéni megosztási URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Az egyéni megosztási URL…</string>
     <string name="set_profile_description">Rövid bemutatkozás…</string>
     <string name="set_lock_account">Fiók zárolása</string>
     <string name="set_save_changes">Változások mentése</string>
@@ -355,10 +354,10 @@
     <string name="toast_cache_clear">Gyorsítótár ki lett űrítve! %1$s lett felszabadítva</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Cím</string>
-    <string name="title_hint_custom_sharing">Cím&#8230;</string>
+    <string name="title_hint_custom_sharing">Cím…</string>
     <string name="description_header_custom_sharing">Leírás</string>
     <string name="keywords_header_custom_sharing">Kulcsszavak</string>
-    <string name="keywords_hint_custom_sharing">Kulcsszavak&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Kulcsszavak…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Szinkronizálás</string>
     <string name="action_filter">Szűrés</string>
@@ -390,7 +389,7 @@
     <string name="privacy_data">        A készüléken csak a fiókok alapadatait tároljuk.
         Ezek az adatok szigorúan bizalmasak és csak az alkalmazás fér hozzá.
         Az alkalmazás eltávolítása azonnal törli ezeket az adatokat.\n
-        &#9888; Felhasználónevet és jelszavakat sohasem tárolunk. Csak a szerverre való biztonságos (SSL) bejentkezés során használjuk.
+        ⚠ Felhasználónevet és jelszavakat sohasem tárolunk. Csak a szerverre való biztonságos (SSL) bejentkezés során használjuk.
     </string>
     <string name="privacy_authorizations_title">Engedélyek:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Arra használjuk, hogy megállapítsuk, a kliens WiFi-hálózathoz kapcsolódik-e.\n
@@ -404,7 +403,7 @@
     <string name="privacy_API_authorizations">        - <b>Olvas</b>: Adat olvasása.\n
         - <b>Írás</b>: Posztok létrehozása és média csatolása posztokhoz..\n
         - <b>Követ</b>: Követés, követés megszűntetése, letiltás és tiltás feloldása. \n\n
-        <b>&#9888; Ezek az akciók csak akkor hajtódnak végre, amikor a felhasználó kéri.</b>
+        <b>⚠ Ezek az akciók csak akkor hajtódnak végre, amikor a felhasználó kéri.</b>
     </string>
     <string name="privacy_API_title">Követés és könyvtárak</string>
     <string name="privacy_API">        Az alkalmazás<b>nem használ követési eszközöket</b> (hallgatóság mérése, hibajelentés, stb.) és nem tartalmaz hirdetéseket.\n\n
@@ -995,17 +994,11 @@ A Yandexnek megvan a saját adatvédelmi szabályzata, ami itt található: http
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-    <string name="set_invidious">Replace Youtube with Invidio.us</string>
     <string name="set_invidious_indication">Invidious is an alternative front-end to YouTube</string>
-    <string name="set_invidious_host">Enter your custom host or leave blank for using invidious.snopyta.org</string>
     <string name="set_nitter">Replace Twitter with Nitter</string>
-    <string name="set_nitter_indication">Nitter is an open source alternative Twitter front-end focused on privacy.</string>
     <string name="set_nitter_host">Enter your custom host or leave blank for using nitter.net</string>
-    <string name="set_bibliogram">Replace Instagram with Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
-    <string name="set_bibliogram_host">Enter your custom host or leave blank for using bibliogram.art</string>
     <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

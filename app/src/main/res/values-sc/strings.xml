@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Ddoe est istadu un\'errore seletzionende su cuntenutu multimediale!</string>
     <string name="toot_delete_media">Cantzellare custu mèdiu?</string>
     <string name="toot_error_no_content">Su tut tuo est bòidu!</string>
-    <string name="toot_visibility_tilte">Visibilidade de su tut</string>
     <string name="toots_visibility_tilte">Visibilidade predefinida de is tuts:</string>
     <string name="toot_sent">Su tut est istadu imbiadu!</string>
     <string name="toot_reply_content_title">Ses rispondende a custu tut:</string>
@@ -392,7 +391,7 @@
     <string name="privacy_API_authorizations">- &lt;b &gt;Leghe&lt;/b&gt;: Leghe datos.\n - &lt;b &gt;Iscrie&lt;/b&gt;: Pùblica istados e càrriga cuntenutos multimediales pro is istados.\n - &lt;b &gt;Sighi&lt;/b&gt;: Sighi, acaba de sighire, bloca, isbloca.\n \n &lt;b &gt;⚠ Custas atziones benint fatas sceti cando lu pedit s\'utente.&lt;/b&gt;
     </string>
     <string name="privacy_API_title">Arrastamentu e librerias</string>
-    <string name="privacy_API">S\'aplicatzione &lt;b &gt;no impreat ainas de arrastamentu&lt;/b&gt; (medida de su pùblicu, sinnalatzione de errores, etc.) e non cuntenet publitzidade peruna.\n \n S\'impreu de librerias est minimadu: \n - &lt;b &gt;Glide&lt;/b&gt;: Pro gestire is cuntenutos multimediales (\&quot;mèdios\&quot;)\n - &lt;b &gt;Android-Job&lt;/b&gt;: Pro gestire is servìtzios\n - &lt;b &gt;PhotoView&lt;/b&gt;: Pro gestire is immàgines</string>
+    <string name="privacy_API">S\'aplicatzione &lt;b &gt;no impreat ainas de arrastamentu&lt;/b&gt; (medida de su pùblicu, sinnalatzione de errores, etc.) e non cuntenet publitzidade peruna.\n \n S\'impreu de librerias est minimadu: \n - &lt;b &gt;Glide&lt;/b&gt;: Pro gestire is cuntenutos multimediales (\"mèdios\")\n - &lt;b &gt;Android-Job&lt;/b&gt;: Pro gestire is servìtzios\n - &lt;b &gt;PhotoView&lt;/b&gt;: Pro gestire is immàgines</string>
     <string name="privacy_API_yandex_title">Tradutzione de is tuts</string>
     <string name="privacy_API_yandex_authorizations">Custa aplicatzione frunit sa possibilidade de bortare is tuts impreende sa limba de su dispositivu e s\'API de Yandex.\n Yandex tenet una polìtica pro sa riservadesa sua, chi podes agatare inoghe: https://yandex.ru/legal/confidential/?lang=en</string>
     <string name="thanks_text_dev">Torramus gràtzias a:</string>
@@ -452,7 +451,7 @@
     <string name="toast_hide_boost">Is cumpartziduras como sunt cuadas!</string>
     <string name="direct_message">Messàgiu diretu</string>
     <string name="filters">Filtros</string>
-    <string name="action_filters_empty_content">Perunu filtru de ammustrare. Nde podes creare unu incarchende in su butone \&quot;+\&quot;.</string>
+    <string name="action_filters_empty_content">Perunu filtru de ammustrare. Nde podes creare unu incarchende in su butone \"+\".</string>
     <string name="filter_keyword">Paràula o fràsia crae</string>
     <string name="context_home">Lìnia de tempus printzipale</string>
     <string name="context_public">Lìnias de tempus pùblicas</string>
@@ -479,7 +478,7 @@
     <string name="add_account_list_trunk">Agiunghende contos a sa lista</string>
     <string name="account_added_list_trunk">Is contos sunt istados agiuntos a sa lista</string>
     <string name="adding_account_list_trunk">Agiunghende contos a sa lista</string>
-    <string name="action_list_add">No as creadu ancora peruna lista. Toca in su butone \&quot;+\&quot; pro nde agiùnghere una noa.</string>
+    <string name="action_list_add">No as creadu ancora peruna lista. Toca in su butone \"+\" pro nde agiùnghere una noa.</string>
     <string name="about_trunk">Chie sighire</string>
     <string name="about_trunk_action">API Trunk</string>
     <string name="toast_impossible_to_follow">Non podes sighire su(is) contu(os)</string>
@@ -634,7 +633,7 @@
     <string name="toots_server">Tuts (Serbidore)</string>
     <string name="toots_client">Tuts (Dispositivu)</string>
     <string name="modify">Modìfica</string>
-    <string name="set_display_content_after_fetch_more">Ammustra is tuts noos a pitzu de su butone \&quot;Càstia àteru\&quot;</string>
+    <string name="set_display_content_after_fetch_more">Ammustra is tuts noos a pitzu de su butone \"Càstia àteru\"</string>
     <string name="settings_category_label_timelines">Lìnias de tempus</string>
     <string name="settings_category_label_interface">Interfache</string>
     <string name="contact">Cuntatos</string>
@@ -677,7 +676,7 @@
     <string name="featured_hashtags">Etichetas in evidèntzia</string>
     <string name="filter_timeline_with_a_tag">Filtra sa lìnia de su tempus cun is etichetas</string>
     <string name="no_tags">Peruna eticheta</string>
-    <string name="set_hide_delete_notification_on_tab">Cua su butone \&quot;iscantzella\&quot; in s\'ischeda de sas notìficas</string>
+    <string name="set_hide_delete_notification_on_tab">Cua su butone \"iscantzella\" in s\'ischeda de sas notìficas</string>
     <string name="set_retrieve_metadata_share_from_extras">Allòngia un\'immàgine cando ses cumpartzende un\'URL</string>
     <!-- end languages -->
     <string name="poll">Sondàgiu</string>
@@ -724,7 +723,7 @@
     <string name="history">Cronologia</string>
     <string name="playlists">Iscalitas</string>
     <string name="display_name">Nòmine visìbile</string>
-    <string name="action_playlist_add">Non tenes peruna iscalita. Toca in su butone \&quot;+\&quot; pro agiùnghere un\'iscalita noa.</string>
+    <string name="action_playlist_add">Non tenes peruna iscalita. Toca in su butone \"+\" pro agiùnghere un\'iscalita noa.</string>
     <string name="error_display_name">Depes frunire unu nùmene de ammustrare!</string>
     <string name="error_channel_mandatory">B\'at bisòngiu de su canale cando s\'iscalita est pùblica.</string>
     <string name="action_playlist_create">Crea un\'iscalita</string>
@@ -878,7 +877,7 @@
     <string name="set_enable_crash_report">Abìlita is sinnalatziones pro is arrestos anòmalos</string>
     <string name="set_enable_crash_report_indication">Si est abilitadu s\'at a creare una sinnalatzione in locale e l\'as a pòdere cumpartzire.</string>
     <string name="crash_title">Fedilab s\'est firmadu :(</string>
-    <string name="crash_message">Mi podes imbiare su raportu de arrestu anòmalu pro mèdiu de posta eletrònica. At a agiudare a lu risòlvere :)\n\nPodes agiùnghere cuntenutos in prus. \&quot;Gràtzias!</string>
+    <string name="crash_message">Mi podes imbiare su raportu de arrestu anòmalu pro mèdiu de posta eletrònica. At a agiudare a lu risòlvere :)\n\nPodes agiùnghere cuntenutos in prus. \"Gràtzias!</string>
     <string name="set_wysiwyg">Imprea su wysiwyg (editore visuale)</string>
     <string name="set_wysiwyg_indication">Cando est abilitadu as a pòdere formatare su testu tuo in manera fàtzile cun is ainas.</string>
     <string name="action_stats">Istatìsticas</string>
@@ -942,7 +941,7 @@
         <item>Vista web</item>
         <item>Flussu diretu</item>
     </string-array>
-    <string name="join_instance">Pro t\'iscrìere a s\'istàntzia mea \&quot;%1$s\&quot;, podes iscarrigare Fedilab:\n \n F-Droid: %2$s\n Google: %3$s\n \n A pustis aberi su ligàmene inoghe in suta cun Fedilab e crea su contu tuo :)\n \n %4$s</string>
+    <string name="join_instance">Pro t\'iscrìere a s\'istàntzia mea \"%1$s\", podes iscarrigare Fedilab:\n \n F-Droid: %2$s\n Google: %3$s\n \n A pustis aberi su ligàmene inoghe in suta cun Fedilab e crea su contu tuo :)\n \n %4$s</string>
     <string name="poll_duplicated_entry">Su sondàgiu tuo non podet tènnere optziones duplicadas!</string>
     <string name="all_accounts">Pro totu is contos</string>
     <string name="database_cache">Memòria temporànea de sa base de datos</string>
@@ -960,17 +959,11 @@
     <string name="set_clear_cache_exit_indication">Sa memòria temporànea (cuntenutos multimediales, messàgios sarvados in cue, datos de su navigadore integradu) s\'at a isboidare automaticamente cando as a essire dae s\'aplicatzione.</string>
     <string name="unfollow_confirm">Boles acabare de sighire custu contu?</string>
     <string name="set_unfollow_validation">Ammustra una ventanedda de diàlogu de cunfirma in antis de acabare de sighire</string>
-    <string name="set_invidious">Remplasa YouTube cun Invidio.us</string>
     <string name="set_invidious_indication">Invidious est un\'interfache alternativa pro YouTube</string>
-    <string name="set_invidious_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro invidious.snopyta.org</string>
     <string name="set_nitter">Remplasa Twitter cun Nitter</string>
-    <string name="set_nitter_indication">Nitter est un\'interfache alternativa a mitza aberta progetada pro sa riservadesa.</string>
     <string name="set_nitter_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro impreare nitter.net</string>
-    <string name="set_bibliogram">Remplasa Instagram cun Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram est un\'interfache alternativa pro Instagram, a mitza aberta e progetada pro sa riservadesa.</string>
-    <string name="set_bibliogram_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro bibliogram.art</string>
     <string name="set_libreddit">Remplasa Reddit cun Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit est un\'interfache alternativa a mitza aberta pro Reddit progetada pro sa riservadesa.</string>
     <string name="set_libreddit_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro impreare libredd.it</string>
     <string name="replace_medium">Remplasa is ligàmenes de Medium</string>
     <string name="replace_medium_description">Remplasa is ligàmenes de medium.com cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
@@ -979,7 +972,7 @@
     <string name="replace_wikipedia_description">Remplasa is ligàmenes de Wikipedia cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
     <string name="replace_wikipedia_host">Predefinidu: wikiless.org</string>
     <string name="set_hide_status_bar">Cua sa barra de is notìficas de Fedilab</string>
-    <string name="set_hide_status_bar_indication">Pro cuare is notìficas chi abarrant in sa barra de istadu toca in su butone cun s\'icona a forma de ogru e boga sa seletzione a: \&quot;Ammustra in sa barra de istadu\&quot;</string>
+    <string name="set_hide_status_bar_indication">Pro cuare is notìficas chi abarrant in sa barra de istadu toca in su butone cun s\'icona a forma de ogru e boga sa seletzione a: \"Ammustra in sa barra de istadu\"</string>
     <string name="set_push_notifications">Imprea unu sistema de notìficas push pro retzire notìficas in tempus reale.</string>
     <string name="no_live_notif">Peruna notìfica in direta</string>
     <string name="live_notif">Notìficas in direta</string>

@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">¡Un error ocurrió mientras seleccionaba un contenido multimedia!</string>
     <string name="toot_delete_media">¿Eliminar este contenido multimedia?</string>
     <string name="toot_error_no_content">¡Tu toot está vacío!</string>
-    <string name="toot_visibility_tilte">Visibilidad del toot</string>
     <string name="toots_visibility_tilte">Visibilidad de los toots por defecto: </string>
     <string name="toot_sent">¡El toot ha sido enviado!</string>
     <string name="toot_reply_content_title">Tú estas respondiendo a este toot:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Tiempo de espera de descripción multimedia (en segundos, 0 para desactivar)</string>
     <string name="settings_title_profile">Editar perfil</string>
     <string name="settings_title_custom_sharing">Compartición personalizada</string>
-    <string name="settings_custom_sharing_url">Tu URL de compartición personalizada&#8230;</string>
+    <string name="settings_custom_sharing_url">Tu URL de compartición personalizada…</string>
     <string name="set_profile_description">Bio…</string>
     <string name="set_lock_account">Bloquear cuenta</string>
     <string name="set_save_changes">Guardar cambios</string>
@@ -354,10 +353,10 @@ Tú puede activar o desactivar esas notificaciones después en configuración (p
     <string name="toast_cache_clear">¡Fue borrando el cache! %1$s liberados</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Título</string>
-    <string name="title_hint_custom_sharing">Título&#8230;</string>
+    <string name="title_hint_custom_sharing">Título…</string>
     <string name="description_header_custom_sharing">Descripción</string>
     <string name="keywords_header_custom_sharing">Palabras Claves</string>
-    <string name="keywords_hint_custom_sharing">Palabras clave&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Palabras clave…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sincronizar</string>
     <string name="action_filter">Filtrar</string>
@@ -389,7 +388,7 @@ Tú puede activar o desactivar esas notificaciones después en configuración (p
     <string name="privacy_data">Solo la información básica de las cuentas son guardadas en el dispositivo. 
         Esa data es estrictamente confidencial y solo puede ser usada por la aplicación.
         Al borrar la aplicación inmediatamente elimina esa data.\n
-        &#9888; Usuario y contraseñas nunca son guardados. Estos son solo usados durante la autenticación de seguridad (SSL) con una instancia.
+        ⚠ Usuario y contraseñas nunca son guardados. Estos son solo usados durante la autenticación de seguridad (SSL) con una instancia.
     </string>
     <string name="privacy_authorizations_title">Permisos:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>:  Usado para detectar si el dispositivo esta conectado a una red WI-Fi.\n
@@ -402,7 +401,7 @@ Tú puede activar o desactivar esas notificaciones después en configuración (p
     <string name="privacy_API_authorizations">- <b>Leer</b>: Leer data.\n
         - <b>Escribir</b>: Publicar estados y subir contenido multimedia para estados.\n
         - <b>Follow</b>: Seguir, dejar de seguir, bloquear, desbloquear.\n\n
-        <b>&#9888; Esas acciones son llevadas solo cuando el usuario lo pida</b>
+        <b>⚠ Esas acciones son llevadas solo cuando el usuario lo pida</b>
     </string>
     <string name="privacy_API_title">Rastreadores y librerías</string>
     <string name="privacy_API">La aplicación <b>no usa herramientas de rastreo</b> (medidores de audiencia, reportadores de error, entre otro) y no contiene ninguna publicidad.\n\n
@@ -991,17 +990,11 @@ https://yandex.ru/legal/confidential/?lang=en    </string>
     <string name="set_clear_cache_exit_indication">El caché (archivos multimedia, mensajes en caché, datos del navegador integrado) se borrará automáticamente al salir de la aplicación.</string>
     <string name="unfollow_confirm">¿Desea dejar de seguir esta cuenta?</string>
     <string name="set_unfollow_validation">Mostrar diálogo de confirmación antes de dejar de seguir</string>
-    <string name="set_invidious">Reemplazar Youtube con Invidio.us</string>
     <string name="set_invidious_indication">Invidious es una interfaz alternativa a YouTube</string>
-    <string name="set_invidious_host">Introduce tu host personalizado o deja en blanco para usar invidio.us</string>
     <string name="set_nitter">Reemplazar Twitter con Nitter</string>
-    <string name="set_nitter_indication">Nitter es una alternativa de código abierto a la interfaz de Twitter enfocada en la privacidad.</string>
     <string name="set_nitter_host">Introduce tu host personalizado o deja en blanco para usar nitter.net</string>
-    <string name="set_bibliogram">Reemplazar Instagram con Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram es una interfaz alternativa de Instagram de código abierto centrada en la privacidad.</string>
-    <string name="set_bibliogram_host">Introduzca su servidor personalizado o déjelo en blanco para usar bibliogram.art</string>
     <string name="set_libreddit">Reemplazar Reddit con Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit es una interfaz alternativa de código abierto de Reddit enfocada en la privacidad.</string>
     <string name="set_libreddit_host">Introduce tu servidor personalizado o déjalo en blanco para usar libredd.it</string>
     <string name="replace_medium">Reemplazar enlaces a Medium</string>
     <string name="replace_medium_description">Reemplazar los enlaces a medium.com con un front-end alternativo de código abierto centrado en la privacidad.</string>

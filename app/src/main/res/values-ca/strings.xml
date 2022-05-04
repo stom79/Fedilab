@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">S\'ha produït un error en seleccionar el mèdia!</string>
     <string name="toot_delete_media">Vols suprimir aquest mèdia?</string>
     <string name="toot_error_no_content">El bram és buit!</string>
-    <string name="toot_visibility_tilte">Visibilitat del bram</string>
     <string name="toots_visibility_tilte">Visibilitat predeterminada dels brams: </string>
     <string name="toot_sent">S\'ha enviat el bram!</string>
     <string name="toot_reply_content_title">Estàs responent a aquest bram:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Temps d\'espera de la descripció dels mèdia (en segons, 0 vol dir desactivat)</string>
     <string name="settings_title_profile">Edita el perfil</string>
     <string name="settings_title_custom_sharing">Personalitza el compartir</string>
-    <string name="settings_custom_sharing_url">Personalització del que comparteixo a URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Personalització del que comparteixo a URL…</string>
     <string name="set_profile_description">Biografia...</string>
     <string name="set_lock_account">Fes el compte privat</string>
     <string name="set_save_changes">Desa els canvis</string>
@@ -354,10 +353,10 @@ Pots habilitar o deshabilitar les notificacions més endavant a la configuració
     <string name="toast_cache_clear">S\'ha netejat la memòria cau! S\'han alliberat %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Títol</string>
-    <string name="title_hint_custom_sharing">Títol&#8230;</string>
+    <string name="title_hint_custom_sharing">Títol…</string>
     <string name="description_header_custom_sharing">Descripció</string>
     <string name="keywords_header_custom_sharing">Paraules clau</string>
-    <string name="keywords_hint_custom_sharing">Paraules clau&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Paraules clau…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sincronitza</string>
     <string name="action_filter">Filtra</string>
@@ -389,7 +388,7 @@ Pots habilitar o deshabilitar les notificacions més endavant a la configuració
     <string name="privacy_data">Només es guarda al dispositiu la informació bàsica dels comptes.
 Aquestes dades són estrictament confidencials i només les pot usar l\'aplicació.
 Quan s\'esborra l\'aplicació s\'eliminen les dades immediatament.\n
-&#9888; Els noms d\'usuària i contrasenyes no s\'emmagatzemen mai. Només s\'utilitzen durant una autentificació segura (SSL) en una instància.    </string>
+⚠ Els noms d\'usuària i contrasenyes no s\'emmagatzemen mai. Només s\'utilitzen durant una autentificació segura (SSL) en una instància.    </string>
     <string name="privacy_authorizations_title">Permisos:</string>
     <string name="privacy_authorizations">- <b>ESTAT_ACCES_XARXA</b>: Usat per detectar si el dispositiu està connectat a una xarxa WIFI.\n
          - <b>INTERNET</b>: Usat per a requeriments a una instància.\n
@@ -401,7 +400,7 @@ Quan s\'esborra l\'aplicació s\'eliminen les dades immediatament.\n
     <string name="privacy_API_authorizations">        - <b>Lectura</b>: Lectura de dades.\n
         - <b>Escriptura</b>: Publica missatges  i carrega mèdia per a missatges.\n
         - <b>Seguiments</b>: segueix, desegueix, bloca, desbloca.\n\n
-        <b>&#9888; Aquestes accions es realitzen només a petició de la usuària.</b>
+        <b>⚠ Aquestes accions es realitzen només a petició de la usuària.</b>
     </string>
     <string name="privacy_API_title">Rastreig i llibreries</string>
     <string name="privacy_API">        L\' aplicació <b>no fa ús d\'eines de rastreig</b> (mesures d\'audiència, informes d\'errors, etc.) i no conté publicitat.\n\n
@@ -987,17 +986,11 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="set_clear_cache_exit_indication">La memòria cau (mèdia, missatges registrats, dades del navegador incorporat) s\'esborraran automàticament en sortir de l\'aplicació.</string>
     <string name="unfollow_confirm">Vols deixar de seguir aquest compte?</string>
     <string name="set_unfollow_validation">Mostra diàleg de confirmació abans de deixar de seguir</string>
-    <string name="set_invidious">Substituir Youtube amb Invidio.us</string>
     <string name="set_invidious_indication">Invidious és una alternativa a YouTube en funcions de frontal</string>
-    <string name="set_invidious_host">Escriu aquí el teu servidor particular o deixa-ho buit i s\'usarà invidio.us</string>
     <string name="set_nitter">Substitueix Twitter amb Nitter</string>
-    <string name="set_nitter_indication">Nitter és una alternativa de codi obert que fa de frontal per Twitter i protegeix la privacitat.</string>
     <string name="set_nitter_host">Introdueix aquí el teu servidor personalitzat o deixa-ho en blanc i s\'usarà nitter.net</string>
-    <string name="set_bibliogram">Substituir Instagram per Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram és un frontal alternatiu de codi obert per Instagram que protegeix la privacitat.</string>
-    <string name="set_bibliogram_host">Introdueix aquí el teu servidor personalitzat o deixa-ho en blanc i s\'usarà bibliogram.art</string>
     <string name="set_libreddit">Substituïu Reddit per Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit és una interfície alternativa a Reddit, és de codi obert i prioritza la privadesa.</string>
     <string name="set_libreddit_host">Introduïu el vostre servidor personalitzat o deixeu-ho em blanc per utilitzar libredd.it</string>
     <string name="replace_medium">Substitueix els enllaços de Medium</string>
     <string name="replace_medium_description">Substitueix els enllaços de medium.com per un frontal alternatiu de codi obert que prioritza la privacitat.</string>

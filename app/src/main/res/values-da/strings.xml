@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">En fejl opstod under valg af medie!</string>
     <string name="toot_delete_media">Slette dette medie?</string>
     <string name="toot_error_no_content">Dit toot er tomt!</string>
-    <string name="toot_visibility_tilte">Toot\'ets synlighed</string>
     <string name="toots_visibility_tilte">Toots standardsynlighed: </string>
     <string name="toot_sent">Toot\'et er sendt!</string>
     <string name="toot_reply_content_title">Du besvarer flg. toot:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Mediebeskrivelses-timeout (sekunder, 0 = Fra)</string>
     <string name="settings_title_profile">Redigér profil</string>
     <string name="settings_title_custom_sharing">Tilpasset deling</string>
-    <string name="settings_custom_sharing_url">Din tilpassede delings-URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Din tilpassede delings-URL…</string>
     <string name="set_profile_description">Bio…</string>
     <string name="set_lock_account">Lås konto</string>
     <string name="set_save_changes">Gem ændringer</string>
@@ -355,10 +354,10 @@
     <string name="toast_cache_clear">Cachen er ryddet! %1$s er frigivet</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Titel</string>
-    <string name="title_hint_custom_sharing">Titel&#8230;</string>
+    <string name="title_hint_custom_sharing">Titel…</string>
     <string name="description_header_custom_sharing">Beskrivelse</string>
     <string name="keywords_header_custom_sharing">Søgeord</string>
-    <string name="keywords_hint_custom_sharing">Søgeord&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Søgeord…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Synkronisér</string>
     <string name="action_filter">Filtrér</string>
@@ -390,7 +389,7 @@
     <string name="privacy_data">        Kun grundlæggende oplysninger fra konti lagres på enheden.
         Disse data er strengt fortrolige og kan kun anvendes af app\'en.
         Sletning af app\'en fjerner straks disse data.\n
-        &#9888; Loginoplysninger lagres aldrig, da de alene benyttes ifm. en sikker godkendelse (SSL) med en instans.
+        ⚠ Loginoplysninger lagres aldrig, da de alene benyttes ifm. en sikker godkendelse (SSL) med en instans.
     </string>
     <string name="privacy_authorizations_title">Tilladelser:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Benyttes til at fastslå, om enheden er tilsluttet et Wi-Fi netværk.\n
@@ -404,7 +403,7 @@
     <string name="privacy_API_authorizations">        - <b>Read</b>: Læse data.\n
         - <b>Write</b>: Komme med statusindlæg og uploade medier til statusser.\n
         - <b>Follow</b>: Følge, stoppe med at følge, blokere, afblokere.\n\n
-        <b>&#9888; Disse handlinger udføres kun på brugerforlangende.</b>
+        <b>⚠ Disse handlinger udføres kun på brugerforlangende.</b>
     </string>
     <string name="privacy_API_title">Sporing og Biblioteker</string>
     <string name="privacy_API">        App\'en <b>benytter ikke sporingsværktøjer</b> (publikumsmåling, fejlrapportering mv.), og den indeholder ingen reklamer.\n\n
@@ -997,17 +996,11 @@
     <string name="set_clear_cache_exit_indication">Cache (medier, cache-lagrede beskeder, data fra den indbyggede browser), vil automatisk blive ryddet, når appen forlader.</string>
     <string name="unfollow_confirm">Stop med at følge denne konto?</string>
     <string name="set_unfollow_validation">Vis bekræftelsesdialog inden Følg stoppes</string>
-    <string name="set_invidious">Udskift Youtube med Invidio.us</string>
     <string name="set_invidious_indication">Invidious er en alternativ front-end til YouTube</string>
-    <string name="set_invidious_host">Angiv din tilpassede vært eller udfykd ikke for at benytte invidio.os</string>
     <string name="set_nitter">Erstat Twitter med Nitter</string>
-    <string name="set_nitter_indication">Nitter er en alternativ open source Twitter front-end med fokus på fortrolighed.</string>
     <string name="set_nitter_host">Angiv din tilpassede vært eller udfykd ikke for at benytte nitter.net</string>
-    <string name="set_bibliogram">Erstat Instagram med Bibliogram</string>
     <string name="set_bibliogram_indication">Bibliogram er et open source Instagram front-end alternativt fokuseret på datafortrolighed.</string>
-    <string name="set_bibliogram_host">Angiv din tilpassede vært eller lad stå tomt for at benytte bibliogram.art</string>
     <string name="set_libreddit">Erstat Reddit med Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit er en fortrolighedorienteret, alternativ open-source Twitter front-end.</string>
     <string name="set_libreddit_host">Angiv din tilpassede vært eller lad stå tomt for brug af libredd.it</string>
     <string name="replace_medium">Erstat Medium-links</string>
     <string name="replace_medium_description">Erstat medium.com-links med en open-source alternativ front-end med fokus på fortrolighed.</string>

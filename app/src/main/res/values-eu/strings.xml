@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Errorea gertatu da multimedia aukeratzean!</string>
     <string name="toot_delete_media">Ezabatu multimedia hau?</string>
     <string name="toot_error_no_content">Zure toot-a hutsik dago!</string>
-    <string name="toot_visibility_tilte">Toot-aren ikusgaitasuna</string>
     <string name="toots_visibility_tilte">Toot-en lehenetsitako ikusgaitasuna: </string>
     <string name="toot_sent">Toot-a bidali da!</string>
     <string name="toot_reply_content_title">Toot honi erantzuten ari zara:</string>
@@ -297,7 +296,7 @@
     <string name="set_med_desc_timeout">Multimediaren deskripzioaren denbora-muga (segundoak, 0 desgaituta esan nahi du)</string>
     <string name="settings_title_profile">Editatu profila</string>
     <string name="settings_title_custom_sharing">Partekatze pertsonalizatua</string>
-    <string name="settings_custom_sharing_url">Zure partekatze pertsonalizaturako URL-a&#8230;</string>
+    <string name="settings_custom_sharing_url">Zure partekatze pertsonalizaturako URL-a…</string>
     <string name="set_profile_description">Bio…</string>
     <string name="set_lock_account">Blokeatu kontua</string>
     <string name="set_save_changes">Gorde aldaketak</string>
@@ -355,10 +354,10 @@
     <string name="toast_cache_clear">Cache-a garbitu da! %1$s askatu dira</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Izenburua</string>
-    <string name="title_hint_custom_sharing">Izenburua&#8230;</string>
+    <string name="title_hint_custom_sharing">Izenburua…</string>
     <string name="description_header_custom_sharing">Deskripzioa</string>
     <string name="keywords_header_custom_sharing">Hitz gakoak</string>
-    <string name="keywords_hint_custom_sharing">Hitz gakoak&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Hitz gakoak…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sinkronizatu</string>
     <string name="action_filter">Iragazi</string>
@@ -390,7 +389,7 @@
     <string name="privacy_data">        Kontuen oinarrizko informazioa besterik ez da gordetzen gailuetan
         Datu hauek guztiz konfidentzialak dira eta bakarrik aplikazioak erabili ditzake.
         Aplikazioa ezabatzean datu hauek ere ezabatzen dira.\n
-        &#9888; Saioa eta pasahitzak ez dira inoiz gordetzen. Instantzia batekin autentifikazio segurua (SSL) ezartzean besterik ez dira erabiltzen.
+        ⚠ Saioa eta pasahitzak ez dira inoiz gordetzen. Instantzia batekin autentifikazio segurua (SSL) ezartzean besterik ez dira erabiltzen.
     </string>
     <string name="privacy_authorizations_title">Baimenak:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Gailua WIFI sare batera konektatuta dagoen egiaztatzeko erabiltzen da.\n
@@ -404,7 +403,7 @@
     <string name="privacy_API_authorizations">        - <b>Irakurri</b>: Irakurri datuak.\n
         - <b>Idatzi</b>: Bidali mezuak eta igo mezuetarako multimedia.\n
         - <b>Jarraitu</b>: Jarraitu, jarraitzeari utzi, blokeatu, desblokeatu.\n\n
-        <b>&#9888; Ekintza hauek erabiltzaileak eskatuta besterik ez dira burutzen.</b>
+        <b>⚠ Ekintza hauek erabiltzaileak eskatuta besterik ez dira burutzen.</b>
     </string>
     <string name="privacy_API_title">Jarraipena eta liburutegiak</string>
     <string name="privacy_API">        Aplikazioak <b>ez du jarraipen tresnarik erabiltzen</b> (audientziaren neurria, erroreen jakinarazpena, eta abar.) eta ez du publizitaterik.\n\n
@@ -996,17 +995,11 @@
     <string name="set_clear_cache_exit_indication">Cachea (multimedia, mezuak, barneko nabigatzailearen datuak) automatikoki ezabatuko da aplikaziotik irtetean.</string>
     <string name="unfollow_confirm">Kontu hau jarraitzeari utzi nahi diozu?</string>
     <string name="set_unfollow_validation">Erakutsi baieztapen elkarrizketa-koadroa jarraitzeari utzi aurretik</string>
-    <string name="set_invidious">Erabili Invidio.us Youtube-ren ordez</string>
     <string name="set_invidious_indication">Invidio.us Youtube ikusteko ordezko interfaze bat da</string>
-    <string name="set_invidious_host">Sartu zure ostalari pertsonalizatua edo laga hutsik invidio.us erabiltzeko</string>
     <string name="set_nitter">Erabili Nitter Twitter-en ordez</string>
-    <string name="set_nitter_indication">Nitter pribatutasuna aintzat duen Twitter interfaze libre bat da.</string>
     <string name="set_nitter_host">Sartu zure ostalari pertsonalizatua edo laga hutsik nitter.net erabiltzeko</string>
-    <string name="set_bibliogram">Ordeztu Instagram Bibliogram-ekin</string>
     <string name="set_bibliogram_indication">Bibliogram pribatutasuna aintzat duen Instagram interfaze libre bat da.</string>
-    <string name="set_bibliogram_host">Sartu zure ostalari pertsonalizatua edo laga hutsik bibliogram.art erabiltzeko</string>
     <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
