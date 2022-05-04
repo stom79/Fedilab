@@ -99,12 +99,14 @@ public class NotificationsVM extends AndroidViewModel {
                     if (notificationsResponse.isSuccessful()) {
                         List<Notification> notFilteredNotifications = notificationsResponse.body();
                         notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFilteredNotifications);
-                        for (Notification notification : notifications.notifications) {
-                            if (notification != null) {
-                                notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
+                        if (notifications.notifications != null) {
+                            for (Notification notification : notifications.notifications) {
+                                if (notification != null) {
+                                    notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
+                                }
                             }
                         }
-                        notifications.pagination = MastodonHelper.getPaginationNotification(notifications.notifications);
+                        notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

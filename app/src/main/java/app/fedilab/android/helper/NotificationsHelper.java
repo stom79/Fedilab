@@ -114,7 +114,7 @@ public class NotificationsHelper {
                                 }
                             }
                         }
-                        notifications.pagination = MastodonHelper.getPaginationNotification(notifications.notifications);
+                        notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

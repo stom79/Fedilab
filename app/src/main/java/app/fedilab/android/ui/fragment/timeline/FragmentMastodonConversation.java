@@ -99,7 +99,7 @@ public class FragmentMastodonConversation extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(conversationAdapter);
-        max_id = conversations.pagination.min_id;
+        max_id = conversations.pagination.max_id;
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -122,7 +122,7 @@ public class FragmentMastodonConversation extends Fragment {
                                                 startId = currentFragment.conversations.size();
                                             }
                                             currentFragment.conversations.addAll(fetched_conversations.conversations);
-                                            max_id = fetched_conversations.pagination.min_id;
+                                            max_id = fetched_conversations.pagination.max_id;
                                             conversationAdapter.notifyItemRangeInserted(startId, fetched_conversations.conversations.size());
                                         }
                                     });

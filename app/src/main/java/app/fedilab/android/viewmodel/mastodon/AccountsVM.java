@@ -339,7 +339,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Status>> accountStatusesResponse = accountStatusesCall.execute();
                     if (accountStatusesResponse.isSuccessful()) {
                         statusList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), accountStatusesResponse.body());
-                        pagination = MastodonHelper.getPaginationStatus(statusList);
+                        pagination = MastodonHelper.getPagination(accountStatusesResponse.headers());
 
                     }
                 } catch (IOException e) {
@@ -375,7 +375,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Account>> followersResponse = followersCall.execute();
                     if (followersResponse.isSuccessful()) {
                         accountList = followersResponse.body();
-                        pagination = MastodonHelper.getPaginationAccount(accountList);
+                        pagination = MastodonHelper.getPagination(followersResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -411,7 +411,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Account>> followingResponse = followingCall.execute();
                     if (followingResponse.isSuccessful()) {
                         accountList = followingResponse.body();
-                        pagination = MastodonHelper.getPaginationAccount(accountList);
+                        pagination = MastodonHelper.getPagination(followingResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -909,7 +909,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (bookmarksResponse.isSuccessful()) {
                         statusList = bookmarksResponse.body();
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statusList);
+                        statuses.pagination = MastodonHelper.getPagination(bookmarksResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -940,7 +940,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (favouritesResponse.isSuccessful()) {
                         statusList = favouritesResponse.body();
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statusList);
+                        statuses.pagination = MastodonHelper.getPagination(favouritesResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -972,7 +972,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (mutesResponse.isSuccessful()) {
                         accountList = mutesResponse.body();
                         accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
-                        accounts.pagination = MastodonHelper.getPaginationAccount(accountList);
+                        accounts.pagination = MastodonHelper.getPagination(mutesResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1004,7 +1004,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (blocksResponse.isSuccessful()) {
                         accountList = blocksResponse.body();
                         accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
-                        accounts.pagination = MastodonHelper.getPaginationAccount(accountList);
+                        accounts.pagination = MastodonHelper.getPagination(blocksResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

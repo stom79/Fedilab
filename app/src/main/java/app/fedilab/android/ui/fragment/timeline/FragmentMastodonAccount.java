@@ -202,7 +202,7 @@ public class FragmentMastodonAccount extends Fragment {
         binding.recyclerView.setAdapter(accountAdapter);
         //Fetch the relationship
         fetchRelationShip(accounts.accounts, 0);
-        max_id = accounts.pagination.min_id;
+        max_id = accounts.pagination.max_id;
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -253,7 +253,7 @@ public class FragmentMastodonAccount extends Fragment {
             accounts.addAll(fetched_accounts.accounts);
             //Fetch the relationship
             fetchRelationShip(fetched_accounts.accounts, position);
-            max_id = fetched_accounts.pagination.min_id;
+            max_id = fetched_accounts.pagination.max_id;
             accountAdapter.notifyItemRangeInserted(startId, fetched_accounts.accounts.size());
         }
     }

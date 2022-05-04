@@ -49,11 +49,16 @@ public class TimelineHelper {
         //A security to make sure filters have been fetched before displaying messages
         List<Status> statusesToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
-            AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-            accountsVM.getFilters(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe((LifecycleOwner) context, filters -> {
-                BaseMainActivity.filterFetched = true;
-                BaseMainActivity.mainFilters = filters;
-            });
+            try {
+                AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
+                accountsVM.getFilters(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe((LifecycleOwner) context, filters -> {
+                    BaseMainActivity.filterFetched = true;
+                    BaseMainActivity.mainFilters = filters;
+                });
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+                return statuses;
+            }
         }
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0) {

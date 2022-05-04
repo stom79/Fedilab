@@ -236,7 +236,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             while (matcherAcct.find()) {
                 int matchStart = matcherAcct.start(1);
                 int matchEnd = matcherAcct.end();
-                if (wordToSpan.length() >= matchEnd && matchStart < matchEnd) {
+                if (wordToSpan.length() >= matchEnd && matchStart < matchEnd && matchStart >= 0) {
                     wordToSpan.setSpan(new ForegroundColorSpan(theme_text_header_2_line), matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
             }
@@ -330,6 +330,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonBookmark.setOnClickListener(v -> {
                 if (remote) {
+                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                             .observe((LifecycleOwner) context, results -> {
                                 if (results.statuses != null && results.statuses.size() > 0) {
@@ -366,10 +367,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonFavorite.setChecked(statusToDeal.favourited);
             holder.binding.statusUserInfo.setOnClickListener(v -> {
                 if (remote) {
+                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                             .observe((LifecycleOwner) context, results -> {
                                 if (results.statuses != null && results.statuses.size() > 0) {
-                                    Status fetchedStatus = statusList.get(0);
+                                    Status fetchedStatus = results.statuses.get(0);
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle b = new Bundle();
                                     b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
@@ -395,10 +397,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.statusBoosterAvatar.setOnClickListener(v -> {
                 if (remote) {
+                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                             .observe((LifecycleOwner) context, results -> {
                                 if (results.statuses != null && results.statuses.size() > 0) {
-                                    Status fetchedStatus = statusList.get(0);
+                                    Status fetchedStatus = results.statuses.get(0);
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle b = new Bundle();
                                     b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
@@ -440,10 +443,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (remote) {
+                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                     .observe((LifecycleOwner) context, results -> {
                                         if (results.statuses != null && results.statuses.size() > 0) {
-                                            Status fetchedStatus = statusList.get(0);
+                                            Status fetchedStatus = results.statuses.get(0);
                                             statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
                                                     .observe((LifecycleOwner) context, _status -> {
                                                         statusToDeal.reblogged = _status.reblogged;
@@ -482,10 +486,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     alert.show();
                 } else {
                     if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                 .observe((LifecycleOwner) context, results -> {
                                     if (results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = statusList.get(0);
+                                        Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
                                                 .observe((LifecycleOwner) context, _status -> {
                                                     statusToDeal.reblogged = _status.reblogged;
@@ -538,10 +543,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (remote) {
+                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                     .observe((LifecycleOwner) context, results -> {
                                         if (results.statuses != null && results.statuses.size() > 0) {
-                                            Status fetchedStatus = statusList.get(0);
+                                            Status fetchedStatus = results.statuses.get(0);
                                             statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
                                                     .observe((LifecycleOwner) context, _status -> {
                                                         statusToDeal.favourited = _status.favourited;
@@ -579,10 +585,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     alert.show();
                 } else {
                     if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                 .observe((LifecycleOwner) context, results -> {
                                     if (results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = statusList.get(0);
+                                        Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
                                                 .observe((LifecycleOwner) context, _status -> {
                                                     statusToDeal.favourited = _status.favourited;
@@ -855,10 +862,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.reblogInfo.setOnClickListener(v -> {
             if (remote) {
+                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                 searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                         .observe((LifecycleOwner) context, results -> {
                             if (results.statuses != null && results.statuses.size() > 0) {
-                                Status fetchedStatus = statusList.get(0);
+                                Status fetchedStatus = results.statuses.get(0);
                                 if (fetchedStatus.reblogs_count > 0) {
                                     Intent intent = new Intent(context, StatusInfoActivity.class);
                                     intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
@@ -881,10 +889,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.favouriteInfo.setOnClickListener(v -> {
             if (remote) {
+                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                 searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                         .observe((LifecycleOwner) context, results -> {
                             if (results.statuses != null && results.statuses.size() > 0) {
-                                Status fetchedStatus = statusList.get(0);
+                                Status fetchedStatus = results.statuses.get(0);
                                 if (fetchedStatus.favourites_count > 0) {
                                     Intent intent = new Intent(context, StatusInfoActivity.class);
                                     intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
@@ -1004,10 +1013,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     //Vote on the poll
                     if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                 .observe((LifecycleOwner) context, results -> {
                                     if (results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = statusList.get(0);
+                                        Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.votePoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.poll.id, choice)
                                                 .observe((LifecycleOwner) context, poll -> {
                                                     int i = 0;
@@ -1084,10 +1094,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
                 } else {
                     if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
                                 .observe((LifecycleOwner) context, results -> {
                                     if (results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = statusList.get(0);
+                                        Status fetchedStatus = results.statuses.get(0);
                                         Intent intent = new Intent(context, ContextActivity.class);
                                         intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
                                         context.startActivity(intent);
@@ -1354,10 +1365,29 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             popup.show();
         });
+        holder.binding.actionButtonReply.setOnLongClickListener(v -> {
+            CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
+            return true;
+        });
         holder.binding.actionButtonReply.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ComposeActivity.class);
-            intent.putExtra(Helper.ARG_STATUS_REPLY, statusToDeal);
-            context.startActivity(intent);
+            if (remote) {
+                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.url, null, "statuses", false, true, false, 0, null, null, 1)
+                        .observe((LifecycleOwner) context, results -> {
+                            if (results.statuses != null && results.statuses.size() > 0) {
+                                Status fetchedStatus = statusList.get(0);
+                                Intent intent = new Intent(context, ComposeActivity.class);
+                                intent.putExtra(Helper.ARG_STATUS_REPLY, fetchedStatus);
+                                context.startActivity(intent);
+                            } else {
+                                Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                Intent intent = new Intent(context, ComposeActivity.class);
+                intent.putExtra(Helper.ARG_STATUS_REPLY, statusToDeal);
+                context.startActivity(intent);
+            }
         });
         //For reports
 

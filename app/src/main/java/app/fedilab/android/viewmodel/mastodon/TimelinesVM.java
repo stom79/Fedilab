@@ -37,6 +37,7 @@ import app.fedilab.android.client.mastodon.entities.Conversation;
 import app.fedilab.android.client.mastodon.entities.Conversations;
 import app.fedilab.android.client.mastodon.entities.Marker;
 import app.fedilab.android.client.mastodon.entities.MastodonList;
+import app.fedilab.android.client.mastodon.entities.Pagination;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.client.mastodon.entities.Statuses;
 import app.fedilab.android.exception.DBException;
@@ -95,13 +96,13 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getPublic(String token, @NonNull String instance,
-                                        boolean local,
-                                        boolean remote,
-                                        boolean onlyMedia,
+                                        Boolean local,
+                                        Boolean remote,
+                                        Boolean onlyMedia,
                                         String maxId,
                                         String sinceId,
                                         String minId,
-                                        int limit) {
+                                        Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
@@ -114,7 +115,7 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> notFilteredStatuses = publicTlResponse.body();
                         List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statuses.statuses);
+                        statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -163,7 +164,7 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> notFilteredStatuses = hashTagTlResponse.body();
                         List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statuses.statuses);
+                        statuses.pagination = MastodonHelper.getPagination(hashTagTlResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -205,7 +206,7 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> notFilteredStatuses = homeTlResponse.body();
                         List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.HOME);
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statuses.statuses);
+                        statuses.pagination = MastodonHelper.getPagination(homeTlResponse.headers());
                         for (Status status : statuses.statuses) {
                             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                             StatusCache statusCache = new StatusCache();
@@ -253,6 +254,11 @@ public class TimelinesVM extends AndroidViewModel {
                 statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId);
                 if (statuses != null) {
                     statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statuses.statuses);
+                    if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                        statuses.pagination = new Pagination();
+                        statuses.pagination.min_id = statuses.statuses.get(0).id;
+                        statuses.pagination.max_id = statuses.statuses.get(statuses.statuses.size() - 1).id;
+                    }
                 }
             } catch (DBException e) {
                 e.printStackTrace();
@@ -315,7 +321,7 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> listTlResponse = listTlCall.execute();
                     if (listTlResponse.isSuccessful()) {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), listTlResponse.body());
-                        statuses.pagination = MastodonHelper.getPaginationStatus(statuses.statuses);
+                        statuses.pagination = MastodonHelper.getPagination(listTlResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -355,7 +361,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 conversation.last_status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), conversation.last_status);
                             }
                         }
-                        conversations.pagination = MastodonHelper.getPaginationConversation(conversations.conversations);
+                        conversations.pagination = MastodonHelper.getPagination(conversationsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

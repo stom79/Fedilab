@@ -60,6 +60,7 @@ public class ActionActivity extends BaseActivity {
                 fragmentMastodonAccount = new FragmentMastodonAccount();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
                 fragmentMastodonAccount.setArguments(bundle);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction =
@@ -74,6 +75,7 @@ public class ActionActivity extends BaseActivity {
                 fragmentMastodonTimeline = new FragmentMastodonTimeline();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
                 fragmentMastodonTimeline.setArguments(bundle);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction =

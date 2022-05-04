@@ -144,7 +144,7 @@ public class FragmentMastodonNotification extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
-        max_id = notifications.pagination.min_id;
+        max_id = notifications.pagination.max_id;
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -196,7 +196,7 @@ public class FragmentMastodonNotification extends Fragment {
                 startId = currentFragment.notifications.size();
             }
             currentFragment.notifications.addAll(fetched_notifications.notifications);
-            max_id = fetched_notifications.pagination.min_id;
+            max_id = fetched_notifications.pagination.max_id;
             notificationAdapter.notifyItemRangeInserted(startId, fetched_notifications.notifications.size());
         }
     }

@@ -86,13 +86,13 @@ public class SearchVM extends AndroidViewModel {
                                     @NonNull String q,
                                     String account_id,
                                     String type,
-                                    boolean exclude_unreviewed,
-                                    boolean resolve,
-                                    boolean following,
-                                    int offset,
+                                    Boolean exclude_unreviewed,
+                                    Boolean resolve,
+                                    Boolean following,
+                                    Integer offset,
                                     String max_id,
                                     String min_id,
-                                    int limit) {
+                                    Integer limit) {
         MastodonSearchService mastodonSearchService = init(instance);
         resultsMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {

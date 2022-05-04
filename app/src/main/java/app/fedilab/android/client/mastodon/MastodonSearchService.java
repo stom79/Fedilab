@@ -29,12 +29,12 @@ public interface MastodonSearchService {
             @Query("q") String q,
             @Query("account_id") String account_id,
             @Query("type") String type,
-            @Query("exclude_unreviewed") boolean exclude_unreviewed,
-            @Query("resolve") boolean resolve,
-            @Query("following") boolean following,
-            @Query("offset") int offset,
+            @Query("exclude_unreviewed") Boolean exclude_unreviewed,
+            @Query("resolve") Boolean resolve,
+            @Query("following") Boolean following,
+            @Query("offset") Integer offset,
             @Query("max_id") String max_id,
             @Query("min_id") String min_id,
-            @Query("limit") int limit
+            @Query("limit") Integer limit
     );
 }

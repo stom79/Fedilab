@@ -119,7 +119,7 @@ public class StatusInfoActivity extends BaseActivity {
                 startId = accountList.size();
             }
             accountList.addAll(accounts.accounts);
-            max_id = accounts.pagination.min_id;
+            max_id = accounts.pagination.max_id;
             accountAdapter.notifyItemRangeInserted(startId, accounts.accounts.size());
         }
     }

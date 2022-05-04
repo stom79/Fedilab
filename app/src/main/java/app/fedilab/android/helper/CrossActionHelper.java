@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.client.entities.Account;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.exception.DBException;
@@ -224,6 +226,12 @@ public class CrossActionHelper {
                 statusesVM.unReblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unreblog), Toasty.LENGTH_SHORT).show());
                 break;
+            case REPLY_ACTION:
+                Intent intent = new Intent(context, ComposeActivity.class);
+                intent.putExtra(Helper.ARG_STATUS_REPLY, targetedStatus);
+                intent.putExtra(Helper.ARG_ACCOUNT, ownerAccount);
+                context.startActivity(intent);
+                break;
         }
     }
 
@@ -239,6 +247,7 @@ public class CrossActionHelper {
         BOOKMARK_ACTION,
         UNBOOKMARK_ACTION,
         REBLOG_ACTION,
-        UNREBLOG_ACTION
+        UNREBLOG_ACTION,
+        REPLY_ACTION
     }
 }

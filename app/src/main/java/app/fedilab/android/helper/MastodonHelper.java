@@ -42,20 +42,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.ScheduledBoost;
 import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Conversation;
-import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.client.mastodon.entities.Pagination;
 import app.fedilab.android.client.mastodon.entities.RelationShip;
-import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.exception.DBException;
@@ -63,6 +60,7 @@ import app.fedilab.android.jobs.ScheduleBoostWorker;
 import app.fedilab.android.ui.drawer.ComposeAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
+import okhttp3.Headers;
 
 public class MastodonHelper {
 
@@ -114,13 +112,13 @@ public class MastodonHelper {
         return "https://" + instance + "/oauth/authorize" + "?" + queryString;
     }
 
-    /* /**
+    /**
      * Retrieve pagination from header
      *
      * @param headers Headers
      * @return Pagination
      */
-   /* public static Pagination getPagination(Headers headers) {
+    public static Pagination getPagination(Headers headers) {
         String link = headers.get("Link");
         Pagination pagination = new Pagination();
         if (link != null) {
@@ -141,9 +139,9 @@ public class MastodonHelper {
             }
         }
         return pagination;
-    }*/
+    }
 
-    public static Pagination getPaginationNotification(List<Notification> notificationList) {
+    /*public static Pagination getPaginationNotification(List<Notification> notificationList) {
         Pagination pagination = new Pagination();
         if (notificationList == null || notificationList.size() == 0) {
             return pagination;
@@ -192,7 +190,7 @@ public class MastodonHelper {
         pagination.min_id = conversationList.get(conversationList.size() - 1).id;
         return pagination;
     }
-
+*/
     public static void loadPPMastodon(ImageView view, app.fedilab.android.client.mastodon.entities.Account account) {
         loadProfileMediaMastodon(view, account, MediaAccountType.AVATAR);
     }

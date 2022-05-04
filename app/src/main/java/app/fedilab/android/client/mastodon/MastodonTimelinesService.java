@@ -38,13 +38,13 @@ public interface MastodonTimelinesService {
     @GET("timelines/public")
     Call<List<Status>> getPublic(
             @Header("Authorization") String token,
-            @Query("local") boolean local,
-            @Query("remote") boolean remote,
-            @Query("only_media") boolean only_media,
+            @Query("local") Boolean local,
+            @Query("remote") Boolean remote,
+            @Query("only_media") Boolean only_media,
             @Query("max_id") String max_id,
             @Query("since_id") String since_id,
             @Query("min_id") String min_id,
-            @Query("limit") int limit
+            @Query("limit") Integer limit
     );
 
     //Public Tags timelines

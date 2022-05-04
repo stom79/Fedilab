@@ -400,7 +400,7 @@ public class StatusesVM extends AndroidViewModel {
             }
             Accounts accountsPagination = new Accounts();
             accountsPagination.accounts = accounts;
-            accountsPagination.pagination = MastodonHelper.getPaginationAccount(accounts);
+            accountsPagination.pagination = MastodonHelper.getPagination(headers);
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> accountsMutableLiveData.setValue(accountsPagination);
             mainHandler.post(myRunnable);
@@ -446,7 +446,7 @@ public class StatusesVM extends AndroidViewModel {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Accounts accountsPagination = new Accounts();
             accountsPagination.accounts = accounts;
-            accountsPagination.pagination = MastodonHelper.getPaginationAccount(accounts);
+            accountsPagination.pagination = MastodonHelper.getPagination(headers);
             Runnable myRunnable = () -> accountsMutableLiveData.setValue(accountsPagination);
             mainHandler.post(myRunnable);
         }).start();
@@ -1098,7 +1098,7 @@ public class StatusesVM extends AndroidViewModel {
                     Response<List<ScheduledStatus>> scheduledStatusResponse = scheduledStatuseCall.execute();
                     if (scheduledStatusResponse.isSuccessful()) {
                         scheduledStatusList = scheduledStatusResponse.body();
-                        pagination = MastodonHelper.getPaginationScheduledStatus(scheduledStatusList);
+                        pagination = MastodonHelper.getPagination(scheduledStatusResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -174,6 +174,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // start the new activity
                     context.startActivity(intent, options.toBundle());
                 });
+                holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
+                    intent.putExtras(b);
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation((Activity) context, holderStatus.bindingNotification.status.avatar, context.getString(R.string.activity_porfile_pp));
+                    // start the new activity
+                    context.startActivity(intent, options.toBundle());
+                });
                 holderStatus.bindingNotification.status.displayName.setText(title);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
