@@ -199,8 +199,17 @@ public class MastodonHelper {
         Context context = view.getContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
-        String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
         @DrawableRes int placeholder = type == MediaAccountType.AVATAR ? R.drawable.ic_person : R.drawable.default_banner;
+        if (account == null) {
+            Glide.with(view.getContext())
+                    .asDrawable()
+                    .load(placeholder)
+                    .thumbnail(0.1f)
+                    .placeholder(placeholder)
+                    .into(view);
+            return;
+        }
+        String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
         if (disableGif || (!targetedUrl.endsWith(".gif"))) {
             Glide.with(view.getContext())
                     .asDrawable()
