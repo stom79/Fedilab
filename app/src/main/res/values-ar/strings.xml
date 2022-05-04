@@ -1026,9 +1026,7 @@
     <string name="set_clear_cache_exit_indication">سيتم مسح ذاكرة التخزين المؤقت تلقائيا (الوسائط والرسائل المخزّنة وبيانات المتصفح المدمج) عند الخروج من التطبيق.</string>
     <string name="unfollow_confirm">هل تريد إلغاء متابعة هذا الحساب؟</string>
     <string name="set_unfollow_validation">أظهر مربع حوار التأكيد قبل إلغاء المتابعة</string>
-    <string name="set_nitter">استبدل تويتر بـ Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram هو بديل مفتوح المصدر لـ Instagram يركز على الخصوصية.</string>
-    <string name="set_libreddit_host">أدخل مضيفك المخصص أو اتركه فارغاً لاستخدام libredd.it</string>
     <string name="replace_medium">استبدال روابط Medium</string>
     <string name="replace_medium_description">استبدال روابط medium.com بواجهة أمامية مفتوحة المصدر تركز على الخصوصية.</string>
     <string name="replace_medium_host">الافتراضي: scribe.rip</string>

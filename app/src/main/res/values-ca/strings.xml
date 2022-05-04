@@ -985,9 +985,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="set_clear_cache_exit_indication">La memòria cau (mèdia, missatges registrats, dades del navegador incorporat) s\'esborraran automàticament en sortir de l\'aplicació.</string>
     <string name="unfollow_confirm">Vols deixar de seguir aquest compte?</string>
     <string name="set_unfollow_validation">Mostra diàleg de confirmació abans de deixar de seguir</string>
-    <string name="set_nitter">Substitueix Twitter amb Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram és un frontal alternatiu de codi obert per Instagram que protegeix la privacitat.</string>
-    <string name="set_libreddit_host">Introduïu el vostre servidor personalitzat o deixeu-ho em blanc per utilitzar libredd.it</string>
     <string name="replace_medium">Substitueix els enllaços de Medium</string>
     <string name="replace_medium_description">Substitueix els enllaços de medium.com per un frontal alternatiu de codi obert que prioritza la privacitat.</string>
     <string name="replace_medium_host">Per defecte: scribe.rip</string>

@@ -983,9 +983,7 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="set_clear_cache_exit_indication">Der Cache (Medien, zwischengespeicherte Nachrichten, Daten aus dem eingebauten Browser) wird automatisch gelöscht, wenn die Anwendung verlassen wird.</string>
     <string name="unfollow_confirm">Möchtest du diesem Konto nicht mehr folgen?</string>
     <string name="set_unfollow_validation">Bestätigungsdialog anzeigen, bevor nicht mehr gefolgt wird</string>
-    <string name="set_nitter">Twitter mit Nitter ersetzen</string>
     <string name="set_bibliogram_indication">Bibliogram ist ein alternatives Open-Source-Frontend von Instagram, das sich auf den Datenschutz konzentriert.</string>
-    <string name="set_libreddit_host">Geben Sie Ihren eigenen Host ein oder lassen Sie leer, um libredd.it zu verwenden</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

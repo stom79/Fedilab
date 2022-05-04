@@ -992,9 +992,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="set_clear_cache_exit_indication">Le cache (média, messages en caches, données du navigateur intégré) sera automatiquement vidé lorsque vous quittez l’application.</string>
     <string name="unfollow_confirm">Voulez-vous vous désabonner de ce compte ?</string>
     <string name="set_unfollow_validation">Afficher une boîte de dialogue de confirmation avant tout désabonnement</string>
-    <string name="set_nitter">Remplacer Twitter par Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram est une interface ouverte en alternative à Instagram axée sur la confidentialité.</string>
-    <string name="set_libreddit_host">Entrez votre hôte personnalisé ou laissez vide pour utiliser libredd.it</string>
     <string name="replace_medium">Remplacer les liens Medium</string>
     <string name="replace_medium_description">Remplacer les liens medium.com par une interface open source axée sur la confidentialité.</string>
     <string name="replace_medium_host">Par défaut: scribe.rip</string>

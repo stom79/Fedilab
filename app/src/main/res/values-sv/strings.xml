@@ -995,9 +995,7 @@
     <string name="set_clear_cache_exit_indication">Cach (media, cachade meddelanden, data från inbyggd browser) kommer rensas automatiskt när applikationen lämnas.</string>
     <string name="unfollow_confirm">Vill du sluta följa detta konto?</string>
     <string name="set_unfollow_validation">Visa konfirmationsdialog innan avföljning</string>
-    <string name="set_nitter">Ersätt Twitter med Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
-    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

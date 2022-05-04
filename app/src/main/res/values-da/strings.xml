@@ -995,9 +995,7 @@
     <string name="set_clear_cache_exit_indication">Cache (medier, cache-lagrede beskeder, data fra den indbyggede browser), vil automatisk blive ryddet, når appen forlader.</string>
     <string name="unfollow_confirm">Stop med at følge denne konto?</string>
     <string name="set_unfollow_validation">Vis bekræftelsesdialog inden Følg stoppes</string>
-    <string name="set_nitter">Erstat Twitter med Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram er et open source Instagram front-end alternativt fokuseret på datafortrolighed.</string>
-    <string name="set_libreddit_host">Angiv din tilpassede vært eller lad stå tomt for brug af libredd.it</string>
     <string name="replace_medium">Erstat Medium-links</string>
     <string name="replace_medium_description">Erstat medium.com-links med en open-source alternativ front-end med fokus på fortrolighed.</string>
     <string name="replace_medium_host">Standard: scribe.rip</string>

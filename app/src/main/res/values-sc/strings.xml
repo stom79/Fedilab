@@ -958,9 +958,7 @@
     <string name="set_clear_cache_exit_indication">Sa memòria temporànea (cuntenutos multimediales, messàgios sarvados in cue, datos de su navigadore integradu) s\'at a isboidare automaticamente cando as a essire dae s\'aplicatzione.</string>
     <string name="unfollow_confirm">Boles acabare de sighire custu contu?</string>
     <string name="set_unfollow_validation">Ammustra una ventanedda de diàlogu de cunfirma in antis de acabare de sighire</string>
-    <string name="set_nitter">Remplasa Twitter cun Nitter</string>
     <string name="set_bibliogram_indication">Bibliogram est un\'interfache alternativa pro Instagram, a mitza aberta e progetada pro sa riservadesa.</string>
-    <string name="set_libreddit_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro impreare libredd.it</string>
     <string name="replace_medium">Remplasa is ligàmenes de Medium</string>
     <string name="replace_medium_description">Remplasa is ligàmenes de medium.com cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
     <string name="replace_medium_host">Predefinidu: scribe.rip</string>
