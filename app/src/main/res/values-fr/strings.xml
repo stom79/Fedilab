@@ -992,7 +992,6 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="set_clear_cache_exit_indication">Le cache (média, messages en caches, données du navigateur intégré) sera automatiquement vidé lorsque vous quittez l’application.</string>
     <string name="unfollow_confirm">Voulez-vous vous désabonner de ce compte ?</string>
     <string name="set_unfollow_validation">Afficher une boîte de dialogue de confirmation avant tout désabonnement</string>
-    <string name="set_bibliogram_indication">Bibliogram est une interface ouverte en alternative à Instagram axée sur la confidentialité.</string>
     <string name="replace_medium">Remplacer les liens Medium</string>
     <string name="replace_medium_description">Remplacer les liens medium.com par une interface open source axée sur la confidentialité.</string>
     <string name="replace_medium_host">Par défaut: scribe.rip</string>
@@ -1123,4 +1122,6 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="no_distributors_found">Aucun distributeur trouvé !</string>
     <string name="no_distributors_explanation">Vous avez besoin d’un distributeur pour recevoir des notifications poussées.\nVous trouverez plus de détails sur %1$s.\n\nVous pouvez également désactiver les notifications poussées dans les paramètres pour ignorer ce message.</string>
     <string name="select_distributors">Sélectionnez un distributeur</string>
+    <string name="toots_visibility_title">Visibilité des pouets par défaut :</string>
+    <string name="toot_visibility_title">Visibilité du pouet</string>
 </resources>
