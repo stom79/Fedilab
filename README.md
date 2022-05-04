@@ -1,7 +1,4 @@
-For reporting issues, visit [Framagit](https://framagit.org/tom79/fedilab/issues)
-
-[![pipeline status](https://framagit.org/tom79/fedilab/badges/develop/pipeline.svg)](https://framagit.org/tom79/fedilab/commits/develop)
-&nbsp;&nbsp;&nbsp;[![Weblate](https://weblate.org/static/img/logo.svg)](https://hosted.weblate.org/projects/fedilab/)
+[![Translation status](https://hosted.weblate.org/widgets/fedilab/-/strings/svg-badge.svg)](https://hosted.weblate.org/engage/fedilab/)
 &nbsp;&nbsp;&nbsp;[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Fedilab is a multi-accounts client for Mastodon, Pleroma, Peertube, GNU Social, Friendica and Pixelfed
