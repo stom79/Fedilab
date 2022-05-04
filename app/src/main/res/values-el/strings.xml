@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Παρουσιάστηκε κάποιο σφάλμα κατά την επιλογή του πολυμέσου.</string>
     <string name="toot_delete_media">Διαγραφή αυτού του πολυμέσου;</string>
     <string name="toot_error_no_content">Η φωνή σου είναι άδεια.</string>
-    <string name="toots_visibility_tilte">Προώθηση των φωνών (προεπιλογή): </string>
     <string name="toot_sent">Η φωνή στάλθηκε!</string>
     <string name="toot_reply_content_title">Αποκρίνεσαι σε αυτή τη φωνή:</string>
     <string name="toot_sensitive">Ευαίσθητο περιεχόμενο;</string>
@@ -996,11 +995,8 @@
     <string name="set_clear_cache_exit_indication">Η προσωρινή μνήμη (πολυμέσα, μικραποθηκευμένα μηνύματα, δεδομένα από τον ενσωματωμένο πλοηγό) θα καθαρίζει αυτόματα, όταν θα κλείνεις την εφαρμογή.</string>
     <string name="unfollow_confirm">Θέλεις να σταματήσεις να παρακολουθείς αυτό το λογαριασμό;</string>
     <string name="set_unfollow_validation">Προβολή ενός διαλόγου επιβεβαίωσης πριν την κατάργηση της παρακολούθησης</string>
-    <string name="set_invidious_indication">Το Ινβίντιως είναι μία εναλλακτική διεπαφή για το Γιουτιούμπι</string>
     <string name="set_nitter">Αντικατάσταση του Twitter με το Nitter</string>
-    <string name="set_nitter_host">οικοδεσπότης (ή κενό για το nitter.net)</string>
     <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

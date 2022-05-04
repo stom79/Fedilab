@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Errorea gertatu da multimedia aukeratzean!</string>
     <string name="toot_delete_media">Ezabatu multimedia hau?</string>
     <string name="toot_error_no_content">Zure toot-a hutsik dago!</string>
-    <string name="toots_visibility_tilte">Toot-en lehenetsitako ikusgaitasuna: </string>
     <string name="toot_sent">Toot-a bidali da!</string>
     <string name="toot_reply_content_title">Toot honi erantzuten ari zara:</string>
     <string name="toot_sensitive">Eduki hunkigarria?</string>
@@ -995,11 +994,8 @@
     <string name="set_clear_cache_exit_indication">Cachea (multimedia, mezuak, barneko nabigatzailearen datuak) automatikoki ezabatuko da aplikaziotik irtetean.</string>
     <string name="unfollow_confirm">Kontu hau jarraitzeari utzi nahi diozu?</string>
     <string name="set_unfollow_validation">Erakutsi baieztapen elkarrizketa-koadroa jarraitzeari utzi aurretik</string>
-    <string name="set_invidious_indication">Invidio.us Youtube ikusteko ordezko interfaze bat da</string>
     <string name="set_nitter">Erabili Nitter Twitter-en ordez</string>
-    <string name="set_nitter_host">Sartu zure ostalari pertsonalizatua edo laga hutsik nitter.net erabiltzeko</string>
     <string name="set_bibliogram_indication">Bibliogram pribatutasuna aintzat duen Instagram interfaze libre bat da.</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

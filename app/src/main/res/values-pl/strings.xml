@@ -169,7 +169,6 @@
     <string name="toot_select_image_error">Podczas wyboru zawartości wystąpił błąd!</string>
     <string name="toot_delete_media">Usunąć tą zawartość?</string>
     <string name="toot_error_no_content">Twój wpis jest pusty!</string>
-    <string name="toots_visibility_tilte">Domyślna widoczność wpisu: </string>
     <string name="toot_sent">Wpis został wysłany!</string>
     <string name="toot_reply_content_title">Odpowiadasz na ten wpis:</string>
     <string name="toot_sensitive">Wrażliwe treści?</string>
@@ -1009,11 +1008,8 @@
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Czy chcesz przestać obserwować to konto?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-    <string name="set_invidious_indication">Invidious jest alternatywnym front-endem dla YouTube</string>
     <string name="set_nitter">Przekieruj linki Twittera do Nitter</string>
-    <string name="set_nitter_host">Wprowadź swój niestandardowy host lub pozostaw puste, aby użyć nitter.net</string>
     <string name="set_bibliogram_indication">Bibliogram jest alternatywną wersją front-end na Instagramie typu open source, koncentrującą się na prywatności.</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
     <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>

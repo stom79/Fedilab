@@ -177,7 +177,6 @@
     <string name="toot_select_image_error">طرأ هناك خطأ أثناء اختيار الوسائط!</string>
     <string name="toot_delete_media">هل تود حذف هذه الصورة؟</string>
     <string name="toot_error_no_content">إن تبويقك فارغ!</string>
-    <string name="toots_visibility_tilte">الأسلوب الافتراضي لنشر التبويقات: </string>
     <string name="toot_sent">تم إرسال التبويق!</string>
     <string name="toot_reply_content_title">بصدد الرد على هذا التبويق:</string>
     <string name="toot_sensitive">محتوى حساس؟</string>
@@ -1027,11 +1026,8 @@
     <string name="set_clear_cache_exit_indication">سيتم مسح ذاكرة التخزين المؤقت تلقائيا (الوسائط والرسائل المخزّنة وبيانات المتصفح المدمج) عند الخروج من التطبيق.</string>
     <string name="unfollow_confirm">هل تريد إلغاء متابعة هذا الحساب؟</string>
     <string name="set_unfollow_validation">أظهر مربع حوار التأكيد قبل إلغاء المتابعة</string>
-    <string name="set_invidious_indication">إن Invidious واجهة أمامية بديلة لـ YouTube</string>
     <string name="set_nitter">استبدل تويتر بـ Nitter</string>
-    <string name="set_nitter_host">أدخل مضيفك المخصص أو اتركه فارغًا لاستخدام nitter.net</string>
     <string name="set_bibliogram_indication">Bibliogram هو بديل مفتوح المصدر لـ Instagram يركز على الخصوصية.</string>
-    <string name="set_libreddit">استبدال Reddit بـ Libreddit</string>
     <string name="set_libreddit_host">أدخل مضيفك المخصص أو اتركه فارغاً لاستخدام libredd.it</string>
     <string name="replace_medium">استبدال روابط Medium</string>
     <string name="replace_medium_description">استبدال روابط medium.com بواجهة أمامية مفتوحة المصدر تركز على الخصوصية.</string>

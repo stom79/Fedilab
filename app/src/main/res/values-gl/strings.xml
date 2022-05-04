@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Algo fallou ao engadir os medios!</string>
     <string name="toot_delete_media">Eliminar este elemento?</string>
     <string name="toot_error_no_content">O seu toot está baldeiro!</string>
-    <string name="toots_visibility_tilte">Visibilidade por omisión para os toots: </string>
     <string name="toot_sent">O toot foi enviado!</string>
     <string name="toot_reply_content_title">Está a respostar a este toot:</string>
     <string name="toot_sensitive">Contido sensible?</string>
@@ -996,11 +995,8 @@
     <string name="set_clear_cache_exit_indication">A caché (medios, menxases almacenadas, datos do navegador incluído) borraranse automáticamente ao saír da aplicación.</string>
     <string name="unfollow_confirm">Queres deixar de seguir esta conta?</string>
     <string name="set_unfollow_validation">Mostrar cadro de confirmación antes de deixar de seguir</string>
-    <string name="set_invidious_indication">Invidious é unha interface de usuaria alternativa para YouTube</string>
     <string name="set_nitter">Substituír Twitter con Nitter</string>
-    <string name="set_nitter_host">Introduza o seu servidor personalizado ou deixe baldeiro para utilizar nitter.net</string>
     <string name="set_bibliogram_indication">Bibliogram é unha alternativa de código aberto centrada na privacidade a interface de Instagram.</string>
-    <string name="set_libreddit">Substituir Reddit por Libreddit</string>
     <string name="set_libreddit_host">Escribe o teu servidor personalizado ou deixa baleiro para usar libredd.it</string>
     <string name="replace_medium">Substituír ligazóns a Medium</string>
     <string name="replace_medium_description">Substituír as ligazóns a medium.com cunha interface de código aberto alternativa centrada na privacidade.</string>

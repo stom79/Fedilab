@@ -161,7 +161,6 @@
     <string name="toot_select_image_error">Ddoe est istadu un\'errore seletzionende su cuntenutu multimediale!</string>
     <string name="toot_delete_media">Cantzellare custu mèdiu?</string>
     <string name="toot_error_no_content">Su tut tuo est bòidu!</string>
-    <string name="toots_visibility_tilte">Visibilidade predefinida de is tuts:</string>
     <string name="toot_sent">Su tut est istadu imbiadu!</string>
     <string name="toot_reply_content_title">Ses rispondende a custu tut:</string>
     <string name="toot_sensitive">Cuntenutu sensìbile?</string>
@@ -959,11 +958,8 @@
     <string name="set_clear_cache_exit_indication">Sa memòria temporànea (cuntenutos multimediales, messàgios sarvados in cue, datos de su navigadore integradu) s\'at a isboidare automaticamente cando as a essire dae s\'aplicatzione.</string>
     <string name="unfollow_confirm">Boles acabare de sighire custu contu?</string>
     <string name="set_unfollow_validation">Ammustra una ventanedda de diàlogu de cunfirma in antis de acabare de sighire</string>
-    <string name="set_invidious_indication">Invidious est un\'interfache alternativa pro YouTube</string>
     <string name="set_nitter">Remplasa Twitter cun Nitter</string>
-    <string name="set_nitter_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro impreare nitter.net</string>
     <string name="set_bibliogram_indication">Bibliogram est un\'interfache alternativa pro Instagram, a mitza aberta e progetada pro sa riservadesa.</string>
-    <string name="set_libreddit">Remplasa Reddit cun Libreddit</string>
     <string name="set_libreddit_host">Inserta s\'istrangiadore (host) personalizadu tuo o lassa bòidu pro impreare libredd.it</string>
     <string name="replace_medium">Remplasa is ligàmenes de Medium</string>
     <string name="replace_medium_description">Remplasa is ligàmenes de medium.com cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>

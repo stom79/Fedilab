@@ -169,7 +169,6 @@
     <string name="toot_select_image_error">При выборе медиафайла произошла ошибка!</string>
     <string name="toot_delete_media">Удалить этот медиафайл?</string>
     <string name="toot_error_no_content">Ваш тут пуст!</string>
-    <string name="toots_visibility_tilte">Видимость тутов по умолчанию: </string>
     <string name="toot_sent">Тут отправлен!</string>
     <string name="toot_reply_content_title">Вы отвечаете на этот тут:</string>
     <string name="toot_sensitive">Деликатный контент?</string>
@@ -1012,11 +1011,8 @@
     <string name="set_clear_cache_exit_indication">Кэш (медиа, кэшированные сообщения, данные из встроенного браузера) будут автоматически очищаться при выходе из приложения.</string>
     <string name="unfollow_confirm">Вы хотите отписаться от этого аккаунта?</string>
     <string name="set_unfollow_validation">Предупреждать перед отменой подписки</string>
-    <string name="set_invidious_indication">Invidious - это альтернативный интерфейс для YouTube</string>
     <string name="set_nitter">Заменить Твиттер на Nitter</string>
-    <string name="set_nitter_host">Введите собственный хост или оставьте пустым для использования nitter.net</string>
     <string name="set_bibliogram_indication">Bibliogram это альтернативный front-end для Instagram с открытым исходным кодом и сфокусированный на приватности.</string>
-    <string name="set_libreddit">Заменить Reddit на Libreddit</string>
     <string name="set_libreddit_host">Введите свой собственный хост или оставьте поле пустым, чтобы использовать libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
