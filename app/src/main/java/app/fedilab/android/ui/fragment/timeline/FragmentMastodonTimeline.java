@@ -243,8 +243,13 @@ public class FragmentMastodonTimeline extends Fragment {
         }
         this.statuses.addAll(statuses.statuses);
 
-        max_id = statuses.pagination.max_id;
-        min_id = statuses.pagination.min_id;
+        if (max_id == null || (statuses.pagination.max_id != null && statuses.pagination.max_id.compareTo(max_id) < 0)) {
+            max_id = statuses.pagination.max_id;
+        }
+        if (min_id == null || (statuses.pagination.max_id != null && statuses.pagination.min_id.compareTo(min_id) > 0)) {
+            min_id = statuses.pagination.min_id;
+        }
+
         statusAdapter = new StatusAdapter(this.statuses, timelineType == Timeline.TimeLineEnum.REMOTE, minified);
 
         if (statusReport != null) {
@@ -315,8 +320,12 @@ public class FragmentMastodonTimeline extends Fragment {
                 statuses.addAll(fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(startId, fetched_statuses.statuses.size());
             }
-            max_id = fetched_statuses.pagination.max_id;
-            min_id = fetched_statuses.pagination.min_id;
+            if (max_id == null || (fetched_statuses.pagination.max_id != null && fetched_statuses.pagination.max_id.compareTo(max_id) < 0)) {
+                max_id = fetched_statuses.pagination.max_id;
+            }
+            if (min_id == null || (fetched_statuses.pagination.max_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
+                min_id = fetched_statuses.pagination.min_id;
+            }
         }
     }
 

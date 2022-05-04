@@ -166,15 +166,17 @@ public class SpannableHelper {
                 continue;
             }*/
             final String url = content.toString().substring(matchStart, matchEnd);
+            String newURL = Helper.transformURL(context, url);
+            content.replace(matchStart, matchEnd, newURL);
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
-            String urlText = url;
-            if (url.length() > 30) {
+            String urlText = newURL;
+            if (newURL.length() > 30) {
                 urlText = urlText.substring(0, 30);
                 urlText += "…";
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
-                offSetTruncate += (url.length() - urlText.length());
+                offSetTruncate += (newURL.length() - urlText.length());
             }
             if (!urlText.startsWith("http")) {
                 continue;
@@ -184,7 +186,7 @@ public class SpannableHelper {
                     @Override
                     public void onClick(@NonNull View textView) {
                         textView.setTag(CLICKABLE_SPAN);
-                        Helper.openBrowser(context, url);
+                        Helper.openBrowser(context, newURL);
                     }
 
                     @Override

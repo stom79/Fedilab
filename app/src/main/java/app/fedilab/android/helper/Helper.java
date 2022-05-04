@@ -613,7 +613,7 @@ public class Helper {
      * @param url     String url to open
      */
     public static void openBrowser(Context context, String url) {
-        url = transformURL(context, url);
+        //url = transformURL(context, url);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean embedded_browser = sharedpreferences.getBoolean(context.getString(R.string.SET_EMBEDDED_BROWSER), true);
         if (embedded_browser && !url.toLowerCase().startsWith("gemini://")) {
@@ -644,7 +644,7 @@ public class Helper {
      * @param context Context
      * @param url     String
      */
-    private static String transformURL(Context context, String url) {
+    public static String transformURL(Context context, String url) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Matcher matcher = Helper.nitterPattern.matcher(url);
         boolean nitter = Helper.getSharedValue(context, context.getString(R.string.SET_NITTER));
