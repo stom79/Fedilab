@@ -1503,7 +1503,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    holder.binding.statusContent.invalidate();
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    Runnable myRunnable = () -> holder.binding.statusContent.invalidate();
+                    mainHandler.post(myRunnable);
+
                 }
             }, 100, 100);
         }
