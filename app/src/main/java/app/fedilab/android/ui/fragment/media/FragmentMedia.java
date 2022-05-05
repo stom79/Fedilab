@@ -147,16 +147,18 @@ public class FragmentMedia extends Fragment {
                                                 new CustomTarget<Bitmap>() {
                                                     @Override
                                                     public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
-                                                        binding.loader.setVisibility(View.GONE);
-                                                        if (binding.mediaPicture.getScale() < 1.1) {
-                                                            binding.mediaPicture.setImageBitmap(resource);
-                                                        } else {
-                                                            binding.messageReady.setVisibility(View.VISIBLE);
+                                                        if (binding != null) {
+                                                            binding.loader.setVisibility(View.GONE);
+                                                            if (binding.mediaPicture.getScale() < 1.1) {
+                                                                binding.mediaPicture.setImageBitmap(resource);
+                                                            } else {
+                                                                binding.messageReady.setVisibility(View.VISIBLE);
+                                                            }
+                                                            binding.messageReady.setOnClickListener(view -> {
+                                                                binding.mediaPicture.setImageBitmap(resource);
+                                                                binding.messageReady.setVisibility(View.GONE);
+                                                            });
                                                         }
-                                                        binding.messageReady.setOnClickListener(view -> {
-                                                            binding.mediaPicture.setImageBitmap(resource);
-                                                            binding.messageReady.setVisibility(View.GONE);
-                                                        });
                                                     }
 
                                                     @Override

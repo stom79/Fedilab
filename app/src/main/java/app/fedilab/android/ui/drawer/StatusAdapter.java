@@ -802,7 +802,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.VISIBLE);
                 holder.binding.attachmentsListContainer.setVisibility(View.GONE);
             } else { //Several media
-
+                int mediaPosition = 1;
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     RelativeLayout.LayoutParams lp;
@@ -834,14 +834,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                     }
                     layoutMediaBinding.media.setLayoutParams(lp);
+                    int finalMediaPosition = mediaPosition;
                     layoutMediaBinding.media.setOnClickListener(v -> {
                         Intent mediaIntent = new Intent(context, MediaActivity.class);
                         Bundle b = new Bundle();
-                        b.putInt(Helper.ARG_MEDIA_POSITION, 1);
+                        b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
                         b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
                         mediaIntent.putExtras(b);
                         ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
+                                .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(finalMediaPosition - 1).url);
                         // start the new activity
                         context.startActivity(mediaIntent, options.toBundle());
                     });
@@ -850,6 +851,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                     });
                     holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
+                    mediaPosition++;
                 }
                 holder.binding.mediaContainer.setVisibility(View.GONE);
                 holder.binding.attachmentsListContainer.setVisibility(View.VISIBLE);
