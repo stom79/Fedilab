@@ -986,7 +986,6 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="set_clear_cache_exit_indication">快取（媒體、已快取的訊息、從內建瀏覽器而來的資料）將會在離開應用程式時自動清除。</string>
     <string name="unfollow_confirm">您想要取消追蹤此帳號嗎？</string>
     <string name="set_unfollow_validation">在取消追蹤前顯示確認對話框</string>
-    <string name="set_bibliogram_indication">Bibliogram 是一個尊重隱私的開放原始碼替代 Instagram 前端。</string>
     <string name="replace_medium">取代 Medium 連結</string>
     <string name="replace_medium_description">使用專注於隱私的開放原始碼替代前端來取代 medium.com 連結。</string>
     <string name="replace_medium_host">預設值：scribe.rip</string>

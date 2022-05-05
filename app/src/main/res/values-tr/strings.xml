@@ -989,7 +989,6 @@
     <string name="set_clear_cache_exit_indication">Önbellek (medya, önbelleğe alınmış mesajlar, yerleşik tarayıcıdan gelen veriler) uygulamadan çıkarken otomatik olarak silinecek.</string>
     <string name="unfollow_confirm">Bu hesabı takipi bırakmak istiyor musunuz?</string>
     <string name="set_unfollow_validation">Takibi bırakmadan önce onay kutusu göster</string>
-    <string name="set_bibliogram_indication">Bibliogram, mahremiyete odaklanan açık kaynaklı bir alternatif Instagram arayüzdür.</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

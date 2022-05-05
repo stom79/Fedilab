@@ -987,7 +987,6 @@
     <string name="set_clear_cache_exit_indication">离开此应用程序时，将自动清除缓存（媒体、缓存消息、内建浏览器的数据）。</string>
     <string name="unfollow_confirm">你确定要取消关注此帐号吗？</string>
     <string name="set_unfollow_validation">取消关注前显示确认对话框</string>
-    <string name="set_bibliogram_indication">Bibliogram 是个注重隐私保护的 Instagram 开源替代前端。</string>
     <string name="replace_medium">替换 Medium 链接</string>
     <string name="replace_medium_description">用专注于隐私的开源替代前端替换 medium.com 链接。</string>
     <string name="replace_medium_host">默认: scribe.rip</string>

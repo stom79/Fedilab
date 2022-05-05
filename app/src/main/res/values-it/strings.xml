@@ -995,7 +995,6 @@
     <string name="set_clear_cache_exit_indication">La cache (media, messaggi memorizzati nella cache, dati del browser integrato) sarà automaticamente cancellata quando l\'applicazione verrà chiusa.</string>
     <string name="unfollow_confirm">Vuoi smettere di seguire questo account?</string>
     <string name="set_unfollow_validation">Mostra finestra di conferma prima di smettere di seguire</string>
-    <string name="set_bibliogram_indication">Bibliogram è un\'interfaccia alternativa e open source per Instagram, focalizzata sulla privacy.</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

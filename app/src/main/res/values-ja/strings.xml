@@ -978,7 +978,6 @@
     <string name="set_clear_cache_exit_indication">アプリケーションの終了時にキャッシュ(メディア、キャッシュされたメッセージ、ビルトインブラウザのデータ)が自動的に消去されます。</string>
     <string name="unfollow_confirm">このアカウントのフォローを解除しますか？</string>
     <string name="set_unfollow_validation">フォローを解除する前に確認を表示する</string>
-    <string name="set_bibliogram_indication">Bibliogramはプライバシーを重視したオープンソースのInstagramの代替フロントエンドです。</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

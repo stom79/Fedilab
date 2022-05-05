@@ -989,7 +989,6 @@ https://yandex.ru/legal/confidential/?lang=en    </string>
     <string name="set_clear_cache_exit_indication">El caché (archivos multimedia, mensajes en caché, datos del navegador integrado) se borrará automáticamente al salir de la aplicación.</string>
     <string name="unfollow_confirm">¿Desea dejar de seguir esta cuenta?</string>
     <string name="set_unfollow_validation">Mostrar diálogo de confirmación antes de dejar de seguir</string>
-    <string name="set_bibliogram_indication">Bibliogram es una interfaz alternativa de Instagram de código abierto centrada en la privacidad.</string>
     <string name="replace_medium">Reemplazar enlaces a Medium</string>
     <string name="replace_medium_description">Reemplazar los enlaces a medium.com con un front-end alternativo de código abierto centrado en la privacidad.</string>
     <string name="replace_medium_host">Por defecto: scribe.rip</string>
