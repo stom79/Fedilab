@@ -912,7 +912,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             Runnable myRunnable = () -> {
                                 int currentCursorPosition = holder.binding.content.getSelectionStart();
-                                EmojiSearchAdapter emojisSearchAdapter = new EmojiSearchAdapter(context, emojis[0]);
+                                EmojiSearchAdapter emojisSearchAdapter = new EmojiSearchAdapter(context, emojisToDisplay);
                                 holder.binding.content.setThreshold(1);
                                 holder.binding.content.setAdapter(emojisSearchAdapter);
                                 final String oldContent = holder.binding.content.getText().toString();
