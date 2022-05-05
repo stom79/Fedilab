@@ -161,8 +161,6 @@
     <string name="toot_select_image_error">Medya dosyasını seçerken bir hata oluştu!</string>
     <string name="toot_delete_media">Bu ortamı sil?</string>
     <string name="toot_error_no_content">Toot boş!</string>
-    <string name="toot_visibility_tilte">Toot görünürlüğü</string>
-    <string name="toots_visibility_tilte">Toot\'ların varsayılan görünürlüğü: </string>
     <string name="toot_sent">Toot gönderildi!</string>
     <string name="toot_reply_content_title">Bu toot\'u yanıtlıyorsun:</string>
     <string name="toot_sensitive">Hassas içerik?</string>
@@ -297,7 +295,7 @@
     <string name="set_med_desc_timeout">Medya Açıklaması zaman aşımı (saniye, 0 kapalı demektir)</string>
     <string name="settings_title_profile">Profil düzenle</string>
     <string name="settings_title_custom_sharing">Özel paylaşım</string>
-    <string name="settings_custom_sharing_url">Özel paylaşım URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Özel paylaşım URL…</string>
     <string name="set_profile_description">Özgeçmiş…</string>
     <string name="set_lock_account">Hesabı Kilitle</string>
     <string name="set_save_changes">Değişiklikleri kaydet</string>
@@ -354,10 +352,10 @@
     <string name="toast_cache_clear">Önbelleği temizlendi! %1$s serbest bırakıldı</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Başlık</string>
-    <string name="title_hint_custom_sharing">Başlık&#8230;</string>
+    <string name="title_hint_custom_sharing">Başlık…</string>
     <string name="description_header_custom_sharing">Açıklama</string>
     <string name="keywords_header_custom_sharing">Anahtar Sözcükler</string>
-    <string name="keywords_hint_custom_sharing">Anahtar Sözcükler&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Anahtar Sözcükler…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Eşitle</string>
     <string name="action_filter">Filtrele</string>
@@ -401,7 +399,7 @@
     <string name="privacy_API_authorizations">- <b> Oku </b>: Veri okunur. \n
          - <b> Yaz </b>: Durumu yayınlar ve durumlar için ortam yükler. \n
          - <b> Takip et </b>: Takip etme, takipten vazgeçme, engelleme, engeli kaldırma.\n\n
-         <b> &#9888;  Bu eylemler, yalnızca kullanıcı istekleri üzerine gerçekleşir. </b>    </string>
+         <b> ⚠  Bu eylemler, yalnızca kullanıcı istekleri üzerine gerçekleşir. </b>    </string>
     <string name="privacy_API_title">İzleme ve kütüphaneler</string>
     <string name="privacy_API">        Bu uygulama <b>takip araçları kullanmaz</b> (kitle ölçme, hata raporlama vs.) ve herhangi bir reklam içermez.\n\n
         Kütüphane kullanımı en aza indirilmiştir: \n
@@ -991,18 +989,6 @@
     <string name="set_clear_cache_exit_indication">Önbellek (medya, önbelleğe alınmış mesajlar, yerleşik tarayıcıdan gelen veriler) uygulamadan çıkarken otomatik olarak silinecek.</string>
     <string name="unfollow_confirm">Bu hesabı takipi bırakmak istiyor musunuz?</string>
     <string name="set_unfollow_validation">Takibi bırakmadan önce onay kutusu göster</string>
-    <string name="set_invidious">Youtube\'u Invidio.us ile değiştirin</string>
-    <string name="set_invidious_indication">Invidious, YouTube\'a alternatif bir arayüzdür</string>
-    <string name="set_invidious_host">Özel barındırıcınızı girin veya invidious.snopyta.org\'u kullanmak için boş bırakın</string>
-    <string name="set_nitter">Twitter\'ı Nitter ile Değiştirin</string>
-    <string name="set_nitter_indication">Nitter, gizliliğe odaklanan açık kaynaklı bir alternatif Twitter arayüzüdür.</string>
-    <string name="set_nitter_host">Özel barındırıcınızı girin veya nitter.net\'i kullanmak için boş bırakın</string>
-    <string name="set_bibliogram">Instagram\'ı Bibliogram ile Değiştirin</string>
-    <string name="set_bibliogram_indication">Bibliogram, mahremiyete odaklanan açık kaynaklı bir alternatif Instagram arayüzdür.</string>
-    <string name="set_bibliogram_host">Özel barındırıcınızı girin veya bibliogram.art\'i kullanmak için boş bırakın</string>
-    <string name="set_libreddit">Reddit yerine Libreddit kullan</string>
-    <string name="set_libreddit_indication">Libreddit, mahremiyete odaklanan açık kaynaklı bir alternatif Reddit arayüzüdür.</string>
-    <string name="set_libreddit_host">Sunucu adresi girin ya da libredd.it sunucusunu kullanmak için boş bırakın</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

@@ -169,8 +169,6 @@
     <string name="toot_select_image_error">Doszło do błyndu przi wybiyraniu medium!</string>
     <string name="toot_delete_media">Wymazać to medium?</string>
     <string name="toot_error_no_content">Twōj tut je prōzny!</string>
-    <string name="toot_visibility_tilte">Widzialność tuta</string>
-    <string name="toots_visibility_tilte">Wychodno widzialność tutōw: </string>
     <string name="toot_sent">Tut bōł wysłany!</string>
     <string name="toot_reply_content_title">Ôdpowiadosz na tyn tut:</string>
     <string name="toot_sensitive">Uraźliwo treść?</string>
@@ -309,7 +307,7 @@
     <string name="set_med_desc_timeout">Limit czasu ôpisu mediōw (sekundy, 0 znaczy zastawiōny)</string>
     <string name="settings_title_profile">Edytuj profil</string>
     <string name="settings_title_custom_sharing">Włosne udostympnianie</string>
-    <string name="settings_custom_sharing_url">Twōj URL włosnego udostympnianio&#8230;</string>
+    <string name="settings_custom_sharing_url">Twōj URL włosnego udostympnianio…</string>
     <string name="set_profile_description">Biografijo…</string>
     <string name="set_lock_account">Zablokuj kōnto</string>
     <string name="set_save_changes">Spamiyntej zmiany</string>
@@ -367,10 +365,10 @@
     <string name="toast_cache_clear">Cache ôprōzniōne! %1$s zwolniōne</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Tytuł</string>
-    <string name="title_hint_custom_sharing">Tytuł&#8230;</string>
+    <string name="title_hint_custom_sharing">Tytuł…</string>
     <string name="description_header_custom_sharing">Ôpis</string>
     <string name="keywords_header_custom_sharing">Słowa kluczowe</string>
-    <string name="keywords_hint_custom_sharing">Słowa kluczowe&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Słowa kluczowe…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Synchrōnizuj</string>
     <string name="action_filter">Filtrowanie</string>
@@ -402,7 +400,7 @@
     <string name="privacy_data">        Ino bazowe informacyje ze kōnt sōm trzimane na maszinie.
         Te dane sōm blank tajne i może je używać ino aplikacyjo.
         Skasowanie aplikacyje zaroz wymazuje tyż dane.\n
-        &#9888; Login i hasła nigdy niy sōm trzimane. Sōm ino używane w czasie bezpiecznyj autoryzacyje (SSL) we instancyji.
+        ⚠ Login i hasła nigdy niy sōm trzimane. Sōm ino używane w czasie bezpiecznyj autoryzacyje (SSL) we instancyji.
     </string>
     <string name="privacy_authorizations_title">Uprawniynia:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Używane do wykrywanio, czy maszina je skuplowano ze necym Wifi.\n
@@ -416,7 +414,7 @@
     <string name="privacy_API_authorizations">        - <b>Czytej</b>: Czytej dane.\n
         - <b>Spamiyntuj</b>: Postuj statusy i wgrowej media dō nich.\n
         - <b>Śledź</b>: Śledź, niy śledź, blokuj, niy blokuj.\n\n
-        <b>&#9888; Te akcyje sōm kludzōne ino jak uczywocz ich zażōndo.</b>
+        <b>⚠ Te akcyje sōm kludzōne ino jak uczywocz ich zażōndo.</b>
     </string>
     <string name="privacy_API_title">Śledzynie i bibliotyki</string>
     <string name="privacy_API">        Aplikacyjo <b>niy używo noczyń, co śledzōm</b> (mierzynie publiczności, reportowanie felerōw, etc.) i niy ma w nij żodnych reklam.\n\n
@@ -1011,18 +1009,6 @@
     <string name="set_clear_cache_exit_indication">Cache (media, spamiyntane wiadōmości, dane ze wbudowanyj przeglōndarki) bydōm autōmatycznie wymazowane przi zawiyraniu aplikacyje.</string>
     <string name="unfollow_confirm">Chcesz przestać śledzić to kōnto?</string>
     <string name="set_unfollow_validation">Pokoż prośba ô potwierdzynie przed przestaniym śledzynio</string>
-    <string name="set_invidious">Zamiyń Youtube na Invidio.us</string>
-    <string name="set_invidious_indication">Invidious to alternatywa do przodnich funkcyji YouTube</string>
-    <string name="set_invidious_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać invidio.us</string>
-    <string name="set_nitter">Zamiyń Twitter na Nitter</string>
-    <string name="set_nitter_indication">Nitter to ôtwartozdrzōdłowo, skupiōno na prywatności alternatywa do przodnich funkcyji Twittera.</string>
-    <string name="set_nitter_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać nitter.net</string>
-    <string name="set_bibliogram">Zamiyń Instagram na Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram to ôtwartozdrzōdłowo, skupiōno na prywatności alternatywa do przodnich funkcyji Instagrama.</string>
-    <string name="set_bibliogram_host">Wkludź swōj włosny host abo ôstow prōzne, żeby używać bibliogram.art</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
-    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

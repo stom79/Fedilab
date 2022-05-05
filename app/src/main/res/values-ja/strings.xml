@@ -157,8 +157,6 @@
     <string name="toot_select_image_error">メディアの選択中にエラーが発生しました。</string>
     <string name="toot_delete_media">このメディアを削除しますか？</string>
     <string name="toot_error_no_content">トゥートが空です！</string>
-    <string name="toot_visibility_tilte">トゥートの公開範囲</string>
-    <string name="toots_visibility_tilte">トゥートの既定の公開範囲: </string>
     <string name="toot_sent">トゥートを送信しました</string>
     <string name="toot_reply_content_title">このトゥートに返信中：</string>
     <string name="toot_sensitive">メディアを閲覧注意にする</string>
@@ -291,7 +289,7 @@
     <string name="set_med_desc_timeout">メディアの説明のタイムアウト(単位は秒、0でオフ)</string>
     <string name="settings_title_profile">プロフィールを編集</string>
     <string name="settings_title_custom_sharing">カスタム共有</string>
-    <string name="settings_custom_sharing_url">カスタム共有URL&#8230;</string>
+    <string name="settings_custom_sharing_url">カスタム共有URL…</string>
     <string name="set_profile_description">バイオ…</string>
     <string name="set_lock_account">アカウントをロック</string>
     <string name="set_save_changes">変更内容を保存</string>
@@ -348,10 +346,10 @@
     <string name="toast_cache_clear">キャッシュが消去されました！ %1$s が解放されました</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">タイトル</string>
-    <string name="title_hint_custom_sharing">タイトル&#8230;</string>
+    <string name="title_hint_custom_sharing">タイトル…</string>
     <string name="description_header_custom_sharing">説明</string>
     <string name="keywords_header_custom_sharing">キーワード</string>
-    <string name="keywords_hint_custom_sharing">キーワード&#8230;</string>
+    <string name="keywords_hint_custom_sharing">キーワード…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">同期</string>
     <string name="action_filter">フィルター</string>
@@ -395,7 +393,7 @@
     <string name="privacy_API_authorizations">        - <b>読み取り</b>：データを読み取ります。\n
         - <b>書き込み</b>：トゥートの投稿とメディアのアップロードを行います。\n
         - <b>フォロー</b>：フォロー、フォロー解除、ブロック、ブロック解除を行います。\n\n
-        <b>&#9888; これらの操作は、ユーザーが要求したときにのみ実行されます。</b>    </string>
+        <b>⚠ これらの操作は、ユーザーが要求したときにのみ実行されます。</b>    </string>
     <string name="privacy_API_title">トラッキングとライブラリ</string>
     <string name="privacy_API">        このアプリケーションは<b>トラッキングツールを使用しておらず</b>（利用者監視、エラー報告など）、広告もありません。\n\n
         ライブラリの使用は最小限です：\n
@@ -980,18 +978,6 @@
     <string name="set_clear_cache_exit_indication">アプリケーションの終了時にキャッシュ(メディア、キャッシュされたメッセージ、ビルトインブラウザのデータ)が自動的に消去されます。</string>
     <string name="unfollow_confirm">このアカウントのフォローを解除しますか？</string>
     <string name="set_unfollow_validation">フォローを解除する前に確認を表示する</string>
-    <string name="set_invidious">YouTubeをInvidio.usに置き換える</string>
-    <string name="set_invidious_indication">InvidiousはYouTubeの代替フロントエンドです</string>
-    <string name="set_invidious_host">カスタムホストを入力してください。空欄にするとinvidio.usが使用されます。</string>
-    <string name="set_nitter">TwitterをNitterに置き換える</string>
-    <string name="set_nitter_indication">Nitterはプライバシーに重点を置いたオープンソースのTwitter代替フロントエンドです。</string>
-    <string name="set_nitter_host">カスタムホストを入力してください。空欄にするとnitter.netが使用されます。</string>
-    <string name="set_bibliogram">InstagramをBibliogramに置き換える</string>
-    <string name="set_bibliogram_indication">Bibliogramはプライバシーを重視したオープンソースのInstagramの代替フロントエンドです。</string>
-    <string name="set_bibliogram_host">カスタムホストを入力してください。空欄にするとbibliogram.artが使用されます。</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
-    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

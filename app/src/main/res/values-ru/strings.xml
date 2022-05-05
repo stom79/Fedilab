@@ -169,8 +169,6 @@
     <string name="toot_select_image_error">При выборе медиафайла произошла ошибка!</string>
     <string name="toot_delete_media">Удалить этот медиафайл?</string>
     <string name="toot_error_no_content">Ваш тут пуст!</string>
-    <string name="toot_visibility_tilte">Видимость тута</string>
-    <string name="toots_visibility_tilte">Видимость тутов по умолчанию: </string>
     <string name="toot_sent">Тут отправлен!</string>
     <string name="toot_reply_content_title">Вы отвечаете на этот тут:</string>
     <string name="toot_sensitive">Деликатный контент?</string>
@@ -309,7 +307,7 @@
     <string name="set_med_desc_timeout">Время просмотра описания (в секундах, 0 означает выключено)</string>
     <string name="settings_title_profile">Изменить профиль</string>
     <string name="settings_title_custom_sharing">Пользовательский обмен</string>
-    <string name="settings_custom_sharing_url">Ваш пользовательский URL для обмена&#8230;</string>
+    <string name="settings_custom_sharing_url">Ваш пользовательский URL для обмена…</string>
     <string name="set_profile_description">О…</string>
     <string name="set_lock_account">Заблокировать аккаунт</string>
     <string name="set_save_changes">Сохранить изменения</string>
@@ -367,10 +365,10 @@
     <string name="toast_cache_clear">Кэш очишен! Освобождено %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Название</string>
-    <string name="title_hint_custom_sharing">Название&#8230;</string>
+    <string name="title_hint_custom_sharing">Название…</string>
     <string name="description_header_custom_sharing">Описание</string>
     <string name="keywords_header_custom_sharing">Ключевые слова</string>
-    <string name="keywords_hint_custom_sharing">Ключевые слова&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Ключевые слова…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Синхронизировать</string>
     <string name="action_filter">Фильтр</string>
@@ -402,7 +400,7 @@
     <string name="privacy_data">        На устройстве хранятся только основные сведения из аккаунтов.
         Эти данные являются строго конфиденциальными и могут использоваться только приложением.
         Удаление приложения немедленно удалит эти данные.\n
-        &#9888; Логин и пароли никогда не сохраняются. Они используются только во время безопасной аутентификации (SSL) с инстансом.
+        ⚠ Логин и пароли никогда не сохраняются. Они используются только во время безопасной аутентификации (SSL) с инстансом.
     </string>
     <string name="privacy_authorizations_title">Разрешения:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Используется для определения, подключено ли устройство к сети WIFI.\n
@@ -416,7 +414,7 @@
     <string name="privacy_API_authorizations">        - <b>Чтение</b>: Чтение данных.\n
         - <b>Запись</b>: Публикация статусов и загрузка файлов для статусов.\n
         - <b>Подписка</b>: Подписка, отписка, блокировка, разблокировка.\n\n
-        <b>&#9888; Эти действия выполняются только при запросе их пользователем.</b>
+        <b>⚠ Эти действия выполняются только при запросе их пользователем.</b>
     </string>
     <string name="privacy_API_title">Отслеживание и библиотеки</string>
     <string name="privacy_API">        Это приложение <b>не использует инструменты отслеживания</b> (измерение аудитории, отчет об ошибках и т. д.) и не содержит никакой рекламы.\n\n
@@ -1013,18 +1011,6 @@
     <string name="set_clear_cache_exit_indication">Кэш (медиа, кэшированные сообщения, данные из встроенного браузера) будут автоматически очищаться при выходе из приложения.</string>
     <string name="unfollow_confirm">Вы хотите отписаться от этого аккаунта?</string>
     <string name="set_unfollow_validation">Предупреждать перед отменой подписки</string>
-    <string name="set_invidious">Заменить Youtube на Invidio.us</string>
-    <string name="set_invidious_indication">Invidious - это альтернативный интерфейс для YouTube</string>
-    <string name="set_invidious_host">Введите собственный хост или оставьте пустым для использования invidio.us</string>
-    <string name="set_nitter">Заменить Твиттер на Nitter</string>
-    <string name="set_nitter_indication">Nitter - это альтернатива Twitter с открытым исходным кодом, ориентированная на конфиденциальность.</string>
-    <string name="set_nitter_host">Введите собственный хост или оставьте пустым для использования nitter.net</string>
-    <string name="set_bibliogram">Заменить Instagram на Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram это альтернативный front-end для Instagram с открытым исходным кодом и сфокусированный на приватности.</string>
-    <string name="set_bibliogram_host">Введите свой собственный хост или оставьте пустым для использования bibliogram.art</string>
-    <string name="set_libreddit">Заменить Reddit на Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit - это альтернатива Reddit с открытым исходным кодом, ориентированная на конфиденциальность.</string>
-    <string name="set_libreddit_host">Введите свой собственный хост или оставьте поле пустым, чтобы использовать libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

@@ -169,8 +169,6 @@
     <string name="toot_select_image_error">Prišlo je do napake ob izbiranju vsebine.</string>
     <string name="toot_delete_media">Želite izbrisati to vsebino?</string>
     <string name="toot_error_no_content">Vaš Toot je prazen.</string>
-    <string name="toot_visibility_tilte">Vidnost objave Toot</string>
-    <string name="toots_visibility_tilte">Privzeta vidnost objav Toot: </string>
     <string name="toot_sent">Objava Toot je poslana.</string>
     <string name="toot_reply_content_title">Odgovarjate na to objavo:</string>
     <string name="toot_sensitive">Občutljiva vsebina?</string>
@@ -309,7 +307,7 @@
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_profile">Urejanje profila</string>
     <string name="settings_title_custom_sharing">Custom sharing</string>
-    <string name="settings_custom_sharing_url">Your custom sharing URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
     <string name="set_profile_description">Življenjepis …</string>
     <string name="set_lock_account">Zakleni račun</string>
     <string name="set_save_changes">Shrani spremembe</string>
@@ -367,10 +365,10 @@
     <string name="toast_cache_clear">Predpomnilnik je izpraznjen. Sproščenih je: %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Naslov</string>
-    <string name="title_hint_custom_sharing">Naslov&#8230;</string>
+    <string name="title_hint_custom_sharing">Naslov…</string>
     <string name="description_header_custom_sharing">Opis</string>
     <string name="keywords_header_custom_sharing">Ključne besede</string>
-    <string name="keywords_hint_custom_sharing">Ključne besede&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Ključne besede…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sinhroniziraj</string>
     <string name="action_filter">Filtriraj</string>
@@ -402,7 +400,7 @@
     <string name="privacy_data">        Le osnovni podatki o računih se hranijo na napravi.
         Ti podatki so strogo zaupne narave in jih lahko uporablja le aplikacija.
         Ob brisanju aplikacije takoj odstranite tudi vse podatke.\n
-        &#9888; Prijavni podatki in gesla se nikoli ne shranjujejo. Uporabljeni so le med varno avtentifikacijo (SSL) z instanco.
+        ⚠ Prijavni podatki in gesla se nikoli ne shranjujejo. Uporabljeni so le med varno avtentifikacijo (SSL) z instanco.
     </string>
     <string name="privacy_authorizations_title">Dovoljenja:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Se uporablja za zaznavo ali je naprava povezana v omrežje WiFi.\n
@@ -416,7 +414,7 @@
     <string name="privacy_API_authorizations">        - <b>Branje</b>: Branje podatkov.\n
         - <b>Pisanje</b>: Objava statusov in prilaganje vsebin le-tem.\n
         - <b>Spremljanje</b>: Spremljanje, prekinitev spremljanj, blokiranje, odblokiranje.\n\n
-        <b>&#9888; Te akcije se izvedejo le, ko jih zahteva uporabnik.</b>
+        <b>⚠ Te akcije se izvedejo le, ko jih zahteva uporabnik.</b>
     </string>
     <string name="privacy_API_title">Sledenje in knjižnice</string>
     <string name="privacy_API">        Aplikacija <b>ne uporablja analitičnih orodij</b> (merjenje občinstva, spremljanje napak, itd.) in ne vsebuje oglasov.\n\n
@@ -1013,18 +1011,6 @@
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-    <string name="set_invidious">Replace Youtube with Invidio.us</string>
-    <string name="set_invidious_indication">Invidious is an alternative front-end to YouTube</string>
-    <string name="set_invidious_host">Enter your custom host or leave blank for using invidious.snopyta.org</string>
-    <string name="set_nitter">Replace Twitter with Nitter</string>
-    <string name="set_nitter_indication">Nitter is an open source alternative Twitter front-end focused on privacy.</string>
-    <string name="set_nitter_host">Enter your custom host or leave blank for using nitter.net</string>
-    <string name="set_bibliogram">Replace Instagram with Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
-    <string name="set_bibliogram_host">Enter your custom host or leave blank for using bibliogram.art</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
-    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

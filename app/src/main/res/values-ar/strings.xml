@@ -177,8 +177,6 @@
     <string name="toot_select_image_error">طرأ هناك خطأ أثناء اختيار الوسائط!</string>
     <string name="toot_delete_media">هل تود حذف هذه الصورة؟</string>
     <string name="toot_error_no_content">إن تبويقك فارغ!</string>
-    <string name="toot_visibility_tilte">طريقة نشر التبويق</string>
-    <string name="toots_visibility_tilte">الأسلوب الافتراضي لنشر التبويقات: </string>
     <string name="toot_sent">تم إرسال التبويق!</string>
     <string name="toot_reply_content_title">بصدد الرد على هذا التبويق:</string>
     <string name="toot_sensitive">محتوى حساس؟</string>
@@ -321,7 +319,7 @@
     <string name="set_med_desc_timeout">مهلة عرض وصف الوسائط (بالثواني، استخدم 0 للإيقاف)</string>
     <string name="settings_title_profile">تعديل الملف الشخصي</string>
     <string name="settings_title_custom_sharing">المشاركة المخصصة</string>
-    <string name="settings_custom_sharing_url">رابط المشاركة المعدل&#8230;</string>
+    <string name="settings_custom_sharing_url">رابط المشاركة المعدل…</string>
     <string name="set_profile_description">السيرة الذاتية…</string>
     <string name="set_lock_account">تأمين الحساب</string>
     <string name="set_save_changes">حفظ التغييرات</string>
@@ -379,10 +377,10 @@
     <string name="toast_cache_clear">تم تنظيف ذاكرة التخزين المؤقتة و تفريغ %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">العنوان</string>
-    <string name="title_hint_custom_sharing">العنوان&#8230;</string>
+    <string name="title_hint_custom_sharing">العنوان…</string>
     <string name="description_header_custom_sharing">الوصف</string>
     <string name="keywords_header_custom_sharing">الكلمات المفتاحية</string>
-    <string name="keywords_hint_custom_sharing">الكلمات المفتاحية&#8230;</string>
+    <string name="keywords_hint_custom_sharing">الكلمات المفتاحية…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">مزامنة</string>
     <string name="action_filter">عامل التصفية</string>
@@ -414,7 +412,7 @@
     <string name="privacy_data">        لا يقوم التطبيق إلا بحفظ معلومات عن الحسابات في الجهاز.
         تبقى هذه البايانات سرية و لا تُستخدَم إلا لتشغيل التطبيق.
         إنّ حذف التطبيق يؤدي إلى إزالة هذه البيانات.\n
-        &#9888; لا يقوم التطبيق بحفظ إسم المستخدم و الكلمات السرية. يقوم التطبيق باستخدمها و فقط عند الإتصال الآمن و المصادقة عبر (SSL) مع مثيل خادوم.
+        ⚠ لا يقوم التطبيق بحفظ إسم المستخدم و الكلمات السرية. يقوم التطبيق باستخدمها و فقط عند الإتصال الآمن و المصادقة عبر (SSL) مع مثيل خادوم.
     </string>
     <string name="privacy_authorizations_title">التصريحات:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: تستخدم للكشف عن إذا كان الجهاز متصلا بشبكة واي فاي.\n
@@ -428,7 +426,7 @@
     <string name="privacy_API_authorizations">        - <b>القراءة</b>: قراءة البيانات.\n
         - <b>الكتابة</b>:  نشر المنشورات و رفع الصور الخاصة بالمنشورات.\n
         - <b>المتابعة</b>: المتابعة و إلغاء المتابعة و الحظر و إلغاء الحظر.\n\n
-        <b>&#9888; يقوم التطبيق بهذه الإجراءات عند طلب المُستخدِم لاستعمالها.</b>
+        <b>⚠ يقوم التطبيق بهذه الإجراءات عند طلب المُستخدِم لاستعمالها.</b>
     </string>
     <string name="privacy_API_title">التعقب و المكتبات</string>
     <string name="privacy_API">        إنّ التطبيق <b>لا يستخدم أدوات للتعقّب</b> (لقياس الجمهور، للإبلاغ عن الأخطاء، إلخ.) ولا يحتوي على أية إعلانات تجارية.\n\n
@@ -1028,18 +1026,6 @@
     <string name="set_clear_cache_exit_indication">سيتم مسح ذاكرة التخزين المؤقت تلقائيا (الوسائط والرسائل المخزّنة وبيانات المتصفح المدمج) عند الخروج من التطبيق.</string>
     <string name="unfollow_confirm">هل تريد إلغاء متابعة هذا الحساب؟</string>
     <string name="set_unfollow_validation">أظهر مربع حوار التأكيد قبل إلغاء المتابعة</string>
-    <string name="set_invidious">استبدل Youtube بـ Invidio.us</string>
-    <string name="set_invidious_indication">إن Invidious واجهة أمامية بديلة لـ YouTube</string>
-    <string name="set_invidious_host">أدخل مضيفك المخصص أو اتركه فارغًا لاستخدام invidio.us</string>
-    <string name="set_nitter">استبدل تويتر بـ Nitter</string>
-    <string name="set_nitter_indication">إن Nitter واجهة أمامية بديلة لـ Twitter تركز على الخصوصية.</string>
-    <string name="set_nitter_host">أدخل مضيفك المخصص أو اتركه فارغًا لاستخدام nitter.net</string>
-    <string name="set_bibliogram">استبدال Instagram بـ Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram هو بديل مفتوح المصدر لـ Instagram يركز على الخصوصية.</string>
-    <string name="set_bibliogram_host">أدخل مضيفك المخصص أو اتركه فارغًا لاستخدام bibliogram.art</string>
-    <string name="set_libreddit">استبدال Reddit بـ Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit هي جهة ريديت الأمامية البديلة المفتوحة المصدر التي تركز على الخصوصية.</string>
-    <string name="set_libreddit_host">أدخل مضيفك المخصص أو اتركه فارغاً لاستخدام libredd.it</string>
     <string name="replace_medium">استبدال روابط Medium</string>
     <string name="replace_medium_description">استبدال روابط medium.com بواجهة أمامية مفتوحة المصدر تركز على الخصوصية.</string>
     <string name="replace_medium_host">الافتراضي: scribe.rip</string>

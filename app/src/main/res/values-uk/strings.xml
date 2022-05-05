@@ -169,8 +169,6 @@
     <string name="toot_select_image_error">Сталася помилка під час вибору медіа-файлу!</string>
     <string name="toot_delete_media">Видалити цей медіа-файл?</string>
     <string name="toot_error_no_content">Ваш дмух пустий!</string>
-    <string name="toot_visibility_tilte">Видимість дмуху</string>
-    <string name="toots_visibility_tilte">Видимість дмухів за замовченням: </string>
     <string name="toot_sent">Повідомлення було відправлено!</string>
     <string name="toot_reply_content_title">Ви відповідаєте на цей дмух:</string>
     <string name="toot_sensitive">Чутливий вміст?</string>
@@ -309,7 +307,7 @@
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_profile">Редагувати обліковий запис</string>
     <string name="settings_title_custom_sharing">Custom sharing</string>
-    <string name="settings_custom_sharing_url">Your custom sharing URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
     <string name="set_profile_description">Біо…</string>
     <string name="set_lock_account">Блокування облікового запису</string>
     <string name="set_save_changes">Зберегти зміни</string>
@@ -365,10 +363,10 @@
     <string name="toast_cache_clear">Кеш було очищено! %1$s було звільнено</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Title</string>
-    <string name="title_hint_custom_sharing">Title&#8230;</string>
+    <string name="title_hint_custom_sharing">Title…</string>
     <string name="description_header_custom_sharing">Description</string>
     <string name="keywords_header_custom_sharing">Keywords</string>
-    <string name="keywords_hint_custom_sharing">Keywords&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Keywords…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Синхронізувати</string>
     <string name="action_filter">Фільтрувати</string>
@@ -398,7 +396,7 @@
     <!-- PRIVACY -->
     <string name="privacy_data_title">Записані дані</string>
     <string name="privacy_data">Тільки основна інформація з облікових записів зберігається на пристрої.         Ці дані залишаються суворо конфіденційними і можуть використовуватися лише додатком.         У разі видалення додаток одразу видаляє ці дані. \n
-        &#9888; Логіни та паролі не зберігаються. Вони використовуються тільки під час безпечної аутентифікації (SSL) на екземплярі.
+        ⚠ Логіни та паролі не зберігаються. Вони використовуються тільки під час безпечної аутентифікації (SSL) на екземплярі.
     </string>
     <string name="privacy_authorizations_title">Дозволи:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: використовується для виявлення, чи пристрій підключено до Wi-Fi мережі. \n - <b>Інтернет</b>: використовується для запитів до до екземпляра. \n - <b>WRITE_EXTERNAL_STORAGE</b>: використовується для зберігання медіа або переміщення програми на карту SD \n - <b>READ_EXTERNAL_STORAGE</b>: використовується для додавання медіа до тутів. \n - <b>BOOT_COMPLETED</b>: використовується для запуску служби сповіщень. \n - <b>WAKE_LOCK</b>: Використовується під час роботи служби сповіщень.
@@ -407,7 +405,7 @@
     <string name="privacy_API_authorizations">- <b>Читати</b>: Читати дані.\n
         - <b>Писати</b>: Постити статуси і завантажувати медіа-файли.\n
         - <b>Підписка</b>: Підписка, відписка, блок, розблок.\n\n
-        <b>&#9888; Ці дії відбуваються тільки за запитом користувача.</b>
+        <b>⚠ Ці дії відбуваються тільки за запитом користувача.</b>
     </string>
     <string name="privacy_API_title">Бібліотеки</string>
     <string name="privacy_API">Додаток <b>не відслідковує користувача</b> І не містить реклами.\n\n
@@ -1003,18 +1001,6 @@
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-    <string name="set_invidious">Replace Youtube with Invidio.us</string>
-    <string name="set_invidious_indication">Invidious is an alternative front-end to YouTube</string>
-    <string name="set_invidious_host">Enter your custom host or leave blank for using invidious.snopyta.org</string>
-    <string name="set_nitter">Replace Twitter with Nitter</string>
-    <string name="set_nitter_indication">Nitter is an open source alternative Twitter front-end focused on privacy.</string>
-    <string name="set_nitter_host">Enter your custom host or leave blank for using nitter.net</string>
-    <string name="set_bibliogram">Replace Instagram with Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram is an open source alternative Instagram front-end focused on privacy.</string>
-    <string name="set_bibliogram_host">Enter your custom host or leave blank for using bibliogram.art</string>
-    <string name="set_libreddit">Replace Reddit with Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit is an open source alternative Reddit front-end focused on privacy.</string>
-    <string name="set_libreddit_host">Enter your custom host or leave blank for using libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>

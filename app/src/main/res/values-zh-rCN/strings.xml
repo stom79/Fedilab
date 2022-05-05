@@ -157,8 +157,6 @@
     <string name="toot_select_image_error">选择媒体时出现了错误！</string>
     <string name="toot_delete_media">删除此媒体吗？</string>
     <string name="toot_error_no_content">您的嘟文是空的！</string>
-    <string name="toot_visibility_tilte">嘟文的可见性</string>
-    <string name="toots_visibility_tilte">默认情况下，嘟文的可见性： </string>
     <string name="toot_sent">嘟文已发送！</string>
     <string name="toot_reply_content_title">您正在回复此嘟文：</string>
     <string name="toot_sensitive">敏感内容？</string>
@@ -291,7 +289,7 @@
     <string name="set_med_desc_timeout">媒体描述超时(秒，0表示关闭)</string>
     <string name="settings_title_profile">编辑个人资料</string>
     <string name="settings_title_custom_sharing">自定义分享</string>
-    <string name="settings_custom_sharing_url">您的自定义分享链接&#8230;</string>
+    <string name="settings_custom_sharing_url">您的自定义分享链接…</string>
     <string name="set_profile_description">简介…</string>
     <string name="set_lock_account">锁定帐户</string>
     <string name="set_save_changes">保存修改</string>
@@ -349,10 +347,10 @@
     <string name="toast_cache_clear">缓存已清除！已释放 %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">标题</string>
-    <string name="title_hint_custom_sharing">标题&#8230;</string>
+    <string name="title_hint_custom_sharing">标题…</string>
     <string name="description_header_custom_sharing">描述</string>
     <string name="keywords_header_custom_sharing">关键词</string>
-    <string name="keywords_hint_custom_sharing">关键词&#8230;</string>
+    <string name="keywords_hint_custom_sharing">关键词…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">同步</string>
     <string name="action_filter">筛选</string>
@@ -384,7 +382,7 @@
     <string name="privacy_data">        只有帐户中的基本信息才会存储在设备上。
         这些数据是严格保密的，而且只能由应用程序使用。
         删除应用程序将立即删除这些数据。\n
-        &#9888; 从不存储登录和密码。它们仅在与实例进行安全身份验证（SSL）时使用。  
+        ⚠ 从不存储登录和密码。它们仅在与实例进行安全身份验证（SSL）时使用。  
     </string>
     <string name="privacy_authorizations_title">权限：</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>：用于检测设备是否连接到 WIFI 网络。\n
@@ -398,7 +396,7 @@
     <string name="privacy_API_authorizations">        - <b>Read</b>：读取数据。\n
         - <b>Write</b>：发布状态并上传用在状态上的媒体。 \n
         - <b>Follow</b>：关注、取消关注、屏蔽、取消屏蔽。\n\n
-        <b>&#9888; 这些操作仅在用户请求时执行。</b>
+        <b>⚠ 这些操作仅在用户请求时执行。</b>
     </string>
     <string name="privacy_API_title">跟踪和库</string>
     <string name="privacy_API">        本应用程序 <b>不使用跟踪工具</b>（受众测量、错误报告等），并且不包含任何广告。\n\n 
@@ -989,18 +987,6 @@
     <string name="set_clear_cache_exit_indication">离开此应用程序时，将自动清除缓存（媒体、缓存消息、内建浏览器的数据）。</string>
     <string name="unfollow_confirm">你确定要取消关注此帐号吗？</string>
     <string name="set_unfollow_validation">取消关注前显示确认对话框</string>
-    <string name="set_invidious">用 Invidio.us 替换 Youtube</string>
-    <string name="set_invidious_indication">Invidious 是个 YouTube 的替代前端</string>
-    <string name="set_invidious_host">输入你自定义的主机或者留空以使用 invidio.us</string>
-    <string name="set_nitter">用Nitter取代Twitter</string>
-    <string name="set_nitter_indication">Niter是一种开放源码的替代的 Twitter 的前端，注重保护隐私。</string>
-    <string name="set_nitter_host">输入你自定义的主机或者留空以使用 nitter.net</string>
-    <string name="set_bibliogram">将 Instagram 替换成 Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram 是个注重隐私保护的 Instagram 开源替代前端。</string>
-    <string name="set_bibliogram_host">输入你的自定义主机或者留空以使用 bibliogram.art</string>
-    <string name="set_libreddit">用 Libreddit 替换 Reddit</string>
-    <string name="set_libreddit_indication">Libreddit 是一个开源的 Reddit 替代前端，专注于隐私。</string>
-    <string name="set_libreddit_host">输入您的自定义主机或留空使用 libredd.it</string>
     <string name="replace_medium">替换 Medium 链接</string>
     <string name="replace_medium_description">用专注于隐私的开源替代前端替换 medium.com 链接。</string>
     <string name="replace_medium_host">默认: scribe.rip</string>

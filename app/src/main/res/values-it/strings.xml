@@ -161,8 +161,6 @@
     <string name="toot_select_image_error">Si è verificato un errore durante la selezione del media!</string>
     <string name="toot_delete_media">Eliminare questo media?</string>
     <string name="toot_error_no_content">Il tuo toot è vuoto!</string>
-    <string name="toot_visibility_tilte">Visibilità del toot</string>
-    <string name="toots_visibility_tilte">Visibilità predefinita dei toot: </string>
     <string name="toot_sent">Il toot è stato inviato!</string>
     <string name="toot_reply_content_title">Stai rispondendo a questo toot:</string>
     <string name="toot_sensitive">Contenuto sensibile?</string>
@@ -297,7 +295,7 @@
     <string name="set_med_desc_timeout">Timeout descrizione media (secondi, 0 significa disattivato)</string>
     <string name="settings_title_profile">Modifica profilo</string>
     <string name="settings_title_custom_sharing">Condivisione personalizzata</string>
-    <string name="settings_custom_sharing_url">L\'URL della tua condivisione personalizzata&#8230;</string>
+    <string name="settings_custom_sharing_url">L\'URL della tua condivisione personalizzata…</string>
     <string name="set_profile_description">Biografia…</string>
     <string name="set_lock_account">Blocca account</string>
     <string name="set_save_changes">Salva modifiche</string>
@@ -355,10 +353,10 @@
     <string name="toast_cache_clear">La cache è stata pulita! %1$s sono stati liberati</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Titolo</string>
-    <string name="title_hint_custom_sharing">Titolo&#8230;</string>
+    <string name="title_hint_custom_sharing">Titolo…</string>
     <string name="description_header_custom_sharing">Descrizione</string>
     <string name="keywords_header_custom_sharing">Parole chiave</string>
-    <string name="keywords_hint_custom_sharing">Parole chiave&#8230;</string>
+    <string name="keywords_hint_custom_sharing">Parole chiave…</string>
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sincronizza</string>
     <string name="action_filter">Filtro</string>
@@ -390,7 +388,7 @@
     <string name="privacy_data">        Sul dispositivo sono salvati sono le informazioni basilari degli account.
         TQuesti sono strettamente confidenziali e possono essere utilizzati sono dall\'applicazione.
         Eliminando l\'applicazione rimuoverà immediatamente questi dati.\n
-        &#9888; Login e password non vengono mai salvati. Vengono solo usati durante una autenticazione sicura (SSL) con un istanza.
+        ⚠ Login e password non vengono mai salvati. Vengono solo usati durante una autenticazione sicura (SSL) con un istanza.
     </string>
     <string name="privacy_authorizations_title">Permessi:</string>
     <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Usato per determinare se il dispositivo è connesso ad una rete WIFI.\n
@@ -404,7 +402,7 @@
     <string name="privacy_API_authorizations">        - <b>Read</b>: Legge dati.\n
         - <b>Write</b>: Posta gli stati e carica i media per gli stati.\n
         - <b>Follow</b>: Seguire, non seguire, bloccare, sbloccare.\n\n
-        <b>&#9888; Queste azioni sono utilizzare solo quando l\'utente le richiede.</b>
+        <b>⚠ Queste azioni sono utilizzare solo quando l\'utente le richiede.</b>
     </string>
     <string name="privacy_API_title">Tracciamento e librerie</string>
     <string name="privacy_API">        L\'applicazione <b>non utilizza tool di tracciamento</b> (audience measurement, error reporting, ecc.) e non contiene pubblicità.\n\n
@@ -997,18 +995,6 @@
     <string name="set_clear_cache_exit_indication">La cache (media, messaggi memorizzati nella cache, dati del browser integrato) sarà automaticamente cancellata quando l\'applicazione verrà chiusa.</string>
     <string name="unfollow_confirm">Vuoi smettere di seguire questo account?</string>
     <string name="set_unfollow_validation">Mostra finestra di conferma prima di smettere di seguire</string>
-    <string name="set_invidious">Sostituisci Youtube con Invidio.us</string>
-    <string name="set_invidious_indication">Invidious è un\'interfaccia alternativa per YouTube</string>
-    <string name="set_invidious_host">Inserisci il tuo host personalizzato o lascia vuoto per usare invidio.us</string>
-    <string name="set_nitter">Sostituisci Twitter con Nitter</string>
-    <string name="set_nitter_indication">Nitter è un\'interfaccia alternativa e open source per Twitter, focalizzata sulla privacy.</string>
-    <string name="set_nitter_host">Inserisci il tuo host personalizzato o lascia vuoto per usare nitter.net</string>
-    <string name="set_bibliogram">Sostituisci Instagram con Bibliogram</string>
-    <string name="set_bibliogram_indication">Bibliogram è un\'interfaccia alternativa e open source per Instagram, focalizzata sulla privacy.</string>
-    <string name="set_bibliogram_host">Inserisci il tuo host personalizzato o lascia vuoto per usare bibliogram.art</string>
-    <string name="set_libreddit">Sostituisci Reddit con Libreddit</string>
-    <string name="set_libreddit_indication">Libreddit è un\'interfaccia open source alternativa a Reddit focalizzata sulla privacy.</string>
-    <string name="set_libreddit_host">Inserisci il tuo host personalizzato o lascia vuoto per usare libredd.it</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
