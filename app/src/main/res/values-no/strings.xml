@@ -1149,4 +1149,6 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="report_1_block_title">Blokker %1$s</string>
     <string name="report_more_additional">Ytterligere kommentarer</string>
     <string name="report_more_forward">Videresend til %1$s</string>
+    <string name="instance_health_indication">versjon: %s
+\n %s brukere - %s statuser</string>
 </resources>
