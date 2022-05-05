@@ -383,7 +383,7 @@ public class ThemeHelper {
      */
     public static void adjustFontScale(Activity activity, Configuration configuration) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        configuration.fontScale = prefs.getFloat(activity.getString(R.string.SET_FONT_SCALE), 1.0f);
+        configuration.fontScale = prefs.getFloat(activity.getString(R.string.SET_FONT_SCALE), 1.1f);
         DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
         WindowManager wm = (WindowManager) activity.getSystemService(WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metrics);
