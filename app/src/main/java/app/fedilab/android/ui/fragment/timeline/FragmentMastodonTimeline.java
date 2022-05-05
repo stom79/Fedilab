@@ -51,6 +51,7 @@ import app.fedilab.android.client.mastodon.entities.Statuses;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -162,6 +163,7 @@ public class FragmentMastodonTimeline extends Fragment {
         }
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         return binding.getRoot();
     }
 

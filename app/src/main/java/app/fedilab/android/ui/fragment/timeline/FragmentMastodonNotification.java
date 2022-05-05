@@ -40,6 +40,7 @@ import app.fedilab.android.client.mastodon.entities.Notifications;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.NotificationAdapter;
 import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 
@@ -67,6 +68,7 @@ public class FragmentMastodonNotification extends Fragment {
         if (getArguments() != null) {
             notificationType = (NotificationTypeEnum) getArguments().get(Helper.ARG_NOTIFICATION_TYPE);
         }
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);

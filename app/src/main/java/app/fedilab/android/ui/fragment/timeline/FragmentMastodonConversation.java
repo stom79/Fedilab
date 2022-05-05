@@ -36,6 +36,7 @@ import app.fedilab.android.client.mastodon.entities.Conversation;
 import app.fedilab.android.client.mastodon.entities.Conversations;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.ConversationAdapter;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
@@ -56,6 +57,7 @@ public class FragmentMastodonConversation extends Fragment {
         currentFragment = this;
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         return binding.getRoot();
     }
 

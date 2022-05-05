@@ -101,6 +101,14 @@ public class ThemeHelper {
         }
     }
 
+    public static int getBackgroundColor(Context context) {
+        if (Cyanea.getInstance().isDark()) {
+            return ContextCompat.getColor(context, R.color.cyanea_background_dark);
+        } else {
+            return ContextCompat.getColor(context, R.color.cyanea_background_light);
+        }
+    }
+
     public static void applyThemeBar(BaseActivity activity) {
         if (Cyanea.getInstance().isDark()) {
             activity.setTheme(R.style.AppThemeBarDark);

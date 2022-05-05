@@ -40,6 +40,7 @@ import app.fedilab.android.client.mastodon.entities.RelationShip;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AccountAdapter;
 import app.fedilab.android.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -70,7 +71,7 @@ public class FragmentMastodonAccount extends Fragment {
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
         }
-
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();

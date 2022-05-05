@@ -34,6 +34,7 @@ import app.fedilab.android.client.mastodon.entities.Tag;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.TagAdapter;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 
@@ -52,6 +53,7 @@ public class FragmentMastodonTag extends Fragment {
         }
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         return binding.getRoot();
     }
 
