@@ -71,9 +71,9 @@ public class FragmentMastodonAccount extends Fragment {
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
         }
-        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         return binding.getRoot();
     }
 
