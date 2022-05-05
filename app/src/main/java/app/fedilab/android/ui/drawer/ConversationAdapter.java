@@ -19,6 +19,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -169,7 +171,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    holder.binding.statusContent.invalidate();
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    Runnable myRunnable = () -> holder.binding.statusContent.invalidate();
+                    mainHandler.post(myRunnable);
                 }
             }, 100, 100);
         }

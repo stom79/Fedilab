@@ -161,13 +161,15 @@ public class SpannableHelper {
         while (matcherALink.find()) {
             int matchStart = matcherALink.start() - offSetTruncate;
             int matchEnd = matchStart + matcherALink.group().length();
-            //Get real URL
-            /*if (matcherALink.start(1) > matcherALink.end(1) || matcherALink.end() > content.length()) {
-                continue;
-            }*/
+
             final String url = content.toString().substring(matchStart, matchEnd);
             String newURL = Helper.transformURL(context, url);
-            content.replace(matchStart, matchEnd, newURL);
+            //If URL has been transformed
+            if (newURL.compareTo(url) != 0) {
+                content.replace(matchStart, matchEnd, newURL);
+                offSetTruncate += (newURL.length() - url.length());
+                matchEnd = matchStart + newURL.length();
+            }
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
             String urlText = newURL;
@@ -177,8 +179,6 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
-            } else {
-                matchEnd = matchStart + (newURL.length());
             }
 
             if (!urlText.startsWith("http")) {
