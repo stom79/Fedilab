@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -23,6 +24,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
@@ -36,6 +38,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
     private final Context _mContext;
     private final List<Status> statusList;
+    private final float fontScale;
     private final List<Integer> colorList = Arrays.asList(
             R.color.decoration_1,
             R.color.decoration_2,
@@ -57,6 +60,8 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
     public DividerDecoration(Context context, List<Status> statuses) {
         _mContext = context;
         statusList = statuses;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(_mContext);
+        fontScale = prefs.getFloat(_mContext.getString(R.string.SET_FONT_SCALE), 1.1f);
     }
 
     @Override
@@ -67,7 +72,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
             Status status = statusAdapter.getItem(position);
 
             int start = (int) Helper.convertDpToPixel(
-                    6 * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, colorList.size()),
+                    6 * fontScale * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, colorList.size()),
                     _mContext);
 
             if (parent.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
@@ -100,7 +105,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                     paint.setStrokeJoin(Paint.Join.MITER);
 
                     for (int j = 0; j < indentation; j++) {
-                        float startPx = Helper.convertDpToPixel(6 + 6 * j, _mContext);
+                        float startPx = Helper.convertDpToPixel(6 * fontScale + 6 * fontScale * j, _mContext);
                         if (parent.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
                             startPx = c.getWidth() - startPx;
 
@@ -119,9 +124,9 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
                     paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), colorList.get(indentation - 1), _mContext.getTheme()));
 
-                    float startDp = 6 * (indentation - 1) + 6;
+                    float startDp = 6 * fontScale * (indentation - 1) + 6 * fontScale;
                     float centerPx = view.getBottom() - view.getHeight() / 2F;
-                    float endDp = startDp + 12;
+                    float endDp = startDp + 12 * fontScale;
                     float endPx = Helper.convertDpToPixel(endDp, _mContext);
 
                     float startPx = Helper.convertDpToPixel(startDp, _mContext);
