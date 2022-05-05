@@ -176,6 +176,7 @@ public class NotificationsHelper {
         int newPolls = 0;
         int newStatus = 0;
         String notificationUrl;
+        String title = null;
         String message = null;
         String targeted_account = null;
         Helper.NotifType notifType = Helper.NotifType.MENTION;
@@ -184,6 +185,7 @@ public class NotificationsHelper {
                 case "mention":
                     notifType = Helper.NotifType.MENTION;
                     if (notif_mention) {
+                        title = context.getString(R.string.channel_notif_mention);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
                         else
@@ -207,6 +209,7 @@ public class NotificationsHelper {
                 case "status":
                     notifType = Helper.NotifType.STATUS;
                     if (notif_status) {
+                        title = context.getString(R.string.channel_notif_status);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_status));
                         else
@@ -230,6 +233,7 @@ public class NotificationsHelper {
                 case "reblog":
                     notifType = Helper.NotifType.BOOST;
                     if (notif_share) {
+                        title = context.getString(R.string.channel_notif_boost);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                         else
@@ -240,6 +244,7 @@ public class NotificationsHelper {
                 case "favourite":
                     notifType = Helper.NotifType.FAV;
                     if (notif_fav) {
+                        title = context.getString(R.string.channel_notif_fav);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
                         else
@@ -250,6 +255,7 @@ public class NotificationsHelper {
                 case "follow_request":
                     notifType = Helper.NotifType.FOLLLOW;
                     if (notif_follow) {
+                        title = context.getString(R.string.channel_notif_follow);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_follow_request));
                         else
@@ -261,6 +267,7 @@ public class NotificationsHelper {
                 case "follow":
                     notifType = Helper.NotifType.FOLLLOW;
                     if (notif_follow) {
+                        title = context.getString(R.string.channel_notif_follow);
                         if (notification.account.display_name != null && notification.account.display_name.length() > 0)
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_follow));
                         else
@@ -272,6 +279,7 @@ public class NotificationsHelper {
                 case "poll":
                     notifType = Helper.NotifType.POLL;
                     if (notif_poll) {
+                        title = context.getString(R.string.channel_notif_poll);
                         if (notification.account.id != null && notification.account.id.equals(MainActivity.currentUserID))
                             message = context.getString(R.string.notif_poll_self);
                         else
@@ -300,6 +308,7 @@ public class NotificationsHelper {
             Helper.NotifType finalNotifType = notifType;
             String finalMessage = message;
             String finalMessage1 = message;
+            String finalTitle = title;
             Runnable myRunnable = () -> Glide.with(context)
                     .asBitmap()
                     .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
@@ -313,7 +322,7 @@ public class NotificationsHelper {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                             notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                    R.mipmap.ic_launcher), finalNotifType, context.getString(R.string.top_notification), finalMessage1);
+                                    R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage1);
                             String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                             if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                 SharedPreferences.Editor editor = prefs.edit();
@@ -326,7 +335,7 @@ public class NotificationsHelper {
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            notify_user(context, account, intent, resource, finalNotifType, context.getString(R.string.top_notification), finalMessage);
+                            notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
                             String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                             if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                 SharedPreferences.Editor editor = prefs.edit();
