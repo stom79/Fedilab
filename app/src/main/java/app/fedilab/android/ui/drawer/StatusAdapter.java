@@ -222,7 +222,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
         holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
         holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
-        //holder.binding.actionButtonBoost.setColors(R.color.marked_icon, R.color.marked_icon);
 
         if (theme_text_header_2_line != -1) {
             Pattern hashAcct;

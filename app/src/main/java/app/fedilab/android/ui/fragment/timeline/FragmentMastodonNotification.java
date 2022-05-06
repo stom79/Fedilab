@@ -14,6 +14,10 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +27,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +42,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.client.mastodon.entities.Notifications;
+import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -57,6 +63,46 @@ public class FragmentMastodonNotification extends Fragment {
     private NotificationAdapter notificationAdapter;
     private NotificationTypeEnum notificationType;
     private List<String> excludeType;
+
+    private final BroadcastReceiver receive_action = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
+                if (receivedStatus != null && notificationAdapter != null) {
+                    int position = getPosition(receivedStatus);
+                    if (position >= 0) {
+                        if (notifications.get(position).status != null) {
+                            notifications.get(position).status.reblog = receivedStatus.reblog;
+                            notifications.get(position).status.favourited = receivedStatus.favourited;
+                            notifications.get(position).status.bookmarked = receivedStatus.bookmarked;
+                            notificationAdapter.notifyItemChanged(position);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * Return the position of the status in the ArrayList
+     *
+     * @param status - Status to fetch
+     * @return position or -1 if not found
+     */
+    private int getPosition(Status status) {
+        int position = 0;
+        boolean found = false;
+        for (Notification _notification : notifications) {
+            if (_notification.status != null && _notification.status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            }
+            position++;
+        }
+        return found ? position : -1;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -113,6 +159,7 @@ public class FragmentMastodonNotification extends Fragment {
         }
         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
                 .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
     }
 
@@ -207,6 +254,7 @@ public class FragmentMastodonNotification extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding.recyclerView.setAdapter(null);
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         notificationAdapter = null;
         binding = null;
     }
