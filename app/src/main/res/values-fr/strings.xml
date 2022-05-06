@@ -151,7 +151,7 @@
     <string name="toot_cw_placeholder">Avertissement</string>
     <string name="toot_placeholder">Qu’avez-vous en tête ?</string>
     <string name="toot_it">POUET !</string>
-    <string name="queet_it">QUEET!</string>
+    <string name="queet_it">QUEET !</string>
     <string name="cw">cw</string>
     <string name="toot_title">Écrire un pouet</string>
     <string name="toot_title_reply">Répondre à un pouet</string>
@@ -196,7 +196,8 @@
     <string name="status_cnt">Pouets \n %1$s</string>
     <string name="following_cnt">Abonnements \n %1$s</string>
     <string name="followers_cnt">Abonné·e·s \n %1$s</string>
-    <string name="pins_cnt">Épinglés %d</string>
+    <string name="pins_cnt">Épinglés
+\n %d</string>
     <string name="authorize">Autoriser</string>
     <string name="reject">Rejeter</string>
     <!-- Scheduled toots -->
@@ -229,7 +230,7 @@
     </plurals>
     <string name="delete_notification_ask">Supprimer une notification ?</string>
     <string name="delete_notification_ask_all">Supprimer toutes les notifications ?</string>
-    <string name="delete_notification">La notification a été supprimée!</string>
+    <string name="delete_notification">La notification a été supprimée !</string>
     <string name="delete_notification_all">Toutes les notifications ont été supprimées !</string>
     <!-- HEADER -->
     <string name="following">Suit</string>
@@ -273,7 +274,7 @@
     <string name="set_attachment_ask">Demander</string>
     <string name="set_attachment_action">Charger les médias</string>
     <string name="load_attachment">Charger les images</string>
-    <string name="load_attachment_spoiler">Afficher le contenu ?</string>
+    <string name="load_attachment_spoiler">Voir plus …</string>
     <string name="load_attachment_spoiler_less">Afficher moins…</string>
     <string name="load_sensitive_attachment">Charger les images sensibles</string>
     <string name="set_disable_gif">Désactiver l’animation des avatars</string>
@@ -700,7 +701,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="calls_blocked">appels http bloqués par l’application</string>
     <string name="list_of_blocked_domains">Liste des appels bloqués</string>
     <string name="submit">Envoyer</string>
-    <string name="data_base_exported">La base de données a été exportée!</string>
+    <string name="data_base_exported">La base de données a été exportée !</string>
     <string name="featured_hashtags">Hashtags recommandés</string>
     <string name="filter_timeline_with_a_tag">Filtrer la timeline avec des tags</string>
     <string name="no_tags">Aucune étiquette</string>
@@ -791,7 +792,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="category_games">Jeux</string>
     <string name="category_tech">Technologie</string>
     <string name="category_adult">Contenu pour adultes</string>
-    <string name="category_furry">Furry</string>
+    <string name="category_furry">Fourrure</string>
     <string name="category_food">Nourriture</string>
     <string name="instance_logo">Logo de l’instance</string>
     <string name="toast_error_instance_reg">Une erreur s\'est produite lors de la vérification des instances disponibles !</string>
@@ -814,12 +815,14 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="password_too_short">Le mot de passe doit contenir au moins 8 caractères</string>
     <string name="username_error">Le nom d\'utilisateur·rice doit contenir uniquement des lettres, des chiffres et des caractères de soulignement</string>
     <string name="account_created">Compte créé !</string>
-    <string name="account_created_message">        Your account has been created!\n\n
-        Think to validate your email within the 48 next hours.\n\n
-        You can now connect your account by writing <b>%1$s</b> in the first field and click on <b>Connect</b>.\n\n
-        <b>Important</b>: If your instance required validation, you will receive an email once it is validated!
-    </string>
-    <string name="save_draft">Enregistrer le message dans dans les brouillons ?</string>
+    <string name="account_created_message"> Votre compte a été créé !
+\n
+\n Pensez à valider votre email dans les 48 prochaines heures.
+\n
+\n Vous pouvez maintenant connecter votre compte en écrivant <b>%1$s</b> dans le premier champ et appuyer sur <b>Se connecter</b>.
+\n
+\n <b>Important</b> : Si votre instance nécessite une validation, vous recevrez un email une fois qu’elle sera validée ! </string>
+    <string name="save_draft">Sauvegarder le message dans les brouillons \?</string>
     <string name="administration">Administration</string>
     <string name="reports">Rapports</string>
     <string name="no_reports">Aucun rapport à afficher !</string>
@@ -832,7 +835,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="disabled">Désactivé</string>
     <string name="silenced">Réduit au silence</string>
     <string name="suspended">Suspendu</string>
-    <string name="permissions">Permissions</string>
+    <string name="permissions">Autorisations</string>
     <string name="email_status">Statut de l\'e-mail</string>
     <string name="login_status">État de connexion</string>
     <string name="joined">Inscrit le</string>
@@ -1014,7 +1017,11 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="post">Poster</string>
     <string name="post_visibility_tilte">Visibilité du post</string>
     <string name="add_photo_pixelfed">Appuyez ici pour ajouter des photos</string>
-    <string name="add_photo_indication_pixelfed">Formats acceptés: jpeg, png, gif \n\nTaille maximale du fichier : 15 Mo \n\nLes albums peuvent contenir jusqu’à 4 photos ou vidéos</string>
+    <string name="add_photo_indication_pixelfed">Formats acceptés : jpeg, png, gif
+\n
+\nTaille maximale du fichier : 15 Mo
+\n
+\nLes albums peuvent contenir jusqu’à 4 photos ou vidéos</string>
     <string name="upload_media">Téléverser un média</string>
     <string name="pixelfed_compose_placeholder">Ajouter une légende optionnelle</string>
     <string name="long_api_error">L’application a reçu un très long message d’erreur de l’API %1$s</string>
@@ -1124,4 +1131,61 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="select_distributors">Sélectionnez un distributeur</string>
     <string name="toots_visibility_title">Visibilité des pouets par défaut :</string>
     <string name="toot_visibility_title">Visibilité du pouet</string>
+    <string name="category_music">Musique</string>
+    <string name="cannot_be_empty">Ce champ ne peut pas être vide !</string>
+    <string name="permission_record">L’application a besoin d’accéder à l’enregistrement audio</string>
+    <string name="join_fedi_instance">Rejoindre une instance Fédiverse</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="report_1_mute_title">Masquer %1$s</string>
+    <string name="report_1_block_title">Bloquer %1$s</string>
+    <string name="report_3_title">Quelles sont les règles qui sont violées \?</string>
+    <string name="report_all_more">Sélectionnez tous les éléments qui s’appliquent</string>
+    <string name="report_more">Y a-t-il autre chose que vous pensez que nous devrions savoir \?</string>
+    <string name="report_more_additional">Commentaires supplémentaires</string>
+    <string name="report_more_remote">Le compte provient d’un autre serveur. Vous pouvez envoyer une copie anonymisée du rapport là aussi \?</string>
+    <string name="report_more_forward">Transférer à %1$s</string>
+    <string name="report_sent">Le signalement a été effectué !</string>
+    <string name="dont_have_an_account">Vous n’avez pas de compte \?</string>
+    <string name="join_the_fediverse">Rejoignez le Fédiverse</string>
+    <string name="invite_join_the_fediverse">Salut ! Nous vous invitons à rejoindre le Fédiverse.</string>
+    <string name="notif_display_mentions">Mentions</string>
+    <string name="notif_display_favourites">Favoris</string>
+    <string name="notif_display_reblogs">Partages</string>
+    <string name="notif_display_poll_results">Résultats du sondage</string>
+    <string name="clear_all_notif">Effacer toutes les notifications</string>
+    <string name="mark_all_as_read">Marquer toutes les notifications comme lues</string>
+    <string name="display_all_categories">Afficher toutes les catégories</string>
+    <string name="interactions">Interactions</string>
+    <string name="add_filter">Ajouter un filtre</string>
+    <string name="add_field">Ajouter un champ</string>
+    <string name="unlocked">Déverrouillé</string>
+    <string name="locked">Verrouillé</string>
+    <string name="save_changes">Enregistrer les modifications</string>
+    <string name="set_bot_content">Compte Bot</string>
+    <string name="delete_field">Supprimer le champ</string>
+    <string name="profiled_updated">Le profil a été mis à jour !</string>
+    <string name="scheduled">Programmé</string>
+    <string name="type_of_notifications">Type de notifications</string>
+    <string name="pref_custom_theme_new_summary">Autoriser à créer votre thème personnalisé</string>
+    <string name="alternative_frontends">Interfaces alternatives</string>
+    <string name="type_of_notifications_title">Choisissez le type de notifications</string>
+    <string name="notification_options">Options de notification</string>
+    <string name="disable_notifications">Désactiver les notifications</string>
+    <string name="notifications_are">Pendant ce créneau horaire</string>
+    <string name="pref_theme_base">Base du thème</string>
+    <string name="pref_contributor">Thèmes des contributeur·rice·s</string>
+    <string name="select_a_theme">Sélectionnez un thème</string>
+    <string name="customize_timelines">Personnaliser les fils</string>
+    <string name="customize_main_colors">Personnalisez les couleurs principales</string>
+    <string name="more_actions">Autres actions</string>
+    <string name="types_of_notifications_to_display">Types de notifications à afficher</string>
+    <string name="set_unfollow_validation_title">Confirmer les désabonnements</string>
+    <string name="message_has_been_sent">Le message a été envoyé !</string>
+    <string name="poll_type">Type de sondage :</string>
+    <string name="poll_duration">Durée du sondage :</string>
+    <string name="set_accounts_page">Nombre de comptes par chargement</string>
+    <string name="set_notifications_page">Nombre de notifications par chargement</string>
+    <string name="not_valid_list_name">Le nom de la liste n’est pas valide !</string>
+    <string name="no_account_in_list">Aucun compte trouvé pour cette liste !</string>
 </resources>
