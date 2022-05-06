@@ -173,6 +173,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
+        boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
+
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
         boolean display_video_preview = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_VIDEO_PREVIEWS), true);
         boolean isModerator = sharedpreferences.getBoolean(Helper.PREF_IS_MODERATOR, false);
@@ -316,7 +318,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.actionButtons.setVisibility(View.VISIBLE);
             //Hide or display bookmark button when status is focused
-            if (status.isFocused) {
+            if (status.isFocused || displayBookmark) {
                 holder.binding.actionButtonBookmark.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);

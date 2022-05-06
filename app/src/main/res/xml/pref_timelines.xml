@@ -17,6 +17,11 @@
         app:key="@string/SET_NOTIF_VALIDATION"
         app:title="@string/set_share_validation" />
     <androidx.preference.SwitchPreference
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_BOOKMARK"
+        app:title="@string/set_display_bookmark_indication" />
+    <androidx.preference.SwitchPreference
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_NOTIF_VALIDATION_FAV"

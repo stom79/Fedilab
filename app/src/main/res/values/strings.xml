@@ -1507,6 +1507,7 @@
     <string name="SET_FILTER_REGEX_LOCAL" translatable="false">SET_FILTER_REGEX_LOCAL</string>
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
+    <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_WIFI_ONLY" translatable="false">SET_WIFI_ONLY</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
@@ -1590,6 +1591,7 @@
     <string name="message_has_been_sent">Message has been sent!</string>
     <string name="poll_type">Poll type:</string>
     <string name="poll_duration">Poll duration:</string>
+    <string name="set_display_bookmark_indication">Always display bookmark button</string>
 
 
 </resources>
