@@ -294,6 +294,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             float currentTextSize = holder.binding.statusContent.getTextSize();
             holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize * 1.3f);
             holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize * 1.3f);
+        } else {
+            holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         }
         if (status.card != null && (display_card || status.isFocused) & status.card.description.trim().length() > 0) {
             if (status.card.width > status.card.height) {
