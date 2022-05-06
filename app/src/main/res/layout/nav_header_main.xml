@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/profile_banner"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/header_option_info"
