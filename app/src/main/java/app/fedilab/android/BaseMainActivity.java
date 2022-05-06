@@ -122,6 +122,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private ActivityMainBinding binding;
     private Pinned pinned;
 
+
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

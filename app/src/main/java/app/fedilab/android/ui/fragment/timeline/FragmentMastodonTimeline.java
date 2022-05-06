@@ -42,6 +42,7 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.app.SavedValues;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.mastodon.entities.Account;
 import app.fedilab.android.client.mastodon.entities.Marker;
@@ -78,6 +79,8 @@ public class FragmentMastodonTimeline extends Fragment {
     private Account accountTimeline;
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
     private String viewModelKey, remoteInstance;
+    private String ident;
+
 
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -160,6 +163,15 @@ public class FragmentMastodonTimeline extends Fragment {
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
+        }
+        if (tagTimeline != null) {
+            ident = tagTimeline.name;
+        } else if (list_id != null) {
+            ident = list_id;
+        } else if (remoteInstance != null) {
+            ident = remoteInstance;
+        } else {
+            ident = null;
         }
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
@@ -340,6 +352,11 @@ public class FragmentMastodonTimeline extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            new Thread(() -> SavedValues.storeTimeline(position, timelineType, statuses, ident)).start();
+        }
         //Update last read id for home timeline
         storeMarker();
         if (binding != null) {
@@ -384,130 +401,156 @@ public class FragmentMastodonTimeline extends Fragment {
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction) {
-        // --- HOME TIMELINE ---
-        if (timelineType == Timeline.TimeLineEnum.HOME) {
-            //for more visibility it's done through loadHomeStrategy method
-            loadHomeStrategy(direction);
-        } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
-            if (direction == null) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else if (direction == DIRECTION.TOP) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
-            if (direction == null) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else if (direction == DIRECTION.TOP) {
-                timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
-            if (direction == null) {
-                timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                timelinesVM.getPublic(null, remoteInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else if (direction == DIRECTION.TOP) {
-                timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE
-            if (direction == null) {
-                timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else if (direction == DIRECTION.TOP) {
-                timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.TAG) { //TAG TIMELINE
-            if (tagTimeline == null) {
-                tagTimeline = new TagTimeline();
-                tagTimeline.name = search;
-            }
-            if (direction == null) {
-                timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else if (direction == DIRECTION.TOP) {
-                timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
-            if (direction == null) {
-                if (show_pinned) {
-                    //Fetch pinned statuses to display them at the top
-                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
-                            .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), otherStatuses -> {
-                                        if (otherStatuses != null && otherStatuses.statuses != null) {
-                                            otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
-                                            initializeStatusesCommonView(otherStatuses);
-                                        }
-                                    }));
-                } else {
-                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+
+        new Thread(() -> {
+            SavedValues savedValues = SavedValues.getSavedValue(timelineType, ident);
+            if (savedValues != null && savedValues.statusList != null && savedValues.statusList.size() > 0) {
+                Statuses statuses = new Statuses();
+                statuses.statuses = savedValues.statusList;
+                statuses.pagination = new Pagination();
+                statuses.pagination.max_id = savedValues.statusList.get(savedValues.statusList.size() - 1).id;
+                statuses.pagination.min_id = savedValues.statusList.get(0).id;
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } else if (direction == DIRECTION.BOTTOM) {
-                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> initializeStatusesCommonView(statuses);
+                mainHandler.post(myRunnable);
             } else {
-                flagLoading = false;
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    // --- HOME TIMELINE ---
+                    if (timelineType == Timeline.TimeLineEnum.HOME) {
+                        //for more visibility it's done through loadHomeStrategy method
+                        loadHomeStrategy(direction);
+                    } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
+                        if (direction == null) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else if (direction == DIRECTION.TOP) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
+                        if (direction == null) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else if (direction == DIRECTION.TOP) {
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
+                        if (direction == null) {
+                            timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            timelinesVM.getPublic(null, remoteInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else if (direction == DIRECTION.TOP) {
+                            timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE
+                        if (direction == null) {
+                            timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else if (direction == DIRECTION.TOP) {
+                            timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.TAG) { //TAG TIMELINE
+                        if (tagTimeline == null) {
+                            tagTimeline = new TagTimeline();
+                            tagTimeline.name = search;
+                        }
+                        if (direction == null) {
+                            timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else if (direction == DIRECTION.TOP) {
+                            timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
+                        if (direction == null) {
+                            if (show_pinned) {
+                                //Fetch pinned statuses to display them at the top
+                                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
+                                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                                .observe(getViewLifecycleOwner(), otherStatuses -> {
+                                                    if (otherStatuses != null && otherStatuses.statuses != null) {
+                                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                                        initializeStatusesCommonView(otherStatuses);
+                                                    }
+                                                }));
+                            } else {
+                                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                            }
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else {
+                            flagLoading = false;
+                        }
+                    } else if (search != null) {
+                        SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
+                                .observe(getViewLifecycleOwner(), results -> {
+                                    Statuses statuses = new Statuses();
+                                    statuses.statuses = results.statuses;
+                                    statuses.pagination = new Pagination();
+                                    initializeStatusesCommonView(statuses);
+                                });
+                    } else if (searchCache != null) {
+                        SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
+                        searchVM.searchCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, searchCache.trim())
+                                .observe(getViewLifecycleOwner(), results -> {
+                                    Statuses statuses = new Statuses();
+                                    statuses.statuses = results.statuses;
+                                    statuses.pagination = new Pagination();
+                                    initializeStatusesCommonView(statuses);
+                                });
+                    } else if (timelineType == Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
+                        if (direction == null) {
+                            accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null)
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else {
+                            flagLoading = false;
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.BOOKMARK_TIMELINE) {
+                        if (direction == null) {
+                            accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null, null)
+                                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                        } else if (direction == DIRECTION.BOTTOM) {
+                            accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        } else {
+                            flagLoading = false;
+                        }
+                    }
+                };
+                mainHandler.post(myRunnable);
             }
-        } else if (search != null) {
-            SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
-                    .observe(getViewLifecycleOwner(), results -> {
-                        Statuses statuses = new Statuses();
-                        statuses.statuses = results.statuses;
-                        statuses.pagination = new Pagination();
-                        initializeStatusesCommonView(statuses);
-                    });
-        } else if (searchCache != null) {
-            SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
-            searchVM.searchCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, searchCache.trim())
-                    .observe(getViewLifecycleOwner(), results -> {
-                        Statuses statuses = new Statuses();
-                        statuses.statuses = results.statuses;
-                        statuses.pagination = new Pagination();
-                        initializeStatusesCommonView(statuses);
-                    });
-        } else if (timelineType == Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
-            if (direction == null) {
-                accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else {
-                flagLoading = false;
-            }
-        } else if (timelineType == Timeline.TimeLineEnum.BOOKMARK_TIMELINE) {
-            if (direction == null) {
-                accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-            } else if (direction == DIRECTION.BOTTOM) {
-                accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
-            } else {
-                flagLoading = false;
-            }
-        }
+
+        }).start();
+
     }
 
     /**
