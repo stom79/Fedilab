@@ -334,6 +334,7 @@ public class Helper {
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setSaveFormData(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setSupportMultipleWindows(false);
         webView.getSettings().setMediaPlaybackRequiresUserGesture(true);
