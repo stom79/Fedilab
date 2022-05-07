@@ -408,7 +408,7 @@ public class FragmentMastodonTimeline extends Fragment {
 
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
-            if (quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+            if (direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();

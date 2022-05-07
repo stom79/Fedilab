@@ -27,6 +27,7 @@ import java.util.List;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.sqlite.Sqlite;
 
@@ -126,6 +127,7 @@ public class QuickLoad {
         quickLoad.slug = key;
         quickLoad.instance = MainActivity.currentInstance;
         quickLoad.user_id = MainActivity.currentUserID;
+        purge(quickLoad);
         try {
             insertOrUpdate(quickLoad);
         } catch (DBException e) {
@@ -178,6 +180,21 @@ public class QuickLoad {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Purge the list to avoid long list of Statuses in db
+     *
+     * @param quickLoad - QuickLoad to purge
+     */
+    private void purge(QuickLoad quickLoad) {
+        List<Status> statuses = quickLoad.statuses;
+        int position = quickLoad.position;
+        int limit = MastodonHelper.statusesPerCall(_mContext) + 10;
+        int startAt = Math.max(position - limit, 0);
+        int endAt = Math.min(position + limit, statuses.size());
+        quickLoad.position = position - startAt;
+        quickLoad.statuses = statuses.subList(startAt, endAt);
     }
 
     /**
