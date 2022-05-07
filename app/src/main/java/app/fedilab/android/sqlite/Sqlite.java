@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -73,6 +73,10 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_SCHEDULED_AT = "SCHEDULED_AT";
     public static final String COL_REBLOGGED = "REBLOGGED";
     public static final String COL_WORKER_UUID = "WORKER_UUID";
+    //Quick load
+    public static final String TABLE_QUICK_LOAD = "QUICK_LOAD";
+    public static final String COL_SLUG = "SLUG";
+    public static final String COL_STATUSES = "STATUSES";
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -145,6 +149,14 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_WORKER_UUID + " TEXT, "
             + COL_SCHEDULED_AT + " TEXT NOT NULL)";
 
+    private static final String CREATE_TABLE_QUICK_LOAD = "CREATE TABLE IF NOT EXISTS " + TABLE_QUICK_LOAD + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_SLUG + " TEXT NOT NULL, "
+            + COL_POSITION + " INTEGER, "
+            + COL_STATUSES + " TEXT NOT NULL)";
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -171,6 +183,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_STATUS_DRAFT);
         db.execSQL(CREATE_TABLE_PINNED_TIMELINES);
         db.execSQL(CREATE_TABLE_SCHEDULE_BOOST);
+        db.execSQL(CREATE_TABLE_QUICK_LOAD);
     }
 
     @Override
@@ -182,6 +195,8 @@ public class Sqlite extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (oldVersion) {
+            case 1:
+                db.execSQL(CREATE_TABLE_QUICK_LOAD);
             default:
                 break;
         }

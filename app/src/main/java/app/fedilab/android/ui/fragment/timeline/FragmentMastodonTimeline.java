@@ -41,8 +41,8 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.QuickLoad;
 import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.entities.app.SavedValues;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.mastodon.entities.Account;
 import app.fedilab.android.client.mastodon.entities.Marker;
@@ -351,11 +351,14 @@ public class FragmentMastodonTimeline extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-
         if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
-            new Thread(() -> SavedValues.storeTimeline(position, timelineType, statuses, ident)).start();
+            new Thread(() -> {
+                try {
+                    new QuickLoad(requireActivity()).storeTimeline(position, timelineType, statuses, ident);
+                } catch (Exception ignored) {
+                }
+            }).start();
         }
         //Update last read id for home timeline
         storeMarker();
@@ -365,6 +368,7 @@ public class FragmentMastodonTimeline extends Fragment {
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         statusAdapter = null;
         binding = null;
+        super.onDestroyView();
     }
 
     private void storeMarker() {
@@ -403,18 +407,13 @@ public class FragmentMastodonTimeline extends Fragment {
     private void route(DIRECTION direction) {
 
         new Thread(() -> {
-            SavedValues savedValues = SavedValues.getSavedValue(timelineType, ident);
-            if (savedValues != null && savedValues.statusList != null && savedValues.statusList.size() > 0) {
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
+            if (quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
-                statuses.statuses = savedValues.statusList;
+                statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
-                statuses.pagination.max_id = savedValues.statusList.get(savedValues.statusList.size() - 1).id;
-                statuses.pagination.min_id = savedValues.statusList.get(0).id;
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
+                statuses.pagination.min_id = quickLoad.statuses.get(0).id;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> initializeStatusesCommonView(statuses);
                 mainHandler.post(myRunnable);
