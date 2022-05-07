@@ -576,6 +576,8 @@ public class FragmentMastodonTimeline extends Fragment {
                             Marker.MarkerContent markerContent = marker.home;
                             max_id = markerContent.last_read_id;
                             min_id = markerContent.last_read_id;
+                        } else {
+                            max_id = null;
                         }
                         timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                                 .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
@@ -596,15 +598,34 @@ public class FragmentMastodonTimeline extends Fragment {
             }
         } else if (direction == DIRECTION.BOTTOM) {
             if (networkAvailable == BaseMainActivity.status.CONNECTED) {
-                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                //We first if we get results from cache
+                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, max_id, null)
+                        .observe(getViewLifecycleOwner(), statusesBottomCache -> {
+                            if (statusesBottomCache != null && statusesBottomCache.statuses != null && statusesBottomCache.statuses.size() > 0) {
+                                dealWithPagination(statusesBottomCache, DIRECTION.BOTTOM);
+                            } else { // If not, we fetch remotely
+                                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                            }
+                        });
+
             } else {
                 timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, max_id, null)
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
             }
         } else if (direction == DIRECTION.TOP) {
             if (networkAvailable == BaseMainActivity.status.CONNECTED) {
-                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
+                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, min_id)
+                        .observe(getViewLifecycleOwner(), statusesTopCache -> {
+                            if (statusesTopCache != null && statusesTopCache.statuses != null && statusesTopCache.statuses.size() > 0) {
+                                dealWithPagination(statusesTopCache, DIRECTION.TOP);
+                            } else {
+                                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
+                                        .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP));
+                            }
+                        });
+            } else {
+                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, min_id)
                         .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP));
             }
         }

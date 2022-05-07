@@ -213,9 +213,9 @@ public class StatusCache {
         if (max_id == null && min_id != null) {
             selection += "AND " + Sqlite.COL_STATUS_ID + " >= '" + min_id + "'";
         } else if (max_id != null && min_id == null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " <= '" + max_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " >= '" + min_id + "' AND " + Sqlite.COL_STATUS_ID + " <= '" + max_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " >= '" + min_id + "' AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
             limit = null;
         }
         try {
