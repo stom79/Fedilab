@@ -257,6 +257,7 @@ public class FragmentLoginMain extends Fragment {
                         Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
                         i.putExtra("login_url", redirectUrl);
                         startActivity(i);
+                        requireActivity().finish();
                     } else {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

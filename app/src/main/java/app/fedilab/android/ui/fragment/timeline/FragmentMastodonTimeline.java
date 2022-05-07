@@ -429,7 +429,7 @@ public class FragmentMastodonTimeline extends Fragment {
 
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
-            if (direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+            if (!binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
@@ -590,7 +590,7 @@ public class FragmentMastodonTimeline extends Fragment {
                     fetchMarker = true;
                 }
                 //We search for marker only once - It should not be fetched again when pull to refresh
-                if (fetchMarker) {
+                if (fetchMarker && !binding.swipeContainer.isRefreshing()) {
                     //Search for last position
                     timelinesVM.getMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, markers).observe(getViewLifecycleOwner(), marker -> {
                         if (marker != null) {
