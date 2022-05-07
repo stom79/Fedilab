@@ -165,9 +165,9 @@ public class EditProfileActivity extends BaseActivity {
         });
         //Actions with the activity
         accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);
-        binding.headerSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_AVATAR));
+        binding.headerSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_HEADER));
 
-        binding.avatarSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_HEADER));
+        binding.avatarSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_AVATAR));
     }
 
     @Override
@@ -185,6 +185,7 @@ public class EditProfileActivity extends BaseActivity {
                         sendBroadCast(account);
                         binding.avatarProgress.setVisibility(View.GONE);
                         BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                        Helper.recreateMainActivity(EditProfileActivity.this);
                     });
         } else if (requestCode == PICK_MEDIA_HEADER && resultCode == RESULT_OK) {
             Glide.with(EditProfileActivity.this)
@@ -198,6 +199,7 @@ public class EditProfileActivity extends BaseActivity {
                         sendBroadCast(account);
                         binding.headerProgress.setVisibility(View.GONE);
                         BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                        Helper.recreateMainActivity(EditProfileActivity.this);
                     });
         }
     }

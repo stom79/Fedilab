@@ -18,12 +18,10 @@ import static android.content.Context.WINDOW_SERVICE;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -35,7 +33,6 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
@@ -365,18 +362,6 @@ public class ThemeHelper {
         return new ColorStateList(states, colors);
     }
 
-    /**
-     * Send broadcast to recreate Mainactivity
-     *
-     * @param activity - Activity
-     */
-    public static void recreateMainActivity(Activity activity) {
-        Bundle b = new Bundle();
-        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
-        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        intentBD.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
-    }
 
     public interface SlideAnimation {
         void onAnimationEnded();

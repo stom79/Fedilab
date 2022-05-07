@@ -22,7 +22,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 
 public class FragmentLanguageSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -43,7 +42,7 @@ public class FragmentLanguageSettings extends PreferenceFragmentCompat implement
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.compareToIgnoreCase(getString(R.string.SET_DEFAULT_LOCALE_NEW)) == 0) {
             requireActivity().recreate();
-            ThemeHelper.recreateMainActivity(requireActivity());
+            Helper.recreateMainActivity(requireActivity());
         }
     }
 

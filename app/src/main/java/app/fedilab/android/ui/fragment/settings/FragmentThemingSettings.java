@@ -108,7 +108,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (key.equals("use_custom_theme")) {
             createPref();
         }
-        ThemeHelper.recreateMainActivity(requireActivity());
+        Helper.recreateMainActivity(requireActivity());
     }
 
 
@@ -298,7 +298,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             }
             appEditor.commit();
             cyaneaEditor.apply().recreate(requireActivity());
-            ThemeHelper.recreateMainActivity(requireActivity());
+            Helper.recreateMainActivity(requireActivity());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

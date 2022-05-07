@@ -82,6 +82,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -1471,6 +1472,20 @@ public class Helper {
                 mainHandler.post(myRunnable);
             }).start();
         }
+    }
+
+
+    /**
+     * Send broadcast to recreate Mainactivity
+     *
+     * @param activity - Activity
+     */
+    public static void recreateMainActivity(Activity activity) {
+        Bundle b = new Bundle();
+        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
+        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+        intentBD.putExtras(b);
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
     }
 
     public static void showKeyboard(Context context, View view) {
