@@ -44,17 +44,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
             R.color.decoration_2,
             R.color.decoration_3,
             R.color.decoration_4,
-            R.color.decoration_5,
-            R.color.decoration_6,
-            R.color.decoration_7,
-            R.color.decoration_8,
-            R.color.decoration_9,
-            R.color.decoration_10,
-            R.color.decoration_11,
-            R.color.decoration_12,
-            R.color.decoration_13,
-            R.color.decoration_14,
-            R.color.decoration_15
+            R.color.decoration_5
     );
 
     public DividerDecoration(Context context, List<Status> statuses) {

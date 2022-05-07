@@ -223,6 +223,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
         holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
 
+        if (status.pinned) {
+            holder.binding.statusPinned.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.statusPinned.setVisibility(View.GONE);
+        }
+
         if (theme_text_header_2_line != -1) {
             Pattern hashAcct;
             SpannableString wordToSpan;
@@ -242,6 +248,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
             Helper.changeDrawableColor(context, holder.binding.statusBoostIcon, theme_text_header_2_line);
+            Helper.changeDrawableColor(context, holder.binding.statusPinned, theme_text_header_2_line);
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
@@ -1426,7 +1433,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param status  - Status that is sent (can be null)
      * @param id      - Id of an account (can be null)
      */
-    private static void sendAction(@NonNull Context context, @NonNull String type, @Nullable Status status, @Nullable String id) {
+    public static void sendAction(@NonNull Context context, @NonNull String type, @Nullable Status status, @Nullable String id) {
         Bundle b = new Bundle();
         if (status != null) {
             b.putSerializable(type, status);

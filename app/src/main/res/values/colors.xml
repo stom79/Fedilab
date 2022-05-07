@@ -139,11 +139,11 @@
     <color name="rainbow_6">#4b0082</color>
     <color name="rainbow_7">#ee82ee</color>
 
-    <color name="decoration_1">#E57373</color> <!-- Red 300 -->
-    <color name="decoration_2">#BA68C8</color> <!-- Purple 300 -->
+    <color name="decoration_1">#7986CB</color> <!-- Red 300 -->
+    <color name="decoration_2">#4DB6AC</color> <!-- Purple 300 -->
     <color name="decoration_3">#FFD54F</color> <!-- Amber 300 -->
     <color name="decoration_4">#64B5F6</color> <!-- Blue 300 -->
-    <color name="decoration_5">#81C784</color> <!-- Green 300 -->
+    <color name="decoration_5">#9E9E9E</color> <!-- Green 300 -->
     <color name="decoration_6">#4DB6AC</color> <!-- Teal 300 -->
     <color name="decoration_7">#FF8A65</color> <!-- Deep Orange 300 -->
     <color name="decoration_8">#4DD0E1</color> <!-- Cyan 300 -->

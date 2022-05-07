@@ -168,6 +168,7 @@ public class Helper {
     public static final String ARG_EXCLUDED_NOTIFICATION_TYPE = "ARG_EXCLUDED_NOTIFICATION_TYPE";
     public static final String ARG_STATUS = "ARG_STATUS";
     public static final String ARG_STATUS_DELETED = "ARG_STATUS_DELETED";
+    public static final String ARG_STATUS_POSTED = "ARG_STATUS_POSTED";
     public static final String ARG_STATUS_ACTION = "ARG_STATUS_ACTION";
     public static final String ARG_STATUS_ACCOUNT_ID_DELETED = "ARG_STATUS_ACCOUNT_ID_DELETED";
 

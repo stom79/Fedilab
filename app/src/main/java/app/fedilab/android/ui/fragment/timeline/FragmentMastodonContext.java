@@ -16,7 +16,12 @@ package app.fedilab.android.ui.fragment.timeline;
 
 import static app.fedilab.android.activities.ContextActivity.expand;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +29,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -31,11 +37,13 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.client.mastodon.entities.Context;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
@@ -51,6 +59,93 @@ public class FragmentMastodonContext extends Fragment {
     private Status focusedStatus;
     private Status firstStatus;
     private boolean pullToRefresh;
+
+
+    //Handle actions that can be done in other fragments
+    private final BroadcastReceiver receive_action = new BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
+                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
+                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_POSTED);
+                if (receivedStatus != null && statusAdapter != null) {
+                    int position = getPosition(receivedStatus);
+                    if (position >= 0) {
+                        statuses.get(position).reblog = receivedStatus.reblog;
+                        statuses.get(position).favourited = receivedStatus.favourited;
+                        statuses.get(position).bookmarked = receivedStatus.bookmarked;
+                        statusAdapter.notifyItemChanged(position);
+                    }
+                } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                    List<Status> statusesToRemove = new ArrayList<>();
+                    for (Status status : statuses) {
+                        if (status.account.id.equals(delete_statuses_for_user)) {
+                            statusesToRemove.add(status);
+                        }
+                    }
+                    for (Status statusToRemove : statusesToRemove) {
+                        int position = getPosition(statusToRemove);
+                        if (position >= 0) {
+                            statuses.remove(position);
+                            statusAdapter.notifyItemRemoved(position);
+                        }
+                    }
+                } else if (status_to_delete != null && statusAdapter != null) {
+                    int position = getPosition(status_to_delete);
+                    if (position >= 0) {
+                        statuses.remove(position);
+                        statusAdapter.notifyItemRemoved(position);
+                    }
+                } else if (statusPosted != null && statusAdapter != null) {
+                    if (requireActivity() instanceof ContextActivity) {
+                        new Thread(() -> {
+                            Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> {
+                                int i = 0;
+                                for (Status status : statuses) {
+                                    if (status.id.equals(convertStatus.in_reply_to_id)) {
+                                        statuses.add(i, convertStatus);
+                                        statusAdapter.notifyItemInserted(i);
+                                        if (requireActivity() instanceof ContextActivity) {
+                                            //Redraw decorations
+                                            statusAdapter.notifyItemRangeChanged(0, statuses.size());
+                                        }
+                                        break;
+                                    }
+                                    i++;
+                                }
+                            };
+                            mainHandler.post(myRunnable);
+                        }).start();
+                    }
+                }
+            }
+        }
+    };
+
+
+    /**
+     * Return the position of the status in the ArrayList
+     *
+     * @param status - Status to fetch
+     * @return position or -1 if not found
+     */
+    private int getPosition(Status status) {
+        int position = 0;
+        boolean found = false;
+        for (Status _status : statuses) {
+            if (_status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            }
+            position++;
+        }
+        return found ? position : -1;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -92,6 +187,7 @@ public class FragmentMastodonContext extends Fragment {
             statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id)
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return binding.getRoot();
     }
 
@@ -155,10 +251,11 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding.recyclerView.setAdapter(null);
         statusAdapter = null;
         binding = null;
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+        super.onDestroyView();
     }
 
 }

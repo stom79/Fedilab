@@ -51,6 +51,7 @@ import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.ui.drawer.StatusAdapter;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -233,6 +234,9 @@ public class PostMessageService extends IntentService {
 
                         if (statusResponse.isSuccessful()) {
                             Status statusReply = statusResponse.body();
+                            if (statusReply != null) {
+                                StatusAdapter.sendAction(this, Helper.ARG_STATUS_POSTED, statusReply, null);
+                            }
                             if (firstSendMessage == null && statusReply != null) {
                                 firstSendMessage = statusReply;
                             }

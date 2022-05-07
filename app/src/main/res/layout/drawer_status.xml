@@ -93,8 +93,16 @@
                     android:layout_height="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_person" />
-
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/status_pinned"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_baseline_push_pin_24"
+                android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

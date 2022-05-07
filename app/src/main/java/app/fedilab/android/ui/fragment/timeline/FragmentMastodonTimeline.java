@@ -52,6 +52,7 @@ import app.fedilab.android.client.mastodon.entities.Statuses;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -91,6 +92,7 @@ public class FragmentMastodonTimeline extends Fragment {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
+                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
@@ -119,6 +121,16 @@ public class FragmentMastodonTimeline extends Fragment {
                         statuses.remove(position);
                         statusAdapter.notifyItemRemoved(position);
                     }
+                } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
+                    new Thread(() -> {
+                        Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> {
+                            statuses.add(0, convertStatus);
+                            statusAdapter.notifyItemInserted(0);
+                        };
+                        mainHandler.post(myRunnable);
+                    }).start();
                 }
             }
         }
@@ -345,12 +357,22 @@ public class FragmentMastodonTimeline extends Fragment {
 
     @Override
     public void onPause() {
-        super.onPause();
+     /*   if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            new Thread(() -> {
+                try {
+                    new QuickLoad(requireActivity()).storeTimeline(position, timelineType, statuses, ident);
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }*/
         storeMarker();
+        super.onPause();
     }
 
     @Override
     public void onDestroyView() {
+        //Update last read id for home timeline
         if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             new Thread(() -> {
@@ -360,7 +382,6 @@ public class FragmentMastodonTimeline extends Fragment {
                 }
             }).start();
         }
-        //Update last read id for home timeline
         storeMarker();
         if (binding != null) {
             binding.recyclerView.setAdapter(null);
