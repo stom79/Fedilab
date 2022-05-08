@@ -114,7 +114,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/set_proxy_save"
-        style="@style/Base.Widget.AppCompat.Button.Colored"
+        style="@style/MyButtonColored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
