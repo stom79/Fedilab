@@ -33,7 +33,9 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -126,6 +128,8 @@ import app.fedilab.android.client.mastodon.entities.Attachment;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
+import app.fedilab.android.watermark.androidwm.WatermarkBuilder;
+import app.fedilab.android.watermark.androidwm.bean.WatermarkText;
 import app.fedilab.android.webview.CustomWebview;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
@@ -1241,6 +1245,60 @@ public class Helper {
         RequestBody requestFile = RequestBody.create(MediaType.parse(attachment.mimeType), new File(attachment.local_path));
         return MultipartBody.Part.createFormData(paramName, attachment.filename, requestFile);
     }
+
+
+    /**
+     * Creates MultipartBody.Part from Uri
+     *
+     * @return MultipartBody.Part for the given Uri
+     */
+    public static MultipartBody.Part getMultipartBodyWithWM(Context context, String waterMark, @NonNull String paramName, @NonNull Attachment attachment) {
+        File files = new File(attachment.local_path);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.0f);
+        float textSize = 15;
+        Paint mPaint = new Paint();
+        mPaint.setTextSize(textSize);
+        float width = mPaint.measureText(waterMark, 0, waterMark.length()) * scale;
+        try {
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            Bitmap backgroundBitmap = BitmapFactory.decodeFile(files.getAbsolutePath(), options);
+
+            int w = options.outWidth;
+            int h = options.outHeight;
+            float valx = (float) 1.0 - ((Helper.convertDpToPixel(width, context) + 90)) / (float) w;
+            if (valx < 0)
+                valx = 0;
+            float valy = (h - Helper.convertDpToPixel(textSize, context) - 30) / (float) h;
+
+            WatermarkText watermarkText = new WatermarkText(waterMark)
+                    .setPositionX(valx)
+                    .setPositionY(valy)
+                    .setTextColor(Color.WHITE)
+                    .setTextShadow(0.1f, 1, 1, Color.LTGRAY)
+                    .setTextAlpha(200)
+                    .setRotation(0)
+                    .setTextSize(textSize);
+
+            Bitmap bitmap = WatermarkBuilder
+                    .create(context, backgroundBitmap)
+                    .loadWatermarkText(watermarkText)
+                    .getWatermark()
+                    .getOutputImage();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            RequestBody requestFile = RequestBody.create(MediaType.parse(attachment.mimeType), bitmapdata);
+            return MultipartBody.Part.createFormData(paramName, attachment.filename, requestFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody requestFile = RequestBody.create(MediaType.parse(attachment.mimeType), new File(attachment.local_path));
+        return MultipartBody.Part.createFormData(paramName, attachment.filename, requestFile);
+    }
+
 
     public static MultipartBody.Part getMultipartBody(Context context, @NonNull String paramName, @NonNull Uri uri) {
         byte[] imageBytes = uriToByteArray(context, uri);

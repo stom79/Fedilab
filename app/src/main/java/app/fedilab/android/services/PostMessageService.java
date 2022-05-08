@@ -23,6 +23,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.text.Html;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.Account;
 import app.fedilab.android.client.entities.PostState;
 import app.fedilab.android.client.entities.StatusDraft;
@@ -173,12 +176,24 @@ public class PostMessageService extends IntentService {
             }
             totalMediaSize = 0;
             totalBitRead = 0;
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(PostMessageService.this);
+            boolean watermark = sharedPreferences.getBoolean(getString(R.string.SET_WATERMARK), false);
+            String watermarkText = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + MainActivity.currentUserID + MainActivity.currentInstance, null);
             for (int i = startingPosition; i < statuses.size(); i++) {
                 if (statuses.get(i).media_attachments != null && statuses.get(i).media_attachments.size() > 0) {
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         totalMediaSize += attachment.size;
                     }
                 }
+            }
+            if (watermarkText == null) {
+                try {
+                    Account account = new Account(PostMessageService.this).getAccountByToken(token);
+                    watermarkText = account.mastodon_account.username + "@" + account.instance;
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+
             }
             messageToSend = statuses.size() - startingPosition;
             messageSent = 0;
@@ -194,7 +209,11 @@ public class PostMessageService extends IntentService {
                     attachmentIds = new ArrayList<>();
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         MultipartBody.Part fileMultipartBody;
-                        fileMultipartBody = Helper.getMultipartBody("file", attachment);
+                        if (watermark && attachment.mimeType.contains("image")) {
+                            fileMultipartBody = Helper.getMultipartBodyWithWM(PostMessageService.this, watermarkText, "file", attachment);
+                        } else {
+                            fileMultipartBody = Helper.getMultipartBody("file", attachment);
+                        }
                         Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, null, attachment.description, null);
                         if (attachmentCall != null) {
                             try {
