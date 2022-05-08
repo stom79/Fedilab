@@ -108,8 +108,8 @@ public class FragmentMastodonContext extends Fragment {
                                 int i = 0;
                                 for (Status status : statuses) {
                                     if (status.id.equals(convertStatus.in_reply_to_id)) {
-                                        statuses.add(i, convertStatus);
-                                        statusAdapter.notifyItemInserted(i);
+                                        statuses.add((i + 1), convertStatus);
+                                        statusAdapter.notifyItemInserted((i + 1));
                                         if (requireActivity() instanceof ContextActivity) {
                                             //Redraw decorations
                                             statusAdapter.notifyItemRangeChanged(0, statuses.size());
