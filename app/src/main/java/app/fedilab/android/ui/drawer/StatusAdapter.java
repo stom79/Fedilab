@@ -16,6 +16,7 @@ package app.fedilab.android.ui.drawer;
 
 
 import static app.fedilab.android.activities.ContextActivity.displayCW;
+import static app.fedilab.android.activities.ContextActivity.expand;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -681,19 +682,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //---- SPOILER TEXT -----
 
         if (statusToDeal.spoiler_text != null && !statusToDeal.spoiler_text.trim().isEmpty()) {
-            if (!expand_cw && context instanceof ContextActivity && statusToDeal.sensitive) {
-                statusToDeal.isExpended = displayCW;
-                status.isMediaDisplayed = displayCW;
+            if (expand_cw || expand) {
+                holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
+                holder.binding.spoiler.setVisibility(View.VISIBLE);
+                holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
+                statusToDeal.isExpended = true;
+                statusToDeal.isMediaDisplayed = true;
+            } else {
+                if (context instanceof ContextActivity && statusToDeal.sensitive) {
+                    statusToDeal.isExpended = displayCW;
+                    status.isMediaDisplayed = displayCW;
+                }
+                holder.binding.spoilerExpand.setOnClickListener(v -> {
+                    statusToDeal.isExpended = !status.isExpended;
+                    statusToDeal.isMediaDisplayed = !status.isMediaDisplayed;
+                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                });
+                holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
+                holder.binding.spoiler.setVisibility(View.VISIBLE);
+                holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
             }
-            holder.binding.spoilerExpand.setOnClickListener(v -> {
-                statusToDeal.isExpended = !status.isExpended;
-                statusToDeal.isMediaDisplayed = !status.isMediaDisplayed;
-                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
-            });
-            holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
-            holder.binding.spoiler.setVisibility(View.VISIBLE);
 
-            holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
             holder.binding.spoilerExpand.setVisibility(View.GONE);

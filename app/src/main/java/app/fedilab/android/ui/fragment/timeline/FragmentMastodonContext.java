@@ -201,10 +201,11 @@ public class FragmentMastodonContext extends Fragment {
         if (statusAdapter != null && firstStatus != null) {
             pullToRefresh = true;
             String id;
-            if (expand)
+            if (expand) {
                 id = firstStatus.id;
-            else
+            } else {
                 id = focusedStatus.id;
+            }
             statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, id)
                     .observe(FragmentMastodonContext.this, this::initializeContextView);
         }
