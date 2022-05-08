@@ -18,12 +18,17 @@
         app:title="@string/set_clear_cache_exit" />
 
     <androidx.preference.SwitchPreference
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_EMBEDDED_BROWSER"
+        app:title="@string/embedded_browser" />
+
+    <androidx.preference.SwitchPreference
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_SEND_CRASH_REPORTS"
         app:summary="@string/set_enable_crash_report_indication"
         app:title="@string/set_enable_crash_report" />
-
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="100"
