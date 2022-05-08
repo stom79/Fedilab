@@ -82,10 +82,10 @@
     <string name="insert_emoji">Insérer un émoji</string>
     <string name="no_emoji">L’application n’a pas encore collecté d’emojis personnalisés.</string>
     <string name="push_notif">Notifications poussées</string>
-    <string name="logout_confirmation">Voulez-vous vraiment vous déconnecter?</string>
-    <string name="logout_account_confirmation">Voulez-vous vraiment déconnecter le compte @%1$s@%2$s?</string>
+    <string name="logout_confirmation">Voulez-vous vraiment vous déconnecter \?</string>
+    <string name="logout_account_confirmation">Voulez-vous vraiment déconnecter le compte @%1$s@%2$s \?</string>
     <!-- Status -->
-    <string name="no_status">Aucun pouet à afficher !</string>
+    <string name="no_status">Aucun pouet à afficher</string>
     <string name="no_stories">Aucune histoire à afficher</string>
     <string name="stories">Histoires</string>
     <string name="reblog_by">Partagé par %1$s</string>
@@ -120,12 +120,12 @@
         <item>Supprimer ce pouet ?</item>
         <item>Supprimer &amp; réécrire ce pouet ?</item>
     </string-array>
-    <string name="bookmarks">Signets</string>
-    <string name="bookmark_add">Ajouter aux signets</string>
-    <string name="bookmark_remove">Supprimer le signet</string>
-    <string name="bookmarks_empty">Aucun signet à afficher</string>
-    <string name="status_bookmarked">Le pouet a été ajouté aux signets !</string>
-    <string name="status_unbookmarked">Le pouet a été supprimé des signets !</string>
+    <string name="bookmarks">Marque-pages</string>
+    <string name="bookmark_add">Ajouter aux marque-pages</string>
+    <string name="bookmark_remove">Supprimer le marque-page</string>
+    <string name="bookmarks_empty">Aucun marque-page à afficher</string>
+    <string name="status_bookmarked">Le pouet a été ajouté aux marque-pages !</string>
+    <string name="status_unbookmarked">Le pouet a été supprimé des marque-pages !</string>
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d min</string>
@@ -204,7 +204,7 @@
     <string name="no_scheduled_toots">Aucun pouet programmé à afficher !</string>
     <string name="no_scheduled_toots_indications">Rédigez un pouet, puis choisissez <b>Programmer</b> dans le menu du haut.</string>
     <string name="remove_scheduled">Supprimer le pouet programmé ?</string>
-    <string name="media_count">Média(s): %d</string>
+    <string name="media_count">Média(s) : %d</string>
     <string name="toot_scheduled">Le pouet a été programmé !</string>
     <string name="toot_scheduled_date">La date doit être supérieure à l’heure actuelle !</string>
     <string name="warning_battery">L’économiseur de batterie est activé ! Il se peut que cela ne fonctionne pas comme prévu.</string>
@@ -302,7 +302,7 @@
     <string name="set_save_changes">Enregistrer les modifications</string>
     <string name="set_header_picture_overlay">Choisissez une image d’entête</string>
     <string name="set_fit_preview">Voir l’aperçu d’image en entier</string>
-    <string name="set_automatically_split_toot">Fractionnement automatique au-delà de 500 caractères</string>
+    <string name="set_automatically_split_toot">Fractionnement automatique au-delà de 500 caractères :</string>
     <string name="note_no_space">Vous avez atteint les 160 caractères autorisés !</string>
     <string name="username_no_space">Vous avez atteint les 30 caractères autorisés !</string>
     <string name="settings_time_from">Entre</string>
@@ -412,9 +412,8 @@
         - <b>PhotoView</b> : Pour la gestion des images\n
     </string>
     <string name="privacy_API_yandex_title">Traduction des pouets</string>
-    <string name="privacy_API_yandex_authorizations">        L’application offre la possibilité de traduire les pouets en utilisant les paramètres régionaux de l’appareil et l’API de Yandex.\n
-        Yandex a sa propre politique de confidentialité qui peut être consultée à l\'adresse suivante : https://yandex.ru/legal/confidential/?lang=en
-    </string>
+    <string name="privacy_API_yandex_authorizations">L’application offre la possibilité de traduire les pouets en utilisant les paramètres régionaux de l’appareil et l’API de Yandex.
+\n Yandex a sa propre politique de confidentialité qui peut être consultée à l\'adresse suivante : https://yandex.ru/legal/confidential/\?lang=en</string>
     <string name="thanks_text_dev">        Merci à :
     </string>
     <string name="filter_regex">Filtrer avec une expression régulière</string>
@@ -435,12 +434,17 @@
     <!-- Migration -->
     <string name="account_moved_to">%1$s a été déplacé vers %2$s</string>
     <string name="issue_login_title">Problème de connexion ?</string>
-    <string name="issue_login_message"><b>Voici quelques vérifications qui pourraient aider :</b> \n\n 
-- Vérifier qu’il n’y a pas d’erreur dans le nom de l’instance\n\n 
-- Vérifiez que votre instance est fonctionnelle\n\n 
-- Si vous utilisez l’authentification en deux étapes (2FA), veuillez utiliser le lien en bas (une fois le nom de l’instance renseigné) \n\n 
-- Vous pouvez également utiliser ce lien sans utiliser la 2FA\n\n 
-- Si cela ne fonctionne toujours pas, vous pouvez reporter ce problème sur FramaGit : https://framagit.org/tom79/fedilab/issues    </string>
+    <string name="issue_login_message"> <b>Voici quelques vérifications qui pourraient aider :</b>
+\n
+\n - Vérifiez qu’il n’y a pas d’erreur dans le nom de l’instance
+\n
+\n - Vérifiez que votre instance est fonctionnelle
+\n
+\n - Si vous utilisez l’authentification en deux étapes (2FA), veuillez utiliser le lien en bas (une fois le nom de l’instance renseigné)
+\n
+\n - Vous pouvez également utiliser ce lien sans utiliser la 2FA
+\n
+\n - Si cela ne fonctionne toujours pas, vous pouvez reporter ce problème sur FramaGit : https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">L’image a été chargée. Cliquez ici pour l’afficher.</string>
     <string name="data_export_start">Cela peut être assez long. Vous serez notifié·e une fois l’exportation finie.</string>
     <string name="data_export_running">Exportation en cours, veuillez patienter…</string>
@@ -528,7 +532,9 @@
     <string name="no_blocked_domain">Aucun domaine bloqué !</string>
     <string name="unblock_domain_confirm">Débloquer le domaine</string>
     <string name="unblock_domain_confirm_message">Confirmez-vous le déblocage de %s ?</string>
-    <string name="block_domain_confirm_message">Êtes-vous sûr de vouloir bloquer %s ?</string>
+    <string name="block_domain_confirm_message">Êtes-vous sûr de vouloir bloquer %s \?
+\n
+\nVous ne verrez aucun contenu de ce domaine dans les fils publics ou vos notifications. Vous abonné·e·s de ce domaine seront supprimés.</string>
     <string name="blocked_domains">Les domaines bloqués</string>
     <string name="block_domain">Bloquer le domaine</string>
     <string name="toast_block_domain">Le domaine est bloqué</string>
@@ -600,9 +606,10 @@
         <item>1 jour</item>
         <item>1 semaine</item>
     </string-array>
-    <string name="showcase_instance">Renseignez le nom de domaine de votre instance dans ce champs.\nPar exemple, si vous avez créé un compte sur https://mastodon.social\nécrivez simplement <b>mastodon.social</b>(sans le https://)\n
-Commencez à saisir les premières lettres et des domaines vous seront suggérés. \n\n
-Le bouton de connexion s’activera une fois qu’un domaine valide sera renseigné et que l’instance est active !    </string>
+    <string name="showcase_instance">Renseignez le nom de domaine de votre instance dans ce champ.
+\nPar exemple, si vous avez créé votre compte sur https://mastodon.social
+\nÉcrivez simplement <b>mastodon.social</b>
+\nCommencez à saisir les premières lettres et des domaines vous seront suggérés. </string>
     <string name="more_information">Plus d’informations</string>
     <!-- languages not translated -->
     <string name="languages">Langues</string>
@@ -792,7 +799,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="category_games">Jeux</string>
     <string name="category_tech">Technologie</string>
     <string name="category_adult">Contenu pour adultes</string>
-    <string name="category_furry">Fourrure</string>
+    <string name="category_furry">Furry</string>
     <string name="category_food">Nourriture</string>
     <string name="instance_logo">Logo de l’instance</string>
     <string name="toast_error_instance_reg">Une erreur s\'est produite lors de la vérification des instances disponibles !</string>
@@ -817,11 +824,11 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="account_created">Compte créé !</string>
     <string name="account_created_message"> Votre compte a été créé !
 \n
-\n Pensez à valider votre email dans les 48 prochaines heures.
+\n Pensez à valider votre courriel dans les 48 prochaines heures.
 \n
 \n Vous pouvez maintenant connecter votre compte en écrivant <b>%1$s</b> dans le premier champ et appuyer sur <b>Se connecter</b>.
 \n
-\n <b>Important</b> : Si votre instance nécessite une validation, vous recevrez un email une fois qu’elle sera validée ! </string>
+\n <b>Important</b> : Si votre instance nécessite une validation, vous recevrez un courriel une fois qu’elle sera validée ! </string>
     <string name="save_draft">Sauvegarder le message dans les brouillons \?</string>
     <string name="administration">Administration</string>
     <string name="reports">Rapports</string>
@@ -996,13 +1003,13 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="unfollow_confirm">Voulez-vous vous désabonner de ce compte ?</string>
     <string name="set_unfollow_validation">Afficher une boîte de dialogue de confirmation avant tout désabonnement</string>
     <string name="replace_medium">Remplacer les liens Medium</string>
-    <string name="replace_medium_description">Remplacer les liens medium.com par une interface open source axée sur la confidentialité.</string>
-    <string name="replace_medium_host">Par défaut: scribe.rip</string>
-    <string name="replace_wikipedia">Remplacer les liens Wikipédia</string>
+    <string name="replace_medium_description">Utiliser une interface alternative pour Medium</string>
+    <string name="replace_medium_host">Domaine de l\'interface pour Medium</string>
+    <string name="replace_wikipedia">Wikipédia</string>
     <string name="replace_wikipedia_description">Remplacer les liens Wikipédia par une interface open source axée sur la confidentialité.</string>
-    <string name="replace_wikipedia_host">Par défaut: wikiless.org</string>
+    <string name="replace_wikipedia_host">Domaine de l\'interface Wikipédia</string>
     <string name="set_hide_status_bar">Masquer la barre de notification de Fedilab</string>
-    <string name="set_hide_status_bar_indication">Pour cacher le reste de la notification dans la barre de statut, cliquez sur le bouton en forme d\'œil, puis décochez: \"Afficher dans la barre de statut\"</string>
+    <string name="set_hide_status_bar_indication">Pour cacher le reste de la notification dans la barre de statut, cliquez sur le bouton en forme d\'œil, puis décochez : \"Afficher dans la barre de statut\"</string>
     <string name="set_push_notifications">Utilise un système de notifications poussées pour obtenir des notifications en temps réel.</string>
     <string name="no_live_notif">Aucune notification en direct</string>
     <string name="live_notif">Notifications en direct</string>
@@ -1115,7 +1122,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="display_more_options">Afficher plus d\'options</string>
     <string name="pixelfed_story">C\'est une histoire Pixelfed</string>
     <string name="story_indication">Téléversez un média, il sera automatiquement ajouté à votre histoire Pixelfed.</string>
-    <string name="added_to_story">Média ajouté avec succès à votre histoire!</string>
+    <string name="added_to_story">Média ajouté à votre histoire avec succès !</string>
     <string name="action_disabled">Action désactivée</string>
     <string name="action_unfollow">Se désabonner</string>
     <string name="error_destination_path">Une erreur s’est produite, veuillez vérifier votre répertoire de téléchargement dans les paramètres.</string>
@@ -1143,7 +1150,7 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="report_all_more">Sélectionnez tous les éléments qui s’appliquent</string>
     <string name="report_more">Y a-t-il autre chose que vous pensez que nous devrions savoir \?</string>
     <string name="report_more_additional">Commentaires supplémentaires</string>
-    <string name="report_more_remote">Le compte provient d’un autre serveur. Vous pouvez envoyer une copie anonymisée du rapport là aussi \?</string>
+    <string name="report_more_remote">Le compte provient d’un autre serveur. Envoyer une copie anonymisée du rapport là-bas aussi \?</string>
     <string name="report_more_forward">Transférer à %1$s</string>
     <string name="report_sent">Le signalement a été effectué !</string>
     <string name="dont_have_an_account">Vous n’avez pas de compte \?</string>
@@ -1188,4 +1195,66 @@ Le bouton de connexion s’activera une fois qu’un domaine valide sera renseig
     <string name="set_notifications_page">Nombre de notifications par chargement</string>
     <string name="not_valid_list_name">Le nom de la liste n’est pas valide !</string>
     <string name="no_account_in_list">Aucun compte trouvé pour cette liste !</string>
+    <string name="toast_unbookmark">Le pouet a été retiré de vos marque-pages !</string>
+    <string name="replace_youtube_description">Utiliser une interface alternative pour YouTube</string>
+    <string name="replace_twitter_description">Utiliser une interface alternative pour Twitter</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="replace_instagram_description">Utiliser une interface alternative pour Instagram</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="replace_reddit_description">Utiliser une interface alternative pour Reddit</string>
+    <string name="replace_reddit_host">Domaine de l\'interface pour Reddit</string>
+    <string name="replace_instagram_host">Domaine de l\'interface pour Instagram</string>
+    <string name="replace_youtube_host">Domaine de l\'interface pour YouTube</string>
+    <string name="replace_twitter_host">Domaine de l\'interface pour Twitter</string>
+    <string name="keepon">Reprendre</string>
+    <string name="category_custom">Personnalisé</string>
+    <string name="instance_not_valid">L\'instance semble être invalide !</string>
+    <string name="boosted_by">Boosté par</string>
+    <string name="favourited_by">En favoris par</string>
+    <string name="followers_only">Abonnés seulement</string>
+    <string name="other">Autre</string>
+    <string name="images">Images</string>
+    <string name="eg_sensitive_content">Par ex. : Contenu Sensible</string>
+    <string name="add_status">Ajouter un statut</string>
+    <string name="remove_status">Enlever le statut</string>
+    <string name="post_message">Publication du message …</string>
+    <string name="post_message_text">Envoi du message %d/%d</string>
+    <string name="is_up">Est en ligne !</string>
+    <string name="is_down">Est hors ligne !</string>
+    <string name="instance_health_indication">version : %s
+\n %s utilisateur·ice·s - %s statuts</string>
+    <string name="instance_health_checkedat">Vérifié à : %s</string>
+    <string name="instance_health_uptime">Temps en ligne : %,.2f %%</string>
+    <string name="show_content">Afficher le contenu &gt;</string>
+    <string name="stop_recording">Arrêter l\'enregistrement</string>
+    <string name="report_title">Signalement de %1$s</string>
+    <string name="report_indication_title_status">Dite-nous ce qui ne va pas avec cette publication</string>
+    <string name="report_indication_title_status_more">Choisissez l\'option la plus adaptée</string>
+    <string name="report_val1">Je n\'aime pas cela</string>
+    <string name="report_val_more1">Ce n\'est pas quelque-chose que vous voulez voir</string>
+    <string name="report_val2">C\'est du spam</string>
+    <string name="report_val_more2">Liens malveillants, faux engagement, ou réponses répétitives</string>
+    <string name="report_val_more3">Vous savez que cela enfreint des règles spécifiques</string>
+    <string name="report_val4">C\'est quelque-chose d\'autre</string>
+    <string name="report_val_more4">Ce problème ne rentre pas dans d\'autres catégories</string>
+    <string name="report_1_title">Vous ne voulez pas voir ceci \?</string>
+    <string name="report_1_title_more">Voici vos options pour contrôler ce que vous voyez sur Mastodon :</string>
+    <string name="report_1_unfollow_title">Se désabonner de %1$s</string>
+    <string name="report_1_unfollow">Vous suivez ce compte. Pour ne plus voir ses publications dans votre fil principal, désabonnez-vous-en.</string>
+    <string name="report_1_mute">Vous ne verrez pas ses publications. Il·Elle peut toujours vous suivre et voir vos publications mais ne saura pas qu\'il·elle a été mis·e en sourdine.</string>
+    <string name="report_1_block">Vous ne verrez pas ses publications. Il·Elle ne pourra pas voir vos publications ou vous suivre. Cette personne ne pourra pas voir qu\'elle a été bloquée.</string>
+    <string name="report_2_title">Y a-t-il des publications qui vont dans le sens de ce signalement \?</string>
+    <string name="about_mastodon">\"Mastodon n\'est pas un seul site comme Twitter ou Facebook, c\'est un réseau de milliers de communautés opérées par différentes organisations et individus qui fournissent une expérience de réseau social fluide.\"</string>
+    <string name="join_peertube_message">\"PeerTube, développé par Framasoft, est l\'alternative libre et décentralisée aux plate-formes de vidéo ; fournissant plus de 400.000 vidéos publiées par 60.000 utilisateur·ice·s et vues plus de 15 million de fois.\"</string>
+    <string name="notif_display_follows">Abonnements</string>
+    <string name="notif_display_updates_from_people">Nouvelles des gens</string>
+    <string name="delete_notification_all_warning">Êtes-vous sûr·e de vouloir supprimer toutes les notification \? Cette action est irréversible.</string>
+    <string name="delete_field_confirm">Êtes-vous sûr·e de vouloir supprimer ce champ \?</string>
+    <string name="set_discoverable_content">Compte trouvable</string>
+    <string name="notification_sounds">Sons des notifications</string>
+    <string name="pref_theme_base_summary">Choisissez si la base du thème devrait être sombre ou clair</string>
+    <string name="pref_contributor_summary">Choisir un thème fait par les contributeurs</string>
+    <string name="toast_bookmark">Le pouet a été ajouté à vos marque-pages !</string>
+    <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
+    <string name="report_val3">Cela viole les règles du serveur</string>
 </resources>
