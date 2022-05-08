@@ -33,7 +33,7 @@
         android:defaultValue="0"
         android:max="20"
         app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
-        app:title="@string/set_toots_page" />
+        app:title="@string/truncate_long_toots" />
     <androidx.preference.SwitchPreference
         app:iconSpaceReserved="false"
         android:defaultValue="false"
