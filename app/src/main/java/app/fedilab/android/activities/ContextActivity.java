@@ -17,6 +17,7 @@ package app.fedilab.android.activities;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,6 +26,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
@@ -58,6 +60,7 @@ public class ContextActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         binding.title.setText(R.string.context_conversation);
         if (getSupportActionBar() != null) {

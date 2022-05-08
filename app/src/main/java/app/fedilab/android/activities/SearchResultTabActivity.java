@@ -16,6 +16,7 @@ package app.fedilab.android.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -71,8 +72,10 @@ public class SearchResultTabActivity extends BaseActivity {
             return;
         }
 
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
         setTitle(search);
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.tags)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.accounts)));

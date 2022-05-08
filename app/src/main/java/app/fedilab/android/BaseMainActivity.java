@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -217,6 +219,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         headerMenuOpen = false;
         binding.bottomNavView.inflateMenu(R.menu.bottom_nav_menu);
+        binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {

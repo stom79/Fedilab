@@ -426,7 +426,9 @@ public class FragmentMastodonTimeline extends Fragment {
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction) {
-
+        if (binding == null) {
+            return;
+        }
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
             if (!binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {

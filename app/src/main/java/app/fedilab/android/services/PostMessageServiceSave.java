@@ -88,8 +88,8 @@ public class PostMessageServiceSave extends IntentService {
 
         }
         notificationBuilder = new NotificationCompat.Builder(getBaseContext(), CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification);
+        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
                 .setContentTitle(getString(R.string.post_message))
                 .setContentText(getString(R.string.post_message_text, messageSent, messageToSend))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)

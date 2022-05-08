@@ -16,6 +16,7 @@ package app.fedilab.android.activities;
 
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
@@ -70,6 +72,7 @@ public class HashTagActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         binding.title.setText(tag);
         if (getSupportActionBar() != null) {

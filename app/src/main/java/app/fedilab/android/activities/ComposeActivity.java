@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,6 +112,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

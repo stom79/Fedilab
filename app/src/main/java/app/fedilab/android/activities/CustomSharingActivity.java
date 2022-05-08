@@ -15,6 +15,7 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
@@ -70,6 +72,7 @@ public class CustomSharingActivity extends BaseActivity implements OnCustomShari
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         Bundle b = getIntent().getExtras();
         status = null;

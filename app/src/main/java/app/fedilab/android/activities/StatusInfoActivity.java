@@ -15,11 +15,13 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,6 +61,7 @@ public class StatusInfoActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         accountList = new ArrayList<>();
         Bundle b = getIntent().getExtras();

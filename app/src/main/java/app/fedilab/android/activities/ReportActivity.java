@@ -14,6 +14,7 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.RadioButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -67,8 +69,10 @@ public class ReportActivity extends BaseActivity {
 
         setContentView(binding.getRoot());
 
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
 
         Bundle b = getIntent().getExtras();
         if (b != null) {

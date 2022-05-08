@@ -17,6 +17,7 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +29,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -63,8 +65,10 @@ public class EditProfileActivity extends BaseActivity {
         ThemeHelper.applyThemeBar(this);
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
 
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {

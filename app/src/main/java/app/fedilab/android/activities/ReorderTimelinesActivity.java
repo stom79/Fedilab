@@ -19,6 +19,7 @@ import static app.fedilab.android.helper.PinnedTimelineHelper.sortPositionAsc;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -87,8 +89,10 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         binding = ActivityReorderTabsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         searchInstanceRunning = false;
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
 
         changes = false;
         ReorderVM reorderVM = new ViewModelProvider(ReorderTimelinesActivity.this).get(ReorderVM.class);

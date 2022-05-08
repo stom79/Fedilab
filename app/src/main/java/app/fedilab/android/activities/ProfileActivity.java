@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -152,6 +153,7 @@ public class ProfileActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         if (getSupportActionBar() != null) {

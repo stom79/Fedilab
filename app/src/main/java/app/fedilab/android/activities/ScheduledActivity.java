@@ -14,11 +14,13 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -44,6 +46,7 @@ public class ScheduledActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

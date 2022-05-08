@@ -14,10 +14,12 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,8 +54,10 @@ public class SettingsActivity extends BaseActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
         canGoBack = false;
 
         binding.setTimelines.setOnClickListener(v -> displaySettings(SettingsEnum.TIMELINES));
