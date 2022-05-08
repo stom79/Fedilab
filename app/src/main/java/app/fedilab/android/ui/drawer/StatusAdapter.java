@@ -256,6 +256,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (theme_boost_header_color != -1 && status.reblog != null) {
             holder.binding.headerContainer.setBackgroundColor(theme_boost_header_color);
+        } else {
+            holder.binding.headerContainer.setBackgroundColor(0);
         }
         if (theme_text_color != -1) {
             holder.binding.statusContent.setTextColor(theme_text_color);
