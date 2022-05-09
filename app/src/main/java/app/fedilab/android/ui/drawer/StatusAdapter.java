@@ -15,7 +15,6 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.activities.ContextActivity.displayCW;
 import static app.fedilab.android.activities.ContextActivity.expand;
 
 import android.annotation.SuppressLint;

@@ -65,14 +65,15 @@
             android:minLines="6"
             app:layout_constraintTop_toBottomOf="@id/content_spoiler" />
 
-        <androidx.appcompat.widget.AppCompatCheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:text="@string/toot_sensitive"
             android:id="@+id/sensitive_media"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
             android:layout_marginTop="6dp"
             android:minHeight="36dp"
-            android:text="@string/set_sensitive_content"
+            app:buttonTint="@color/cyanea_accent_dark_reference"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
