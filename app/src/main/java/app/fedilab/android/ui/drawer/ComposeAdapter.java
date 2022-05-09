@@ -1142,6 +1142,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.content.addTextChangedListener(initializeTextWatcher(holder));
             holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
             holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
+            if (instanceInfo == null) {
+                return;
+            }
             holder.binding.characterProgress.setMax(instanceInfo.configuration.statusesConf.max_characters);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
                 private int position;
