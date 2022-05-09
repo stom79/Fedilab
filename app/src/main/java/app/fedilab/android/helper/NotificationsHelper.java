@@ -74,9 +74,12 @@ public class NotificationsHelper {
         if (accountDb == null) {
             return;
         }
-        String last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
+        String last_notifid;
         if (since_ids.containsKey(slug)) {
             last_notifid = since_ids.get(slug);
+        } else {
+            last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
+            since_ids.put(slug, last_notifid);
         }
 
         //Check which notifications the user wants to see
@@ -321,13 +324,14 @@ public class NotificationsHelper {
 
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-                            notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                    R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage1);
                             String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                             if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                 SharedPreferences.Editor editor = prefs.edit();
+                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                 editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                 editor.apply();
+                                notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                        R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage1);
                             }
                             return false;
                         }
@@ -335,12 +339,13 @@ public class NotificationsHelper {
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
                             String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                             if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                 editor.apply();
+                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
                             }
                         }
 
