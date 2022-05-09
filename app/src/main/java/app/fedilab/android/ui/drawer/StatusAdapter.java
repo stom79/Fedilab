@@ -1201,6 +1201,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 StatusDraft statusDraft = new StatusDraft();
                                 statusDraft.statusDraftList = new ArrayList<>();
                                 statusDraft.statusReplyList = new ArrayList<>();
+                                statusDeleted.id = null;
                                 statusDraft.statusDraftList.add(statusDeleted);
                                 intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                                 context.startActivity(intent);

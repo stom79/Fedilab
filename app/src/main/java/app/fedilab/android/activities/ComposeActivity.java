@@ -172,9 +172,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusDraftList.add(status);
 
         //Restore a draft with all messages
-        if (statusDraft != null && statusDraft.statusReplyList != null) {
+        if (statusDraft != null) {
             new Thread(() -> {
-                statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
+                if (statusDraft.statusReplyList != null) {
+                    statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
+                }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     if (statusDraft.statusReplyList != null) {

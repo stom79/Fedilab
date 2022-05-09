@@ -1181,9 +1181,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ImageViewCompat.setImageTintList(holder.binding.buttonPoll, null);
             }
 
-            holder.binding.buttonPost.setOnClickListener(v -> {
-                manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id));
-            });
+            holder.binding.buttonPost.setOnClickListener(v -> manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id)));
         }
 
     }

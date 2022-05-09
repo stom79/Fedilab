@@ -208,27 +208,32 @@ public class PostMessageService extends IntentService {
                 if (statuses.get(i).media_attachments != null && statuses.get(i).media_attachments.size() > 0) {
                     attachmentIds = new ArrayList<>();
                     for (Attachment attachment : statuses.get(i).media_attachments) {
-                        MultipartBody.Part fileMultipartBody;
-                        if (watermark && attachment.mimeType.contains("image")) {
-                            fileMultipartBody = Helper.getMultipartBodyWithWM(PostMessageService.this, watermarkText, "file", attachment);
+                        if (attachment.id != null) {
+                            attachmentIds.add(attachment.id);
                         } else {
-                            fileMultipartBody = Helper.getMultipartBody("file", attachment);
-                        }
-                        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, null, attachment.description, null);
-                        if (attachmentCall != null) {
-                            try {
-                                Response<Attachment> attachmentResponse = attachmentCall.execute();
-                                if (attachmentResponse.isSuccessful()) {
-                                    Attachment attachmentReply = attachmentResponse.body();
-                                    if (attachmentReply != null) {
-                                        attachmentIds.add(attachmentReply.id);
+                            MultipartBody.Part fileMultipartBody;
+                            if (watermark && attachment.mimeType.contains("image")) {
+                                fileMultipartBody = Helper.getMultipartBodyWithWM(PostMessageService.this, watermarkText, "file", attachment);
+                            } else {
+                                fileMultipartBody = Helper.getMultipartBody("file", attachment);
+                            }
+                            Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, null, attachment.description, null);
+                            if (attachmentCall != null) {
+                                try {
+                                    Response<Attachment> attachmentResponse = attachmentCall.execute();
+                                    if (attachmentResponse.isSuccessful()) {
+                                        Attachment attachmentReply = attachmentResponse.body();
+                                        if (attachmentReply != null) {
+                                            attachmentIds.add(attachmentReply.id);
+                                        }
                                     }
+                                } catch (IOException e) {
+                                    error = true;
+                                    e.printStackTrace();
                                 }
-                            } catch (IOException e) {
-                                error = true;
-                                e.printStackTrace();
                             }
                         }
+
                     }
                 }
                 List<String> poll_options = null;
