@@ -352,6 +352,7 @@ public class PostMessageService extends IntentService {
             }
 
         }
+        notificationManager.cancel(NOTIFICATION_INT_CHANNEL_ID);
     }
 
 }
