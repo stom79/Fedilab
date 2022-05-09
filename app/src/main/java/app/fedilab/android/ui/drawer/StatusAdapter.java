@@ -1201,6 +1201,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 StatusDraft statusDraft = new StatusDraft();
                                 statusDraft.statusDraftList = new ArrayList<>();
                                 statusDraft.statusReplyList = new ArrayList<>();
+                                if (statusDeleted == null) {
+                                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 statusDeleted.id = null;
                                 statusDraft.statusDraftList.add(statusDeleted);
                                 intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);

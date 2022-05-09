@@ -193,6 +193,29 @@ public class StatusCache {
         }
     }
 
+
+    /**
+     * delete a status in db
+     *
+     * @param instance - String instance
+     * @param id       - String status id
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteStatus(String instance, String id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_STATUS_CACHE,
+                    Sqlite.COL_STATUS_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{id, instance});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     /**
      * Get paginated statuses from db
      *

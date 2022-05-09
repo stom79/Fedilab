@@ -159,6 +159,73 @@ public class QuickLoad {
         }
     }
 
+
+    /**
+     * Delete a status in quickload
+     *
+     * @param account {@link Account}
+     * @param id      - String id of the status
+     * @throws DBException exception with database
+     */
+    public void deleteStatus(Account account, String id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+
+        QuickLoad homeQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.HOME, null);
+        QuickLoad localQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.LOCAL, null);
+        QuickLoad publicQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.PUBLIC, null);
+
+        for (Status status : homeQuickLoad.statuses) {
+            if (status.id.equals(id)) {
+                homeQuickLoad.statuses.remove(status);
+                break;
+            }
+        }
+        for (Status status : localQuickLoad.statuses) {
+            if (status.id.equals(id)) {
+                localQuickLoad.statuses.remove(status);
+                break;
+            }
+        }
+        for (Status status : publicQuickLoad.statuses) {
+            if (status.id.equals(id)) {
+                publicQuickLoad.statuses.remove(status);
+                break;
+            }
+        }
+        ContentValues valuesHome = new ContentValues();
+        valuesHome.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
+        //Inserts token
+        try {
+            db.update(Sqlite.TABLE_QUICK_LOAD,
+                    valuesHome, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ContentValues valuesLocal = new ContentValues();
+        valuesLocal.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
+        //Inserts token
+        try {
+            db.update(Sqlite.TABLE_QUICK_LOAD,
+                    valuesLocal, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ContentValues valuesPublic = new ContentValues();
+        valuesPublic.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
+        //Inserts token
+        try {
+            db.update(Sqlite.TABLE_QUICK_LOAD,
+                    valuesPublic, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Retrieves saved values
      *
@@ -176,6 +243,29 @@ public class QuickLoad {
         }
         try {
             return get(key);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves saved values
+     *
+     * @param timeLineType - Timeline.TimeLineEnum
+     * @param ident        - the name for pinned timeline
+     * @return SavedValues
+     */
+    public QuickLoad getSavedValue(Account account, Timeline.TimeLineEnum timeLineType, String ident) {
+        if (cannotBeStored(timeLineType)) {
+            return null;
+        }
+        String key = timeLineType.getValue();
+        if (ident != null) {
+            key += "|" + ident;
+        }
+        try {
+            return get(key, account);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -240,6 +330,25 @@ public class QuickLoad {
         }
     }
 
+    /**
+     * Get paginated statuses from db
+     *
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    private QuickLoad get(String slug, Account account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_QUICK_LOAD, null, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                    new String[]{account.user_id, account.instance, slug}, null, null, null, "1");
+            return cursorToQuickLoad(c);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * Convert a cursor to QuickLoad

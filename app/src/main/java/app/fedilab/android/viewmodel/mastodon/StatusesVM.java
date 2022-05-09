@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.QuickLoad;
+import app.fedilab.android.client.entities.StatusCache;
 import app.fedilab.android.client.mastodon.MastodonStatusesService;
 import app.fedilab.android.client.mastodon.entities.Account;
 import app.fedilab.android.client.mastodon.entities.Accounts;
@@ -41,6 +43,7 @@ import app.fedilab.android.client.mastodon.entities.Poll;
 import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
 import app.fedilab.android.client.mastodon.entities.ScheduledStatuses;
 import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
@@ -312,6 +315,16 @@ public class StatusesVM extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
+            //The status must also be deleted in cache
+            try {
+                app.fedilab.android.client.entities.Account account = new app.fedilab.android.client.entities.Account(getApplication().getApplicationContext()).getAccountByToken(token);
+                new StatusCache(getApplication().getApplicationContext()).deleteStatus(id, account.instance);
+                new QuickLoad(getApplication().getApplicationContext()).deleteStatus(account, id);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Status finalStatus = status;
             Runnable myRunnable = () -> statusMutableLiveData.setValue(finalStatus);
