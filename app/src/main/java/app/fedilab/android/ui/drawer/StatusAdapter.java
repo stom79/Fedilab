@@ -109,6 +109,7 @@ import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -196,7 +197,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
@@ -205,6 +205,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
+            holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
+        } else {
+            holder.binding.actionButtonFavorite.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
+            holder.binding.actionButtonBookmark.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
+            holder.binding.actionButtonBoost.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
         }
 
         holder.binding.actionButtonFavorite.pressOnTouch(false);
@@ -219,9 +226,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
-        holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
-        holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
-        holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
+
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
