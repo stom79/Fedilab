@@ -689,13 +689,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 statusToDeal.isExpended = true;
                 statusToDeal.isMediaDisplayed = true;
             } else {
-                if (context instanceof ContextActivity && statusToDeal.sensitive) {
-                    statusToDeal.isExpended = displayCW;
-                    status.isMediaDisplayed = displayCW;
-                }
                 holder.binding.spoilerExpand.setOnClickListener(v -> {
-                    statusToDeal.isExpended = !status.isExpended;
-                    statusToDeal.isMediaDisplayed = !status.isMediaDisplayed;
+                    statusToDeal.isExpended = !statusToDeal.isExpended;
+                    statusToDeal.isMediaDisplayed = !statusToDeal.isMediaDisplayed;
                     adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                 });
                 holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
@@ -742,7 +738,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
         }
-
         if (status.spoiler_text == null || status.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
             if (statusToDeal.content.trim().length() == 0) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);

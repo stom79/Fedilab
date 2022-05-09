@@ -14,6 +14,7 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.activities.ContextActivity.displayCW;
 import static app.fedilab.android.activities.ContextActivity.expand;
 
 import android.content.BroadcastReceiver;
@@ -192,8 +193,13 @@ public class FragmentMastodonContext extends Fragment {
     }
 
     public void refresh() {
-        if (statusAdapter != null && statuses != null) {
-            statusAdapter.notifyItemRangeChanged(0, statuses.size());
+        if (statuses != null) {
+            for (Status status : statuses) {
+                status.isExpended = displayCW;
+            }
+            if (statusAdapter != null) {
+                statusAdapter.notifyItemRangeChanged(0, statuses.size());
+            }
         }
     }
 
