@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -282,7 +281,7 @@ public class MediaHelper {
      * @param listener ActionRecord
      */
     public static void recordAudio(Activity activity, ActionRecord listener) {
-        String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.wav";
+        String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.m4a";
         AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
         File mAudioFile = new File(filePath);
         PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
@@ -322,9 +321,7 @@ public class MediaHelper {
             listener.onRecorded(filePath);
         });
         mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
-                AudioFormat.ENCODING_PCM_16BIT, MediaRecorder.AudioEncoder.AAC,
-                48000,
-                128000,
+                MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.AudioEncoder.AAC,
                 mAudioFile);
         mAudioRecorder.startRecord();
     }

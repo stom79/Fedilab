@@ -212,12 +212,13 @@ public class PostMessageService extends IntentService {
                             attachmentIds.add(attachment.id);
                         } else {
                             MultipartBody.Part fileMultipartBody;
-                            if (watermark && attachment.mimeType.contains("image")) {
+                            if (watermark && attachment.mimeType != null && attachment.mimeType.contains("image")) {
                                 fileMultipartBody = Helper.getMultipartBodyWithWM(PostMessageService.this, watermarkText, "file", attachment);
                             } else {
                                 fileMultipartBody = Helper.getMultipartBody("file", attachment);
                             }
                             Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, null, attachment.description, null);
+
                             if (attachmentCall != null) {
                                 try {
                                     Response<Attachment> attachmentResponse = attachmentCall.execute();
