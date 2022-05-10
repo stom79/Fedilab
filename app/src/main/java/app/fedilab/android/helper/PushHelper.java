@@ -66,6 +66,12 @@ public class PushHelper {
                             message.setMovementMethod(LinkMovementMethod.getInstance());
                             alert.setView(message);
                             alert.setPositiveButton(R.string.close, (dialog, whichButton) -> dialog.dismiss());
+                            alert.setNegativeButton(R.string.disable, (dialog, whichButton) -> {
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString(context.getString(R.string.SET_NOTIFICATION_TYPE), "REPEAT_NOTIFICATIONS");
+                                editor.apply();
+                                dialog.dismiss();
+                            });
                             alert.show();
                         } else {
                             registerAppWithDialog(context, accounts);

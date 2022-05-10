@@ -84,6 +84,7 @@
     <string name="insert_emoji">Insert emoji</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
     <string name="push_notif">Push notifications</string>
+
     <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
