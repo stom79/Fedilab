@@ -31,15 +31,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,6 +75,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.ActionActivity;
 import app.fedilab.android.activities.BaseActivity;
@@ -100,6 +107,8 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
@@ -123,7 +132,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Pinned pinned;
-
+    public static boolean show_boosts, show_replies, show_art_nsfw;
+    public static String regex_home, regex_local, regex_public;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -221,18 +231,53 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.bottomNavView.inflateMenu(R.menu.bottom_nav_menu);
         binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+
+
+        //ManageClick on bottom menu items
+        binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+            manageFilters(0);
+            return false;
+        });
+        binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+            manageFilters(1);
+            return false;
+        });
+        binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+            manageFilters(2);
+            return false;
+        });
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
-                binding.viewPager.setCurrentItem(0);
+                if (binding.viewPager.getCurrentItem() == 0) {
+                    scrollToTop();
+                } else {
+                    binding.viewPager.setCurrentItem(0);
+                }
             } else if (itemId == R.id.nav_local) {
-                binding.viewPager.setCurrentItem(1);
+                if (binding.viewPager.getCurrentItem() == 1) {
+                    scrollToTop();
+                } else {
+                    binding.viewPager.setCurrentItem(1);
+                }
             } else if (itemId == R.id.nav_public) {
-                binding.viewPager.setCurrentItem(2);
+                if (binding.viewPager.getCurrentItem() == 2) {
+                    scrollToTop();
+                } else {
+                    binding.viewPager.setCurrentItem(2);
+                }
             } else if (itemId == R.id.nav_notifications) {
-                binding.viewPager.setCurrentItem(3);
+                if (binding.viewPager.getCurrentItem() == 3) {
+                    scrollToTop();
+                } else {
+                    binding.viewPager.setCurrentItem(3);
+                }
             } else if (itemId == R.id.nav_privates) {
-                binding.viewPager.setCurrentItem(4);
+                if (binding.viewPager.getCurrentItem() == 4) {
+                    scrollToTop();
+                } else {
+                    binding.viewPager.setCurrentItem(4);
+                }
             }
             return true;
         });
@@ -501,6 +546,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 currentInstance = account.instance;
                 currentUserID = account.user_id;
+                show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
+                show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
+                regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
+                regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
+                regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
+                show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
                 accountWeakReference = new WeakReference<>(account);
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                 Helper.loadPP(binding.profilePicture, account);
@@ -579,6 +630,134 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
     }
 
+
+    private void manageFilters(int position) {
+        View view = binding.bottomNavView.findViewById(R.id.nav_home);
+        if (position == 1) {
+            view = binding.bottomNavView.findViewById(R.id.nav_local);
+        } else if (position == 2) {
+            view = binding.bottomNavView.findViewById(R.id.nav_public);
+        }
+        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(BaseMainActivity.this, Helper.popupStyle()), view, Gravity.TOP);
+        popup.getMenuInflater()
+                .inflate(R.menu.option_filter_toots, popup.getMenu());
+        Menu menu = popup.getMenu();
+        final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+        final MenuItem itemFilter = menu.findItem(R.id.action_filter);
+        if (position > 0) {
+            itemShowBoosts.setVisible(false);
+            itemShowReplies.setVisible(false);
+        } else {
+            itemShowBoosts.setVisible(true);
+            itemShowReplies.setVisible(true);
+        }
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        String show_filtered = null;
+        if (position == 0) {
+            show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
+        } else if (position == 1) {
+            show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
+        } else if (position == 2) {
+            show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
+        }
+        itemShowBoosts.setChecked(show_boosts);
+        itemShowReplies.setChecked(show_replies);
+        if (show_filtered != null && show_filtered.length() > 0) {
+            itemFilter.setTitle(show_filtered);
+        }
+        popup.setOnDismissListener(menu1 -> {
+            if (binding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.refreshAllAdapters();
+                }
+            }
+        });
+        String finalShow_filtered = show_filtered;
+        popup.setOnMenuItemClickListener(item -> {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            item.setActionView(new View(BaseMainActivity.this));
+            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    return false;
+                }
+            });
+            final SharedPreferences.Editor editor = sharedpreferences.edit();
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_show_boosts) {
+                show_boosts = !show_boosts;
+                editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+                itemShowBoosts.setChecked(show_boosts);
+                editor.apply();
+            } else if (itemId == R.id.action_show_replies) {
+                show_replies = !show_replies;
+                editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+                itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_filter) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(BaseMainActivity.this), false);
+                dialogBuilder.setView(dialogView);
+                final EditText editText = dialogView.findViewById(R.id.filter_regex);
+                Toast alertRegex = Toasty.warning(BaseMainActivity.this, getString(R.string.alert_regex), Toast.LENGTH_LONG);
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
+                        } catch (Exception e) {
+                            if (!alertRegex.getView().isShown()) {
+                                alertRegex.show();
+                            }
+                        }
+
+                    }
+                });
+                if (finalShow_filtered != null) {
+                    editText.setText(finalShow_filtered);
+                    editText.setSelection(editText.getText().toString().length());
+                }
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    itemFilter.setTitle(editText.getText().toString().trim());
+                    if (position == 0) {
+                        editor.putString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        regex_home = editText.getText().toString().trim();
+                    } else if (position == 1) {
+                        editor.putString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        regex_local = editText.getText().toString().trim();
+                    } else if (position == 2) {
+                        editor.putString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        regex_public = editText.getText().toString().trim();
+                    }
+                    editor.apply();
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
+
     public void refreshFragment() {
         if (binding.viewPager.getAdapter() != null) {
             binding.viewPager.getAdapter().notifyDataSetChanged();
@@ -614,6 +793,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         super.onDestroy();
     }
+
+    /**
+     * Allow to scroll to top for bottom navigation items
+     */
+    private void scrollToTop() {
+        if (binding.viewPager.getAdapter() != null) {
+            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            if (fragment instanceof FragmentMastodonTimeline) {
+                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                fragmentMastodonTimeline.scrollToTop();
+            } else if (fragment instanceof FragmentMastodonNotification) {
+                FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+                fragmentMastodonNotification.scrollToTop();
+            } else if (fragment instanceof FragmentMastodonConversation) {
+                FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
+                fragmentMastodonConversation.scrollToTop();
+            }
+        }
+    }
+
 
     @Override
     protected void onResume() {

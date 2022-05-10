@@ -24,18 +24,41 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.client.mastodon.MastodonAccountsService;
 import app.fedilab.android.client.mastodon.entities.Filter;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TimelineHelper {
+
+    private static MastodonAccountsService init(Context context) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonAccountsService.class);
+    }
 
     /**
      * Allows to filter statuses, should be called in API calls (background)
@@ -49,17 +72,23 @@ public class TimelineHelper {
         //A security to make sure filters have been fetched before displaying messages
         List<Status> statusesToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
-            try {
-                AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-                accountsVM.getFilters(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe((LifecycleOwner) context, filters -> {
-                    BaseMainActivity.filterFetched = true;
-                    BaseMainActivity.mainFilters = filters;
-                });
-            } catch (ClassCastException e) {
-                e.printStackTrace();
-                return statuses;
+            MastodonAccountsService mastodonAccountsService = init(context);
+            List<Filter> filterList;
+            Call<List<Filter>> getFiltersCall = mastodonAccountsService.getFilters(MainActivity.currentToken);
+            if (getFiltersCall != null) {
+                try {
+                    Response<List<Filter>> getFiltersResponse = getFiltersCall.execute();
+                    if (getFiltersResponse.isSuccessful()) {
+                        BaseMainActivity.filterFetched = true;
+                        filterList = getFiltersResponse.body();
+                        BaseMainActivity.mainFilters = filterList;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0) {
             for (Filter filter : BaseMainActivity.mainFilters) {

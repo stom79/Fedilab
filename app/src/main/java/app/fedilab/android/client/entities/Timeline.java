@@ -385,9 +385,9 @@ public class Timeline {
         @SerializedName("SCHEDULED_TOOT_CLIENT")
         SCHEDULED_TOOT_CLIENT("SCHEDULED_TOOT_CLIENT"),
         @SerializedName("SCHEDULED_BOOST")
-        SCHEDULED_BOOST("SCHEDULED_BOOST");
-
-
+        SCHEDULED_BOOST("SCHEDULED_BOOST"),
+        @SerializedName("UNKNOWN")
+        UNKNOWN("UNKNOWN");
         private final String value;
 
         TimeLineEnum(String value) {

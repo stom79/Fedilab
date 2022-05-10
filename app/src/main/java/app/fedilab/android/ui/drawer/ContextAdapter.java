@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -71,7 +72,7 @@ public class ContextAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
         StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
-        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, false, false);
+        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, Timeline.TimeLineEnum.UNKNOWN, false);
         //Hide/Show specific view
 
     }

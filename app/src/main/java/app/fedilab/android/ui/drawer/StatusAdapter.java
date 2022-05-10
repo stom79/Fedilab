@@ -15,6 +15,11 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.regex_home;
+import static app.fedilab.android.BaseMainActivity.regex_local;
+import static app.fedilab.android.BaseMainActivity.regex_public;
+import static app.fedilab.android.BaseMainActivity.show_boosts;
+import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
 
 import android.annotation.SuppressLint;
@@ -96,11 +101,13 @@ import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
 import app.fedilab.android.activities.StatusInfoActivity;
 import app.fedilab.android.client.entities.StatusDraft;
+import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Attachment;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.client.mastodon.entities.Poll;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.DrawerStatusBinding;
+import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
 import app.fedilab.android.databinding.LayoutMediaBinding;
@@ -120,35 +127,75 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Status> statusList;
-    private final boolean remote;
     private final boolean minified;
     private Context context;
+    private final Timeline.TimeLineEnum timelineType;
 
-    public StatusAdapter(List<Status> statuses, boolean remote, boolean minified) {
+    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
         this.statusList = statuses;
-        this.remote = remote;
+        this.timelineType = timelineType;
         this.minified = minified;
     }
 
 
-    public StatusAdapter(List<Status> statuses, boolean remote) {
-        this.statusList = statuses;
-        this.remote = remote;
-        this.minified = false;
+    private static boolean isVisble(Timeline.TimeLineEnum timelineType, Status status) {
+        if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
+            return false;
+        }
+        if (timelineType == Timeline.TimeLineEnum.HOME && !show_replies && status.in_reply_to_id != null) {
+            return false;
+        }
+        if (timelineType == Timeline.TimeLineEnum.HOME && regex_home != null && !regex_home.trim().equals("")) {
+            try {
+                Pattern filterPattern = Pattern.compile("(" + regex_home + ")", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = filterPattern.matcher(status.content);
+                if (matcher.find())
+                    return false;
+                matcher = filterPattern.matcher(status.spoiler_text);
+                if (matcher.find())
+                    return false;
+            } catch (Exception ignored) {
+            }
+        }
+        if (timelineType == Timeline.TimeLineEnum.LOCAL && regex_local != null && !regex_local.trim().equals("")) {
+            try {
+                Pattern filterPattern = Pattern.compile("(" + regex_local + ")", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = filterPattern.matcher(status.content);
+                if (matcher.find())
+                    return false;
+                matcher = filterPattern.matcher(status.spoiler_text);
+                if (matcher.find())
+                    return false;
+            } catch (Exception ignored) {
+            }
+        }
+        if (timelineType == Timeline.TimeLineEnum.PUBLIC && regex_public != null && !regex_public.trim().equals("")) {
+            try {
+                Pattern filterPattern = Pattern.compile("(" + regex_public + ")", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = filterPattern.matcher(status.content);
+                if (matcher.find())
+                    return false;
+                matcher = filterPattern.matcher(status.spoiler_text);
+                if (matcher.find())
+                    return false;
+            } catch (Exception ignored) {
+            }
+        }
+        return true;
     }
-
 
     /**
      * Manage status, this method is also reused in notifications timelines
      *
      * @param context          Context
+     * @param context          Timeline.TimeLineEnum timelineType
      * @param statusesVM       StatusesVM - For handling actions in background to the correct activity
      * @param searchVM         SearchVM - For handling remote actions
      * @param holder           StatusViewHolder
      * @param adapter          RecyclerView.Adapter<RecyclerView.ViewHolder> - General adapter that can be for {@link StatusAdapter} or {@link NotificationAdapter}
      * @param statusList       List<Status>
      * @param notificationList List<Notification>
-     * @param remote           boolean Indicate if the status is a remote one (ie not yet federated)
+     * @param timelineType     Timeline.TimeLineEnum
      * @param status           {@link Status}
      */
     @SuppressLint("ClickableViewAccessibility")
@@ -160,12 +207,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         List<Status> statusList,
                                         List<Notification> notificationList,
                                         Status status,
-                                        boolean remote,
+                                        Timeline.TimeLineEnum timelineType,
                                         boolean minified) {
+        if (status == null) {
+            return;
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE;
 
         Status statusToDeal = status.reblog != null ? status.reblog : status;
 
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
@@ -1491,16 +1543,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return position;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return isVisble(timelineType, statusList.get(position)) ? 1 : 0;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        if (!minified) {
-            DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        if (viewType == 0) {
+            DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
         } else {
-            DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
+            if (!minified) {
+                DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            } else {
+                DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            }
         }
     }
 
@@ -1519,11 +1581,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder.getItemViewType() == 0) {
+            return;
+        }
         Status status = statusList.get(position);
         StatusViewHolder holder = (StatusViewHolder) viewHolder;
         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, remote, minified);
+        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified);
         if (holder.timer != null) {
             holder.timer.cancel();
             holder.timer = null;
@@ -1557,6 +1622,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class StatusViewHolder extends RecyclerView.ViewHolder {
         DrawerStatusBinding binding;
+        DrawerStatusHiddenBinding bindingHidden;
         DrawerStatusReportBinding bindingReport;
         DrawerStatusNotificationBinding bindingNotification;
         Timer timer;
@@ -1576,6 +1642,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView.getRoot());
             bindingNotification = itemView;
             binding = itemView.status;
+        }
+
+        StatusViewHolder(DrawerStatusHiddenBinding itemView) {
+            super(itemView.getRoot());
+            bindingHidden = itemView;
         }
 
     }

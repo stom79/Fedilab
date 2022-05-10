@@ -36,6 +36,7 @@ import java.util.Locale;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ProfileActivity;
+import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
@@ -134,7 +135,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notificationList, notification.status, false, false);
+            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notificationList, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false);
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);

@@ -93,8 +93,10 @@ public class FragmentMedia extends Fragment {
 
         url = attachment.url;
         binding.mediaPicture.setOnMatrixChangeListener(rect -> {
+            if (binding == null) {
+                return;
+            }
             canSwipe = (binding.mediaPicture.getScale() == 1);
-
             if (!canSwipe) {
                 if (!((MediaActivity) requireActivity()).getFullScreen()) {
                     ((MediaActivity) requireActivity()).setFullscreen(true);

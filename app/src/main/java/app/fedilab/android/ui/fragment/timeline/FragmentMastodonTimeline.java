@@ -276,7 +276,7 @@ public class FragmentMastodonTimeline extends Fragment {
             min_id = statuses.pagination.min_id;
         }
 
-        statusAdapter = new StatusAdapter(this.statuses, timelineType == Timeline.TimeLineEnum.REMOTE, minified);
+        statusAdapter = new StatusAdapter(this.statuses, timelineType, minified);
 
         if (statusReport != null) {
             scrollToTop();
@@ -426,11 +426,12 @@ public class FragmentMastodonTimeline extends Fragment {
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction) {
-        if (binding == null) {
-            return;
-        }
+
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
+            if (binding == null) {
+                return;
+            }
             if (!binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
@@ -651,6 +652,16 @@ public class FragmentMastodonTimeline extends Fragment {
                 timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, min_id)
                         .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP));
             }
+        }
+    }
+
+
+    /**
+     * Refresh status in list
+     */
+    public void refreshAllAdapters() {
+        if (statusAdapter != null && statuses != null) {
+            statusAdapter.notifyItemRangeChanged(0, statuses.size());
         }
     }
 

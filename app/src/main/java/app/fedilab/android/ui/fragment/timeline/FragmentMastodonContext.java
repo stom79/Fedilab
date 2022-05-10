@@ -39,6 +39,7 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
+import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Context;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
@@ -171,7 +172,7 @@ public class FragmentMastodonContext extends Fragment {
         this.statuses = new ArrayList<>();
         focusedStatus.isFocused = true;
         this.statuses.add(focusedStatus);
-        statusAdapter = new StatusAdapter(this.statuses, false);
+        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false);
         binding.swipeContainer.setRefreshing(false);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
