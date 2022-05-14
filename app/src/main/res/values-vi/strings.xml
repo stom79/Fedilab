@@ -1,109 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Mở trình đơn</string>
-    <string name="navigation_drawer_close">Đóng trình đơn</string>
-    <string name="action_about">Trong khoảng</string>
-    <string name="action_about_instance">Về ví dụ</string>
-    <string name="action_privacy">Riêng tư</string>
-    <string name="action_cache">Chổ dấu</string>
+    <string name="navigation_drawer_open">Mở menu</string>
+    <string name="navigation_drawer_close">Đóng menu</string>
+    <string name="action_about">Giới thiệu</string>
+    <string name="action_about_instance">Về giới thiệu</string>
+    <string name="action_privacy">Bảo mật</string>
+    <string name="action_cache">Bộ nhớ đệm</string>
     <string name="action_logout">Đăng xuất</string>
     <string name="login">Đăng nhập</string>
     <!-- common -->
-    <string name="close">Gần</string>
-    <string name="yes">Vâng</string>
+    <string name="close">Đóng</string>
+    <string name="yes">Đồng ý</string>
     <string name="no">Không</string>
-    <string name="cancel">Hủy</string>
+    <string name="cancel">Hủy bỏ</string>
     <string name="download">Tải về</string>
     <string name="download_file">Tải về %1$s</string>
-    <string name="save_over">Đã lưu phương tiện</string>
+    <string name="save_over">Đã lưu media</string>
     <string name="download_from" formatted="false">Tập tin: %1$s</string>
     <string name="password">Mật khẩu</string>
-    <string name="email">E-mail</string>
+    <string name="email">Email</string>
     <string name="accounts">Tài khoản</string>
-    <string name="toots">Thổi còi</string>
-    <string name="tags">Thẻ</string>
+    <string name="toots">Tút</string>
+    <string name="tags">Hashtag</string>
     <string name="save">Lưu</string>
     <string name="restore">Khôi phục</string>
-    <string name="no_result">Ko có kết quả!</string>
-    <string name="instance">Ví dụ</string>
+    <string name="no_result">Không có kết quả!</string>
+    <string name="instance">Máy chủ</string>
     <string name="instance_example">Ví dụ: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Bây giờ làm việc với tài khoản %1$s</string>
+    <string name="toast_account_changed" formatted="false">Hiện đang sử dụng tài khoản %1$s</string>
     <string name="add_account">Thêm một tài khoản</string>
-    <string name="clipboard">Nội dung của thổi còi đã được sao chép vào khay nhớ tạm</string>
-    <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
+    <string name="clipboard">Đã chép nội dung tút vào bộ nhớ tạm</string>
+    <string name="clipboard_url">Đã chép URL tút vào bộ nhớ tạm</string>
     <string name="change">Thay đổi</string>
     <string name="choose_picture">Chọn ảnh…</string>
     <string name="clear">Dọn dẹp</string>
-    <string name="camera">Camera</string>
+    <string name="camera">Máy ảnh</string>
     <string name="delete_all">Xóa hết</string>
-    <string name="translate_toot">Dịch này thổi còi.</string>
-    <string name="schedule">Lịch trình</string>
-    <string name="text_size">Kích thước văn bản và biểu tượng</string>
-    <string name="text_size_change">Thay đổi kích thước văn bản hiện tại:</string>
-    <string name="icon_size_change">Thay đổi kích thước biểu tượng hiện tại:</string>
+    <string name="translate_toot">Dịch tút này.</string>
+    <string name="schedule">Lên lịch đăng</string>
+    <string name="text_size">Cỡ chữ và biểu tượng</string>
+    <string name="text_size_change">Thay đổi cỡ chữ hiện tại:</string>
+    <string name="icon_size_change">Thay đổi cỡ biểu tượng hiện tại:</string>
     <string name="next">Kế tiếp</string>
-    <string name="previous">Trước</string>
-    <string name="open_with">Mở với</string>
-    <string name="validate">Xác thực</string>
-    <string name="media">Phương tiện truyền thông</string>
-    <string name="share_with">Chia sẽ với</string>
+    <string name="previous">Trước đó</string>
+    <string name="open_with">Mở bằng</string>
+    <string name="validate">Xác nhận</string>
+    <string name="media">Media</string>
+    <string name="share_with">Chia sẻ với</string>
     <string name="shared_via">Chia sẻ qua Fedilab</string>
     <string name="replies">Trả lời</string>
     <string name="username">Tên người dùng</string>
     <string name="drafts">Bản nháp</string>
-    <string name="favourite">Yêu thích</string>
+    <string name="favourite">Lượt thích</string>
     <string name="follow">Người theo dõi mới</string>
-    <string name="mention">Đề cập đến</string>
-    <string name="reblog">Tăng</string>
-    <string name="show_boosts">Hiển thị tăng</string>
-    <string name="show_replies">Hiển thị bài trả lời</string>
+    <string name="mention">Lượt nhắc</string>
+    <string name="reblog">Lượt đăng lại</string>
+    <string name="show_boosts">Hiện lượt đăng lại</string>
+    <string name="show_replies">Hiển lượt trả lời</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
     <string name="translate">Dịch</string>
-    <string name="please_wait">Vui lòng chờ vài giây trước khi thực hiện hành động này.</string>
+    <string name="please_wait">Hãy chờ vài giây trước khi thực hiện hành động này.</string>
     <!--- Menu -->
-    <string name="home_menu">Nhà</string>
-    <string name="local_menu">Thời hạn địa phương</string>
-    <string name="global_menu">Lịch trình liên kết</string>
+    <string name="home_menu">Trang chính</string>
+    <string name="local_menu">Máy chủ</string>
+    <string name="global_menu">Liên hợp</string>
     <string name="neutral_menu_title">Tùy chọn</string>
-    <string name="favorites_menu">Yêu thích</string>
+    <string name="favorites_menu">Lượt thích</string>
     <string name="communication_menu_title">Giao tiếp</string>
-    <string name="muted_menu">Người dùng bị tắt tiếng</string>
-    <string name="blocked_menu">Người dùng bị chặn</string>
+    <string name="muted_menu">Người dùng đã ẩn</string>
+    <string name="blocked_menu">Người dùng đã chặn</string>
     <string name="notifications">Thông báo</string>
-    <string name="follow_request">Theo yêu cầu</string>
+    <string name="follow_request">Yêu cầu theo dõi</string>
     <string name="settings">Cài đặt</string>
     <string name="delete_account_title">Xóa tài khoản</string>
     <string name="delete_account_message" formatted="false">Xóa tài khoản %1$s khỏi ứng dụng?</string>
     <string name="send_email">Gửi email</string>
-    <string name="click_to_change">Nhấp vào đường dẫn để thay đổi nó</string>
+    <string name="click_to_change">Nhấn vào đường dẫn để thay đổi nó</string>
     <string name="failed">Thất bại!</string>
-    <string name="scheduled_toots">Các thổi còi theo lịch</string>
-    <string name="disclaimer_full">Thông tin dưới đây có thể phản ánh hồ sơ của người dùng không đầy đủ.</string>
-    <string name="insert_emoji">Chèn eoji</string>
-    <string name="no_emoji">Các ứng dụng đã không thu thập emojis tùy chỉnh cho thời điểm này.</string>
-    <string name="push_notif">Push notifications</string>
-    <string name="logout_confirmation">Are you sure you want to logout?</string>
-    <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+    <string name="scheduled_toots">Những tút đã lên lịch</string>
+    <string name="disclaimer_full">Nội dung có thể hiển thị không đầy đủ. Nhấn để mở xem chi tiết trên trình duyệt.</string>
+    <string name="insert_emoji">Chèn emoji</string>
+    <string name="no_emoji">Ứng dụng không thể thu thập emoji tùy chỉnh vào thời điểm này.</string>
+    <string name="push_notif">Thông báo đẩy</string>
+    <string name="logout_confirmation">Bạn có chắc muốn đăng xuất\?</string>
+    <string name="logout_account_confirmation">Bạn có chắc muốn đăng xuất @%1$s@%2$s\?</string>
     <!-- Status -->
-    <string name="no_status">Không thổi còi để hiển thị</string>
-    <string name="no_stories">No stories to display</string>
-    <string name="stories">Stories</string>
-    <string name="reblog_by">Được thúc đẩy bởi %1$s</string>
-    <string name="favourite_add">Thêm cái còi này vào mục yêu thích của bạn?</string>
-    <string name="favourite_remove">Loại bỏ thổi còi này khỏi mục yêu thích của bạn?</string>
-    <string name="reblog_add">Tăng thổi còi này?</string>
-    <string name="reblog_remove">Tháo nốt nhạc này?</string>
-    <string name="pin_add">Pin này thổi còi?</string>
-    <string name="pin_remove">Hủy bỏ cái thổi còi này?</string>
-    <string name="more_action_1">Tắt tiếng</string>
-    <string name="more_action_2">Súc cây</string>
+    <string name="no_status">Không có tút nào</string>
+    <string name="no_stories">Không có story nào</string>
+    <string name="stories">Story</string>
+    <string name="reblog_by">Đăng lại bởi %1$s</string>
+    <string name="favourite_add">Thêm tút này vào mục yêu thích của bạn\?</string>
+    <string name="favourite_remove">Xóa tút này khỏi mục yêu thích của bạn\?</string>
+    <string name="reblog_add">Đăng lại tút này\?</string>
+    <string name="reblog_remove">Bỏ đăng lại tút này\?</string>
+    <string name="pin_add">Ghim tút này\?</string>
+    <string name="pin_remove">Bỏ ghim tút này\?</string>
+    <string name="more_action_1">Ẩn</string>
+    <string name="more_action_2">Chặn</string>
     <string name="more_action_3">Báo cáo</string>
-    <string name="more_action_4">Tẩy</string>
+    <string name="more_action_4">Xóa</string>
     <string name="more_action_5">Sao chép</string>
     <string name="more_action_6">Chia sẻ</string>
-    <string name="more_action_7">Ghi chép</string>
-    <string name="more_action_8">Timed mute</string>
-    <string name="more_action_9">Delete &amp; re-draft</string>
+    <string name="more_action_7">Nhắc đến</string>
+    <string name="more_action_8">Thời gian ẩn</string>
+    <string name="more_action_9">Xóa &amp; viết lại</string>
     <string-array name="more_action_confirm">
         <item>Ẩn tài khoản này?</item>
         <item>Chặn tài khoản này?</item>
@@ -120,45 +120,45 @@
         <item>Hủy bỏ thổi còi này?</item>
         <item>Delete &amp; re-draft this toot?</item>
     </string-array>
-    <string name="bookmarks">Bookmarks</string>
-    <string name="bookmark_add">Add to bookmarks</string>
-    <string name="bookmark_remove">Remove bookmark</string>
-    <string name="bookmarks_empty">No bookmarks to display</string>
-    <string name="status_bookmarked">Status has been added to bookmarks!</string>
-    <string name="status_unbookmarked">Status was removed from bookmarks!</string>
+    <string name="bookmarks">Đã lưu</string>
+    <string name="bookmark_add">Lưu lại</string>
+    <string name="bookmark_remove">Hủy lưu</string>
+    <string name="bookmarks_empty">Chưa lưu gì hết</string>
+    <string name="status_bookmarked">Đã lưu tút!</string>
+    <string name="status_unbookmarked">Đã hủy lưu tút!</string>
     <!-- Date -->
-    <string name="date_seconds">%d s</string>
-    <string name="date_minutes">%d m</string>
-    <string name="date_hours">%d h</string>
-    <string name="date_day">%d d</string>
+    <string name="date_seconds">%ds</string>
+    <string name="date_minutes">%dm</string>
+    <string name="date_hours">%dh</string>
+    <string name="date_day">%dd</string>
     <plurals name="date_seconds_polls">
-        <item quantity="other">%d seconds</item>
+        <item quantity="other">%d giây</item>
     </plurals>
     <plurals name="date_minutes_polls">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d phút</item>
     </plurals>
     <plurals name="date_hours_polls">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d giờ</item>
     </plurals>
     <plurals name="date_day_polls">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d ngày</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Cảnh báo</string>
-    <string name="toot_placeholder">Bạn đang nghĩ cái gì thế?</string>
-    <string name="toot_it">Thổi còi!</string>
+    <string name="toot_cw_placeholder">Nội dung ẩn</string>
+    <string name="toot_placeholder">Bạn đang nghĩ về điều gì\?</string>
+    <string name="toot_it">ĐĂNG</string>
     <string name="queet_it">QUEET!</string>
     <string name="cw">cw</string>
-    <string name="toot_title">Viết một cái còi</string>
-    <string name="toot_title_reply">Trả lời thổi còi</string>
-    <string name="queet_title">Write a queet</string>
-    <string name="queet_title_reply">Reply to a queet</string>
-    <string name="toot_select_image">Chọn phương tiện</string>
-    <string name="toot_select_image_error">Đã xảy ra lỗi khi chọn phương tiện!</string>
-    <string name="toot_delete_media">Xóa phương tiện này?</string>
-    <string name="toot_error_no_content">Thổi còi của bạn trống!</string>
-    <string name="toot_sent">Thổi còi đã được gửi!</string>
-    <string name="toot_reply_content_title">Bạn đang trả lời cho thổi còi này:</string>
+    <string name="toot_title">Viết tút mới</string>
+    <string name="toot_title_reply">Trả lời tút</string>
+    <string name="queet_title">Viết tút</string>
+    <string name="queet_title_reply">Trả lời tút</string>
+    <string name="toot_select_image">Đính kèm tập tin</string>
+    <string name="toot_select_image_error">Đã xảy ra lỗi khi chọn tập tin media!</string>
+    <string name="toot_delete_media">Xóa tập tin media này\?</string>
+    <string name="toot_error_no_content">Không thể đăng tút trống!</string>
+    <string name="toot_sent">Tút đã được đăng!</string>
+    <string name="toot_reply_content_title">Bạn đang trả lời tút này:</string>
     <string name="toot_sensitive">Nội dung nhạy cảm?</string>
     <string-array name="toot_visibility">
         <item>Đăng lên các mốc công khai</item>
@@ -167,22 +167,22 @@
         <item>Đăng lên chỉ những người dùng được đề cập</item>
     </string-array>
     <string name="no_draft">Không có bản nháp!</string>
-    <string name="choose_toot">Chọn một cái còi</string>
+    <string name="choose_toot">Chọn một tút</string>
     <string name="choose_accounts">Chọn một tài khoản</string>
-    <string name="select_accounts">Chọn một số tài khoản</string>
-    <string name="remove_draft">Xóa dự thảo?</string>
-    <string name="show_reply">Nhấp chuột vào nút để hiển thị các thổi còi ban đầu</string>
+    <string name="select_accounts">Chọn nhiều tài khoản</string>
+    <string name="remove_draft">Xóa bản nháp\?</string>
+    <string name="show_reply">Nhấn vào nút để hiển thị tút gốc</string>
     <string name="upload_form_description">Mô tả cho người khiếm thị</string>
     <!-- Instance -->
     <string name="instance_no_description">Không có mô tả nào!</string>
     <!-- About -->
-    <string name="about_vesrion">Phát hành %1$s</string>
+    <string name="about_vesrion">Phiên bản %1$s</string>
     <string name="about_developer">Nhà phát triển:</string>
     <string name="about_license">Giấy phép: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Mã nguồn: </string>
-    <string name="about_yandex">Dịch của thổi còi:</string>
-    <string name="about_thekinrar">Trường hợp tìm kiếm:</string>
+    <string name="about_yandex">Dịch tút bằng:</string>
+    <string name="about_thekinrar">Tìm máy chủ:</string>
     <string name="thanks_text_logo">Người thiết kế biểu tượng:</string>
     <!-- Conversation -->
     <string name="conversation">Cuộc hội thoại</string>
