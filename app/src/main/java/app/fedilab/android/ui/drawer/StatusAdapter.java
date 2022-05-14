@@ -42,7 +42,6 @@ import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
@@ -116,6 +115,7 @@ import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -940,8 +940,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.attachmentsListContainer.setVisibility(View.GONE);
         }
-        holder.binding.statusContent.setMovementMethod(LinkMovementMethod.getInstance());
-
+        holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+        //holder.binding.statusContent.setMovementMethod(LinkMovementMethod.getInstance());
         holder.binding.reblogInfo.setOnClickListener(v -> {
             if (remote) {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();

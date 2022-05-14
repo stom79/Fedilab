@@ -15,15 +15,21 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.Helper.USER_AGENT;
 import static app.fedilab.android.helper.Helper.convertDpToPixel;
+import static app.fedilab.android.helper.Helper.urlPattern;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -34,9 +40,12 @@ import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -47,15 +56,23 @@ import com.github.penfeizhou.animation.gif.GifDrawable;
 import com.github.penfeizhou.animation.gif.decode.GifParser;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import app.fedilab.android.R;
+import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.HashTagActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.mastodon.entities.Account;
 import app.fedilab.android.client.mastodon.entities.Attachment;
@@ -64,6 +81,8 @@ import app.fedilab.android.client.mastodon.entities.Field;
 import app.fedilab.android.client.mastodon.entities.Mention;
 import app.fedilab.android.client.mastodon.entities.Poll;
 import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.databinding.PopupLinksBinding;
+import es.dmoral.toasty.Toasty;
 
 public class SpannableHelper {
 
@@ -188,11 +207,172 @@ public class SpannableHelper {
             }
 
             if (matchStart >= 0 && matchEnd <= content.length() && matchEnd >= matchStart) {
-                content.setSpan(new ClickableSpan() {
+                content.setSpan(new LongClickableSpan() {
+                    @Override
+                    public void onLongClick(View view) {
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                        PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
+                        dialogBuilder.setView(popupLinksBinding.getRoot());
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.show();
+
+                        popupLinksBinding.displayFullLink.setOnClickListener(v -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                            builder.setMessage(url);
+                            builder.setTitle(context.getString(R.string.display_full_link));
+                            builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                    .show();
+                            alertDialog.dismiss();
+                        });
+                        popupLinksBinding.shareLink.setOnClickListener(v -> {
+                            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+                            sendIntent.setType("text/plain");
+                            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
+                            alertDialog.dismiss();
+                        });
+
+                        popupLinksBinding.openOtherApp.setOnClickListener(v -> {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(url));
+                            try {
+                                context.startActivity(intent);
+                            } catch (Exception e) {
+                                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                            }
+                            alertDialog.dismiss();
+                        });
+
+                        popupLinksBinding.copyLink.setOnClickListener(v -> {
+                            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, url);
+                            if (clipboard != null) {
+                                clipboard.setPrimaryClip(clip);
+                                Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                            }
+                            alertDialog.dismiss();
+                        });
+
+                        popupLinksBinding.checkRedirect.setOnClickListener(v -> {
+                            try {
+
+                                URL finalUrlCheck = new URL(url);
+                                new Thread(() -> {
+                                    try {
+                                        String redirect = null;
+                                        HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
+                                        httpsURLConnection.setConnectTimeout(10 * 1000);
+                                        httpsURLConnection.setRequestProperty("http.keepAlive", "false");
+                                        httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                        httpsURLConnection.setRequestMethod("HEAD");
+                                        if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
+                                            Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
+                                            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                                                if (entry.toString().toLowerCase().startsWith("location")) {
+                                                    Matcher matcher = urlPattern.matcher(entry.toString());
+                                                    if (matcher.find()) {
+                                                        redirect = matcher.group(1);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        httpsURLConnection.getInputStream().close();
+                                        if (redirect != null && redirect.compareTo(url) != 0) {
+                                            URL redirectURL = new URL(redirect);
+                                            String host = redirectURL.getHost();
+                                            String protocol = redirectURL.getProtocol();
+                                            if (protocol == null || host == null) {
+                                                redirect = null;
+                                            }
+                                        }
+                                        Handler mainHandler = new Handler(context.getMainLooper());
+                                        String finalRedirect = redirect;
+                                        Runnable myRunnable = () -> {
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                            if (finalRedirect != null) {
+                                                builder1.setMessage(context.getString(R.string.redirect_detected, url, finalRedirect));
+                                                builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
+                                                    ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                                    ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
+                                                    if (clipboard1 != null) {
+                                                        clipboard1.setPrimaryClip(clip1);
+                                                        Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                                                    }
+                                                    dialog.dismiss();
+                                                });
+                                                builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
+                                                    Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
+                                                    sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                                                    sendIntent1.putExtra(Intent.EXTRA_TEXT, url);
+                                                    sendIntent1.setType("text/plain");
+                                                    context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
+                                                    dialog.dismiss();
+                                                });
+                                            } else {
+                                                builder1.setMessage(R.string.no_redirect);
+                                            }
+                                            builder1.setTitle(context.getString(R.string.check_redirect));
+                                            builder1.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                                    .show();
+
+                                        };
+                                        mainHandler.post(myRunnable);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }).start();
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+
+                            alertDialog.dismiss();
+                        });
+
+                    }
+
                     @Override
                     public void onClick(@NonNull View textView) {
                         textView.setTag(CLICKABLE_SPAN);
-                        Helper.openBrowser(context, newURL);
+                        Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                        Matcher matcherLink = link.matcher(url);
+                        if (matcherLink.find() && !url.contains("medium.com")) {
+                            if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+                                CrossActionHelper.fetchRemoteStatus(context, MainActivity.accountWeakReference.get(), status, new CrossActionHelper.Callback() {
+                                    @Override
+                                    public void federatedStatus(Status status) {
+                                        Intent intent = new Intent(context, ContextActivity.class);
+                                        intent.putExtra(Helper.ARG_STATUS, status);
+                                        context.startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void federatedAccount(Account account) {
+
+                                    }
+                                });
+                            } else {//It's an account
+                                CrossActionHelper.fetchRemoteAccount(context, MainActivity.accountWeakReference.get(), status.account, new CrossActionHelper.Callback() {
+                                    @Override
+                                    public void federatedStatus(Status status) {
+
+                                    }
+
+                                    @Override
+                                    public void federatedAccount(Account account) {
+                                        Intent intent = new Intent(context, ProfileActivity.class);
+                                        Bundle b = new Bundle();
+                                        b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                        intent.putExtras(b);
+                                        context.startActivity(intent);
+                                    }
+                                });
+                            }
+                        } else {
+                            Helper.openBrowser(context, newURL);
+                        }
+
                     }
 
                     @Override

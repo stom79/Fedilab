@@ -27,13 +27,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.Account;
+import app.fedilab.android.client.mastodon.MastodonSearchService;
+import app.fedilab.android.client.mastodon.entities.Results;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.drawer.AccountsSearchAdapter;
@@ -41,6 +46,11 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 import es.dmoral.toasty.Toasty;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CrossActionHelper {
 
@@ -234,6 +244,122 @@ public class CrossActionHelper {
                 break;
         }
     }
+
+
+    private static MastodonSearchService init(Context context, @NonNull String instance) {
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance + "/api/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonSearchService.class);
+    }
+
+    /**
+     * Fetch and federate the remote status
+     */
+    public static void fetchRemoteStatus(@NonNull Context context, @NonNull Account ownerAccount, Status targetedStatus, Callback callback) {
+        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        new Thread(() -> {
+            Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, targetedStatus.url, null, "statuses", false, true, false, 0, null, null, 1);
+            Results results = null;
+            if (resultsCall != null) {
+                try {
+                    Response<Results> resultsResponse = resultsCall.execute();
+                    if (resultsResponse.isSuccessful()) {
+                        results = resultsResponse.body();
+                        if (results != null) {
+                            if (results.statuses == null) {
+                                results.statuses = new ArrayList<>();
+                            } else {
+                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
+                            }
+                            if (results.accounts == null) {
+                                results.accounts = new ArrayList<>();
+                            }
+                            if (results.hashtags == null) {
+                                results.hashtags = new ArrayList<>();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Results finalResults = results;
+            Runnable myRunnable = () -> {
+                if (finalResults != null && finalResults.statuses != null && finalResults.statuses.size() > 0) {
+                    callback.federatedStatus(finalResults.statuses.get(0));
+                }
+            };
+            mainHandler.post(myRunnable);
+
+        }).start();
+    }
+
+    /**
+     * Fetch and federate the remote status
+     */
+    public static void fetchRemoteAccount(@NonNull Context context, @NonNull Account ownerAccount, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Callback callback) {
+
+
+        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        String search;
+        if (targetedAccount.acct.contains("@")) { //Not from same instance
+            search = targetedAccount.acct;
+        } else {
+            search = targetedAccount.acct + "@" + BaseMainActivity.currentInstance;
+        }
+        new Thread(() -> {
+            Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, search, null, "accounts", false, true, false, 0, null, null, 1);
+            Results results = null;
+            if (resultsCall != null) {
+                try {
+                    Response<Results> resultsResponse = resultsCall.execute();
+                    if (resultsResponse.isSuccessful()) {
+                        results = resultsResponse.body();
+                        if (results != null) {
+                            if (results.statuses == null) {
+                                results.statuses = new ArrayList<>();
+                            } else {
+                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
+                            }
+                            if (results.accounts == null) {
+                                results.accounts = new ArrayList<>();
+                            }
+                            if (results.hashtags == null) {
+                                results.hashtags = new ArrayList<>();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Results finalResults = results;
+            Runnable myRunnable = () -> {
+                if (finalResults != null && finalResults.accounts != null && finalResults.accounts.size() > 0) {
+                    callback.federatedAccount(finalResults.accounts.get(0));
+                }
+            };
+            mainHandler.post(myRunnable);
+
+        }).start();
+    }
+
+    public interface Callback {
+        void federatedStatus(Status status);
+
+        void federatedAccount(app.fedilab.android.client.mastodon.entities.Account account);
+    }
+
 
     public enum TypeOfCrossAction {
         FOLLOW_ACTION,
