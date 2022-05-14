@@ -364,6 +364,8 @@ public class Timeline {
         PUBLIC("PUBLIC"),
         @SerializedName("TAG")
         TAG("TAG"),
+        @SerializedName("ART")
+        ART("ART"),
         @SerializedName("LIST")
         LIST("LIST"),
         @SerializedName("REMOTE")

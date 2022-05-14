@@ -73,7 +73,6 @@ import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -122,7 +121,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static Account.API api;
     public static boolean admin;
     public static WeakReference<Account> accountWeakReference;
-    public static HashMap<Integer, Fragment> mPageReferenceMap;
     public static status networkAvailable = UNKNOWN;
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;

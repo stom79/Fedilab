@@ -16,13 +16,15 @@ package app.fedilab.android.client.mastodon.entities;
 
 import android.text.Spannable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Status implements Serializable {
+public class Status implements Serializable, Cloneable {
 
     @SerializedName("id")
     public String id;
@@ -83,6 +85,9 @@ public class Status implements Serializable {
     @SerializedName("poll")
     public Poll poll;
 
+
+    public Attachment art_attachment;
+
     //Some extra spannable element - They will be filled automatically when fetching the status
     public transient Spannable span_content;
     public transient Spannable span_spoiler_text;
@@ -97,5 +102,10 @@ public class Status implements Serializable {
     public transient boolean isFocused = false;
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
+
+    @NonNull
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
 }

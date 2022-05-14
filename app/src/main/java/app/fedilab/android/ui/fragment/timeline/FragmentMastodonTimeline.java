@@ -45,6 +45,7 @@ import app.fedilab.android.client.entities.QuickLoad;
 import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.mastodon.entities.Account;
+import app.fedilab.android.client.mastodon.entities.Attachment;
 import app.fedilab.android.client.mastodon.entities.Marker;
 import app.fedilab.android.client.mastodon.entities.Pagination;
 import app.fedilab.android.client.mastodon.entities.Status;
@@ -178,6 +179,9 @@ public class FragmentMastodonTimeline extends Fragment {
         }
         if (tagTimeline != null) {
             ident = tagTimeline.name;
+            if (tagTimeline.isART) {
+                timelineType = Timeline.TimeLineEnum.ART;
+            }
         } else if (list_id != null) {
             ident = list_id;
         } else if (remoteInstance != null) {
@@ -252,6 +256,27 @@ public class FragmentMastodonTimeline extends Fragment {
         if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
+        } else if (timelineType == Timeline.TimeLineEnum.ART) {
+            //We have to split media in different statuses
+            List<Status> mediaStatuses = new ArrayList<>();
+            for (Status status : statuses.statuses) {
+                if (!tagTimeline.isNSFW && status.sensitive) {
+                    continue;
+                }
+                for (Attachment attachment : status.media_attachments) {
+                    try {
+                        Status statusTmp = (Status) status.clone();
+                        statusTmp.art_attachment = attachment;
+                        mediaStatuses.add(statusTmp);
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            if (mediaStatuses.size() > 0) {
+                statuses.statuses = mediaStatuses;
+            }
         }
 
         binding.recyclerView.setVisibility(View.VISIBLE);
@@ -333,6 +358,21 @@ public class FragmentMastodonTimeline extends Fragment {
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null) {
+
+            if (timelineType == Timeline.TimeLineEnum.ART) {
+                //We have to split media in different statuses
+                List<Status> mediaStatuses = new ArrayList<>();
+                for (Status status : fetched_statuses.statuses) {
+                    if (status.media_attachments.size() > 1) {
+                        for (Attachment attachment : status.media_attachments) {
+                            status.media_attachments = new ArrayList<>();
+                            status.media_attachments.add(0, attachment);
+                            mediaStatuses.add(status);
+                        }
+                    }
+                }
+                fetched_statuses.statuses = mediaStatuses;
+            }
             //There are some statuses present in the timeline
             int startId = statuses.size();
             if (direction == DIRECTION.TOP) {
@@ -492,7 +532,7 @@ public class FragmentMastodonTimeline extends Fragment {
                             timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
                         }
-                    } else if (timelineType == Timeline.TimeLineEnum.TAG) { //TAG TIMELINE
+                    } else if (timelineType == Timeline.TimeLineEnum.TAG || timelineType == Timeline.TimeLineEnum.ART) { //TAG TIMELINE
                         if (tagTimeline == null) {
                             tagTimeline = new TagTimeline();
                             tagTimeline.name = search;

@@ -161,7 +161,9 @@ public class SpannableHelper {
         while (matcherALink.find()) {
             int matchStart = matcherALink.start() - offSetTruncate;
             int matchEnd = matchStart + matcherALink.group().length();
-
+            if (matchEnd > content.toString().length()) {
+                matchEnd = content.toString().length();
+            }
             final String url = content.toString().substring(matchStart, matchEnd);
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed

@@ -85,8 +85,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
                 if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                     bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
                 } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
-                    String tag = pinnedTimeline.tagTimeline.name.replaceAll("#", "");
-                    bundle.putString(Helper.ARG_SEARCH_KEYWORD, tag);
+                    bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
                 } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
                     String instance = pinnedTimeline.remoteInstance.host;
                     bundle.putString(Helper.ARG_REMOTE_INSTANCE, instance);

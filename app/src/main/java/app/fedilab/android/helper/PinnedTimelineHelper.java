@@ -14,7 +14,6 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.mPageReferenceMap;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
 import android.content.Context;
@@ -192,10 +191,10 @@ public class PinnedTimelineHelper {
 
                         break;
                     case TAG:
-                        tagClick(activity, finalPinned, v, finalI);
+                        tagClick(activity, finalPinned, v, activityMainBinding, finalI);
                         break;
                     case REMOTE:
-                        instanceClick(activity, finalPinned, v, finalI);
+                        instanceClick(activity, finalPinned, v, activityMainBinding, finalI);
                         break;
                 }
                 return true;
@@ -265,7 +264,7 @@ public class PinnedTimelineHelper {
      * @param view     - View
      * @param position - int position of the tab
      */
-    public static void tagClick(Context context, Pinned pinned, View view, int position) {
+    public static void tagClick(Context context, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position) {
 
         PopupMenu popup = new PopupMenu(new ContextThemeWrapper(context, Helper.popupStyle()), view);
         int offSetPosition = position - BOTTOM_TIMELINE_COUNT;
@@ -295,24 +294,23 @@ public class PinnedTimelineHelper {
         itemShowNSFW.setChecked(showNSFW[0]);
         popup.setOnDismissListener(menu1 -> {
             if (changes[0]) {
-                if (mPageReferenceMap == null)
-                    return;
-                FragmentTransaction fragTransaction = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
-                FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) mPageReferenceMap.get(pinned.pinnedTimelines.get(position).position);
-                if (fragmentMastodonTimeline == null)
-                    return;
-                fragTransaction.detach(fragmentMastodonTimeline);
-                Bundle bundle = new Bundle();
-                bundle.putString("tag", tagTimeline.name);
-                bundle.putInt("timelineId", tagTimeline.id);
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-                if (mediaOnly[0])
-                    bundle.putString("instanceType", "ART");
-                else
-                    bundle.putString("instanceType", "MASTODON");
-                fragmentMastodonTimeline.setArguments(bundle);
-                fragTransaction.attach(fragmentMastodonTimeline);
-                fragTransaction.commit();
+                FragmentMastodonTimeline fragmentMastodonTimeline;
+                if (activityMainBinding.viewPager.getAdapter() != null) {
+                    Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        FragmentTransaction fragTransaction = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+                        fragTransaction.detach(fragmentMastodonTimeline).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+                        bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
+                        fragmentMastodonTimeline.setArguments(bundle);
+                        FragmentTransaction fragTransaction2 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+                        fragTransaction2.attach(fragmentMastodonTimeline);
+                        fragTransaction2.commit();
+                    }
+                }
+
             }
         });
 
@@ -479,7 +477,7 @@ public class PinnedTimelineHelper {
      * @param view     - View
      * @param position - int position of the tab
      */
-    public static void instanceClick(Context context, Pinned pinned, View view, int position) {
+    public static void instanceClick(Context context, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position) {
 
         PopupMenu popup = new PopupMenu(new ContextThemeWrapper(context, Helper.popupStyle()), view);
         int offSetPosition = position - BOTTOM_TIMELINE_COUNT;
@@ -512,12 +510,17 @@ public class PinnedTimelineHelper {
                 }
             });
             changes[0] = true;
-            FragmentTransaction fragTransaction = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
-            if (mPageReferenceMap == null)
-                return true;
-            FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) mPageReferenceMap.get(pinned.pinnedTimelines.get(position).position);
+            FragmentMastodonTimeline fragmentMastodonTimeline = null;
+            if (activityMainBinding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                }
+            }
             if (fragmentMastodonTimeline == null)
                 return false;
+            FragmentTransaction fragTransaction1 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+
             pinned.pinnedTimelines.get(offSetPosition).remoteInstance.filteredWith = null;
             remoteInstance.filteredWith = null;
             currentFilter[0] = null;
@@ -527,15 +530,16 @@ public class PinnedTimelineHelper {
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            fragTransaction.detach(fragmentMastodonTimeline);
+            fragTransaction1.detach(fragmentMastodonTimeline).commit();
             Bundle bundle = new Bundle();
             bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
             bundle.putString("instanceType", remoteInstance.type.getValue());
             bundle.putString("timelineId", remoteInstance.id);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
             fragmentMastodonTimeline.setArguments(bundle);
-            fragTransaction.attach(fragmentMastodonTimeline);
-            fragTransaction.commit();
+            FragmentTransaction fragTransaction2 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+            fragTransaction2.attach(fragmentMastodonTimeline);
+            fragTransaction2.commit();
             popup.getMenu().close();
             return false;
         });
@@ -553,10 +557,15 @@ public class PinnedTimelineHelper {
                 }
                 MenuItem item = popup.getMenu().add(0, 0, Menu.NONE, title);
                 item.setOnMenuItemClickListener(item1 -> {
-                    FragmentTransaction fragTransaction = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
-                    if (mPageReferenceMap == null)
-                        return true;
-                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) mPageReferenceMap.get(pinned.pinnedTimelines.get(position).position);
+                    FragmentMastodonTimeline fragmentMastodonTimeline = null;
+                    if (activityMainBinding.viewPager.getAdapter() != null) {
+                        Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                            fragmentMastodonTimeline.refreshAllAdapters();
+                        }
+                    }
+                    FragmentTransaction fragTransaction1 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
                     if (fragmentMastodonTimeline == null)
                         return false;
                     pinned.pinnedTimelines.get(offSetPosition).remoteInstance.filteredWith = tag;
@@ -567,7 +576,7 @@ public class PinnedTimelineHelper {
                         e.printStackTrace();
                     }
                     currentFilter[0] = remoteInstance.filteredWith;
-                    fragTransaction.detach(fragmentMastodonTimeline);
+                    fragTransaction1.detach(fragmentMastodonTimeline).commit();
                     Bundle bundle = new Bundle();
                     bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
                     bundle.putString("instanceType", remoteInstance.type.getValue());
@@ -575,8 +584,9 @@ public class PinnedTimelineHelper {
                     bundle.putString("currentfilter", remoteInstance.filteredWith);
                     bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                     fragmentMastodonTimeline.setArguments(bundle);
-                    fragTransaction.attach(fragmentMastodonTimeline);
-                    fragTransaction.commit();
+                    FragmentTransaction fragTransaction2 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+                    fragTransaction2.attach(fragmentMastodonTimeline);
+                    fragTransaction2.commit();
                     return false;
                 });
             }
@@ -621,7 +631,7 @@ public class PinnedTimelineHelper {
                 }
                 popup.getMenu().clear();
                 popup.getMenu().close();
-                instanceClick(context, pinned, view, position);
+                instanceClick(context, pinned, view, activityMainBinding, position);
             });
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
@@ -630,13 +640,18 @@ public class PinnedTimelineHelper {
 
         popup.setOnDismissListener(menu -> {
             if (changes[0]) {
-                FragmentTransaction fragTransaction = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
-                if (mPageReferenceMap == null)
-                    return;
-                FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) mPageReferenceMap.get(pinned.pinnedTimelines.get(position).position);
+                FragmentMastodonTimeline fragmentMastodonTimeline = null;
+                if (activityMainBinding.viewPager.getAdapter() != null) {
+                    Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        fragmentMastodonTimeline.refreshAllAdapters();
+                    }
+                }
+                FragmentTransaction fragTransaction1 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
                 if (fragmentMastodonTimeline == null)
                     return;
-                fragTransaction.detach(fragmentMastodonTimeline);
+                fragTransaction1.detach(fragmentMastodonTimeline).commit();
                 Bundle bundle = new Bundle();
                 bundle.putString(Helper.ARG_REMOTE_INSTANCE, remoteInstance.host != null ? remoteInstance.host : "");
                 bundle.putString("instanceType", remoteInstance.type.getValue());
@@ -646,8 +661,9 @@ public class PinnedTimelineHelper {
                 }
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                 fragmentMastodonTimeline.setArguments(bundle);
-                fragTransaction.attach(fragmentMastodonTimeline);
-                fragTransaction.commit();
+                FragmentTransaction fragTransaction2 = ((BaseMainActivity) context).getSupportFragmentManager().beginTransaction();
+                fragTransaction2.attach(fragmentMastodonTimeline);
+                fragTransaction2.commit();
             }
         });
 

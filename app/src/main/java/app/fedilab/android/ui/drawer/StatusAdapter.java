@@ -86,6 +86,7 @@ import com.varunest.sparkbutton.SparkButton;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -106,6 +107,7 @@ import app.fedilab.android.client.mastodon.entities.Attachment;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.client.mastodon.entities.Poll;
 import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
@@ -130,6 +132,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean minified;
     private Context context;
     private final Timeline.TimeLineEnum timelineType;
+
+    public static final int STATUS_HIDDEN = 0;
+    public static final int STATUS_VISIBLE = 1;
+    public static final int STATUS_ART = 2;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
         this.statusList = statuses;
@@ -188,14 +194,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * Manage status, this method is also reused in notifications timelines
      *
      * @param context          Context
-     * @param context          Timeline.TimeLineEnum timelineType
      * @param statusesVM       StatusesVM - For handling actions in background to the correct activity
      * @param searchVM         SearchVM - For handling remote actions
      * @param holder           StatusViewHolder
      * @param adapter          RecyclerView.Adapter<RecyclerView.ViewHolder> - General adapter that can be for {@link StatusAdapter} or {@link NotificationAdapter}
      * @param statusList       List<Status>
      * @param notificationList List<Notification>
-     * @param timelineType     Timeline.TimeLineEnum
+     * @param timelineType     Timeline.TimeLineEnum timelineTypeTimeline.TimeLineEnum
      * @param status           {@link Status}
      */
     @SuppressLint("ClickableViewAccessibility")
@@ -1545,17 +1550,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        return isVisble(timelineType, statusList.get(position)) ? 1 : 0;
+        if (timelineType == Timeline.TimeLineEnum.ART) {
+            return STATUS_ART;
+        } else {
+            return isVisble(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+        }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        if (viewType == 0) {
+        if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
             DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
-        } else {
+        } else if (viewType == STATUS_ART) { //Art statuses
+            DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else { //Classic statuses
             if (!minified) {
                 DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
                 return new StatusViewHolder(itemBinding);
@@ -1581,29 +1593,67 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        if (viewHolder.getItemViewType() == 0) {
+        //Nothing to do with hidden statuses
+        if (viewHolder.getItemViewType() == STATUS_HIDDEN) {
             return;
         }
         Status status = statusList.get(position);
-        StatusViewHolder holder = (StatusViewHolder) viewHolder;
-        StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
-        SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified);
-        if (holder.timer != null) {
-            holder.timer.cancel();
-            holder.timer = null;
-        }
-        if (status.emojis != null && status.emojis.size() > 0) {
-            holder.timer = new Timer();
-            holder.timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> holder.binding.statusContent.invalidate();
-                    mainHandler.post(myRunnable);
+        if (viewHolder.getItemViewType() == STATUS_VISIBLE) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+            SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
+            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified);
+            if (holder.timer != null) {
+                holder.timer.cancel();
+                holder.timer = null;
+            }
+            if (status.emojis != null && status.emojis.size() > 0) {
+                holder.timer = new Timer();
+                holder.timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> holder.binding.statusContent.invalidate();
+                        mainHandler.post(myRunnable);
 
-                }
-            }, 100, 100);
+                    }
+                }, 100, 100);
+            }
+        } else if (viewHolder.getItemViewType() == STATUS_ART) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
+            Glide.with(holder.bindingArt.artMedia.getContext())
+                    .load(status.art_attachment.preview_url)
+                    .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                    .into(holder.bindingArt.artMedia);
+            holder.bindingArt.artAcct.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
+            holder.bindingArt.artUsername.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
+            holder.bindingArt.artPp.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable(Helper.ARG_ACCOUNT, status.account);
+                intent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artPp, context.getString(R.string.activity_porfile_pp));
+                context.startActivity(intent, options.toBundle());
+            });
+            holder.bindingArt.artMedia.setOnClickListener(v -> {
+                Intent mediaIntent = new Intent(context, MediaActivity.class);
+                Bundle b = new Bundle();
+                b.putInt(Helper.ARG_MEDIA_POSITION, 1);
+                ArrayList<Attachment> attachments = new ArrayList<>();
+                attachments.add(status.art_attachment);
+                b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+                mediaIntent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artMedia, status.art_attachment.url);
+                context.startActivity(mediaIntent, options.toBundle());
+            });
+            holder.bindingArt.bottomBanner.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ContextActivity.class);
+                intent.putExtra(Helper.ARG_STATUS, status);
+                context.startActivity(intent);
+            });
         }
     }
 
@@ -1625,6 +1675,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusHiddenBinding bindingHidden;
         DrawerStatusReportBinding bindingReport;
         DrawerStatusNotificationBinding bindingNotification;
+        DrawerStatusArtBinding bindingArt;
         Timer timer;
 
         StatusViewHolder(DrawerStatusBinding itemView) {
@@ -1649,6 +1700,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             bindingHidden = itemView;
         }
 
+        StatusViewHolder(DrawerStatusArtBinding itemView) {
+            super(itemView.getRoot());
+            bindingArt = itemView;
+        }
     }
 
 
