@@ -403,12 +403,13 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
 \n
 \n <b>⚠ Diese Aktionen werden nur auf Verlangen des Benutzers durchgeführt.</b> </string>
     <string name="privacy_API_title">Tracking und Bibliotheken</string>
-    <string name="privacy_API">Die Anwendung <b>nutzt keine Trackingwergzeuge</b>(Zielgruppenbestimmung, Fehlerberichte, etc.) und enthält keinerlei Werbung.\n\n
-        Die Nutzung von Bibliotheken ist minimiert:\n
-        -<b>Glide</b>: Medien verwalten\n
-        -<b>Android-Job</b>: Dienste verwalten\n
-        -<b>PhotoView</b>: Bilder verwalten\n
-    </string>
+    <string name="privacy_API"> Die Anwendung <b>nutzt keine Trackingwergzeuge</b>(Zielgruppenbestimmung, Fehlerberichte, etc.) und enthält keinerlei Werbung.
+\n
+\n Die Nutzung von Bibliotheken ist minimiert:
+\n -<b>Glide</b>: Medien verwalten
+\n -<b>Android-Job</b>: Dienste verwalten
+\n -<b>PhotoView</b>: Bilder verwalten
+\n </string>
     <string name="privacy_API_yandex_title">Übersetzen von Toots</string>
     <string name="privacy_API_yandex_authorizations">Die Anwendung bietet die Möglichkeit, Toots mit Hilfe des Gebietsschemas des Geräts und der Yandex-API zu übersetzen.\nYandex verfügt über eine eigene Datenschutzrichtlinie, die du hier finden kannst: https://yandex.ru/legal/confidential/?lang=en    </string>
     <string name="thanks_text_dev">Danke an:</string>
@@ -430,12 +431,17 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <!-- Migration -->
     <string name="account_moved_to">%1$s wurde verschoben nach %2$s</string>
     <string name="issue_login_title">Authentifizierung funktioniert nicht?</string>
-    <string name="issue_login_message"><b>Hier sind einige Vorschläge die helfen könnten:</b>\n\n
-- Prüfe ob der Instanzname richtig geschrieben ist\n\n
-- Prüfe ob die Instanz online ist\n\n
-- Benutze den Link unten falls du Zweifaktor-Authentifizierung (2FA) nutzt (nachdem der Instanzname eingetragen wurde)\n\n
-- Du kannst diesen Link auch ohne 2FA benutzen\n\n
-- Erstelle ein issue bei Framagit falls es dennoch nicht funktioniert: https://framagit.org/tom79/fedilab/issues    </string>
+    <string name="issue_login_message"> <b>Hier sind einige Vorschläge die helfen könnten:</b>
+\n
+\n - Prüfe ob der Instanzname richtig geschrieben ist
+\n
+\n - Prüfe ob die Instanz online ist
+\n
+\n - Benutze den Link unten falls du Zweifaktor-Authentifizierung (2FA) nutzt (nachdem der Instanzname eingetragen wurde)
+\n
+\n - Du kannst diesen Link auch ohne 2FA benutzen
+\n
+\n - Erstelle ein issue bei Framagit falls es dennoch nicht funktioniert: https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">Media wurde geladen. Hier klicken zum anzeigen.</string>
     <string name="data_export_start">Diese Aktion kann sehr lange dauern. Du wirst benachrichtigt wenn sie abgeschlossen wurde.</string>
     <string name="data_export_running">Läuft noch, bitte warten…</string>
@@ -748,7 +754,7 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="history">Verlauf</string>
     <string name="playlists">Wiedergabelisten</string>
     <string name="display_name">Anzeigename</string>
-    <string name="action_playlist_add">Du hast noch keine Wiedergabelisten. Klicke auf das Symbol „➕”, um eine neue Wiedergabeliste hinzuzufügen.</string>
+    <string name="action_playlist_add">Du hast noch keine Wiedergabelisten. Tippe auf das \"+\"-Symbol, um eine neue Wiedergabeliste hinzuzufügen</string>
     <string name="error_display_name">Du musst einen Anzeigenamen angeben!</string>
     <string name="error_channel_mandatory">Ein Kanal wird benötigt, wenn es sich um eine öffentliche Wiedergabeliste handelt.</string>
     <string name="action_playlist_create">Wiedergabeliste erstellen</string>
@@ -811,7 +817,13 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="password_too_short">Das Passwort muss mindestens 8 Zeichen lang sein</string>
     <string name="username_error">Der Benutzername darf nur Buchstaben, Ziffern und Unterstriche enthalten</string>
     <string name="account_created">Account erstellt!</string>
-    <string name="account_created_message">Dein Konto wurde erfolgreich erstellt!\n\nDenke daran, deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.\n\nDu kannst nun dein Konto verbinden, indem du <b>%1$s</b> in das erste Feld schreibst und auf die Schaltfläche <b>Verbinden</b> klickst.\n\n<b>Wichtig</b>: Wenn deine Instanz eine Bestätigung benötigt, erhältst du eine E-Mail, sobald sie geprüft wurde!    </string>
+    <string name="account_created_message"> Dein Konto wurde erfolgreich erstellt!
+\n
+\nDenke daran, deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.
+\n
+\nDu kannst nun dein Konto verbinden, indem du <b>%1$s</b> in das erste Feld schreibst und auf die Schaltfläche <b>Verbinden</b> klickst.
+\n
+\n<b>Wichtig</b>: Wenn deine Instanz eine Bestätigung benötigt, erhältst du eine E-Mail, sobald sie geprüft wurde! </string>
     <string name="save_draft">Möchtest du die Nachricht als Entwurf speichern?</string>
     <string name="administration">Verwaltung</string>
     <string name="reports">Berichte</string>
@@ -877,18 +889,19 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="set_quick_reply_indication">Ermöglicht das direkte Antworten in Zeitachsen unterhalb des Status</string>
     <string name="set_fit_preview_indication">Vorschauen in Zeitachsen werden nicht beschnitten</string>
     <string name="set_display_video_preview_indication">Ermöglicht die Wiedergabe eingebetteter Videos direkt in der Zeitleiste</string>
-    <string name="set_display_content_after_fetch_more_indication">Ermöglicht es, die Art und Weise umzukehren, wie Zustände gelesen werden, die nach dem Klicken auf die Schaltfläche „Mehr nachladen” angezeigt werden.</string>
+    <string name="set_display_content_after_fetch_more_indication">Ermöglicht die Umkehrung der Art und Weise des Lesens von Statusmeldungen, die nach dem Tippen auf die Schaltfläche \"Mehr abrufen\" angezeigt werden</string>
     <string name="set_security_provider_indication">Diese Option ermöglicht die Unterstützung aktueller Verschlüsselungs-Suiten. Es ist nützlich für ältere Android-Geräte oder wenn du keine Verbindung zu deiner Instanz herstellen kannst.</string>
     <string name="set_video_mode_indication">Exklusiv für PeerTube-Videos. Aktiviere diesen Modus, wenn Videos nicht wiedergeben können.</string>
     <string name="featured_hashtags_indication">Diese Schlagwörter ermöglichen es, den Status von Profilen zu filtern. Du musst das Kontextmenü verwenden, um diese anzuzeigen.</string>
-    <string name="set_capitalize_indication">Automatisches Einfügen eines Zeilenumbruchs nach der Anweisung den ersten Buchstaben groß zu schreiben.</string>
+    <string name="set_capitalize_indication">Automatisches Einfügen eines Zeilenumbruchs nach der Anweisung den ersten Buchstaben groß zu schreiben</string>
     <string name="settings_title_custom_sharing_indication">Ermöglicht es Inhaltserstellern, den Status ihrer RSS-Feeds zu teilen</string>
     <string name="compose">Verfassen</string>
     <string name="upload_image_maximum_retry_times">Max. Anzahl Wiederholversuche zum Hochladen von Medien</string>
     <string name="new_folder">Hier einen neuen Ordner erstellen</string>
     <string name="folder_name">Ordnernamen eingeben</string>
     <string name="valid_folder_name">Bitte einen gültigen Ordnernamen eingeben</string>
-    <string name="folder_exists">Dieser Ordner existiert bereits.\nBitte einen anderen Ordnernamen eingeben.</string>
+    <string name="folder_exists">Dieser Ordner existiert bereits.
+\nBitte gib einen anderen Namen für den Ordner an</string>
     <string name="select">Auswählen</string>
     <string name="default_directory">Standardordner</string>
     <string name="folder">Ordner</string>
@@ -986,7 +999,7 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="unfollow_confirm">Möchtest du diesem Konto nicht mehr folgen?</string>
     <string name="set_unfollow_validation">Bestätigungsdialog anzeigen, bevor nicht mehr gefolgt wird</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description">Benutze ein alternatives Frontend für Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="replace_wikipedia">Replace Wikipedia links</string>
     <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
@@ -1129,10 +1142,10 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="stop_recording">Aufnahme anhalten</string>
     <string name="report_val1">Ich mag es nicht</string>
     <string name="report_val2">Es ist Spam</string>
-    <string name="toot_visibility_title">Sichtbarkeit des Tröts</string>
+    <string name="toot_visibility_title">Sichtbarkeit von dem Toot</string>
     <string name="toast_bookmark">Der Tröt wurde zu deinen Lesezeichen hinzugefügt!</string>
     <string name="toast_unbookmark">Der Tröt wurde von deinen Lesezeichen entfernt!</string>
-    <string name="set_accounts_page">Anzahl der geladenen Konten pro Laden</string>
+    <string name="set_accounts_page">Anzahl der Konten pro Laden</string>
     <string name="category_music">Musik</string>
     <string name="cannot_be_empty">Dieses Feld kann nicht leer sein!</string>
     <string name="permission_record">Diese App benötigt Zugriff auf Audioaufnahmen</string>
@@ -1146,4 +1159,56 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="other">Andere</string>
+    <string name="display">Anzeige</string>
+    <string name="report_1_title">Du willst das nicht sehen\?</string>
+    <string name="report_val_more3">Du bist dir bewusst, dass es gegen bestimmte Regeln verstößt</string>
+    <string name="report_val3">Es verstößt gegen die Serverregeln</string>
+    <string name="report_val_more4">Das Thema lässt sich nicht in andere Kategorien einordnen</string>
+    <string name="report_val4">Es ist etwas anderes</string>
+    <string name="report_val_more1">Das ist nichts, was Du sehen willst</string>
+    <string name="report_title">Meldung %1$s</string>
+    <string name="instance_health_uptime">Laufzeit: %,.2f %%</string>
+    <string name="report_more_additional">Zusätzliche Kommentare</string>
+    <string name="report_more">Gibt es noch etwas, das wir deiner Meinung nach wissen sollten\?</string>
+    <string name="report_all_more">Wähle alle zutreffenden Punkte aus</string>
+    <string name="report_3_title">Welche Regeln werden verletzt\?</string>
+    <string name="report_2_title">Gibt es Beiträge, die diesen Bericht belegen\?</string>
+    <string name="dont_have_an_account">Du hast noch kein Account\?</string>
+    <string name="report_sent">Bericht wurde gesendet!</string>
+    <string name="report_more_forward">Weiterleiten an %1$s</string>
+    <string name="join_the_fediverse">Tritt dem Fediverse bei</string>
+    <string name="join_peertube_message">\"PeerTube, entwickelt von Framasoft, ist die kostenlose und dezentralisierte Alternative zu Videoplattformen und bietet Ihnen über 400.000 Videos, die von 60.000 Nutzern veröffentlicht und über 15 Millionen Mal angesehen wurden</string>
+    <string name="notif_display_mentions">Erwähnungen</string>
+    <string name="about_mastodon">\"Mastodon ist keine einzelne Website wie Twitter oder Facebook, sondern ein Netzwerk aus Tausenden von Communities, die von verschiedenen Organisationen und Einzelpersonen betrieben werden und ein nahtloses Social-Media-Erlebnis bieten.\"</string>
+    <string name="notif_display_favourites">Favoriten</string>
+    <string name="save_changes">Änderungen speichern</string>
+    <string name="locked">Gesperrt</string>
+    <string name="unlocked">Entsperrt</string>
+    <string name="add_field">Feld hinzufügen</string>
+    <string name="add_filter">Filter hinzufügen</string>
+    <string name="delete_notification_all_warning">Bist du sicher, dass du alle Benachrichtigungen löschen willst\? Das kann nicht rückgängig gemacht werden.</string>
+    <string name="display_all_categories">Alle Kategorien anzeigen</string>
+    <string name="notif_display_poll_results">Umfrageergebnisse</string>
+    <string name="mark_all_as_read">Alle Benachrichtigungen als gelesen markieren</string>
+    <string name="clear_all_notif">Alle Benachrichtigungen löschen</string>
+    <string name="scheduled">Geplant</string>
+    <string name="profiled_updated">Profil wurde aktualisiert!</string>
+    <string name="not_valid_list_name">Listenname ist nicht gültig!</string>
+    <string name="no_account_in_list">Keine Accounts für diese Liste gefunden!</string>
+    <string name="delete_field_confirm">Bist du sicher, dass du dieses Feld löschen willst\?</string>
+    <string name="delete_field">Feld löschen</string>
+    <string name="type_of_notifications">Art der Benachrichtigungen</string>
+    <string name="disable_notifications">Benachrichtigungen deaktivieren</string>
+    <string name="notification_sounds">Benachrichtigungstöne</string>
+    <string name="notification_options">Benachrichtigungsoptionen</string>
+    <string name="type_of_notifications_title">Wähle die Art der Benachrichtigung</string>
+    <string name="pref_contributor">Themen der Mitwirkenden</string>
+    <string name="customize_timelines">Zeitleisten anpassen</string>
+    <string name="select_a_theme">Ein Thema wählen</string>
+    <string name="more_actions">Weitere Aktionen</string>
+    <string name="customize_main_colors">Anpassen der Hauptfarben</string>
+    <string name="pref_contributor_summary">Wähle ein Thema, das von Mitwirkenden erstellt wurde</string>
+    <string name="message_has_been_sent">Nachricht wurde gesendet!</string>
+    <string name="poll_duration">Dauer der Umfrage:</string>
+    <string name="poll_type">Art der Umfrage:</string>
 </resources>
