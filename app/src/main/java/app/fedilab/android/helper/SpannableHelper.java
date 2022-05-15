@@ -60,6 +60,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -423,8 +424,24 @@ public class SpannableHelper {
                                     intent = new Intent(context, ProfileActivity.class);
                                     b = new Bundle();
                                     Mention targetedMention = null;
+                                    HashMap<String, Integer> countUsername = new HashMap<>();
                                     for (Mention mention : status.mentions) {
-                                        if (word.trim().compareToIgnoreCase("@" + mention.acct) == 0) {
+                                        Integer count = countUsername.get(mention.username);
+                                        if (count == null) {
+                                            count = 0;
+                                        }
+                                        if (countUsername.containsKey(mention.username)) {
+                                            countUsername.put(mention.username, count + 1);
+                                        } else {
+                                            countUsername.put(mention.username, 1);
+                                        }
+                                    }
+                                    for (Mention mention : status.mentions) {
+                                        Integer count = countUsername.get(mention.username);
+                                        if (count == null) {
+                                            count = 0;
+                                        }
+                                        if (word.trim().compareToIgnoreCase("@" + mention.username) == 0 && count == 1) {
                                             targetedMention = mention;
                                             break;
                                         }
