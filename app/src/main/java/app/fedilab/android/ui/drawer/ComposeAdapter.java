@@ -35,6 +35,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -998,6 +999,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
+
+            int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+            holder.binding.content.setInputType(newInputType);
+
+            int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+            holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
+
             holder.binding.buttonAttach.setOnClickListener(v -> {
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {
@@ -1127,6 +1135,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.text = new SpannableString(Html.fromHtml(statusDraft.content)).toString();
             }
             holder.binding.content.setText(statusDraft.text);
+
             holder.binding.content.setSelection(statusDraft.cursorPosition);
             if (statusDraft.setCursorToEnd) {
                 statusDraft.setCursorToEnd = false;
