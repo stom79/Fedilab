@@ -198,12 +198,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     editor.putString(PREF_USER_TOKEN, account.token);
                     editor.commit();
                     Intent mainActivity = new Intent(this, MainActivity.class);
+                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
                     startActivity(mainActivity);
-                    intent.removeExtra(Helper.INTENT_ACTION);
                     finish();
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    binding.bottomNavView.getMenu().getItem(3).setChecked(true);
+                    binding.viewPager.setCurrentItem(3);
+                }, 1000);
+                intent.removeExtra(Helper.INTENT_ACTION);
+
             }
         }
 
