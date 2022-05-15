@@ -69,7 +69,7 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <app.fedilab.android.helper.CustomTextView
                 android:id="@+id/status_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -118,7 +118,7 @@
             android:layout_marginTop="6dp"
             tools:text="Warning: Lorem Ipsum below" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <app.fedilab.android.helper.CustomTextView
             android:id="@+id/spoiler_expand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
             android:textColor="@color/cyanea_accent_dark_reference"
             android:text="@string/show_content" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <app.fedilab.android.helper.CustomTextView
             android:id="@+id/status_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

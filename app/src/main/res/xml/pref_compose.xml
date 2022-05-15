@@ -5,17 +5,6 @@
     android:layout_height="match_parent"
     android:key="app_prefs">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MEDIA_URLS"
-        app:title="@string/set_auto_add_media_url" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_AUTO_STORE"
-        app:title="@string/set_auto_store_toot" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
@@ -50,21 +39,6 @@
         app:key="@string/SET_WATERMARK_TEXT"
         app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_AUTOMATICALLY_SPLIT_TOOTS"
-        app:title="@string/set_automatically_split_toot" />
-
-    <SeekBarPreference
-        android:max="3000"
-        app:defaultValue="500"
-        app:dependency="@string/SET_AUTOMATICALLY_SPLIT_TOOTS"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_AUTOMATICALLY_SPLIT_TOOTS_SIZE"
-        app:min="500"
-        app:seekBarIncrement="500"
-        app:showSeekBarValue="true" />
 
     <SwitchPreferenceCompat
         app:defaultValue="false"
@@ -84,12 +58,6 @@
         app:key="@string/SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL"
         app:title="@string/set_retrieve_metadata_share_from_extras" />
 
-    <ListPreference
-        app:entries="@array/toot_visibility"
-        app:entryValues="@array/TOOT_VISIBILITY"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TOOT_VISIBILITY"
-        app:title="@string/toots_visibility_title" />
 
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
@@ -109,18 +77,5 @@
         app:key="@string/SET_FORWARD_TAGS_IN_REPLY"
         app:title="@string/set_forward_tags" />
 
-    <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PHOTO_EDITOR"
-        app:title="@string/set_photo_editor" />
-
-    <SeekBarPreference
-        android:max="10"
-        app:defaultValue="3"
-        app:iconSpaceReserved="false"
-        app:key="@string/MAX_UPLOAD_IMG_RETRY_TIMES"
-        app:min="0"
-        app:showSeekBarValue="true"
-        app:title="@string/upload_image_maximum_retry_times" />
 
 </androidx.preference.PreferenceScreen>
