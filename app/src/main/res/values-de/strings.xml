@@ -24,7 +24,7 @@
     <string name="tags">Schlagwörter (tags)</string>
     <string name="save">Speichern</string>
     <string name="restore">Wiederherstellen</string>
-    <string name="no_result">Keine Ergebnisse.</string>
+    <string name="no_result">Keine Ergebnisse!</string>
     <string name="instance">Instanz</string>
     <string name="instance_example">Instanz: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Konto %1$s wird verwendet</string>
@@ -36,7 +36,7 @@
     <string name="clear">Bereinigen</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Alles löschen</string>
-    <string name="translate_toot">Toot übersetzen</string>
+    <string name="translate_toot">Diesen Toot übersetzen.</string>
     <string name="schedule">Planen</string>
     <string name="text_size">Text- und Symbolgröße</string>
     <string name="text_size_change">Aktuelle Textgröße ändern:</string>
@@ -301,7 +301,7 @@
     <string name="set_save_changes">Änderungen speichern</string>
     <string name="set_header_picture_overlay">Wähle ein Profilbild</string>
     <string name="set_fit_preview">Vorschaubilder anpassen</string>
-    <string name="set_automatically_split_toot">Toots mit mehr als 500 Zeichen automatisch unterteilen</string>
+    <string name="set_automatically_split_toot">Toots mit mehr als 500 Zeichen automatisch unterteilen:</string>
     <string name="note_no_space">Du hast die Grenze von 160 Zeichen erreicht!</string>
     <string name="username_no_space">Du hast die Grenze von 30 Zeichen erreicht!</string>
     <string name="settings_time_from">Zwischen</string>
@@ -321,7 +321,7 @@
         <item>Hell</item>
         <item>Schwarz</item>
     </string-array>
-    <string name="set_led_colour">LED Farbe auswählen</string>
+    <string name="set_led_colour">LED Farbe auswählen:</string>
     <string-array name="led_colours">
         <item>Blau</item>
         <item>Cyan</item>
@@ -390,17 +390,18 @@ Diese Daten sind streng vertraulich und können nur von der Anwendung verwendet 
 Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
 ⚠ Anmeldedaten und Passwörter werden nie gespeichert. Sie werden nur bei einer sicheren Authentifizierung (TLS) mit einer Instanz verwendet.    </string>
     <string name="privacy_authorizations_title">Berechtigungen:</string>
-    <string name="privacy_authorizations">- <b>ACCESS_NETWORK_STATE</b>: Erkennen von bestehenden Verbindungen zu WIFI Netzwerken.\n
-             - <b>INTERNET</b>: Genutzt für Anfragen an eine Instanz.\n
-             - <b>WRITE_EXTERNAL_STORAGE</b>: Dateien speichern oder App auf SD Karte verschieben.\n
-             - <b>READ_EXTERNAL_STORAGE</b>: Dateianhänge für toots.\n
-             - <b>BOOT_COMPLETED</b>: Benachrichtigungsdienst starten.\n
-             - <b>WAKE_LOCK</b>: Benachrichtigungsdienst.</string>
+    <string name="privacy_authorizations"> - <b>ACCESS_NETWORK_STATE</b>: Erkennen von bestehenden Verbindungen zu WIFI Netzwerken.
+\n - <b>INTERNET</b>: Genutzt für Anfragen an eine Instanz.
+\n - <b>WRITE_EXTERNAL_STORAGE</b>: Dateien speichern oder App auf SD Karte verschieben.
+\n - <b>READ_EXTERNAL_STORAGE</b>: Dateianhänge für toots.
+\n - <b>BOOT_COMPLETED</b>: Benachrichtigungsdienst starten.
+\n - <b>WAKE_LOCK</b>: Benachrichtigungsdienst. </string>
     <string name="privacy_API_authorizations_title">API Berechtigungen:</string>
-    <string name="privacy_API_authorizations">• <b>Lesen</b>: Daten lesen.\n
-• <b>Schreiben</b>: Beiträge veröffentlichen und Dateien hochladen.\n
-• <b>Folgen</b>: Folgen, nicht mehr folgen, blockieren, nicht mehr blockieren.\n\n
-<b>⚠ Diese Aktionen werden nur auf Verlangen des Benutzers durchgeführt.</b>    </string>
+    <string name="privacy_API_authorizations"> • <b>Lesen</b>: Daten lesen.
+\n • <b>Schreiben</b>: Beiträge veröffentlichen und Dateien hochladen.
+\n • <b>Folgen</b>: Folgen, nicht mehr folgen, blockieren, nicht mehr blockieren.
+\n
+\n <b>⚠ Diese Aktionen werden nur auf Verlangen des Benutzers durchgeführt.</b> </string>
     <string name="privacy_API_title">Tracking und Bibliotheken</string>
     <string name="privacy_API">Die Anwendung <b>nutzt keine Trackingwergzeuge</b>(Zielgruppenbestimmung, Fehlerberichte, etc.) und enthält keinerlei Werbung.\n\n
         Die Nutzung von Bibliotheken ist minimiert:\n
@@ -594,9 +595,10 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
         <item>1 Tag</item>
         <item>1 Woche</item>
     </string-array>
-    <string name="showcase_instance">In diesem Feld musst du deinen Instanz-Hostnamen eingeben.\nWenn du zum Beispiel ein Konto auf https://mastodon.social erstellt hast\nschreibe einfach <b>mastodon.social</b> (ohne https://)\n
-Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\n
-⚠ Die Schaltfläche „Anmelden” funktioniert nur, wenn der Instanzname gültig und die Instanz erreuchbar ist!    </string>
+    <string name="showcase_instance">In diesem Feld musst du deinen Instanz-Hostnamen eingeben.
+\nWenn du zum Beispiel ein Konto auf https://mastodon.social erstellt hast
+\nschreibe einfach <b>mastodon.social</b> 
+\n Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt </string>
     <string name="more_information">Mehr Informationen</string>
     <!-- languages not translated -->
     <string name="languages">Sprachen</string>
@@ -746,7 +748,7 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="history">Verlauf</string>
     <string name="playlists">Wiedergabelisten</string>
     <string name="display_name">Anzeigename</string>
-    <string name="action_playlist_add">Sie haben noch keine Wiedergabelisten. Klicken Sie auf das Symbol „➕”, um eine neue Wiedergabeliste hinzuzufügen.</string>
+    <string name="action_playlist_add">Du hast noch keine Wiedergabelisten. Klicke auf das Symbol „➕”, um eine neue Wiedergabeliste hinzuzufügen.</string>
     <string name="error_display_name">Du musst einen Anzeigenamen angeben!</string>
     <string name="error_channel_mandatory">Ein Kanal wird benötigt, wenn es sich um eine öffentliche Wiedergabeliste handelt.</string>
     <string name="action_playlist_create">Wiedergabeliste erstellen</string>
@@ -808,7 +810,7 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="password_indicator">Mindestens 8 Zeichen verwenden</string>
     <string name="password_too_short">Das Passwort muss mindestens 8 Zeichen lang sein</string>
     <string name="username_error">Der Benutzername darf nur Buchstaben, Ziffern und Unterstriche enthalten</string>
-    <string name="account_created">Konto erfolgreich erstellt.</string>
+    <string name="account_created">Account erstellt!</string>
     <string name="account_created_message">Dein Konto wurde erfolgreich erstellt!\n\nDenke daran, deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.\n\nDu kannst nun dein Konto verbinden, indem du <b>%1$s</b> in das erste Feld schreibst und auf die Schaltfläche <b>Verbinden</b> klickst.\n\n<b>Wichtig</b>: Wenn deine Instanz eine Bestätigung benötigt, erhältst du eine E-Mail, sobald sie geprüft wurde!    </string>
     <string name="save_draft">Möchtest du die Nachricht als Entwurf speichern?</string>
     <string name="administration">Verwaltung</string>
@@ -1115,11 +1117,11 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="select_distributors">Dienstanbieter auswählen</string>
     <string name="keepon">Fortfahren</string>
     <string name="instance_not_valid">Diese Instanz scheint nicht gültig zu sein!</string>
-    <string name="boosted_by">Boosted von</string>
+    <string name="boosted_by">Geteilt von</string>
     <string name="favourited_by">Favoritisiert von</string>
-    <string name="followers_only">Nur für Followers</string>
+    <string name="followers_only">Nur Follower</string>
     <string name="images">Bilder</string>
-    <string name="eg_sensitive_content">Z. B.: Sensitiver Inhalt</string>
+    <string name="eg_sensitive_content">Z. B.: Sensibler Inhalt</string>
     <string name="add_status">Status hinzufügen</string>
     <string name="remove_status">Status entfernen</string>
     <string name="instance_health_checkedat">Überprüft um: %s</string>
@@ -1143,5 +1145,5 @@ Sobald du die ersten Buchstaben eintippst, werden Namensvorschläge angezeigt\n\
     <string name="replace_twitter_host">Twitter Frontend-Adresse</string>
     <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
-    <string name="other">Andere(r, s)</string>
+    <string name="other">Andere</string>
 </resources>
