@@ -24,6 +24,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -155,7 +156,17 @@ public class Pinned implements Serializable {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_PINNED_TIMELINES, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, Sqlite.COL_UPDATED_AT + " DESC", "1");
-            return cursorToPined(c);
+            Pinned pinned = cursorToPined(c);
+            List<PinnedTimeline> pinnedTimelines = new ArrayList<>();
+            if (pinned != null) {
+                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                    if (pinnedTimeline.displayed) {
+                        pinnedTimelines.add(pinnedTimeline);
+                    }
+                }
+                pinned.pinnedTimelines = pinnedTimelines;
+            }
+            return pinned;
         } catch (Exception e) {
             return null;
         }
