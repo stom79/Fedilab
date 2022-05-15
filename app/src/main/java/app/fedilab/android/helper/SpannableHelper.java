@@ -229,13 +229,17 @@ public class SpannableHelper {
                             sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
                             sendIntent.putExtra(Intent.EXTRA_TEXT, url);
                             sendIntent.setType("text/plain");
-                            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
+                            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent intentChooser = Intent.createChooser(sendIntent, context.getString(R.string.share_with));
+                            intentChooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intentChooser);
                             alertDialog.dismiss();
                         });
 
                         popupLinksBinding.openOtherApp.setOnClickListener(v -> {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
                             intent.setData(Uri.parse(url));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             try {
                                 context.startActivity(intent);
                             } catch (Exception e) {
@@ -289,7 +293,7 @@ public class SpannableHelper {
                                         Handler mainHandler = new Handler(context.getMainLooper());
                                         String finalRedirect = redirect;
                                         Runnable myRunnable = () -> {
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
                                             if (finalRedirect != null) {
                                                 builder1.setMessage(context.getString(R.string.redirect_detected, url, finalRedirect));
                                                 builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
@@ -339,11 +343,12 @@ public class SpannableHelper {
                         Matcher matcherLink = link.matcher(url);
                         if (matcherLink.find() && !url.contains("medium.com")) {
                             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                                CrossActionHelper.fetchRemoteStatus(context, MainActivity.accountWeakReference.get(), status, new CrossActionHelper.Callback() {
+                                CrossActionHelper.fetchRemoteStatus(context, MainActivity.accountWeakReference.get(), url, new CrossActionHelper.Callback() {
                                     @Override
                                     public void federatedStatus(Status status) {
                                         Intent intent = new Intent(context, ContextActivity.class);
                                         intent.putExtra(Helper.ARG_STATUS, status);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(intent);
                                     }
 
@@ -365,6 +370,7 @@ public class SpannableHelper {
                                         Bundle b = new Bundle();
                                         b.putSerializable(Helper.ARG_ACCOUNT, account);
                                         intent.putExtras(b);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         context.startActivity(intent);
                                     }
                                 });

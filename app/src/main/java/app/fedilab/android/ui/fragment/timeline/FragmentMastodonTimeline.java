@@ -211,7 +211,9 @@ public class FragmentMastodonTimeline extends Fragment {
     }
 
     public void scrollToTop() {
-        binding.recyclerView.scrollToPosition(0);
+        if (binding != null) {
+            binding.recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override

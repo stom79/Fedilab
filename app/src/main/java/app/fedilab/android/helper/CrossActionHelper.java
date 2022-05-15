@@ -263,10 +263,10 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
-    public static void fetchRemoteStatus(@NonNull Context context, @NonNull Account ownerAccount, Status targetedStatus, Callback callback) {
+    public static void fetchRemoteStatus(@NonNull Context context, @NonNull Account ownerAccount, String url, Callback callback) {
         MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
         new Thread(() -> {
-            Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, targetedStatus.url, null, "statuses", false, true, false, 0, null, null, 1);
+            Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, url, null, "statuses", false, true, false, 0, null, null, 1);
             Results results = null;
             if (resultsCall != null) {
                 try {
