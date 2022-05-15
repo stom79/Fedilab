@@ -165,6 +165,7 @@ public class Helper {
     public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
 
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";
+    public static final String RECEIVE_NEW_MESSAGE = "RECEIVE_NEW_MESSAGE";
     public static final String RECEIVE_MASTODON_LIST = "RECEIVE_MASTODON_LIST";
     public static final String RECEIVE_REDRAW_PROFILE = "RECEIVE_REDRAW_PROFILE";
 

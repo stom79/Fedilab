@@ -14,9 +14,6 @@ package app.fedilab.android.services;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.helper.Helper.NotifType.TOOT;
-import static app.fedilab.android.helper.Helper.notify_user;
-
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -27,22 +24,20 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.Account;
 import app.fedilab.android.client.entities.PostState;
@@ -330,28 +325,12 @@ public class PostMessageService extends IntentService {
         }
 
         if (scheduledDate == null && token != null && firstSendMessage != null) {
-            Account account;
-            try {
-                account = new Account(PostMessageService.this).getAccountByToken(token);
-                final Intent pendingIntent = new Intent(PostMessageService.this, ContextActivity.class);
-                pendingIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                pendingIntent.putExtra(Helper.ARG_STATUS, firstSendMessage);
-                pendingIntent.putExtra(Helper.PREF_INSTANCE, account.instance);
-                String text = firstSendMessage.content;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    text = Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY).toString();
-                else
-                    text = Html.fromHtml(text).toString();
-                if (text.length() > 255) {
-                    text = text.substring(0, 254);
-                    text = String.format(Locale.getDefault(), "%s…", text);
-                }
-                notify_user(PostMessageService.this, account, pendingIntent, BitmapFactory.decodeResource(getResources(),
-                        R.mipmap.ic_launcher), TOOT, getString(R.string.message_has_been_sent), text);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-
+            Bundle b = new Bundle();
+            b.putBoolean(Helper.RECEIVE_NEW_MESSAGE, true);
+            Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+            b.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
+            intentBD.putExtras(b);
+            LocalBroadcastManager.getInstance(PostMessageService.this).sendBroadcast(intentBD);
         }
         notificationManager.cancel(NOTIFICATION_INT_CHANNEL_ID);
     }

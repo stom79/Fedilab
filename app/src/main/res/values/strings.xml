@@ -1593,6 +1593,7 @@
     <string name="poll_type">Poll type:</string>
     <string name="poll_duration">Poll duration:</string>
     <string name="set_display_bookmark_indication">Always display bookmark button</string>
+    <string name="display">Display</string>
 
 
 </resources>

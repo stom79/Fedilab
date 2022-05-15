@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -60,6 +61,15 @@ public class ThemeHelper {
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(attColor, typedValue, true);
         return typedValue.data;
+    }
+
+
+    public static int fetchAccentColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
+        int color = a.getColor(0, 0);
+        a.recycle();
+        return color;
     }
 
     /**

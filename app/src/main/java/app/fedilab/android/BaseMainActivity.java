@@ -69,6 +69,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
@@ -79,6 +80,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.activities.ActionActivity;
 import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.DraftActivity;
 import app.fedilab.android.activities.FilterActivity;
 import app.fedilab.android.activities.InstanceActivity;
@@ -99,6 +101,7 @@ import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.mastodon.entities.Filter;
 import app.fedilab.android.client.mastodon.entities.Instance;
 import app.fedilab.android.client.mastodon.entities.MastodonList;
+import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
@@ -143,6 +146,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     redrawPinned(mastodonLists);
                 } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
                     Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
+                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                    Snackbar.make(binding.getRoot(), getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.display), view -> {
+                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
+                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentContext);
+                            })
+                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
+                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
+                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
+                            .show();
                 }
             }
         }
