@@ -656,7 +656,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (getMarkerResponse.isSuccessful()) {
                         marker = getMarkerResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

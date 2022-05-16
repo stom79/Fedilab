@@ -1060,7 +1060,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
-                } else if (BaseMainActivity.accountWeakReference.get().mastodon_account != null) {
+                } else if (BaseMainActivity.accountWeakReference.get().mastodon_account != null && BaseMainActivity.accountWeakReference.get().mastodon_account.source != null) {
                     statusDraft.visibility = BaseMainActivity.accountWeakReference.get().mastodon_account.source.privacy;
                 } else {
                     statusDraft.visibility = "public";
