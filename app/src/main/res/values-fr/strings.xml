@@ -1257,4 +1257,5 @@
     <string name="toast_bookmark">Le pouet a été ajouté à vos marque-pages !</string>
     <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
     <string name="report_val3">Cela viole les règles du serveur</string>
+    <string name="display">Afficher</string>
 </resources>
