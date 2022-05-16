@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity {
                                         //The user is now authenticated, it will be redirected to MainActivity
                                         Handler mainHandler = new Handler(Looper.getMainLooper());
                                         Runnable myRunnable = () -> {
-                                            Intent mainActivity = new Intent(LoginActivity.this, BaseMainActivity.class);
+                                            Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(mainActivity);
                                             finish();
                                         };

@@ -93,14 +93,11 @@ public class PinnedTimelineHelper {
                     if (!present) {
                         pinnedToRemove.add(pinnedTimeline);
                         needRedraw = true; //Something changed, redraw must be done
-                        Pinned finalPinned2 = pinned;
-                        new Thread(() -> {
-                            try {
-                                new Pinned(activity).updatePinned(finalPinned2);
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
+                        try {
+                            new Pinned(activity).updatePinned(pinned);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -118,26 +115,22 @@ public class PinnedTimelineHelper {
                 }
                 //Needs to be added
                 if (!present) {
-                    Pinned finalPinned1 = pinned;
                     needRedraw = true; //Something changed, redraw must be done
-                    new Thread(() -> {
-                        PinnedTimeline pinnedTimeline = new PinnedTimeline();
-                        pinnedTimeline.type = Timeline.TimeLineEnum.LIST;
-                        pinnedTimeline.position = finalPinned1.pinnedTimelines.size();
-                        pinnedTimeline.mastodonList = mastodonList;
-                        finalPinned1.pinnedTimelines.add(pinnedTimeline);
-                        try {
-                            boolean exist = new Pinned(activity).pinnedExist(finalPinned1);
-                            if (exist) {
-                                new Pinned(activity).updatePinned(finalPinned1);
-                            } else {
-                                new Pinned(activity).insertPinned(finalPinned1);
-                            }
-                        } catch (DBException e) {
-                            e.printStackTrace();
+                    PinnedTimeline pinnedTimeline = new PinnedTimeline();
+                    pinnedTimeline.type = Timeline.TimeLineEnum.LIST;
+                    pinnedTimeline.position = pinned.pinnedTimelines.size();
+                    pinnedTimeline.mastodonList = mastodonList;
+                    pinned.pinnedTimelines.add(pinnedTimeline);
+                    try {
+                        boolean exist = new Pinned(activity).pinnedExist(pinned);
+                        if (exist) {
+                            new Pinned(activity).updatePinned(pinned);
+                        } else {
+                            new Pinned(activity).insertPinned(pinned);
                         }
-                    }).start();
-
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

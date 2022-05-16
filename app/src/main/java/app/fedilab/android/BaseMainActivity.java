@@ -613,7 +613,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, null);
                             //Fetch remote lists for the authenticated account and update them
                             new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
-                                    .observe(this, mastodonLists -> PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, mastodonLists));
+                                    .observe(this, mastodonLists ->
+                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, mastodonLists)
+                                    );
                         });
             };
             mainHandler.post(myRunnable);
