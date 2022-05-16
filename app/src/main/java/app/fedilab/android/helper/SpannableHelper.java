@@ -184,6 +184,9 @@ public class SpannableHelper {
             if (matchEnd > content.toString().length()) {
                 matchEnd = content.toString().length();
             }
+            if (content.toString().length() > matchEnd) {
+                matchEnd = content.toString().length();
+            }
             final String url = content.toString().substring(matchStart, matchEnd);
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
