@@ -59,11 +59,14 @@ public class MainApplication extends MultiDexApplication {
 
         Cyanea.init(this, super.getResources());
         List<CyaneaTheme> list = CyaneaTheme.Companion.from(getAssets(), "themes/cyanea_themes.json");
-        int theme = sharedpreferences.getInt(getString(R.string.SET_THEME), 0);
         boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
-        /*if (!custom_theme) {
-            list.get(theme).apply(Cyanea.getInstance());
-        }*/
+        boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
+        if (no_theme_set && !custom_theme) {
+            list.get(0).apply(Cyanea.getInstance());
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean("no_theme_set", false);
+            editor.apply();
+        }
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
