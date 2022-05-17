@@ -204,6 +204,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     int statusCount = statusList.size();
                     statusDraftList.get(0).in_reply_to_id = statusReply.id;
                     statusDraftList.get(0).mentions = statusReply.mentions;
+                    if (statusReply.spoiler_text != null) {
+                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+                    }
                     if (statusDraftList.get(0).mentions == null) {
                         statusDraftList.get(0).mentions = new ArrayList<>();
                     }
