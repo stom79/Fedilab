@@ -184,7 +184,7 @@ public class SpannableHelper {
             if (matchEnd > content.toString().length()) {
                 matchEnd = content.toString().length();
             }
-            if (content.toString().length() > matchEnd || matchStart < 0) {
+            if (content.toString().length() < matchEnd || matchStart < 0) {
                 continue;
             }
             final String url = content.toString().substring(matchStart, matchEnd);
@@ -210,7 +210,7 @@ public class SpannableHelper {
                 continue;
             }
 
-            if (matchStart >= 0 && matchEnd <= content.length() && matchEnd >= matchStart) {
+            if (matchEnd <= content.length() && matchEnd >= matchStart) {
                 content.setSpan(new LongClickableSpan() {
                     @Override
                     public void onLongClick(View view) {
