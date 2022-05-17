@@ -96,6 +96,7 @@ import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
 import app.fedilab.android.client.entities.Account;
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.client.entities.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.mastodon.entities.Filter;
@@ -250,7 +251,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(BaseMainActivity.this));
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         headerMenuOpen = false;
-        binding.bottomNavView.inflateMenu(R.menu.bottom_nav_menu);
+        new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
         binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
 

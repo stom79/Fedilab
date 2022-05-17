@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -77,6 +77,10 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String TABLE_QUICK_LOAD = "QUICK_LOAD";
     public static final String COL_SLUG = "SLUG";
     public static final String COL_STATUSES = "STATUSES";
+    //Bottom menu
+    public static final String TABLE_BOTTOM_MENU = "TABLE_BOTTOM_MENU";
+    public static final String COL_BOTTOM_MENU = "BOTTOM_MENU";
+
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -157,6 +161,13 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_POSITION + " INTEGER, "
             + COL_STATUSES + " TEXT NOT NULL)";
 
+
+    private static final String CREATE_TABLE_BOTTOM_MENU = "CREATE TABLE IF NOT EXISTS " + TABLE_BOTTOM_MENU + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_BOTTOM_MENU + " TEXT NOT NULL)";
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -184,6 +195,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PINNED_TIMELINES);
         db.execSQL(CREATE_TABLE_SCHEDULE_BOOST);
         db.execSQL(CREATE_TABLE_QUICK_LOAD);
+        db.execSQL(CREATE_TABLE_BOTTOM_MENU);
     }
 
     @Override
@@ -193,10 +205,11 @@ public class Sqlite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //noinspection SwitchStatementWithTooFewBranches
         switch (oldVersion) {
             case 1:
                 db.execSQL(CREATE_TABLE_QUICK_LOAD);
+            case 2:
+                db.execSQL(CREATE_TABLE_BOTTOM_MENU);
             default:
                 break;
         }
