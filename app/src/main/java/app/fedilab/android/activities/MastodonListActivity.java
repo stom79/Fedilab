@@ -222,9 +222,12 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                 mastodonListList.remove(position);
                 mastodonListAdapter.notifyItemRemoved(position);
                 ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.recyclerView, () -> {
+                    canGoBack = false;
                     if (fragmentMastodonTimeline != null) {
                         fragmentMastodonTimeline.onDestroyView();
                     }
+                    invalidateOptionsMenu();
+                    setTitle(R.string.action_lists);
                 });
                 if (mastodonListList.size() == 0) {
                     binding.notContent.setVisibility(View.VISIBLE);
@@ -292,18 +295,16 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                     fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
             fragmentTransaction.commit();
+            invalidateOptionsMenu();
         });
-        invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        if (binding != null) {
-            if (binding.recyclerView.getVisibility() == View.VISIBLE) {
-                getMenuInflater().inflate(R.menu.menu_main_list, menu);
-            } else {
-                getMenuInflater().inflate(R.menu.menu_list, menu);
-            }
+        if (!canGoBack) {
+            getMenuInflater().inflate(R.menu.menu_main_list, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_list, menu);
         }
         return true;
     }
