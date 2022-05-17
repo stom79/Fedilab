@@ -1135,7 +1135,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.text = new SpannableString(Html.fromHtml(statusDraft.content)).toString();
             }
             holder.binding.content.setText(statusDraft.text);
-
+            holder.binding.content.setKeyBoardInputCallbackListener((inputContentInfo, flags, opts) -> {
+                if (inputContentInfo != null) {
+                    Uri uri = inputContentInfo.getContentUri();
+                    List<Uri> uris = new ArrayList<>();
+                    uris.add(uri);
+                    addAttachment(position, uris);
+                }
+            });
             holder.binding.content.setSelection(statusDraft.cursorPosition);
             if (statusDraft.setCursorToEnd) {
                 statusDraft.setCursorToEnd = false;

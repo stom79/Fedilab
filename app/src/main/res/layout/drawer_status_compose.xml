@@ -55,7 +55,7 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/add_remove_status" />
 
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        <app.fedilab.android.helper.FedilabAutoCompleteTextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
