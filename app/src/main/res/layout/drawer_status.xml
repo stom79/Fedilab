@@ -401,6 +401,17 @@
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/ic_reply" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/reply_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="+"
+                android:textColor="?colorControlNormal"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
+
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_favorite"
                 android:layout_width="28dp"

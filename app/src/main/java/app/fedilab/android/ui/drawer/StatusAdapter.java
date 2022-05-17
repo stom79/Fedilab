@@ -265,6 +265,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.replyCount.setTextColor(theme_text_color);
         } else {
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
@@ -941,7 +942,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.attachmentsListContainer.setVisibility(View.GONE);
         }
         holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
-        //holder.binding.statusContent.setMovementMethod(LinkMovementMethod.getInstance());
         holder.binding.reblogInfo.setOnClickListener(v -> {
             if (remote) {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
@@ -1452,6 +1452,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             popup.show();
         });
+        if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
+            holder.binding.replyCount.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.replyCount.setVisibility(View.GONE);
+        }
         holder.binding.actionButtonReply.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
