@@ -640,8 +640,12 @@ public class FragmentMastodonTimeline extends Fragment {
                     timelinesVM.getMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, markers).observe(getViewLifecycleOwner(), marker -> {
                         if (marker != null) {
                             Marker.MarkerContent markerContent = marker.home;
-                            max_id = markerContent.last_read_id;
-                            min_id = markerContent.last_read_id;
+                            if (markerContent != null) {
+                                max_id = markerContent.last_read_id;
+                                min_id = markerContent.last_read_id;
+                            } else {
+                                max_id = null;
+                            }
                         } else {
                             max_id = null;
                         }
