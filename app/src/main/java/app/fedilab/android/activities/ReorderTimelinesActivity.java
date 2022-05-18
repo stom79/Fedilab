@@ -19,7 +19,6 @@ import static app.fedilab.android.helper.PinnedTimelineHelper.sortMenuItem;
 import static app.fedilab.android.helper.PinnedTimelineHelper.sortPositionAsc;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,6 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -42,6 +40,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -346,21 +346,22 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
 
     @Override
     public void onUndo(PinnedTimeline pinnedTimeline, int position) {
-        binding.undoContainer.setVisibility(View.VISIBLE);
+
+        String text = "";
         switch (pinnedTimeline.type) {
             case TAG:
-                binding.undoMessage.setText(R.string.reorder_tag_removed);
+                text = getString(R.string.reorder_tag_removed);
                 break;
             case REMOTE:
-                binding.undoMessage.setText(R.string.reorder_instance_removed);
+                text = getString(R.string.reorder_instance_removed);
                 break;
             case LIST:
-                binding.undoMessage.setText(R.string.reorder_list_deleted);
+                text = getString(R.string.reorder_list_deleted);
                 break;
         }
-        binding.undoAction.setPaintFlags(binding.undoAction.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
         Runnable runnable = () -> {
-            binding.undoContainer.setVisibility(View.GONE);
             //change position of pinned that are after the removed item
             for (int i = pinnedTimeline.position + 1; i < pinned.pinnedTimelines.size(); i++) {
                 pinned.pinnedTimelines.get(i).position -= 1;
@@ -376,12 +377,16 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         };
         Handler handler = new Handler();
         handler.postDelayed(runnable, 4000);
-        binding.undoAction.setOnClickListener(v -> {
-            pinned.pinnedTimelines.add(position, pinnedTimeline);
-            reorderTabAdapter.notifyItemInserted(position);
-            binding.undoContainer.setVisibility(View.GONE);
-            handler.removeCallbacks(runnable);
-        });
+        Snackbar.make(binding.getRoot(), text, 4000)
+                .setAction(getString(R.string.undo), view -> {
+                    pinned.pinnedTimelines.add(position, pinnedTimeline);
+                    reorderTabAdapter.notifyItemInserted(position);
+                    handler.removeCallbacks(runnable);
+                })
+                .setTextColor(ThemeHelper.getAttColor(ReorderTimelinesActivity.this, R.attr.mTextColor))
+                .setActionTextColor(ContextCompat.getColor(ReorderTimelinesActivity.this, R.color.cyanea_accent_reference))
+                .setBackgroundTint(ContextCompat.getColor(ReorderTimelinesActivity.this, R.color.cyanea_primary_dark_reference))
+                .show();
     }
 
     @Override
