@@ -43,6 +43,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.client.entities.Pinned;
 import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -63,7 +64,12 @@ public class PinnedTimelineHelper {
         Collections.sort(pinnedTimelineList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
     }
 
-    public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, List<MastodonList> mastodonLists) {
+    public static void sortMenuItem(List<BottomMenu.MenuItem> menuItemList) {
+        //noinspection ComparatorCombinators
+        Collections.sort(menuItemList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
+    }
+
+    public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, BottomMenu bottomMenu, List<MastodonList> mastodonLists) {
         //Values must be initialized if there is no records in db
         if (pinned == null) {
             pinned = new Pinned();
@@ -93,16 +99,16 @@ public class PinnedTimelineHelper {
                     if (!present) {
                         pinnedToRemove.add(pinnedTimeline);
                         needRedraw = true; //Something changed, redraw must be done
-                        try {
-                            new Pinned(activity).updatePinned(pinned);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
             if (pinnedToRemove.size() > 0) {
                 pinned.pinnedTimelines.removeAll(pinnedToRemove);
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
             }
 
             for (MastodonList mastodonList : mastodonLists) {
@@ -197,7 +203,7 @@ public class PinnedTimelineHelper {
         activityMainBinding.viewPager.clearOnPageChangeListeners();
         activityMainBinding.tabLayout.clearOnTabSelectedListeners();
 
-        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity.getSupportFragmentManager(), pinned);
+        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity.getSupportFragmentManager(), pinned, bottomMenu);
         activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
         activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
         activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

@@ -15,6 +15,7 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.PinnedTimelineHelper.sortMenuItem;
 import static app.fedilab.android.helper.PinnedTimelineHelper.sortPositionAsc;
 
 import android.content.Intent;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.client.entities.InstanceSocial;
 import app.fedilab.android.client.entities.Pinned;
 import app.fedilab.android.client.entities.Timeline;
@@ -60,6 +62,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
 import app.fedilab.android.helper.itemtouchhelper.OnUndoListener;
 import app.fedilab.android.helper.itemtouchhelper.SimpleItemTouchHelperCallback;
+import app.fedilab.android.ui.drawer.ReorderBottomMenuAdapter;
 import app.fedilab.android.ui.drawer.ReorderTabAdapter;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.viewmodel.mastodon.ReorderVM;
@@ -75,12 +78,23 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
 
 
     private ItemTouchHelper touchHelper;
-    private ReorderTabAdapter adapter;
+    private ReorderTabAdapter reorderTabAdapter;
+    private ReorderBottomMenuAdapter reorderBottomMenuAdapter;
     private boolean searchInstanceRunning;
     private String oldSearch;
     private Pinned pinned;
+    private BottomMenu bottomMenu;
     private ActivityReorderTabsBinding binding;
     private boolean changes;
+    private boolean bottomChanges;
+
+    public void setChanges(boolean changes) {
+        this.changes = changes;
+    }
+
+    public void setBottomChanges(boolean bottomChanges) {
+        this.bottomChanges = bottomChanges;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +109,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         }
 
         changes = false;
+        bottomChanges = false;
         ReorderVM reorderVM = new ViewModelProvider(ReorderTimelinesActivity.this).get(ReorderVM.class);
         reorderVM.getPinned().observe(ReorderTimelinesActivity.this, _pinned -> {
             this.pinned = _pinned;
@@ -103,16 +118,31 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                 this.pinned.pinnedTimelines = new ArrayList<>();
             }
             sortPositionAsc(this.pinned.pinnedTimelines);
-            adapter = new ReorderTabAdapter(this.pinned, ReorderTimelinesActivity.this, ReorderTimelinesActivity.this);
+            reorderTabAdapter = new ReorderTabAdapter(this.pinned, ReorderTimelinesActivity.this, ReorderTimelinesActivity.this);
             ItemTouchHelper.Callback callback =
-                    new SimpleItemTouchHelperCallback(adapter);
+                    new SimpleItemTouchHelperCallback(reorderTabAdapter);
             touchHelper = new ItemTouchHelper(callback);
             touchHelper.attachToRecyclerView(binding.lvReorderTabs);
-            binding.lvReorderTabs.setAdapter(adapter);
+            binding.lvReorderTabs.setAdapter(reorderTabAdapter);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ReorderTimelinesActivity.this);
             binding.lvReorderTabs.setLayoutManager(mLayoutManager);
         });
-
+        reorderVM.getBottomMenu().observe(ReorderTimelinesActivity.this, _bottomMenu -> {
+            this.bottomMenu = _bottomMenu;
+            if (this.bottomMenu == null) {
+                this.bottomMenu = new BottomMenu(getApplicationContext()).defaultBottomMenu();
+                this.bottomMenu.bottom_menu = new ArrayList<>();
+            }
+            sortMenuItem(this.bottomMenu.bottom_menu);
+            reorderBottomMenuAdapter = new ReorderBottomMenuAdapter(this.bottomMenu, ReorderTimelinesActivity.this);
+            ItemTouchHelper.Callback callback =
+                    new SimpleItemTouchHelperCallback(reorderBottomMenuAdapter);
+            touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(binding.lvReorderBottom);
+            binding.lvReorderBottom.setAdapter(reorderBottomMenuAdapter);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ReorderTimelinesActivity.this);
+            binding.lvReorderBottom.setLayoutManager(mLayoutManager);
+        });
     }
 
     @Override
@@ -209,7 +239,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                                     try {
                                         new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);
                                         changes = true;
-                                        adapter.notifyItemInserted(pinned.pinnedTimelines.size());
+                                        reorderTabAdapter.notifyItemInserted(pinned.pinnedTimelines.size());
                                     } catch (DBException e) {
                                         e.printStackTrace();
                                     }
@@ -299,6 +329,13 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
             intentBD.putExtras(b);
             LocalBroadcastManager.getInstance(ReorderTimelinesActivity.this).sendBroadcast(intentBD);
         }
+        if (bottomChanges) {
+            Bundle b = new Bundle();
+            b.putBoolean(Helper.RECEIVE_REDRAW_BOTTOM, true);
+            Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+            intentBD.putExtras(b);
+            LocalBroadcastManager.getInstance(ReorderTimelinesActivity.this).sendBroadcast(intentBD);
+        }
     }
 
     @Override
@@ -329,7 +366,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                 pinned.pinnedTimelines.get(i).position -= 1;
             }
             pinned.pinnedTimelines.remove(pinnedTimeline);
-            adapter.notifyItemRemoved(position);
+            reorderTabAdapter.notifyItemRemoved(position);
             try {
                 new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);
                 changes = true;
@@ -341,7 +378,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         handler.postDelayed(runnable, 4000);
         binding.undoAction.setOnClickListener(v -> {
             pinned.pinnedTimelines.add(position, pinnedTimeline);
-            adapter.notifyItemInserted(position);
+            reorderTabAdapter.notifyItemInserted(position);
             binding.undoContainer.setVisibility(View.GONE);
             handler.removeCallbacks(runnable);
         });

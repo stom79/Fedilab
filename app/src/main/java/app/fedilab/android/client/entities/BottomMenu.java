@@ -20,6 +20,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 
+import androidx.annotation.IdRes;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -31,6 +33,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.sqlite.Sqlite;
 
@@ -89,59 +92,62 @@ public class BottomMenu implements Serializable {
         }
     }
 
-    public void hydrate(Account account, BottomNavigationView bottomNavigationView) {
+    public static int getPosition(BottomMenu bottomMenu, @IdRes int idRes) {
+        for (MenuItem menuItem : bottomMenu.bottom_menu) {
+            if (idRes == R.id.nav_home && menuItem.item_menu_type == ItemMenuType.HOME) {
+                return menuItem.position;
+            } else if (idRes == R.id.nav_local && menuItem.item_menu_type == ItemMenuType.LOCAL) {
+                return menuItem.position;
+            } else if (idRes == R.id.nav_public && menuItem.item_menu_type == ItemMenuType.PUBLIC) {
+                return menuItem.position;
+            } else if (idRes == R.id.nav_notifications && menuItem.item_menu_type == ItemMenuType.NOTIFICATION) {
+                return menuItem.position;
+            } else if (idRes == R.id.nav_privates && menuItem.item_menu_type == ItemMenuType.DIRECT) {
+                return menuItem.position;
+            }
+        }
+        return -1;
+    }
+
+    public static ItemMenuType getType(BottomMenu bottomMenu, int position) {
+        if (bottomMenu == null || bottomMenu.bottom_menu == null || bottomMenu.bottom_menu.size() < position) {
+            return null;
+        }
+        return bottomMenu.bottom_menu.get(position).item_menu_type;
+    }
+
+    public BottomMenu hydrate(Account account, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.getMenu().clear();
         BottomMenu bottomMenu;
         try {
-            bottomMenu = getBottomMenu(account);
+            bottomMenu = getAllBottomMenu(account);
         } catch (DBException e) {
             bottomMenu = defaultBottomMenu();
         }
         for (BottomMenu.MenuItem menuItem : bottomMenu.bottom_menu) {
-            if (menuItem.visible) {
-                switch (menuItem.item_menu_type) {
-                    case HOME:
-                        bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_home, menuItem.position, context.getString(R.string.home_menu)).setIcon(R.drawable.ic_baseline_home_24);
-                        break;
-                    case LOCAL:
-                        bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_local, menuItem.position, context.getString(R.string.local_menu)).setIcon(R.drawable.ic_baseline_people_alt_24);
-                        break;
-                    case PUBLIC:
-                        bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_public, menuItem.position, context.getString(R.string.v_public)).setIcon(R.drawable.ic_baseline_public_24);
-                        break;
-                    case NOTIFICATION:
-                        bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_notifications, menuItem.position, context.getString(R.string.notifications)).setIcon(R.drawable.ic_baseline_notifications_24);
-                        break;
-                    case DIRECT:
-                        bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_privates, menuItem.position, context.getString(R.string.v_private)).setIcon(R.drawable.ic_baseline_mail_24);
-                        break;
-                }
+            android.view.MenuItem menuItemLoop = null;
+            switch (menuItem.item_menu_type) {
+                case HOME:
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_home, menuItem.position, context.getString(R.string.home_menu)).setIcon(R.drawable.ic_baseline_home_24);
+                    break;
+                case LOCAL:
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_local, menuItem.position, context.getString(R.string.local_menu)).setIcon(R.drawable.ic_baseline_people_alt_24);
+                    break;
+                case PUBLIC:
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_public, menuItem.position, context.getString(R.string.v_public)).setIcon(R.drawable.ic_baseline_public_24);
+                    break;
+                case NOTIFICATION:
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_notifications, menuItem.position, context.getString(R.string.notifications)).setIcon(R.drawable.ic_baseline_notifications_24);
+                    break;
+                case DIRECT:
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_privates, menuItem.position, context.getString(R.string.v_private)).setIcon(R.drawable.ic_baseline_mail_24);
+                    break;
+            }
+            if (menuItemLoop != null && !menuItem.visible) {
+                menuItemLoop.setVisible(false);
             }
         }
-    }
-
-    /**
-     * Insert or update instance
-     *
-     * @param bottomMenu {@link BottomMenu}
-     * @return long - db id
-     * @throws DBException exception with database
-     */
-    public long insertOrUpdate(BottomMenu bottomMenu) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        if (bottomMenu == null) {
-            return -1;
-        }
-        boolean exists = bottomMenuExists(bottomMenu);
-        long idReturned;
-        if (exists) {
-            idReturned = updateBottomMenu(bottomMenu);
-        } else {
-            idReturned = insertBottomMenu(bottomMenu);
-        }
-        return idReturned;
+        return bottomMenu;
     }
 
     /**
@@ -193,12 +199,59 @@ public class BottomMenu implements Serializable {
     }
 
     /**
+     * Insert or update instance
+     *
+     * @param bottomMenu {@link BottomMenu}
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long insertOrUpdate(BottomMenu bottomMenu) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        if (bottomMenu == null) {
+            return -1;
+        }
+        if (bottomMenu.user_id == null) {
+            bottomMenu.user_id = MainActivity.currentUserID;
+            bottomMenu.instance = MainActivity.currentInstance;
+        }
+        boolean exists = bottomMenuExists(bottomMenu);
+        long idReturned;
+        if (exists) {
+            idReturned = updateBottomMenu(bottomMenu);
+        } else {
+            idReturned = insertBottomMenu(bottomMenu);
+        }
+        return idReturned;
+    }
+
+    /**
      * Returns the bottom menu for an account
      *
      * @param account Account
-     * @return Pinned - {@link BottomMenu}
+     * @return BottomMenu - {@link BottomMenu}
      */
-    private BottomMenu getBottomMenu(Account account) throws DBException {
+    public BottomMenu getAllBottomMenu(Account account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_BOTTOM_MENU, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, Sqlite.COL_ID + " DESC", "1");
+            return cursorToBottomMenu(c);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultBottomMenu();
+        }
+    }
+
+    /**
+     * Returns the bottom menu for an account
+     *
+     * @param account Account
+     * @return BottomMenu - {@link BottomMenu}
+     */
+    public BottomMenu getBottomMenu(Account account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -207,9 +260,12 @@ public class BottomMenu implements Serializable {
             BottomMenu bottomMenu = cursorToBottomMenu(c);
             List<MenuItem> menuItemList = new ArrayList<>();
             if (bottomMenu != null) {
+                int inc = 0;
                 for (MenuItem menuItem : bottomMenu.bottom_menu) {
                     if (menuItem.visible) {
-                        menuItemList.add(menuItem.position, menuItem);
+                        menuItem.position = inc;
+                        menuItemList.add(menuItem);
+                        inc++;
                     }
                 }
                 bottomMenu.bottom_menu = menuItemList;
@@ -219,11 +275,24 @@ public class BottomMenu implements Serializable {
             }
             return bottomMenu;
         } catch (Exception e) {
+            e.printStackTrace();
             return defaultBottomMenu();
         }
     }
 
-    private BottomMenu defaultBottomMenu() {
+    public boolean bottomMenuExists(BottomMenu bottomMenu) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_BOTTOM_MENU
+                + " where " + Sqlite.COL_INSTANCE + " = '" + bottomMenu.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + bottomMenu.user_id + "'", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return (count > 0);
+    }
+
+    public BottomMenu defaultBottomMenu() {
         BottomMenu bottomMenu = new BottomMenu();
         bottomMenu.bottom_menu = new ArrayList<>();
         MenuItem menuItemHome = new MenuItem();
@@ -252,18 +321,6 @@ public class BottomMenu implements Serializable {
         menuItemPrivate.item_menu_type = ItemMenuType.DIRECT;
         bottomMenu.bottom_menu.add(menuItemPrivate);
         return bottomMenu;
-    }
-
-    public boolean bottomMenuExists(BottomMenu bottomMenu) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_BOTTOM_MENU
-                + " where " + Sqlite.COL_INSTANCE + " = '" + bottomMenu.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + bottomMenu.user_id + "'", null);
-        mCount.moveToFirst();
-        int count = mCount.getInt(0);
-        mCount.close();
-        return (count > 0);
     }
 
     /**
@@ -325,10 +382,10 @@ public class BottomMenu implements Serializable {
 
     public static class MenuItem {
         @SerializedName("position")
-        int position;
+        public int position;
         @SerializedName("item_menu_type")
-        ItemMenuType item_menu_type;
+        public ItemMenuType item_menu_type;
         @SerializedName("visible")
-        boolean visible;
+        public boolean visible;
     }
 }

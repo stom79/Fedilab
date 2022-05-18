@@ -172,6 +172,25 @@ public class Pinned implements Serializable {
         }
     }
 
+
+    /**
+     * Returns the pinned timeline for an account
+     *
+     * @param account Account
+     * @return Pinned - {@link Pinned}
+     */
+    public Pinned getAllPinned(Account account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_PINNED_TIMELINES, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, Sqlite.COL_UPDATED_AT + " DESC", "1");
+            return cursorToPined(c);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public boolean pinnedExist(Pinned pinned) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");

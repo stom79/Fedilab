@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.client.entities.Pinned;
 import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -34,11 +35,13 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
     public static final int BOTTOM_TIMELINE_COUNT = 5; //home, local, public, notification, DM
     private final Pinned pinned;
+    private final BottomMenu bottomMenu;
     private Fragment mCurrentFragment;
 
-    public FedilabPageAdapter(FragmentManager fm, Pinned pinned) {
+    public FedilabPageAdapter(FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.pinned = pinned;
+        this.bottomMenu = bottomMenu;
     }
 
     public Fragment getCurrentFragment() {
@@ -62,39 +65,49 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-
+        FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
+        Bundle bundle = new Bundle();
         //Position 3 is for notifications
-        if (position == 3) {
-            return new FragmentNotificationContainer();
-        } else if (position == 4) { //Position 4 is for DM
-            return new FragmentMastodonConversation();
-        } else {
-            FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
-            Bundle bundle = new Bundle();
-            if (position == 0) { //Home timeline
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.HOME);
-            } else if (position == 1) { //Local timeline
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.LOCAL);
-            } else if (position == 2) { //Public timeline
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.PUBLIC);
-            } else { //Pinned timeline
-                int pinnedPosition = position - BOTTOM_TIMELINE_COUNT; //Real position has an offset.
-                PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
-
-                if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
-                    bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
-                } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
-                    bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
-                } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
-                    String instance = pinnedTimeline.remoteInstance.host;
-                    bundle.putString(Helper.ARG_REMOTE_INSTANCE, instance);
+        if (position < 5) {
+            if (bottomMenu != null) {
+                BottomMenu.ItemMenuType type = BottomMenu.getType(bottomMenu, position);
+                if (type == null) {
+                    return fragment;
                 }
+                if (type == BottomMenu.ItemMenuType.NOTIFICATION) {
+                    return new FragmentNotificationContainer();
+                } else if (type == BottomMenu.ItemMenuType.DIRECT) {
+                    return new FragmentMastodonConversation();
+                }
+                if (type == BottomMenu.ItemMenuType.HOME) { //Home timeline
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.HOME);
+                } else if (type == BottomMenu.ItemMenuType.LOCAL) { //Local timeline
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.LOCAL);
+                } else if (type == BottomMenu.ItemMenuType.PUBLIC) { //Public timeline
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.PUBLIC);
+                }
+            } else {
+                return fragment;
             }
-            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
-            fragment.setArguments(bundle);
-            return fragment;
+
+        } else {
+            int pinnedPosition = position - BOTTOM_TIMELINE_COUNT; //Real position has an offset.
+            PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
+
+            if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
+                bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
+            } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
+                bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
+            } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
+                String instance = pinnedTimeline.remoteInstance.host;
+                bundle.putString(Helper.ARG_REMOTE_INSTANCE, instance);
+            }
+
         }
+        bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override

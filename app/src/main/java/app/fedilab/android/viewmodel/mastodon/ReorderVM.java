@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.client.entities.Pinned;
 import app.fedilab.android.client.mastodon.MastodonSearchService;
 import app.fedilab.android.client.mastodon.entities.Results;
@@ -48,6 +49,7 @@ public class ReorderVM extends AndroidViewModel {
             .build();
     private MutableLiveData<Results> resultsMutableLiveData;
     private MutableLiveData<Pinned> pinnedMutableLiveData;
+    private MutableLiveData<BottomMenu> bottomMenuMutableLiveData;
 
     public ReorderVM(@NonNull Application application) {
         super(application);
@@ -67,7 +69,7 @@ public class ReorderVM extends AndroidViewModel {
         new Thread(() -> {
             Pinned pinned = null;
             try {
-                pinned = new Pinned(getApplication().getApplicationContext()).getPinned(BaseMainActivity.accountWeakReference.get());
+                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(BaseMainActivity.accountWeakReference.get());
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -79,6 +81,23 @@ public class ReorderVM extends AndroidViewModel {
         return pinnedMutableLiveData;
     }
 
+
+    public LiveData<BottomMenu> getBottomMenu() {
+        bottomMenuMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            BottomMenu bottomMenu = null;
+            try {
+                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).getAllBottomMenu(BaseMainActivity.accountWeakReference.get());
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            BottomMenu finalBottomMenu = bottomMenu;
+            Runnable myRunnable = () -> bottomMenuMutableLiveData.setValue(finalBottomMenu);
+            mainHandler.post(myRunnable);
+        }).start();
+        return bottomMenuMutableLiveData;
+    }
 
     /**
      * Search for content in accounts, statuses and hashtags with API v2

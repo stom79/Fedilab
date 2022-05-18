@@ -136,6 +136,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private Pinned pinned;
     public static boolean show_boosts, show_replies, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
+    private BottomMenu bottomMenu;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -145,6 +146,51 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
                     List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
                     redrawPinned(mastodonLists);
+                }
+                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
+                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
+                    if (bottomMenu != null) {
+                        //ManageClick on bottom menu items
+                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        binding.bottomNavView.setOnItemSelectedListener(item -> {
+                            int itemId = item.getItemId();
+                            int position = BottomMenu.getPosition(bottomMenu, itemId);
+                            if (position >= 0) {
+                                if (binding.viewPager.getCurrentItem() == position) {
+                                    scrollToTop();
+                                } else {
+                                    binding.viewPager.setCurrentItem(position);
+                                }
+                            }
+                            return true;
+                        });
+                    }
                 } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
                     Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
                 } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
@@ -179,8 +225,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private void mamageNewIntent(Intent intent) {
         if (intent == null)
             return;
-        String action = intent.getAction();
-        String type = intent.getType();
         Bundle extras = intent.getExtras();
         String userIdIntent, instanceIntent;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
@@ -251,59 +295,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(BaseMainActivity.this));
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         headerMenuOpen = false;
-        new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
         binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
 
 
-        //ManageClick on bottom menu items
-        binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
-            manageFilters(0);
-            return false;
-        });
-        binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
-            manageFilters(1);
-            return false;
-        });
-        binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
-            manageFilters(2);
-            return false;
-        });
-        binding.bottomNavView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {
-                if (binding.viewPager.getCurrentItem() == 0) {
-                    scrollToTop();
-                } else {
-                    binding.viewPager.setCurrentItem(0);
-                }
-            } else if (itemId == R.id.nav_local) {
-                if (binding.viewPager.getCurrentItem() == 1) {
-                    scrollToTop();
-                } else {
-                    binding.viewPager.setCurrentItem(1);
-                }
-            } else if (itemId == R.id.nav_public) {
-                if (binding.viewPager.getCurrentItem() == 2) {
-                    scrollToTop();
-                } else {
-                    binding.viewPager.setCurrentItem(2);
-                }
-            } else if (itemId == R.id.nav_notifications) {
-                if (binding.viewPager.getCurrentItem() == 3) {
-                    scrollToTop();
-                } else {
-                    binding.viewPager.setCurrentItem(3);
-                }
-            } else if (itemId == R.id.nav_privates) {
-                if (binding.viewPager.getCurrentItem() == 4) {
-                    scrollToTop();
-                } else {
-                    binding.viewPager.setCurrentItem(4);
-                }
-            }
-            return true;
-        });
 
 
         // Passing each menu ID as a set of Ids because each
@@ -567,6 +562,51 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     finish();
                     return;
                 }
+                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
+
+                if (bottomMenu != null) {
+                    //ManageClick on bottom menu items
+                    if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    binding.bottomNavView.setOnItemSelectedListener(item -> {
+                        int itemId = item.getItemId();
+                        int position = BottomMenu.getPosition(bottomMenu, itemId);
+                        if (position >= 0) {
+                            if (binding.viewPager.getCurrentItem() == position) {
+                                scrollToTop();
+                            } else {
+                                binding.viewPager.setCurrentItem(position);
+                            }
+                        }
+                        return true;
+                    });
+                }
+
                 currentInstance = account.instance;
                 currentUserID = account.user_id;
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
@@ -611,11 +651,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .observe(this, pinned -> {
                             this.pinned = pinned;
                             //First it's taken from db (last stored values)
-                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, null);
+                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
                             //Fetch remote lists for the authenticated account and update them
                             new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
                                     .observe(this, mastodonLists ->
-                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, mastodonLists)
+                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
                                     );
                         });
             };
@@ -850,7 +890,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 .observe(this, pinned -> {
                     this.pinned = pinned;
                     //First it's taken from db (last stored values)
-                    PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, mastodonLists);
+                    PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists);
                     binding.viewPager.setCurrentItem(currentItem);
                 });
     }

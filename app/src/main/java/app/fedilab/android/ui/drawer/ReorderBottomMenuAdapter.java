@@ -31,15 +31,12 @@ import java.util.Collections;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ReorderTimelinesActivity;
-import app.fedilab.android.client.entities.Pinned;
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.BottomMenu;
 import app.fedilab.android.databinding.DrawerReorderBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperAdapter;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperViewHolder;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
-import app.fedilab.android.helper.itemtouchhelper.OnUndoListener;
 import es.dmoral.toasty.Toasty;
 
 
@@ -49,17 +46,15 @@ import es.dmoral.toasty.Toasty;
  *
  * @author Paul Burke (ipaulpro)
  */
-public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
+public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
-    private final OnUndoListener mUndoListener;
-    private final Pinned pinned;
+    private final BottomMenu bottomMenu;
     private Context context;
 
-    public ReorderTabAdapter(Pinned pinned, OnStartDragListener dragStartListener, OnUndoListener undoListener) {
+    public ReorderBottomMenuAdapter(BottomMenu bottomMenu, OnStartDragListener dragStartListener) {
         this.mDragStartListener = dragStartListener;
-        this.mUndoListener = undoListener;
-        this.pinned = pinned;
+        this.bottomMenu = bottomMenu;
     }
 
     @NotNull
@@ -75,58 +70,48 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder viewHolder, int position) {
 
         ReorderViewHolder holder = (ReorderViewHolder) viewHolder;
-
-        switch (pinned.pinnedTimelines.get(position).type) {
-            case REMOTE:
-                switch (pinned.pinnedTimelines.get(position).remoteInstance.type) {
-                    case PEERTUBE:
-                        holder.binding.icon.setImageResource(R.drawable.peertube_icon);
-                        break;
-                    case MASTODON:
-                        holder.binding.icon.setImageResource(R.drawable.mastodon_icon_item);
-                        break;
-                    case PIXELFED:
-                        holder.binding.icon.setImageResource(R.drawable.pixelfed);
-                        break;
-                    case MISSKEY:
-                        holder.binding.icon.setImageResource(R.drawable.misskey);
-                        break;
-                    case GNU:
-                        holder.binding.icon.setImageResource(R.drawable.ic_gnu_social);
-                        break;
-                    case NITTER:
-                        holder.binding.icon.setImageResource(R.drawable.nitter);
-                        break;
-                }
-                holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);
+        String title = "";
+        switch (bottomMenu.bottom_menu.get(position).item_menu_type) {
+            case HOME:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_home_24);
+                title = context.getString(R.string.home_menu);
                 break;
-            case TAG:
-                holder.binding.icon.setImageResource(R.drawable.ic_baseline_label_24);
-                if (pinned.pinnedTimelines.get(position).tagTimeline.displayName != null)
-                    holder.binding.text.setText(pinned.pinnedTimelines.get(position).tagTimeline.displayName);
-                else
-                    holder.binding.text.setText(pinned.pinnedTimelines.get(position).tagTimeline.name);
+            case LOCAL:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_people_alt_24);
+                title = context.getString(R.string.local);
                 break;
-            case LIST:
-                holder.binding.icon.setImageResource(R.drawable.ic_baseline_view_list_24);
-                holder.binding.text.setText(pinned.pinnedTimelines.get(position).mastodonList.title);
+            case PUBLIC:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_public_24);
+                title = context.getString(R.string.v_public);
+                break;
+            case NOTIFICATION:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
+                title = context.getString(R.string.notifications);
+                break;
+            case DIRECT:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                title = context.getString(R.string.v_private);
                 break;
         }
+        holder.binding.text.setText(title);
 
-
-        if (pinned.pinnedTimelines.get(position).displayed) {
+        if (bottomMenu.bottom_menu.get(position).visible) {
             holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_24);
         } else {
             holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
 
         holder.binding.hide.setOnClickListener(v -> {
-            pinned.pinnedTimelines.get(position).displayed = !pinned.pinnedTimelines.get(position).displayed;
-            notifyItemChanged(position);
+            bottomMenu.bottom_menu.get(position).visible = !bottomMenu.bottom_menu.get(position).visible;
+            if (bottomMenu.bottom_menu.get(position).visible) {
+                holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_24);
+            } else {
+                holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+            }
             new Thread(() -> {
                 try {
-                    new Pinned(context).updatePinned(pinned);
-                    ((ReorderTimelinesActivity) context).setChanges(true);
+                    new BottomMenu(context).insertOrUpdate(bottomMenu);
+                    ((ReorderTimelinesActivity) context).setBottomChanges(true);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -146,28 +131,22 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onItemDismiss(int position) {
-        PinnedTimeline item = pinned.pinnedTimelines.get(position);
-        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-            mUndoListener.onUndo(item, position);
-            pinned.pinnedTimelines.remove(position);
-            notifyItemRemoved(position);
-        } else {
-            notifyItemChanged(position);
-            Toasty.info(context, context.getString(R.string.warning_main_timeline), Toast.LENGTH_SHORT).show();
-        }
+        BottomMenu.MenuItem menuItem = bottomMenu.bottom_menu.get(position);
+        notifyItemChanged(position);
+        Toasty.info(context, context.getString(R.string.warning_main_timeline), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(pinned.pinnedTimelines, fromPosition, toPosition);
+        Collections.swap(bottomMenu.bottom_menu, fromPosition, toPosition);
         //update position value
-        for (int j = 0; j < pinned.pinnedTimelines.size(); j++) {
-            pinned.pinnedTimelines.get(j).position = j;
+        for (int j = 0; j < bottomMenu.bottom_menu.size(); j++) {
+            bottomMenu.bottom_menu.get(j).position = j;
         }
         notifyItemMoved(fromPosition, toPosition);
         try {
-            new Pinned(context).updatePinned(pinned);
-            ((ReorderTimelinesActivity) context).setChanges(true);
+            new BottomMenu(context).insertOrUpdate(bottomMenu);
+            ((ReorderTimelinesActivity) context).setBottomChanges(true);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -176,7 +155,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return pinned.pinnedTimelines.size();
+        return bottomMenu.bottom_menu.size();
     }
 
     /**

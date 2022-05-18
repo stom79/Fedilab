@@ -163,6 +163,8 @@ public class Helper {
 
     public static final String BROADCAST_DATA = "BROADCAST_DATA";
     public static final String RECEIVE_REDRAW_TOPBAR = "RECEIVE_REDRAW_TOPBAR";
+    public static final String RECEIVE_REDRAW_BOTTOM = "RECEIVE_REDRAW_BOTTOM";
+
     public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
 
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";
