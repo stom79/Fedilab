@@ -1267,6 +1267,7 @@
     <string name="instance_health_checkedat">Checked at: %s</string>
     <string name="instance_health_uptime">Uptime: %,.2f %%</string>
     <string name="show_content"><![CDATA[Show content >]]></string>
+    <string name="hide_content"><![CDATA[Hide content <]]></string>
     <string name="stop_recording">Stop recording</string>
 
 

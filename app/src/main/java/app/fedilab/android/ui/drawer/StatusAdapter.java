@@ -760,7 +760,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
             }
-
+            if (statusToDeal.isExpended) {
+                holder.binding.spoilerExpand.setText(context.getString(R.string.hide_content));
+            } else {
+                holder.binding.spoilerExpand.setText(context.getString(R.string.show_content));
+            }
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
             holder.binding.spoilerExpand.setVisibility(View.GONE);
