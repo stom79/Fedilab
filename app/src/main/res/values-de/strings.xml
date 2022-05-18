@@ -1211,4 +1211,36 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="message_has_been_sent">Nachricht wurde gesendet!</string>
     <string name="poll_duration">Dauer der Umfrage:</string>
     <string name="poll_type">Art der Umfrage:</string>
+    <string name="bottom_menu">Unteres Menü</string>
+    <string name="top_menu">Oberes Menü</string>
+    <string name="report_1_title_more">Hier sind Ihre Möglichkeiten zu kontrollieren, was bei Mastodon zu sehen ist:</string>
+    <string name="hide_content">Inhalt verbergen &lt;</string>
+    <string name="category_custom">Benutzerdefiniert</string>
+    <string name="post_message_text">Senden der Nachricht %d/%d</string>
+    <string name="is_up">Es ist geschafft!</string>
+    <string name="is_down">ist ausgefallen!</string>
+    <string name="post_message">Nachricht absenden…</string>
+    <string name="instance_health_indication">Version: %s
+\n%s Benutzer - %s Statuse</string>
+    <string name="report_val_more2">Bösartige Links, gefälschtes Engagement oder sich wiederholende Antworten</string>
+    <string name="report_indication_title_status">Sage uns, was es mit diesem Beitrag auf sich hat</string>
+    <string name="report_1_mute_title">Stummschalten %1$s</string>
+    <string name="report_1_block_title">Blockieren %1$s</string>
+    <string name="invite_join_the_fediverse">Hallo! Wir laden Dich ein, dem Fediverse beizutreten.</string>
+    <string name="set_bot_content">Bot-Account</string>
+    <string name="interactions">Interaktionen</string>
+    <string name="set_discoverable_content">Konto auffindbar</string>
+    <string name="pref_custom_theme_new_summary">Erlaubt die Erstellung des eigenen Themas</string>
+    <string name="pref_theme_base_summary">Wähle, ob die Basis des Themas dunkel oder hell sein soll</string>
+    <string name="types_of_notifications_to_display">Arten der anzuzeigenden Benachrichtigungen</string>
+    <string name="toots_visibility_title">Standardmäßige Sichtbarkeit der Toots:</string>
+    <string name="set_notifications_page">Anzahl der Benachrichtigungen per Laden</string>
+    <string name="replace_instagram_description">Verwende ein alternatives Frontend für Instagram</string>
+    <string name="replace_instagram_host">Instagram Frontend Domain</string>
+    <string name="replace_reddit_description">Verwende ein alternatives Frontend für Reddit</string>
+    <string name="replace_reddit_host">Reddit-Frontend-Domain</string>
+    <string name="alternative_frontends">Alternative Frontends</string>
+    <string name="pref_theme_base">Grundlage des Themas</string>
+    <string name="notifications_are">Während dieses Zeitfensters</string>
+    <string name="set_display_bookmark_indication">Schaltfläche \"Lesezeichen\" immer anzeigen</string>
 </resources>
