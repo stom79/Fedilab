@@ -1594,6 +1594,8 @@
     <string name="poll_duration">Poll duration:</string>
     <string name="set_display_bookmark_indication">Always display bookmark button</string>
     <string name="display">Display</string>
+    <string name="bottom_menu">Bottom menu</string>
+    <string name="top_menu">Top bar menu</string>
 
 
 </resources>

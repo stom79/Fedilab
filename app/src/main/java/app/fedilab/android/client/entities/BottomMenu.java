@@ -118,10 +118,13 @@ public class BottomMenu implements Serializable {
 
     public BottomMenu hydrate(Account account, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.getMenu().clear();
-        BottomMenu bottomMenu;
+        BottomMenu bottomMenu = null;
         try {
             bottomMenu = getAllBottomMenu(account);
         } catch (DBException e) {
+            e.printStackTrace();
+        }
+        if (bottomMenu == null) {
             bottomMenu = defaultBottomMenu();
         }
         for (BottomMenu.MenuItem menuItem : bottomMenu.bottom_menu) {
@@ -294,6 +297,8 @@ public class BottomMenu implements Serializable {
 
     public BottomMenu defaultBottomMenu() {
         BottomMenu bottomMenu = new BottomMenu();
+        bottomMenu.user_id = MainActivity.currentUserID;
+        bottomMenu.instance = MainActivity.currentInstance;
         bottomMenu.bottom_menu = new ArrayList<>();
         MenuItem menuItemHome = new MenuItem();
         menuItemHome.position = 0;

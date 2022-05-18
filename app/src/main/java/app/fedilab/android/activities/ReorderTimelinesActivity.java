@@ -129,7 +129,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         });
         reorderVM.getBottomMenu().observe(ReorderTimelinesActivity.this, _bottomMenu -> {
             this.bottomMenu = _bottomMenu;
-            if (this.bottomMenu == null) {
+            if (_bottomMenu == null) {
                 this.bottomMenu = new BottomMenu(getApplicationContext()).defaultBottomMenu();
                 this.bottomMenu.bottom_menu = new ArrayList<>();
             }

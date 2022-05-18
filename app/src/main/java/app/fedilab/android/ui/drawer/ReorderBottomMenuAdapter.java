@@ -131,7 +131,6 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onItemDismiss(int position) {
-        BottomMenu.MenuItem menuItem = bottomMenu.bottom_menu.get(position);
         notifyItemChanged(position);
         Toasty.info(context, context.getString(R.string.warning_main_timeline), Toast.LENGTH_SHORT).show();
     }

@@ -91,6 +91,9 @@ public class ReorderVM extends AndroidViewModel {
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            if (bottomMenu == null) {
+                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).defaultBottomMenu();
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             BottomMenu finalBottomMenu = bottomMenu;
             Runnable myRunnable = () -> bottomMenuMutableLiveData.setValue(finalBottomMenu);

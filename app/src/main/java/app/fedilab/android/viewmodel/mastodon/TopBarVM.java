@@ -42,7 +42,7 @@ public class TopBarVM extends AndroidViewModel {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Pinned pinnedTimeline = null;
             try {
-                pinnedTimeline = pinned.getPinned(BaseMainActivity.accountWeakReference.get());
+                pinnedTimeline = pinned.getAllPinned(BaseMainActivity.accountWeakReference.get());
             } catch (DBException e) {
                 e.printStackTrace();
             }
