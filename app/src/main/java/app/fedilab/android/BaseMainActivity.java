@@ -252,8 +252,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
                 final Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    binding.bottomNavView.getMenu().getItem(3).setChecked(true);
-                    binding.viewPager.setCurrentItem(3);
+                    int position = BottomMenu.getPosition(bottomMenu, R.id.nav_notifications);
+                    if (position > 0) {
+                        binding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                        binding.viewPager.setCurrentItem(position);
+                    }
                 }, 1000);
                 intent.removeExtra(Helper.INTENT_ACTION);
 

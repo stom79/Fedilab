@@ -393,7 +393,7 @@ public class FragmentMastodonTimeline extends Fragment {
             if (max_id == null || (fetched_statuses.pagination.max_id != null && fetched_statuses.pagination.max_id.compareTo(max_id) < 0)) {
                 max_id = fetched_statuses.pagination.max_id;
             }
-            if (min_id == null || (fetched_statuses.pagination.max_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
+            if (min_id == null || (fetched_statuses.pagination.min_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
                 min_id = fetched_statuses.pagination.min_id;
             }
         }
