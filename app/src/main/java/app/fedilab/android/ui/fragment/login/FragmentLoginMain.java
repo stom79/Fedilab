@@ -48,6 +48,7 @@ import java.net.URLEncoder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.ProxyActivity;
 import app.fedilab.android.activities.WebviewConnectActivity;
 import app.fedilab.android.client.entities.Account;
 import app.fedilab.android.client.entities.InstanceSocial;
@@ -175,42 +176,38 @@ public class FragmentLoginMain extends Fragment {
         PopupMenu popupMenu = new PopupMenu(new ContextThemeWrapper(requireActivity(), Helper.popupStyle()), binding.menuIcon);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
+        MenuItem customTabItem = popupMenu.getMenu().findItem(R.id.action_custom_tabs);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
+        customTabItem.setChecked(!embedded_browser);
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.action_about) {
-                /* Todo: Open about page */
-            } else if (itemId == R.id.action_privacy) {
-                /* Todo: Open privacy page */
-            } else if (itemId == R.id.action_proxy) {
-                /* Todo: Open proxy settings */
+            if (itemId == R.id.action_proxy) {
+                Intent intent = new Intent(requireActivity(), ProxyActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.action_custom_tabs) {
-                setMenuItemKeepOpen(item);
-                /* Todo: Toggle custom tabs */
-            } else if (itemId == R.id.action_import_data) {
-                /* Todo: Import data */
-            } else if (itemId == R.id.action_provider) {
-                setMenuItemKeepOpen(item);
-                /* Todo: Toggle security provider */
+                boolean checked = !embedded_browser;
+                item.setChecked(!item.isChecked());
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), checked);
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(new View(requireContext()));
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
+                editor.apply();
             }
             return false;
         });
         popupMenu.show();
-    }
-
-    private void setMenuItemKeepOpen(MenuItem item) {
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        item.setActionView(new View(requireContext()));
-        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return false;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return false;
-            }
-        });
     }
 
     @Override

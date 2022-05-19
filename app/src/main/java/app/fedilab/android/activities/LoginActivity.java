@@ -150,8 +150,6 @@ public class LoginActivity extends BaseActivity {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
         menu.findItem(R.id.action_custom_tabs).setChecked(!embedded_browser);
-       /* boolean security_provider = sharedpreferences.getBoolean(getString(R.string.SET_SECURITY_PROVIDER), true);
-        menu.findItem(R.id.action_provider).setChecked(security_provider);*/
         return true;
     }
 
@@ -162,45 +160,17 @@ public class LoginActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_about) {
-            //   Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
-            //   startActivity(intent);
-        } else if (id == R.id.action_privacy) {
-            //   Intent intent = new Intent(LoginActivity.this, PrivacyActivity.class);
-            //    startActivity(intent);
-        } else if (id == R.id.action_proxy) {
-            Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.action_custom_tabs) {
-            item.setChecked(!item.isChecked());
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
-            editor.apply();
-            return false;
-        } else if (id == R.id.action_provider) {
-          /*  item.setChecked(!item.isChecked());
-            SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(getString(R.string.SET_SECURITY_PROVIDER), item.isChecked());
-            editor.apply();*/
-            return false;
-        } else if (id == R.id.action_import_data) {
-           /* if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(LoginActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        TootActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                return true;
-            }*/
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("*/*");
-            String[] mimetypes = {"*/*"};
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
-            startActivityForResult(intent, PICK_IMPORT);
-        }
+       if (id == R.id.action_proxy) {
+           Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
+           startActivity(intent);
+       } else if (id == R.id.action_custom_tabs) {
+           item.setChecked(!item.isChecked());
+           SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+           SharedPreferences.Editor editor = sharedpreferences.edit();
+           editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
+           editor.apply();
+           return false;
+       }
         return super.onOptionsItemSelected(item);
     }
 
