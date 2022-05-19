@@ -178,14 +178,16 @@ public class FragmentMastodonTimeline extends Fragment {
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
         if (tagTimeline != null) {
-            ident = tagTimeline.name;
+            ident = "@T@" + tagTimeline.name;
             if (tagTimeline.isART) {
                 timelineType = Timeline.TimeLineEnum.ART;
             }
         } else if (list_id != null) {
-            ident = list_id;
+            ident = "@l@" + list_id;
         } else if (remoteInstance != null) {
-            ident = remoteInstance;
+            ident = "@R@" + remoteInstance;
+        } else if (search != null) {
+            ident = "@S@" + search;
         } else {
             ident = null;
         }
