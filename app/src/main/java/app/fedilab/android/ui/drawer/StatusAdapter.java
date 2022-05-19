@@ -1001,6 +1001,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
 
         // --- POLL ---
+
         if (statusToDeal.poll != null && statusToDeal.poll.options != null) {
             if (statusToDeal.poll.voted || statusToDeal.poll.expired) {
                 holder.binding.poll.submitVote.setVisibility(View.GONE);
@@ -1047,6 +1048,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         (holder.binding.poll.multipleChoice).removeAllViews();
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         CheckBox cb = new CheckBox(context);
+                        cb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         cb.setText(pollOption.span_title, TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
                     }
@@ -1057,6 +1059,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         (holder.binding.poll.singleChoiceRadioGroup).removeAllViews();
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         RadioButton rb = new RadioButton(context);
+                        rb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         rb.setText(pollOption.span_title, TextView.BufferType.SPANNABLE);
                         holder.binding.poll.singleChoiceRadioGroup.addView(rb);
                     }
