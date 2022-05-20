@@ -172,18 +172,13 @@ public class NotificationsHelper {
         if (notifications.size() == 0)
             return;
         //No previous notifications in cache, so no notification will be sent
-        int newFollows = 0;
-        int newAdds = 0;
-        int newMentions = 0;
-        int newShare = 0;
-        int newPolls = 0;
-        int newStatus = 0;
-        String notificationUrl;
-        String title = null;
-        String message = null;
-        String targeted_account = null;
-        Helper.NotifType notifType = Helper.NotifType.MENTION;
+
         for (Notification notification : notifications) {
+            String notificationUrl;
+            String title = null;
+            String message = null;
+            String targeted_account = null;
+            Helper.NotifType notifType = Helper.NotifType.MENTION;
             switch (notification.type) {
                 case "mention":
                     notifType = Helper.NotifType.MENTION;
@@ -206,7 +201,6 @@ public class NotificationsHelper {
                                     message = "\n" + new SpannableString(Html.fromHtml(notification.status.content));
                             }
                         }
-                        newFollows++;
                     }
                     break;
                 case "status":
@@ -230,7 +224,6 @@ public class NotificationsHelper {
                                     message = "\n" + new SpannableString(Html.fromHtml(notification.status.content));
                             }
                         }
-                        newStatus++;
                     }
                     break;
                 case "reblog":
@@ -241,7 +234,6 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_reblog));
-                        newShare++;
                     }
                     break;
                 case "favourite":
@@ -252,7 +244,6 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_favourite));
-                        newAdds++;
                     }
                     break;
                 case "follow_request":
@@ -264,7 +255,6 @@ public class NotificationsHelper {
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_follow_request));
                         targeted_account = notification.account.id;
-                        newFollows++;
                     }
                     break;
                 case "follow":
@@ -276,7 +266,6 @@ public class NotificationsHelper {
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_follow));
                         targeted_account = notification.account.id;
-                        newFollows++;
                     }
                     break;
                 case "poll":
@@ -287,75 +276,71 @@ public class NotificationsHelper {
                             message = context.getString(R.string.notif_poll_self);
                         else
                             message = context.getString(R.string.notif_poll);
-                        newPolls++;
                     }
                     break;
                 default:
             }
+            if (message != null) {
+                //Some others notification
+                final Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
+                intent.putExtra(Helper.PREF_KEY_ID, account.user_id);
+                if (targeted_account != null && notifType == Helper.NotifType.FOLLLOW)
+                    intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
+                intent.putExtra(Helper.PREF_INSTANCE, account.instance);
+                notificationUrl = notification.account.avatar;
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                final String finalNotificationUrl = notificationUrl;
+                Helper.NotifType finalNotifType = notifType;
+                String finalMessage = message;
+                String finalTitle = title;
+                Runnable myRunnable = () -> Glide.with(context)
+                        .asBitmap()
+                        .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
+                        .listener(new RequestListener<Bitmap>() {
 
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
+                                if (lastNotif == null || notification.id.compareTo(lastNotif) > 0) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                    editor.apply();
+                                    notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                            R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage);
+                                }
+                                return false;
+                            }
+                        })
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
+                                if (lastNotif == null || notification.id.compareTo(lastNotif) > 0) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                    editor.apply();
+                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                    notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
+                                }
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        });
+                mainHandler.post(myRunnable);
+
+            }
         }
 
-        int allNotifCount = newFollows + newAdds + newMentions + newShare + newPolls + newStatus;
-        if (allNotifCount > 0) {
-            //Some others notification
-            final Intent intent = new Intent(context, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
-            intent.putExtra(Helper.PREF_KEY_ID, account.user_id);
-            if (targeted_account != null && notifType == Helper.NotifType.FOLLLOW)
-                intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
-            intent.putExtra(Helper.PREF_INSTANCE, account.instance);
-            notificationUrl = notifications.get(0).account.avatar;
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            final String finalNotificationUrl = notificationUrl;
-            Helper.NotifType finalNotifType = notifType;
-            String finalMessage = message;
-            String finalMessage1 = message;
-            String finalTitle = title;
-            Runnable myRunnable = () -> Glide.with(context)
-                    .asBitmap()
-                    .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
-                    .listener(new RequestListener<Bitmap>() {
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-                            String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                            if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
-                                SharedPreferences.Editor editor = prefs.edit();
-                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                editor.apply();
-                                notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                        R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage1);
-                            }
-                            return false;
-                        }
-                    })
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                            if (lastNotif == null || notifications.get(0).id.compareTo(lastNotif) > 0) {
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                editor.apply();
-                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
-                            }
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
-            mainHandler.post(myRunnable);
-
-        }
     }
 }
