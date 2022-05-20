@@ -126,6 +126,8 @@ public class FragmentMastodonConversation extends Fragment {
                                             currentFragment.conversations.addAll(fetched_conversations.conversations);
                                             max_id = fetched_conversations.pagination.max_id;
                                             conversationAdapter.notifyItemRangeInserted(startId, fetched_conversations.conversations.size());
+                                        } else {
+                                            flagLoading = true;
                                         }
                                     });
                         }
@@ -140,6 +142,7 @@ public class FragmentMastodonConversation extends Fragment {
             if (this.conversations.size() > 0) {
                 binding.swipeContainer.setRefreshing(true);
                 max_id = null;
+                flagLoading = false;
                 timelinesVM.getConversations(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(FragmentMastodonConversation.this, this::initializeConversationCommonView);
             }

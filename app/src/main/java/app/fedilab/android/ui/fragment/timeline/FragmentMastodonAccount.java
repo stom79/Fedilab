@@ -179,6 +179,7 @@ public class FragmentMastodonAccount extends Fragment {
         binding.swipeContainer.setRefreshing(false);
         binding.swipeContainer.setOnRefreshListener(() -> {
             binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
             max_id = null;
             router(true);
         });
@@ -197,7 +198,7 @@ public class FragmentMastodonAccount extends Fragment {
 
         this.accounts = accounts.accounts;
         accountAdapter = new AccountAdapter(this.accounts);
-
+        flagLoading = (accounts.accounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(accountAdapter);
@@ -245,6 +246,7 @@ public class FragmentMastodonAccount extends Fragment {
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (accounts != null && fetched_accounts != null && fetched_accounts.accounts != null) {
+            flagLoading = (fetched_accounts.accounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
             int startId = 0;
             //There are some statuses present in the timeline
             if (accounts.size() > 0) {
@@ -256,6 +258,8 @@ public class FragmentMastodonAccount extends Fragment {
             fetchRelationShip(fetched_accounts.accounts, position);
             max_id = fetched_accounts.pagination.max_id;
             accountAdapter.notifyItemRangeInserted(startId, fetched_accounts.accounts.size());
+        } else {
+            flagLoading = true;
         }
     }
 

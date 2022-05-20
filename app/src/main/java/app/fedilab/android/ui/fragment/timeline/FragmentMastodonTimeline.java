@@ -254,6 +254,7 @@ public class FragmentMastodonTimeline extends Fragment {
         binding.swipeContainer.setOnRefreshListener(() -> {
             binding.swipeContainer.setRefreshing(true);
             max_id = null;
+            flagLoading = false;
             router(null);
         });
 
@@ -282,7 +283,7 @@ public class FragmentMastodonTimeline extends Fragment {
                 statuses.statuses = mediaStatuses;
             }
         }
-
+        flagLoading = (statuses.statuses.size() < MastodonHelper.statusesPerCall(requireActivity()));
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && this.statuses != null) {
             int size = this.statuses.size();
@@ -361,8 +362,9 @@ public class FragmentMastodonTimeline extends Fragment {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
-        if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null) {
+        if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
 
+            flagLoading = (direction == DIRECTION.BOTTOM && fetched_statuses.statuses.size() < MastodonHelper.statusesPerCall(requireActivity()));
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
                 List<Status> mediaStatuses = new ArrayList<>();
@@ -396,6 +398,8 @@ public class FragmentMastodonTimeline extends Fragment {
             if (min_id == null || (fetched_statuses.pagination.min_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
                 min_id = fetched_statuses.pagination.min_id;
             }
+        } else if (direction == DIRECTION.BOTTOM) {
+            flagLoading = true;
         }
     }
 

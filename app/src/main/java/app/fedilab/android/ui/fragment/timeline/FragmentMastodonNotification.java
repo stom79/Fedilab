@@ -189,7 +189,7 @@ public class FragmentMastodonNotification extends Fragment {
         }
         this.notifications = notifications.notifications;
         notificationAdapter = new NotificationAdapter(this.notifications);
-
+        flagLoading = notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
@@ -219,6 +219,7 @@ public class FragmentMastodonNotification extends Fragment {
             if (this.notifications.size() > 0) {
                 binding.swipeContainer.setRefreshing(true);
                 max_id = null;
+                flagLoading = false;
                 notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
                         .observe(FragmentMastodonNotification.this, this::initializeNotificationView);
             }
@@ -239,6 +240,7 @@ public class FragmentMastodonNotification extends Fragment {
         flagLoading = false;
         binding.loadingNextElements.setVisibility(View.GONE);
         if (currentFragment.notifications != null && fetched_notifications != null && fetched_notifications.notifications != null) {
+            flagLoading = fetched_notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
             int startId = 0;
             //There are some statuses present in the timeline
             if (currentFragment.notifications.size() > 0) {
@@ -247,6 +249,8 @@ public class FragmentMastodonNotification extends Fragment {
             currentFragment.notifications.addAll(fetched_notifications.notifications);
             max_id = fetched_notifications.pagination.max_id;
             notificationAdapter.notifyItemRangeInserted(startId, fetched_notifications.notifications.size());
+        } else {
+            flagLoading = true;
         }
     }
 
