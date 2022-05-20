@@ -594,6 +594,11 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountFollow.setContentDescription(getString(R.string.follow_request));
                 doAction = action.UNFOLLOW;
             }
+            if (relationship.followed_by) {
+                binding.accountFollowedBy.setVisibility(View.VISIBLE);
+            } else {
+                binding.accountFollowedBy.setVisibility(View.GONE);
+            }
             if (relationship.following) {
                 binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_remove_24);
                 binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
