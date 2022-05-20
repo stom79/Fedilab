@@ -75,6 +75,7 @@ import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
 import app.fedilab.android.services.PostMessageService;
+import app.fedilab.android.services.ThreadMessageService;
 import app.fedilab.android.ui.drawer.AccountsReplyAdapter;
 import app.fedilab.android.ui.drawer.ComposeAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -561,15 +562,23 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
 
             } else if (sendMessage) {
-                Intent intent = new Intent(ComposeActivity.this, PostMessageService.class);
-                intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                intent.putExtra(Helper.ARG_INSTANCE, instance);
-                intent.putExtra(Helper.ARG_TOKEN, token);
-                intent.putExtra(Helper.ARG_SCHEDULED_DATE, scheduledDate);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(intent);
+                int mediaCount = 0;
+                for (Status status : statusDraft.statusDraftList) {
+                    mediaCount += status.media_attachments != null ? status.media_attachments.size() : 0;
+                }
+                if (mediaCount > 0) {
+                    Intent intent = new Intent(ComposeActivity.this, PostMessageService.class);
+                    intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
+                    intent.putExtra(Helper.ARG_INSTANCE, instance);
+                    intent.putExtra(Helper.ARG_TOKEN, token);
+                    intent.putExtra(Helper.ARG_SCHEDULED_DATE, scheduledDate);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent);
+                    } else {
+                        startService(intent);
+                    }
                 } else {
-                    startService(intent);
+                    new ThreadMessageService(ComposeActivity.this, instance, token, statusDraft, scheduledDate);
                 }
                 finish();
             }
