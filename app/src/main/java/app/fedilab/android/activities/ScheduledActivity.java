@@ -62,6 +62,10 @@ public class ScheduledActivity extends BaseActivity {
         binding.scheduleViewpager.setAdapter(new FedilabScheduledPageAdapter(getSupportFragmentManager()));
         binding.scheduleViewpager.setOffscreenPageLimit(3);
         binding.scheduleViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.scheduleTablayout));
+
+        binding.scheduleTablayout.setTabTextColors(ThemeHelper.getAttColor(ScheduledActivity.this, R.attr.mTextColor), ContextCompat.getColor(ScheduledActivity.this, R.color.cyanea_accent_dark_reference));
+        binding.scheduleTablayout.setTabIconTint(ThemeHelper.getColorStateList(ScheduledActivity.this));
+
         binding.scheduleTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
