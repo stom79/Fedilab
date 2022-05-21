@@ -167,11 +167,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title = context.getString(R.string.notif_poll);
                 }
                 if (notification.relatedNotifications != null && notification.relatedNotifications.size() > 0) {
-                    holderStatus.bindingNotification.otherAccounts.removeAllViews();
+                    if (notification.type.equals("favourite")) {
+                        holderStatus.bindingNotification.typeOfConcat.setText(R.string.also_favourite_by);
+                    } else if (notification.type.equals("reblog")) {
+                        holderStatus.bindingNotification.typeOfConcat.setText(R.string.also_boosted_by);
+                    }
+                    holderStatus.bindingNotification.relatedAccounts.removeAllViews();
                     for (Notification relativeNotif : notification.relatedNotifications) {
                         NotificationsRelatedAccountsBinding notificationsRelatedAccountsBinding = NotificationsRelatedAccountsBinding.inflate(LayoutInflater.from(context));
                         MastodonHelper.loadPPMastodon(notificationsRelatedAccountsBinding.profilePicture, relativeNotif.account);
-                        notificationsRelatedAccountsBinding.acc.setText(relativeNotif.account.acct);
+                        notificationsRelatedAccountsBinding.acc.setText(relativeNotif.account.username);
                         notificationsRelatedAccountsBinding.relatedAccountContainer.setOnClickListener(v -> {
                             Intent intent = new Intent(context, ProfileActivity.class);
                             Bundle b = new Bundle();
@@ -182,7 +187,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             // start the new activity
                             context.startActivity(intent, options.toBundle());
                         });
-                        holderStatus.bindingNotification.otherAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
+                        holderStatus.bindingNotification.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
                     }
                     holderStatus.bindingNotification.otherAccounts.setVisibility(View.VISIBLE);
                 } else {

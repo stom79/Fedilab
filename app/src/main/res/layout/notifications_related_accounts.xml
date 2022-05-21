@@ -3,15 +3,19 @@
     android:id="@+id/related_account_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/profile_picture"
+        android:padding="2dp"
         android:layout_width="30dp"
         android:layout_height="30dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/acc"
+        android:layout_marginStart="5dp"
+        android:padding="2dp"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1" />

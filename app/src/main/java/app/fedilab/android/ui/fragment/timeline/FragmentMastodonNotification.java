@@ -185,6 +185,7 @@ public class FragmentMastodonNotification extends Fragment {
             binding.noAction.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
         }
+        flagLoading = notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
         if (aggregateNotification) {
             notifications.notifications = aggregateNotifications(notifications.notifications);
         }
@@ -196,7 +197,6 @@ public class FragmentMastodonNotification extends Fragment {
         }
         this.notifications = notifications.notifications;
         notificationAdapter = new NotificationAdapter(this.notifications);
-        flagLoading = notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
@@ -239,7 +239,10 @@ public class FragmentMastodonNotification extends Fragment {
         int refPosition = 0;
         for (int i = 0; i < notifications.size(); i++) {
             if (i != refPosition) {
-                if (notifications.get(i).type.equals(notifications.get(refPosition).type) && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))) {
+                if (notifications.get(i).type.equals(notifications.get(refPosition).type)
+                        && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))
+                        && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
+                ) {
                     if (notificationList.size() > 0) {
                         if (notificationList.get(notificationList.size() - 1).relatedNotifications == null) {
                             notificationList.get(notificationList.size() - 1).relatedNotifications = new ArrayList<>();
@@ -269,6 +272,9 @@ public class FragmentMastodonNotification extends Fragment {
         binding.loadingNextElements.setVisibility(View.GONE);
         if (currentFragment.notifications != null && fetched_notifications != null && fetched_notifications.notifications != null) {
             flagLoading = fetched_notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
+            if (aggregateNotification) {
+                fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
+            }
             int startId = 0;
             //There are some statuses present in the timeline
             if (currentFragment.notifications.size() > 0) {
