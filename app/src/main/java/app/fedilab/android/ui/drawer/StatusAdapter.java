@@ -680,7 +680,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     }
                                 });
                     } else {
-                        if (status.favourited) {
+                        if (statusToDeal.favourited) {
                             statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
                                     .observe((LifecycleOwner) context, _status -> {
                                         statusToDeal.favourited = _status.favourited;
@@ -1544,7 +1544,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int position = 0;
         if (statusList != null) {
             for (Status _status : statusList) {
-                if (_status.id.compareTo(status.id) == 0) {
+                if (_status.id.compareTo(status.id) == 0 || (_status.reblog != null && _status.reblog.id.compareTo(status.id) == 0)) {
                     break;
                 }
                 position++;
