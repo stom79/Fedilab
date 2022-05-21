@@ -24,7 +24,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.MastodonHelper;
@@ -113,7 +112,7 @@ public class QuickLoad {
      * @param statusList   - List<Status> to save
      * @param ident        - the name for pinned timeline
      */
-    public void storeTimeline(int position, Timeline.TimeLineEnum timeLineType, List<Status> statusList, String ident) {
+    public void storeTimeline(int position, String user_id, String instance, Timeline.TimeLineEnum timeLineType, List<Status> statusList, String ident) {
         if (cannotBeStored(timeLineType)) {
             return;
         }
@@ -125,8 +124,8 @@ public class QuickLoad {
         quickLoad.position = position;
         quickLoad.statuses = statusList;
         quickLoad.slug = key;
-        quickLoad.instance = MainActivity.currentInstance;
-        quickLoad.user_id = MainActivity.currentUserID;
+        quickLoad.instance = user_id;
+        quickLoad.user_id = instance;
         purge(quickLoad);
         try {
             insertOrUpdate(quickLoad);
@@ -233,7 +232,7 @@ public class QuickLoad {
      * @param ident        - the name for pinned timeline
      * @return SavedValues
      */
-    public QuickLoad getSavedValue(Timeline.TimeLineEnum timeLineType, String ident) {
+    public QuickLoad getSavedValue(String user_id, String instance, Timeline.TimeLineEnum timeLineType, String ident) {
         if (cannotBeStored(timeLineType)) {
             return null;
         }
@@ -242,7 +241,7 @@ public class QuickLoad {
             key += "|" + ident;
         }
         try {
-            return get(key);
+            return get(user_id, instance, key);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -316,13 +315,13 @@ public class QuickLoad {
      * @return Statuses
      * @throws DBException - throws a db exception
      */
-    private QuickLoad get(String slug) throws DBException {
+    private QuickLoad get(String user_id, String instance, String slug) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_QUICK_LOAD, null, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
-                    new String[]{MainActivity.currentUserID, MainActivity.currentInstance, slug}, null, null, null, "1");
+                    new String[]{user_id, instance, slug}, null, null, null, "1");
             return cursorToQuickLoad(c);
         } catch (Exception e) {
             e.printStackTrace();

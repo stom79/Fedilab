@@ -41,6 +41,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.QuickLoad;
 import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.entities.app.TagTimeline;
@@ -82,7 +83,7 @@ public class FragmentMastodonTimeline extends Fragment {
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
     private String viewModelKey, remoteInstance;
     private String ident;
-
+    private String instance, user_id;
 
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -160,7 +161,8 @@ public class FragmentMastodonTimeline extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
-
+        instance = MainActivity.currentInstance;
+        user_id = MainActivity.currentUserID;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
             list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
@@ -425,7 +427,7 @@ public class FragmentMastodonTimeline extends Fragment {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             new Thread(() -> {
                 try {
-                    new QuickLoad(requireActivity()).storeTimeline(position, timelineType, statuses, ident);
+                    new QuickLoad(requireActivity()).storeTimeline(position, user_id, instance, timelineType, statuses, ident);
                 } catch (Exception ignored) {
                 }
             }).start();
@@ -476,7 +478,7 @@ public class FragmentMastodonTimeline extends Fragment {
     private void route(DIRECTION direction) {
 
         new Thread(() -> {
-            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(timelineType, ident);
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
             if (binding == null) {
                 return;
             }
