@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/related_account_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/acc"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="1" />
+</androidx.appcompat.widget.LinearLayoutCompat>

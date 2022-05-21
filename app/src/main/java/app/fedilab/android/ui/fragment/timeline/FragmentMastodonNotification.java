@@ -63,6 +63,7 @@ public class FragmentMastodonNotification extends Fragment {
     private NotificationAdapter notificationAdapter;
     private NotificationTypeEnum notificationType;
     private List<String> excludeType;
+    private boolean aggregateNotification;
 
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -114,6 +115,7 @@ public class FragmentMastodonNotification extends Fragment {
         if (getArguments() != null) {
             notificationType = (NotificationTypeEnum) getArguments().get(Helper.ARG_NOTIFICATION_TYPE);
         }
+        aggregateNotification = false;
         binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
@@ -136,6 +138,7 @@ public class FragmentMastodonNotification extends Fragment {
         excludeType.add("update");
         excludeType.add("status");
         if (notificationType == NotificationTypeEnum.ALL) {
+            aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
             if (excludedCategories != null) {
                 excludeType = new ArrayList<>();
                 String[] categoriesArray = excludedCategories.split("\\|");
@@ -172,6 +175,7 @@ public class FragmentMastodonNotification extends Fragment {
 
         binding.loader.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
+
         if (notifications == null || notifications.notifications == null) {
             binding.noActionText.setText(R.string.no_notifications);
             binding.noAction.setVisibility(View.VISIBLE);
@@ -180,6 +184,9 @@ public class FragmentMastodonNotification extends Fragment {
         } else {
             binding.noAction.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
+        }
+        if (aggregateNotification) {
+            notifications.notifications = aggregateNotifications(notifications.notifications);
         }
         if (notificationAdapter != null && this.notifications != null) {
             int size = this.notifications.size();
@@ -225,6 +232,27 @@ public class FragmentMastodonNotification extends Fragment {
             }
         });
 
+    }
+
+    private List<Notification> aggregateNotifications(List<Notification> notifications) {
+        List<Notification> notificationList = new ArrayList<>();
+        int refPosition = 0;
+        for (int i = 0; i < notifications.size(); i++) {
+            if (i != refPosition) {
+                if (notifications.get(i).type.equals(notifications.get(refPosition).type) && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))) {
+                    if (notificationList.size() > 0) {
+                        if (notificationList.get(notificationList.size() - 1).relatedNotifications == null) {
+                            notificationList.get(notificationList.size() - 1).relatedNotifications = new ArrayList<>();
+                        }
+                        notificationList.get(notificationList.size() - 1).relatedNotifications.add(notifications.get(i));
+                    }
+                } else {
+                    notificationList.add(notifications.get(i));
+                    refPosition = i;
+                }
+            }
+        }
+        return notificationList;
     }
 
     public void scrollToTop() {

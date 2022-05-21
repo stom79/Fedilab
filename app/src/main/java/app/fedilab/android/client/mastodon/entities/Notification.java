@@ -17,6 +17,7 @@ package app.fedilab.android.client.mastodon.entities;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class Notification {
 
@@ -30,4 +31,6 @@ public class Notification {
     public Account account;
     @SerializedName("status")
     public Status status;
+
+    public transient List<Notification> relatedNotifications;
 }

@@ -40,6 +40,7 @@ import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Notification;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
+import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -164,6 +165,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                 } else if (getItemViewType(position) == TYPE_POLL) {
                     title = context.getString(R.string.notif_poll);
+                }
+                if (notification.relatedNotifications != null && notification.relatedNotifications.size() > 0) {
+                    holderStatus.bindingNotification.otherAccounts.removeAllViews();
+                    for (Notification relativeNotif : notification.relatedNotifications) {
+                        NotificationsRelatedAccountsBinding notificationsRelatedAccountsBinding = NotificationsRelatedAccountsBinding.inflate(LayoutInflater.from(context));
+                        MastodonHelper.loadPPMastodon(notificationsRelatedAccountsBinding.profilePicture, relativeNotif.account);
+                        notificationsRelatedAccountsBinding.acc.setText(relativeNotif.account.acct);
+                        notificationsRelatedAccountsBinding.relatedAccountContainer.setOnClickListener(v -> {
+                            Intent intent = new Intent(context, ProfileActivity.class);
+                            Bundle b = new Bundle();
+                            b.putSerializable(Helper.ARG_ACCOUNT, relativeNotif.account);
+                            intent.putExtras(b);
+                            ActivityOptionsCompat options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation((Activity) context, notificationsRelatedAccountsBinding.profilePicture, context.getString(R.string.activity_porfile_pp));
+                            // start the new activity
+                            context.startActivity(intent, options.toBundle());
+                        });
+                        holderStatus.bindingNotification.otherAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
+                    }
+                    holderStatus.bindingNotification.otherAccounts.setVisibility(View.VISIBLE);
+                } else {
+                    holderStatus.bindingNotification.otherAccounts.setVisibility(View.GONE);
                 }
                 holderStatus.bindingNotification.status.avatar.setOnClickListener(v -> {
                     Intent intent = new Intent(context, ProfileActivity.class);
