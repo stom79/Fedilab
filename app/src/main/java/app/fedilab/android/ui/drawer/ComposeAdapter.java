@@ -380,7 +380,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param uris     List<Uri> - uris of the media
      */
     public void addAttachment(int position, List<Uri> uris) {
-
         if (position == -1) {
             position = statusList.size() - 1;
         }
@@ -638,7 +637,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
         textw = new TextWatcher() {
-            private int position;
+            private int cPosition;
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -649,7 +648,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (count > 2) {
                     holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
                 }
-                position = start;
+                cPosition = start;
             }
 
             @Override
@@ -659,7 +658,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
                     holder.binding.content.setText(s.delete(instanceInfo.configuration.statusesConf.max_characters - holder.binding.contentSpoiler.getText().length(), (currentLength - holder.binding.contentSpoiler.getText().length())));
                 } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
-                    holder.binding.content.setText(s.delete(position, position + 1));
+                    holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
                 }
                 statusList.get(holder.getAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {
@@ -1163,7 +1162,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.characterProgress.setMax(instanceInfo.configuration.statusesConf.max_characters);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
-                private int position;
+                private int cPosition;
 
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1171,7 +1170,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    position = start;
+                    cPosition = start;
                     if (count > 2) {
                         holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
                     }
@@ -1185,7 +1184,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         buttonVisibility(holder);
                     } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
                         buttonVisibility(holder);
-                        holder.binding.contentSpoiler.setText(s.delete(position, position + 1));
+                        holder.binding.contentSpoiler.setText(s.delete(cPosition, cPosition + 1));
                     }
                     statusList.get(holder.getAdapterPosition()).spoiler_text = s.toString();
                     if (s.toString().trim().length() < 2) {
