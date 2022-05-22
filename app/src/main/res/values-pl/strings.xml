@@ -228,10 +228,10 @@
     <string name="notif_follow">zaczął(-ęła) Cię śledzić</string>
     <string name="notif_follow_request">poprosił o obserwowanie</string>
     <plurals name="other_notifications">
-        <item quantity="one">dodaj %d innych powiadomień</item>
-        <item quantity="few">dodaj %d innych powiadomień</item>
-        <item quantity="many">dodaj %d innych powiadomień</item>
-        <item quantity="other">dodaj %d innych powiadomień</item>
+        <item quantity="one">i jeszcze %d inne powiadomienie</item>
+        <item quantity="few">i %d inne powiadomienia</item>
+        <item quantity="many">i %d innych powiadomień</item>
+        <item quantity="other">i %d innych powiadomień</item>
     </plurals>
     <plurals name="likes">
         <item quantity="one">%d polubienie</item>
@@ -276,7 +276,7 @@
     <string name="toast_error_translate">Tłumaczenie nieudane!</string>
     <string name="toast_error_translations_disabled">Tłumaczenia są wyłączone w ustawieniach</string>
     <string name="toast_toot_saved">Zapisano szkic!</string>
-    <string name="toast_error_char_limit">Czy na pewno ta instancja zezwala na więcej, niż domyślne 500 znaków?</string>
+    <string name="toast_error_char_limit">Czy jesteś pewien, że ta instancja pozwala na taką liczbę znaków\? Zazwyczaj wartość ta jest zbliżona do 500 znaków.</string>
     <string name="toast_visibility_changed">Widoczność wpisu została zmieniona na %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Liczba wpisów do załadowania</string>
@@ -303,7 +303,7 @@
     <string name="set_wifi_only">Powiadamiaj tylko w sieci WiFi</string>
     <string name="set_notify">Powiadamiać?</string>
     <string name="set_notif_silent">Ciche powiadomienia</string>
-    <string name="set_nsfw_timeout">Czas do automatycznego ukrycia treści wrażliwej w sekundach. 0 oznacza dezaktywację.</string>
+    <string name="set_nsfw_timeout">Limit czasu wyświetlania NSFW (sekundy, 0 oznacza wyłączony)</string>
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_profile">Edytuj profil</string>
     <string name="settings_title_custom_sharing">Niestandardowe udostępnianie</string>
@@ -313,7 +313,7 @@
     <string name="set_save_changes">Zapisz zmiany</string>
     <string name="set_header_picture_overlay">Wybierz zdjęcie nagłówka</string>
     <string name="set_fit_preview">Pokaż całość</string>
-    <string name="set_automatically_split_toot">Automatycznie rozdzielaj wpisy na ponad 500 znaków w odpowiedziach</string>
+    <string name="set_automatically_split_toot">Automatycznie dziel tooty w odpowiedziach, gdy kończą się znaki:</string>
     <string name="note_no_space">Przekroczono limit 160 dozwolonych znaków!</string>
     <string name="username_no_space">Przekroczono limit 30 dozwolonych znaków!</string>
     <string name="settings_time_from">Między</string>
@@ -347,7 +347,7 @@
     <string name="action_unblock">Odblokuj</string>
     <string name="action_mute">Wycisz</string>
     <string name="action_unmute">Wycisz</string>
-    <string name="request_sent">Wysłano prośbę.</string>
+    <string name="request_sent">Wysłano prośbę</string>
     <string name="followed_by">Śledzi Cię</string>
     <string name="action_search">Wyszukaj</string>
     <string name="set_capitalize">Zaczynaj wpisy z wielkiej litery</string>
@@ -422,7 +422,7 @@
         - <b>Android-Job</b>: zarządzanie usługami\n
         - <b>PhotoView</b>: zarządzanie obrazami\n
     </string>
-    <string name="privacy_API_yandex_title">Automatyczne tłumaczenie wpisów:</string>
+    <string name="privacy_API_yandex_title">Automatyczne tłumaczenie wpisów</string>
     <string name="privacy_API_yandex_authorizations">        Fedilab oferuje automatyczne tłumaczenie wpisów na wybrany język przy pomocy API Yandex.\n
         Polityka prywatności usługi Yandex jest dostępna w języku angielskim tutaj: https://yandex.ru/legal/confidential/?lang=en
     </string>
@@ -433,7 +433,7 @@
     <string name="fetch_more_toots">Pobierz więcej wpisów…</string>
     <!-- About lists -->
     <string name="action_lists">Listy</string>
-    <string name="action_lists_confirm_delete">Czy na pewno chcesz usunąć tę listę? Nie będzie można cofnąć tej akcji!</string>
+    <string name="action_lists_confirm_delete">Czy na pewno chcesz usunąć trwale tę listę\?</string>
     <string name="action_lists_empty_content">Nie ma jeszcze nic na tej liście. Kiedy użytkownicy z tej listy dodadzą nowe statusy, wyświetlą się one tutaj.</string>
     <string name="action_lists_add_to">Dodaj do listy</string>
     <string name="action_lists_create">Dodaj listę</string>
@@ -498,7 +498,7 @@
     <string name="filter_keyword_explanations">Zostanie dopasowany, niezależnie od wielkości liter w tekście lub ostrzeżenia o treści toot-a</string>
     <string name="context_drop">Pomiń zamiast ukrycia</string>
     <string name="context_drop_explanations">Odfiltrowane toot-y znikną bezpowrotnie, nawet jeśli filtr zostanie zdjęty</string>
-    <string name="context_whole_word_explanations">Jeśli słowo kluczowe zawiera tylko tylko litery i cyfry, będzie stosowany tylko jeśli dopasuje cały wyraz</string>
+    <string name="context_whole_word_explanations">Jeśli słowo lub fraza kluczowa zawiera tylko cyfry i litery, zostanie zastosowana tylko wtedy, gdy będzie pasować do całego słowa</string>
     <string name="context_whole_word">Cały wyraz</string>
     <string name="filter_context">Filtruj konteksty</string>
     <string name="filter_context_explanations">Jeden lub wiele kontekstów, gdzie stosuje się filtr</string>
@@ -539,7 +539,9 @@
     <string name="no_blocked_domain">Brak zablokowanych domen!</string>
     <string name="unblock_domain_confirm">Odblokuj domenę</string>
     <string name="unblock_domain_confirm_message">Czy na pewno chcesz odblokować %s?</string>
-    <string name="block_domain_confirm_message">Czy na pewno chcesz zablokować %s?</string>
+    <string name="block_domain_confirm_message">Czy na pewno chcesz zablokować %s\?
+\n
+\nNie będziesz widział żadnych treści z tej domeny na żadnej publicznej osi czasu ani w powiadomieniach. Twoi obserwujący z tej domeny zostaną usunięci.</string>
     <string name="blocked_domains">Zablokowane domeny</string>
     <string name="block_domain">Zablokuj domenę</string>
     <string name="toast_block_domain">Domena jest zablokowana</string>
@@ -611,9 +613,10 @@
         <item>1 dzień</item>
         <item>1 tydzień</item>
     </string-array>
-    <string name="showcase_instance">        W tym polu, musisz wpisać nazwę hosta instancji.\nNa przykład, jeżeli konto było zakładane na https://mastodon.social\npo prostu wpisz <b>mastodon.social</b> (bez https://)\n
-        Po wpisaniu kilku liter pojawią sie sugestie.\n\n
-        ⚠ Przycisk logowania zadziała tylko jeśli wpisana nazwa jest poprawna i a sama instancja działa!</string>
+    <string name="showcase_instance">W tym polu należy wpisać domenę swojej instancji.
+\nNa przykład, jeśli utworzyłeś swoje konto na https://mastodon.social.
+\nWystarczy napisać <b>mastodon.social</b>.
+\nMożesz zacząć wpisywać pierwsze litery, a nazwy zostaną automatycznie zasugerowane. </string>
     <string name="more_information">Więcej informacji</string>
     <!-- languages not translated -->
     <string name="languages">Języki</string>
@@ -1009,7 +1012,7 @@
     <string name="unfollow_confirm">Czy chcesz przestać obserwować to konto?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description">Użyj alternatywnej nakładki na Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="replace_wikipedia">Replace Wikipedia links</string>
     <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
@@ -1138,4 +1141,62 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="hide_content">Ukryj zawartość &lt;</string>
+    <string name="report_val1">Nie podoba mi się to</string>
+    <string name="report_val3">To narusza zasady serwera</string>
+    <string name="report_val4">To jest coś innego</string>
+    <string name="report_val_more4">Problem nie pasuje do żadnej kategorii</string>
+    <string name="report_1_title">Nie chcesz tego widzieć\?</string>
+    <string name="report_1_unfollow_title">Przestań obserwować %1$s</string>
+    <string name="report_1_mute_title">Wycisz %1$s</string>
+    <string name="report_2_title">Czy są jakieś posty, które potwierdzają to doniesienie\?</string>
+    <string name="report_more">Czy jest jeszcze coś, o czym powinniśmy wiedzieć\?</string>
+    <string name="report_more_additional">Dodatkowe uwagi</string>
+    <string name="toast_bookmark">Toot został dodany do Twoich zakładek!</string>
+    <string name="category_music">Muzyka</string>
+    <string name="cannot_be_empty">To pole nie może być puste!</string>
+    <string name="join_fedi_instance">Dołącz do instancji Fediverse</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="replace_youtube_description">Użyj alternatywnej nakładki na YouTube</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="replace_twitter_description">Użyj alternatywnej nakładki na Twittera</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="replace_reddit_description">Użyj alternatywnej nakładki na stronę Reddit</string>
+    <string name="keepon">Kontynuuj</string>
+    <string name="category_custom">Niestandardowa</string>
+    <string name="instance_not_valid">Wygląda na to, że ta instancja nie jest poprawna!</string>
+    <string name="favourited_by">Polubione przez</string>
+    <string name="other">Inni</string>
+    <string name="images">Obrazki</string>
+    <string name="eg_sensitive_content">Np.: Treści wrażliwe</string>
+    <string name="add_status">Dodaj status</string>
+    <string name="post_message">Wysyłanie wiadomości…</string>
+    <string name="post_message_text">Wysyłanie wiadomości %d/%d</string>
+    <string name="instance_health_indication">wersja: %s
+\n %s - użytkownicy - %s - wpisy</string>
+    <string name="report_title">Zgłaszanie %1$s</string>
+    <string name="report_indication_title_status">Powiedz nam, o co chodzi z tym postem</string>
+    <string name="instance_health_uptime">Czas pracy: %,.2f %%</string>
+    <string name="show_content">Pokaż zawartość &gt;</string>
+    <string name="stop_recording">Zatrzymaj nagrywanie</string>
+    <string name="report_indication_title_status_more">Wybierz najlepsze dopasowanie</string>
+    <string name="report_1_block_title">Zablokuj %1$s</string>
+    <string name="toast_unbookmark">Toot został usunięty z Twoich zakładek!</string>
+    <string name="toots_visibility_title">Domyślna widoczność tootów:</string>
+    <string name="toot_visibility_title">Widoczność toota</string>
+    <string name="permission_record">Aplikacja musi mieć dostęp do nagrywania audio</string>
+    <string name="replace_instagram_description">Użyj alternatywnej nakładki na Instagram</string>
+    <string name="followers_only">Tylko obserwujący</string>
+    <string name="remove_status">Usuń status</string>
+    <string name="report_1_title_more">Oto opcje kontrolowania tego, co widzisz na Mastodonie:</string>
+    <string name="report_val_more1">To nie jest coś, co chciałbyś zobaczyć</string>
+    <string name="report_val2">To jest spam</string>
+    <string name="report_val_more2">Złośliwe linki, fałszywe zaangażowanie lub powtarzające się odpowiedzi</string>
+    <string name="report_3_title">Które zasady są naruszane\?</string>
+    <string name="report_all_more">Wybierz wszystkie pasujące</string>
+    <string name="notification_options">Opcje powiadomień</string>
+    <string name="notification_sounds">Dźwięki powiadomień</string>
+    <string name="disable_notifications">Wyłącz powiadomienia</string>
+    <string name="notifications_are">W tym przedziale czasowym</string>
 </resources>
