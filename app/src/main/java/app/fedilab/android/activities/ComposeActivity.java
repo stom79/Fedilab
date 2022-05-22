@@ -101,7 +101,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private ScheduledStatus scheduledStatus;
     private String visibility;
     private app.fedilab.android.client.mastodon.entities.Account accountMention;
-
+    private String statusReplyId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +125,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
             statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
             scheduledStatus = (ScheduledStatus) b.getSerializable(Helper.ARG_STATUS_SCHEDULED);
+            statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
             statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             instance = b.getString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance);
@@ -172,8 +173,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         Status status = new Status();
         statusDraftList.add(status);
 
-        //Restore a draft with all messages
-        if (statusDraft != null) {
+        if (statusReplyId != null && statusDraft != null) {//Delete and redraft
+            ArrayList<Status> statusDraftListDR = new ArrayList<>();
+            statusDraftListDR.add(statusDraft.statusDraftList.get(0));
+            statusList.addAll(statusDraftListDR);
+            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                    .observe(ComposeActivity.this, this::initializeContextView);
+        } else if (statusDraft != null) {//Restore a draft with all messages
             new Thread(() -> {
                 if (statusDraft.statusReplyList != null) {
                     statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);

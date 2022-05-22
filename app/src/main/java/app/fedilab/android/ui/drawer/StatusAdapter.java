@@ -1277,6 +1277,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 statusDeleted.id = null;
                                 statusDraft.statusDraftList.add(statusDeleted);
                                 intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                intent.putExtra(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
                                 context.startActivity(intent);
                                 sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
                             });

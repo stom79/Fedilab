@@ -214,54 +214,61 @@ public class QuickLoad {
         QuickLoad localQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.LOCAL, null);
         QuickLoad publicQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.PUBLIC, null);
 
-        for (Status status : homeQuickLoad.statuses) {
-            if (status.id.equals(id)) {
-                homeQuickLoad.statuses.remove(status);
-                break;
+        if (homeQuickLoad != null && homeQuickLoad.statuses != null) {
+            for (Status status : homeQuickLoad.statuses) {
+                if (status.id.equals(id)) {
+                    homeQuickLoad.statuses.remove(status);
+                    break;
+                }
+            }
+            ContentValues valuesHome = new ContentValues();
+            valuesHome.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesHome, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        for (Status status : localQuickLoad.statuses) {
-            if (status.id.equals(id)) {
-                localQuickLoad.statuses.remove(status);
-                break;
+        if (localQuickLoad != null && localQuickLoad.statuses != null) {
+            for (Status status : localQuickLoad.statuses) {
+                if (status.id.equals(id)) {
+                    localQuickLoad.statuses.remove(status);
+                    break;
+                }
+            }
+            ContentValues valuesLocal = new ContentValues();
+            valuesLocal.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(localQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesLocal, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{localQuickLoad.user_id, localQuickLoad.instance, localQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        for (Status status : publicQuickLoad.statuses) {
-            if (status.id.equals(id)) {
-                publicQuickLoad.statuses.remove(status);
-                break;
+        if (publicQuickLoad != null && publicQuickLoad.statuses != null) {
+            for (Status status : publicQuickLoad.statuses) {
+                if (status.id.equals(id)) {
+                    publicQuickLoad.statuses.remove(status);
+                    break;
+                }
+            }
+            ContentValues valuesPublic = new ContentValues();
+            valuesPublic.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(publicQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesPublic, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{publicQuickLoad.user_id, publicQuickLoad.instance, publicQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        ContentValues valuesHome = new ContentValues();
-        valuesHome.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
-        //Inserts token
-        try {
-            db.update(Sqlite.TABLE_QUICK_LOAD,
-                    valuesHome, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
-                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ContentValues valuesLocal = new ContentValues();
-        valuesLocal.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
-        //Inserts token
-        try {
-            db.update(Sqlite.TABLE_QUICK_LOAD,
-                    valuesLocal, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
-                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ContentValues valuesPublic = new ContentValues();
-        valuesPublic.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
-        //Inserts token
-        try {
-            db.update(Sqlite.TABLE_QUICK_LOAD,
-                    valuesPublic, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
-                    new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     /**
