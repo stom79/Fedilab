@@ -124,8 +124,8 @@ public class QuickLoad {
         quickLoad.position = position;
         quickLoad.statuses = statusList;
         quickLoad.slug = key;
-        quickLoad.instance = user_id;
-        quickLoad.user_id = instance;
+        quickLoad.instance = instance;
+        quickLoad.user_id = user_id;
         purge(quickLoad);
         try {
             insertOrUpdate(quickLoad);
@@ -158,6 +158,45 @@ public class QuickLoad {
         }
     }
 
+
+    /**
+     * delete all cache for all accounts
+     *
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteForAllAccount() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_QUICK_LOAD, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /**
+     * delete all cache for an account
+     *
+     * @param account - Account
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteForAccount(Account account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_QUICK_LOAD,
+                    Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{account.user_id, account.instance});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 
     /**
      * Delete a status in quickload

@@ -407,15 +407,15 @@ public class FragmentMastodonTimeline extends Fragment {
 
     @Override
     public void onPause() {
-     /*   if (mLayoutManager != null) {
+        if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             new Thread(() -> {
                 try {
-                    new QuickLoad(requireActivity()).storeTimeline(position, timelineType, statuses, ident);
+                    new QuickLoad(requireActivity()).storeTimeline(position, user_id, instance, timelineType, statuses, ident);
                 } catch (Exception ignored) {
                 }
             }).start();
-        }*/
+        }
         storeMarker();
         super.onPause();
     }

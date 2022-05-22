@@ -125,6 +125,8 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.Account;
+import app.fedilab.android.client.entities.QuickLoad;
+import app.fedilab.android.client.entities.StatusCache;
 import app.fedilab.android.client.mastodon.entities.Attachment;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.sqlite.Sqlite;
@@ -1518,9 +1520,11 @@ public class Helper {
                                         deleteDir(dir);
                                     }
                                     if (clean_all.isChecked()) {
-
+                                        new QuickLoad(contextReference.get()).deleteForAllAccount();
+                                        new StatusCache(contextReference.get()).deleteForAllAccount();
                                     } else {
-
+                                        new QuickLoad(contextReference.get()).deleteForAccount(MainActivity.accountWeakReference.get());
+                                        new StatusCache(contextReference.get()).deleteForAccount(MainActivity.accountWeakReference.get());
                                     }
                                     Handler mainHandler2 = new Handler(Looper.getMainLooper());
                                     Runnable myRunnable2 = () -> {
