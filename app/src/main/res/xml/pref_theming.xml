@@ -11,7 +11,7 @@
         app:summary="@string/pref_theme_base_summary"
         app:title="@string/pref_theme_base" />
 
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="use_custom_theme"

@@ -5,7 +5,7 @@
         app:summary="Rewrite links to use alternative frontends"
         app:title="Alternative frontends">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_INVIDIOUS"
             app:summary="@string/replace_youtube_description"
@@ -20,7 +20,7 @@
             app:title="@string/replace_youtube_host"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_NITTER"
             app:summary="@string/replace_twitter_description"
@@ -35,7 +35,7 @@
             app:title="@string/replace_twitter_host"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_BIBLIOGRAM"
             app:summary="@string/replace_instagram_description"
@@ -50,7 +50,7 @@
             app:title="@string/replace_instagram_host"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_LIBREDDIT"
             app:summary="@string/replace_reddit_description"
@@ -64,7 +64,7 @@
             app:title="@string/replace_reddit_host"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/REPLACE_MEDIUM"
             app:summary="@string/replace_medium_description"
@@ -84,7 +84,7 @@
         app:iconSpaceReserved="false"
         app:title="@string/other">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_FILTER_UTM"
             app:summary="@string/set_utm_parameters_indication"

@@ -23,32 +23,32 @@
         app:key="notifications_enabled"
         app:summary="@string/disable_notifications"
         app:title="@string/settings_category_notif_categories">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_FOLLOW"
             app:title="@string/set_notif_follow" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_MENTION"
             app:title="@string/set_notif_follow_mention" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_FAVOURITE"
             app:title="@string/set_notif_follow_add" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_SHARE"
             app:title="@string/set_notif_follow_share" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_POLL"
             app:title="@string/set_notif_follow_poll" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_STATUS"

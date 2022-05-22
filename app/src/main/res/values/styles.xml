@@ -39,7 +39,9 @@
         </item>
         <item name="android:popupWindowStyle">@style/Cyanea.PopupMenu.Light</item>
         <item name="android:windowBackground">@color/cyanea_background_light</item>
-        <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
+
+        <item name="colorControlActivated">@color/cyanea_accent_reference</item>
+        <item name="colorSwitchThumbNormal">#E0E0E0</item>
     </style>
 
     <style name="MenuPopup" parent="AppTheme.PopupOverlay">
@@ -79,7 +81,8 @@
         </item>
         <item name="android:popupWindowStyle">@style/Cyanea.PopupMenu.Dark</item>
         <item name="android:windowBackground">@color/cyanea_background_dark</item>
-        <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
+        <item name="colorControlActivated">@color/cyanea_accent_reference</item>
+        <item name="colorSwitchThumbNormal">#E0E0E0</item>
     </style>
 
 
@@ -99,7 +102,9 @@
         <item name="android:popupWindowStyle">@style/Cyanea.PopupMenu.Light</item>
         <item name="android:itemBackground">@drawable/menu_selector_light</item>
         <item name="android:windowBackground">@color/cyanea_background_dark</item>
-        <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
+
+        <item name="colorControlActivated">@color/cyanea_accent_reference</item>
+        <item name="colorSwitchThumbNormal">#E0E0E0</item>
     </style>
 
     <style name="AppThemeBarDark" parent="Theme.Cyanea.Dark">
@@ -117,7 +122,9 @@
         <item name="android:popupWindowStyle">@style/Cyanea.PopupMenu.Dark</item>
         <item name="android:itemBackground">@drawable/menu_selector_dark</item>
         <item name="android:windowBackground">@color/cyanea_background_dark</item>
-        <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
+        <item name="colorControlActivated">@color/cyanea_accent_reference</item>
+        <item name="colorSwitchThumbNormal">#E0E0E0</item>
+
     </style>
 
 

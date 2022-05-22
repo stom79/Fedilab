@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_EXPAND_CW"
         app:title="@string/expand_cw" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_EXPAND_MEDIA"
         app:title="@string/expand_image" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="true"
         app:key="@string/SET_NOTIF_VALIDATION"
         app:title="@string/set_share_validation" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:title="@string/set_display_bookmark_indication" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_NOTIF_VALIDATION_FAV"
@@ -34,29 +34,29 @@
         android:max="20"
         app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
         app:title="@string/truncate_long_toots" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_LONG_PRESS_MEDIA"
         app:title="@string/set_long_press_media" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_FULL_PREVIEW"
         android:summary="@string/set_fit_preview_indication"
         app:title="@string/set_fit_preview" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_DISABLE_GIF"
         app:title="@string/set_disable_gif" />
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
         app:title="@string/set_disable_animated_emoji" />
 
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_DISPLAY_CARD"

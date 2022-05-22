@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_UNFOLLOW_VALIDATION"
         app:summary="@string/set_unfollow_validation"
         app:title="@string/set_unfollow_validation_title" />
 
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_CLEAR_CACHE_EXIT"
         app:summary="@string/set_clear_cache_exit_indication"
         app:title="@string/set_clear_cache_exit" />
 
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_EMBEDDED_BROWSER"
         app:title="@string/embedded_browser" />
 
-    <androidx.preference.SwitchPreference
+    <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_SEND_CRASH_REPORTS"
