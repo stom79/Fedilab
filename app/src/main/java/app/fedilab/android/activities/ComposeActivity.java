@@ -174,16 +174,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusDraftList.add(status);
 
         if (statusReplyId != null && statusDraft != null) {//Delete and redraft
-            ArrayList<Status> statusDraftListDR = new ArrayList<>();
-            statusDraftListDR.add(statusDraft.statusDraftList.get(0));
-            statusList.addAll(statusDraftListDR);
-            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
-            composeAdapter.manageDrafts = this;
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-            binding.recyclerView.setLayoutManager(mLayoutManager);
-            binding.recyclerView.setAdapter(composeAdapter);
-            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
-                    .observe(ComposeActivity.this, this::initializeContextView);
+            statusesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                    .observe(ComposeActivity.this, status1 -> {
+                        statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                                .observe(ComposeActivity.this, statusContext -> {
+                                    initializeContextRedraftView(statusContext, status1);
+                                });
+                    });
         } else if (statusDraft != null) {//Restore a draft with all messages
             new Thread(() -> {
                 if (statusDraft.statusReplyList != null) {
@@ -316,6 +313,32 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 binding.recyclerView.removeItemDecorationAt(i);
             }
         }
+        binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
+        binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
+    }
+
+
+    /**
+     * Intialize the common view for the context
+     *
+     * @param context {@link Context}
+     */
+    private void initializeContextRedraftView(final Context context, Status initialStatus) {
+
+        if (context == null) {
+            return;
+        }
+
+        //Build the array of statuses
+        statusList.addAll(0, context.ancestors);
+        statusList.add(initialStatus);
+        statusList.add(statusDraft.statusDraftList.get(0));
+        composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility);
+        composeAdapter.manageDrafts = this;
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setAdapter(composeAdapter);
+        composeAdapter.setStatusCount(context.ancestors.size() + 1);
         binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
         binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
     }
