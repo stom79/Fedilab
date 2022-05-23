@@ -80,6 +80,7 @@ public class StatusesVM extends AndroidViewModel {
         return new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(60, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(getApplication().getApplicationContext()))
                 .build();
     }

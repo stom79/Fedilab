@@ -42,6 +42,7 @@ public class AdminVM extends AndroidViewModel {
     final OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
+            .callTimeout(60, TimeUnit.SECONDS)
             .proxy(Helper.getProxy(getApplication().getApplicationContext()))
             .build();
     private MutableLiveData<AdminAccount> adminAccountMutableLiveData;
