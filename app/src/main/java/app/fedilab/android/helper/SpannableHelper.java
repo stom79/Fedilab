@@ -98,8 +98,11 @@ public class SpannableHelper {
      * @param text    String - text to convert, it can be content, spoiler, poll items, etc.
      * @return Spannable string
      */
-    private static Spannable convert(@NonNull Context context, @NonNull Status status, @NonNull String text) {
+    private static Spannable convert(@NonNull Context context, @NonNull Status status, String text) {
         SpannableString initialContent;
+        if (text == null) {
+            return null;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
         else
