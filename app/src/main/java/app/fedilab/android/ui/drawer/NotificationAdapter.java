@@ -134,6 +134,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
+            holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);
+            if (getItemViewType(position) == TYPE_MENTION) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
+            } else if (getItemViewType(position) == TYPE_STATUS) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
+            } else if (getItemViewType(position) == TYPE_FAVOURITE) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
+            } else if (getItemViewType(position) == TYPE_REBLOG) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
+            } else if (getItemViewType(position) == TYPE_POLL) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
+            }
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notificationList, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false);

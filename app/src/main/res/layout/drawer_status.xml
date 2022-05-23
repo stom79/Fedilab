@@ -95,6 +95,7 @@
                     android:src="@drawable/ic_person" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_pinned"
                 android:layout_width="20dp"
@@ -104,6 +105,16 @@
                 android:src="@drawable/ic_baseline_push_pin_24"
                 android:visibility="gone" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/type_of_notification"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:tint="@color/cyanea_accent_reference"
+                android:layout_width="20dp"
+                android:visibility="gone" />
+            
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.divider.MaterialDivider
