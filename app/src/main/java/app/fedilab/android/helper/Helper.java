@@ -1001,6 +1001,11 @@ public class Helper {
 
     }
 
+
+    public static final int NOTIFICATION_MEDIA = 451;
+    public static final int NOTIFICATION_USER_NOTIF = 411;
+    public static final int NOTIFICATION_THEMING = 412;
+
     /**
      * Sends notification with intent
      *
@@ -1011,16 +1016,16 @@ public class Helper {
      * @param message String message for the notification
      */
     @SuppressLint("UnspecifiedImmutableFlag")
-    public static void notify_user(Context context, Account account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
+    public static void notify_user(Context context, int notificationId, Account account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         // prepare intent which is triggered if the user click on the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        int notificationId = (int) System.currentTimeMillis();
+        int requestCode = (int) System.currentTimeMillis();
         PendingIntent pIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            pIntent = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
+            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
         } else {
-            pIntent = PendingIntent.getActivity(context, notificationId, intent, PendingIntent.FLAG_ONE_SHOT);
+            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -1149,7 +1154,7 @@ public class Helper {
                         .setGroup(account.mastodon_account.acct + "@" + account.instance)
                         .setGroupSummary(true)
                         .build();
-        notificationManager.notify(0, summaryNotification);
+        notificationManager.notify(notificationId, summaryNotification);
     }
 
     /**

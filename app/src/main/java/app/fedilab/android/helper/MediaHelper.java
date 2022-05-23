@@ -163,7 +163,7 @@ public class MediaHelper {
                             Uri uri = Uri.fromFile(backupFile);
                             intent.setDataAndType(uri, mime);
                             if (!share) {
-                                notify_user(context, BaseMainActivity.accountWeakReference.get(), intent, BitmapFactory.decodeResource(context.getResources(),
+                                notify_user(context, Helper.NOTIFICATION_MEDIA, BaseMainActivity.accountWeakReference.get(), intent, BitmapFactory.decodeResource(context.getResources(),
                                         R.mipmap.ic_launcher), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {

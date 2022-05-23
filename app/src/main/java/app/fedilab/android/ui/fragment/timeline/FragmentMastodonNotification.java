@@ -14,6 +14,7 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -164,6 +165,13 @@ public class FragmentMastodonNotification extends Fragment {
                 .observe(getViewLifecycleOwner(), this::initializeNotificationView);
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        NotificationManager notificationManager = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(Helper.NOTIFICATION_USER_NOTIF);
     }
 
     /**
