@@ -16,6 +16,7 @@ package app.fedilab.android.ui.fragment.timeline;
 
 import static app.fedilab.android.activities.ContextActivity.displayCW;
 import static app.fedilab.android.activities.ContextActivity.expand;
+import static app.fedilab.android.helper.RecyclerViewThreadLinesKt.getThreadDecorationInfo;
 
 import android.content.BroadcastReceiver;
 import android.content.Intent;
@@ -43,8 +44,9 @@ import app.fedilab.android.client.entities.Timeline;
 import app.fedilab.android.client.mastodon.entities.Context;
 import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
-import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.RecyclerViewThreadLines;
+import app.fedilab.android.helper.RecyclerViewThreadLines.LineInfo;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
@@ -252,7 +254,8 @@ public class FragmentMastodonContext extends Fragment {
                 binding.recyclerView.removeItemDecorationAt(i);
             }
         }
-        binding.recyclerView.addItemDecoration(new DividerDecoration(requireActivity(), statuses));
+        List<LineInfo> threadDecorationInfo = getThreadDecorationInfo(context, focusedStatus.id);
+        binding.recyclerView.addItemDecoration(new RecyclerViewThreadLines(requireContext(), threadDecorationInfo));
         binding.swipeContainer.setRefreshing(false);
         binding.recyclerView.scrollToPosition(statusPosition);
     }
