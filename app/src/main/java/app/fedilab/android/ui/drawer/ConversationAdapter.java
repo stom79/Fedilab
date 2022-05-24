@@ -43,10 +43,10 @@ import java.util.TimerTask;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Conversation;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Conversation;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.DrawerConversationBinding;
 import app.fedilab.android.databinding.ThumbnailBinding;
 import app.fedilab.android.helper.Helper;

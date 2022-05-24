@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.mastodon.entities.Error;
+import app.fedilab.android.client.entities.api.Error;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

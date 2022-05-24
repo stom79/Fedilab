@@ -14,7 +14,7 @@ package app.fedilab.android.helper.customsharing;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import app.fedilab.android.client.mastodon.entities.Error;
+import app.fedilab.android.client.entities.api.Error;
 
 /**
  * Created by Curtis on 13/02/2019.

@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.JoinMastodonInstance;
+import app.fedilab.android.client.entities.api.JoinMastodonInstance;
 import app.fedilab.android.databinding.FragmentLoginPickInstanceMastodonBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.InstanceRegAdapter;

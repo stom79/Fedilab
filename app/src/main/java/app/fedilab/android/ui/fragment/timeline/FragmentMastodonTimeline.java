@@ -42,15 +42,15 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.client.entities.QuickLoad;
-import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Marker;
+import app.fedilab.android.client.entities.api.Pagination;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.TagTimeline;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Marker;
-import app.fedilab.android.client.mastodon.entities.Pagination;
-import app.fedilab.android.client.mastodon.entities.Status;
-import app.fedilab.android.client.mastodon.entities.Statuses;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -75,16 +75,6 @@ public class FragmentMastodonTimeline extends Fragment {
     private String max_id, min_id;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
-    private List<String> markers;
-    private String list_id;
-    private TagTimeline tagTimeline;
-    private LinearLayoutManager mLayoutManager;
-    private Account accountTimeline;
-    private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
-    private String viewModelKey, remoteInstance;
-    private String ident;
-    private String instance, user_id;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -137,6 +127,15 @@ public class FragmentMastodonTimeline extends Fragment {
             }
         }
     };
+    private List<String> markers;
+    private String list_id;
+    private TagTimeline tagTimeline;
+    private LinearLayoutManager mLayoutManager;
+    private Account accountTimeline;
+    private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
+    private String viewModelKey, remoteInstance;
+    private String ident;
+    private String instance, user_id;
 
     /**
      * Return the position of the status in the ArrayList

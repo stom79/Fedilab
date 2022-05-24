@@ -33,10 +33,10 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.RelationShip;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.RelationShip;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityReportBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;

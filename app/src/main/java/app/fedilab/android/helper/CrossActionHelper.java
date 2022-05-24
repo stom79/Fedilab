@@ -36,10 +36,10 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.mastodon.MastodonSearchService;
-import app.fedilab.android.client.mastodon.entities.Results;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.endpoints.MastodonSearchService;
+import app.fedilab.android.client.entities.api.Results;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.drawer.AccountsSearchAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -63,7 +63,7 @@ public class CrossActionHelper {
      * @param targetedAccount mastodon account that is targeted
      * @param targetedStatus  status that is targeted
      */
-    public static void doCrossAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Status targetedStatus) {
+    public static void doCrossAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         new Thread(() -> {
             try {
@@ -73,7 +73,7 @@ public class CrossActionHelper {
                     Runnable myRunnable = () -> fetchRemote(context, actionType, accounts.get(0), targetedAccount, targetedStatus);
                     mainHandler.post(myRunnable);
                 } else {
-                    List<app.fedilab.android.client.mastodon.entities.Account> accountList = new ArrayList<>();
+                    List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
                     for (Account account : accounts) {
                         accountList.add(account.mastodon_account);
                     }
@@ -127,7 +127,7 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote account or status
      */
-    private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Status targetedStatus) {
+    private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", SearchVM.class);
         if (targetedAccount != null) {
@@ -140,7 +140,7 @@ public class CrossActionHelper {
             searchVM.search(ownerAccount.instance, ownerAccount.token, search, null, "accounts", false, true, false, 0, null, null, 1)
                     .observe((LifecycleOwner) context, results -> {
                         if (results.accounts != null && results.accounts.size() > 0) {
-                            app.fedilab.android.client.mastodon.entities.Account account = results.accounts.get(0);
+                            app.fedilab.android.client.entities.api.Account account = results.accounts.get(0);
                             applyAction(context, actionType, ownerAccount, account, null);
                         } else {
                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -165,7 +165,7 @@ public class CrossActionHelper {
     /**
      * Do action when status or account has been fetched
      */
-    private static void applyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Status targetedStatus) {
+    private static void applyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
         AccountsVM accountsVM = null;
         StatusesVM statusesVM = null;
@@ -306,7 +306,7 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
-    public static void fetchRemoteAccount(@NonNull Context context, @NonNull Account ownerAccount, app.fedilab.android.client.mastodon.entities.Account targetedAccount, Callback callback) {
+    public static void fetchRemoteAccount(@NonNull Context context, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Callback callback) {
 
 
         MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
@@ -354,13 +354,6 @@ public class CrossActionHelper {
         }).start();
     }
 
-    public interface Callback {
-        void federatedStatus(Status status);
-
-        void federatedAccount(app.fedilab.android.client.mastodon.entities.Account account);
-    }
-
-
     public enum TypeOfCrossAction {
         FOLLOW_ACTION,
         UNFOLLOW_ACTION,
@@ -375,5 +368,12 @@ public class CrossActionHelper {
         REBLOG_ACTION,
         UNREBLOG_ACTION,
         REPLY_ACTION
+    }
+
+
+    public interface Callback {
+        void federatedStatus(Status status);
+
+        void federatedAccount(app.fedilab.android.client.entities.api.Account account);
     }
 }

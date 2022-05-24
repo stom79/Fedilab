@@ -39,7 +39,7 @@ import java.io.File;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Emoji;
+import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.databinding.DrawerEmojiPickerBinding;
 
 

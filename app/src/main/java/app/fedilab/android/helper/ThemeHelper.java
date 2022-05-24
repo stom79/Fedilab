@@ -372,12 +372,6 @@ public class ThemeHelper {
         return new ColorStateList(states, colors);
     }
 
-
-    public interface SlideAnimation {
-        void onAnimationEnded();
-    }
-
-
     /**
      * Allow to change font scale in activities
      *
@@ -392,5 +386,10 @@ public class ThemeHelper {
         wm.getDefaultDisplay().getMetrics(metrics);
         metrics.scaledDensity = configuration.fontScale * metrics.density;
         activity.getBaseContext().getResources().updateConfiguration(configuration, metrics);
+    }
+
+
+    public interface SlideAnimation {
+        void onAnimationEnded();
     }
 }

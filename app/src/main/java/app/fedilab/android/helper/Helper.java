@@ -124,10 +124,10 @@ import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.QuickLoad;
-import app.fedilab.android.client.entities.StatusCache;
-import app.fedilab.android.client.mastodon.entities.Attachment;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.QuickLoad;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
@@ -282,6 +282,11 @@ public class Helper {
             "(?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,10}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))",
 
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+    // --- Static Map of patterns used in spannable status content
+    public static final Map<PatternType, Pattern> patternHashMap;
+    public static final int NOTIFICATION_MEDIA = 451;
+    public static final int NOTIFICATION_USER_NOTIF = 411;
+    public static final int NOTIFICATION_THEMING = 412;
     /*
      * List from ClearUrls
      * https://gitlab.com/KevinRoebert/ClearUrls/blob/master/data/data.min.json#L106
@@ -312,9 +317,6 @@ public class Helper {
             "[\\?|&]ref[\\_]?"
 
     };
-
-    // --- Static Map of patterns used in spannable status content
-    public static final Map<PatternType, Pattern> patternHashMap;
     public static int counter = 1;
 
     static {
@@ -791,7 +793,6 @@ public class Helper {
         return cleaned_content;
     }
 
-
     @SuppressLint("DefaultLocale")
     public static String withSuffix(long count) {
         if (count < 1000) return "" + count;
@@ -1000,11 +1001,6 @@ public class Helper {
         }
 
     }
-
-
-    public static final int NOTIFICATION_MEDIA = 451;
-    public static final int NOTIFICATION_USER_NOTIF = 411;
-    public static final int NOTIFICATION_THEMING = 412;
 
     /**
      * Sends notification with intent
@@ -1465,6 +1461,25 @@ public class Helper {
         }
     }
 
+    /**
+     * Send broadcast to recreate Mainactivity
+     *
+     * @param activity - Activity
+     */
+    public static void recreateMainActivity(Activity activity) {
+        Bundle b = new Bundle();
+        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
+        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+        intentBD.putExtras(b);
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
+    }
+
+    public static void showKeyboard(Context context, View view) {
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    }
+
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
         MENTION,
@@ -1484,6 +1499,7 @@ public class Helper {
         STORE,
         TOOT
     }
+
 
     public interface OnAttachmentCopied {
         void onAttachmentCopied(Attachment attachment);
@@ -1548,25 +1564,5 @@ public class Helper {
                 mainHandler.post(myRunnable);
             }).start();
         }
-    }
-
-
-    /**
-     * Send broadcast to recreate Mainactivity
-     *
-     * @param activity - Activity
-     */
-    public static void recreateMainActivity(Activity activity) {
-        Bundle b = new Bundle();
-        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
-        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        intentBD.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
-    }
-
-    public static void showKeyboard(Context context, View view) {
-        view.requestFocus();
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 }

@@ -100,12 +100,12 @@ import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
 import app.fedilab.android.activities.StatusInfoActivity;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Notification;
-import app.fedilab.android.client.mastodon.entities.Poll;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Notification;
+import app.fedilab.android.client.entities.api.Poll;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
@@ -128,14 +128,13 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
 public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<Status> statusList;
-    private final boolean minified;
-    private Context context;
-    private final Timeline.TimeLineEnum timelineType;
-
     public static final int STATUS_HIDDEN = 0;
     public static final int STATUS_VISIBLE = 1;
     public static final int STATUS_ART = 2;
+    private final List<Status> statusList;
+    private final boolean minified;
+    private final Timeline.TimeLineEnum timelineType;
+    private Context context;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
         this.statusList = statuses;

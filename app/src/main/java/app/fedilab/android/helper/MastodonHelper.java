@@ -49,11 +49,11 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.ScheduledBoost;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Pagination;
-import app.fedilab.android.client.mastodon.entities.RelationShip;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Pagination;
+import app.fedilab.android.client.entities.api.RelationShip;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.ScheduledBoost;
 import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.jobs.ScheduleBoostWorker;
@@ -191,11 +191,11 @@ public class MastodonHelper {
         return pagination;
     }
 */
-    public static void loadPPMastodon(ImageView view, app.fedilab.android.client.mastodon.entities.Account account) {
+    public static void loadPPMastodon(ImageView view, Account account) {
         loadProfileMediaMastodon(view, account, MediaAccountType.AVATAR);
     }
 
-    public static void loadProfileMediaMastodon(ImageView view, app.fedilab.android.client.mastodon.entities.Account account, MediaAccountType type) {
+    public static void loadProfileMediaMastodon(ImageView view, Account account, MediaAccountType type) {
         Context context = view.getContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);

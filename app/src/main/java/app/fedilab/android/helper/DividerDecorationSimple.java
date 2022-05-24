@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.ui.drawer.ComposeAdapter;
 
 public class DividerDecorationSimple extends RecyclerView.ItemDecoration {

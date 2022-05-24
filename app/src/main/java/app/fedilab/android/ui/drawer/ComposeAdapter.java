@@ -80,15 +80,15 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Emoji;
-import app.fedilab.android.client.mastodon.entities.EmojiInstance;
-import app.fedilab.android.client.mastodon.entities.Mention;
-import app.fedilab.android.client.mastodon.entities.Poll;
-import app.fedilab.android.client.mastodon.entities.Status;
-import app.fedilab.android.client.mastodon.entities.Tag;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.EmojiInstance;
+import app.fedilab.android.client.entities.api.Mention;
+import app.fedilab.android.client.entities.api.Poll;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Tag;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
 import app.fedilab.android.databinding.ComposePollItemBinding;
@@ -117,15 +117,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<Status> statusList;
     private final int TYPE_NORMAL = 0;
     private final Account account;
+    private final String visibility;
+    private final app.fedilab.android.client.entities.api.Account mentionedAccount;
     public ManageDrafts manageDrafts;
     List<Emoji> emojis;
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
-    private final String visibility;
-    private final app.fedilab.android.client.mastodon.entities.Account mentionedAccount;
 
-    public ComposeAdapter(List<Status> statusList, int statusCount, Account account, app.fedilab.android.client.mastodon.entities.Account mentionedAccount, String visibility) {
+    public ComposeAdapter(List<Status> statusList, int statusCount, Account account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility) {
         this.statusList = statusList;
         this.statusCount = statusCount;
         this.account = account;
@@ -804,7 +804,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (searchA.length > 0) {
                                 final String search = searchA[searchA.length - 1];
                                 holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
-                                    app.fedilab.android.client.mastodon.entities.Account account = accounts.get(position);
+                                    app.fedilab.android.client.entities.api.Account account = accounts.get(position);
                                     String deltaSearch = "";
                                     int searchLength = searchDeep;
                                     if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position

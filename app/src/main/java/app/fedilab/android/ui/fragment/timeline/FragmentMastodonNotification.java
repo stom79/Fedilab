@@ -41,9 +41,9 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Notification;
-import app.fedilab.android.client.mastodon.entities.Notifications;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Notification;
+import app.fedilab.android.client.entities.api.Notifications;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -62,10 +62,6 @@ public class FragmentMastodonNotification extends Fragment {
     private List<Notification> notifications;
     private String max_id;
     private NotificationAdapter notificationAdapter;
-    private NotificationTypeEnum notificationType;
-    private List<String> excludeType;
-    private boolean aggregateNotification;
-
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -86,6 +82,9 @@ public class FragmentMastodonNotification extends Fragment {
             }
         }
     };
+    private NotificationTypeEnum notificationType;
+    private List<String> excludeType;
+    private boolean aggregateNotification;
 
     /**
      * Return the position of the status in the ArrayList
@@ -177,7 +176,7 @@ public class FragmentMastodonNotification extends Fragment {
     /**
      * Intialize the view for notifications
      *
-     * @param notifications {@link app.fedilab.android.client.mastodon.entities.Notifications}
+     * @param notifications {@link Notifications}
      */
     private void initializeNotificationView(final Notifications notifications) {
 

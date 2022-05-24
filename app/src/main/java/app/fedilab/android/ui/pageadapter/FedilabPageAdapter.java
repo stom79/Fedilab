@@ -22,10 +22,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import app.fedilab.android.client.entities.BottomMenu;
-import app.fedilab.android.client.entities.Pinned;
-import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;

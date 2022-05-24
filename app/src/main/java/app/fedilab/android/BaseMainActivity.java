@@ -95,14 +95,14 @@ import app.fedilab.android.activities.ScheduledActivity;
 import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.BottomMenu;
-import app.fedilab.android.client.entities.Pinned;
+import app.fedilab.android.client.entities.api.Filter;
+import app.fedilab.android.client.entities.api.Instance;
+import app.fedilab.android.client.entities.api.MastodonList;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
-import app.fedilab.android.client.mastodon.entities.Filter;
-import app.fedilab.android.client.mastodon.entities.Instance;
-import app.fedilab.android.client.mastodon.entities.MastodonList;
-import app.fedilab.android.client.mastodon.entities.Status;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
@@ -129,13 +129,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;
     public static boolean filterFetched;
+    public static boolean show_boosts, show_replies, show_art_nsfw;
+    public static String regex_home, regex_local, regex_public;
     Fragment currentFragment;
     private Account account;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Pinned pinned;
-    public static boolean show_boosts, show_replies, show_art_nsfw;
-    public static String regex_home, regex_local, regex_public;
     private BottomMenu bottomMenu;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
@@ -300,8 +300,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMenuOpen = false;
         binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
-
-
 
 
         // Passing each menu ID as a set of Ids because each

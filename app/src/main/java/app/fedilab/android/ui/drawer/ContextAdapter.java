@@ -28,8 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;

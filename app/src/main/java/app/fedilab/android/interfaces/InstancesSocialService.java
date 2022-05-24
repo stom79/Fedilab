@@ -15,7 +15,7 @@ package app.fedilab.android.interfaces;
  * see <http://www.gnu.org/licenses>. */
 
 
-import app.fedilab.android.client.entities.InstanceSocial;
+import app.fedilab.android.client.entities.app.InstanceSocial;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

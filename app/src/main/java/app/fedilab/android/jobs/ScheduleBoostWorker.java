@@ -32,9 +32,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.ScheduledBoost;
-import app.fedilab.android.client.mastodon.MastodonStatusesService;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.endpoints.MastodonStatusesService;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.ScheduledBoost;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;

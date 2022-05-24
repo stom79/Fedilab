@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.client.mastodon.entities.Instance;
+import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.databinding.DrawerCheckboxBinding;
 
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHolder> {

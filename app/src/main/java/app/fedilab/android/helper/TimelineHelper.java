@@ -33,10 +33,10 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.client.mastodon.MastodonAccountsService;
-import app.fedilab.android.client.mastodon.entities.Filter;
-import app.fedilab.android.client.mastodon.entities.Notification;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.endpoints.MastodonAccountsService;
+import app.fedilab.android.client.entities.api.Filter;
+import app.fedilab.android.client.entities.api.Notification;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

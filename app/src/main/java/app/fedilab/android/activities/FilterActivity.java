@@ -40,7 +40,7 @@ import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Filter;
+import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.ActivityFiltersBinding;
 import app.fedilab.android.databinding.PopupAddFilterBinding;
 import app.fedilab.android.helper.Helper;

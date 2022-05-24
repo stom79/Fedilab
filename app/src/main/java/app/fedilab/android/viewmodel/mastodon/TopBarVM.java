@@ -24,7 +24,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.client.entities.Pinned;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.exception.DBException;
 
 public class TopBarVM extends AndroidViewModel {

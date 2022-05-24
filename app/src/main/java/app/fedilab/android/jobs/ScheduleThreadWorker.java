@@ -30,7 +30,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.StatusDraft;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.services.PostMessageService;

@@ -53,7 +53,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Attachment;
+import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MediaHelper;

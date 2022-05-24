@@ -31,7 +31,7 @@ import com.bumptech.glide.Glide;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Instance;
+import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.databinding.ActivityInstanceBinding;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;

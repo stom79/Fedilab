@@ -39,9 +39,9 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.mastodon.entities.Context;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Context;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
@@ -58,11 +58,6 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
-    private Status focusedStatus;
-    private Status firstStatus;
-    private boolean pullToRefresh;
-
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -128,7 +123,9 @@ public class FragmentMastodonContext extends Fragment {
             }
         }
     };
-
+    private Status focusedStatus;
+    private Status firstStatus;
+    private boolean pullToRefresh;
 
     /**
      * Return the position of the status in the ArrayList

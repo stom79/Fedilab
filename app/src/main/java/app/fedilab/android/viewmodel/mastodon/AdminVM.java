@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.mastodon.MastodonAdminService;
-import app.fedilab.android.client.mastodon.entities.AdminAccount;
-import app.fedilab.android.client.mastodon.entities.AdminReport;
+import app.fedilab.android.client.endpoints.MastodonAdminService;
+import app.fedilab.android.client.entities.api.AdminAccount;
+import app.fedilab.android.client.entities.api.AdminReport;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

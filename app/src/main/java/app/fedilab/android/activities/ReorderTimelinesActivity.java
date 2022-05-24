@@ -48,12 +48,12 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.BottomMenu;
-import app.fedilab.android.client.entities.InstanceSocial;
-import app.fedilab.android.client.entities.Pinned;
-import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.InstanceSocial;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.RemoteInstance;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityReorderTabsBinding;
 import app.fedilab.android.databinding.PopupSearchInstanceBinding;
 import app.fedilab.android.exception.DBException;

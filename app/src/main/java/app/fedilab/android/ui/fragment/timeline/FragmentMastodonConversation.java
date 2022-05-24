@@ -32,8 +32,8 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Conversation;
-import app.fedilab.android.client.mastodon.entities.Conversations;
+import app.fedilab.android.client.entities.api.Conversation;
+import app.fedilab.android.client.entities.api.Conversations;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;

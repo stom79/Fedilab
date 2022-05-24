@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Account;
+import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.FragmentProfileTimelinesBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;

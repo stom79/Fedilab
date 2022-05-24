@@ -31,18 +31,19 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.QuickLoad;
-import app.fedilab.android.client.entities.StatusCache;
-import app.fedilab.android.client.mastodon.MastodonStatusesService;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Accounts;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Card;
-import app.fedilab.android.client.mastodon.entities.Pagination;
-import app.fedilab.android.client.mastodon.entities.Poll;
-import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
-import app.fedilab.android.client.mastodon.entities.ScheduledStatuses;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.endpoints.MastodonStatusesService;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Accounts;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Card;
+import app.fedilab.android.client.entities.api.Context;
+import app.fedilab.android.client.entities.api.Pagination;
+import app.fedilab.android.client.entities.api.Poll;
+import app.fedilab.android.client.entities.api.ScheduledStatus;
+import app.fedilab.android.client.entities.api.ScheduledStatuses;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.QuickLoad;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -67,7 +68,7 @@ public class StatusesVM extends AndroidViewModel {
     private MutableLiveData<Card> cardMutableLiveData;
     private MutableLiveData<Attachment> attachmentMutableLiveData;
     private MutableLiveData<Poll> pollMutableLiveData;
-    private MutableLiveData<app.fedilab.android.client.mastodon.entities.Context> contextMutableLiveData;
+    private MutableLiveData<Context> contextMutableLiveData;
     private MutableLiveData<Accounts> accountsMutableLiveData;
 
 
@@ -253,7 +254,7 @@ public class StatusesVM extends AndroidViewModel {
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            app.fedilab.android.client.mastodon.entities.ScheduledStatus finalScheduledStatus = scheduledStatus;
+            ScheduledStatus finalScheduledStatus = scheduledStatus;
             Runnable myRunnable = () -> scheduledStatusMutableLiveData.setValue(finalScheduledStatus);
             mainHandler.post(myRunnable);
         }).start();
@@ -318,7 +319,7 @@ public class StatusesVM extends AndroidViewModel {
             }
             //The status must also be deleted in cache
             try {
-                app.fedilab.android.client.entities.Account account = new app.fedilab.android.client.entities.Account(getApplication().getApplicationContext()).getAccountByToken(token);
+                app.fedilab.android.client.entities.app.Account account = new app.fedilab.android.client.entities.app.Account(getApplication().getApplicationContext()).getAccountByToken(token);
                 new StatusCache(getApplication().getApplicationContext()).deleteStatus(id, account.instance);
                 new QuickLoad(getApplication().getApplicationContext()).deleteStatus(account, id);
             } catch (DBException e) {
@@ -342,15 +343,15 @@ public class StatusesVM extends AndroidViewModel {
      * @param id       String - id of the status
      * @return LiveData<app.fedilab.android.client.mastodon.entities.Context>
      */
-    public LiveData<app.fedilab.android.client.mastodon.entities.Context> getContext(@NonNull String instance, String token, @NonNull String id) {
+    public LiveData<Context> getContext(@NonNull String instance, String token, @NonNull String id) {
         MastodonStatusesService mastodonStatusesService = init(instance);
         contextMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            Call<app.fedilab.android.client.mastodon.entities.Context> contextCall = mastodonStatusesService.getContext(token, id);
-            app.fedilab.android.client.mastodon.entities.Context context = null;
+            Call<Context> contextCall = mastodonStatusesService.getContext(token, id);
+            Context context = null;
             if (contextCall != null) {
                 try {
-                    Response<app.fedilab.android.client.mastodon.entities.Context> contextResponse = contextCall.execute();
+                    Response<Context> contextResponse = contextCall.execute();
                     if (contextResponse.isSuccessful()) {
                         context = contextResponse.body();
                         if (context != null) {
@@ -370,7 +371,7 @@ public class StatusesVM extends AndroidViewModel {
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            app.fedilab.android.client.mastodon.entities.Context finalContext = context;
+            Context finalContext = context;
             Runnable myRunnable = () -> contextMutableLiveData.setValue(finalContext);
             mainHandler.post(myRunnable);
         }).start();

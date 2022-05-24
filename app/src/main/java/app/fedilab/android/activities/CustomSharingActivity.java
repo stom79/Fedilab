@@ -32,10 +32,10 @@ import java.util.Set;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Emoji;
-import app.fedilab.android.client.mastodon.entities.Status;
-import app.fedilab.android.client.mastodon.entities.Tag;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.databinding.ActivityCustomSharingBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;

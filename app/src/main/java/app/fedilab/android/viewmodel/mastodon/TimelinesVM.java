@@ -29,17 +29,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.client.entities.StatusCache;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.mastodon.MastodonTimelinesService;
-import app.fedilab.android.client.mastodon.entities.Account;
-import app.fedilab.android.client.mastodon.entities.Conversation;
-import app.fedilab.android.client.mastodon.entities.Conversations;
-import app.fedilab.android.client.mastodon.entities.Marker;
-import app.fedilab.android.client.mastodon.entities.MastodonList;
-import app.fedilab.android.client.mastodon.entities.Pagination;
-import app.fedilab.android.client.mastodon.entities.Status;
-import app.fedilab.android.client.mastodon.entities.Statuses;
+import app.fedilab.android.client.endpoints.MastodonTimelinesService;
+import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Conversation;
+import app.fedilab.android.client.entities.api.Conversations;
+import app.fedilab.android.client.entities.api.Marker;
+import app.fedilab.android.client.entities.api.MastodonList;
+import app.fedilab.android.client.entities.api.Pagination;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -276,10 +276,10 @@ public class TimelinesVM extends AndroidViewModel {
     /**
      * Get user drafts
      *
-     * @param account app.fedilab.android.client.entities.Account
+     * @param account app.fedilab.android.client.entities.app.Account
      * @return LiveData<ist < StatusDraft>>
      */
-    public LiveData<List<StatusDraft>> getDrafts(app.fedilab.android.client.entities.Account account) {
+    public LiveData<List<StatusDraft>> getDrafts(app.fedilab.android.client.entities.app.Account account) {
         statusDraftListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             List<StatusDraft> statusCacheDAO = null;

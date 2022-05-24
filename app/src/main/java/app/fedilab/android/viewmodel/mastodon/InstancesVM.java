@@ -29,11 +29,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.client.mastodon.MastodonInstanceService;
-import app.fedilab.android.client.mastodon.entities.Emoji;
-import app.fedilab.android.client.mastodon.entities.EmojiInstance;
-import app.fedilab.android.client.mastodon.entities.Instance;
-import app.fedilab.android.client.mastodon.entities.InstanceInfo;
+import app.fedilab.android.client.endpoints.MastodonInstanceService;
+import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.EmojiInstance;
+import app.fedilab.android.client.entities.api.Instance;
+import app.fedilab.android.client.entities.api.InstanceInfo;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;

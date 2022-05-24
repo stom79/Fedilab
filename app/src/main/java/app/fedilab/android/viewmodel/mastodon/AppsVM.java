@@ -26,8 +26,8 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.mastodon.MastodonAppsService;
-import app.fedilab.android.client.mastodon.entities.App;
+import app.fedilab.android.client.endpoints.MastodonAppsService;
+import app.fedilab.android.client.entities.api.App;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

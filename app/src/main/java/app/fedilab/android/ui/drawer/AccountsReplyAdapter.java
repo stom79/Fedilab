@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.client.mastodon.entities.Account;
+import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountReplyBinding;
 import app.fedilab.android.helper.MastodonHelper;
 

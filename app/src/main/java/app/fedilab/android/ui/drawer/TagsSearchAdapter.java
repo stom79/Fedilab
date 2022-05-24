@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.client.mastodon.entities.Tag;
+import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.databinding.DrawerTagSearchBinding;
 
 /* Copyright 2021 Thomas Schneider

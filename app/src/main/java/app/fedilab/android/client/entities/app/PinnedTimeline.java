@@ -18,8 +18,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import app.fedilab.android.client.entities.Timeline;
-import app.fedilab.android.client.mastodon.entities.MastodonList;
+import app.fedilab.android.client.entities.api.MastodonList;
 
 public class PinnedTimeline implements Serializable {
 

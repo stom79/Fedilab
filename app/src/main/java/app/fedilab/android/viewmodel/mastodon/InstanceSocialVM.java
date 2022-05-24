@@ -25,7 +25,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.entities.InstanceSocial;
+import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.interfaces.InstancesSocialService;
 import okhttp3.OkHttpClient;

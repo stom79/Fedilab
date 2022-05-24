@@ -33,12 +33,12 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.Pinned;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.TagTimeline;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityHashtagBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;

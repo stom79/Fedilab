@@ -48,7 +48,7 @@ import java.util.Timer;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MediaActivity;
-import app.fedilab.android.client.mastodon.entities.Attachment;
+import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.FragmentSlideMediaBinding;
 import app.fedilab.android.helper.CacheDataSourceFactory;
 import app.fedilab.android.helper.Helper;

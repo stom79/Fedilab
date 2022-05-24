@@ -43,8 +43,8 @@ import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.WellKnownNodeinfo;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -160,17 +160,17 @@ public class LoginActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-       if (id == R.id.action_proxy) {
-           Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
-           startActivity(intent);
-       } else if (id == R.id.action_custom_tabs) {
-           item.setChecked(!item.isChecked());
-           SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-           SharedPreferences.Editor editor = sharedpreferences.edit();
-           editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
-           editor.apply();
-           return false;
-       }
+        if (id == R.id.action_proxy) {
+            Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.action_custom_tabs) {
+            item.setChecked(!item.isChecked());
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
+            editor.apply();
+            return false;
+        }
         return super.onOptionsItemSelected(item);
     }
 

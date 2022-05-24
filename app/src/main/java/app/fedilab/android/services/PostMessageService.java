@@ -39,14 +39,14 @@ import java.util.concurrent.TimeUnit;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.PostState;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.mastodon.MastodonStatusesService;
-import app.fedilab.android.client.mastodon.entities.Attachment;
-import app.fedilab.android.client.mastodon.entities.Poll;
-import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.endpoints.MastodonStatusesService;
+import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Poll;
+import app.fedilab.android.client.entities.api.ScheduledStatus;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.PostState;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
@@ -77,28 +77,6 @@ public class PostMessageService extends IntentService {
     public PostMessageService() {
         super("PostMessageService");
     }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Post messages";
-            String channelDescription = "Post messages in background";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
-            notifChannel.setDescription(channelDescription);
-            notificationManager.createNotificationChannel(notifChannel);
-
-        }
-        notificationBuilder = new NotificationCompat.Builder(getBaseContext(), CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
-                .setContentTitle(getString(R.string.post_message))
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_DEFAULT);
-        startForeground(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
-    }
-
 
     private static OkHttpClient getOkHttpClient(Context context) {
         return new OkHttpClient.Builder()
@@ -316,6 +294,27 @@ public class PostMessageService extends IntentService {
             intentBD.putExtras(b);
             LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
         }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+            String channelName = "Post messages";
+            String channelDescription = "Post messages in background";
+            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            notifChannel.setDescription(channelDescription);
+            notificationManager.createNotificationChannel(notifChannel);
+
+        }
+        notificationBuilder = new NotificationCompat.Builder(getBaseContext(), CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle(getString(R.string.post_message))
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_DEFAULT);
+        startForeground(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
     }
 
     @Override

@@ -31,9 +31,9 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.ScheduledBoost;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.entities.Timeline;
+import app.fedilab.android.client.entities.app.ScheduledBoost;
+import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentScheduledBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;

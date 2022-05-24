@@ -18,7 +18,7 @@ import static app.fedilab.android.services.PostMessageService.publishMessage;
 
 import android.content.Context;
 
-import app.fedilab.android.client.entities.StatusDraft;
+import app.fedilab.android.client.entities.app.StatusDraft;
 
 public class ThreadMessageService {
 

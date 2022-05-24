@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.NodeInfoService;
-import app.fedilab.android.client.entities.WellKnownNodeinfo;
+import app.fedilab.android.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

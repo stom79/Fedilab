@@ -21,7 +21,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.mastodon.MastodonOembedService;
+import app.fedilab.android.client.endpoints.MastodonOembedService;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

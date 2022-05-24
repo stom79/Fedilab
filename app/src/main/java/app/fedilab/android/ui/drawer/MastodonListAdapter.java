@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.client.mastodon.entities.MastodonList;
+import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.databinding.DrawerListBinding;
 
 public class MastodonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

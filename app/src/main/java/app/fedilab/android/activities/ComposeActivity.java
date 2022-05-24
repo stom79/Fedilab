@@ -58,12 +58,12 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.Account;
-import app.fedilab.android.client.entities.StatusDraft;
-import app.fedilab.android.client.mastodon.entities.Context;
-import app.fedilab.android.client.mastodon.entities.Mention;
-import app.fedilab.android.client.mastodon.entities.ScheduledStatus;
-import app.fedilab.android.client.mastodon.entities.Status;
+import app.fedilab.android.client.entities.api.Context;
+import app.fedilab.android.client.entities.api.Mention;
+import app.fedilab.android.client.entities.api.ScheduledStatus;
+import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
 import app.fedilab.android.databinding.PopupContactBinding;
 import app.fedilab.android.exception.DBException;
@@ -100,8 +100,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Uri photoFileUri;
     private ScheduledStatus scheduledStatus;
     private String visibility;
-    private app.fedilab.android.client.mastodon.entities.Account accountMention;
+    private app.fedilab.android.client.entities.api.Account accountMention;
     private String statusReplyId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +132,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             instance = b.getString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance);
             token = b.getString(Helper.ARG_TOKEN, BaseMainActivity.currentToken);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
-            accountMention = (app.fedilab.android.client.mastodon.entities.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
+            accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         //Edit a scheduled status from server
@@ -449,14 +450,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     }
 
 
-    private void onRetrieveContact(PopupContactBinding binding, List<app.fedilab.android.client.mastodon.entities.Account> accounts) {
+    private void onRetrieveContact(PopupContactBinding binding, List<app.fedilab.android.client.entities.api.Account> accounts) {
         binding.loader.setVisibility(View.GONE);
         if (accounts == null) {
             accounts = new ArrayList<>();
         }
         List<Boolean> checkedValues = new ArrayList<>();
-        List<app.fedilab.android.client.mastodon.entities.Account> contacts = new ArrayList<>(accounts);
-        for (app.fedilab.android.client.mastodon.entities.Account account : contacts) {
+        List<app.fedilab.android.client.entities.api.Account> contacts = new ArrayList<>(accounts);
+        for (app.fedilab.android.client.entities.api.Account account : contacts) {
             checkedValues.add(composeAdapter.getLastComposeContent().contains("@" + account.acct));
         }
         AccountsReplyAdapter contactAdapter = new AccountsReplyAdapter(contacts, checkedValues);

@@ -15,7 +15,7 @@ package app.fedilab.android.client;
  * see <http://www.gnu.org/licenses>. */
 
 
-import app.fedilab.android.client.entities.WellKnownNodeinfo;
+import app.fedilab.android.client.entities.app.WellKnownNodeinfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

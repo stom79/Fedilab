@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.client.entities.BottomMenu;
-import app.fedilab.android.client.entities.Pinned;
-import app.fedilab.android.client.mastodon.MastodonSearchService;
-import app.fedilab.android.client.mastodon.entities.Results;
+import app.fedilab.android.client.endpoints.MastodonSearchService;
+import app.fedilab.android.client.entities.api.Results;
+import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;

@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.client.mastodon.MastodonAnnouncementsService;
-import app.fedilab.android.client.mastodon.entities.Announcement;
+import app.fedilab.android.client.endpoints.MastodonAnnouncementsService;
+import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

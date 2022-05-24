@@ -31,7 +31,7 @@ import com.bumptech.glide.Glide;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.InstanceSocial;
+import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.ActivityInstanceSocialBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
