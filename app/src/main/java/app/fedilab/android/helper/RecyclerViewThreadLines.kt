@@ -3,6 +3,7 @@ package app.fedilab.android.helper
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Rect
@@ -46,20 +47,19 @@ class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<L
             val lineInfo = lineInfoList[position]
             val level = lineInfo.level
 
-            for (j in 1..level) {
-                val lineMargin = margin * j + 3.dpToPx
+            for (j in 0..level) {
+                val lineMargin = margin * j.coerceAtLeast(1) + 3.dpToPx
                 val lineStart = if (parent.layoutDirection == View.LAYOUT_DIRECTION_LTR) lineMargin else c.width - lineMargin
                 var lineTop: Float = (view.top - baseMargin).toFloat()
-                if (j == 0) lineTop += view.height / 2
                 val paint = Paint(commonPaint)
-                paint.color = lineColors[j - 1]
+                paint.color = if (j > 0) lineColors[j - 1] else Color.GRAY
 
                 // draw lines for below statuses
                 if (j != level && j >= lineInfo.fullLinesStart && j <= lineInfo.fullLinesEnd)
                     c.drawLine(lineStart, lineTop, lineStart, view.bottom.toFloat(), paint)
 
                 // draw vertical line for current statuses
-                if (j == level) {
+                if (j == level && i != 0) {
                     // top the line starts at the middle of the above status
                     if (i > 0) lineTop -= parent.getChildAt(i - 1).height / 2 - 1 // '- 1' is to prevent overlapping with above horizontal line
 
