@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import app.fedilab.android.R
 import app.fedilab.android.helper.RecyclerViewThreadLines.LineInfo
-import app.fedilab.android.client.mastodon.entities.Context as StatusContext
+import app.fedilab.android.client.entities.api.Context as StatusContext
 
 class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<LineInfo>) : DividerItemDecoration(context, VERTICAL) {
     private val lineColors = threadLineColors.map { ResourcesCompat.getColor(context.resources, it, context.theme) }
