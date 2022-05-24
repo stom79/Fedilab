@@ -114,7 +114,7 @@
                 android:tint="@color/cyanea_accent_reference"
                 android:layout_width="20dp"
                 android:visibility="gone" />
-            
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.divider.MaterialDivider

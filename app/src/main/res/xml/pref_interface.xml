@@ -7,12 +7,14 @@
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_UNFOLLOW_VALIDATION"
+        app:singleLineTitle="false"
         app:summary="@string/set_unfollow_validation"
         app:title="@string/set_unfollow_validation_title" />
 
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_CLEAR_CACHE_EXIT"
         app:summary="@string/set_clear_cache_exit_indication"
         app:title="@string/set_clear_cache_exit" />
@@ -20,6 +22,7 @@
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_EMBEDDED_BROWSER"
         app:title="@string/embedded_browser" />
 
@@ -27,6 +30,7 @@
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_SEND_CRASH_REPORTS"
+        app:singleLineTitle="false"
         app:summary="@string/set_enable_crash_report_indication"
         app:title="@string/set_enable_crash_report" />
 

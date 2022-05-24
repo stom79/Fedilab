@@ -15,6 +15,7 @@
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="use_custom_theme"
+        app:singleLineTitle="false"
         app:summary="@string/pref_custom_theme_new_summary"
         app:title="@string/pref_custom_theme" />
 

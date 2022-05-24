@@ -25,31 +25,37 @@
         app:title="@string/settings_category_notif_categories">
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_FOLLOW"
             app:title="@string/set_notif_follow" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
+            app:singleLineTitle="false"
             app:key="@string/SET_NOTIF_MENTION"
             app:title="@string/set_notif_follow_mention" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
+            app:singleLineTitle="false"
             app:key="@string/SET_NOTIF_FAVOURITE"
             app:title="@string/set_notif_follow_add" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_SHARE"
             app:title="@string/set_notif_follow_share" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_POLL"
             app:title="@string/set_notif_follow_poll" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_STATUS"
             app:title="@string/set_notif_status" />
@@ -90,8 +96,9 @@
             app:key="button_media"
             app:title="@string/channel_notif_media" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="false"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_SILENT"
             app:title="@string/set_notif_silent" />
@@ -113,8 +120,9 @@
         app:key="notification_time_slot"
         app:summary="@string/set_enable_time_slot_indication"
         app:title="@string/set_enable_time_slot">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="false"
+            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_ENABLE_TIME_SLOT"
             app:title="@string/set_enable_time_slot" />

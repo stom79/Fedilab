@@ -4,26 +4,31 @@
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_EXPAND_CW"
         app:title="@string/expand_cw" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_EXPAND_MEDIA"
         app:title="@string/expand_image" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="true"
+        app:singleLineTitle="false"
         app:key="@string/SET_NOTIF_VALIDATION"
         app:title="@string/set_share_validation" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:title="@string/set_display_bookmark_indication" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_NOTIF_VALIDATION_FAV"
         app:title="@string/set_share_validation_fav" />
     <SeekBarPreference
@@ -37,28 +42,33 @@
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_LONG_PRESS_MEDIA"
         app:title="@string/set_long_press_media" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:key="@string/SET_FULL_PREVIEW"
+        app:singleLineTitle="false"
         android:summary="@string/set_fit_preview_indication"
         app:title="@string/set_fit_preview" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_DISABLE_GIF"
         app:title="@string/set_disable_gif" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
         app:title="@string/set_disable_animated_emoji" />
 
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
         android:defaultValue="false"
+        app:singleLineTitle="false"
         app:key="@string/SET_DISPLAY_CARD"
         app:title="@string/set_display_card" />
 

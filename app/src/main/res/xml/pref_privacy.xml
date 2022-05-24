@@ -8,6 +8,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_INVIDIOUS"
+            app:singleLineTitle="false"
             app:summary="@string/replace_youtube_description"
             app:title="@string/replace_youtube" />
 
@@ -23,6 +24,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_NITTER"
+            app:singleLineTitle="false"
             app:summary="@string/replace_twitter_description"
             app:title="@string/replace_twitter" />
 
@@ -38,6 +40,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_BIBLIOGRAM"
+            app:singleLineTitle="false"
             app:summary="@string/replace_instagram_description"
             app:title="@string/replace_instagram" />
 
@@ -53,6 +56,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_LIBREDDIT"
+            app:singleLineTitle="false"
             app:summary="@string/replace_reddit_description"
             app:title="@string/replace_reddit" />
 
@@ -67,6 +71,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/REPLACE_MEDIUM"
+            app:singleLineTitle="false"
             app:summary="@string/replace_medium_description"
             app:title="@string/replace_medium" />
 
@@ -87,6 +92,7 @@
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="@string/SET_FILTER_UTM"
+            app:singleLineTitle="false"
             app:summary="@string/set_utm_parameters_indication"
             app:title="@string/set_utm_parameters" />
 
