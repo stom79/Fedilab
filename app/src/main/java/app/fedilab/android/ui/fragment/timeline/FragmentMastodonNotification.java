@@ -260,6 +260,8 @@ public class FragmentMastodonNotification extends Fragment {
                     notificationList.add(notifications.get(i));
                     refPosition = i;
                 }
+            } else {
+                notificationList.add(notifications.get(i));
             }
         }
         return notificationList;
