@@ -139,6 +139,7 @@
             android:textColor="@color/cyanea_accent_dark_reference"
             android:text="@string/show_content" />
 
+
         <app.fedilab.android.helper.CustomTextView
             android:id="@+id/status_content"
             android:layout_width="match_parent"
@@ -148,19 +149,22 @@
             android:textIsSelectable="true"
             tools:maxLines="10"
             tools:text="@tools:sample/lorem/random" />
+
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
             android:id="@+id/toggle_truncate"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/cyanea_accent_dark_reference"
-            android:paddingBottom="1dp"
-            android:paddingTop="1dp"
-            android:textSize="14sp"
-            android:textAllCaps="false"
-            android:text="@string/display_toot_truncate"
-            android:layout_gravity="center"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableEnd="@drawable/ic_display_more"
+            android:gravity="center_vertical"
+            app:strokeColor="@color/cyanea_accent_dark_reference"
+            android:singleLine="true"
+            android:text="@string/display_toot_truncate"
+            app:iconTint="@color/cyanea_accent_reference"
+            android:textAllCaps="false"
+
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_trans"
             android:layout_width="match_parent"

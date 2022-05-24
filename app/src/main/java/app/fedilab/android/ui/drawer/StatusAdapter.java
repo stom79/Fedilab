@@ -38,7 +38,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -336,30 +335,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
         }
 
+        holder.binding.toggleTruncate.setVisibility(View.GONE);
 
-        if (truncate_toots_size > 0) {
-            holder.binding.statusContent.setMaxLines(truncate_toots_size);
-            holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
-            Layout layout = holder.binding.statusContent.getLayout();
-            if (layout != null) {
-                int lines = layout.getLineCount();
-                if (lines > truncate_toots_size) {
-                    int ellipsisCount = layout.getEllipsisCount(lines - 1);
-                    if (ellipsisCount > truncate_toots_size) {
-                        holder.binding.toggleTruncate.setVisibility(View.VISIBLE);
-                        holder.binding.toggleTruncate.setOnClickListener(v -> {
-                            statusToDeal.isTruncated = !statusToDeal.isTruncated;
-                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
-                        });
-                        if (statusToDeal.isTruncated) {
-                            holder.binding.statusContent.setMaxLines(5);
-                        } else {
-                            holder.binding.statusContent.setMaxLines(9999);
-                        }
-                    }
-                }
-            }
-        }
         if (status.isFocused) {
             holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -796,7 +773,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+        if (truncate_toots_size > 0) {
+            holder.binding.statusContent.setMaxLines(truncate_toots_size);
+            holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
 
+            holder.binding.statusContent.post(() -> {
+                if (holder.binding.statusContent.getLineCount() > truncate_toots_size) {
+                    holder.binding.toggleTruncate.setVisibility(View.VISIBLE);
+                    if (statusToDeal.isTruncated) {
+                        holder.binding.toggleTruncate.setText(R.string.display_toot_truncate);
+                        holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_more), null);
+                    } else {
+                        holder.binding.toggleTruncate.setText(R.string.hide_toot_truncate);
+                        holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_less), null);
+                    }
+                    holder.binding.toggleTruncate.setOnClickListener(v -> {
+                        statusToDeal.isTruncated = !statusToDeal.isTruncated;
+                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                    });
+                    if (statusToDeal.isTruncated) {
+                        holder.binding.statusContent.setMaxLines(5);
+                    } else {
+                        holder.binding.statusContent.setMaxLines(9999);
+                    }
+                } else {
+                    holder.binding.toggleTruncate.setVisibility(View.GONE);
+                }
+            });
+        }
         if (statusToDeal.translationContent != null) {
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.statusContentTranslated.setText(statusToDeal.span_translate, TextView.BufferType.SPANNABLE);
