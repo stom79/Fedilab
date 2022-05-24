@@ -224,9 +224,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
             if (capitalize) {
-                statusDraft.text = mentionedAccount.acct + "\n";
+                statusDraft.text = "@" + mentionedAccount.acct + "\n";
             } else {
-                statusDraft.text = mentionedAccount.acct + " ";
+                statusDraft.text = "@" + mentionedAccount.acct + " ";
             }
             holder.binding.content.setText(statusDraft.text);
             updateCharacterCount(holder);
