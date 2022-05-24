@@ -83,6 +83,7 @@ import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.DraftActivity;
 import app.fedilab.android.activities.FilterActivity;
+import app.fedilab.android.activities.FollowRequestActivity;
 import app.fedilab.android.activities.InstanceActivity;
 import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
@@ -333,6 +334,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_scheduled) {
                 Intent intent = new Intent(this, ScheduledActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_follow_requests) {
+                Intent intent = new Intent(this, FollowRequestActivity.class);
+                startActivity(intent);
             }
             binding.drawerLayout.close();
             return false;
@@ -564,7 +568,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     return;
                 }
                 bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
-
+                if (account.mastodon_account.locked) {
+                    binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
+                }
                 if (bottomMenu != null) {
                     //ManageClick on bottom menu items
                     if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {

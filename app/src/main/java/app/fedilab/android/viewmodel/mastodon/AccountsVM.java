@@ -1288,28 +1288,30 @@ public class AccountsVM extends AndroidViewModel {
      * @param limit Maximum number of results to return. Defaults to 40.
      * @return {@link LiveData} containing a {@link List} of {@link Account}s
      */
-    public LiveData<List<Account>> getFollowRequests(@NonNull String instance, String token, String limit) {
-        accountListMutableLiveData = new MutableLiveData<>();
+    public LiveData<Accounts> getFollowRequests(@NonNull String instance, String token, String max_id, int limit) {
+        accountsMutableLiveData = new MutableLiveData<>();
         MastodonAccountsService mastodonAccountsService = init(instance);
         new Thread(() -> {
             List<Account> accountList = null;
-            Call<List<Account>> followRequestsCall = mastodonAccountsService.getFollowRequests(token, limit);
+            Accounts accounts = new Accounts();
+            Call<List<Account>> followRequestsCall = mastodonAccountsService.getFollowRequests(token, max_id, limit);
             if (followRequestsCall != null) {
                 try {
                     Response<List<Account>> followRequestsResponse = followRequestsCall.execute();
                     if (followRequestsResponse.isSuccessful()) {
                         accountList = followRequestsResponse.body();
+                        accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
+                        accounts.pagination = MastodonHelper.getPagination(followRequestsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                List<Account> finalAccountList = accountList;
-                Runnable myRunnable = () -> accountListMutableLiveData.setValue(finalAccountList);
+                Runnable myRunnable = () -> accountsMutableLiveData.setValue(accounts);
                 mainHandler.post(myRunnable);
             }
         }).start();
-        return accountListMutableLiveData;
+        return accountsMutableLiveData;
     }
 
     /**

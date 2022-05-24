@@ -55,8 +55,8 @@
             android:name=".activities.ContextActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-        android:name=".activities.DraftActivity"
-        android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".activities.DraftActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.ComposeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -64,6 +64,9 @@
             android:label="@string/compose" />
         <activity
             android:name=".activities.StatusInfoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".activities.FollowRequestActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.WebviewActivity"

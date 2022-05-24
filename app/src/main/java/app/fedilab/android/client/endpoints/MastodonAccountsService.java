@@ -373,7 +373,8 @@ public interface MastodonAccountsService {
     @GET("follow_requests")
     Call<List<Account>> getFollowRequests(
             @Header("Authorization") String token,
-            @Path("limit") String limit);
+            @Query("max_id") String max_id,
+            @Query("limit") int limit);
 
     //Accept follow request
     @POST("follow_requests/{id}/authorize")
