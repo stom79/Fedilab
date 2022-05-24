@@ -27,10 +27,10 @@ import com.jaredrummler.cyanea.Cyanea;
 import com.jaredrummler.cyanea.prefs.CyaneaTheme;
 
 import org.acra.ACRA;
-import org.acra.annotation.AcraNotification;
+import org.acra.ReportField;
 import org.acra.config.CoreConfigurationBuilder;
-import org.acra.config.LimiterConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
+import org.acra.config.NotificationConfigurationBuilder;
 import org.acra.data.StringFormat;
 
 import java.util.List;
@@ -38,8 +38,6 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 
-@AcraNotification(
-        resIcon = R.mipmap.ic_launcher, resTitle = R.string.crash_title, resChannelName = R.string.set_crash_reports, resText = R.string.crash_message)
 
 public class MainApplication extends MultiDexApplication {
 
@@ -70,24 +68,43 @@ public class MainApplication extends MultiDexApplication {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-
-        boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), false);
-        if (send_crash_reports) {
-            CoreConfigurationBuilder ACRABuilder = new CoreConfigurationBuilder(this);
-            ACRABuilder.setBuildConfigClass(BuildConfig.class).setReportFormat(StringFormat.KEY_VALUE_LIST);
-            int versionCode = BuildConfig.VERSION_CODE;
-            ACRABuilder.getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class).setReportAsFile(true).setMailTo("hello@fedilab.app").setSubject("[Fedilab] - Crash Report " + versionCode).setEnabled(true);
-            ACRABuilder.getPluginConfigurationBuilder(LimiterConfigurationBuilder.class).setEnabled(true);
-            ACRA.init(this, ACRABuilder);
-        }
-
         Toasty.Config.getInstance().apply();
     }
-
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(MainApplication.this);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
+        boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), false);
+        if (send_crash_reports) {
+            ACRA.init(this, new CoreConfigurationBuilder()
+                    //core configuration:
+                    .withBuildConfigClass(BuildConfig.class)
+                    .withReportFormat(StringFormat.KEY_VALUE_LIST)
+                    .withPluginConfigurations(
+                            new MailSenderConfigurationBuilder()
+                                    .withMailTo("hello@fedilab.app")
+                                    .withReportAsFile(true)
+                                    .withReportFileName("crash_report.txt")
+                                    .withSubject("[Fedilab] - Crash Report " + BuildConfig.VERSION_CODE)
+                                    .build(),
+                            new NotificationConfigurationBuilder()
+                                    .withResIcon(R.mipmap.ic_launcher)
+                                    .withChannelName(getString(R.string.set_crash_reports))
+                                    .withTitle(getString(R.string.crash_title))
+                                    .withText(getString(R.string.crash_message))
+                                    .build()
+                    ).withReportContent(
+                            ReportField.INSTALLATION_ID,
+                            ReportField.APP_VERSION_CODE,
+                            ReportField.ANDROID_VERSION,
+                            ReportField.PHONE_MODEL,
+                            ReportField.TOTAL_MEM_SIZE,
+                            ReportField.AVAILABLE_MEM_SIZE,
+                            ReportField.USER_CRASH_DATE,
+                            ReportField.STACK_TRACE)
+            );
+        }
     }
 }
