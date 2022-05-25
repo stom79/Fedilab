@@ -2,11 +2,7 @@ package app.fedilab.android.helper
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.DashPathEffect
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
@@ -68,8 +64,8 @@ class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<L
 
                     // if below status has a full line for current level, extend the line to the bottom
                     if (i < childCount - 1) {
-                        val nextLineInfo = lineInfoList[position + 1]
-                        if (level >= nextLineInfo.fullLinesStart && level <= nextLineInfo.fullLinesEnd) {
+                        if (i < lineInfoList.lastIndex - 1) {
+                            val nextLineInfo = lineInfoList[i + 1]
                             lineBottom = view.bottom.toFloat()
                         }
                     }
