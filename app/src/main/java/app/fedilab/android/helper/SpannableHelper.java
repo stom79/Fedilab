@@ -187,7 +187,7 @@ public class SpannableHelper {
             if (matchEnd > content.toString().length()) {
                 matchEnd = content.toString().length();
             }
-            if (content.toString().length() < matchEnd || matchStart < 0) {
+            if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                 continue;
             }
             final String url = content.toString().substring(matchStart, matchEnd);
