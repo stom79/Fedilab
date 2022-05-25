@@ -156,6 +156,29 @@ public class FragmentMastodonTimeline extends Fragment {
         return found ? position : -1;
     }
 
+
+
+    /**
+     * Returned list of checked status id for reports
+     *
+     * @return List<String>
+     */
+    public List<String> getCheckedStatusesId() {
+        List<String> stringList = new ArrayList<>();
+        for (Status status : statuses) {
+            if (status.isChecked) {
+                stringList.add(status.id);
+            }
+        }
+        return stringList;
+    }
+
+    public void scrollToTop() {
+        if (binding != null) {
+            binding.recyclerView.scrollToPosition(0);
+        }
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -195,33 +218,7 @@ public class FragmentMastodonTimeline extends Fragment {
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
-        return binding.getRoot();
-    }
 
-    /**
-     * Returned list of checked status id for reports
-     *
-     * @return List<String>
-     */
-    public List<String> getCheckedStatusesId() {
-        List<String> stringList = new ArrayList<>();
-        for (Status status : statuses) {
-            if (status.isChecked) {
-                stringList.add(status.id);
-            }
-        }
-        return stringList;
-    }
-
-    public void scrollToTop() {
-        if (binding != null) {
-            binding.recyclerView.scrollToPosition(0);
-        }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
         binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
         binding.swipeContainer.setColorSchemeColors(
@@ -238,6 +235,13 @@ public class FragmentMastodonTimeline extends Fragment {
         max_id = statusReport != null ? statusReport.id : null;
         flagLoading = false;
         router(null);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     /**
