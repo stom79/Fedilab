@@ -76,9 +76,9 @@ class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<L
                     var lineBottom = view.bottom.toFloat() - view.height / 2
 
                     // if below status has a full line for current level, extend the line to the bottom
-                    if (i < childCount - 1) {
-                        if (i < lineInfoList.lastIndex - 1) {
-                            val nextLineInfo = lineInfoList[i + 1]
+                    if (i < lineInfoList.lastIndex - 1) {
+                        val nextLineInfo = lineInfoList[i + 1]
+                        if (level >= nextLineInfo.fullLinesStart && level <= nextLineInfo.fullLinesEnd) {
                             lineBottom = view.bottom.toFloat()
                         }
                     }
