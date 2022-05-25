@@ -428,19 +428,6 @@
                 tools:ignore="HardcodedText" />
 
             <com.varunest.sparkbutton.SparkButton
-                android:id="@+id/action_button_favorite"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:adjustViewBounds="true"
-                app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
-                app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_star_outline"
-                app:sparkbutton_primaryColor="@color/marked_icon"
-                app:sparkbutton_secondaryColor="@color/marked_icon" />
-
-            <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_boost"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
@@ -452,6 +439,19 @@
                 app:sparkbutton_inActiveImage="@drawable/ic_repeat"
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
+
+            <com.varunest.sparkbutton.SparkButton
+                android:id="@+id/action_button_favorite"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:adjustViewBounds="true"
+                app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
+                app:sparkbutton_animationSpeed="1.5"
+                app:sparkbutton_iconSize="24dp"
+                app:sparkbutton_inActiveImage="@drawable/ic_star_outline"
+                app:sparkbutton_primaryColor="@color/marked_icon"
+                app:sparkbutton_secondaryColor="@color/marked_icon" />
 
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_bookmark"
