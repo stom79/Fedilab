@@ -21,6 +21,11 @@
         android:checkable="true"
         android:title="@string/custom_tabs"
         app:actionViewClass="android.widget.CheckBox" />
+    <item
+        android:id="@+id/action_request_admin"
+        android:checkable="true"
+        android:title="@string/admin_scope"
+        app:actionViewClass="android.widget.CheckBox" />
     <!--
    <item
        android:id="@+id/action_import_data"

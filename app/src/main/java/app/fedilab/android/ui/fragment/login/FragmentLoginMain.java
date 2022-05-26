@@ -76,7 +76,6 @@ public class FragmentLoginMain extends Fragment {
 
         binding.menuIcon.setOnClickListener(this::showMenu);
         binding.loginInstance.setOnItemClickListener((parent, view, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
-        binding.adminScope.setOnCheckedChangeListener((compoundButton, checked) -> ((LoginActivity) requireActivity()).setAdmin(checked));
         binding.loginInstance.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -173,9 +172,11 @@ public class FragmentLoginMain extends Fragment {
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
         MenuItem customTabItem = popupMenu.getMenu().findItem(R.id.action_custom_tabs);
+        MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
         customTabItem.setChecked(!embedded_browser);
+        adminTabItem.setChecked(((LoginActivity) requireActivity()).requestedAdmin());
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
@@ -200,6 +201,23 @@ public class FragmentLoginMain extends Fragment {
                     }
                 });
                 editor.apply();
+            } else if (itemId == R.id.action_request_admin) {
+                boolean checked = !((LoginActivity) requireActivity()).requestedAdmin();
+                ((LoginActivity) requireActivity()).setAdmin(checked);
+                item.setChecked(!item.isChecked());
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(new View(requireContext()));
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
             }
             return false;
         });
@@ -230,7 +248,7 @@ public class FragmentLoginMain extends Fragment {
             Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
         }
         if (api == Account.API.MASTODON) {
-            String scopes = binding.adminScope.isChecked() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+            String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
             AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
             appsVM.createApp(currentInstance, getString(R.string.app_name),
                     Helper.REDIRECT_CONTENT_WEB,
@@ -239,13 +257,13 @@ public class FragmentLoginMain extends Fragment {
             ).observe(requireActivity(), app -> {
                 client_id = app.client_id;
                 client_secret = app.client_secret;
-                String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, binding.adminScope.isChecked());
+                String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, ((LoginActivity) requireActivity()).requestedAdmin());
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
                 if (embedded_browser) {
                     Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
                     i.putExtra("login_url", redirectUrl);
-                    i.putExtra("requestedAdmin", binding.adminScope.isChecked());
+                    i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
                     startActivity(i);
                     requireActivity().finish();
                 } else {

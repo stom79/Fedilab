@@ -48,14 +48,6 @@
             android:imeOptions="actionNext"
             android:inputType="textWebEmailAddress"
             android:singleLine="true" />
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/admin_scope"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/admin_scope"
-            app:buttonTint="@color/cyanea_accent_reference" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

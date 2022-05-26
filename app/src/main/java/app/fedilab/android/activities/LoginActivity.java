@@ -149,6 +149,10 @@ public class LoginActivity extends BaseActivity {
             editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
             editor.apply();
             return false;
+        } else if (id == R.id.action_request_admin) {
+            item.setChecked(!item.isChecked());
+            requestedAdmin = item.isChecked();
+            return false;
         }
         return super.onOptionsItemSelected(item);
     }
