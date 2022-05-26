@@ -26,7 +26,7 @@
     <string name="restore">Khôi phục</string>
     <string name="no_result">Không có kết quả!</string>
     <string name="instance">Máy chủ</string>
-    <string name="instance_example">Máy chủ: mastodon.social</string>
+    <string name="instance_example">Ví dụ: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Hiện đang sử dụng tài khoản %1$s</string>
     <string name="add_account">Thêm một tài khoản</string>
     <string name="clipboard">Đã chép nội dung tút vào bộ nhớ tạm</string>
@@ -44,7 +44,7 @@
     <string name="next">Kế tiếp</string>
     <string name="previous">Trước đó</string>
     <string name="open_with">Mở bằng</string>
-    <string name="validate">Xác minh</string>
+    <string name="validate">Xác nhận</string>
     <string name="media">Media</string>
     <string name="share_with">Chia sẻ với</string>
     <string name="shared_via">Chia sẻ qua Fedilab</string>
@@ -61,11 +61,11 @@
     <string name="translate">Dịch</string>
     <string name="please_wait">Hãy chờ vài giây trước khi thực hiện hành động này.</string>
     <!--- Menu -->
-    <string name="home_menu">Trang chính</string>
+    <string name="home_menu">Bảng tin</string>
     <string name="local_menu">Máy chủ</string>
     <string name="global_menu">Lịch trình liên kết</string>
     <string name="neutral_menu_title">Tùy chọn</string>
-    <string name="favorites_menu">Lượt thích</string>
+    <string name="favorites_menu">Đã thích</string>
     <string name="communication_menu_title">Giao tiếp</string>
     <string name="muted_menu">Người dùng đã ẩn</string>
     <string name="blocked_menu">Người dùng đã chặn</string>
@@ -121,7 +121,7 @@
         <item>Delete &amp; re-draft this toot?</item>
     </string-array>
     <string name="bookmarks">Đã lưu</string>
-    <string name="bookmark_add">Lưu lại</string>
+    <string name="bookmark_add">Lưu tút</string>
     <string name="bookmark_remove">Hủy lưu</string>
     <string name="bookmarks_empty">Chưa lưu gì hết</string>
     <string name="status_bookmarked">Đã lưu tút!</string>
@@ -287,8 +287,8 @@
     <string name="set_wifi_only">Chỉ thông báo bằng WIFI</string>
     <string name="set_notify">Thông báo?</string>
     <string name="set_notif_silent">Tắt thông báo</string>
-    <string name="set_nsfw_timeout">Thời gian chờ của NSFW (giây, 0 có nghĩa là tắt)</string>
-    <string name="set_med_desc_timeout">Thời gian chờ mô tả media (giây, 0 nghĩa là không dùng)</string>
+    <string name="set_nsfw_timeout">Thời gian chờ của NSFW (giây, 0 = tắt)</string>
+    <string name="set_med_desc_timeout">Thời gian chờ mô tả media (giây, 0 = không dùng)</string>
     <string name="settings_title_profile">Sửa hồ sơ</string>
     <string name="settings_title_custom_sharing">Chia sẻ tùy chỉnh</string>
     <string name="settings_custom_sharing_url">URL chia sẻ tùy chỉnh của bạn…</string>
@@ -684,7 +684,7 @@
     <string name="action_plain_text">Văn bản thuần</string>
     <string name="action_html">HTML</string>
     <string name="action_markdown">Markdown</string>
-    <string name="action_logout_account">Đăng xuất tài khoản</string>
+    <string name="action_logout_account">Đăng xuất</string>
     <string name="all">Tất cả</string>
     <string name="about_opencollective">Ủng hộ app</string>
     <string name="more_about_opencollective">Open Collective cho phép các nhóm nhanh chóng gây quỹ và quản lý chúng một cách minh bạch.</string>
@@ -702,7 +702,7 @@
     <string name="submit">Gửi</string>
     <string name="data_base_exported">Cơ sở dữ liệu đã được xuất!</string>
     <string name="featured_hashtags">Hashtag thường dùng</string>
-    <string name="filter_timeline_with_a_tag">Lọc bảng tin bằng hashtag</string>
+    <string name="filter_timeline_with_a_tag">Lọc với hashtag</string>
     <string name="no_tags">Không có hashtag</string>
     <string name="set_hide_delete_notification_on_tab">Ẩn nút \"xóa\" trên tab thông báo</string>
     <string name="set_retrieve_metadata_share_from_extras">Đính kèm hình ảnh khi chia sẻ một URL</string>
@@ -737,7 +737,7 @@
     <string name="action_reorder_timeline">Sắp xếp bảng tin</string>
     <string name="warning_main_timeline">Bảng tin chính có thể bị ẩn!</string>
     <string name="action_bbcode">BBCode</string>
-    <string name="set_sensitive_content">Ảnh/video là nội dung nhạy cảm</string>
+    <string name="set_sensitive_content">Tài khoản nhạy cảm</string>
     <string name="gnu_instance">Máy chủ GNU</string>
     <string name="cached_status">Tút lưu trong bộ nhớ đệm</string>
     <string name="set_forward_tags">Dùng lại hashtag trong trả lời</string>
@@ -874,7 +874,7 @@
     <string name="toast_empty_content">Nội dung trống!</string>
     <string name="set_display_fedilab_features_button">Hiện nút tính năng Fedilab</string>
     <string name="audio">Ứng dụng cần truy cập ghi âm</string>
-    <string name="voice_message">Tin nhắn thoại</string>
+    <string name="voice_message">Ghi âm</string>
     <string name="set_quick_reply">Chèn trả lời nhanh</string>
     <string name="reply_might_be_useless">Tài khoản bạn đang trả lời có thể không thấy trả lời của bạn!</string>
     <string name="set_remember_position_indication">Nếu tắt, ứng dụng sẽ luôn tải các tút cuối cùng</string>
@@ -1093,7 +1093,7 @@
     <string name="status_count">Số tút</string>
     <string name="instance_count">Số máy chủ</string>
     <string name="blocked">Đã chặn</string>
-    <string name="poll_finish_in">Kết thúc sau %s</string>
+    <string name="poll_finish_in">còn %s</string>
     <string name="release_note_title">Có gì mới trong %s</string>
     <string name="follow_account_update">Theo dõi tài khoản của tôi để cập nhật</string>
     <string name="no_instance_reccord">Máy chủ này không có trên https://instances.social</string>
@@ -1133,7 +1133,7 @@
     <string name="no_announcements">Không có thông báo!</string>
     <string name="add_reaction">Thêm biểu cảm</string>
     <string name="set_custom_tabs_indication">Dùng trình duyệt yêu thích của bạn trong app. Bỏ chọn để mở bên ngoài app.</string>
-    <string name="set_video_cache">Bộ nhớ đệm video tính bằng MB, zero nghĩa là không lưu.</string>
+    <string name="set_video_cache">Bộ nhớ đệm video (MB, 0 = không lưu)</string>
     <string name="set_watermark">Watermark</string>
     <string name="set_watermark_indication">Tự động thêm watermark dưới hình ảnh. Nội dung có thể thay đổi cho từng tài khoản.</string>
     <string name="no_distributors_found">Không tìm thấy nhà phân phối!</string>
@@ -1161,7 +1161,7 @@
     <string name="pref_contributor">Theme của cộng đồng</string>
     <string name="pref_contributor_summary">Chọn một theme được tạo bởi cộng đồng</string>
     <string name="display">Hiển thị</string>
-    <string name="top_menu">Menu ở trên</string>
+    <string name="top_menu">Menu trên</string>
     <string name="report_val_more4">Vấn đề không phù hợp với các danh mục khác</string>
     <string name="hide_content">Ẩn nội dung &lt;</string>
     <string name="report_1_unfollow_title">Ngưng theo dõi %1$s</string>
@@ -1173,7 +1173,7 @@
     <string name="type_of_notifications_title">Chọn loại thông báo</string>
     <string name="notification_sounds">Âm thanh thông báo</string>
     <string name="pref_custom_theme_new_summary">Cho phép tạo theme tùy chỉnh</string>
-    <string name="bottom_menu">Menu phía dưới</string>
+    <string name="bottom_menu">Menu dưới</string>
     <string name="customize_main_colors">Tùy chỉnh màu chính</string>
     <string name="types_of_notifications_to_display">Loại thông báo hiển thị</string>
     <string name="set_unfollow_validation_title">Xác nhận ngưng theo dõi</string>
@@ -1250,7 +1250,7 @@
     <string name="notif_display_updates_from_people">Cập nhật từ mọi người</string>
     <string name="notif_display_follows">Theo dõi</string>
     <string name="mark_all_as_read">Đánh dấu tất cả là đã đọc</string>
-    <string name="display_all_categories">Hiện toàn bộ danh mục</string>
+    <string name="display_all_categories">Hiện toàn bộ</string>
     <string name="delete_notification_all_warning">Bạn có chắc muốn xóa tất cả thông báo\? Không thể khôi phục lại.</string>
     <string name="about_mastodon">\"Mastodon không phải là một trang web duy nhất như Twitter hoặc Facebook, đó là một mạng lưới hàng ngàn cộng đồng được điều hành bởi các tổ chức và cá nhân khác nhau cung cấp trải nghiệm truyền thông xã hội liền mạch.\"</string>
     <string name="join_peertube_message">\"Peertube, được phát triển bởi Framasoft, là sự thay thế miễn phí và phi tập trung cho các nền tảng video, cung cấp cho bạn hơn 400.000 video được xuất bản bởi 60.000 người dùng và xem hơn 15 triệu lần\"</string>
@@ -1267,4 +1267,6 @@
     <string name="set_discoverable_content">Khám phá người dùng</string>
     <string name="delete_field">Xóa mục</string>
     <string name="select_a_theme">Chọn một theme</string>
+    <string name="also_boosted_by">Đã đăng lại bởi:</string>
+    <string name="also_favourite_by">"Đã thích bởi: "</string>
 </resources>
