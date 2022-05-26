@@ -651,6 +651,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, account1 -> {
+
                             BaseMainActivity.accountWeakReference.get().mastodon_account = account1;
                         });
                 //Update pinned timelines

@@ -30,34 +30,34 @@ import retrofit2.http.Query;
 
 public interface MastodonAdminService {
 
-    @GET("/admin/accounts")
+    @GET("admin/accounts")
     Call<List<AdminAccount>> getAccounts(
             @Header("Authorization") String token,
-            @Query("local") boolean local,
-            @Query("remote") boolean remote,
+            @Query("local") Boolean local,
+            @Query("remote") Boolean remote,
             @Query("by_domain") String by_domain,
-            @Query("active") boolean active,
-            @Query("pending") boolean pending,
-            @Query("disabled") boolean disabled,
-            @Query("silenced") boolean silenced,
-            @Query("suspended") boolean suspended,
+            @Query("active") Boolean active,
+            @Query("pending") Boolean pending,
+            @Query("disabled") Boolean disabled,
+            @Query("silenced") Boolean silenced,
+            @Query("suspended") Boolean suspended,
             @Query("username") String username,
             @Query("display_name") String display_name,
             @Query("email") String email,
             @Query("ip") String ip,
-            @Query("staff") boolean staff,
+            @Query("staff") Boolean staff,
             @Query("max_id") String max_id,
             @Query("since_id") String since_id,
-            @Query("limit") int limit
+            @Query("limit") Integer limit
     );
 
-    @GET("/admin/accounts/{id}")
+    @GET("admin/accounts/{id}")
     Call<AdminAccount> getAccount(
             @Header("Authorization") String token,
             @Path("id") String id
     );
 
-    @POST("/admin/accounts/{account_id}/action")
+    @POST("admin/accounts/{account_id}/action")
     Call<Void> performAction(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id,
@@ -65,83 +65,83 @@ public interface MastodonAdminService {
             @Field("report_id") String report_id,
             @Field("warning_preset_id") String warning_preset_id,
             @Field("text") String text,
-            @Field("send_email_notification") boolean send_email_notification
+            @Field("send_email_notification") Boolean send_email_notification
     );
 
     @FormUrlEncoded
-    @POST("/admin/accounts/{account_id}/approve")
+    @POST("admin/accounts/{account_id}/approve")
     Call<AdminAccount> approve(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
     @FormUrlEncoded
-    @POST("/admin/accounts/{account_id}/reject")
+    @POST("admin/accounts/{account_id}/reject")
     Call<AdminAccount> reject(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
     @FormUrlEncoded
-    @POST("/admin/accounts/{account_id}/enable")
+    @POST("admin/accounts/{account_id}/enable")
     Call<AdminAccount> enable(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
     @FormUrlEncoded
-    @POST("/admin/accounts/{account_id}/unsilence")
+    @POST("admin/accounts/{account_id}/unsilence")
     Call<AdminAccount> unsilence(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
     @FormUrlEncoded
-    @POST("/admin/accounts/{account_id}/unsuspend")
+    @POST("admin/accounts/{account_id}/unsuspend")
     Call<AdminAccount> unsuspend(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
     @FormUrlEncoded
-    @GET("/admin/reports")
+    @GET("admin/reports")
     Call<List<AdminReport>> getReports(
             @Header("Authorization") String token,
-            @Field("resolved") boolean resolved,
+            @Field("resolved") Boolean resolved,
             @Field("account_id") String account_id,
             @Field("target_account_id") String target_account_id
     );
 
     @FormUrlEncoded
-    @GET("/admin/reports/{id}")
+    @GET("admin/reports/{id}")
     Call<AdminReport> getReport(
             @Header("Authorization") String token,
             @Path("id") String id
     );
 
     @FormUrlEncoded
-    @POST("/admin/reports/{id}/assign_to_self")
+    @POST("admin/reports/{id}/assign_to_self")
     Call<AdminReport> assignToSelf(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
     @FormUrlEncoded
-    @POST("/admin/reports/{id}/unassign")
+    @POST("admin/reports/{id}/unassign")
     Call<AdminReport> unassign(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
     @FormUrlEncoded
-    @POST("/admin/reports/{id}/resolve")
+    @POST("admin/reports/{id}/resolve")
     Call<AdminReport> resolved(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
     @FormUrlEncoded
-    @POST("/admin/reports/{id}/reopen")
+    @POST("admin/reports/{id}/reopen")
     Call<AdminReport> reopen(
             @Header("Authorization") String app_token,
             @Path("id") String id

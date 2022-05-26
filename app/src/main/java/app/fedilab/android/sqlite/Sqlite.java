@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -42,6 +42,7 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_APP_CLIENT_ID = "APP_CLIENT_ID";
     public static final String COL_CREATED_AT = "CREATED_AT";
     public static final String COL_UPDATED_AT = "UPDATED_AT";
+    public static final String COL_ADMIN = "ADMIN";
     //Table for timelines
     public static final String TABLE_TIMELINES = "TIMELINES";
     public static final String COL_ID = "ID";
@@ -94,6 +95,7 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_APP_CLIENT_ID + " TEXT NOT NULL, "
             + COL_APP_CLIENT_SECRET + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL,"
+            + COL_ADMIN + "INTEGER NOT NULL DEFAULT 0,"
             + COL_UPDATED_AT + " TEXT)";
     private static final String CREATE_TABLE_TIMELINES = "CREATE TABLE IF NOT EXISTS " + TABLE_TIMELINES + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -210,6 +212,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_QUICK_LOAD);
             case 2:
                 db.execSQL(CREATE_TABLE_BOTTOM_MENU);
+            case 3:
+                db.execSQL("ALTER TABLE " + TABLE_USER_ACCOUNT + " ADD COLUMN " + COL_ADMIN + " INTEGER NOT NULL DEFAULT 0");
             default:
                 break;
         }

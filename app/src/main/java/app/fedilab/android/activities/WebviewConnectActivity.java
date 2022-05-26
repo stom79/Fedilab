@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +94,6 @@ public class WebviewConnectActivity extends BaseActivity {
         new Thread(() -> {
             try {
                 //update the database
-                Log.v(Helper.TAG, "account.mastodon_account.admin: " + account.mastodon_account.admin);
                 new Account(activity).insertOrUpdate(account);
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 BaseMainActivity.currentToken = account.token;
@@ -134,7 +132,6 @@ public class WebviewConnectActivity extends BaseActivity {
             requestedAdmin = b.getBoolean("requestedAdmin", false);
 
         }
-        Log.v(Helper.TAG, "requestedAdmin: " + requestedAdmin);
         if (login_url == null)
             finish();
         ActionBar actionBar = getSupportActionBar();
@@ -243,12 +240,8 @@ public class WebviewConnectActivity extends BaseActivity {
                                     //We check if user have really moderator rights
                                     if (requestedAdmin) {
                                         AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
-                                        Log.v(Helper.TAG, " account.instance: " + account.instance);
-                                        Log.v(Helper.TAG, " account.token: " + account.token);
-                                        Log.v(Helper.TAG, " account.user_id: " + account.user_id);
                                         adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
-                                            Log.v(Helper.TAG, "adminAccount: " + adminAccount);
-                                            account.mastodon_account.admin = adminAccount != null;
+                                            account.admin = adminAccount != null;
                                             proceedLogin(WebviewConnectActivity.this, account);
                                         });
                                     } else {

@@ -83,24 +83,24 @@ public class AdminVM extends AndroidViewModel {
      * @param staff       Filter for staff accounts?
      * @return {@link LiveData} containing a {@link List} of {@link AdminAccount}s
      */
-    private LiveData<List<AdminAccount>> getAccounts(@NonNull String instance,
-                                                     String token,
-                                                     boolean local,
-                                                     boolean remote,
-                                                     String byDomain,
-                                                     boolean active,
-                                                     boolean pending,
-                                                     boolean disabled,
-                                                     boolean silenced,
-                                                     boolean suspended,
-                                                     String username,
-                                                     String displayName,
-                                                     String email,
-                                                     String ip,
-                                                     boolean staff,
-                                                     String maxId,
-                                                     String sinceId,
-                                                     int limit) {
+    public LiveData<List<AdminAccount>> getAccounts(@NonNull String instance,
+                                                    String token,
+                                                    Boolean local,
+                                                    Boolean remote,
+                                                    String byDomain,
+                                                    Boolean active,
+                                                    Boolean pending,
+                                                    Boolean disabled,
+                                                    Boolean silenced,
+                                                    Boolean suspended,
+                                                    String username,
+                                                    String displayName,
+                                                    String email,
+                                                    String ip,
+                                                    Boolean staff,
+                                                    String maxId,
+                                                    String sinceId,
+                                                    Integer limit) {
         MastodonAdminService mastodonAdminService = init(instance);
         adminAccountListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
@@ -360,7 +360,7 @@ public class AdminVM extends AndroidViewModel {
      */
     public LiveData<List<AdminReport>> getReports(@NonNull String instance,
                                                   String token,
-                                                  boolean resolved,
+                                                  Boolean resolved,
                                                   String accountId,
                                                   String targetAccountId) {
         MastodonAdminService mastodonAdminService = init(instance);

@@ -252,7 +252,7 @@ public class FragmentMastodonContext extends Fragment {
                 binding.recyclerView.removeItemDecorationAt(i);
             }
         }
-        List<LineInfo> threadDecorationInfo = getThreadDecorationInfo(context, focusedStatus.id);
+        List<LineInfo> threadDecorationInfo = getThreadDecorationInfo(context);
         recyclerViewThreadLines = new RecyclerViewThreadLines(requireContext(), threadDecorationInfo);
         binding.recyclerView.addItemDecoration(recyclerViewThreadLines);
         binding.swipeContainer.setRefreshing(false);

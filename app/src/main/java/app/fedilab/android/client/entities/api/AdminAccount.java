@@ -17,6 +17,7 @@ package app.fedilab.android.client.entities.api;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class AdminAccount {
 
@@ -31,7 +32,9 @@ public class AdminAccount {
     @SerializedName("email")
     public String email;
     @SerializedName("ip")
-    public String ip;
+    public IP ip;
+    @SerializedName("ips")
+    public List<IP> ips;
     @SerializedName("locale")
     public String locale;
     @SerializedName("invite_request")
@@ -54,4 +57,14 @@ public class AdminAccount {
     public String created_by_application_id;
     @SerializedName("invited_by_account_id")
     public String invited_by_account_id;
+
+
+    public final class IP {
+        @SerializedName("ip")
+        public String ip;
+        @SerializedName("used_at")
+        public Date used_at;
+        @SerializedName("user_id")
+        public String user_id;
+    }
 }

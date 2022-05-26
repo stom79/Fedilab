@@ -69,7 +69,7 @@ public class SettingsActivity extends BaseActivity {
         binding.setTheming.setOnClickListener(v -> displaySettings(SettingsEnum.THEMING));
         binding.setAdministration.setOnClickListener(v -> displaySettings(SettingsEnum.ADMINISTRATION));
         binding.setLanguage.setOnClickListener(v -> displaySettings(SettingsEnum.LANGUAGE));
-        if (MainActivity.accountWeakReference.get().mastodon_account.admin) {
+        if (MainActivity.accountWeakReference.get().admin) {
             binding.setAdministration.setVisibility(View.VISIBLE);
         } else {
             binding.setAdministration.setVisibility(View.GONE);

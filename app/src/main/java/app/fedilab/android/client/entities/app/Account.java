@@ -65,6 +65,8 @@ public class Account implements Serializable {
     public Date updated_at;
     @SerializedName("mastodon_account")
     public app.fedilab.android.client.entities.api.Account mastodon_account;
+    @SerializedName("admin")
+    public boolean admin;
 
     private transient Context context;
 
@@ -165,6 +167,7 @@ public class Account implements Serializable {
         values.put(Sqlite.COL_TOKEN_VALIDITY, account.token_validity);
         values.put(Sqlite.COL_TOKEN, account.token);
         values.put(Sqlite.COL_REFRESH_TOKEN, account.refresh_token);
+        values.put(Sqlite.COL_ADMIN, account.admin);
         if (account.mastodon_account != null) {
             values.put(Sqlite.COL_ACCOUNT, mastodonAccountToStringStorage(account.mastodon_account));
         }
@@ -200,6 +203,7 @@ public class Account implements Serializable {
             values.put(Sqlite.COL_TOKEN_VALIDITY, account.token_validity);
             values.put(Sqlite.COL_TOKEN, account.token);
             values.put(Sqlite.COL_REFRESH_TOKEN, account.refresh_token);
+            values.put(Sqlite.COL_ADMIN, account.admin);
         }
         if (account.mastodon_account != null) {
             values.put(Sqlite.COL_ACCOUNT, mastodonAccountToStringStorage(account.mastodon_account));
@@ -430,6 +434,7 @@ public class Account implements Serializable {
         account.created_at = Helper.stringToDate(context, c.getString(c.getColumnIndexOrThrow(Sqlite.COL_CREATED_AT)));
         account.updated_at = Helper.stringToDate(context, c.getString(c.getColumnIndexOrThrow(Sqlite.COL_UPDATED_AT)));
         account.software = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SOFTWARE));
+        account.admin = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ADMIN)) == 1;
         String apiStr = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_API));
         API api;
         switch (apiStr) {

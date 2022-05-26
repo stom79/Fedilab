@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
                                 if (requestedAdmin) {
                                     AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
                                     adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
-                                        account.mastodon_account.admin = adminAccount != null;
+                                        account.admin = adminAccount != null;
                                         WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
                                     });
                                 } else {
