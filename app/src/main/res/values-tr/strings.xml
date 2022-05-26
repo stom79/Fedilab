@@ -1264,4 +1264,5 @@
     <string name="more_actions">Daha Fazla Eylem</string>
     <string name="types_of_notifications_to_display">Görüntülenecek bildirim türleri</string>
     <string name="set_unfollow_validation_title">Takibi bırakanları onayla</string>
+    <string name="admin_scope">Ben moderatörüm</string>
 </resources>
