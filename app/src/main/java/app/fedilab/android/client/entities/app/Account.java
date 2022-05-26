@@ -431,29 +431,34 @@ public class Account implements Serializable {
         account.updated_at = Helper.stringToDate(context, c.getString(c.getColumnIndexOrThrow(Sqlite.COL_UPDATED_AT)));
         account.software = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SOFTWARE));
         String apiStr = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_API));
-        API api = null;
+        API api;
         switch (apiStr) {
             case "MASTODON":
                 api = API.MASTODON;
                 break;
-            case "PEERTUBE":
-                api = API.PEERTUBE;
+            case "FRIENDICA":
+                api = API.FRIENDICA;
                 break;
             case "PIXELFED":
                 api = API.PIXELFED;
                 break;
+            case "PLEROMA":
+                api = API.PLEROMA;
+                break;
+            default:
+                api = API.UNKNOWN;
+                break;
         }
         account.api = api;
-        if (api == API.MASTODON) {
-            account.mastodon_account = restoreAccountFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ACCOUNT)));
-        }
-
+        account.mastodon_account = restoreAccountFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ACCOUNT)));
         return account;
     }
 
     public enum API {
         MASTODON,
-        PEERTUBE,
-        PIXELFED
+        FRIENDICA,
+        PLEROMA,
+        PIXELFED,
+        UNKNOWN
     }
 }

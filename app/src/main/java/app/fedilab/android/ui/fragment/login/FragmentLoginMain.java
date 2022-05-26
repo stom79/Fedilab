@@ -14,7 +14,6 @@ package app.fedilab.android.ui.fragment.login;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.admin;
 import static app.fedilab.android.BaseMainActivity.api;
 import static app.fedilab.android.BaseMainActivity.client_id;
 import static app.fedilab.android.BaseMainActivity.client_secret;
@@ -48,6 +47,7 @@ import java.net.URLEncoder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.ProxyActivity;
 import app.fedilab.android.activities.WebviewConnectActivity;
 import app.fedilab.android.client.entities.app.Account;
@@ -62,7 +62,6 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentLoginMain extends Fragment {
 
-    private static boolean client_id_for_webview = false;
     private FragmentLoginMainBinding binding;
     private boolean searchInstanceRunning = false;
     private String oldSearch;
@@ -77,6 +76,7 @@ public class FragmentLoginMain extends Fragment {
 
         binding.menuIcon.setOnClickListener(this::showMenu);
         binding.loginInstance.setOnItemClickListener((parent, view, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
+        binding.adminScope.setOnCheckedChangeListener((compoundButton, checked) -> ((LoginActivity) requireActivity()).setAdmin(checked));
         binding.loginInstance.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -144,29 +144,25 @@ public class FragmentLoginMain extends Fragment {
             NodeInfoVM nodeInfoVM = new ViewModelProvider(requireActivity()).get(NodeInfoVM.class);
             nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString()).observe(requireActivity(), nodeInfo -> {
                 binding.continueButton.setEnabled(true);
-                if (nodeInfo != null && nodeInfo.software != null) {
-                    BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
-                    if (nodeInfo.software.name.toUpperCase().trim().equals("PLEROMA") || nodeInfo.software.name.toUpperCase().trim().equals("MASTODON") || nodeInfo.software.name.toUpperCase().trim().equals("PIXELFED")) {
-                        client_id_for_webview = true;
+                BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
+                switch (nodeInfo.software.name.toUpperCase().trim()) {
+                    case "MASTODON":
                         api = Account.API.MASTODON;
-                        retrievesClientId(currentInstance);
-                    } else {
-                        client_id_for_webview = false;
-                        if (nodeInfo.software.name.equals("PEERTUBE")) {
-                            Toasty.error(requireActivity(), "Peertube is currently not supported", Toasty.LENGTH_LONG).show();
-                        } else if (nodeInfo.software.name.equals("GNU")) {
-                            Toasty.error(requireActivity(), "GNU is currently not supported", Toasty.LENGTH_LONG).show();
-                        } else { //Fallback to Mastodon
-                            client_id_for_webview = true;
-                            api = Account.API.MASTODON;
-                            retrievesClientId(currentInstance);
-                        }
-                    }
-                } else { //Fallback to Mastodon
-                    client_id_for_webview = true;
-                    api = Account.API.MASTODON;
-                    retrievesClientId(currentInstance);
+                        break;
+                    case "FRIENDICA":
+                        api = Account.API.FRIENDICA;
+                        break;
+                    case "PIXELFED":
+                        api = Account.API.PIXELFED;
+                        break;
+                    case "PLEROMA":
+                        api = Account.API.PLEROMA;
+                        break;
+                    default:
+                        api = Account.API.UNKNOWN;
+                        break;
                 }
+                retrievesClientId(currentInstance);
             });
         });
         return root;
@@ -217,57 +213,53 @@ public class FragmentLoginMain extends Fragment {
     }
 
     private void retrievesClientId(String instance) {
-        if (client_id_for_webview) {
-            if (!instance.startsWith("http://") && !instance.startsWith("https://")) {
-                instance = "https://" + instance;
-            }
-            String host = instance;
-            try {
-                URL url = new URL(instance);
-                host = url.getHost();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        if (!instance.startsWith("http://") && !instance.startsWith("https://")) {
+            instance = "https://" + instance;
+        }
+        String host = instance;
+        try {
+            URL url = new URL(instance);
+            host = url.getHost();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-            try {
-                currentInstance = URLEncoder.encode(host, "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
-            }
-            if (api == Account.API.MASTODON) {
-                String scopes = Helper.OAUTH_SCOPES;
-                if (admin) {
-                    scopes = Helper.OAUTH_SCOPES_ADMIN;
-                }
-                AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
-                appsVM.createApp(currentInstance, getString(R.string.app_name),
-                        client_id_for_webview ? Helper.REDIRECT_CONTENT_WEB : Helper.REDIRECT_CONTENT,
-                        scopes,
-                        Helper.WEBSITE_VALUE
-                ).observe(requireActivity(), app -> {
-                    client_id = app.client_id;
-                    client_secret = app.client_secret;
-                    String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, admin);
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                    boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-                    if (embedded_browser) {
-                        Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
-                        i.putExtra("login_url", redirectUrl);
-                        startActivity(i);
-                        requireActivity().finish();
-                    } else {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setData(Uri.parse(redirectUrl));
-                        try {
-                            startActivity(intent);
-                        } catch (Exception e) {
-                            Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                        }
-
+        try {
+            currentInstance = URLEncoder.encode(host, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
+        }
+        if (api == Account.API.MASTODON) {
+            String scopes = binding.adminScope.isChecked() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+            AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
+            appsVM.createApp(currentInstance, getString(R.string.app_name),
+                    Helper.REDIRECT_CONTENT_WEB,
+                    scopes,
+                    Helper.WEBSITE_VALUE
+            ).observe(requireActivity(), app -> {
+                client_id = app.client_id;
+                client_secret = app.client_secret;
+                String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, binding.adminScope.isChecked());
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
+                if (embedded_browser) {
+                    Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
+                    i.putExtra("login_url", redirectUrl);
+                    i.putExtra("requestedAdmin", binding.adminScope.isChecked());
+                    startActivity(i);
+                    requireActivity().finish();
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse(redirectUrl));
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                     }
-                });
-            }
+
+                }
+            });
         }
     }
 }

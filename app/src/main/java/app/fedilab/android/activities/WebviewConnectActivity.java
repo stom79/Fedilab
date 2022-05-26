@@ -22,6 +22,7 @@ import static app.fedilab.android.BaseMainActivity.software;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,7 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
 
 
@@ -68,6 +71,7 @@ public class WebviewConnectActivity extends BaseActivity {
     private ActivityWebviewConnectBinding binding;
     private AlertDialog alert;
     private String login_url;
+    private boolean requestedAdmin;
 
     @SuppressWarnings("deprecation")
     public static void clearCookies(Context context) {
@@ -86,6 +90,34 @@ public class WebviewConnectActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("ApplySharedPref")
+    public static void proceedLogin(Activity activity, Account account) {
+        new Thread(() -> {
+            try {
+                //update the database
+                Log.v(Helper.TAG, "account.mastodon_account.admin: " + account.mastodon_account.admin);
+                new Account(activity).insertOrUpdate(account);
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                BaseMainActivity.currentToken = account.token;
+                BaseMainActivity.currentUserID = account.user_id;
+                api = Account.API.MASTODON;
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(PREF_USER_TOKEN, account.token);
+                editor.commit();
+                //The user is now authenticated, it will be redirected to MainActivity
+                Runnable myRunnable = () -> {
+                    Intent mainActivity = new Intent(activity, MainActivity.class);
+                    activity.startActivity(mainActivity);
+                    activity.finish();
+                };
+                mainHandler.post(myRunnable);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +131,10 @@ public class WebviewConnectActivity extends BaseActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             login_url = b.getString("login_url");
+            requestedAdmin = b.getBoolean("requestedAdmin", false);
+
         }
+        Log.v(Helper.TAG, "requestedAdmin: " + requestedAdmin);
         if (login_url == null)
             finish();
         ActionBar actionBar = getSupportActionBar();
@@ -190,7 +225,8 @@ public class WebviewConnectActivity extends BaseActivity {
                     String code = matcher.group(1);
                     OauthVM oauthVM = new ViewModelProvider(WebviewConnectActivity.this).get(OauthVM.class);
                     //API call to get the user token
-                    oauthVM.createToken(currentInstance, "authorization_code", BaseMainActivity.client_id, BaseMainActivity.client_secret, Helper.REDIRECT_CONTENT_WEB, Helper.OAUTH_SCOPES, code)
+                    String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+                    oauthVM.createToken(currentInstance, "authorization_code", BaseMainActivity.client_id, BaseMainActivity.client_secret, Helper.REDIRECT_CONTENT_WEB, scope, code)
                             .observe(WebviewConnectActivity.this, tokenObj -> {
                                 Account account = new Account();
                                 account.client_id = BaseMainActivity.client_id;
@@ -204,29 +240,20 @@ public class WebviewConnectActivity extends BaseActivity {
                                 accountsVM.getConnectedAccount(currentInstance, account.token).observe(WebviewConnectActivity.this, mastodonAccount -> {
                                     account.mastodon_account = mastodonAccount;
                                     account.user_id = mastodonAccount.id;
-                                    new Thread(() -> {
-                                        try {
-                                            //update the database
-                                            new Account(WebviewConnectActivity.this).insertOrUpdate(account);
-                                            Handler mainHandler = new Handler(Looper.getMainLooper());
-                                            BaseMainActivity.currentToken = account.token;
-                                            BaseMainActivity.currentUserID = account.user_id;
-                                            api = Account.API.MASTODON;
-                                            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(WebviewConnectActivity.this);
-                                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                                            editor.putString(PREF_USER_TOKEN, account.token);
-                                            editor.commit();
-                                            //The user is now authenticated, it will be redirected to MainActivity
-                                            Runnable myRunnable = () -> {
-                                                Intent mainActivity = new Intent(WebviewConnectActivity.this, MainActivity.class);
-                                                startActivity(mainActivity);
-                                                finish();
-                                            };
-                                            mainHandler.post(myRunnable);
-                                        } catch (DBException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }).start();
+                                    //We check if user have really moderator rights
+                                    if (requestedAdmin) {
+                                        AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
+                                        Log.v(Helper.TAG, " account.instance: " + account.instance);
+                                        Log.v(Helper.TAG, " account.token: " + account.token);
+                                        Log.v(Helper.TAG, " account.user_id: " + account.user_id);
+                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
+                                            Log.v(Helper.TAG, "adminAccount: " + adminAccount);
+                                            account.mastodon_account.admin = adminAccount != null;
+                                            proceedLogin(WebviewConnectActivity.this, account);
+                                        });
+                                    } else {
+                                        proceedLogin(WebviewConnectActivity.this, account);
+                                    }
                                 });
                             });
                     return true;

@@ -73,13 +73,14 @@ public class Account implements Serializable {
     public Date mute_expires_at;
     @SerializedName("moved")
     public Account moved;
-
+    //Local var
+    @SerializedName("admin")
+    public boolean admin;
 
     //Some extra spannable element - They will be filled automatically when fetching the account
     public transient Spannable span_display_name;
     public transient Spannable span_note;
     public transient RelationShip relationShip;
-
 
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")

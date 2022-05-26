@@ -60,6 +60,7 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
+    private RecyclerViewThreadLines recyclerViewThreadLines;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -252,7 +253,8 @@ public class FragmentMastodonContext extends Fragment {
             }
         }
         List<LineInfo> threadDecorationInfo = getThreadDecorationInfo(context, focusedStatus.id);
-        binding.recyclerView.addItemDecoration(new RecyclerViewThreadLines(requireContext(), threadDecorationInfo));
+        recyclerViewThreadLines = new RecyclerViewThreadLines(requireContext(), threadDecorationInfo);
+        binding.recyclerView.addItemDecoration(recyclerViewThreadLines);
         binding.swipeContainer.setRefreshing(false);
         binding.recyclerView.scrollToPosition(statusPosition);
     }
@@ -260,6 +262,7 @@ public class FragmentMastodonContext extends Fragment {
     @Override
     public void onDestroyView() {
         binding.recyclerView.setAdapter(null);
+        binding.recyclerView.removeItemDecoration(recyclerViewThreadLines);
         statusAdapter = null;
         binding = null;
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);

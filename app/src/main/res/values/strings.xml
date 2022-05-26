@@ -1601,6 +1601,7 @@
     <string name="top_menu">Top bar menu</string>
     <string name="also_favourite_by">"Also favourited by: "</string>
     <string name="also_boosted_by">Also boosted by:</string>
+    <string name="admin_scope">I am a moderator</string>
 
 
 </resources>

@@ -17,6 +17,7 @@ package app.fedilab.android.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -68,6 +69,11 @@ public class SettingsActivity extends BaseActivity {
         binding.setTheming.setOnClickListener(v -> displaySettings(SettingsEnum.THEMING));
         binding.setAdministration.setOnClickListener(v -> displaySettings(SettingsEnum.ADMINISTRATION));
         binding.setLanguage.setOnClickListener(v -> displaySettings(SettingsEnum.LANGUAGE));
+        if (MainActivity.accountWeakReference.get().mastodon_account.admin) {
+            binding.setAdministration.setVisibility(View.VISIBLE);
+        } else {
+            binding.setAdministration.setVisibility(View.GONE);
+        }
     }
 
     public void displaySettings(SettingsEnum settingsEnum) {
