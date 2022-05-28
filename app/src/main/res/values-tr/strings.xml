@@ -1265,4 +1265,15 @@
     <string name="types_of_notifications_to_display">Görüntülenecek bildirim türleri</string>
     <string name="set_unfollow_validation_title">Takibi bırakanları onayla</string>
     <string name="admin_scope">Ben moderatörüm</string>
+    <string name="last_active">Son etkin</string>
+    <string name="location">Konum</string>
+    <string name="staff">Personel</string>
+    <string name="filter">Filtrele</string>
+    <string name="domain">Etki alanı</string>
+    <string name="approved">Onaylandı</string>
+    <string name="approve">Onayla</string>
+    <string name="most_recent">En yeni</string>
+    <string name="origin_report">Bildirilen hesabın kaynağı</string>
+    <string name="status">Durum</string>
+    <string name="resolved">Çözüldü</string>
 </resources>
