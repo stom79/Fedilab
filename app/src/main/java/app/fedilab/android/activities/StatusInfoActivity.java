@@ -113,7 +113,6 @@ public class StatusInfoActivity extends BaseActivity {
     }
 
     private void manageView(Accounts accounts) {
-        flagLoading = false;
         binding.loadingNextAccounts.setVisibility(View.GONE);
         if (accountList != null && accounts != null && accounts.accounts != null) {
             int startId = 0;
@@ -123,6 +122,7 @@ public class StatusInfoActivity extends BaseActivity {
             }
             accountList.addAll(accounts.accounts);
             max_id = accounts.pagination.max_id;
+            flagLoading = accounts.pagination.max_id == null;
             accountAdapter.notifyItemRangeInserted(startId, accounts.accounts.size());
         }
     }

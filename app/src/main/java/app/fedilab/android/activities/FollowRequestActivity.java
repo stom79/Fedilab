@@ -95,7 +95,7 @@ public class FollowRequestActivity extends BaseActivity {
     }
 
     private void manageView(Accounts accounts) {
-        flagLoading = false;
+
         binding.loadingNextAccounts.setVisibility(View.GONE);
         if (accountList != null && accounts != null && accounts.accounts != null && accounts.accounts.size() > 0) {
             int startId = 0;
@@ -103,6 +103,7 @@ public class FollowRequestActivity extends BaseActivity {
             if (accountList.size() > 0) {
                 startId = accountList.size();
             }
+            flagLoading = accounts.pagination.max_id == null;
             accountList.addAll(accounts.accounts);
             max_id = accounts.pagination.max_id;
             accountAdapter.notifyItemRangeInserted(startId, accounts.accounts.size());

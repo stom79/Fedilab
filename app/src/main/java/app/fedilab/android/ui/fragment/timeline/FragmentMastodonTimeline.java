@@ -288,7 +288,7 @@ public class FragmentMastodonTimeline extends Fragment {
                 statuses.statuses = mediaStatuses;
             }
         }
-        flagLoading = (statuses.statuses.size() < MastodonHelper.statusesPerCall(requireActivity()));
+        flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && this.statuses != null) {
             int size = this.statuses.size();
@@ -362,14 +362,13 @@ public class FragmentMastodonTimeline extends Fragment {
      * @param fetched_statuses Statuses
      */
     private void dealWithPagination(Statuses fetched_statuses, DIRECTION direction) {
-        flagLoading = false;
         if (binding == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
 
-            flagLoading = (direction == DIRECTION.BOTTOM && fetched_statuses.statuses.size() < MastodonHelper.statusesPerCall(requireActivity()));
+            flagLoading = fetched_statuses.pagination.max_id == null;
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
                 List<Status> mediaStatuses = new ArrayList<>();

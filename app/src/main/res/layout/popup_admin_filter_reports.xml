@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_margin"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/status_unresolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/unresolved" />
+
+        <RadioButton
+            android:id="@+id/status_resolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resolved" />
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/origin_report"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/origin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/origin_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/all" />
+
+        <RadioButton
+            android:id="@+id/origin_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/local" />
+
+        <RadioButton
+            android:id="@+id/origin_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remote" />
+    </RadioGroup>
+
+
+</LinearLayout>

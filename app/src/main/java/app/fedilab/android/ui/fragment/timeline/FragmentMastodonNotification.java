@@ -192,7 +192,7 @@ public class FragmentMastodonNotification extends Fragment {
             binding.noAction.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
         }
-        flagLoading = notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
+        flagLoading = notifications.pagination.max_id == null;
         if (aggregateNotification) {
             notifications.notifications = aggregateNotifications(notifications.notifications);
         }
@@ -277,10 +277,9 @@ public class FragmentMastodonNotification extends Fragment {
      * @param fetched_notifications Notifications
      */
     private void dealWithPagination(Notifications fetched_notifications) {
-        flagLoading = false;
         binding.loadingNextElements.setVisibility(View.GONE);
         if (currentFragment.notifications != null && fetched_notifications != null && fetched_notifications.notifications != null) {
-            flagLoading = fetched_notifications.notifications.size() < MastodonHelper.notificationsPerCall(requireActivity());
+            flagLoading = fetched_notifications.pagination.max_id == null;
             if (aggregateNotification) {
                 fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
             }

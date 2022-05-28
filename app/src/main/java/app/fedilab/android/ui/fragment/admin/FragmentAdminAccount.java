@@ -135,7 +135,7 @@ public class FragmentAdminAccount extends Fragment {
 
         this.adminAccounts = adminAccounts.adminAccounts;
         adminAccountAdapter = new AdminAccountAdapter(this.adminAccounts);
-        flagLoading = (adminAccounts.adminAccounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
+        flagLoading = adminAccounts.pagination.max_id == null;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(adminAccountAdapter);
@@ -177,13 +177,12 @@ public class FragmentAdminAccount extends Fragment {
      * @param adminAccounts AdminAccounts
      */
     private void dealWithPagination(AdminAccounts adminAccounts) {
-        flagLoading = false;
         if (binding == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (this.adminAccounts != null && adminAccounts != null && adminAccounts.adminAccounts != null) {
-            flagLoading = (adminAccounts.adminAccounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
+            flagLoading = adminAccounts.pagination.max_id == null;
             int startId = 0;
             //There are some statuses present in the timeline
             if (this.adminAccounts.size() > 0) {
@@ -195,8 +194,6 @@ public class FragmentAdminAccount extends Fragment {
                 max_id = adminAccounts.pagination.max_id;
             }
             adminAccountAdapter.notifyItemRangeInserted(startId, adminAccounts.adminAccounts.size());
-        } else {
-            flagLoading = true;
         }
     }
 

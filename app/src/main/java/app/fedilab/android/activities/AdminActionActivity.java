@@ -33,6 +33,7 @@ import com.google.gson.annotations.SerializedName;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
+import app.fedilab.android.databinding.PopupAdminFilterReportsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminAccount;
@@ -41,6 +42,7 @@ import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 public class AdminActionActivity extends BaseActivity {
 
     public static Boolean local = true, remote = true, active = true, pending = true, disabled = true, silenced = true, suspended = true, staff = null, orderByMostRecent = true;
+    public static Boolean resolved = false, reportLocal = true, reportRemote = true;
     private ActivityAdminActionsBinding binding;
     private boolean canGoBack;
     private FragmentAdminReport fragmentAdminReport;
@@ -108,7 +110,7 @@ public class AdminActionActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        if (canGoBack && getTitle().toString().equalsIgnoreCase(getString(R.string.accounts))) {
+        if (canGoBack) {
             getMenuInflater().inflate(R.menu.menu_admin_account, menu);
         }
         return super.onCreateOptionsMenu(menu);
@@ -120,97 +122,150 @@ public class AdminActionActivity extends BaseActivity {
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_filter) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
-            PopupAdminFilterAccountsBinding binding = PopupAdminFilterAccountsBinding.inflate(getLayoutInflater());
-            alertDialogBuilder.setView(binding.getRoot());
-            if (local != null && remote == null) {
-                binding.locationLocal.setChecked(true);
-            } else if (remote != null && local == null) {
-                binding.locationRemote.setChecked(true);
-            } else {
-                binding.locationAll.setChecked(true);
-            }
-            binding.location.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.location_all) {
-                    local = true;
-                    remote = true;
-                } else if (checkedId == R.id.location_local) {
-                    local = true;
-                    remote = null;
-                } else if (checkedId == R.id.location_remote) {
-                    local = null;
-                    remote = true;
+            if (getTitle().toString().equalsIgnoreCase(getString(R.string.accounts))) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                PopupAdminFilterAccountsBinding binding = PopupAdminFilterAccountsBinding.inflate(getLayoutInflater());
+                alertDialogBuilder.setView(binding.getRoot());
+                if (local != null && remote == null) {
+                    binding.locationLocal.setChecked(true);
+                } else if (remote != null && local == null) {
+                    binding.locationRemote.setChecked(true);
+                } else {
+                    binding.locationAll.setChecked(true);
                 }
-            });
-            if (pending != null && suspended == null && active == null) {
-                binding.moderationPending.setChecked(true);
-            } else if (suspended != null && pending == null && active == null) {
-                binding.moderationSuspended.setChecked(true);
-            } else if (active != null && pending == null && suspended == null) {
-                binding.moderationActive.setChecked(true);
-            } else {
-                binding.moderationAll.setChecked(true);
-            }
-            binding.moderation.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.moderation_all) {
-                    active = true;
-                    suspended = true;
-                    pending = true;
-                } else if (checkedId == R.id.moderation_active) {
-                    active = true;
-                    suspended = null;
-                    pending = null;
-                } else if (checkedId == R.id.moderation_suspended) {
-                    active = null;
-                    suspended = true;
-                    pending = null;
-                } else if (checkedId == R.id.moderation_pending) {
-                    active = null;
-                    suspended = null;
-                    pending = true;
+                binding.location.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.location_all) {
+                        local = true;
+                        remote = true;
+                    } else if (checkedId == R.id.location_local) {
+                        local = true;
+                        remote = null;
+                    } else if (checkedId == R.id.location_remote) {
+                        local = null;
+                        remote = true;
+                    }
+                });
+                if (pending != null && suspended == null && active == null) {
+                    binding.moderationPending.setChecked(true);
+                } else if (suspended != null && pending == null && active == null) {
+                    binding.moderationSuspended.setChecked(true);
+                } else if (active != null && pending == null && suspended == null) {
+                    binding.moderationActive.setChecked(true);
+                } else {
+                    binding.moderationAll.setChecked(true);
                 }
-            });
-            if (staff != null) {
-                binding.permissionsStaff.setChecked(true);
-            } else {
-                binding.permissionsAll.setChecked(true);
-            }
-            binding.permissions.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.permissions_all) {
-                    staff = null;
-                } else if (checkedId == R.id.permissions_staff) {
-                    staff = true;
+                binding.moderation.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.moderation_all) {
+                        active = true;
+                        suspended = true;
+                        pending = true;
+                    } else if (checkedId == R.id.moderation_active) {
+                        active = true;
+                        suspended = null;
+                        pending = null;
+                    } else if (checkedId == R.id.moderation_suspended) {
+                        active = null;
+                        suspended = true;
+                        pending = null;
+                    } else if (checkedId == R.id.moderation_pending) {
+                        active = null;
+                        suspended = null;
+                        pending = true;
+                    }
+                });
+                if (staff != null) {
+                    binding.permissionsStaff.setChecked(true);
+                } else {
+                    binding.permissionsAll.setChecked(true);
                 }
-            });
-            if (orderByMostRecent != null) {
-                binding.orderByMostRecent.setChecked(true);
-            } else {
-                binding.orderByLastActive.setChecked(true);
-            }
-            binding.orderBy.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.order_by_most_recent) {
-                    orderByMostRecent = true;
-                } else if (checkedId == R.id.order_by_last_active) {
-                    orderByMostRecent = null;
+                binding.permissions.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.permissions_all) {
+                        staff = null;
+                    } else if (checkedId == R.id.permissions_staff) {
+                        staff = true;
+                    }
+                });
+                if (orderByMostRecent != null) {
+                    binding.orderByMostRecent.setChecked(true);
+                } else {
+                    binding.orderByLastActive.setChecked(true);
                 }
-            });
-            alertDialogBuilder.setPositiveButton(R.string.filter, (dialog, id) -> {
-                final FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-                ft1.detach(fragmentAdminAccount);
-                ft1.commit();
-                final FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-                ft2.attach(fragmentAdminAccount);
-                ft2.commit();
-                dialog.dismiss();
-            });
-            alertDialogBuilder.setNegativeButton(R.string.reset, (dialog, id) -> {
-                binding.locationAll.callOnClick();
-                binding.permissionsAll.callOnClick();
-                binding.moderationAll.callOnClick();
-                binding.orderByMostRecent.callOnClick();
-            });
-            AlertDialog alert = alertDialogBuilder.create();
-            alert.show();
+                binding.orderBy.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.order_by_most_recent) {
+                        orderByMostRecent = true;
+                    } else if (checkedId == R.id.order_by_last_active) {
+                        orderByMostRecent = null;
+                    }
+                });
+                alertDialogBuilder.setPositiveButton(R.string.filter, (dialog, id) -> {
+                    final FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+                    ft1.detach(fragmentAdminAccount);
+                    ft1.commit();
+                    final FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                    ft2.attach(fragmentAdminAccount);
+                    ft2.commit();
+                    dialog.dismiss();
+                });
+                alertDialogBuilder.setNegativeButton(R.string.reset, (dialog, id) -> {
+                    binding.locationAll.callOnClick();
+                    binding.permissionsAll.callOnClick();
+                    binding.moderationAll.callOnClick();
+                    binding.orderByMostRecent.callOnClick();
+                });
+                AlertDialog alert = alertDialogBuilder.create();
+                alert.show();
+            } else {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                PopupAdminFilterReportsBinding binding = PopupAdminFilterReportsBinding.inflate(getLayoutInflater());
+                alertDialogBuilder.setView(binding.getRoot());
+                if (resolved == null) {
+                    binding.statusUnresolved.setChecked(true);
+                } else {
+                    binding.statusResolved.setChecked(true);
+                }
+                binding.status.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.status_resolved) {
+                        resolved = true;
+                    } else if (checkedId == R.id.status_unresolved) {
+                        resolved = false;
+                    }
+                });
+                if (reportLocal != null && reportRemote == null) {
+                    binding.originLocal.setChecked(true);
+                } else if (reportRemote != null && reportLocal == null) {
+                    binding.originRemote.setChecked(true);
+                } else {
+                    binding.originAll.setChecked(true);
+                }
+                binding.origin.setOnCheckedChangeListener((group, checkedId) -> {
+                    if (checkedId == R.id.origin_all) {
+                        reportLocal = true;
+                        reportRemote = true;
+                    } else if (checkedId == R.id.origin_local) {
+                        reportLocal = true;
+                        reportRemote = null;
+                    } else if (checkedId == R.id.origin_remote) {
+                        reportLocal = null;
+                        reportRemote = true;
+                    }
+                });
+                alertDialogBuilder.setPositiveButton(R.string.filter, (dialog, id) -> {
+                    final FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+                    ft1.detach(fragmentAdminReport);
+                    ft1.commit();
+                    final FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                    ft2.attach(fragmentAdminReport);
+                    ft2.commit();
+                    dialog.dismiss();
+                });
+                alertDialogBuilder.setNegativeButton(R.string.reset, (dialog, id) -> {
+                    binding.originAll.callOnClick();
+                    binding.statusUnresolved.callOnClick();
+                });
+                AlertDialog alert = alertDialogBuilder.create();
+                alert.show();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }

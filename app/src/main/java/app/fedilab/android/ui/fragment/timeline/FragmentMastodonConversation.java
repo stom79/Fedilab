@@ -115,10 +115,10 @@ public class FragmentMastodonConversation extends Fragment {
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
                             timelinesVM.getConversations(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(FragmentMastodonConversation.this, fetched_conversations -> {
-                                        flagLoading = false;
                                         binding.loadingNextElements.setVisibility(View.GONE);
                                         if (currentFragment.conversations != null && fetched_conversations != null) {
                                             int startId = 0;
+                                            flagLoading = fetched_conversations.pagination.max_id == null;
                                             //There are some statuses present in the timeline
                                             if (currentFragment.conversations.size() > 0) {
                                                 startId = currentFragment.conversations.size();
@@ -126,8 +126,6 @@ public class FragmentMastodonConversation extends Fragment {
                                             currentFragment.conversations.addAll(fetched_conversations.conversations);
                                             max_id = fetched_conversations.pagination.max_id;
                                             conversationAdapter.notifyItemRangeInserted(startId, fetched_conversations.conversations.size());
-                                        } else {
-                                            flagLoading = true;
                                         }
                                     });
                         }

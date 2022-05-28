@@ -1610,6 +1610,9 @@
     <string name="domain">Domain</string>
     <string name="approved">Approved</string>
     <string name="approve">Approve</string>
+    <string name="origin_report">Origin of reported account</string>
+    <string name="status">Status</string>
+    <string name="resolved">Resolved</string>
 
 
 </resources>

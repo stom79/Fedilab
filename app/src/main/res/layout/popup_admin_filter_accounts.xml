@@ -13,6 +13,7 @@
 
     <RadioGroup
         android:id="@+id/location"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -40,6 +41,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/location"
         android:textSize="16sp" />
 
@@ -47,7 +49,7 @@
         android:id="@+id/moderation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -79,6 +81,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/permissions"
         android:textSize="16sp" />
 
@@ -86,7 +89,7 @@
         android:id="@+id/permissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -107,13 +110,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/order_by"
+        android:layout_marginTop="10dp"
         android:textSize="16sp" />
 
     <RadioGroup
         android:id="@+id/order_by"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <RadioButton

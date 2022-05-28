@@ -36,7 +36,6 @@ import app.fedilab.android.client.entities.api.AdminReport;
 import app.fedilab.android.client.entities.api.AdminReports;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
@@ -117,7 +116,7 @@ public class FragmentAdminReport extends Fragment {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
         }
-        flagLoading = (adminReports.adminReports.size() < MastodonHelper.statusesPerCall(requireActivity()));
+        flagLoading = adminReports.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && this.adminReports != null) {
             int size = this.adminReports.size();
@@ -179,13 +178,13 @@ public class FragmentAdminReport extends Fragment {
      * @param admReports AdminReports
      */
     private void dealWithPagination(AdminReports admReports) {
-        flagLoading = false;
+
         if (binding == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (adminReports != null && admReports != null && admReports.adminReports != null && admReports.adminReports.size() > 0) {
-            flagLoading = (admReports.adminReports.size() < MastodonHelper.statusesPerCall(requireActivity()));
+            flagLoading = admReports.pagination.max_id == null;
             //There are some adminReports present in the timeline
             int startId = adminReports.size();
             adminReports.addAll(admReports.adminReports);

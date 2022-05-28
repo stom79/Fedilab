@@ -198,7 +198,7 @@ public class FragmentMastodonAccount extends Fragment {
 
         this.accounts = accounts.accounts;
         accountAdapter = new AccountAdapter(this.accounts);
-        flagLoading = (accounts.accounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
+        flagLoading = accounts.pagination.max_id == null;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(accountAdapter);
@@ -240,13 +240,13 @@ public class FragmentMastodonAccount extends Fragment {
      * @param fetched_accounts Accounts
      */
     private void dealWithPagination(Accounts fetched_accounts) {
-        flagLoading = false;
+
         if (binding == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (accounts != null && fetched_accounts != null && fetched_accounts.accounts != null) {
-            flagLoading = (fetched_accounts.accounts.size() < MastodonHelper.accountsPerCall(requireActivity()));
+            flagLoading = fetched_accounts.pagination.max_id == null;
             int startId = 0;
             //There are some statuses present in the timeline
             if (accounts.size() > 0) {
