@@ -78,6 +78,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.ActionActivity;
+import app.fedilab.android.activities.AdminActionActivity;
 import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
@@ -337,6 +338,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_follow_requests) {
                 Intent intent = new Intent(this, FollowRequestActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_administration) {
+                Intent intent = new Intent(this, AdminActionActivity.class);
+                startActivity(intent);
             }
             binding.drawerLayout.close();
             return false;
@@ -570,6 +574,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
                 if (account.mastodon_account.locked) {
                     binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
+                }
+                if (account.admin) {
+                    binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
                 }
                 if (bottomMenu != null) {
                     //ManageClick on bottom menu items

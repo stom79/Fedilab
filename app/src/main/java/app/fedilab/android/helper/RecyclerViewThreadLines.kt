@@ -43,7 +43,7 @@ class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<L
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val position = parent.getChildAdapterPosition(view)
-        if (position < 0) return
+        if (position < 0 || position >= lineInfoList.size) return
         val level = lineInfoList[position].level
         val startMargin = margin * level + margin * fontScale
         if (parent.layoutDirection == View.LAYOUT_DIRECTION_LTR) outRect.left = startMargin else outRect.right = startMargin
@@ -54,7 +54,7 @@ class RecyclerViewThreadLines(context: Context, private val lineInfoList: List<L
         for (i in 0 until childCount) {
             val view = parent.getChildAt(i)
             val position = parent.getChildAdapterPosition(view)
-            if (position < 0) return
+            if (position < 0 || position >= lineInfoList.size) return
             val lineInfo = lineInfoList[position]
             val level = lineInfo.level
 

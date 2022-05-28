@@ -16,29 +16,34 @@ package app.fedilab.android.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class AdminReport {
+public class AdminReport implements Serializable {
 
     @SerializedName("id")
     public String id;
+    @SerializedName("account")
+    public Account account;
     @SerializedName("action_taken")
     public String action_taken;
+    @SerializedName("action_taken_by_account")
+    public String action_taken_by_account;
+    @SerializedName("assigned_account")
+    public Account assigned_account;
+    @SerializedName("category")
+    public String category;
     @SerializedName("comment")
     public String comment;
     @SerializedName("created_at")
     public Date created_at;
-    @SerializedName("updated_at")
-    public Date updated_at;
-    @SerializedName("account")
-    public Account account;
     @SerializedName("target_account")
     public Account target_account;
-    @SerializedName("assigned_account")
-    public Account assigned_account;
-    @SerializedName("action_taken_by_account")
-    public String action_taken_by_account;
     @SerializedName("statuses")
     public List<Status> statuses;
+    @SerializedName("rules")
+    public List<Instance.Rule> rules;
+    @SerializedName("updated_at")
+    public Date updated_at;
 }

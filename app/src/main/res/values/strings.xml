@@ -1602,6 +1602,11 @@
     <string name="also_favourite_by">"Also favourited by: "</string>
     <string name="also_boosted_by">Also boosted by:</string>
     <string name="admin_scope">I am a moderator</string>
+    <string name="last_active">Last active</string>
+    <string name="location">Location</string>
+    <string name="staff">Staff</string>
+    <string name="most_recent">Most recent</string>
+    <string name="filter">Filter</string>
 
 
 </resources>

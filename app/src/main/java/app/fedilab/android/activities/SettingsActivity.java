@@ -32,7 +32,6 @@ import java.util.Locale;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivitySettingsBinding;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.fragment.settings.FragmentAdministrationSettings;
 import app.fedilab.android.ui.fragment.settings.FragmentComposeSettings;
 import app.fedilab.android.ui.fragment.settings.FragmentInterfaceSettings;
 import app.fedilab.android.ui.fragment.settings.FragmentLanguageSettings;
@@ -119,12 +118,6 @@ public class SettingsActivity extends BaseActivity {
                     fragmentTransaction.replace(R.id.fragment_container, fragmentThemingSettings);
                     currentFragment = fragmentThemingSettings;
                     category = getString(R.string.theming);
-                    break;
-                case ADMINISTRATION:
-                    FragmentAdministrationSettings fragmentAdministrationSettings = new FragmentAdministrationSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentAdministrationSettings);
-                    currentFragment = fragmentAdministrationSettings;
-                    category = getString(R.string.administration);
                     break;
                 case LANGUAGE:
                     FragmentLanguageSettings fragmentLanguageSettings = new FragmentLanguageSettings();

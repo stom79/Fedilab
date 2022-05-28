@@ -109,7 +109,9 @@ public interface MastodonAdminService {
             @Header("Authorization") String token,
             @Field("resolved") Boolean resolved,
             @Field("account_id") String account_id,
-            @Field("target_account_id") String target_account_id
+            @Field("target_account_id") String target_account_id,
+            @Field("max_id") String max_id,
+            @Field("limit") int limit
     );
 
     @FormUrlEncoded

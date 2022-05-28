@@ -29,8 +29,11 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonAdminService;
 import app.fedilab.android.client.entities.api.AdminAccount;
+import app.fedilab.android.client.entities.api.AdminAccounts;
 import app.fedilab.android.client.entities.api.AdminReport;
+import app.fedilab.android.client.entities.api.AdminReports;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.MastodonHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -46,9 +49,9 @@ public class AdminVM extends AndroidViewModel {
             .proxy(Helper.getProxy(getApplication().getApplicationContext()))
             .build();
     private MutableLiveData<AdminAccount> adminAccountMutableLiveData;
-    private MutableLiveData<List<AdminAccount>> adminAccountListMutableLiveData;
+    private MutableLiveData<AdminAccounts> adminAccountsListMutableLiveData;
     private MutableLiveData<AdminReport> adminReportMutableLiveData;
-    private MutableLiveData<List<AdminReport>> adminReportListMutableLiveData;
+    private MutableLiveData<AdminReports> adminReporstListMutableLiveData;
 
     public AdminVM(@NonNull Application application) {
         super(application);
@@ -83,47 +86,48 @@ public class AdminVM extends AndroidViewModel {
      * @param staff       Filter for staff accounts?
      * @return {@link LiveData} containing a {@link List} of {@link AdminAccount}s
      */
-    public LiveData<List<AdminAccount>> getAccounts(@NonNull String instance,
-                                                    String token,
-                                                    Boolean local,
-                                                    Boolean remote,
-                                                    String byDomain,
-                                                    Boolean active,
-                                                    Boolean pending,
-                                                    Boolean disabled,
-                                                    Boolean silenced,
-                                                    Boolean suspended,
-                                                    String username,
-                                                    String displayName,
-                                                    String email,
-                                                    String ip,
-                                                    Boolean staff,
-                                                    String maxId,
-                                                    String sinceId,
-                                                    Integer limit) {
+    public LiveData<AdminAccounts> getAccounts(@NonNull String instance,
+                                               String token,
+                                               Boolean local,
+                                               Boolean remote,
+                                               String byDomain,
+                                               Boolean active,
+                                               Boolean pending,
+                                               Boolean disabled,
+                                               Boolean silenced,
+                                               Boolean suspended,
+                                               String username,
+                                               String displayName,
+                                               String email,
+                                               String ip,
+                                               Boolean staff,
+                                               String maxId,
+                                               String sinceId,
+                                               Integer limit) {
         MastodonAdminService mastodonAdminService = init(instance);
-        adminAccountListMutableLiveData = new MutableLiveData<>();
+        adminAccountsListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            List<AdminAccount> adminAccountList = null;
             Call<List<AdminAccount>> getAccountsCall = mastodonAdminService.getAccounts(
                     token, local, remote, byDomain, active, pending, disabled, silenced, suspended,
                     username, displayName, email, ip, staff, maxId, sinceId, limit);
+            AdminAccounts adminAccounts = new AdminAccounts();
             if (getAccountsCall != null) {
                 try {
                     Response<List<AdminAccount>> getAccountsResponse = getAccountsCall.execute();
+
                     if (getAccountsResponse.isSuccessful()) {
-                        adminAccountList = getAccountsResponse.body();
+                        adminAccounts.adminAccounts = getAccountsResponse.body();
+                        adminAccounts.pagination = MastodonHelper.getPagination(getAccountsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<AdminAccount> finalAdminAccountList = adminAccountList;
-            Runnable myRunnable = () -> adminAccountListMutableLiveData.setValue(finalAdminAccountList);
+            Runnable myRunnable = () -> adminAccountsListMutableLiveData.setValue(adminAccounts);
             mainHandler.post(myRunnable);
         }).start();
-        return adminAccountListMutableLiveData;
+        return adminAccountsListMutableLiveData;
     }
 
     /**
@@ -358,32 +362,35 @@ public class AdminVM extends AndroidViewModel {
      * @param token    Access token of the active account
      * @return {@link LiveData} containing a {@link List} of {@link AdminReport}s
      */
-    public LiveData<List<AdminReport>> getReports(@NonNull String instance,
-                                                  String token,
-                                                  Boolean resolved,
-                                                  String accountId,
-                                                  String targetAccountId) {
+    public LiveData<AdminReports> getReports(@NonNull String instance,
+                                             String token,
+                                             Boolean resolved,
+                                             String accountId,
+                                             String targetAccountId,
+                                             String max_id) {
         MastodonAdminService mastodonAdminService = init(instance);
-        adminReportListMutableLiveData = new MutableLiveData<>();
+        adminReporstListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            List<AdminReport> adminReportList = null;
-            Call<List<AdminReport>> getReportsCall = mastodonAdminService.getReports(token, resolved, accountId, targetAccountId);
+            List<AdminReport> adminReportList;
+            Call<List<AdminReport>> getReportsCall = mastodonAdminService.getReports(token, resolved, accountId, targetAccountId, max_id, MastodonHelper.statusesPerCall(getApplication()));
+            AdminReports adminReports = new AdminReports();
             if (getReportsCall != null) {
                 try {
                     Response<List<AdminReport>> getReportsResponse = getReportsCall.execute();
                     if (getReportsResponse.isSuccessful()) {
                         adminReportList = getReportsResponse.body();
+                        adminReports.adminReports = adminReportList;
+                        adminReports.pagination = MastodonHelper.getPagination(getReportsResponse.headers());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<AdminReport> finalAdminReportList = adminReportList;
-            Runnable myRunnable = () -> adminReportListMutableLiveData.setValue(finalAdminReportList);
+            Runnable myRunnable = () -> adminReporstListMutableLiveData.setValue(adminReports);
             mainHandler.post(myRunnable);
         }).start();
-        return adminReportListMutableLiveData;
+        return adminReporstListMutableLiveData;
     }
 
     /**

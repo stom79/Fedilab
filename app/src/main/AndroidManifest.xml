@@ -101,6 +101,11 @@
             android:label="@string/interactions"
             android:theme="@style/AppThemeBar" />
         <activity
+            android:name=".activities.AdminActionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/administration"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".activities.MastodonListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_lists"

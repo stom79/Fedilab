@@ -16,10 +16,11 @@ package app.fedilab.android.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class AdminAccount {
+public class AdminAccount implements Serializable {
 
     @SerializedName("id")
     public String id;
@@ -59,7 +60,7 @@ public class AdminAccount {
     public String invited_by_account_id;
 
 
-    public final class IP {
+    public static class IP implements Serializable {
         @SerializedName("ip")
         public String ip;
         @SerializedName("used_at")

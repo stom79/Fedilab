@@ -38,6 +38,11 @@
             android:title="@string/follow_request"
             android:visible="false" />
         <item
+            android:id="@+id/nav_administration"
+            android:icon="@drawable/ic_baseline_admin_panel_settings_24"
+            android:title="@string/administration"
+            android:visible="false" />
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_baseline_settings_24"
             android:title="@string/settings" />

@@ -16,7 +16,6 @@ package app.fedilab.android.ui.fragment.timeline;
 
 import static app.fedilab.android.activities.ContextActivity.displayCW;
 import static app.fedilab.android.activities.ContextActivity.expand;
-import static app.fedilab.android.helper.RecyclerViewThreadLinesKt.getThreadDecorationInfo;
 
 import android.content.BroadcastReceiver;
 import android.content.Intent;
@@ -44,9 +43,8 @@ import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
+import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.RecyclerViewThreadLines;
-import app.fedilab.android.helper.RecyclerViewThreadLines.LineInfo;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
@@ -60,7 +58,6 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
-    private RecyclerViewThreadLines recyclerViewThreadLines;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -252,9 +249,7 @@ public class FragmentMastodonContext extends Fragment {
                 binding.recyclerView.removeItemDecorationAt(i);
             }
         }
-        List<LineInfo> threadDecorationInfo = getThreadDecorationInfo(context);
-        recyclerViewThreadLines = new RecyclerViewThreadLines(requireContext(), threadDecorationInfo);
-        binding.recyclerView.addItemDecoration(recyclerViewThreadLines);
+        binding.recyclerView.addItemDecoration(new DividerDecoration(requireActivity(), statuses));
         binding.swipeContainer.setRefreshing(false);
         binding.recyclerView.scrollToPosition(statusPosition);
     }
@@ -262,7 +257,6 @@ public class FragmentMastodonContext extends Fragment {
     @Override
     public void onDestroyView() {
         binding.recyclerView.setAdapter(null);
-        binding.recyclerView.removeItemDecoration(recyclerViewThreadLines);
         statusAdapter = null;
         binding = null;
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
