@@ -76,6 +76,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
+            android:name=".activities.AdminAccountActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/account" />
+        <activity
             android:name=".activities.ScheduledActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/scheduled" />

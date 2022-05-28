@@ -1607,6 +1607,9 @@
     <string name="staff">Staff</string>
     <string name="most_recent">Most recent</string>
     <string name="filter">Filter</string>
+    <string name="domain">Domain</string>
+    <string name="approved">Approved</string>
+    <string name="approve">Approve</string>
 
 
 </resources>

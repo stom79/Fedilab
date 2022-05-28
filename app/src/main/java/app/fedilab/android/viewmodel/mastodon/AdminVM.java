@@ -181,7 +181,7 @@ public class AdminVM extends AndroidViewModel {
                               String reportId,
                               String warningPresetId,
                               String text,
-                              boolean sendEmailNotification) {
+                              Boolean sendEmailNotification) {
         MastodonAdminService mastodonAdminService = init(instance);
         new Thread(() -> {
             Call<Void> performActionCall = mastodonAdminService.performAction(token, accountId, type, reportId, warningPresetId, text, sendEmailNotification);

@@ -15,6 +15,9 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Locale;
 
+import app.fedilab.android.activities.AdminAccountActivity;
 import app.fedilab.android.client.entities.api.AdminAccount;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
 import app.fedilab.android.helper.Helper;
@@ -33,6 +37,7 @@ import app.fedilab.android.helper.MastodonHelper;
 public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<AdminAccount> adminAccountList;
+    private Context context;
 
     public AdminAccountAdapter(List<AdminAccount> adminAccountList) {
         this.adminAccountList = adminAccountList;
@@ -49,6 +54,7 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
         DrawerAdminAccountBinding itemBinding = DrawerAdminAccountBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new AccountAdminViewHolder(itemBinding);
     }
@@ -58,6 +64,14 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         AdminAccount adminAccount = adminAccountList.get(position);
         AccountAdminViewHolder holder = (AccountAdminViewHolder) viewHolder;
         MastodonHelper.loadPPMastodon(holder.binding.pp, adminAccount.account);
+        holder.binding.adminAccountContainer.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AdminAccountActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable(Helper.ARG_ACCOUNT, adminAccount);
+            intent.putExtras(b);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
         holder.binding.username.setText(adminAccount.account.display_name);
         holder.binding.acct.setText(String.format(Locale.getDefault(), "@%s", adminAccount.account.acct));
         holder.binding.postCount.setText(String.valueOf(adminAccount.account.statuses_count));
