@@ -807,7 +807,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
         }
-        if (status.spoiler_text == null || status.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
+        if (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
             if (statusToDeal.content.trim().length() == 0) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
