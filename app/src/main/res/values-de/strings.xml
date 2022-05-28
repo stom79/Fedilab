@@ -1255,4 +1255,10 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="also_boosted_by">Auch geboostet von:</string>
     <string name="set_unfollow_validation_title">Entfolgen bestätigen</string>
     <string name="also_favourite_by">"Auch favorisiert von: "</string>
+    <string name="admin_scope">Ich bin ein Moderator</string>
+    <string name="last_active">Zuletzt aktiv</string>
+    <string name="location">Standort</string>
+    <string name="approved">Genehmigt</string>
+    <string name="origin_report">Ursprung des gemeldeten Kontos</string>
+    <string name="resolved">Gelöst</string>
 </resources>
