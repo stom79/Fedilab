@@ -103,15 +103,15 @@ public interface MastodonAdminService {
             @Path("account_id") String account_id
     );
 
-    @FormUrlEncoded
+
     @GET("admin/reports")
     Call<List<AdminReport>> getReports(
             @Header("Authorization") String token,
-            @Field("resolved") Boolean resolved,
-            @Field("account_id") String account_id,
-            @Field("target_account_id") String target_account_id,
-            @Field("max_id") String max_id,
-            @Field("limit") int limit
+            @Query("resolved") Boolean resolved,
+            @Query("account_id") String account_id,
+            @Query("target_account_id") String target_account_id,
+            @Query("max_id") String max_id,
+            @Query("limit") int limit
     );
 
     @FormUrlEncoded

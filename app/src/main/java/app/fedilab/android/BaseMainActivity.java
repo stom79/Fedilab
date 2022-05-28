@@ -77,6 +77,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.ActionActivity;
 import app.fedilab.android.activities.AdminActionActivity;
 import app.fedilab.android.activities.BaseActivity;
@@ -340,6 +341,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_administration) {
                 Intent intent = new Intent(this, AdminActionActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_about) {
+                Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
             }
             binding.drawerLayout.close();

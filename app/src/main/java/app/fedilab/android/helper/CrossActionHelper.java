@@ -354,6 +354,52 @@ public class CrossActionHelper {
         }).start();
     }
 
+    /**
+     * Fetch and federate the remote status
+     */
+    public static void fetchRemoteAccount(@NonNull Context context, String acct, Callback callback) {
+
+
+        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        new Thread(() -> {
+            Call<Results> resultsCall = mastodonSearchService.search(MainActivity.currentToken, acct, null, "accounts", false, true, false, 0, null, null, 1);
+            Results results = null;
+            if (resultsCall != null) {
+                try {
+                    Response<Results> resultsResponse = resultsCall.execute();
+                    if (resultsResponse.isSuccessful()) {
+                        results = resultsResponse.body();
+                        if (results != null) {
+                            if (results.statuses == null) {
+                                results.statuses = new ArrayList<>();
+                            } else {
+                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
+                            }
+                            if (results.accounts == null) {
+                                results.accounts = new ArrayList<>();
+                            }
+                            if (results.hashtags == null) {
+                                results.hashtags = new ArrayList<>();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Results finalResults = results;
+            Runnable myRunnable = () -> {
+                if (finalResults != null && finalResults.accounts != null && finalResults.accounts.size() > 0) {
+                    callback.federatedAccount(finalResults.accounts.get(0));
+                }
+            };
+            mainHandler.post(myRunnable);
+
+        }).start();
+    }
+
+
     public enum TypeOfCrossAction {
         FOLLOW_ACTION,
         UNFOLLOW_ACTION,
