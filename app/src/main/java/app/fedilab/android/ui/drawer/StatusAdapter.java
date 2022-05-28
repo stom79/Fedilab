@@ -812,7 +812,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
                 holder.binding.statusContent.setVisibility(View.VISIBLE);
-
             }
         } else {
             holder.binding.statusContent.setVisibility(View.GONE);

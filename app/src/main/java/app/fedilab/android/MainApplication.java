@@ -29,8 +29,8 @@ import com.jaredrummler.cyanea.prefs.CyaneaTheme;
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
-import org.acra.config.NotificationConfigurationBuilder;
 import org.acra.data.StringFormat;
 
 import java.util.List;
@@ -89,11 +89,13 @@ public class MainApplication extends MultiDexApplication {
                                     .withReportFileName("crash_report.txt")
                                     .withSubject("[Fedilab] - Crash Report " + BuildConfig.VERSION_CODE)
                                     .build(),
-                            new NotificationConfigurationBuilder()
+                            new DialogConfigurationBuilder()
                                     .withResIcon(R.mipmap.ic_launcher)
-                                    .withChannelName(getString(R.string.set_crash_reports))
-                                    .withTitle(getString(R.string.crash_title))
-                                    .withText(getString(R.string.crash_message))
+                                    .withText(getString(R.string.crash_title))
+                                    .withCommentPrompt(getString(R.string.crash_message))
+                                    .withResTheme(R.style.DialogDark)
+                                    .withPositiveButtonText(getString(R.string.send_email))
+                                    .withNegativeButtonText(getString(R.string.cancel))
                                     .build()
                     ).withReportContent(
                             ReportField.INSTALLATION_ID,
