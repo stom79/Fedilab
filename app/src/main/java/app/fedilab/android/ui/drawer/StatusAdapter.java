@@ -347,7 +347,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         }
-        if (status.card != null && (display_card || status.isFocused) & status.card.description.trim().length() > 0) {
+        if (status.card != null && (display_card || status.isFocused)) {
             if (status.card.width > status.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
