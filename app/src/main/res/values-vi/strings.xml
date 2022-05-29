@@ -1269,4 +1269,16 @@
     <string name="select_a_theme">Chọn một theme</string>
     <string name="also_boosted_by">Đã đăng lại bởi:</string>
     <string name="also_favourite_by">"Đã thích bởi: "</string>
+    <string name="admin_scope">Tôi là đội ngũ vận hành</string>
+    <string name="last_active">Online</string>
+    <string name="location">Vị trí</string>
+    <string name="staff">Nhân viên</string>
+    <string name="most_recent">Gần đây nhất</string>
+    <string name="filter">Bộ lọc</string>
+    <string name="domain">Tên miền</string>
+    <string name="origin_report">Nguồn gốc tài khoản bị báo cáo</string>
+    <string name="status">Trạng thái</string>
+    <string name="resolved">Đã xử lý</string>
+    <string name="approved">Đã duyệt</string>
+    <string name="approve">Duyệt</string>
 </resources>
