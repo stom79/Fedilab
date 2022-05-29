@@ -54,19 +54,10 @@ public class LoginActivity extends BaseActivity {
     private final int PICK_IMPORT = 5557;
     private boolean requestedAdmin;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        setContentView(new FrameLayout(this));
 
-        Helper.addFragment(getSupportFragmentManager(), android.R.id.content, new FragmentLoginMain(), null, null, null);
-        requestedAdmin = false;
-        //The activity handles a redirect URI, it will extract token code and will proceed to authentication
-        //That happens when the user wants to use an external browser
-        if (getIntent() != null && getIntent().getData() != null && getIntent().getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {
-            String url = getIntent().getData().toString();
+    private void manageItent(Intent intent) {
+        if (intent != null && intent.getData() != null && intent.getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {
+            String url = intent.getData().toString();
             Matcher matcher = Helper.codePattern.matcher(url);
             if (!matcher.find()) {
                 Toasty.error(LoginActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
@@ -106,6 +97,27 @@ public class LoginActivity extends BaseActivity {
                         });
             }
         }
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        manageItent(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ThemeHelper.applyTheme(this);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        setContentView(new FrameLayout(this));
+
+        Helper.addFragment(getSupportFragmentManager(), android.R.id.content, new FragmentLoginMain(), null, null, null);
+        requestedAdmin = false;
+        //The activity handles a redirect URI, it will extract token code and will proceed to authentication
+        //That happens when the user wants to use an external browser
+        manageItent(getIntent());
     }
 
     public boolean requestedAdmin() {

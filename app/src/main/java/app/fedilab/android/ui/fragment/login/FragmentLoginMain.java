@@ -142,6 +142,9 @@ public class FragmentLoginMain extends Fragment {
             binding.continueButton.setEnabled(false);
             NodeInfoVM nodeInfoVM = new ViewModelProvider(requireActivity()).get(NodeInfoVM.class);
             nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString()).observe(requireActivity(), nodeInfo -> {
+                if (nodeInfo == null) {
+                    return;
+                }
                 binding.continueButton.setEnabled(true);
                 BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
                 switch (nodeInfo.software.name.toUpperCase().trim()) {

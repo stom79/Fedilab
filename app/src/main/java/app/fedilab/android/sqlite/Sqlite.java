@@ -95,7 +95,7 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_APP_CLIENT_ID + " TEXT NOT NULL, "
             + COL_APP_CLIENT_SECRET + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL,"
-            + COL_ADMIN + "INTEGER NOT NULL DEFAULT 0,"
+            + COL_ADMIN + " INTEGER NOT NULL DEFAULT 0,"
             + COL_UPDATED_AT + " TEXT)";
     private static final String CREATE_TABLE_TIMELINES = "CREATE TABLE IF NOT EXISTS " + TABLE_TIMELINES + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
