@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Malfermi la menuo</string>
-    <string name="navigation_drawer_close">Fermi la menuo</string>
+    <string name="navigation_drawer_open">Malfermi la menuon</string>
+    <string name="navigation_drawer_close">Fermi la menuon</string>
     <string name="action_about">Pri</string>
     <string name="action_about_instance">Pri la servilo</string>
     <string name="action_privacy">Privateco</string>
@@ -14,29 +14,29 @@
     <string name="no">Ne</string>
     <string name="cancel">Nuligi</string>
     <string name="download">Elŝuti</string>
-    <string name="download_file">Elŝutante %1$s</string>
-    <string name="save_over">Aŭdvidaĵo savita</string>
+    <string name="download_file">Elŝuti %1$s</string>
+    <string name="save_over">Aŭdvidaĵo konservita</string>
     <string name="download_from" formatted="false">Dosiero: %1$s</string>
     <string name="password">Pasvorto</string>
     <string name="email">Retpoŝto</string>
-    <string name="accounts">Kontaj</string>
-    <string name="toots">Mesaĝoj</string>
+    <string name="accounts">Kontoj</string>
+    <string name="toots">Hupoj</string>
     <string name="tags">Etikedoj</string>
-    <string name="save">Konservu</string>
-    <string name="restore">Restarigu</string>
-    <string name="no_result">Neniu rezultoj!</string>
+    <string name="save">Konservi</string>
+    <string name="restore">Restarigi</string>
+    <string name="no_result">Neniu rezulto!</string>
     <string name="instance">Instanco</string>
     <string name="instance_example">Instanco: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Nun laboras kun la konto %1$s</string>
+    <string name="toast_account_changed" formatted="false">Nun funkcias kun la konto %1$s</string>
     <string name="add_account">Aldoni konton</string>
-    <string name="clipboard">La enhavo de la hup estis kopiita al la tondujo</string>
-    <string name="clipboard_url">La URL de la hup estis kopiita al la tondujo</string>
+    <string name="clipboard">La enhavo de la hupo estis kopiita al la tondujo</string>
+    <string name="clipboard_url">La URL de la hupo estis kopiita al la tondujo</string>
     <string name="change">Ŝangi</string>
     <string name="choose_picture">Elekti bildon…</string>
     <string name="clear">Pura</string>
     <string name="camera">Fotilo</string>
     <string name="delete_all">Forigu ĉiujn</string>
-    <string name="translate_toot">Traduki tiun Mesaĝon.</string>
+    <string name="translate_toot">Traduki tiun hupon.</string>
     <string name="schedule">Plano</string>
     <string name="text_size">Teksto kaj ikono grandecoj</string>
     <string name="text_size_change">Ŝanĝi la nunan tekstan grandecon:</string>
@@ -77,7 +77,7 @@
     <string name="send_email">Sendi per retmesaĝo</string>
     <string name="click_to_change">Tap on the path to change it</string>
     <string name="failed">Fiaskis!</string>
-    <string name="scheduled_toots">Planita hupoj</string>
+    <string name="scheduled_toots">Planitaj hupoj</string>
     <string name="disclaimer_full">Subaj informoj povas nekomplete prezenti la profilon de la uzanto.</string>
     <string name="insert_emoji">Enmeti emoĝion</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
@@ -85,16 +85,16 @@
     <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Neniu hup por montri</string>
+    <string name="no_status">Neniu hupo por montri</string>
     <string name="no_stories">No stories to display</string>
-    <string name="stories">Stories</string>
+    <string name="stories">Rakontoj</string>
     <string name="reblog_by">Diskonigita de %1$s</string>
-    <string name="favourite_add">Aldoni mesaĝon al vian stelumajn?</string>
-    <string name="favourite_remove">Remove this toot from your favourites?</string>
-    <string name="reblog_add">Diskonigi ĉi-tiun mesaĝon?</string>
+    <string name="favourite_add">Aldoni hupon al viajn stelumajn\?</string>
+    <string name="favourite_remove">Ĉu forigi ĉi tiun hupon el viajn stelumajn\?</string>
+    <string name="reblog_add">Diskonigi ĉi tiun hupon\?</string>
     <string name="reblog_remove">Nuligi diskonigon?</string>
-    <string name="pin_add">Aplingi ĉi-tiu hup?</string>
-    <string name="pin_remove">Malaplingi ĉi-tiu hup?</string>
+    <string name="pin_add">Alpingli ĉi tiun hupon\?</string>
+    <string name="pin_remove">Malalpingli ĉi tiun hupon\?</string>
     <string name="more_action_1">Silentigi</string>
     <string name="more_action_2">Bloki</string>
     <string name="more_action_3">Raporti</string>
@@ -130,22 +130,22 @@
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d m</string>
     <string name="date_hours">%d h</string>
-    <string name="date_day">%d d</string>
+    <string name="date_day">%d t</string>
     <plurals name="date_seconds_polls">
-        <item quantity="one">%d second</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">%d sekundo</item>
+        <item quantity="other">%d sekundoj</item>
     </plurals>
     <plurals name="date_minutes_polls">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutoj</item>
     </plurals>
     <plurals name="date_hours_polls">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d horo</item>
+        <item quantity="other">%d horoj</item>
     </plurals>
     <plurals name="date_day_polls">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">%d tago</item>
+        <item quantity="other">%d tagoj</item>
     </plurals>
     <!-- TOOT -->
     <string name="toot_cw_placeholder">Averto</string>
@@ -153,16 +153,16 @@
     <string name="toot_it">HUP!</string>
     <string name="queet_it">QUEET!</string>
     <string name="cw">ea</string>
-    <string name="toot_title">Skribi mesaĝo</string>
-    <string name="toot_title_reply">Respondi mesaĝon</string>
+    <string name="toot_title">Skribi hupon</string>
+    <string name="toot_title_reply">Respondi al hupo</string>
     <string name="queet_title">Skribi queet</string>
     <string name="queet_title_reply">Respondi queet</string>
     <string name="toot_select_image">Elekti aŭdovidaĵon</string>
     <string name="toot_select_image_error">An error occurred while selecting the media!</string>
-    <string name="toot_delete_media">Forigi ĉi tiun aŭdovidaĵon?</string>
-    <string name="toot_error_no_content">Via mesaĝo estas malplena!</string>
-    <string name="toot_sent">La mesaĝo estis sendita!</string>
-    <string name="toot_reply_content_title">You are replying to this toot:</string>
+    <string name="toot_delete_media">Ĉu forigi ĉi tiun aŭdovidaĵon\?</string>
+    <string name="toot_error_no_content">Via hupo estas malplena!</string>
+    <string name="toot_sent">La hupo estis sendita!</string>
+    <string name="toot_reply_content_title">Vi respondas al la jena hupo:</string>
     <string name="toot_sensitive">Tikla enhavo?</string>
     <string-array name="toot_visibility">
         <item>Afiŝi en publikaj tempolinioj</item>
@@ -171,7 +171,7 @@
         <item>Afiŝi nur al menciitaj uzantoj</item>
     </string-array>
     <string name="no_draft">Neniu malnetoj!</string>
-    <string name="choose_toot">Elekti mesaĝo</string>
+    <string name="choose_toot">Elekti hupon</string>
     <string name="choose_accounts">Elekti kontojn</string>
     <string name="select_accounts">Elekti kelkaj kontoj</string>
     <string name="remove_draft">Forigi malneto?</string>
@@ -193,15 +193,16 @@
     <!-- Accounts -->
     <string name="no_accounts">Neniu konto por montri</string>
     <string name="no_follow_request">Ne sekva peton</string>
-    <string name="status_cnt">Mesaĝoj \n %1$s</string>
+    <string name="status_cnt">Hupoj
+\n %1$s</string>
     <string name="following_cnt">Sekvante \n %1$s</string>
     <string name="followers_cnt">Sekvante \n %1$s</string>
     <string name="pins_cnt">Kovris \n %d</string>
     <string name="authorize">Akcepti</string>
     <string name="reject">Malakcepti</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Neniu planitaj mesajoj por montri!</string>
-    <string name="no_scheduled_toots_indications">Skribi mesaĵo kaj tiam elekti <b>Horaro</b> de la pinta menuo.</string>
+    <string name="no_scheduled_toots">Neniu planitaj hupoj por montri!</string>
+    <string name="no_scheduled_toots_indications">Skribi hupon kaj poste elekti <b>Horaro</b> el la supra menuo.</string>
     <string name="remove_scheduled">Forigi planita mesaĝon?</string>
     <string name="media_count">Aŭdvidaĵo %d</string>
     <string name="toot_scheduled">La mesaĝo estis planita!</string>
@@ -250,9 +251,9 @@
     <string name="toast_favourite">La hup estis aldonita al stelumoj!</string>
     <string name="toast_unfavourite">The toot was removed from your favourites!</string>
     <string name="toast_report">The toot was reported!</string>
-    <string name="toast_unstatus">La mesaĝon forigitis!</string>
-    <string name="toast_pin">La hup estis alpinglita!</string>
-    <string name="toast_unpin">La hup estis malalpinglita!</string>
+    <string name="toast_unstatus">La hupo estis forviŝita!</string>
+    <string name="toast_pin">La hupo estis alpinglita!</string>
+    <string name="toast_unpin">La hupo estis malalpinglita!</string>
     <string name="toast_error">Ups ! Eraro okazis!</string>
     <string name="toast_code_error">An error occurred! The instance did not return an authorisation code!</string>
     <string name="toast_error_instance">The instance domain does not seem to be valid!</string>
@@ -263,7 +264,7 @@
     <string name="toast_saved">La aŭdvidaĵo estis konservita!</string>
     <string name="toast_error_translate">Eraro okazis dum traduktas!</string>
     <string name="toast_error_translations_disabled">Translations are disabled in settings</string>
-    <string name="toast_toot_saved">Malneto saviĝis!</string>
+    <string name="toast_toot_saved">Malneto konserviĝis!</string>
     <string name="toast_error_char_limit">Are you sure this instance allows this number of characters? Usually, this value is close to 500 characters.</string>
     <string name="toast_visibility_changed">Visibility of the toots has been changed for the account %1$s</string>
     <!-- Settings -->
@@ -360,7 +361,7 @@
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Sinkronigadi</string>
     <string name="action_filter">Filtrili</string>
-    <string name="owner_cached_toots">Via mesaĝoj</string>
+    <string name="owner_cached_toots">Viaj hupoj</string>
     <string name="owner_cached_notifications">Via sciigoj</string>
     <string name="v_public">Publika</string>
     <string name="v_unlisted">Nelistigita</string>
@@ -411,7 +412,7 @@
         - <b>Android-Job</b>: To manage services\n
         - <b>PhotoView</b>: To manage images\n
     </string>
-    <string name="privacy_API_yandex_title">Translation of toots</string>
+    <string name="privacy_API_yandex_title">Tradukado de hupoj</string>
     <string name="privacy_API_yandex_authorizations">        The application offers the ability to translate toots using the locale of the device and the Yandex API.\n
         Yandex has its proper privacy-policy which can be found here: https://yandex.ru/legal/confidential/?lang=en
     </string>
@@ -519,7 +520,7 @@
     <string name="channel_notif_poll">Voĉdonado Finiĝis</string>
     <string name="channel_notif_toot">Nova Hup</string>
     <string name="channel_notif_backup">Toots Backup</string>
-    <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_status">Novaj afiŝoj</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="set_notif_sound">Change notification sound</string>
     <string name="select_sound">Elekti Tono</string>
@@ -748,7 +749,7 @@
     <string name="set_blur_sensitive">Blur sensitive media</string>
     <string name="set_display_timeline_in_list">Display timelines in a list</string>
     <string name="display_timeline">Display timelines</string>
-    <string name="set_display_bot_icon">Mark bot accounts in toots</string>
+    <string name="set_display_bot_icon">Marki robotajn kontojn en hupoj</string>
     <string name="add_tags">Manage tags</string>
     <string name="set_remember_position">Remember the position in Home timeline</string>
     <string name="history">History</string>
@@ -929,12 +930,12 @@
     <string name="number_with_media">Number with media</string>
     <string name="number_with_sensitive_media">Number with sensitive media</string>
     <string name="number_with_cw">Number with CW</string>
-    <string name="first_toot_date">First status date</string>
-    <string name="last_toot_date">Last status date</string>
+    <string name="first_toot_date">Dato de unua stato</string>
+    <string name="last_toot_date">Dato de lasta stato</string>
     <string name="first_notification_date">First notification date</string>
     <string name="last_notification_date">Last notification date</string>
     <string name="frequency">Ofteco</string>
-    <string name="toot_per_day">%s statuses per day</string>
+    <string name="toot_per_day">Po %s statoj en tago</string>
     <string name="notification_per_day">%s notifications per day</string>
     <string name="date_range">Date range</string>
     <string name="action_groups">Grupoj</string>
@@ -1125,4 +1126,39 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="location">Loko</string>
+    <string name="approve">Aprobi</string>
+    <string name="status">Stato</string>
+    <string name="top_menu">Supra menuo</string>
+    <string name="bottom_menu">Malsupra menuo</string>
+    <string name="approved">Aprobita</string>
+    <string name="notif_display_follows">Abonoj</string>
+    <string name="pref_theme_base">Bazo de la etoso</string>
+    <string name="hide_content">Kaŝi enhavon &lt;</string>
+    <string name="report_1_mute_title">Silentigi %1$s</string>
+    <string name="add_filter">Aldoni filtrilon</string>
+    <string name="clear_all_notif">Forigi ĉiujn sciigojn</string>
+    <string name="mark_all_as_read">Marki ĉiujn sciigojn legitaj</string>
+    <string name="set_bot_content">Robota konto</string>
+    <string name="add_field">Enmeti kampon</string>
+    <string name="delete_field">Forviŝi kampon</string>
+    <string name="toot_visibility_title">Videbleco de la hupo</string>
+    <string name="category_music">Muziko</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="keepon">Daŭrigi</string>
+    <string name="other">Alia</string>
+    <string name="images">Bildoj</string>
+    <string name="instance_health_indication">versio: %s
+\n %s uzantoj - %s statoj</string>
+    <string name="instance_health_checkedat">Kontrolita je: %s</string>
+    <string name="show_content">Montri enhavon &gt;</string>
+    <string name="report_title">Raportante pri %1$s</string>
+    <string name="report_1_unfollow_title">Malaboni %1$s</string>
+    <string name="report_more_additional">Pliaj komentoj</string>
+    <string name="notif_display_mentions">Mencioj</string>
+    <string name="notif_display_favourites">Stelumoj</string>
+    <string name="save_changes">Konservi ŝanĝojn</string>
 </resources>

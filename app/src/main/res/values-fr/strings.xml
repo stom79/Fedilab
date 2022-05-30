@@ -446,7 +446,7 @@
 \n
 \n - Si cela ne fonctionne toujours pas, vous pouvez reporter ce problème sur FramaGit : https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">L’image a été chargée. Cliquez ici pour l’afficher.</string>
-    <string name="data_export_start">Cela peut être assez long. Vous serez notifié·e une fois l’exportation finie.</string>
+    <string name="data_export_start">Cette action peut être assez longue. Vous serez averti lorsqu’elle sera terminée.</string>
     <string name="data_export_running">Exportation en cours, veuillez patienter…</string>
     <string name="data_export">Exporter vos pouets</string>
     <string name="data_export_toots">Pouets exportés pour %1$s</string>
@@ -465,11 +465,11 @@
     <string name="support_the_app_on_liberapay">Soutenir l’app sur Liberapay</string>
     <string name="alert_regex">Il y a une erreur dans l’expression régulière !</string>
     <string name="toast_instance_unavailable">Aucun fil n’a été trouvé sur cette instance !</string>
-    <string name="delete_instance">Désirez-vous effacer cette instance ?</string>
+    <string name="delete_instance">Désirez-vous supprimer cette instance \?</string>
     <string name="which_language">Traduire en</string>
     <string name="follow_instance">Suivre l’instance</string>
     <string name="toast_instance_already_added">Vous suivez déjà cette instance !</string>
-    <string name="toast_instance_followed">Maintenant, vous suivez cette instance !</string>
+    <string name="toast_instance_followed">Maintenant, vous suivez cette instance !</string>
     <string name="action_partnership">Partenariats</string>
     <string name="neutral_menu_information">Information</string>
     <string name="hide_boost">Masquer les boosts de %s</string>
@@ -509,7 +509,7 @@
     <string name="add_account_list_trunk">Rajout des comptes à la liste</string>
     <string name="account_added_list_trunk">Les comptes ont été ajoutés à la liste</string>
     <string name="adding_account_list_trunk">Ajout des comptes dans la liste</string>
-    <string name="action_list_add">Vous n\'avez pas encore créé de liste. Cliquez sur le bouton \"+\" pour en ajouter une.</string>
+    <string name="action_list_add">Vous n’avez pas encore créé de liste. Appuyez sur le bouton « + » pour en ajouter une.</string>
     <string name="about_trunk">Comptes suggérés</string>
     <string name="about_trunk_action">API Trunk</string>
     <string name="toast_impossible_to_follow">Abonnement impossible au(x) compte(s)</string>
@@ -531,10 +531,10 @@
     <string name="retrieve_remote_conversation">Récupération du fil distant !</string>
     <string name="no_blocked_domain">Aucun domaine bloqué !</string>
     <string name="unblock_domain_confirm">Débloquer le domaine</string>
-    <string name="unblock_domain_confirm_message">Confirmez-vous le déblocage de %s ?</string>
+    <string name="unblock_domain_confirm_message">Êtes-vous sûr de vouloir de débloquer %s \?</string>
     <string name="block_domain_confirm_message">Êtes-vous sûr de vouloir bloquer %s \?
 \n
-\nVous ne verrez aucun contenu de ce domaine dans les fils publics ou vos notifications. Vous abonné·e·s de ce domaine seront supprimé·e·s.</string>
+\nVous ne verrez aucun contenu de ce domaine dans les fils publics ou vos notifications. Vos abonné·e·s de ce domaine seront supprimé·e·s.</string>
     <string name="blocked_domains">Les domaines bloqués</string>
     <string name="block_domain">Bloquer le domaine</string>
     <string name="toast_block_domain">Le domaine est bloqué</string>
@@ -1045,7 +1045,7 @@
     <string name="displayname_title">Changer la couleur du nom affiché en haut des messages</string>
     <string name="username_title">Changer la couleur du nom de l\'utilisateur en haut des messages</string>
     <string name="boost_header_color">Modifie la couleur de l’en-tête des partages</string>
-    <string name="background_status_title">Posts</string>
+    <string name="background_status_title">Messages</string>
     <string name="background_status">Couleur du fond des messages dans les fils</string>
     <string name="reset_color">Réinitialiser les couleurs</string>
     <string name="clik_reset">Cliquez ici pour réinitialiser toutes vos couleurs personnalisées</string>
@@ -1240,10 +1240,10 @@
     <string name="report_1_title">Vous ne voulez pas voir ceci \?</string>
     <string name="report_1_title_more">Voici vos options pour contrôler ce que vous voyez sur Mastodon :</string>
     <string name="report_1_unfollow_title">Se désabonner de %1$s</string>
-    <string name="report_1_unfollow">Vous suivez ce compte. Pour ne plus voir ses publications dans votre fil principal, désabonnez-vous-en.</string>
-    <string name="report_1_mute">Vous ne verrez pas ses publications. Il·Elle peut toujours vous suivre et voir vos publications mais ne saura pas qu\'il·elle a été mis·e en sourdine.</string>
-    <string name="report_1_block">Vous ne verrez pas ses publications. Il·Elle ne pourra pas voir vos publications ou vous suivre. Cette personne ne pourra pas voir qu\'elle a été bloquée.</string>
-    <string name="report_2_title">Y a-t-il des publications qui vont dans le sens de ce signalement \?</string>
+    <string name="report_1_unfollow">Vous suivez ce compte. Pour ne plus voir ses messages dans votre fil principal, désabonnez-vous-en.</string>
+    <string name="report_1_mute">Vous ne verrez pas ses messages. Iel peut toujours vous suivre et voir vos messages mais ne saura pas qu’iel a été mis·e en sourdine.</string>
+    <string name="report_1_block">Vous ne verrez pas ses messages. Iel ne pourra pas voir vos messages ou vous suivre. Cette personne ne pourra pas voir qu’elle a été bloquée.</string>
+    <string name="report_2_title">Y a-t-il des messages qui étayent ce rapport \?</string>
     <string name="about_mastodon">\"Mastodon n\'est pas un seul site comme Twitter ou Facebook, c\'est un réseau de milliers de communautés opérées par différentes organisations et individus qui fournissent une expérience de réseau social fluide.\"</string>
     <string name="join_peertube_message">\"PeerTube, développé par Framasoft, est l\'alternative libre et décentralisée aux plate-formes de vidéo ; fournissant plus de 400.000 vidéos publiées par 60.000 utilisateur·ice·s et vues plus de 15 million de fois.\"</string>
     <string name="notif_display_follows">Abonnements</string>
@@ -1263,4 +1263,13 @@
     <string name="also_boosted_by">Également partagé par :</string>
     <string name="top_menu">Menu de la barre supérieure</string>
     <string name="bottom_menu">Menu du bas</string>
+    <string name="last_active">Dernière activité</string>
+    <string name="staff">Équipe</string>
+    <string name="domain">Domaine</string>
+    <string name="approved">Approuvé</string>
+    <string name="status">État</string>
+    <string name="admin_scope">je suis modérateur</string>
+    <string name="approve">Approuver</string>
+    <string name="origin_report">Origine du compte signalé</string>
+    <string name="resolved">Résolu</string>
 </resources>

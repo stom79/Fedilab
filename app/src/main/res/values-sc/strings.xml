@@ -45,7 +45,7 @@
     <string name="previous">Pretzedente</string>
     <string name="open_with">Aberi cun</string>
     <string name="validate">Vàlida</string>
-    <string name="media">Cuntenutu multimediale</string>
+    <string name="media">Cuntenutos multimediales</string>
     <string name="share_with">Cumpartzi cun</string>
     <string name="shared_via">Cumpartzidu impreende Fedilab</string>
     <string name="replies">Rispostas</string>
@@ -385,12 +385,26 @@
     <string name="privacy_data_title">Datos registrados</string>
     <string name="privacy_data">In su dispositivu benint sarvadas sceti informatziones debase de sos contos. Custas informatziones sunt cunfidentziales e ddas podet impreare s\'aplicatzione ebbia. Cantzellende s\'aplicatzione as a cantzellare immediatamente custos datos.\n ⚠ Is datos de intrada e is craes de intrada non benint sarvados mai. Benint impreados sceti durante un autenticatzione segura (SSL) cun un\'istàntzia.</string>
     <string name="privacy_authorizations_title">Permissos:</string>
-    <string name="privacy_authorizations">- &lt;b &gt;ACCESS_NETWORK_STATE&lt;/b&gt;: Impreadu pro rilevare si su dispositivu est connessu a una retza WIFI.\n - &lt;b &gt;INTERNET&lt;/b&gt;: Impreadu pro consultare is istàntzias.\n - &lt;b &gt;WRITE_EXTERNAL_STORAGE&lt;/b&gt;: Impreadu pro sarvare documentos multimediales o tramudare s\'aplicatzione a un\'ischeda SD.\n - &lt;b &gt;READ_EXTERNAL_STORAGE&lt;/b&gt;: Impreadu pro agiùnghere documentos multimediales a is tuts.\n - &lt;b &gt;BOOT_COMPLETED&lt;/b&gt;: Impreadu pro allùghere su servìtziu de notìfica.\n - &lt;b &gt;WAKE_LOCK&lt;/b&gt;: Impreadu durante su servìtziu de notìfica.</string>
+    <string name="privacy_authorizations"> - <b>ACCESS_NETWORK_STATE</b>: Impreadu pro rilevare si su dispositivu est connessu a una retza WIFI.
+\n - <b>INTERNET</b>: Impreadu pro consultare is istàntzias.
+\n - <b>WRITE_EXTERNAL_STORAGE</b>: Impreadu pro sarvare documentos multimediales o tramudare s\'aplicatzione a un\'ischeda SD.
+\n - <b>READ_EXTERNAL_STORAGE</b>: Impreadu pro agiùnghere documentos multimediales a is tuts.
+\n - <b>BOOT_COMPLETED</b>: Impreadu pro allùghere su servìtziu de notìfica.
+\n - <b>WAKE_LOCK</b>: Impreadu durante su servìtziu de notìfica. </string>
     <string name="privacy_API_authorizations_title">Permissos de s\'API:</string>
-    <string name="privacy_API_authorizations">- &lt;b &gt;Leghe&lt;/b&gt;: Leghe datos.\n - &lt;b &gt;Iscrie&lt;/b&gt;: Pùblica istados e càrriga cuntenutos multimediales pro is istados.\n - &lt;b &gt;Sighi&lt;/b&gt;: Sighi, acaba de sighire, bloca, isbloca.\n \n &lt;b &gt;⚠ Custas atziones benint fatas sceti cando lu pedit s\'utente.&lt;/b&gt;
-    </string>
+    <string name="privacy_API_authorizations"> - <b>Leghe</b>: Leghe datos.
+\n - <b>Iscrie</b>: Pùblica istados e càrriga cuntenutos multimediales pro is istados.
+\n - <b>Sighi</b>: Sighi, acaba de sighire, bloca, isbloca.
+\n
+\n <b>⚠ Custas atziones benint fatas sceti cando lu pedit s\'utente.</b> </string>
     <string name="privacy_API_title">Arrastamentu e librerias</string>
-    <string name="privacy_API">S\'aplicatzione &lt;b &gt;no impreat ainas de arrastamentu&lt;/b&gt; (medida de su pùblicu, sinnalatzione de errores, etc.) e non cuntenet publitzidade peruna.\n \n S\'impreu de librerias est minimadu: \n - &lt;b &gt;Glide&lt;/b&gt;: Pro gestire is cuntenutos multimediales (\"mèdios\")\n - &lt;b &gt;Android-Job&lt;/b&gt;: Pro gestire is servìtzios\n - &lt;b &gt;PhotoView&lt;/b&gt;: Pro gestire is immàgines</string>
+    <string name="privacy_API"> S\'aplicatzione <b>no impreat ainas de arrastamentu</b> (medida de su pùblicu, sinnalatzione de errores, etc.) e non cuntenet publitzidade peruna.
+\n
+\n S\'impreu de librerias est minimadu:
+\n - <b>Glide</b>: Pro gestire is cuntenutos multimediales (\"mèdios\")
+\n - <b>Android-Job</b>: Pro gestire is servìtzios
+\n - <b>PhotoView</b>: Pro gestire is immàgines
+\n </string>
     <string name="privacy_API_yandex_title">Tradutzione de is tuts</string>
     <string name="privacy_API_yandex_authorizations">Custa aplicatzione frunit sa possibilidade de bortare is tuts impreende sa limba de su dispositivu e s\'API de Yandex.\n Yandex tenet una polìtica pro sa riservadesa sua, chi podes agatare inoghe: https://yandex.ru/legal/confidential/?lang=en</string>
     <string name="thanks_text_dev">Torramus gràtzias a:</string>
@@ -407,12 +421,22 @@
     <string name="action_lists_delete">Cantzella sa lista</string>
     <string name="action_lists_update">Modìfica sa lista</string>
     <string name="action_lists_title_placeholder">Lista noa</string>
-    <string name="action_lists_add_user">Contu annantu a sa lista</string>
+    <string name="action_lists_add_user">Contu annantu a sa lista!</string>
     <string name="action_lists_empty">Non tenes ancora peruna lista!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s s\'est tramudadu a %2$s</string>
     <string name="issue_login_title">S\'autenticatzione no est funtzionende?</string>
-    <string name="issue_login_message">        &lt;b &gt;Custas sunt una paia de verìficas chi diant pòdere agiudare:&lt;/b&gt;\n \n - Verìfica chi non bi siant faddinas de iscritura in su nùmene de s\'istantzia\n \n - Verìfica chi s\'istàntzia tua non siat inativa\n \n - Si impreas s\'autenticatzione in duas fases (A2F/2FA), imprea su ligàmene in fundu (a pustis de àere insertadu su nùmene de s\'istàntzia)\n \n - Podes fintzas impreare custu ligàmene sena impreare sa 2FA\n \n - Si sighet a non funtzionare, aberi una sinnalatzione in FramaGit in https://framagit.org/tom79/fedilab/issues</string>
+    <string name="issue_login_message"> <b>Custas sunt una paja de verìficas chi diant pòdere agiudare:</b>
+\n
+\n - Verìfica chi non bi siant faddinas de iscritura in su nùmene de s\'istàntzia
+\n
+\n - Verìfica chi s\'istàntzia tua non siat inativa
+\n
+\n - Si impreas s\'autenticatzione in duas fases (A2F/2FA), imprea su ligàmene in fundu (a pustis de àere insertadu su nùmene de s\'istàntzia)
+\n
+\n - Podes fintzas impreare custu ligàmene sena impreare sa 2FA
+\n
+\n - Si sighit a non funtzionare, aberi una sinnalatzione in FramaGit in https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">Su cuntenutu multimediale est istadu carrigadu. Toca inoghe pro dd\'ammustrare.</string>
     <string name="data_export_start">Custa atzione diat pòdere durare a longu meda. As a retzire una notìfica cando at a èssere acabada.</string>
     <string name="data_export_running">Galu traballende, iseta pro praghere…</string>
@@ -526,7 +550,7 @@
     <string name="set_display_card">Ammustra is antiprimas in totu is tuts</string>
     <string name="thanks_text_ux">Disinnadore UX/UI nou</string>
     <string name="set_display_video_preview">Ammustra is antiprimas de is vìdeos</string>
-    <string name="account_id_clipbloard">S\'id de su contu est istadu copiadu in punta de billete</string>
+    <string name="account_id_clipbloard">S\'id de su contu est istadu copiadu in punta de billete!</string>
     <string name="set_change_locale">Càmbia sa limba</string>
     <string name="default_language">Limba predefinida</string>
     <string name="truncate_long_toots">Trunca is tuts longos</string>
@@ -572,7 +596,10 @@
         <item>1 die</item>
         <item>1 chida</item>
     </string-array>
-    <string name="showcase_instance">In custu campu depes iscrìere su domìniu de s\'istàntzia tua.\n A esèmpiu, si as creadu su contu tuo in https://mastodon.social\n Iscrie sceti &lt;b &gt;mastodon.social&lt;/b&gt;\n Podes cumintzare a iscrìere is primas lìteras e as a retzire cussìgios pro is nùmenes.</string>
+    <string name="showcase_instance">In custu campu depes iscrìere su domìniu de s\'istàntzia tua.
+\n A esèmpiu, si as creadu su contu tuo in https://mastodon.social
+\n Iscrie sceti <b>mastodon.social</b>
+\n Podes cumintzare a iscrìere is primas lìteras e as a retzire cussìgios pro is nùmenes. </string>
     <string name="more_information">Àteras informatziones</string>
     <!-- languages not translated -->
     <string name="languages">Limbas</string>
@@ -722,7 +749,7 @@
     <string name="history">Cronologia</string>
     <string name="playlists">Iscalitas</string>
     <string name="display_name">Nòmine visìbile</string>
-    <string name="action_playlist_add">Non tenes peruna iscalita. Toca in su butone \"+\" pro agiùnghere un\'iscalita noa.</string>
+    <string name="action_playlist_add">Non tenes peruna iscalita. Toca in su butone \"+\" pro agiùnghere un\'iscalita noa</string>
     <string name="error_display_name">Depes frunire unu nùmene de ammustrare!</string>
     <string name="error_channel_mandatory">B\'at bisòngiu de su canale cando s\'iscalita est pùblica.</string>
     <string name="action_playlist_create">Crea un\'iscalita</string>
@@ -737,7 +764,7 @@
     <string name="label_brush">Pintzellu</string>
     <string name="confirm_exit_editing">Ses seguru de bòlere essire sena sarvare s\'immàgine?</string>
     <string name="discard">Iscarta</string>
-    <string name="saving">Sarvende...</string>
+    <string name="saving">Sarvende…</string>
     <string name="image_saved">Immàgine sarvada sena problemas!</string>
     <string name="save_image_failed">Sarvamentu de s\'immàgine fallidu</string>
     <string name="opacity">Annapadura</string>
@@ -785,7 +812,13 @@
     <string name="password_too_short">Sa crae de intrada diat cuntènnere a su mancu 8 caràteres</string>
     <string name="username_error">Su nùmene de s\'utente diat dèpere cuntènnere sceti lìteras, nùmeros e tratigheddos bassos</string>
     <string name="account_created">Contu creadu!</string>
-    <string name="account_created_message">As creadu su contu tuo!\n \n Chirca de verificare s\'indiritzu de posta eletrònica tuo intre 48 oras.\n \n Como podes collegare su contu tuo iscriende &lt;b &gt;%1$s&lt;/b&gt; in su de unu campu e incarchende in &lt;b &gt;Connete·ti&lt;/b&gt;.\n \n &lt;b &gt;Cosa de importu&lt;/b&gt;: Si s\'istàntzia tua tenet bisòngiu de èssere validada as a retzire una lìtera de posta eletrònica a pustis de sa validatzione!</string>
+    <string name="account_created_message"> As creadu su contu tuo!
+\n
+\n Chirca de verificare s\'indiritzu de posta eletrònica tuo intre 48 oras.
+\n
+\n Como podes collegare su contu tuo iscriende <b>%1$s</b> in su de unu campu e incarchende in <b>Connete·ti</b>.
+\n
+\n <b>Cosa de importu</b>: Si s\'istàntzia tua tenet bisòngiu de èssere validada as a retzire una lìtera de posta eletrònica a pustis de sa validatzione! </string>
     <string name="save_draft">Sarvare su messàgiu in is abbotzos?</string>
     <string name="administration">Amministratzione</string>
     <string name="reports">Sinnalatziones</string>
@@ -846,7 +879,7 @@
     <string name="set_blur_sensitive_indication">Si est disabilitadu sos cuntenutos multimediales ant a èssere cuados cun unu butone</string>
     <string name="set_long_press_media_indication">Sarva is cuntenutos multimediales in mannària intrea incarchende a longu in is antiprimas</string>
     <string name="set_display_timeline_in_list_indication">Agiunghe unu butone ellìticu in artu a destra pro allistare totu is etichetas/istàntzias/listas</string>
-    <string name="set_enable_time_slot_indication">Durante sa fàscia orària s\'aplicatzione at a imbiare notìficas. Podes furriare (pònnere a sa muda) custa fàscia orària cun su menù a destra</string>
+    <string name="set_enable_time_slot_indication">Durante sa fàscia orària s\'aplicatzione at a imbiare notìficas. Podes furriare (pònnere a sa muda) custa fàscia orària cun su menù a destra.</string>
     <string name="set_display_fedilab_features_button_indication">Ammustra unu butone de Fedilab in suta de s\'immàgine de profilu. Est un\'incurtzada pro atzèdere a is funtzionalidades de s\'aplicatzione.</string>
     <string name="set_quick_reply_indication">Permite de rispòndere diretamente in is lìnias de tempus, dae suta de is istados</string>
     <string name="set_fit_preview_indication">Is anteprimas no ant a èssere ritalliadas in is lìnias de tempus</string>
@@ -952,14 +985,14 @@
     <string name="hide_menu_items">Cua is elementos de su menù</string>
     <string name="top_notification">Fedilab est faghende notìficas in tempus reale</string>
     <string name="top_notification_message">Pro %1$s contos cun %2$s eventos</string>
-    <string name="set_allow_live_notifications">Notìficas in direta pro 1$s</string>
+    <string name="set_allow_live_notifications">Notìficas in direta pro %1$s</string>
     <string name="set_allow_live_notifications_indication">Is notìficas in direta ant a bènnere abilitadas pro custu contu.</string>
     <string name="set_clear_cache_exit">Isbòida sa memòria temporànea cando essis</string>
     <string name="set_clear_cache_exit_indication">Sa memòria temporànea (cuntenutos multimediales, messàgios sarvados in cue, datos de su navigadore integradu) s\'at a isboidare automaticamente cando as a essire dae s\'aplicatzione.</string>
     <string name="unfollow_confirm">Boles acabare de sighire custu contu?</string>
     <string name="set_unfollow_validation">Ammustra una ventanedda de diàlogu de cunfirma in antis de acabare de sighire</string>
     <string name="replace_medium">Remplasa is ligàmenes de Medium</string>
-    <string name="replace_medium_description">Remplasa is ligàmenes de medium.com cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
+    <string name="replace_medium_description">Imprea un\'interfache alternativa pro Medium</string>
     <string name="replace_medium_host">Predefinidu: scribe.rip</string>
     <string name="replace_wikipedia">Remplasa is ligàmenes de Wikipedia</string>
     <string name="replace_wikipedia_description">Remplasa is ligàmenes de Wikipedia cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
@@ -1150,4 +1183,81 @@
     <string name="report_1_title_more">Inoghe bi sunt sas optziones tuas pro controllare su chi bides in Mastodon:</string>
     <string name="report_1_unfollow_title">Agabba de sighire a %1$s</string>
     <string name="report_1_unfollow">Ses sighende a custu contu. Pro non bìdere prus is publicatziones suas in su flussu printzipale tuo agabba de ddu sighire.</string>
+    <string name="admin_scope">So unu moderadore</string>
+    <string name="display">Ammustra</string>
+    <string name="last_active">Ùrtima atividade</string>
+    <string name="most_recent">Prus reghente</string>
+    <string name="filter">Filtru</string>
+    <string name="domain">Domìniu</string>
+    <string name="approved">Aprovadu</string>
+    <string name="approve">Aprova</string>
+    <string name="origin_report">Orìgine de su contu sinnaladu</string>
+    <string name="status">Istadu</string>
+    <string name="resolved">Risòlvidu</string>
+    <string name="notif_display_mentions">Mentovos</string>
+    <string name="notif_display_favourites">Preferidos</string>
+    <string name="report_1_block">No as a bìdere is publicatziones suas. No at a pòdere bìdere is publicatziones tuas e non t\'at a pòdere sighire. At a ischire chi est blocadu.</string>
+    <string name="join_peertube_message">\"PeerTube, isvilupadu dae Framasoft, est s\'alternativa lìbera e detzentralizada a is prataformas de vìdeos, chi frunit prus de 400,000 vìdeos publicados dae 60,000 utentes e pompiados prus de 15 milliones de bortas\"</string>
+    <string name="mark_all_as_read">Marca totu is notìficas comente lèghidas</string>
+    <string name="set_bot_content">Contu bot</string>
+    <string name="customize_timelines">Personaliza is lìnias de tempus</string>
+    <string name="types_of_notifications_to_display">Castas de notìficas de ammustrare</string>
+    <string name="set_unfollow_validation_title">Cunfirma is agabbos de sighidura</string>
+    <string name="also_favourite_by">"Postu in is preferidos fintzas dae: "</string>
+    <string name="customize_main_colors">Personaliza is colores printzipales</string>
+    <string name="more_actions">Àteras atziones</string>
+    <string name="set_display_bookmark_indication">Ammustra semper su butone de is preferidos</string>
+    <string name="pref_contributor">Temas dae is contribuidores</string>
+    <string name="pref_contributor_summary">Sèbera unu tema fraigadu dae is contribuidores</string>
+    <string name="message_has_been_sent">Su messàgiu est istadu imbiadu!</string>
+    <string name="poll_type">Casta de sondàgiu:</string>
+    <string name="poll_duration">Durada de su sondàgiu:</string>
+    <string name="bottom_menu">Menù de giosso</string>
+    <string name="top_menu">Menù de s\'istanga superiore</string>
+    <string name="location">Positzione</string>
+    <string name="also_boosted_by">Cumpartzidu fintzas dae:</string>
+    <string name="staff">Iscuadra</string>
+    <string name="report_2_title">Ddoe sunt publicatziones chi suportant custa sinnalatzione\?</string>
+    <string name="report_3_title">Ite règulas sunt istadas violadas\?</string>
+    <string name="report_all_more">Seletziona totu is chi s\'àplicant</string>
+    <string name="report_more">Ddoe est carchi cosa de àteru chi pensas chi diamus dèpere ischire\?</string>
+    <string name="report_more_additional">Cummentos additzionales</string>
+    <string name="report_more_remote">Custu contu benit dae un\'àteru serbidore. Boles imbiare una còpia anonimizada de sa sinnalatzione finas a ie\?</string>
+    <string name="report_more_forward">Inoltra a %1$s</string>
+    <string name="report_sent">As imbiadu sa sinnalatzione!</string>
+    <string name="dont_have_an_account">Non tenes unu contu\?</string>
+    <string name="join_the_fediverse">Auni·ti a su fediversu</string>
+    <string name="invite_join_the_fediverse">Salude! T\'invitamus a t\'aunire a su Fediversu.</string>
+    <string name="about_mastodon">\"Mastodon no est unu situ web sìngulu che a Twitter o a Facebook, est una retze de mìgias de comunidades amministradas dae organizatziones e indivìduos diferentes chi frunint un\'esperièntzia sotziale chene interrutziones.\"</string>
+    <string name="notif_display_follows">Sighiduras</string>
+    <string name="clear_all_notif">Isbòida totu is notìficas</string>
+    <string name="display_all_categories">Ammustra totu is categorias</string>
+    <string name="delete_notification_all_warning">Ses seguru de bòlere cantzellare totu is notìficas\? Custa atzione non si podet annullare.</string>
+    <string name="interactions">Interatziones</string>
+    <string name="add_filter">Agiunghe unu filtru</string>
+    <string name="add_field">Agiunghe unu campu</string>
+    <string name="unlocked">Isblocadu</string>
+    <string name="locked">Blocadu</string>
+    <string name="save_changes">Sarva is modìficas</string>
+    <string name="set_discoverable_content">Contu chi si podet iscobèrrere</string>
+    <string name="delete_field">Cantzella su campu</string>
+    <string name="delete_field_confirm">Ses seguru de bòlere cantzellare cussu campu\?</string>
+    <string name="profiled_updated">Su profilu est istadu agiornadu!</string>
+    <string name="not_valid_list_name">Su nùmene de sa lista no est vàlidu!</string>
+    <string name="no_account_in_list">Perunu contu agatadu pro custa lista!</string>
+    <string name="pref_custom_theme_new_summary">Permite de creare su tema personalizadu tuo</string>
+    <string name="select_a_theme">Seletziona unu tema</string>
+    <string name="notif_display_reblogs">Cumpartziduras</string>
+    <string name="notif_display_poll_results">Resurtados de su sondàgiu</string>
+    <string name="notif_display_updates_from_people">Agiornamentos dae sa gente</string>
+    <string name="scheduled">Programmadu</string>
+    <string name="type_of_notifications">Casta de notìficas</string>
+    <string name="alternative_frontends">Interfaches alternativas</string>
+    <string name="type_of_notifications_title">Sèbera sa casta de notìficas</string>
+    <string name="notification_options">Optziones de notìfica</string>
+    <string name="notifications_are">Durante custa fàscia orària</string>
+    <string name="notification_sounds">Sonos de notìfica</string>
+    <string name="disable_notifications">Disabìlita is notìficas</string>
+    <string name="pref_theme_base">Base de su tema</string>
+    <string name="pref_theme_base_summary">Sèbera si sa base de su tema diat dèpere èssere iscura o crara</string>
 </resources>

@@ -86,8 +86,8 @@
     <string name="logout_account_confirmation">Czy na pewno chcesz się wylogować z konta @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Brak wpisów do wyświetlenia</string>
-    <string name="no_stories">No stories to display</string>
-    <string name="stories">Stories</string>
+    <string name="no_stories">Brak historii do wyświetlania</string>
+    <string name="stories">Opowieści</string>
     <string name="reblog_by">Podbity przez %1$s</string>
     <string name="favourite_add">Dodać ten wpis do ulubionych?</string>
     <string name="favourite_remove">Usunąć ten wpis z ulubionych?</string>
@@ -132,10 +132,10 @@
     <string name="date_hours">%d godz.</string>
     <string name="date_day">%d dni</string>
     <plurals name="date_seconds_polls">
-        <item quantity="one">%d second</item>
-        <item quantity="few">%d seconds</item>
-        <item quantity="many">%d seconds</item>
-        <item quantity="other">%d sekundd</item>
+        <item quantity="one">%d drugi</item>
+        <item quantity="few">%d sekundy</item>
+        <item quantity="many">%d sekundy</item>
+        <item quantity="other">%d sekundy</item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="one">%d minuta</item>
@@ -304,7 +304,7 @@
     <string name="set_notify">Powiadamiać?</string>
     <string name="set_notif_silent">Ciche powiadomienia</string>
     <string name="set_nsfw_timeout">Limit czasu wyświetlania NSFW (sekundy, 0 oznacza wyłączony)</string>
-    <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
+    <string name="set_med_desc_timeout">Limit czasu opisu nośnika (sekundy, 0 oznacza wyłączony)</string>
     <string name="settings_title_profile">Edytuj profil</string>
     <string name="settings_title_custom_sharing">Niestandardowe udostępnianie</string>
     <string name="settings_custom_sharing_url">Twoje URL do niestandardowego udostępniania…</string>
@@ -518,7 +518,7 @@
     <string name="adding_account_list_trunk">Dodawanie kont do listy</string>
     <string name="action_list_add">Nie ma jeszcze utworzonej żadnej listy. Kliknij \"+\" aby dodać nową.</string>
     <string name="about_trunk">Kogo obserwować</string>
-    <string name="about_trunk_action">Trunk API</string>
+    <string name="about_trunk_action">API bagażnika</string>
     <string name="toast_impossible_to_follow">Nie ma możliwości obserwowania kont(a)</string>
     <string name="retrieve_remote_account">Pobieram zdalne konto</string>
     <string name="expand_image">Automatycznie pokaż ukryte treści multimedialne</string>
@@ -602,7 +602,7 @@
     <string name="new_toot">Nowy wpis</string>
     <string name="card_view_image">Obraz karty</string>
     <string name="hide_media">Ukryj media</string>
-    <string name="favicon">Favicon</string>
+    <string name="favicon">Favikon</string>
     <string name="media_description">Obraz przy dodawaniu opisu</string>
     <string-array name="filter_expire">
         <item>Nigdy</item>
@@ -626,7 +626,7 @@
     <string name="crowdin_manager">Menedżer Crowdin</string>
     <string name="translation_app">Tłumaczenie aplikacji</string>
     <string name="about_crowdin">O serwisie Crowdin</string>
-    <string name="bot">Bot</string>
+    <string name="bot">Boty</string>
     <string name="pixelfed_instance">Instancja pixelfed</string>
     <string name="mastodon_instance">Instancja Mastodon</string>
     <string name="any_tags">Którekolwiek z wymienionych</string>
@@ -709,7 +709,7 @@
     <string name="set_compact">Kompaktowy</string>
     <string name="set_console">Konsola</string>
     <string name="set_mode">Ustaw tryb wyświetlania</string>
-    <string name="set_security_provider">Patch the Security Provider</string>
+    <string name="set_security_provider">Łata dostawcy zabezpieczeń</string>
     <string name="update_tracking_domains">Aktualizuj śledzące domeny</string>
     <string name="tracking_db_updated">Baza danych śledzących domen została zaktualizowana!</string>
     <string name="calls_blocked">połączenia http zablokowane przez aplikację</string>
@@ -756,19 +756,19 @@
     <string name="gnu_instance">Instancja GNU</string>
     <string name="cached_status">Wpis zapisany w pamięci podręcznej</string>
     <string name="set_forward_tags">Przekaż tagi w odpowiedziach</string>
-    <string name="set_long_press_media">Long press to store media</string>
+    <string name="set_long_press_media">Długie naciśnięcie powoduje zapisanie nośnika</string>
     <string name="set_blur_sensitive">Rozmycie wrażliwych treści</string>
-    <string name="set_display_timeline_in_list">Display timelines in a list</string>
-    <string name="display_timeline">Display timelines</string>
+    <string name="set_display_timeline_in_list">Wyświetlanie osi czasu na liście</string>
+    <string name="display_timeline">Wyświetlanie osi czasu</string>
     <string name="set_display_bot_icon">Oznacz konta botów w wpisach</string>
     <string name="add_tags">Zarządzaj tagami</string>
-    <string name="set_remember_position">Remember the position in Home timeline</string>
+    <string name="set_remember_position">Zapamiętaj pozycję na osi czasu domu</string>
     <string name="history">Historia</string>
     <string name="playlists">Playlisty</string>
     <string name="display_name">Wyświetlana nazwa</string>
-    <string name="action_playlist_add">You don\'t have any playlists. Tap on the \"+\" icon to add a new playlist</string>
-    <string name="error_display_name">You must provide a display name!</string>
-    <string name="error_channel_mandatory">The channel is required when the playlist is public.</string>
+    <string name="action_playlist_add">Nie masz żadnych list odtwarzania. Stuknij ikonę \"+\", aby dodać nową listę odtwarzania</string>
+    <string name="error_display_name">Musisz podać nazwę użytkownika!</string>
+    <string name="error_channel_mandatory">Kanał jest wymagany, gdy lista odtwarzania jest publiczna.</string>
     <string name="action_playlist_create">Utwórz playlistę</string>
     <string name="action_playlist_empty_content">Jeszcze nic nie ma w tej playliście.</string>
     <string name="redo">ponów</string>
@@ -792,11 +792,11 @@
     <string name="unmute_conversation">Wyłącz wyciszenie rozmowy</string>
     <string name="toast_unmute_conversation">Rozmowa nie jest już wyciszona!</string>
     <string name="toast_mute_conversation">Ta rozmowa jest wyciszona</string>
-    <string name="app_features">Open application features</string>
+    <string name="app_features">Funkcje otwartej aplikacji</string>
     <string name="timed_mute">Czasowe wyciszenie</string>
-    <string name="mention_account">Mention the account</string>
+    <string name="mention_account">Wymień konto</string>
     <string name="refresh_cache">Odśwież pamięć podręczną</string>
-    <string name="mention_status">Mention the status</string>
+    <string name="mention_status">Wspomnij o statusie</string>
     <string name="action_news">Aktualności</string>
     <string name="category_general">Ogólne</string>
     <string name="category_regional">Regionalne</string>
@@ -812,14 +812,14 @@
     <string name="toast_error_instance_reg">Coś poszło nie tak podczas sprawdzania dostępnych instancji!</string>
     <string name="join_mastodon">Dołącz do Mastodona</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="pickup_instance_peertube">Choose an instance by tapping on a check button.</string>
+    <string name="pickup_instance_peertube">Wybierz instancję, naciskając przycisk wyboru.</string>
     <string name="users">%1$s użytkowników</string>
     <string name="password_confirm">Potwierdź hasło</string>
     <string name="agreement_check">Zgadzam się z %1$s i %2$s</string>
     <string name="server_rules">zasady serwera</string>
     <string name="tos">warunki korzystania z usługi</string>
     <string name="sign_up">Zarejestruj się</string>
-    <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
+    <string name="validation_needed">Ta instancja działa z zaproszeniami. Zanim konto będzie mogło być użyte, będzie musiało zostać ręcznie zatwierdzone przez administratora.</string>
     <string name="all_field_filled">Proszę wypełnić wszystkie pola!</string>
     <string name="password_error">Hasła nie pasują do siebie!</string>
     <string name="email_error">Wygląda na to, że adres e-mail nie jest prawidłowy!</string>
@@ -829,17 +829,19 @@
     <string name="password_too_short">Hasło powinno zawierać co najmniej 8 znaków</string>
     <string name="username_error">Nazwa użytkownika powinna zawierać tylko litery, cyfry i podkreślenia</string>
     <string name="account_created">Konto zostało utworzone!</string>
-    <string name="account_created_message">        Your account has been created!\n\n
-        Think to validate your email within the 48 next hours.\n\n
-        You can now connect your account by writing <b>%1$s</b> in the first field and tap on <b>Connect</b>.\n\n
-        <b>Important</b>: If your instance required validation, you will receive an email once it is validated!
-    </string>
+    <string name="account_created_message"> Twoje konto zostało utworzone!
+\n
+\n Pomyśl, aby zweryfikować swój adres e-mail w ciągu 48 następnych godzin.
+\n
+\n Możesz teraz połączyć swoje konto, wpisując <b>%1$s</b> w pierwszym polu i dotykając <b>Połącz</b>.
+\n
+\n <b>Ważne</b>: Jeśli Twoja instancja wymagała weryfikacji, otrzymasz wiadomość e-mail po jej zweryfikowaniu! </string>
     <string name="save_draft">Zapisać wiadomość jako szkic?</string>
     <string name="administration">Administracja</string>
     <string name="reports">Zgłoszenia</string>
     <string name="no_reports">Brak zgłoszeń do wyświetlenia!</string>
     <string name="reconnect_account">Połącz ponownie ze swoim kontem</string>
-    <string name="reconnect_account_message">The application failed to access the admin features. You might need to reconnect the account for having the correct scope.</string>
+    <string name="reconnect_account_message">Aplikacja nie uzyskała dostępu do funkcji administratora. Może być konieczne ponowne podłączenie konta, aby uzyskać prawidłowy zakres.</string>
     <string name="unresolved">Nierozwiązane</string>
     <string name="remote">Zdalne</string>
     <string name="active">Aktywne</string>
@@ -876,22 +878,22 @@
     <string name="account_undisabled">Konto nie jest już wyłączone!</string>
     <string name="account_warned">Konto zostało ostrzeżone!</string>
     <string name="set_display_admin_menu">Wyświetl menu administratora</string>
-    <string name="set_display_admin_toot">Display the admin feature in statuses</string>
+    <string name="set_display_admin_toot">Wyświetlanie funkcji administratora w statusach</string>
     <string name="allow">Zezwól</string>
     <string name="account_approved">Konto zostało zatwierdzone!</string>
     <string name="account_rejected">Konto zostało odrzucone!</string>
-    <string name="assign_to_me">Assign to me</string>
+    <string name="assign_to_me">Przypisz do mnie</string>
     <string name="unassign">Unassign</string>
-    <string name="mark_resolved">Mark as resolved</string>
-    <string name="mark_unresolved">Mark as unresolved</string>
+    <string name="mark_resolved">Oznacz jako rozwiązane</string>
+    <string name="mark_unresolved">Oznacz jako nierozwiązane</string>
     <string name="toast_empty_content">Brak Zawartości!</string>
-    <string name="set_display_fedilab_features_button">Display Fedilab features button</string>
+    <string name="set_display_fedilab_features_button">Wyświetl przycisk funkcji Fedilab</string>
     <string name="audio">The application needs to access audio recording</string>
     <string name="voice_message">Wiadomość głosowa</string>
     <string name="set_quick_reply">Włącz szybką odpowiedź</string>
-    <string name="reply_might_be_useless">The account you are replying might not see your message!</string>
-    <string name="set_remember_position_indication">If disabled, the app will always load last statuses</string>
-    <string name="set_blur_sensitive_indication">If disabled, sensitive media will be hidden with a button</string>
+    <string name="reply_might_be_useless">Konto, na które odpowiadasz, może nie widzieć Twojej wiadomości!</string>
+    <string name="set_remember_position_indication">Jeśli jest wyłączona, aplikacja będzie zawsze wczytywać ostatnie stany</string>
+    <string name="set_blur_sensitive_indication">Jeśli opcja ta jest wyłączona, wrażliwe nośniki będą ukryte za pomocą przycisku</string>
     <string name="set_long_press_media_indication">Store media in full size with a long press on previews</string>
     <string name="set_display_timeline_in_list_indication">Add an ellipse button at the top right for listing all tags/instances/lists</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
@@ -1199,4 +1201,85 @@
     <string name="notification_sounds">Dźwięki powiadomień</string>
     <string name="disable_notifications">Wyłącz powiadomienia</string>
     <string name="notifications_are">W tym przedziale czasowym</string>
+    <string name="admin_scope">Jestem moderatorem</string>
+    <string name="last_active">Ostatni aktywny</string>
+    <string name="location">Lokalizacja</string>
+    <string name="staff">Pracownicy</string>
+    <string name="filter">Filtr</string>
+    <string name="most_recent">Najnowszy</string>
+    <string name="domain">Domeny</string>
+    <string name="approved">Zatwierdzony</string>
+    <string name="approve">Zatwierdzić</string>
+    <string name="origin_report">Źródło rachunku raportowanego</string>
+    <string name="set_accounts_page">Liczba rachunków na ładunek</string>
+    <string name="set_notifications_page">Liczba powiadomień na ładunek</string>
+    <string name="report_1_block">Nie będziesz widzieć ich postów. Osoby te nie będą mogły widzieć Twoich postów ani Cię śledzić. Będą mogli powiedzieć, że zostali zablokowani.</string>
+    <string name="about_mastodon">\"Mastodon nie jest pojedynczą stroną internetową, jak Twitter czy Facebook, to sieć tysięcy społeczności obsługiwanych przez różne organizacje i osoby, które zapewniają płynne działanie mediów społecznościowych.\"</string>
+    <string name="customize_timelines">Dostosowywanie osi czasu</string>
+    <string name="resolved">Rozwiązany</string>
+    <string name="status">Stan</string>
+    <string name="poll_duration">Czas trwania plebiscytu:</string>
+    <string name="report_val_more3">Jesteś świadomy, że łamie on określone zasady</string>
+    <string name="report_1_unfollow">Śledzisz to konto. Aby nie widzieć już ich postów w swoim kanale głównym, należy je odblokować.</string>
+    <string name="report_1_mute">Nie będziesz widzieć ich postów. Osoby te nadal mogą Cię śledzić i widzieć Twoje posty, ale nie będą wiedziały, że zostały wyciszone.</string>
+    <string name="report_more_remote">Konto jest z innego serwera. Czy tam również można wysłać anonimową kopię raportu\?</string>
+    <string name="report_more_forward">Przekaż do %1$s</string>
+    <string name="report_sent">Raport został wysłany!</string>
+    <string name="dont_have_an_account">Nie masz konta\?</string>
+    <string name="join_the_fediverse">Dołącz do fediverse</string>
+    <string name="invite_join_the_fediverse">Cześć, zapraszamy do przyłączenia się do Fediverse.</string>
+    <string name="notif_display_reblogs">Rebloguje</string>
+    <string name="notif_display_poll_results">Wyniki ankiety</string>
+    <string name="notif_display_updates_from_people">Aktualizacje od osób</string>
+    <string name="notif_display_follows">Śledzi</string>
+    <string name="add_field">Dodaj pole</string>
+    <string name="unlocked">Odblokowany</string>
+    <string name="locked">Zablokowany</string>
+    <string name="not_valid_list_name">Nazwa listy jest nieprawidłowa!</string>
+    <string name="no_account_in_list">Nie znaleziono kont dla tej listy!</string>
+    <string name="replace_youtube_host">Domena frontendowa YouTube</string>
+    <string name="replace_twitter_host">Domena frontendu Twitter</string>
+    <string name="replace_instagram_host">Domena frontendowa Instagram</string>
+    <string name="replace_reddit_host">Domena frontendu Reddit</string>
+    <string name="boosted_by">Wzmocnione przez</string>
+    <string name="is_up">Już jest!</string>
+    <string name="is_down">Jest wyłączony!</string>
+    <string name="instance_health_checkedat">Sprawdzono w: %s</string>
+    <string name="notif_display_favourites">Ulubione</string>
+    <string name="join_peertube_message">\"PeerTube, stworzony przez Framasoft, to darmowa i zdecentralizowana alternatywa dla platform wideo, udostępniająca ponad 400 000 filmów opublikowanych przez 60 000 użytkowników i obejrzanych ponad 15 milionów razy.\"</string>
+    <string name="notif_display_mentions">Wzmianki</string>
+    <string name="display_all_categories">Pokaż wszystkie kategorie</string>
+    <string name="interactions">Interakcje</string>
+    <string name="add_filter">Dodaj filtr</string>
+    <string name="clear_all_notif">Wyczyść wszystkie zgłoszenia</string>
+    <string name="mark_all_as_read">Oznacz wszystkie powiadomienia jako przeczytane</string>
+    <string name="delete_notification_all_warning">Czy na pewno chcesz usunąć wszystkie powiadomienia\? Nie da się tego cofnąć.</string>
+    <string name="save_changes">Zapisz zmiany</string>
+    <string name="set_bot_content">Konto bota</string>
+    <string name="set_discoverable_content">Rachunek wykrywalny</string>
+    <string name="delete_field">Usuń pole</string>
+    <string name="delete_field_confirm">Czy na pewno chcesz usunąć to pole\?</string>
+    <string name="profiled_updated">Profil został zaktualizowany!</string>
+    <string name="scheduled">Zaplanowane</string>
+    <string name="type_of_notifications">Rodzaj powiadomień</string>
+    <string name="alternative_frontends">Alternatywne fronty</string>
+    <string name="customize_main_colors">Dostosuj główne kolory</string>
+    <string name="more_actions">Więcej działań</string>
+    <string name="pref_contributor">Tematy zgłoszone przez uczestników</string>
+    <string name="pref_contributor_summary">Wybierz motyw, który został zbudowany przez współpracowników</string>
+    <string name="select_a_theme">Wybierz temat</string>
+    <string name="poll_type">Typ plebiscytu:</string>
+    <string name="types_of_notifications_to_display">Typy powiadomień, które mają być wyświetlane</string>
+    <string name="set_unfollow_validation_title">Potwierdź niezaufanie</string>
+    <string name="type_of_notifications_title">Wybierz typ powiadomień</string>
+    <string name="message_has_been_sent">Wiadomość została wysłana!</string>
+    <string name="display">Wyświetlacz</string>
+    <string name="bottom_menu">Menu dolne</string>
+    <string name="top_menu">Menu górnego paska</string>
+    <string name="also_favourite_by">"Polecany również przez: "</string>
+    <string name="also_boosted_by">Również wzmocnione przez:</string>
+    <string name="pref_theme_base">Podstawa tematu</string>
+    <string name="pref_theme_base_summary">Wybierz, czy podstawa motywu ma być ciemna czy jasna</string>
+    <string name="pref_custom_theme_new_summary">Umożliwia tworzenie własnych motywów</string>
+    <string name="set_display_bookmark_indication">Zawsze wyświetlaj przycisk zakładki</string>
 </resources>
