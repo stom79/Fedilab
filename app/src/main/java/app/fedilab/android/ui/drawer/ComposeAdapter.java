@@ -656,9 +656,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 int currentLength = MastodonHelper.countLength(holder);
                 //Copy/past
                 if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
-                    holder.binding.content.setText(s.delete(instanceInfo.configuration.statusesConf.max_characters - holder.binding.contentSpoiler.getText().length(), (currentLength - holder.binding.contentSpoiler.getText().length())));
+                    int from = instanceInfo.configuration.statusesConf.max_characters - holder.binding.contentSpoiler.getText().length();
+                    int to = (currentLength - holder.binding.contentSpoiler.getText().length());
+                    if (to <= s.length()) {
+                        holder.binding.content.setText(s.delete(from, to));
+                    }
                 } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
-                    holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
+                    if (cPosition + 1 <= s.length()) {
+                        holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
+                    }
                 }
                 statusList.get(holder.getAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {

@@ -139,10 +139,11 @@ public class SpannableHelper {
                                             apngDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
                                             apngDrawable.setVisible(true, true);
                                             imageSpan = new ImageSpan(apngDrawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
+                                            if (endPosition <= content.length()) {
+                                                content.setSpan(
+                                                        imageSpan, startPosition,
+                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            }
                                         } catch (Exception ignored) {
                                         }
                                     } else if (GifParser.isGif(file.getAbsolutePath())) {
@@ -151,9 +152,11 @@ public class SpannableHelper {
                                             gifDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
                                             gifDrawable.setVisible(true, true);
                                             imageSpan = new ImageSpan(gifDrawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            if (endPosition <= content.length()) {
+                                                content.setSpan(
+                                                        imageSpan, startPosition,
+                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            }
                                         } catch (Exception ignored) {
                                         }
                                     } else {
@@ -162,9 +165,11 @@ public class SpannableHelper {
                                             drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
                                             drawable.setVisible(true, true);
                                             imageSpan = new ImageSpan(drawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            if (endPosition <= content.length()) {
+                                                content.setSpan(
+                                                        imageSpan, startPosition,
+                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            }
                                         } catch (Exception ignored) {
                                         }
                                     }
@@ -682,9 +687,11 @@ public class SpannableHelper {
                                             drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
                                             drawable.setVisible(true, true);
                                             imageSpan = new ImageSpan(drawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            if (endPosition <= content.length()) {
+                                                content.setSpan(
+                                                        imageSpan, startPosition,
+                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                                            }
                                         } catch (Exception ignored) {
                                         }
                                     }
