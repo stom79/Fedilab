@@ -182,7 +182,7 @@ public class FragmentMastodonNotification extends Fragment {
 
         binding.loader.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
-
+        flagLoading = false;
         if (notifications == null || notifications.notifications == null) {
             binding.noActionText.setText(R.string.no_notifications);
             binding.noAction.setVisibility(View.VISIBLE);
@@ -278,6 +278,7 @@ public class FragmentMastodonNotification extends Fragment {
      */
     private void dealWithPagination(Notifications fetched_notifications) {
         binding.loadingNextElements.setVisibility(View.GONE);
+        flagLoading = false;
         if (currentFragment.notifications != null && fetched_notifications != null && fetched_notifications.notifications != null) {
             flagLoading = fetched_notifications.pagination.max_id == null;
             if (aggregateNotification) {

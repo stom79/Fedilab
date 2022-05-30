@@ -250,6 +250,7 @@ public class FragmentMastodonTimeline extends Fragment {
      * @param statuses {@link Statuses}
      */
     private void initializeStatusesCommonView(final Statuses statuses) {
+        flagLoading = false;
         if (binding == null) {
             return;
         }
@@ -366,6 +367,7 @@ public class FragmentMastodonTimeline extends Fragment {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
+        flagLoading = false;
         if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
 
             flagLoading = fetched_statuses.pagination.max_id == null;

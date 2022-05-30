@@ -84,7 +84,7 @@ public class FragmentMastodonConversation extends Fragment {
      * @param conversations {@link Conversations}
      */
     private void initializeConversationCommonView(final Conversations conversations) {
-
+        flagLoading = false;
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         if (conversationAdapter != null && this.conversations != null) {

@@ -247,9 +247,7 @@ public class FragmentNotificationContainer extends Fragment {
 
             }
         });
-
     }
-
 
     @Override
     public void onDestroyView() {

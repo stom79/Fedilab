@@ -171,6 +171,7 @@ public class FragmentMastodonAccount extends Fragment {
      * @param accounts {@link Accounts}
      */
     private void initializeAccountCommonView(final Accounts accounts) {
+        flagLoading = false;
         if (binding == null) {
             return;
         }
@@ -240,7 +241,7 @@ public class FragmentMastodonAccount extends Fragment {
      * @param fetched_accounts Accounts
      */
     private void dealWithPagination(Accounts fetched_accounts) {
-
+        flagLoading = false;
         if (binding == null) {
             return;
         }
