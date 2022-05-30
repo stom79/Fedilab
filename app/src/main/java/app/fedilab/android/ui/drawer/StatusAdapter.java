@@ -142,7 +142,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    private static boolean isVisble(Timeline.TimeLineEnum timelineType, Status status) {
+    private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status) {
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
             return false;
         }
@@ -316,9 +316,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
         }
         if (theme_boost_header_color != -1 && status.reblog != null) {
-            holder.binding.headerContainer.setBackgroundColor(theme_boost_header_color);
+            holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
+
         } else {
-            holder.binding.headerContainer.setBackgroundColor(0);
+            holder.binding.statusBoosterInfo.setBackgroundColor(0);
         }
         if (theme_text_color != -1) {
             holder.binding.statusContent.setTextColor(theme_text_color);
@@ -750,9 +751,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- BOOSTER INFO ---
         if (status.reblog != null) {
             MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
+            holder.binding.statusBoosterDisplayName.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
+            holder.binding.boosterDivider.setVisibility(View.VISIBLE);
+            if (theme_text_header_1_line != -1) {
+                holder.binding.statusBoosterDisplayName.setTextColor(theme_text_header_1_line);
+            }
+            holder.binding.statusBoosterUsername.setText(String.format("@%s", status.account.acct));
+            if (theme_text_header_2_line != -1) {
+                holder.binding.statusBoosterUsername.setTextColor(theme_text_header_2_line);
+            }
         } else {
             holder.binding.statusBoosterInfo.setVisibility(View.GONE);
+            holder.binding.boosterDivider.setVisibility(View.GONE);
         }
         //--- BOOST VISIBILITY ---
         switch (status.visibility) {
@@ -1171,6 +1182,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return false;
         });
         if (!minified) {
+            holder.binding.mainContainer.setOnClickListener(v -> {
+                holder.binding.statusContent.callOnClick();
+            });
             holder.binding.statusContent.setOnClickListener(v -> {
                 if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
                     if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
@@ -1568,7 +1582,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (timelineType == Timeline.TimeLineEnum.ART) {
             return STATUS_ART;
         } else {
-            return isVisble(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+            return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
         }
     }
 
