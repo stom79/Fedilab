@@ -116,6 +116,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
@@ -893,6 +894,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (fragment instanceof FragmentMastodonConversation) {
                 FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
                 fragmentMastodonConversation.scrollToTop();
+            } else if (fragment instanceof FragmentNotificationContainer) {
+                FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
+                fragmentNotificationContainer.scrollToTop();
             }
         }
     }

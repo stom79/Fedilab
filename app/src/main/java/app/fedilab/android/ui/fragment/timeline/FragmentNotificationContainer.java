@@ -61,6 +61,18 @@ public class FragmentNotificationContainer extends Fragment {
     }
 
 
+    public void scrollToTop() {
+        if (binding != null) {
+            FedilabNotificationPageAdapter fedilabNotificationPageAdapter = ((FedilabNotificationPageAdapter) binding.viewpager.getAdapter());
+            if (fedilabNotificationPageAdapter != null) {
+                FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) fedilabNotificationPageAdapter.getCurrentFragment();
+                if (fragmentMastodonNotification != null) {
+                    fragmentMastodonNotification.scrollToTop();
+                }
+            }
+        }
+    }
+
     @SuppressLint("ApplySharedPref")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
