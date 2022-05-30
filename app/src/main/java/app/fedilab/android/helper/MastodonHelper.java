@@ -32,6 +32,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 
@@ -42,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -439,6 +441,44 @@ public class MastodonHelper {
         }
     }
 
+
+    /**
+     * Insert a single message depending of its publication date
+     *
+     * @param adapter           - RecyclerView.Adapter<RecyclerView.ViewHolder>
+     * @param currentStatusList - Current list of messages List<Status>
+     * @param statusToInsert    - status to insert - Status
+     */
+    public static void insertStatus(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, List<Status> currentStatusList, Status statusToInsert) {
+        if (adapter == null || currentStatusList == null || statusToInsert == null) {
+            return;
+        }
+        int i = 0;
+        while (i < currentStatusList.size() && statusToInsert.created_at.before(currentStatusList.get(i).created_at)) {
+            i++;
+        }
+        currentStatusList.add(i, statusToInsert);
+        adapter.notifyItemInserted(i);
+    }
+
+    /**
+     * Insert a list of messages depending of its publication date
+     *
+     * @param adapter           - RecyclerView.Adapter<RecyclerView.ViewHolder>
+     * @param currentStatusList - Current list of messages List<Status>
+     * @param statusesToInsert  - statuses to insert - List<Status>
+     */
+    public static void insertStatuses(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, List<Status> currentStatusList, List<Status> statusesToInsert) {
+        if (adapter == null || currentStatusList == null || statusesToInsert == null || statusesToInsert.size() == 0) {
+            return;
+        }
+        int i = 0;
+        while (i < currentStatusList.size() && statusesToInsert.get(statusesToInsert.size() - 1).created_at.before(currentStatusList.get(i).created_at)) {
+            i++;
+        }
+        currentStatusList.addAll(i, statusesToInsert);
+        adapter.notifyItemRangeInserted(i, statusesToInsert.size());
+    }
 
     public enum ScheduleType {
         BOOST,
