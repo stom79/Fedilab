@@ -17,8 +17,6 @@ package app.fedilab.android.ui.drawer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -101,12 +99,18 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
             unfollowConfirm.setMessage(context.getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
+                statusDrafts.remove(holder.getAbsoluteAdapterPosition());
+                notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                if (statusDrafts.size() == 0) {
+                    draftActions.onAllDeleted();
+                }
+                final StatusDraft statusDraftToDelete = statusDraft;
                 new Thread(() -> {
                     try {
                         //Check if there are media in the drafts
                         List<Attachment> attachments = new ArrayList<>();
-                        if (statusDraft.statusDraftList != null) {
-                            for (Status drafts : statusDraft.statusDraftList) {
+                        if (statusDraftToDelete.statusDraftList != null) {
+                            for (Status drafts : statusDraftToDelete.statusDraftList) {
                                 if (drafts.media_attachments != null && drafts.media_attachments.size() > 0) {
                                     attachments.addAll(drafts.media_attachments);
                                 }
@@ -125,16 +129,7 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
                             }
                         }
                         //Delete the draft
-                        new StatusDraft(context).removeDraft(statusDraft);
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> {
-                            statusDrafts.remove(statusDraft);
-                            notifyItemRemoved(position);
-                            if (statusDrafts.size() == 0) {
-                                draftActions.onAllDeleted();
-                            }
-                        };
-                        mainHandler.post(myRunnable);
+                        new StatusDraft(context).removeDraft(statusDraftToDelete);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }

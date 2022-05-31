@@ -283,7 +283,7 @@ public class StatusDraft implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_DRAFT, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, Sqlite.COL_UPDATED_AT + " ASC", null);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_DRAFT, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, Sqlite.COL_UPDATED_AT + " DESC", null);
             return cursorToStatusDraftList(c);
         } catch (Exception e) {
             return null;
