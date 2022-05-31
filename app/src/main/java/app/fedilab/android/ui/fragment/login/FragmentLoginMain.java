@@ -250,37 +250,35 @@ public class FragmentLoginMain extends Fragment {
         } catch (UnsupportedEncodingException e) {
             Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
         }
-        if (api == Account.API.MASTODON) {
-            String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
-            AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
-            appsVM.createApp(currentInstance, getString(R.string.app_name),
-                    Helper.REDIRECT_CONTENT_WEB,
-                    scopes,
-                    Helper.WEBSITE_VALUE
-            ).observe(requireActivity(), app -> {
-                client_id = app.client_id;
-                client_secret = app.client_secret;
-                String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, ((LoginActivity) requireActivity()).requestedAdmin());
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-                if (embedded_browser) {
-                    Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
-                    i.putExtra("login_url", redirectUrl);
-                    i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
-                    startActivity(i);
-                    requireActivity().finish();
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse(redirectUrl));
-                    try {
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                    }
-
+        String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+        AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
+        appsVM.createApp(currentInstance, getString(R.string.app_name),
+                Helper.REDIRECT_CONTENT_WEB,
+                scopes,
+                Helper.WEBSITE_VALUE
+        ).observe(requireActivity(), app -> {
+            client_id = app.client_id;
+            client_secret = app.client_secret;
+            String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, ((LoginActivity) requireActivity()).requestedAdmin());
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
+            if (embedded_browser) {
+                Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
+                i.putExtra("login_url", redirectUrl);
+                i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
+                startActivity(i);
+                requireActivity().finish();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(redirectUrl));
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
-            });
-        }
+
+            }
+        });
     }
 }

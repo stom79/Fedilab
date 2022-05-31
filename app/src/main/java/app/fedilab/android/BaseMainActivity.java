@@ -487,7 +487,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (itemId == R.id.action_logout_account) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
                     alt_bld.setTitle(R.string.action_logout);
-                    alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.username, account.instance));
+                    if (account.mastodon_account != null && account.mastodon_account.username != null && account.instance != null) {
+                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.username, account.instance));
+                    } else if (account.mastodon_account != null && account.mastodon_account.acct != null) {
+                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.acct, ""));
+                    } else {
+                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, "", ""));
+                    }
                     alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
                         dialog.dismiss();
                         try {
