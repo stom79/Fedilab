@@ -129,8 +129,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
             statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
-            instance = b.getString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance);
-            token = b.getString(Helper.ARG_TOKEN, BaseMainActivity.currentToken);
+            instance = b.getString(Helper.ARG_INSTANCE, null);
+            token = b.getString(Helper.ARG_TOKEN, null);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
@@ -159,15 +159,16 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             status.visibility = scheduledStatus.params.visibility;
             statusDraft.statusDraftList = statuses;
         }
-        if (instance == null) {
-            instance = BaseMainActivity.currentInstance;
-        }
-        if (token == null) {
-            token = BaseMainActivity.currentToken;
-        }
         if (account == null) {
             account = BaseMainActivity.accountWeakReference.get();
         }
+        if (instance == null) {
+            instance = account.instance;
+        }
+        if (token == null) {
+            token = account.token;
+        }
+
         StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
         //Empty compose
         List<Status> statusDraftList = new ArrayList<>();
@@ -546,6 +547,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusDraft.statusDraftList = statusDrafts;
             statusDraft.instance = account.instance;
             statusDraft.user_id = account.user_id;
+
             if (!canBeSent(statusDraft)) {
                 return;
             }
