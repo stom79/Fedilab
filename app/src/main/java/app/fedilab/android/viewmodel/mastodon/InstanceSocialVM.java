@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.entities.app.InstanceSocial;
@@ -77,7 +76,7 @@ public class InstanceSocialVM extends AndroidViewModel {
                     Runnable myRunnable = () -> instanceSocialMutableLiveData.setValue(response.body());
                     mainHandler.post(myRunnable);
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();

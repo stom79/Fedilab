@@ -173,9 +173,14 @@ public class AdminReportActivity extends BaseActivity {
             if (adminAccount.disabled) {
                 adminVM.enable(MainActivity.currentInstance, MainActivity.currentToken, account.id)
                         .observe(AdminReportActivity.this, adminAccountResult -> {
-                            adminAccount.disabled = false;
-                            binding.disableAction.setText(R.string.disable);
-                            binding.disabled.setText(R.string.no);
+                            if (adminAccountResult != null) {
+                                adminAccount.disabled = false;
+                                binding.disableAction.setText(R.string.disable);
+                                binding.disabled.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+
                         });
             } else {
                 adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "disable ", null, null, null, null);
@@ -189,9 +194,14 @@ public class AdminReportActivity extends BaseActivity {
             if (adminAccount.approved) {
                 adminVM.reject(MainActivity.currentInstance, MainActivity.currentToken, account.id)
                         .observe(AdminReportActivity.this, adminAccountResult -> {
-                            adminAccount.approved = false;
-                            binding.approveAction.setText(R.string.approve);
-                            binding.approved.setText(R.string.no);
+                            if (adminAccountResult != null) {
+                                adminAccount.approved = false;
+                                binding.approveAction.setText(R.string.approve);
+                                binding.approved.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+
                         });
             } else {
                 adminVM.approve(MainActivity.currentInstance, MainActivity.currentToken, account.id);
@@ -205,9 +215,13 @@ public class AdminReportActivity extends BaseActivity {
             if (adminAccount.disabled) {
                 adminVM.unsilence(MainActivity.currentInstance, MainActivity.currentToken, account.id)
                         .observe(AdminReportActivity.this, adminAccountResult -> {
-                            adminAccount.silenced = false;
-                            binding.silenceAction.setText(R.string.silence);
-                            binding.disabled.setText(R.string.no);
+                            if (adminAccountResult != null) {
+                                adminAccount.silenced = false;
+                                binding.silenceAction.setText(R.string.silence);
+                                binding.disabled.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
                         });
             } else {
                 adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "silence", null, null, null, null);
@@ -221,9 +235,13 @@ public class AdminReportActivity extends BaseActivity {
             if (adminAccount.disabled) {
                 adminVM.unsuspend(MainActivity.currentInstance, MainActivity.currentToken, account.id)
                         .observe(AdminReportActivity.this, adminAccountResult -> {
-                            adminAccount.suspended = false;
-                            binding.suspendAction.setText(R.string.suspend);
-                            binding.suspended.setText(R.string.no);
+                            if (adminAccountResult != null) {
+                                adminAccount.suspended = false;
+                                binding.suspendAction.setText(R.string.suspend);
+                                binding.suspended.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
                         });
             } else {
                 adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "suspend", null, null, null, null);

@@ -99,6 +99,8 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
                             binding.regCategoryView.setLayoutManager(mLayoutManager);
                             binding.regCategoryView.setNestedScrollingEnabled(false);
                             binding.regCategoryView.setAdapter(instanceRegAdapter);
+                        } else {
+                            Helper.sendToastMessage(requireActivity(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
                         }
                     });
                 } else {

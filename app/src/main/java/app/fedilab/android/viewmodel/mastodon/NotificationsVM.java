@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -109,7 +108,7 @@ public class NotificationsVM extends AndroidViewModel {
                         }
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -146,7 +145,7 @@ public class NotificationsVM extends AndroidViewModel {
                             notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -173,7 +172,7 @@ public class NotificationsVM extends AndroidViewModel {
             if (voidCall != null) {
                 try {
                     voidCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -201,7 +200,7 @@ public class NotificationsVM extends AndroidViewModel {
             if (voidCall != null) {
                 try {
                     voidCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -249,7 +248,7 @@ public class NotificationsVM extends AndroidViewModel {
                     if (pushSubscriptionResponse.isSuccessful()) {
                         pushSubscription = pushSubscriptionResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -282,7 +281,7 @@ public class NotificationsVM extends AndroidViewModel {
                     if (pushSubscriptionResponse.isSuccessful()) {
                         pushSubscription = pushSubscriptionResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -325,7 +324,7 @@ public class NotificationsVM extends AndroidViewModel {
                     if (pushSubscriptionResponse.isSuccessful()) {
                         pushSubscription = pushSubscriptionResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -352,7 +351,7 @@ public class NotificationsVM extends AndroidViewModel {
             if (voidCall != null) {
                 try {
                     voidCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

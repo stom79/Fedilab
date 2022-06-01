@@ -627,8 +627,11 @@ public class SpannableHelper {
      * @param text    String - text to convert, it can be display name or bio
      * @return Spannable string
      */
-    private static Spannable convertA(@NonNull Context context, @NonNull Account account, @NonNull String text, boolean limitedToDisplayName) {
+    private static Spannable convertA(@NonNull Context context, @NonNull Account account, String text, boolean limitedToDisplayName) {
         SpannableString initialContent;
+        if (text == null) {
+            return null;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
         else

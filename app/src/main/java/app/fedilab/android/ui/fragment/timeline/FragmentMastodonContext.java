@@ -224,6 +224,7 @@ public class FragmentMastodonContext extends Fragment {
     private void initializeContextView(final Context context) {
 
         if (context == null) {
+            Helper.sendToastMessage(requireActivity(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
             return;
         }
         if (pullToRefresh) {

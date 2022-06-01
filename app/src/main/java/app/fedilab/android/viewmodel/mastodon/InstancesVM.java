@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -80,7 +79,7 @@ public class InstancesVM extends AndroidViewModel {
                     if (emojiResponse.isSuccessful()) {
                         emojiInstance.emojiList = emojiResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -113,7 +112,7 @@ public class InstancesVM extends AndroidViewModel {
                         instanceInfo.info = instanceResponse.body();
                     }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

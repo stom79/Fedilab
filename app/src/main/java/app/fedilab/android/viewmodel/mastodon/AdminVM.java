@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -119,7 +118,7 @@ public class AdminVM extends AndroidViewModel {
                         adminAccounts.adminAccounts = getAccountsResponse.body();
                         adminAccounts.pagination = MastodonHelper.getPagination(getAccountsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -150,7 +149,7 @@ public class AdminVM extends AndroidViewModel {
                     if (getAccountResponse.isSuccessful()) {
                         adminAccount = getAccountResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -188,7 +187,7 @@ public class AdminVM extends AndroidViewModel {
             if (performActionCall != null) {
                 try {
                     performActionCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -215,7 +214,7 @@ public class AdminVM extends AndroidViewModel {
                     if (approveResponse.isSuccessful()) {
                         adminAccount = approveResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -247,7 +246,7 @@ public class AdminVM extends AndroidViewModel {
                     if (rejectResponse.isSuccessful()) {
                         adminAccount = rejectResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -279,7 +278,7 @@ public class AdminVM extends AndroidViewModel {
                     if (enableResponse.isSuccessful()) {
                         adminAccount = enableResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -311,7 +310,7 @@ public class AdminVM extends AndroidViewModel {
                     if (unsilenceResponse.isSuccessful()) {
                         adminAccount = unsilenceResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -343,7 +342,7 @@ public class AdminVM extends AndroidViewModel {
                     if (unsuspendResponse.isSuccessful()) {
                         adminAccount = unsuspendResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -382,7 +381,7 @@ public class AdminVM extends AndroidViewModel {
                         adminReports.adminReports = adminReportList;
                         adminReports.pagination = MastodonHelper.getPagination(getReportsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -412,7 +411,7 @@ public class AdminVM extends AndroidViewModel {
                     if (getReportResponse.isSuccessful()) {
                         adminReport = getReportResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -443,7 +442,7 @@ public class AdminVM extends AndroidViewModel {
                     if (assignToSelfResponse.isSuccessful()) {
                         adminReport = assignToSelfResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -474,7 +473,7 @@ public class AdminVM extends AndroidViewModel {
                     if (unassignResponse.isSuccessful()) {
                         adminReport = unassignResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -505,7 +504,7 @@ public class AdminVM extends AndroidViewModel {
                     if (resolvedResponse.isSuccessful()) {
                         adminReport = resolvedResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -536,7 +535,7 @@ public class AdminVM extends AndroidViewModel {
                     if (reopenResponse.isSuccessful()) {
                         adminReport = reopenResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

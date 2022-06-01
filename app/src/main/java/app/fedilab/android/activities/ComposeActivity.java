@@ -178,10 +178,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (statusReplyId != null && statusDraft != null) {//Delete and redraft
             statusesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
                     .observe(ComposeActivity.this, status1 -> {
-                        statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
-                                .observe(ComposeActivity.this, statusContext -> {
-                                    initializeContextRedraftView(statusContext, status1);
-                                });
+                        if (status1 != null) {
+                            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                                    .observe(ComposeActivity.this, statusContext -> {
+                                        if (statusContext != null) {
+                                            initializeContextRedraftView(statusContext, status1);
+                                        } else {
+                                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                                        }
+                                    });
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
                     });
         } else if (statusDraft != null) {//Restore a draft with all messages
             new Thread(() -> {

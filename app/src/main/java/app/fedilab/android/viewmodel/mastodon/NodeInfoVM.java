@@ -24,7 +24,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.NodeInfoService;
@@ -85,12 +84,12 @@ public class NodeInfoVM extends AndroidViewModel {
                                 if (response.isSuccessful() && response.body() != null) {
                                     nodeInfo = response.body();
                                 }
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

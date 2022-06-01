@@ -25,7 +25,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -127,7 +126,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (attachmentResponse.isSuccessful()) {
                         attachment = attachmentResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -187,7 +186,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -249,7 +248,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (scheduledStatusResponse.isSuccessful()) {
                         scheduledStatus = scheduledStatusResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -281,7 +280,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -313,7 +312,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -366,7 +365,7 @@ public class StatusesVM extends AndroidViewModel {
                         }
 
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -409,7 +408,7 @@ public class StatusesVM extends AndroidViewModel {
                         accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountsResponse.body());
                     }
                     headers = accountsResponse.headers();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -454,7 +453,7 @@ public class StatusesVM extends AndroidViewModel {
                         accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountsResponse.body());
                     }
                     headers = accountsResponse.headers();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -493,7 +492,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -537,7 +536,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -583,7 +582,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -627,7 +626,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -671,7 +670,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -715,7 +714,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -759,7 +758,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -803,7 +802,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -847,7 +846,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -891,7 +890,7 @@ public class StatusesVM extends AndroidViewModel {
                             errorMessage = statusResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -930,7 +929,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (cardResponse.isSuccessful()) {
                         card = cardResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -962,7 +961,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (attachmentResponse.isSuccessful()) {
                         attachment = attachmentResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1008,7 +1007,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (attachmentResponse.isSuccessful()) {
                         attachment = attachmentResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1040,7 +1039,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (pollResponse.isSuccessful()) {
                         poll = pollResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1073,7 +1072,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (pollResponse.isSuccessful()) {
                         poll = pollResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1115,7 +1114,7 @@ public class StatusesVM extends AndroidViewModel {
                         scheduledStatusList = scheduledStatusResponse.body();
                         pagination = MastodonHelper.getPagination(scheduledStatusResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1149,7 +1148,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (scheduledStatusResponse.isSuccessful()) {
                         scheduledStatus = scheduledStatusResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1181,7 +1180,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (scheduledStatusResponse.isSuccessful()) {
                         scheduledStatus = scheduledStatusResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1209,7 +1208,7 @@ public class StatusesVM extends AndroidViewModel {
             if (voidCall != null) {
                 try {
                     voidCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

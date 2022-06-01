@@ -73,8 +73,12 @@ public class EditProfileActivity extends BaseActivity {
 
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {
-                    BaseMainActivity.accountWeakReference.get().mastodon_account = account;
-                    initializeView();
+                    if (account != null) {
+                        BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                        initializeView();
+                    } else {
+                        Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                    }
                 });
     }
 
@@ -187,17 +191,21 @@ public class EditProfileActivity extends BaseActivity {
                     .into(binding.accountPp);
             accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), AccountsVM.UpdateMediaType.AVATAR)
                     .observe(EditProfileActivity.this, account -> {
-                        sendBroadCast(account);
-                        binding.avatarProgress.setVisibility(View.GONE);
-                        BaseMainActivity.accountWeakReference.get().mastodon_account = account;
-                        Helper.recreateMainActivity(EditProfileActivity.this);
-                        new Thread(() -> {
-                            try {
-                                new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
+                        if (account != null) {
+                            sendBroadCast(account);
+                            binding.avatarProgress.setVisibility(View.GONE);
+                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            Helper.recreateMainActivity(EditProfileActivity.this);
+                            new Thread(() -> {
+                                try {
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
                     });
         } else if (requestCode == PICK_MEDIA_HEADER && resultCode == RESULT_OK) {
             Glide.with(EditProfileActivity.this)
@@ -208,18 +216,21 @@ public class EditProfileActivity extends BaseActivity {
             binding.headerProgress.setVisibility(View.VISIBLE);
             accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), AccountsVM.UpdateMediaType.HEADER)
                     .observe(EditProfileActivity.this, account -> {
-                        sendBroadCast(account);
-                        binding.headerProgress.setVisibility(View.GONE);
-                        BaseMainActivity.accountWeakReference.get().mastodon_account = account;
-                        new Thread(() -> {
-                            try {
-                                new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
-
-                        Helper.recreateMainActivity(EditProfileActivity.this);
+                        if (account != null) {
+                            sendBroadCast(account);
+                            binding.headerProgress.setVisibility(View.GONE);
+                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            new Thread(() -> {
+                                try {
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                            Helper.recreateMainActivity(EditProfileActivity.this);
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
                     });
         }
     }
@@ -301,18 +312,22 @@ public class EditProfileActivity extends BaseActivity {
                     getFields()
             )
                     .observe(EditProfileActivity.this, account -> {
-                        BaseMainActivity.accountWeakReference.get().mastodon_account = account;
-                        new Thread(() -> {
-                            try {
-                                new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
-                                sendBroadCast(account);
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
+                        if (account != null) {
+                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            new Thread(() -> {
+                                try {
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                    sendBroadCast(account);
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                            Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
+                            finish();
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
 
-                        Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
-                        finish();
                     });
             return true;
         }

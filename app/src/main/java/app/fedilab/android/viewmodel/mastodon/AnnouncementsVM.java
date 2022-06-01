@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -80,7 +79,7 @@ public class AnnouncementsVM extends AndroidViewModel {
                     if (getAnnouncementsResponse.isSuccessful()) {
                         announcementList = getAnnouncementsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -106,7 +105,7 @@ public class AnnouncementsVM extends AndroidViewModel {
             if (dismissCall != null) {
                 try {
                     dismissCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -128,7 +127,7 @@ public class AnnouncementsVM extends AndroidViewModel {
             if (addReactionCall != null) {
                 try {
                     addReactionCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -150,7 +149,7 @@ public class AnnouncementsVM extends AndroidViewModel {
             if (removeReactionCall != null) {
                 try {
                     removeReactionCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

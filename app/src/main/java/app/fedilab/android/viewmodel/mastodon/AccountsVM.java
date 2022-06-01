@@ -24,7 +24,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -118,7 +117,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -164,7 +163,7 @@ public class AccountsVM extends AndroidViewModel {
                             errorMessage = stringResponse.errorBody().string();
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     errorMessage = e.getMessage() != null ? e.getMessage() : getApplication().getString(R.string.toast_error);
                 }
@@ -210,7 +209,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -270,7 +269,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -298,7 +297,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -343,7 +342,7 @@ public class AccountsVM extends AndroidViewModel {
                         pagination = MastodonHelper.getPagination(accountStatusesResponse.headers());
 
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -378,7 +377,7 @@ public class AccountsVM extends AndroidViewModel {
                         accountList = followersResponse.body();
                         pagination = MastodonHelper.getPagination(followersResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -414,7 +413,7 @@ public class AccountsVM extends AndroidViewModel {
                         accountList = followingResponse.body();
                         pagination = MastodonHelper.getPagination(followingResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -446,7 +445,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (featuredTagsResponse.isSuccessful()) {
                         featuredTagList = featuredTagsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -476,7 +475,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (listsResponse.isSuccessful()) {
                         mastodonListList = listsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -506,7 +505,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (identityProofsResponse.isSuccessful()) {
                         identityProofList = identityProofsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -537,7 +536,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (followResponse.isSuccessful()) {
                         relationShip = followResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -569,7 +568,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (followResponse.isSuccessful()) {
                         relationShip = followResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -599,7 +598,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (unfollowResponse.isSuccessful()) {
                         relationShip = unfollowResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -629,7 +628,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (blockResponse.isSuccessful()) {
                         relationShip = blockResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -659,7 +658,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (unblockResponse.isSuccessful()) {
                         relationShip = unblockResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -691,7 +690,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (muteResponse.isSuccessful()) {
                         relationShip = muteResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -721,7 +720,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (unmuteResponse.isSuccessful()) {
                         relationShip = unmuteResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -751,7 +750,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (endorseResponse.isSuccessful()) {
                         relationShip = endorseResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -781,7 +780,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (unendorseResponse.isSuccessful()) {
                         relationShip = unendorseResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -812,7 +811,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (noteResponse.isSuccessful()) {
                         relationShip = noteResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -842,7 +841,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (relationshipsResponse.isSuccessful()) {
                         relationShipList = relationshipsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -875,7 +874,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (searchResponse.isSuccessful()) {
                         accountList = searchResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -912,7 +911,7 @@ public class AccountsVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
                         statuses.pagination = MastodonHelper.getPagination(bookmarksResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -943,7 +942,7 @@ public class AccountsVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
                         statuses.pagination = MastodonHelper.getPagination(favouritesResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -975,7 +974,7 @@ public class AccountsVM extends AndroidViewModel {
                         accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
                         accounts.pagination = MastodonHelper.getPagination(mutesResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1007,7 +1006,7 @@ public class AccountsVM extends AndroidViewModel {
                         accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
                         accounts.pagination = MastodonHelper.getPagination(blocksResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1036,7 +1035,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (getDomainBlocksResponse.isSuccessful()) {
                         stringList = getDomainBlocksResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1064,7 +1063,7 @@ public class AccountsVM extends AndroidViewModel {
             if (addDomainBlockCall != null) {
                 try {
                     addDomainBlockCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1083,7 +1082,7 @@ public class AccountsVM extends AndroidViewModel {
             if (removeDomainBlockCall != null) {
                 try {
                     removeDomainBlockCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1108,7 +1107,7 @@ public class AccountsVM extends AndroidViewModel {
                         BaseMainActivity.filterFetched = true;
                         filterList = getFiltersResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1138,7 +1137,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (getFiltersResponse.isSuccessful()) {
                         filter = getFiltersResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1177,7 +1176,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (addFiltersResponse.isSuccessful()) {
                         filter = addFiltersResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1212,7 +1211,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (editFiltersResponse.isSuccessful()) {
                         filter = editFiltersResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1236,7 +1235,7 @@ public class AccountsVM extends AndroidViewModel {
             if (removeFilterCall != null) {
                 try {
                     removeFilterCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1270,7 +1269,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (reportRequestsResponse.isSuccessful()) {
                         report = reportRequestsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1303,7 +1302,7 @@ public class AccountsVM extends AndroidViewModel {
                         accounts.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountList);
                         accounts.pagination = MastodonHelper.getPagination(followRequestsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -1332,7 +1331,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (acceptFollowResponse.isSuccessful()) {
                         relationShip = acceptFollowResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1362,7 +1361,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (rejectFollowResponse.isSuccessful()) {
                         relationShip = rejectFollowResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1392,7 +1391,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (endorsementsResponse.isSuccessful()) {
                         accountList = endorsementsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1421,7 +1420,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (getFeaturedTagsResponse.isSuccessful()) {
                         featuredTagList = getFeaturedTagsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -1451,7 +1450,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (addFeaturedTagResponse.isSuccessful()) {
                         featuredTag = addFeaturedTagResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1475,7 +1474,7 @@ public class AccountsVM extends AndroidViewModel {
             if (removeFeaturedTagCall != null) {
                 try {
                     removeFeaturedTagCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1499,7 +1498,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (featuredTagsSuggestionsResponse.isSuccessful()) {
                         tagList = featuredTagsSuggestionsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1528,7 +1527,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (preferencesResponse.isSuccessful()) {
                         preferences = preferencesResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1558,7 +1557,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (suggestionsResponse.isSuccessful()) {
                         accountList = suggestionsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1582,7 +1581,7 @@ public class AccountsVM extends AndroidViewModel {
             if (removeSuggestionCall != null) {
                 try {
                     removeSuggestionCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -24,7 +24,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -118,7 +117,7 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
                         statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -167,7 +166,7 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
                         statuses.pagination = MastodonHelper.getPagination(hashTagTlResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -223,7 +222,7 @@ public class TimelinesVM extends AndroidViewModel {
                             }
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -324,7 +323,7 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), listTlResponse.body());
                         statuses.pagination = MastodonHelper.getPagination(listTlResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -364,7 +363,7 @@ public class TimelinesVM extends AndroidViewModel {
                         }
                         conversations.pagination = MastodonHelper.getPagination(conversationsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -389,7 +388,7 @@ public class TimelinesVM extends AndroidViewModel {
             if (deleteStatusCall != null) {
                 try {
                     deleteStatusCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -414,7 +413,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (markReadConversationResponse.isSuccessful()) {
                         status = markReadConversationResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -443,7 +442,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (getListsResponse.isSuccessful()) {
                         mastodonListList = getListsResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -474,7 +473,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (getListResponse.isSuccessful()) {
                         mastodonList = getListResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -505,7 +504,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (createListResponse.isSuccessful()) {
                         mastodonList = createListResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -537,7 +536,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (updateListResponse.isSuccessful()) {
                         mastodonList = updateListResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -561,7 +560,7 @@ public class TimelinesVM extends AndroidViewModel {
             if (deleteListCall != null) {
                 try {
                     deleteListCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -586,7 +585,7 @@ public class TimelinesVM extends AndroidViewModel {
                     if (getAccountsInListResponse.isSuccessful()) {
                         accountList = getAccountsInListResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -611,7 +610,7 @@ public class TimelinesVM extends AndroidViewModel {
             if (addAccountsListCall != null) {
                 try {
                     addAccountsListCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -631,7 +630,7 @@ public class TimelinesVM extends AndroidViewModel {
             if (deleteAccountsListCall != null) {
                 try {
                     deleteAccountsListCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -682,7 +681,7 @@ public class TimelinesVM extends AndroidViewModel {
             if (addMarkerCall != null) {
                 try {
                     addMarkerCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

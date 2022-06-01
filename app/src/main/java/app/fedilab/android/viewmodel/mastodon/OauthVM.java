@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonAppsService;
@@ -91,7 +90,7 @@ public class OauthVM extends AndroidViewModel {
                     if (tokenResponse.isSuccessful()) {
                         token = tokenResponse.body();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -121,7 +120,7 @@ public class OauthVM extends AndroidViewModel {
             if (voidCall != null) {
                 try {
                     voidCall.execute();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
