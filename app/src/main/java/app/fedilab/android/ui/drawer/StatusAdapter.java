@@ -1059,6 +1059,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.poll.rated.removeAllViews();
                 List<Integer> ownvotes = statusToDeal.poll.own_votes;
                 int j = 0;
+                if (statusToDeal.poll.voters_count == 0 && statusToDeal.poll.votes_count > 0) {
+                    statusToDeal.poll.voters_count = statusToDeal.poll.votes_count;
+                }
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
                     double value = ((double) (pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
