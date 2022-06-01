@@ -105,6 +105,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
+import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
@@ -1736,6 +1737,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusBinding binding;
         DrawerStatusHiddenBinding bindingHidden;
         DrawerStatusReportBinding bindingReport;
+        DrawerFetchMoreBinding bindingFetchMore;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
         Timer timer;
@@ -1760,6 +1762,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         StatusViewHolder(DrawerStatusHiddenBinding itemView) {
             super(itemView.getRoot());
             bindingHidden = itemView;
+        }
+
+        StatusViewHolder(DrawerFetchMoreBinding itemView) {
+            super(itemView.getRoot());
+            bindingFetchMore = itemView;
         }
 
         StatusViewHolder(DrawerStatusArtBinding itemView) {

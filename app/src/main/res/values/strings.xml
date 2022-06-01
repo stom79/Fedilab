@@ -1613,6 +1613,7 @@
     <string name="origin_report">Origin of reported account</string>
     <string name="status">Status</string>
     <string name="resolved">Resolved</string>
+    <string name="fetch_more_messages">Fetch more messages…</string>
 
 
 </resources>
