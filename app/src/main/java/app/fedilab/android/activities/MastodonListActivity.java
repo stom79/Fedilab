@@ -253,6 +253,9 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
                     timelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim(), null)
                             .observe(MastodonListActivity.this, newMastodonList -> {
+                                if (mastodonListList == null) {
+                                    mastodonListList = new ArrayList<>();
+                                }
                                 if (newMastodonList != null) {
                                     mastodonListList.add(0, newMastodonList);
                                     mastodonListAdapter.notifyItemInserted(0);
