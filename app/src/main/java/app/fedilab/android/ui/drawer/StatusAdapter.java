@@ -131,10 +131,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_HIDDEN = 0;
     public static final int STATUS_VISIBLE = 1;
     public static final int STATUS_ART = 2;
+    public static final int STATUS_FETCH_MORE = 3;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
     private Context context;
+    public FetchMoreCallBack fetchMoreCallBack;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
         this.statusList = statuses;
@@ -1615,6 +1617,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         if (timelineType == Timeline.TimeLineEnum.ART) {
             return STATUS_ART;
+        } else if (statusList.get(position).isFetchMore) {
+            return STATUS_FETCH_MORE;
         } else {
             return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
         }
@@ -1717,7 +1721,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra(Helper.ARG_STATUS, status);
                 context.startActivity(intent);
             });
+        } else if (viewHolder.getItemViewType() == STATUS_FETCH_MORE) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            holder.bindingFetchMore.fetchMore.setOnClickListener(v -> fetchMoreCallBack.onClick(status.id));
         }
+    }
+
+    public interface FetchMoreCallBack {
+        void onClick(String min_id);
     }
 
     @Override

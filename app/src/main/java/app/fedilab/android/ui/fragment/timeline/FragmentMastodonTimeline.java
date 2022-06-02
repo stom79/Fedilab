@@ -62,7 +62,7 @@ import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
 
-public class FragmentMastodonTimeline extends Fragment {
+public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
 
     private FragmentPaginationBinding binding;
@@ -72,7 +72,7 @@ public class FragmentMastodonTimeline extends Fragment {
     private List<Status> statuses;
     private String search, searchCache;
     private Status statusReport;
-    private String max_id, min_id;
+    private String max_id, min_id, min_id_fetch_more;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     //Handle actions that can be done in other fragments
@@ -234,7 +234,7 @@ public class FragmentMastodonTimeline extends Fragment {
         markers = new ArrayList<>();
         max_id = statusReport != null ? statusReport.id : null;
         flagLoading = false;
-        router(null);
+        router(null, false);
 
         return binding.getRoot();
     }
@@ -261,7 +261,7 @@ public class FragmentMastodonTimeline extends Fragment {
             binding.swipeContainer.setRefreshing(true);
             max_id = null;
             flagLoading = false;
-            router(null);
+            router(null, false);
         });
 
         if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
@@ -340,7 +340,7 @@ public class FragmentMastodonTimeline extends Fragment {
                             if (!flagLoading) {
                                 flagLoading = true;
                                 binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                router(DIRECTION.BOTTOM);
+                                router(DIRECTION.BOTTOM, false);
                             }
                         } else {
                             binding.loadingNextElements.setVisibility(View.GONE);
@@ -349,7 +349,7 @@ public class FragmentMastodonTimeline extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            router(DIRECTION.TOP);
+                            router(DIRECTION.TOP, false);
                         }
                     }
                 }
@@ -357,12 +357,13 @@ public class FragmentMastodonTimeline extends Fragment {
         }
     }
 
+
     /**
      * Update view and pagination when scrolling down
      *
      * @param fetched_statuses Statuses
      */
-    private void dealWithPagination(Statuses fetched_statuses, DIRECTION direction) {
+    private void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
         if (binding == null) {
             return;
         }
@@ -459,18 +460,18 @@ public class FragmentMastodonTimeline extends Fragment {
         }
     }
 
-    private void router(DIRECTION direction) {
+    private void router(DIRECTION direction, boolean fetchingMissing) {
         if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
             new Thread(() -> {
                 if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
                     networkAvailable = Helper.isConnectedToInternet(requireActivity(), BaseMainActivity.currentInstance);
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> route(direction);
+                Runnable myRunnable = () -> route(direction, fetchingMissing);
                 mainHandler.post(myRunnable);
             }).start();
         } else {
-            route(direction);
+            route(direction, fetchingMissing);
         }
     }
 
@@ -479,14 +480,14 @@ public class FragmentMastodonTimeline extends Fragment {
      *
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
-    private void route(DIRECTION direction) {
+    private void route(DIRECTION direction, boolean fetchingMissing) {
 
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
             if (binding == null) {
                 return;
             }
-            if (!binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+            if (!fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
@@ -501,17 +502,17 @@ public class FragmentMastodonTimeline extends Fragment {
                     // --- HOME TIMELINE ---
                     if (timelineType == Timeline.TimeLineEnum.HOME) {
                         //for more visibility it's done through loadHomeStrategy method
-                        loadHomeStrategy(direction);
+                        loadHomeStrategy(direction, fetchingMissing);
                     } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
                         if (direction == null) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else if (direction == DIRECTION.TOP) {
-                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
                         }
                     } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
                         if (direction == null) {
@@ -519,10 +520,10 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else if (direction == DIRECTION.TOP) {
-                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                            timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
                         }
                     } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
                         if (direction == null) {
@@ -530,10 +531,10 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             timelinesVM.getPublic(null, remoteInstance, true, false, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else if (direction == DIRECTION.TOP) {
-                            timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                            timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
                         }
                     } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE
                         if (direction == null) {
@@ -541,10 +542,10 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else if (direction == DIRECTION.TOP) {
-                            timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                            timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
                         }
                     } else if (timelineType == Timeline.TimeLineEnum.TAG || timelineType == Timeline.TimeLineEnum.ART) { //TAG TIMELINE
                         if (tagTimeline == null) {
@@ -556,10 +557,10 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else if (direction == DIRECTION.TOP) {
-                            timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP));
+                            timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
                         }
                     } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
                         if (direction == null) {
@@ -579,7 +580,7 @@ public class FragmentMastodonTimeline extends Fragment {
                             }
                         } else if (direction == DIRECTION.BOTTOM) {
                             accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else {
                             flagLoading = false;
                         }
@@ -607,7 +608,7 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else {
                             flagLoading = false;
                         }
@@ -617,7 +618,7 @@ public class FragmentMastodonTimeline extends Fragment {
                                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                         } else if (direction == DIRECTION.BOTTOM) {
                             accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
-                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                    .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                         } else {
                             flagLoading = false;
                         }
@@ -635,9 +636,9 @@ public class FragmentMastodonTimeline extends Fragment {
      *
      * @param direction - DIRECTION enum
      */
-    private void loadHomeStrategy(DIRECTION direction) {
+    private void loadHomeStrategy(DIRECTION direction, boolean fetchingMissing) {
         //When no direction is provided, it means it's the first call
-        if (direction == null) {
+        if (direction == null && !fetchingMissing) {
             //Two ways, depending of the Internet connection
             //Connection is available toots are loaded remotely
             if (networkAvailable == BaseMainActivity.status.CONNECTED) {
@@ -684,31 +685,31 @@ public class FragmentMastodonTimeline extends Fragment {
                 timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, max_id, null)
                         .observe(getViewLifecycleOwner(), statusesBottomCache -> {
                             if (statusesBottomCache != null && statusesBottomCache.statuses != null && statusesBottomCache.statuses.size() > 0) {
-                                dealWithPagination(statusesBottomCache, DIRECTION.BOTTOM);
+                                dealWithPagination(statusesBottomCache, DIRECTION.BOTTOM, fetchingMissing);
                             } else { // If not, we fetch remotely
                                 timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
-                                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
                             }
                         });
 
             } else {
                 timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, max_id, null)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
             }
         } else if (direction == DIRECTION.TOP) {
             if (networkAvailable == BaseMainActivity.status.CONNECTED) {
-                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, min_id)
+                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, fetchingMissing ? min_id_fetch_more : min_id)
                         .observe(getViewLifecycleOwner(), statusesTopCache -> {
                             if (statusesTopCache != null && statusesTopCache.statuses != null && statusesTopCache.statuses.size() > 0) {
-                                dealWithPagination(statusesTopCache, DIRECTION.TOP);
+                                dealWithPagination(statusesTopCache, DIRECTION.TOP, fetchingMissing);
                             } else {
-                                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
-                                        .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP));
+                                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
+                                        .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, fetchingMissing));
                             }
                         });
             } else {
-                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, min_id)
-                        .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP));
+                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, null, fetchingMissing ? min_id_fetch_more : min_id)
+                        .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, fetchingMissing));
             }
         }
     }
@@ -721,6 +722,13 @@ public class FragmentMastodonTimeline extends Fragment {
         if (statusAdapter != null && statuses != null) {
             statusAdapter.notifyItemRangeChanged(0, statuses.size());
         }
+    }
+
+    @Override
+    public void onClick(String min_id) {
+        //Fetch more has been pressed
+        min_id_fetch_more = min_id;
+        route(DIRECTION.TOP, true);
     }
 
     public enum DIRECTION {

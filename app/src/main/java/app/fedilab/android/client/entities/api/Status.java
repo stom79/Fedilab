@@ -94,6 +94,7 @@ public class Status implements Serializable, Cloneable {
     public transient Spannable span_translate;
     public boolean isExpended = false;
     public boolean isTruncated = true;
+    public boolean isFetchMore = false;
     public boolean isMediaDisplayed = false;
     public boolean isMediaObfuscated = true;
     public boolean isChecked = false;
