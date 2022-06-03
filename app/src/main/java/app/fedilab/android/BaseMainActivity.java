@@ -477,6 +477,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 headerMenuOpen = false;
             }
         });
+
         headerMainBinding.headerOptionInfo.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(new ContextThemeWrapper(BaseMainActivity.this, Helper.popupStyle()), headerMainBinding.headerOptionInfo);
             popup.getMenuInflater()
@@ -648,9 +649,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     account.mastodon_account.display_name = account.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(account.mastodon_account.display_name);
-
                 Helper.loadPP(headerMainBinding.accountProfilePicture, account);
+                Glide.with(BaseMainActivity.this)
+                        .load(account.mastodon_account.header)
+                        .into(new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                headerMainBinding.backGroundImage.setBackground(resource);
+                            }
 
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        });
                 /*
                  * Some general data are loaded when the app starts such;
                  *  - Instance info (for limits)

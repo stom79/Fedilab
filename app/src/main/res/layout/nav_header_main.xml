@@ -5,13 +5,7 @@
     android:layout_height="@dimen/nav_header_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/back_ground_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/profile_banner"
-        android:scaleType="fitCenter" />
+
 
     <ImageView
         android:id="@+id/header_option_info"
@@ -28,6 +22,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/back_ground_image"
+        android:background="@color/transparent"
         android:gravity="bottom"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -40,6 +36,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
+            android:scaleType="fitCenter"
             android:contentDescription="@string/profile_picture"
             android:paddingTop="@dimen/nav_header_vertical_spacing" />
 
@@ -102,5 +99,4 @@
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 </RelativeLayout>
