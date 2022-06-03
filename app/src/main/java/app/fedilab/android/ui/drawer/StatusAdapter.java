@@ -799,7 +799,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.boosterDivider.setVisibility(View.GONE);
         }
         //--- BOOST VISIBILITY ---
-        switch (status.visibility) {
+        switch (statusToDeal.visibility) {
             case "public":
             case "unlisted":
                 holder.binding.actionButtonBoost.setVisibility(View.VISIBLE);
