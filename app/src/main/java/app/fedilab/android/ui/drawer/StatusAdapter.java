@@ -791,7 +791,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
             Spannable span_display_name_boost = status.account.span_display_name;
             if (span_display_name_boost == null || span_display_name_boost.toString().trim().length() == 0) {
-                span_display_name_boost = new SpannableString(status.account.username);²&
+                span_display_name_boost = new SpannableString(status.account.username);
             }
             holder.binding.statusBoosterDisplayName.setText(span_display_name_boost, TextView.BufferType.SPANNABLE);
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
