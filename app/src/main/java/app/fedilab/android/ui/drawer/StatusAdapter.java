@@ -38,6 +38,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -715,7 +716,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         //--- ACCOUNT INFO ---
         MastodonHelper.loadPPMastodon(holder.binding.avatar, statusToDeal.account);
-        holder.binding.displayName.setText(statusToDeal.account.span_display_name, TextView.BufferType.SPANNABLE);
+        Spannable span_display_name = statusToDeal.account.span_display_name;
+        if (span_display_name == null || span_display_name.toString().trim().length() == 0) {
+            span_display_name = new SpannableString(statusToDeal.account.username);
+        }
+        holder.binding.displayName.setText(span_display_name, TextView.BufferType.SPANNABLE);
         if (theme_text_header_1_line != -1) {
             holder.binding.displayName.setTextColor(theme_text_header_1_line);
         }
@@ -784,7 +789,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- BOOSTER INFO ---
         if (status.reblog != null) {
             MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
-            holder.binding.statusBoosterDisplayName.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
+            Spannable span_display_name_boost = status.account.span_display_name;
+            if (span_display_name_boost == null || span_display_name_boost.toString().trim().length() == 0) {
+                span_display_name_boost = new SpannableString(status.account.username);²&
+            }
+            holder.binding.statusBoosterDisplayName.setText(span_display_name_boost, TextView.BufferType.SPANNABLE);
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
             holder.binding.boosterDivider.setVisibility(View.VISIBLE);
             if (theme_text_header_1_line != -1) {
