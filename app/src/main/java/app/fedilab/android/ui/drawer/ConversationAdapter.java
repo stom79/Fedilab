@@ -123,6 +123,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             MastodonHelper.loadPPMastodon(imageView, account);
             holder.binding.participantsList.addView(imageView);
         }
+        if (conversation.last_status == null) {
+            return;
+        }
         //---- SPOILER TEXT -----
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
         if (conversation.last_status.spoiler_text != null && !conversation.last_status.spoiler_text.trim().isEmpty()) {
