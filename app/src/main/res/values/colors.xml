@@ -7,6 +7,8 @@
 
     <color name="dark_text_toot_header">#d9d9d9</color>
 
+    <color name="no_description">#FFEA00</color>
+    <color name="having_description">#42A5F5</color>
 
     <color name="dark_text">#f3f3f3</color>
     <color name="dark_icon">#606984</color>
@@ -111,6 +113,8 @@
     <color name="chart_notif_fav">#388E3C</color>
     <color name="chart_notif_mention">#0288D1</color>
     <color name="chart_notif_follow">#512DA8</color>
+
+    <color name="editColor">#BDBDBD</color>
 
     <!-- TOASTY -->
     <color name="defaultTextColor">#2e2e2e</color>

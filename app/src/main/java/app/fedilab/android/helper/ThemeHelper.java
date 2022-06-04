@@ -263,6 +263,44 @@ public class ThemeHelper {
         return readValues;
     }
 
+
+    /**
+     * Allow to set colors for no description on media
+     *
+     * @param context - Context
+     * @return - ColorStateList
+     */
+    public static ColorStateList getNoDescriptionColorStateList(Context context) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_selected},
+                new int[]{-android.R.attr.state_selected},
+        };
+        int[] colors = new int[]{
+                ContextCompat.getColor(context, R.color.no_description),
+                ContextCompat.getColor(context, R.color.no_description),
+        };
+        return new ColorStateList(states, colors);
+    }
+
+
+    /**
+     * Allow to set colors for having description on media
+     *
+     * @param context - Context
+     * @return - ColorStateList
+     */
+    public static ColorStateList getHavingDescriptionColorStateList(Context context) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_selected},
+                new int[]{-android.R.attr.state_selected},
+        };
+        int[] colors = new int[]{
+                ContextCompat.getColor(context, R.color.having_description),
+                ContextCompat.getColor(context, R.color.having_description),
+        };
+        return new ColorStateList(states, colors);
+    }
+
     /**
      * Allow to set colors for tablayout
      *
