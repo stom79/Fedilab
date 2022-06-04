@@ -484,6 +484,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         builderInner.setView(popupMediaDescriptionBinding.getRoot());
 
                         popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
+                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
                         Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
                                 .asBitmap()
                                 .load(attachmentPath)
@@ -492,7 +493,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                         popupMediaDescriptionBinding.mediaPicture.setImageBitmap(resource);
-                                        popupMediaDescriptionBinding.mediaPicture.setImageAlpha(60);
                                     }
 
                                     @Override

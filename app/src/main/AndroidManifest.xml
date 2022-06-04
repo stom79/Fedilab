@@ -60,7 +60,7 @@
         <activity
             android:name=".activities.ComposeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateVisible"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:label="@string/compose" />
         <activity
             android:name=".activities.StatusInfoActivity"

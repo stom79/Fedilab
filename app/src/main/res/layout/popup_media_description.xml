@@ -14,27 +14,39 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
-    tools:context=".activities.ComposeActivity">
+    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/media_picture"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/media_description"
-        android:scaleType="fitCenter" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/media_description"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/media_picture"
-        android:layout_centerInParent="true"
-        android:inputType="textMultiLine" />
+        tools:context=".activities.ComposeActivity">
 
-</RelativeLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/media_picture"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:contentDescription="@string/media_description"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/media_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/media_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/media_picture"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textMultiLine|textCapSentences"
+            android:minLines="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_picture" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
