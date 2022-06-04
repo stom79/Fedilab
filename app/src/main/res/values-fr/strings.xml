@@ -1272,4 +1272,7 @@
     <string name="approve">Approuver</string>
     <string name="origin_report">Origine du compte signalé</string>
     <string name="resolved">Résolu</string>
+    <string name="location">Emplacement</string>
+    <string name="most_recent">Plus récent</string>
+    <string name="filter">Filtre</string>
 </resources>
