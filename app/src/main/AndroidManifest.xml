@@ -58,6 +58,9 @@
             android:name=".activities.DraftActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".imageeditor.EditImageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".activities.ComposeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan|adjustResize"

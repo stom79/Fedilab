@@ -96,7 +96,8 @@
     <color name="violet_color_picker">#8359A3</color>
     <color name="yellow_color_picker">#FBE870</color>
     <color name="yellow_green_color_picker">#C5E17A</color>
-
+    <color name="tool_bg">#151414</color>
+    <color name="semi_black_transparent">#99000000</color>
 
     <color name="custom_features_button_black">#144365</color>
 
@@ -158,5 +159,6 @@
     <color name="decoration_13">#DCE775</color> <!-- Lime 300 -->
     <color name="decoration_14">#7986CB</color> <!-- Indigo 300 -->
     <color name="decoration_15">#9E9E9E</color> <!-- Gray 500 -->
+
 
 </resources>

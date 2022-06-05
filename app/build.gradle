@@ -71,7 +71,7 @@ allprojects {
 }
 dependencies {
     implementation project(':autoimageslider')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation "com.google.code.gson:gson:2.8.6"
@@ -91,6 +91,11 @@ dependencies {
     }
     implementation project(path: ':mytransl')
     implementation project(path: ':ratethisapp')
+
+
+
+    implementation 'com.burhanrashid52:photoeditor:1.5.1'
+    implementation project(path: ':cropper')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:apng:2.17.0'

@@ -30,6 +30,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
@@ -99,6 +100,7 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.imageeditor.EditImageActivity;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import es.dmoral.toasty.Toasty;
@@ -476,7 +478,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                     }
                     int finalMediaPosition = mediaPosition;
-
+                    composeAttachmentItemBinding.editPreview.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, EditImageActivity.class);
+                        Bundle b = new Bundle();
+                        intent.putExtra("imageUri", attachment.local_path);
+                        intent.putExtras(b);
+                        context.startActivity(intent);
+                    });
                     composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
                         AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                         builderInner.setTitle(R.string.upload_form_description);

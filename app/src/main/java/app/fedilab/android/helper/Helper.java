@@ -250,7 +250,7 @@ public class Helper {
     public static final int NOTIFICATION_INTENT = 1;
     public static final int OPEN_NOTIFICATION = 2;
     public static final String INTENT_TARGETED_ACCOUNT = "INTENT_TARGETED_ACCOUNT";
-
+    public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
     public static final String TEMP_MEDIA_DIRECTORY = "TEMP_MEDIA_DIRECTORY";
 
 
