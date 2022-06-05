@@ -23,8 +23,7 @@
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:photo_src="@drawable/blank_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgUndo"
@@ -46,32 +45,12 @@
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgGallery"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_gallery"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgCamera"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_camera"
-        app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
-        app:layout_constraintStart_toEndOf="@id/imgGallery" />
 
     <ImageView
         android:id="@+id/imgClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_margin="8dp"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +59,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvConstraintTools"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/tool_bg"
         android:orientation="horizontal"
@@ -118,26 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
 
-    <ImageView
-        android:id="@+id/imgSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
-
-    <ImageView
-        android:id="@+id/imgCrop"
-        android:layout_width="@dimen/top_tool_icon_width"
-        android:layout_height="wrap_content"
-        android:background="@color/semi_black_transparent"
-        android:padding="8dp"
-        android:src="@drawable/ic_crop"
-        app:layout_constraintBottom_toBottomOf="@+id/photoEditorView"
-        app:layout_constraintEnd_toStartOf="@+id/imgUndo"
-        app:layout_constraintStart_toEndOf="@+id/imgCamera" />
 
     <Button
         android:id="@+id/send"
@@ -150,6 +109,6 @@
         android:padding="0dp"
         android:text="@string/validate"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgSave"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

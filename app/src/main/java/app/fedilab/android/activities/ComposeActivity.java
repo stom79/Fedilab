@@ -19,8 +19,10 @@ import static app.fedilab.android.ui.drawer.ComposeAdapter.prepareDraft;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -42,6 +44,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -58,6 +61,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
@@ -102,6 +106,27 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private String visibility;
     private app.fedilab.android.client.entities.api.Account accountMention;
     private String statusReplyId;
+
+    private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context context, Intent intent) {
+            String imgpath = intent.getStringExtra("imgpath");
+            if (imgpath != null) {
+                int position = 0;
+                for (Status status : statusList) {
+                    if (status.media_attachments != null && status.media_attachments.size() > 0) {
+                        for (Attachment attachment : status.media_attachments) {
+                            if (attachment.local_path.equalsIgnoreCase(imgpath)) {
+                                composeAdapter.notifyItemChanged(position);
+                                break;
+                            }
+                        }
+                    }
+                    position++;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,6 +297,17 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(imageReceiver,
+                        new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(imageReceiver);
     }
 
     @Override
