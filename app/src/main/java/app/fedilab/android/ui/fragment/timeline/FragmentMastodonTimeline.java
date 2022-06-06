@@ -572,6 +572,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                         .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                                     if (otherStatuses != null && otherStatuses.statuses != null) {
+                                                        for (Status status : pinnedStatuses.statuses) {
+                                                            status.pinned = true;
+                                                        }
                                                         otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
                                                         initializeStatusesCommonView(otherStatuses);
                                                     }
