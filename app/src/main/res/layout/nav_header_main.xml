@@ -20,9 +20,9 @@
         app:tint="?iconColor" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/back_ground_image"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
         android:background="@color/transparent"
         android:gravity="bottom"
         android:orientation="vertical"
@@ -36,9 +36,9 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="fitCenter"
             android:contentDescription="@string/profile_picture"
-            android:paddingTop="@dimen/nav_header_vertical_spacing" />
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:scaleType="fitCenter" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/change_account"
