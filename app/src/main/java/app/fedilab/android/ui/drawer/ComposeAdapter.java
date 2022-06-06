@@ -187,13 +187,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Retrieves mentioned accounts + OP and adds them at the beginin of the toot
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             Mention inReplyToUser = null;
-            for (Mention mention : statusDraft.mentions) {
-                //Mentioned account has a null id
-                if (mention.id == null) {
-                    inReplyToUser = mention;
-                    break;
-                }
-            }
+            inReplyToUser = statusDraft.mentions.get(0);
             if (statusDraft.text == null) {
                 statusDraft.text = "";
             }
@@ -201,20 +195,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
             if (inReplyToUser != null) {
                 if (capitalize) {
-                    statusDraft.text = inReplyToUser.acct + "\n";
+                    statusDraft.text = inReplyToUser.acct.startsWith("@") ? inReplyToUser.acct + "\n" : "@" + inReplyToUser.acct + "\n";
                 } else {
-                    statusDraft.text = inReplyToUser.acct + " ";
+                    statusDraft.text = inReplyToUser.acct.startsWith("@") ? inReplyToUser.acct + " " : "@" + inReplyToUser.acct + " ";
                 }
             }
             holder.binding.content.setText(statusDraft.text);
             statusDraft.cursorPosition = statusDraft.text.length();
             if (statusDraft.mentions.size() > 1) {
                 statusDraft.text += "\n";
-                for (Mention mention : statusDraft.mentions) {
-                    if (mention.id != null && mention.acct != null && !mention.id.equals(BaseMainActivity.currentUserID)) {
-                        String tootTemp = String.format("@%s ", mention.acct);
-                        statusDraft.text = String.format("%s ", (statusDraft.text + tootTemp.trim()));
-                    }
+                for (int i = 1; i < statusDraft.mentions.size(); i++) {
+                    String tootTemp = String.format("@%s ", statusDraft.mentions.get(i).acct);
+                    statusDraft.text = String.format("%s ", (statusDraft.text + tootTemp.trim()));
                 }
             }
             holder.binding.content.setText(statusDraft.text);

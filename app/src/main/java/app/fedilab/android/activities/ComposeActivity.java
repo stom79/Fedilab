@@ -247,29 +247,27 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     statusList.add(statusReply);
                     int statusCount = statusList.size();
                     statusDraftList.get(0).in_reply_to_id = statusReply.id;
-                    statusDraftList.get(0).mentions = statusReply.mentions;
-                    if (statusReply.spoiler_text != null) {
-                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+                    //We change order for mentions
+                    //At first place the account that has been mentioned if it's not our
+                    statusDraftList.get(0).mentions = new ArrayList<>();
+                    if (!statusReply.account.acct.equalsIgnoreCase(MainActivity.accountWeakReference.get().mastodon_account.acct)) {
+                        Mention mention = new Mention();
+                        mention.acct = "@" + statusReply.account.acct;
+                        mention.url = statusReply.account.url;
+                        mention.username = statusReply.account.username;
+                        statusDraftList.get(0).mentions.add(mention);
                     }
-                    if (statusDraftList.get(0).mentions == null) {
-                        statusDraftList.get(0).mentions = new ArrayList<>();
-                    }
-                    //We will add the mentioned account in mention if not the current user nor if it is already mentioned
-                    if (statusReply.account != null && statusReply.account.acct != null && !statusReply.account.id.equals(BaseMainActivity.currentUserID)) {
-                        boolean canBeAdded = true;
-                        for (Mention mention : statusDraftList.get(0).mentions) {
-                            if (mention.acct.compareToIgnoreCase(statusReply.account.acct) == 0) {
-                                mention.id = null;
-                                canBeAdded = false;
+
+                    //There are other mentions to
+                    if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
+                        for (Mention mentionTmp : statusReply.mentions) {
+                            if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(MainActivity.accountWeakReference.get().mastodon_account.acct)) {
+                                statusDraftList.get(0).mentions.add(mentionTmp);
                             }
                         }
-                        if (canBeAdded) {
-                            Mention mention = new Mention();
-                            mention.acct = "@" + statusReply.account.acct;
-                            mention.url = statusReply.account.url;
-                            mention.username = statusReply.account.username;
-                            statusDraftList.get(0).mentions.add(mention);
-                        }
+                    }
+                    if (statusReply.spoiler_text != null) {
+                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
                     }
                     //StatusDraftList at this point should only have one element
                     statusList.addAll(statusDraftList);

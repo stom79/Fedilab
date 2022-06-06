@@ -9,7 +9,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -413,7 +412,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 mPropertiesBSFragment.show(getSupportFragmentManager(), mPropertiesBSFragment.getTag());
                 break;
             case CROP:
-                Log.v(Helper.TAG, "crop! " + uri);
                 CropImage.activity(uri)
                         .start(this);
                 break;
