@@ -398,9 +398,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             .observe((LifecycleOwner) context, _status -> {
                                                 if (_status != null) {
                                                     statusToDeal.bookmarked = _status.bookmarked;
-                                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                } else {
+                                                    statusToDeal.bookmarked = true;
                                                 }
+                                                sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                             });
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -412,9 +414,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     if (_status != null) {
                                         statusToDeal.bookmarked = _status.bookmarked;
-                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    } else {
+                                        statusToDeal.bookmarked = false;
                                     }
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                 });
                     } else {
                         ((SparkButton) v).playAnimation();
@@ -422,9 +426,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, _status -> {
                                     if (_status != null) {
                                         statusToDeal.bookmarked = _status.bookmarked;
-                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                    } else {
+                                        statusToDeal.bookmarked = true;
                                     }
+                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                 });
                     }
                 }
@@ -518,9 +524,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                         if (_status != null) {
                                                             statusToDeal.reblogged = _status.reblogged;
                                                             statusToDeal.reblogs_count = _status.reblogs_count;
-                                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                        } else {
+                                                            statusToDeal.reblogged = true;
+                                                            statusToDeal.reblogs_count += 1;
                                                         }
+                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                     });
                                         } else {
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -533,9 +542,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             if (_status != null) {
                                                 statusToDeal.reblogged = _status.reblogged;
                                                 statusToDeal.reblogs_count = _status.reblogs_count;
-                                                sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                            } else {
+                                                statusToDeal.reblogged = false;
+                                                statusToDeal.reblogs_count -= 1;
                                             }
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             } else {
                                 ((SparkButton) v).playAnimation();
@@ -544,9 +556,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             if (_status != null) {
                                                 statusToDeal.reblogged = _status.reblogged;
                                                 statusToDeal.reblogs_count = _status.reblogs_count;
-                                                sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                            } else {
+                                                statusToDeal.reblogged = true;
+                                                statusToDeal.reblogs_count += 1;
                                             }
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             }
                         }
@@ -567,9 +582,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                     if (_status != null) {
                                                         statusToDeal.reblogged = _status.reblogged;
                                                         statusToDeal.reblogs_count = _status.reblogs_count;
-                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                    } else {
+                                                        statusToDeal.reblogged = true;
+                                                        statusToDeal.reblogs_count += 1;
                                                     }
+                                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                 });
                                     } else {
                                         Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -582,9 +600,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (_status != null) {
                                             statusToDeal.reblogged = _status.reblogged;
                                             statusToDeal.reblogs_count = _status.reblogs_count;
-                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                        } else {
+                                            statusToDeal.reblogged = false;
+                                            statusToDeal.reblogs_count -= 1;
                                         }
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                     });
                         } else {
                             ((SparkButton) v).playAnimation();
@@ -593,9 +614,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (_status != null) {
                                             statusToDeal.reblogged = _status.reblogged;
                                             statusToDeal.reblogs_count = _status.reblogs_count;
-                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                        } else {
+                                            statusToDeal.reblogged = true;
+                                            statusToDeal.reblogs_count += 1;
                                         }
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                     });
                         }
                     }
@@ -630,9 +654,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                         if (_status != null) {
                                                             statusToDeal.favourited = _status.favourited;
                                                             statusToDeal.favourites_count = _status.favourites_count;
-                                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                        } else {
+                                                            statusToDeal.favourited = true;
+                                                            statusToDeal.favourites_count += 1;
                                                         }
+                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                     });
                                         } else {
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -645,8 +672,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             if (_status != null) {
                                                 statusToDeal.favourited = _status.favourited;
                                                 statusToDeal.favourites_count = _status.favourites_count;
-                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                            } else {
+                                                statusToDeal.favourited = false;
+                                                statusToDeal.favourites_count -= 1;
                                             }
+                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             } else {
                                 ((SparkButton) v).playAnimation();
@@ -655,9 +685,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             if (_status != null) {
                                                 statusToDeal.favourited = _status.favourited;
                                                 statusToDeal.favourites_count = _status.favourites_count;
-                                                sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                            } else {
+                                                statusToDeal.favourited = true;
+                                                statusToDeal.favourites_count += 1;
                                             }
+                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                         });
                             }
                         }
@@ -678,9 +711,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                     if (_status != null) {
                                                         statusToDeal.favourited = _status.favourited;
                                                         statusToDeal.favourites_count = _status.favourites_count;
-                                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                                    } else {
+                                                        statusToDeal.favourited = true;
+                                                        statusToDeal.favourites_count += 1;
                                                     }
+                                                    sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                                    adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                                 });
                                     } else {
                                         Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
@@ -693,8 +729,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (_status != null) {
                                             statusToDeal.favourited = _status.favourited;
                                             statusToDeal.favourites_count = _status.favourites_count;
-                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                        } else {
+                                            statusToDeal.favourited = false;
+                                            statusToDeal.favourites_count -= 1;
                                         }
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                     });
                         } else {
                             ((SparkButton) v).playAnimation();
@@ -703,9 +742,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (_status != null) {
                                             statusToDeal.favourited = _status.favourited;
                                             statusToDeal.favourites_count = _status.favourites_count;
-                                            sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-                                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                        } else {
+                                            statusToDeal.favourited = true;
+                                            statusToDeal.favourites_count += 1;
                                         }
+                                        sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
+                                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                                     });
                         }
                     }
