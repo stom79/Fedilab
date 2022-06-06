@@ -281,25 +281,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         String[] mimetypes = new String[0];
         if (type == ComposeActivity.mediaType.PHOTO) {
-            if (instanceInfo.getMimeTypeImage().size() > 0) {
+            if (instanceInfo.getMimeTypeImage() != null && instanceInfo.getMimeTypeImage().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeImage().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"image/*"};
             }
         } else if (type == ComposeActivity.mediaType.VIDEO) {
-            if (instanceInfo.getMimeTypeVideo().size() > 0) {
+            if (instanceInfo.getMimeTypeVideo() != null && instanceInfo.getMimeTypeVideo().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeVideo().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"video/*"};
             }
         } else if (type == ComposeActivity.mediaType.AUDIO) {
-            if (instanceInfo.getMimeTypeAudio().size() > 0) {
+            if (instanceInfo.getMimeTypeAudio() != null && instanceInfo.getMimeTypeAudio().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeAudio().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"audio/mpeg", "audio/opus", "audio/flac", "audio/wav", "audio/ogg"};
             }
         } else if (type == ComposeActivity.mediaType.ALL) {
-            if (instanceInfo.getMimeTypeOther().size() > 0) {
+            if (instanceInfo.getMimeTypeOther() != null && instanceInfo.getMimeTypeOther().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeOther().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"*/*"};
