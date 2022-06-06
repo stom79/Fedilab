@@ -248,7 +248,7 @@ public class FragmentMastodonNotification extends Fragment {
             if (i != refPosition) {
                 if (notifications.get(i).type.equals(notifications.get(refPosition).type)
                         && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))
-                        && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
+                        && notifications.get(i).status != null && notifications.get(refPosition).status != null && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
                 ) {
                     if (notificationList.size() > 0) {
                         if (notificationList.get(notificationList.size() - 1).relatedNotifications == null) {
