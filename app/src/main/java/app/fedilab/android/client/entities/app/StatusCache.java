@@ -118,6 +118,22 @@ public class StatusCache {
     }
 
     /**
+     * update a status if presents in db
+     *
+     * @param statusCache {@link StatusCache}
+     * @throws DBException exception with database
+     */
+    public void updateIfExists(StatusCache statusCache) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        boolean exists = statusExist(statusCache);
+        if (exists) {
+            updateStatus(statusCache);
+        }
+    }
+
+    /**
      * Check if a status exists in db
      *
      * @param statusCache Status {@link StatusCache}

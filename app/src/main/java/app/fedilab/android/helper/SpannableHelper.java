@@ -103,6 +103,20 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
+        Matcher matcherALink = Helper.aLink.matcher(text);
+        //We stock details
+        HashMap<String, String> urlDetails = new HashMap<>();
+        while (matcherALink.find()) {
+            String urlText = matcherALink.group(3);
+            String url = matcherALink.group(2);
+            if (urlText != null) {
+                urlText = urlText.substring(1);
+            }
+            if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
+                urlDetails.put(url, urlText);
+                text = text.replaceAll(Pattern.quote(matcherALink.group()), Matcher.quoteReplacement(url));
+            }
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
         else
@@ -110,8 +124,10 @@ public class SpannableHelper {
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
-        for (URLSpan span : urls)
+        for (URLSpan span : urls) {
             content.removeSpan(span);
+        }
+
         //--- EMOJI ----
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
@@ -184,14 +200,15 @@ public class SpannableHelper {
         }
 
         //--- URLs ----
-        Matcher matcherALink = Patterns.WEB_URL.matcher(content);
+        Matcher matcherLink = Patterns.WEB_URL.matcher(content);
         int offSetTruncate = 0;
-        while (matcherALink.find()) {
-            int matchStart = matcherALink.start() - offSetTruncate;
-            int matchEnd = matchStart + matcherALink.group().length();
+        while (matcherLink.find()) {
+            int matchStart = matcherLink.start() - offSetTruncate;
+            int matchEnd = matchStart + matcherLink.group().length();
             if (matchEnd > content.toString().length()) {
                 matchEnd = content.toString().length();
             }
+
             if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                 continue;
             }
@@ -202,20 +219,27 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, newURL);
                 offSetTruncate += (newURL.length() - url.length());
                 matchEnd = matchStart + newURL.length();
+                //The transformed URL was in the list of URLs having a different names
+                if (urlDetails.containsKey(url)) {
+                    urlDetails.put(newURL, urlDetails.get(url));
+                }
             }
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
             String urlText = newURL;
-            if (newURL.length() > 30) {
+            if (newURL.length() > 30 && !urlDetails.containsKey(urlText)) {
                 urlText = urlText.substring(0, 30);
                 urlText += "…";
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
-            }
-
-            if (!urlText.startsWith("http")) {
-                continue;
+            } else if (urlDetails.containsKey(urlText) && urlDetails.get(urlText) != null) {
+                urlText = urlDetails.get(urlText);
+                if (urlText != null) {
+                    content.replace(matchStart, matchEnd, urlText);
+                    matchEnd = matchStart + urlText.length();
+                    offSetTruncate += (newURL.length() - urlText.length());
+                }
             }
 
             if (matchEnd <= content.length() && matchEnd >= matchStart) {
@@ -409,6 +433,7 @@ public class SpannableHelper {
             Pattern pattern = entry.getValue();
             Matcher matcher = pattern.matcher(content);
             while (matcher.find()) {
+
                 int matchStart = matcher.start();
                 int matchEnd = matcher.end();
                 String word = content.toString().substring(matchStart, matchEnd);

@@ -378,7 +378,7 @@ public class AccountsVM extends AndroidViewModel {
                 try {
                     Response<List<Account>> followersResponse = followersCall.execute();
                     if (followersResponse.isSuccessful()) {
-                        accountList = followersResponse.body();
+                        accountList = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), followersResponse.body());
                         pagination = MastodonHelper.getPagination(followersResponse.headers());
                     }
                 } catch (Exception e) {
@@ -414,7 +414,7 @@ public class AccountsVM extends AndroidViewModel {
                 try {
                     Response<List<Account>> followingResponse = followingCall.execute();
                     if (followingResponse.isSuccessful()) {
-                        accountList = followingResponse.body();
+                        accountList = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), followingResponse.body());
                         pagination = MastodonHelper.getPagination(followingResponse.headers());
                     }
                 } catch (Exception e) {

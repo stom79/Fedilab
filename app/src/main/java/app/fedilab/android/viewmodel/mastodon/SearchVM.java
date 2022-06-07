@@ -117,6 +117,8 @@ public class SearchVM extends AndroidViewModel {
                             }
                             if (results.accounts == null) {
                                 results.accounts = new ArrayList<>();
+                            } else {
+                                results.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), results.accounts);
                             }
                             if (results.hashtags == null) {
                                 results.hashtags = new ArrayList<>();
