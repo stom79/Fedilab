@@ -1566,6 +1566,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 Intent intent = new Intent(context, ComposeActivity.class);
                 intent.putExtra(Helper.ARG_STATUS_REPLY, statusToDeal);
+                if (status.reblog != null) {
+                    intent.putExtra(Helper.ARG_MENTION_BOOSTER, status.account);
+                }
                 context.startActivity(intent);
             }
         });

@@ -106,6 +106,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private String visibility;
     private app.fedilab.android.client.entities.api.Account accountMention;
     private String statusReplyId;
+    private app.fedilab.android.client.entities.api.Account mentionBooster;
 
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
@@ -157,6 +158,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             instance = b.getString(Helper.ARG_INSTANCE, null);
             token = b.getString(Helper.ARG_TOKEN, null);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
+            mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
@@ -264,6 +266,21 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                             if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(MainActivity.accountWeakReference.get().mastodon_account.acct)) {
                                 statusDraftList.get(0).mentions.add(mentionTmp);
                             }
+                        }
+                    }
+                    if (mentionBooster != null) {
+                        Mention mention = new Mention();
+                        mention.acct = mentionBooster.acct;
+                        mention.url = mentionBooster.url;
+                        mention.username = mentionBooster.username;
+                        boolean present = false;
+                        for (Mention mentionTmp : statusDraftList.get(0).mentions) {
+                            if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
+                                present = true;
+                            }
+                        }
+                        if (!present) {
+                            statusDraftList.get(0).mentions.add(mention);
                         }
                     }
                     if (statusReply.spoiler_text != null) {

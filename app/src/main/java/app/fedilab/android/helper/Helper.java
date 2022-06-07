@@ -188,6 +188,7 @@ public class Helper {
 
     public static final String ARG_STATUS_DRAFT_ID = "ARG_STATUS_DRAFT_ID";
     public static final String ARG_STATUS_REPLY = "ARG_STATUS_REPLY";
+    public static final String ARG_MENTION_BOOSTER = "ARG_MENTION_BOOSTER";
     public static final String ARG_STATUS_REPLY_ID = "ARG_STATUS_REPLY_ID";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
     public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
