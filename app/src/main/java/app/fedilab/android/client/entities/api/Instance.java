@@ -55,7 +55,10 @@ public class Instance implements Serializable {
     public Account contact_account;
     @SerializedName("configuration")
     public Configuration configuration;
-
+    @SerializedName("poll_limits")
+    public PollsConf poll_limits;
+    @SerializedName("max_toot_chars")
+    public String max_toot_chars;
 
     public List<String> getMimeTypeAudio() {
         List<String> mimeTypes = new ArrayList<>();
@@ -175,4 +178,6 @@ public class Instance implements Serializable {
         public String text;
         public transient boolean isChecked = false;
     }
+
+
 }

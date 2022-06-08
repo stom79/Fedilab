@@ -667,13 +667,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void afterTextChanged(Editable s) {
                 int currentLength = MastodonHelper.countLength(holder);
                 //Copy/past
-                if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
-                    int from = instanceInfo.configuration.statusesConf.max_characters - holder.binding.contentSpoiler.getText().length();
+                int max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+                if (currentLength > max_car + 1) {
+                    int from = max_car - holder.binding.contentSpoiler.getText().length();
                     int to = (currentLength - holder.binding.contentSpoiler.getText().length());
                     if (to <= s.length()) {
                         holder.binding.content.setText(s.delete(from, to));
                     }
-                } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
+                } else if (currentLength > max_car) {
                     if (cPosition + 1 <= s.length()) {
                         holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
                     }
@@ -1178,7 +1179,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (instanceInfo == null) {
                 return;
             }
-            holder.binding.characterProgress.setMax(instanceInfo.configuration.statusesConf.max_characters);
+            int max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+            holder.binding.characterProgress.setMax(max_car);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
                 private int cPosition;
 
@@ -1197,10 +1199,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void afterTextChanged(Editable s) {
                     int currentLength = MastodonHelper.countLength(holder);
-                    if (currentLength > instanceInfo.configuration.statusesConf.max_characters + 1) {
-                        holder.binding.contentSpoiler.setText(s.delete(instanceInfo.configuration.statusesConf.max_characters - holder.binding.content.getText().length(), (currentLength - holder.binding.content.getText().length())));
+                    if (currentLength > max_car + 1) {
+                        holder.binding.contentSpoiler.setText(s.delete(max_car - holder.binding.content.getText().length(), (currentLength - holder.binding.content.getText().length())));
                         buttonVisibility(holder);
-                    } else if (currentLength > instanceInfo.configuration.statusesConf.max_characters) {
+                    } else if (currentLength > max_car) {
                         buttonVisibility(holder);
                         holder.binding.contentSpoiler.setText(s.delete(cPosition, cPosition + 1));
                     }
@@ -1267,6 +1269,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null) {
             max_entry = instanceInfo.configuration.pollsConf.max_options;
             max_length = instanceInfo.configuration.pollsConf.max_option_chars;
+        } else if (instanceInfo != null && instanceInfo.poll_limits != null) {
+            max_entry = instanceInfo.poll_limits.max_options;
+            max_length = instanceInfo.poll_limits.max_option_chars;
         }
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(max_length);
