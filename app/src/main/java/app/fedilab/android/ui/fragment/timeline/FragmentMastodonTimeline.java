@@ -481,9 +481,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction, boolean fetchingMissing) {
-        if (!isAdded()) {
-            return;
-        }
         new Thread(() -> {
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
             if (binding == null) {
@@ -501,6 +498,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else {
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
+                    if (!isAdded()) {
+                        return;
+                    }
                     // --- HOME TIMELINE ---
                     if (timelineType == Timeline.TimeLineEnum.HOME) {
                         //for more visibility it's done through loadHomeStrategy method
