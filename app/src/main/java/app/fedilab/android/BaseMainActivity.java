@@ -112,6 +112,7 @@ import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -652,20 +653,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 headerMainBinding.accountName.setText(account.mastodon_account.display_name);
                 Helper.loadPP(headerMainBinding.accountProfilePicture, account);
-                Glide.with(BaseMainActivity.this)
-                        .load(account.mastodon_account.header)
-                        .apply(new RequestOptions().transform(new CenterCrop()))
-                        .into(new CustomTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                headerMainBinding.backGroundImage.setBackground(resource);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                            }
-                        });
+                MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, account.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
                  *  - Instance info (for limits)

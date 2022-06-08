@@ -5,8 +5,6 @@
     android:layout_height="@dimen/nav_header_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-
-
     <ImageView
         android:id="@+id/header_option_info"
         android:layout_width="wrap_content"
@@ -19,8 +17,14 @@
         android:src="@drawable/ic_baseline_more_vert_24"
         app:tint="?iconColor" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/nav_header_height"
+        android:scaleType="centerCrop" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/back_ground_image"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:background="@color/transparent"
