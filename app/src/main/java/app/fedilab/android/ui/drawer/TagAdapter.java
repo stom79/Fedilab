@@ -59,10 +59,11 @@ public class TagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         int stat = 0;
 
-
-        for (History history : historyList) {
-            trendsEntry.add(0, new Entry(Float.parseFloat(history.day), Float.parseFloat(history.uses)));
-            stat += Integer.parseInt(history.accounts);
+        if (historyList != null) {
+            for (History history : historyList) {
+                trendsEntry.add(0, new Entry(Float.parseFloat(history.day), Float.parseFloat(history.uses)));
+                stat += Integer.parseInt(history.accounts);
+            }
         }
         tagViewHolder.binding.tagStats.setText(context.getString(R.string.talking_about, stat));
         LineDataSet dataTrending = new LineDataSet(trendsEntry, context.getString(R.string.trending));

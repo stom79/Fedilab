@@ -736,18 +736,25 @@ public class ProfileActivity extends BaseActivity {
             //Get pinned instances
             reorderVM.getPinned().observe(ProfileActivity.this, pinned -> {
                 boolean alreadyPinned = false;
-                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                    if (pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.host.compareToIgnoreCase(finalInstanceName) == 0) {
-                        alreadyPinned = true;
-                        break;
+                boolean present = true;
+                if (pinned == null) {
+                    pinned = new Pinned();
+                    pinned.pinnedTimelines = new ArrayList<>();
+                    present = false;
+                } else {
+                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                        if (pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.host.compareToIgnoreCase(finalInstanceName) == 0) {
+                            alreadyPinned = true;
+                            break;
+                        }
                     }
                 }
                 if (alreadyPinned) {
                     Toasty.info(ProfileActivity.this, getString(R.string.toast_instance_already_added), Toast.LENGTH_LONG).show();
                     return;
                 }
+                RemoteInstance.InstanceType instanceType;
                 if (nodeInfo != null) {
-                    RemoteInstance.InstanceType instanceType;
                     if (nodeInfo.software.name.compareToIgnoreCase("peertube") == 0) {
                         instanceType = RemoteInstance.InstanceType.PEERTUBE;
                     } else if (nodeInfo.software.name.compareToIgnoreCase("pixelfed") == 0) {
@@ -759,30 +766,38 @@ public class ProfileActivity extends BaseActivity {
                     } else {
                         instanceType = RemoteInstance.InstanceType.MASTODON;
                     }
-                    RemoteInstance remoteInstance = new RemoteInstance();
-                    remoteInstance.type = instanceType;
-                    remoteInstance.host = finalInstanceName;
-                    PinnedTimeline pinnedTimeline = new PinnedTimeline();
-                    pinnedTimeline.remoteInstance = remoteInstance;
-                    pinnedTimeline.displayed = true;
-                    pinnedTimeline.type = Timeline.TimeLineEnum.REMOTE;
-                    pinnedTimeline.position = pinned.pinnedTimelines.size();
-                    pinned.pinnedTimelines.add(pinnedTimeline);
-                    new Thread(() -> {
-                        try {
-                            new Pinned(ProfileActivity.this).updatePinned(pinned);
-                            runOnUiThread(() -> {
-                                Bundle b = new Bundle();
-                                b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
-                                Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                                intentBD.putExtras(b);
-                                LocalBroadcastManager.getInstance(ProfileActivity.this).sendBroadcast(intentBD);
-                            });
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
+                } else {
+                    instanceType = RemoteInstance.InstanceType.MASTODON;
                 }
+                RemoteInstance remoteInstance = new RemoteInstance();
+                remoteInstance.type = instanceType;
+                remoteInstance.host = finalInstanceName;
+                PinnedTimeline pinnedTimeline = new PinnedTimeline();
+                pinnedTimeline.remoteInstance = remoteInstance;
+                pinnedTimeline.displayed = true;
+                pinnedTimeline.type = Timeline.TimeLineEnum.REMOTE;
+                pinnedTimeline.position = pinned.pinnedTimelines.size();
+                pinned.pinnedTimelines.add(pinnedTimeline);
+                Pinned finalPinned = pinned;
+                boolean finalPresent = present;
+                new Thread(() -> {
+                    try {
+                        if (finalPresent) {
+                            new Pinned(ProfileActivity.this).updatePinned(finalPinned);
+                        } else {
+                            new Pinned(ProfileActivity.this).insertPinned(finalPinned);
+                        }
+                        runOnUiThread(() -> {
+                            Bundle b = new Bundle();
+                            b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                            Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+                            intentBD.putExtras(b);
+                            LocalBroadcastManager.getInstance(ProfileActivity.this).sendBroadcast(intentBD);
+                        });
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
 
             });
             return true;
