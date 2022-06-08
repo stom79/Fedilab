@@ -183,7 +183,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void manageMentions(Context context, Status statusDraft, ComposeViewHolder holder) {
 
-        if (statusDraft.mentions != null && (statusDraft.text == null || statusDraft.text.length() == 0)) {
+        if (statusDraft.mentions != null && (statusDraft.text == null || statusDraft.text.length() == 0) && statusDraft.mentions.size() > 0) {
             //Retrieves mentioned accounts + OP and adds them at the beginin of the toot
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             Mention inReplyToUser = null;

@@ -93,17 +93,19 @@ public class BottomMenu implements Serializable {
     }
 
     public static int getPosition(BottomMenu bottomMenu, @IdRes int idRes) {
-        for (MenuItem menuItem : bottomMenu.bottom_menu) {
-            if (idRes == R.id.nav_home && menuItem.item_menu_type == ItemMenuType.HOME) {
-                return menuItem.position;
-            } else if (idRes == R.id.nav_local && menuItem.item_menu_type == ItemMenuType.LOCAL) {
-                return menuItem.position;
-            } else if (idRes == R.id.nav_public && menuItem.item_menu_type == ItemMenuType.PUBLIC) {
-                return menuItem.position;
-            } else if (idRes == R.id.nav_notifications && menuItem.item_menu_type == ItemMenuType.NOTIFICATION) {
-                return menuItem.position;
-            } else if (idRes == R.id.nav_privates && menuItem.item_menu_type == ItemMenuType.DIRECT) {
-                return menuItem.position;
+        if (bottomMenu != null && bottomMenu.bottom_menu != null) {
+            for (MenuItem menuItem : bottomMenu.bottom_menu) {
+                if (idRes == R.id.nav_home && menuItem.item_menu_type == ItemMenuType.HOME) {
+                    return menuItem.position;
+                } else if (idRes == R.id.nav_local && menuItem.item_menu_type == ItemMenuType.LOCAL) {
+                    return menuItem.position;
+                } else if (idRes == R.id.nav_public && menuItem.item_menu_type == ItemMenuType.PUBLIC) {
+                    return menuItem.position;
+                } else if (idRes == R.id.nav_notifications && menuItem.item_menu_type == ItemMenuType.NOTIFICATION) {
+                    return menuItem.position;
+                } else if (idRes == R.id.nav_privates && menuItem.item_menu_type == ItemMenuType.DIRECT) {
+                    return menuItem.position;
+                }
             }
         }
         return -1;
