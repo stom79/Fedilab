@@ -170,21 +170,16 @@ public class PostMessageService extends IntentService {
                             } else {
                                 fileMultipartBody = Helper.getMultipartBody("file", attachment);
                             }
-                            Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, attachment.description, null);
-
-                            if (attachmentCall != null) {
-                                try {
-                                    Response<Attachment> attachmentResponse = attachmentCall.execute();
-                                    if (attachmentResponse.isSuccessful()) {
-                                        Attachment attachmentReply = attachmentResponse.body();
-                                        if (attachmentReply != null) {
-                                            attachmentIds.add(attachmentReply.id);
-                                        }
-                                    }
-                                } catch (IOException e) {
-                                    error = true;
-                                    e.printStackTrace();
-                                }
+                            String replyId = null;
+                            int retry = 0;
+                            while (replyId == null && retry < 3) {
+                                replyId = postAttachment(mastodonStatusesService, dataPost, fileMultipartBody, attachment);
+                                retry++;
+                            }
+                            if (replyId == null) {
+                                error = true;
+                            } else {
+                                attachmentIds.add(replyId);
                             }
                         }
 
@@ -294,6 +289,25 @@ public class PostMessageService extends IntentService {
             intentBD.putExtras(b);
             LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
         }
+    }
+
+    private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
+        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, attachment.description, null);
+
+        if (attachmentCall != null) {
+            try {
+                Response<Attachment> attachmentResponse = attachmentCall.execute();
+                if (attachmentResponse.isSuccessful()) {
+                    Attachment attachmentReply = attachmentResponse.body();
+                    if (attachmentReply != null) {
+                        return attachmentReply.id;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
