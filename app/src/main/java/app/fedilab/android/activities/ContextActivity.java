@@ -78,7 +78,9 @@ public class ContextActivity extends BaseActivity {
             finish();
             return;
         }
-        MastodonHelper.loadPPMastodon(binding.profilePicture, BaseMainActivity.accountWeakReference.get().mastodon_account);
+        if (BaseMainActivity.accountWeakReference.get() != null) {
+            MastodonHelper.loadPPMastodon(binding.profilePicture, BaseMainActivity.accountWeakReference.get().mastodon_account);
+        }
         Bundle bundle = new Bundle();
         new Thread(() -> {
             focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
