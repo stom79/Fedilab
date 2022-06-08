@@ -194,7 +194,9 @@ public class StatusCache {
         }
         ContentValues values = new ContentValues();
         values.put(Sqlite.COL_USER_ID, statusCache.user_id);
-        values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
+        if (statusCache.type != null) {
+            values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
+        }
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
         values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
