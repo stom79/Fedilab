@@ -189,6 +189,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (account == null) {
             account = BaseMainActivity.accountWeakReference.get();
         }
+        if (account == null) {
+            Toasty.error(ComposeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         if (instance == null) {
             instance = account.instance;
         }
