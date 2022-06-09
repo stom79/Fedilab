@@ -934,6 +934,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     layoutMediaBinding.playVideo.setVisibility(View.GONE);
                 }
+                if (statusToDeal.media_attachments.get(0).type != null && statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("audio")) {
+                    layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
+                } else {
+                    layoutMediaBinding.playMusic.setVisibility(View.GONE);
+                }
                 if (!mediaObfuscated(statusToDeal) || expand_media) {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                     Glide.with(layoutMediaBinding.media.getContext())
@@ -971,6 +976,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
                     } else {
                         layoutMediaBinding.playVideo.setVisibility(View.GONE);
+                    }
+                    if (attachment.type != null && attachment.type.equalsIgnoreCase("audio")) {
+                        layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
+                    } else {
+                        layoutMediaBinding.playMusic.setVisibility(View.GONE);
                     }
                     lp.setMargins(0, 0, (int) Helper.convertDpToPixel(5, context), 0);
                     if (!mediaObfuscated(statusToDeal) || expand_media) {
