@@ -20,7 +20,7 @@
     <string name="password">Mot de passe</string>
     <string name="email">Email</string>
     <string name="accounts">Comptes</string>
-    <string name="toots">Pouets</string>
+    <string name="toots">Messages</string>
     <string name="tags">Étiquettes</string>
     <string name="save">Sauvegarder</string>
     <string name="restore">Restaurer</string>
@@ -29,14 +29,14 @@
     <string name="instance_example">Instance : mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Utilisation du compte %1$s</string>
     <string name="add_account">Ajouter un compte</string>
-    <string name="clipboard">Le contenu du pouet a été copié dans le presse-papier</string>
-    <string name="clipboard_url">L\'URL du pouet a été copiée dans le presse-papier</string>
+    <string name="clipboard">Le contenu du message a été copié dans le presse-papier</string>
+    <string name="clipboard_url">L’URL du message a été copiée dans le presse-papier</string>
     <string name="change">Changer</string>
     <string name="choose_picture">Sélectionnez une photo…</string>
     <string name="clear">Nettoyer</string>
     <string name="camera">Appareil photo</string>
     <string name="delete_all">Tout effacer</string>
-    <string name="translate_toot">Traduire ce pouet.</string>
+    <string name="translate_toot">Traduire ce message.</string>
     <string name="schedule">Programmer</string>
     <string name="text_size">Taille du texte et des icônes</string>
     <string name="text_size_change">Modifier la taille du texte :</string>
@@ -77,7 +77,7 @@
     <string name="send_email">Envoyer un Email</string>
     <string name="click_to_change">Cliquer sur le chemin pour le changer</string>
     <string name="failed">Erreur !</string>
-    <string name="scheduled_toots">Pouets programmés</string>
+    <string name="scheduled_toots">Messages programmés</string>
     <string name="disclaimer_full">Les données ci-dessous peuvent ne pas refléter ce profil dans sa totalité.</string>
     <string name="insert_emoji">Insérer un émoji</string>
     <string name="no_emoji">L’application n’a pas encore collecté d’emojis personnalisés.</string>
@@ -89,12 +89,12 @@
     <string name="no_stories">Aucune histoire à afficher</string>
     <string name="stories">Histoires</string>
     <string name="reblog_by">Partagé par %1$s</string>
-    <string name="favourite_add">Ajouter ce pouet aux favoris ?</string>
-    <string name="favourite_remove">Supprimer ce pouet des favoris ?</string>
-    <string name="reblog_add">Partager ce pouet ?</string>
-    <string name="reblog_remove">Supprimer ce pouet des partages ?</string>
-    <string name="pin_add">Épingler ce pouet ?</string>
-    <string name="pin_remove">Désépingler ce pouet ?</string>
+    <string name="favourite_add">Ajouter ce message aux favoris \?</string>
+    <string name="favourite_remove">Supprimer ce message des favoris \?</string>
+    <string name="reblog_add">Partager ce message \?</string>
+    <string name="reblog_remove">Annuler le partage de ce message \?</string>
+    <string name="pin_add">Épingler ce message \?</string>
+    <string name="pin_remove">Désépingler ce message \?</string>
     <string name="more_action_1">Ignorer</string>
     <string name="more_action_2">Bloquer</string>
     <string name="more_action_3">Signaler</string>
@@ -124,8 +124,8 @@
     <string name="bookmark_add">Ajouter aux marque-pages</string>
     <string name="bookmark_remove">Supprimer le marque-page</string>
     <string name="bookmarks_empty">Aucun marque-page à afficher</string>
-    <string name="status_bookmarked">Le pouet a été ajouté aux marque-pages !</string>
-    <string name="status_unbookmarked">Le pouet a été supprimé des marque-pages !</string>
+    <string name="status_bookmarked">Le message a été ajouté aux marque-pages !</string>
+    <string name="status_unbookmarked">Le message a été retiré des marque-pages !</string>
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d min</string>
@@ -153,16 +153,16 @@
     <string name="toot_it">POUET !</string>
     <string name="queet_it">QUEET !</string>
     <string name="cw">cw</string>
-    <string name="toot_title">Écrire un pouet</string>
-    <string name="toot_title_reply">Répondre à un pouet</string>
+    <string name="toot_title">Écrire un message</string>
+    <string name="toot_title_reply">Répondre à un message</string>
     <string name="queet_title">Rédiger un queet</string>
     <string name="queet_title_reply">Répondre à un queet</string>
     <string name="toot_select_image">Sélectionnez un média</string>
     <string name="toot_select_image_error">Une erreur s’est produite lors de la sélection du média !</string>
     <string name="toot_delete_media">Supprimer le média ?</string>
-    <string name="toot_error_no_content">Votre pouet est vide !</string>
-    <string name="toot_sent">Le pouet a été envoyé !</string>
-    <string name="toot_reply_content_title">Vous répondez à ce pouet :</string>
+    <string name="toot_error_no_content">Votre message est vide !</string>
+    <string name="toot_sent">Le message a été envoyé !</string>
+    <string name="toot_reply_content_title">Vous répondez à ce message :</string>
     <string name="toot_sensitive">Contenu sensible ?</string>
     <string-array name="toot_visibility">
         <item>Afficher dans les fils publics</item>
@@ -171,11 +171,11 @@
         <item>N\'afficher que pour les personnes mentionnées</item>
     </string-array>
     <string name="no_draft">Aucun brouillon !</string>
-    <string name="choose_toot">Choisissez un pouet</string>
+    <string name="choose_toot">Choisissez un message</string>
     <string name="choose_accounts">Choisissez un compte</string>
     <string name="select_accounts">Sélectionnez des comptes</string>
     <string name="remove_draft">Supprimer le brouillon ?</string>
-    <string name="show_reply">Cliquer sur le bouton pour afficher le pouet d’origine</string>
+    <string name="show_reply">Appuyez sur le bouton pour afficher le message d’origine</string>
     <string name="upload_form_description">Décrire pour les malvoyants</string>
     <!-- Instance -->
     <string name="instance_no_description">Aucune description !</string>
@@ -185,7 +185,7 @@
     <string name="about_license">Licence : </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Code source : </string>
-    <string name="about_yandex">Traduction des pouets :</string>
+    <string name="about_yandex">Traduction des messages :</string>
     <string name="about_thekinrar">Recherche d’instances :</string>
     <string name="thanks_text_logo">Concepteur de l’icône :</string>
     <!-- Conversation -->
@@ -193,7 +193,8 @@
     <!-- Accounts -->
     <string name="no_accounts">Aucun compte à afficher</string>
     <string name="no_follow_request">Aucune demande d’abonnement</string>
-    <string name="status_cnt">Pouets \n %1$s</string>
+    <string name="status_cnt">Messages
+\n %1$s</string>
     <string name="following_cnt">Abonnements \n %1$s</string>
     <string name="followers_cnt">Abonné·e·s \n %1$s</string>
     <string name="pins_cnt">Épinglés
@@ -201,11 +202,11 @@
     <string name="authorize">Autoriser</string>
     <string name="reject">Rejeter</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Aucun pouet programmé à afficher !</string>
-    <string name="no_scheduled_toots_indications">Rédigez un pouet, puis choisissez <b>Programmer</b> dans le menu du haut.</string>
-    <string name="remove_scheduled">Supprimer le pouet programmé ?</string>
+    <string name="no_scheduled_toots">Aucun message programmé à afficher !</string>
+    <string name="no_scheduled_toots_indications">Rédigez un message, puis choisissez <b>Programmer</b> dans le menu du haut.</string>
+    <string name="remove_scheduled">Supprimer le message programmé \?</string>
     <string name="media_count">Média(s) : %d</string>
-    <string name="toot_scheduled">Le pouet a été programmé !</string>
+    <string name="toot_scheduled">Le message a été programmé !</string>
     <string name="toot_scheduled_date">La date doit être supérieure à l’heure actuelle !</string>
     <string name="warning_battery">L’économiseur de batterie est activé ! Il se peut que cela ne fonctionne pas comme prévu.</string>
     <!-- timed mute -->
@@ -216,8 +217,8 @@
     <string name="no_notifications">Aucune notification à afficher</string>
     <string name="notif_mention">vous a mentionné</string>
     <string name="notif_status">a écrit un nouveau message</string>
-    <string name="notif_reblog">a partagé votre pouet</string>
-    <string name="notif_favourite">a ajouté votre pouet à ses favoris</string>
+    <string name="notif_reblog">a partagé votre message</string>
+    <string name="notif_favourite">a ajouté votre message à ses favoris</string>
     <string name="notif_follow">vous suit</string>
     <string name="notif_follow_request">a demandé à vous suivre</string>
     <plurals name="other_notifications">
@@ -246,13 +247,13 @@
     <string name="toast_unmute">Le compte n\'est plus masqué !</string>
     <string name="toast_follow">Le compte est suivi !</string>
     <string name="toast_unfollow">Le compte n\'est plus suivi !</string>
-    <string name="toast_reblog">Le pouet a été partagé !</string>
+    <string name="toast_reblog">Le message a été partagé !</string>
     <string name="toast_unreblog">Le pouet a été supprimé des partages !</string>
     <string name="toast_favourite">Le pouet a été ajouté aux favoris !</string>
     <string name="toast_unfavourite">Le pouet a été supprimé des favoris !</string>
-    <string name="toast_report">Le pouet a été signalé !</string>
-    <string name="toast_unstatus">Le pouet a été supprimé !</string>
-    <string name="toast_pin">Le pouet a été épinglé !</string>
+    <string name="toast_report">Le message a été signalé !</string>
+    <string name="toast_unstatus">Le message a été supprimé !</string>
+    <string name="toast_pin">Le message a été épinglé !</string>
     <string name="toast_unpin">Le pouet a été désépinglé !</string>
     <string name="toast_error">Oups ! Une erreur s’est produite !</string>
     <string name="toast_code_error">Une erreur s’est produite ! L’instance n’a retourné aucun code d\autorisation !</string>
@@ -266,9 +267,9 @@
     <string name="toast_error_translations_disabled">Les traductions sont désactivées dans les paramètres</string>
     <string name="toast_toot_saved">Brouillon enregistré !</string>
     <string name="toast_error_char_limit">Êtes-vous sûr que cette instance autorise ce nombre de caractères ? Habituellement, cette valeur est proche de 500 caractères.</string>
-    <string name="toast_visibility_changed">La visibilité des pouets a été changée pour le compte %1$s</string>
+    <string name="toast_visibility_changed">La visibilité des messages a été changée pour le compte %1$s</string>
     <!-- Settings -->
-    <string name="set_toots_page">Nombre de pouets par chargement</string>
+    <string name="set_toots_page">Nombre de messages par chargement</string>
     <string name="set_attachment_always">Toujours</string>
     <string name="set_attachment_wifi">WIFI</string>
     <string name="set_attachment_ask">Demander</string>
@@ -280,10 +281,10 @@
     <string name="set_disable_gif">Désactiver l’animation des avatars</string>
     <string name="set_folder_title">Destination : </string>
     <string name="set_auto_store_toot">Enregistrer les brouillons automatiquement</string>
-    <string name="set_auto_add_media_url">Ajouter l’URL des médias dans les pouets</string>
+    <string name="set_auto_add_media_url">Ajouter l’URL des médias dans les messages</string>
     <string name="set_notif_follow">Notifier lorsque quelqu’un me suit</string>
-    <string name="set_notif_follow_share">Notifier lorsque quelqu’un partage mes pouets</string>
-    <string name="set_notif_follow_add">Notifier lorsque quelqu’un ajoute mes pouets à ses favoris</string>
+    <string name="set_notif_follow_share">Notifier lorsque quelqu’un partage mes messages</string>
+    <string name="set_notif_follow_add">Notifier lorsque quelqu’un ajoute mes messages à ses favoris</string>
     <string name="set_notif_follow_mention">Notifier lorsque quelqu’un me mentionne</string>
     <string name="set_notif_follow_poll">Me notifier lorsqu’un sondage est terminé</string>
     <string name="set_notif_status">Notifier des nouveaux messages</string>
@@ -361,7 +362,7 @@
     <!-- ACTIVITY CACHE -->
     <string name="action_sync">Synchroniser</string>
     <string name="action_filter">Filtrer</string>
-    <string name="owner_cached_toots">Mes pouets</string>
+    <string name="owner_cached_toots">Mes messages</string>
     <string name="owner_cached_notifications">Vos notifications</string>
     <string name="v_public">Public</string>
     <string name="v_unlisted">Non-listé</string>
@@ -411,7 +412,7 @@
         - <b>Android-Job</b> : Pour la gestion des services\n
         - <b>PhotoView</b> : Pour la gestion des images\n
     </string>
-    <string name="privacy_API_yandex_title">Traduction des pouets</string>
+    <string name="privacy_API_yandex_title">Traduction des messages</string>
     <string name="privacy_API_yandex_authorizations">L’application offre la possibilité de traduire les pouets en utilisant les paramètres régionaux de l’appareil et l’API de Yandex.
 \n Yandex a sa propre politique de confidentialité qui peut être consultée à l\'adresse suivante : https://yandex.ru/legal/confidential/\?lang=en</string>
     <string name="thanks_text_dev">        Merci à :
@@ -419,7 +420,7 @@
     <string name="filter_regex">Filtrer avec une expression régulière</string>
     <string name="search">Rechercher</string>
     <string name="delete">Supprimer</string>
-    <string name="fetch_more_toots">Retrouver plus de pouets…</string>
+    <string name="fetch_more_toots">Retrouver plus de messages…</string>
     <!-- About lists -->
     <string name="action_lists">Listes</string>
     <string name="action_lists_confirm_delete">Êtes-vous sûr de vouloir supprimer définitivement cette liste ?</string>
@@ -461,7 +462,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Identifiant</string>
     <string name="poxy_password">Mot de passe</string>
-    <string name="set_share_details">Ajouter les détails du pouet en le partageant</string>
+    <string name="set_share_details">Ajouter les détails du message en le partageant</string>
     <string name="support_the_app_on_liberapay">Soutenir l’app sur Liberapay</string>
     <string name="alert_regex">Il y a une erreur dans l’expression régulière !</string>
     <string name="toast_instance_unavailable">Aucun fil n’a été trouvé sur cette instance !</string>
@@ -490,7 +491,7 @@
     <string name="context_conversation">Discussions</string>
     <string name="filter_keyword_explanations">Sera trouvé sans que la casse ou l’avertissement de contenu du pouet soit pris en compte</string>
     <string name="context_drop">Supprimer plutôt que de cacher</string>
-    <string name="context_drop_explanations">Les pouets filtrés disparaîtront irrémédiablement, même si le filtre est supprimé ultérieurement</string>
+    <string name="context_drop_explanations">Les messages filtrés disparaîtront irrémédiablement même si le filtre est supprimé ultérieurement</string>
     <string name="context_whole_word_explanations">Lorsque le mot-clef ou la phrase-clef est uniquement alphanumérique, ça sera uniquement appliqué s’il correspond au mot entier</string>
     <string name="context_whole_word">Mot entier</string>
     <string name="filter_context">Contextes du filtre</string>
@@ -520,8 +521,8 @@
     <string name="channel_notif_fav">Nouveau Favori</string>
     <string name="channel_notif_mention">Nouvelle mention</string>
     <string name="channel_notif_poll">Sondage terminé</string>
-    <string name="channel_notif_toot">Nouveau pouet</string>
-    <string name="channel_notif_backup">Sauvegarde des Pouets</string>
+    <string name="channel_notif_toot">Nouveau message</string>
+    <string name="channel_notif_backup">Sauvegarde des messages</string>
     <string name="channel_notif_status">Nouveaux messages</string>
     <string name="channel_notif_media">Téléchargement des Médias</string>
     <string name="set_notif_sound">Changer le son des notifications</string>
@@ -557,14 +558,14 @@
     <string name="channels">Chaînes</string>
     <string name="set_display_emoji">Utiliser les EmojiOne</string>
     <string name="information">information</string>
-    <string name="set_display_card">Afficher les aperçus dans tous les pouets</string>
+    <string name="set_display_card">Afficher les aperçus dans tous les messages</string>
     <string name="thanks_text_ux">Nouveau·lle UX/UI Designer·use</string>
     <string name="set_display_video_preview">Afficher les aperçus des vidéos</string>
     <string name="account_id_clipbloard">L’ID du compte été copié vers le presse-papiers !</string>
     <string name="set_change_locale">Changer de langue</string>
     <string name="default_language">Langue par défaut</string>
-    <string name="truncate_long_toots">Tronquer les longs pouets</string>
-    <string name="set_truncate_toot">Tronquer les pouets dépassant « x » lignes. Zéro signifie désactivé.</string>
+    <string name="truncate_long_toots">Tronquer les longs messages</string>
+    <string name="set_truncate_toot">Tronquer les messages dépassant « x » lignes. Zéro signifie désactivé.</string>
     <string name="display_toot_truncate">Afficher plus</string>
     <string name="hide_toot_truncate">Afficher moins</string>
     <string name="manage_tags">Gestion des étiquettes</string>
@@ -575,7 +576,7 @@
     <string name="schedule_boost">Programmer un boost</string>
     <string name="boost_scheduled">Le boost est programmé !</string>
     <string name="no_scheduled_boosts">Aucun boost programmé à afficher !</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[Ouvrez le menu d’un pouet puis choisissez <b>Programmer un boost</b>.]]></string>
+    <string name="no_scheduled_boosts_indications">Ouvrez le menu d’un message puis choisissez <b>Planifier un partage</b>.</string>
     <string name="art_menu">Fil artistique</string>
     <string name="open_menu">Ouvrir le menu</string>
     <string name="go_back">Retour</string>
@@ -592,7 +593,7 @@
     <string name="delete_domain">Supprimer le domaine bloqué</string>
     <string name="custom_emoji_picker">Sélecteur d’émojis personnalisé</string>
     <string name="play_video">Lire la vidéo</string>
-    <string name="new_toot">Nouveau pouet</string>
+    <string name="new_toot">Nouveau message</string>
     <string name="card_view_image">Image de la carte</string>
     <string name="hide_media">Masquer les médias</string>
     <string name="favicon">Favicon</string>
@@ -666,10 +667,10 @@
     <string name="choose_schedule">Choisissez un mode pour la planification</string>
     <string name="device_schedule">Depuis l’appareil</string>
     <string name="server_schedule">Depuis le serveur</string>
-    <string name="toots_server">Pouets (Serveur)</string>
-    <string name="toots_client">Pouets (Appareil)</string>
+    <string name="toots_server">Messages (Serveur)</string>
+    <string name="toots_client">Messages (Appareil)</string>
     <string name="modify">Modifier</string>
-    <string name="set_display_content_after_fetch_more">Afficher les nouveaux pouets au-dessus du bouton « Afficher le contenu ? »</string>
+    <string name="set_display_content_after_fetch_more">Afficher les nouveaux messages au-dessus du bouton « Afficher le contenu \? »</string>
     <string name="settings_category_label_timelines">Les fils</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
@@ -732,7 +733,7 @@
     <string name="settings_category_notif_categories">Catégories</string>
     <string name="settings_category_notif_time_slot">Créneau horaire</string>
     <string name="settings_category_notif_advanced">Avancé</string>
-    <string name="set_display_new_badge">Afficher le badge \'new\' sur les pouets non lus</string>
+    <string name="set_display_new_badge">Afficher le badge \'new\' sur les messages non lus</string>
     <string name="peertube_menu">PeerTube</string>
     <string name="move_timeline">Déplacer le fil</string>
     <string name="hide_timeline">Cacher le fil</string>
@@ -753,7 +754,7 @@
     <string name="set_blur_sensitive">Flouter les médias sensibles</string>
     <string name="set_display_timeline_in_list">Afficher les fils publics dans une liste</string>
     <string name="display_timeline">Afficher les fils publics</string>
-    <string name="set_display_bot_icon">Marquer les comptes bot dans les pouets</string>
+    <string name="set_display_bot_icon">Marquer les comptes bot dans les messages</string>
     <string name="add_tags">Gestion des étiquettes</string>
     <string name="set_remember_position">Se rappeler de la position sur le fil principal</string>
     <string name="history">Historique</string>
@@ -871,7 +872,7 @@
     <string name="account_undisabled">Le compte n\'est plus désactivé !</string>
     <string name="account_warned">Le compte a été averti !</string>
     <string name="set_display_admin_menu">Afficher le menu administrateur</string>
-    <string name="set_display_admin_toot">Afficher la fonctionnalité d\'admin dans les pouets</string>
+    <string name="set_display_admin_toot">Afficher la fonctionnalité d’admin dans les messages</string>
     <string name="allow">Autoriser</string>
     <string name="account_approved">Le compte est approuvé !</string>
     <string name="account_rejected">Le compte est rejeté !</string>
@@ -894,7 +895,7 @@
     <string name="set_quick_reply_indication">Permet de répondre directement dans les fils, en bas des statuts</string>
     <string name="set_fit_preview_indication">Les aperçus ne seront pas rognés dans les fils</string>
     <string name="set_display_video_preview_indication">Autoriser à lire les vidéos intégrées directement dans les fils</string>
-    <string name="set_display_content_after_fetch_more_indication">Permet d’inverser la façon de lire les publications affichées après avoir cliqué sur le bouton pour retrouver plus de pouets</string>
+    <string name="set_display_content_after_fetch_more_indication">Permet d’inverser la façon de lire les publications affichées après avoir cliqué sur le bouton pour retrouver plus de messages</string>
     <string name="set_security_provider_indication">Cette option permet de prendre en charge les suites de chiffrement récentes. Elle est utile pour les anciens appareils Android ou si vous ne n\'arrivez pas vous connecter à votre instance.</string>
     <string name="set_video_mode_indication">Exclusivement pour les vidéos Peertube. Basculez vers ce mode si vous ne pouvez pas les lire.</string>
     <string name="featured_hashtags_indication">Ces tags permettent de filtrer les statuts dans les profils. Vous devrez utiliser le menu contextuel pour les voir.</string>
@@ -1136,8 +1137,8 @@
     <string name="no_distributors_found">Aucun distributeur trouvé !</string>
     <string name="no_distributors_explanation">Vous avez besoin d’un distributeur pour recevoir des notifications poussées.\nVous trouverez plus de détails sur %1$s.\n\nVous pouvez également désactiver les notifications poussées dans les paramètres pour ignorer ce message.</string>
     <string name="select_distributors">Sélectionnez un distributeur</string>
-    <string name="toots_visibility_title">Visibilité des pouets par défaut :</string>
-    <string name="toot_visibility_title">Visibilité du pouet</string>
+    <string name="toots_visibility_title">Visibilité par défaut des messages :</string>
+    <string name="toot_visibility_title">Visibilité du message</string>
     <string name="category_music">Musique</string>
     <string name="cannot_be_empty">Ce champ ne peut pas être vide !</string>
     <string name="permission_record">L’application a besoin d’accéder à l’enregistrement audio</string>
@@ -1272,4 +1273,7 @@
     <string name="approve">Approuver</string>
     <string name="origin_report">Origine du compte signalé</string>
     <string name="resolved">Résolu</string>
+    <string name="location">Emplacement</string>
+    <string name="most_recent">Plus récent</string>
+    <string name="filter">Filtre</string>
 </resources>

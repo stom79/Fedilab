@@ -51,7 +51,7 @@
     <string name="replies">Trả lời</string>
     <string name="username">Tên người dùng</string>
     <string name="drafts">Bản nháp</string>
-    <string name="favourite">Lượt thích</string>
+    <string name="favourite">Tút đã thích</string>
     <string name="follow">Người theo dõi mới</string>
     <string name="mention">Lượt nhắc đến</string>
     <string name="reblog">Lượt đăng lại</string>
@@ -67,8 +67,8 @@
     <string name="neutral_menu_title">Tùy chọn</string>
     <string name="favorites_menu">Đã thích</string>
     <string name="communication_menu_title">Giao tiếp</string>
-    <string name="muted_menu">Người dùng đã ẩn</string>
-    <string name="blocked_menu">Người dùng đã chặn</string>
+    <string name="muted_menu">Người đã ẩn</string>
+    <string name="blocked_menu">Người đã chặn</string>
     <string name="notifications">Thông báo</string>
     <string name="follow_request">Yêu cầu theo dõi</string>
     <string name="settings">Cài đặt</string>
@@ -120,7 +120,7 @@
         <item>Hủy bỏ thổi còi này?</item>
         <item>Delete &amp; re-draft this toot?</item>
     </string-array>
-    <string name="bookmarks">Đã lưu</string>
+    <string name="bookmarks">Tút đã lưu</string>
     <string name="bookmark_add">Lưu tút</string>
     <string name="bookmark_remove">Hủy lưu</string>
     <string name="bookmarks_empty">Chưa lưu gì hết</string>
@@ -272,28 +272,28 @@
     <string name="load_attachment_spoiler">Tải thêm…</string>
     <string name="load_attachment_spoiler_less">Thu gọn</string>
     <string name="load_sensitive_attachment">Nội dung nhạy cảm</string>
-    <string name="set_disable_gif">Ẩn ảnh đại diện GIF</string>
+    <string name="set_disable_gif">Tắt ảnh đại diện GIF</string>
     <string name="set_folder_title">Đường dẫn:</string>
     <string name="set_auto_store_toot">Tự động lưu bản nháp</string>
     <string name="set_auto_add_media_url">Thêm URL của tập tin vào tút</string>
-    <string name="set_notif_follow">Thông báo khi ai đó theo dõi tôi</string>
-    <string name="set_notif_follow_share">Thông báo khi ai đó đăng lại tút của tôi</string>
-    <string name="set_notif_follow_add">Thông báo khi ai đó thích của tôi</string>
-    <string name="set_notif_follow_mention">Thông báo khi ai đó nhắc tới tôi</string>
+    <string name="set_notif_follow">Khi ai đó theo dõi tôi</string>
+    <string name="set_notif_follow_share">Khi ai đó đăng lại tút của tôi</string>
+    <string name="set_notif_follow_add">Khi ai đó thích tút của tôi</string>
+    <string name="set_notif_follow_mention">Khi ai đó nhắc tới tôi</string>
     <string name="set_notif_follow_poll">Nhắc khi một cuộc bình chọn kết thúc</string>
     <string name="set_notif_status">Nhắc khi có tút mới</string>
-    <string name="set_share_validation">Hiện xác nhận trước khi đăng lại</string>
-    <string name="set_share_validation_fav">Hiện xác nhận trước khi thêm vào mục yêu thích</string>
+    <string name="set_share_validation">Hiện xác nhận trước khi đăng lại tút</string>
+    <string name="set_share_validation_fav">Hiện xác nhận trước khi thích tút</string>
     <string name="set_wifi_only">Chỉ thông báo bằng WIFI</string>
     <string name="set_notify">Thông báo?</string>
     <string name="set_notif_silent">Tắt thông báo</string>
     <string name="set_nsfw_timeout">Thời gian chờ của NSFW (giây, 0 = tắt)</string>
-    <string name="set_med_desc_timeout">Thời gian chờ mô tả media (giây, 0 = không dùng)</string>
+    <string name="set_med_desc_timeout">Thời gian chờ mô tả media (giây, 0 = tắt)</string>
     <string name="settings_title_profile">Sửa hồ sơ</string>
     <string name="settings_title_custom_sharing">Chia sẻ tùy chỉnh</string>
     <string name="settings_custom_sharing_url">URL chia sẻ tùy chỉnh của bạn…</string>
     <string name="set_profile_description">Tiểu sử…</string>
-    <string name="set_lock_account">Đây là tài khoản riêng tư</string>
+    <string name="set_lock_account">Tài khoản riêng tư</string>
     <string name="set_save_changes">Lưu thay đổi</string>
     <string name="set_header_picture_overlay">Chọn ảnh bìa</string>
     <string name="set_fit_preview">Hình ảnh xem trước đầy đủ</string>
@@ -309,7 +309,7 @@
     <string name="embedded_browser">Sử dụng trình duyệt tích hợp</string>
     <string name="custom_tabs">Tab tùy chỉnh</string>
     <string name="use_javascript">Bật JavaScript</string>
-    <string name="expand_cw">Tự động hiện nội dung ẩn</string>
+    <string name="expand_cw">Hiện nội dung ẩn</string>
     <string name="use_cookies">Cho phép cookie của bên thứ ba</string>
     <string name="your_api_key">Mã API của bạn, để trống là dùng Yandex</string>
     <string-array name="settings_theme">
@@ -454,7 +454,7 @@
     <string name="poxy_login">Đăng nhập</string>
     <string name="poxy_password">Mật khẩu</string>
     <string name="set_share_details">Thêm chi tiết tút khi chia sẻ</string>
-    <string name="support_the_app_on_liberapay">Hỗ trợ app qua Liberapay</string>
+    <string name="support_the_app_on_liberapay">Ủng hộ bằng Liberapay</string>
     <string name="alert_regex">Đã xảy ra lỗi trong biểu thức chính quy!</string>
     <string name="toast_instance_unavailable">Không tìm thấy bảng tin của máy chủ này!</string>
     <string name="delete_instance">Xóa máy chủ này\?</string>
@@ -506,7 +506,7 @@
     <string name="about_trunk_action">Trunk API</string>
     <string name="toast_impossible_to_follow">Không thể theo dõi người dùng</string>
     <string name="retrieve_remote_account">Đang nạp tài khoản từ xa</string>
-    <string name="expand_image">Tự động hiện media ẩn</string>
+    <string name="expand_image">Hiện media ẩn</string>
     <string name="channel_notif_follow">Người theo dõi mới</string>
     <string name="channel_notif_boost">Lượt đăng lại mới</string>
     <string name="channel_notif_fav">Lượt thích mới</string>
@@ -627,7 +627,7 @@
     <string name="overview">Tổng quan</string>
     <string name="trending">Xu hướng</string>
     <string name="recently_added">Được thêm gần đây</string>
-    <string name="local">Trên máy</string>
+    <string name="local">Máy chủ</string>
     <string name="upload_video">Tải lên</string>
     <string name="reply">Trả lời</string>
     <string name="delete_comment">Xoá bình luận</string>
@@ -638,7 +638,7 @@
     <string name="my_videos">Video của tôi</string>
     <string name="title">Tựa đề</string>
     <string name="license">Giấy phép</string>
-    <string name="category">Thể loại</string>
+    <string name="category">Phân loại</string>
     <string name="language">Ngôn ngữ</string>
     <string name="peertube_nsfw">Video này chứa nội dung người lớn</string>
     <string name="peertube_enable_comments">Cho phép đăng bình luận</string>
@@ -705,7 +705,7 @@
     <string name="filter_timeline_with_a_tag">Lọc với hashtag</string>
     <string name="no_tags">Không có hashtag</string>
     <string name="set_hide_delete_notification_on_tab">Ẩn nút \"xóa\" trên tab thông báo</string>
-    <string name="set_retrieve_metadata_share_from_extras">Đính kèm hình ảnh khi chia sẻ một URL</string>
+    <string name="set_retrieve_metadata_share_from_extras">Hiện hình ảnh khi chia sẻ URL</string>
     <!-- end languages -->
     <string name="poll">Bình chọn</string>
     <string name="polls">Bình chọn</string>
@@ -741,7 +741,7 @@
     <string name="gnu_instance">Máy chủ GNU</string>
     <string name="cached_status">Tút lưu trong bộ nhớ đệm</string>
     <string name="set_forward_tags">Dùng lại hashtag trong trả lời</string>
-    <string name="set_long_press_media">Nhấn và giữ để lưu về media</string>
+    <string name="set_long_press_media">Nhấn và giữ để tải xuống media</string>
     <string name="set_blur_sensitive">Che mờ nội dung nhạy cảm</string>
     <string name="set_display_timeline_in_list">Hiện bảng tin trong một danh sách</string>
     <string name="display_timeline">Hiện bảng tin</string>
@@ -783,7 +783,7 @@
     <string name="refresh_cache">Làm mới bộ nhớ đệm</string>
     <string name="mention_status">Nhắc tới tút</string>
     <string name="action_news">Tin tức</string>
-    <string name="category_general">Tổng quát</string>
+    <string name="category_general">Chung</string>
     <string name="category_regional">Khu vực</string>
     <string name="category_art">Nghệ thuật</string>
     <string name="category_journalism">Nhật ký</string>
@@ -840,7 +840,7 @@
     <string name="joined">Đã tham gia</string>
     <string name="recent_ip">IP gần đây</string>
     <string name="warn">Cảnh cáo</string>
-    <string name="disable">Khóa</string>
+    <string name="disable">Tắt</string>
     <string name="silence">Ẩn</string>
     <string name="email_user">Thông báo cho người này qua email</string>
     <string name="custom_warning">Ghi chú riêng</string>
@@ -1015,7 +1015,7 @@
     <string name="no_live_indication">Thông báo sẽ được tìm nạp sau mỗi 15 phút.</string>
     <string name="action_add_notes">Thêm ghi chú</string>
     <string name="note_for_account">Ghi chú về người này</string>
-    <string name="set_resize_picture_indication">Cho phép giảm kích thước hình ảnh.</string>
+    <string name="set_resize_picture_indication">Cho phép giảm kích cỡ hình ảnh.</string>
     <string name="set_resize_video_indication">Cho phép giảm độ phân giải video.</string>
     <string name="please_wait_compression">Ứng dụng đang nén media, xin vui lòng chờ…</string>
     <string name="change_app_icon_experimental">Đổi biểu tượng app</string>
@@ -1072,7 +1072,7 @@
     <string name="pref_colored_status_bar_title">Thanh tút</string>
     <string name="restore_default_theme">Khôi phục theme mặc định</string>
     <string name="import_theme">Nhập theme</string>
-    <string name="import_theme_title">Nhấn để nhập theme từ lần xuất trước</string>
+    <string name="import_theme_title">Nhập theme từ một tập tin</string>
     <string name="export_theme">Xuất theme</string>
     <string name="export_theme_title">Nhấn để xuất theme đang dùng</string>
     <string name="theme_file_error">Xảy ra lỗi khi chọn tập tin theme</string>
@@ -1136,12 +1136,12 @@
     <string name="set_video_cache">Bộ nhớ đệm video (MB, 0 = không lưu)</string>
     <string name="set_watermark">Watermark</string>
     <string name="set_watermark_indication">Tự động thêm watermark dưới hình ảnh. Nội dung có thể thay đổi cho từng tài khoản.</string>
-    <string name="no_distributors_found">Không tìm thấy nhà phân phối!</string>
-    <string name="no_distributors_explanation">Bạn cần nhà phân phối để nhận thông báo đẩy.
+    <string name="no_distributors_found">Không có thông báo đẩy!</string>
+    <string name="no_distributors_explanation">Bạn cần một phần mềm để nhận thông báo đẩy.
 \nTìm hiểu chi tiết tại %1$s.
 \n
 \nBạn có thể tắt thông báo đẩy trong cài đặt hoặc bỏ qua nó.</string>
-    <string name="select_distributors">Chọn nhà phân phối</string>
+    <string name="select_distributors">Chọn phần mềm</string>
     <string name="report_val_more3">Bạn chắc là nó vi phạm quy tắc cụ thể</string>
     <string name="report_val4">Khác</string>
     <string name="report_1_title">Không muốn thấy thứ này\?</string>
@@ -1156,7 +1156,7 @@
     <string name="notification_options">Tùy chọn thông báo</string>
     <string name="notifications_are">Trong khoảng thời gian</string>
     <string name="pref_theme_base">Theme gốc</string>
-    <string name="pref_theme_base_summary">Chọn nếu theme gốc là tối hoặc sáng</string>
+    <string name="pref_theme_base_summary">Chọn theme gốc là tối hay sáng</string>
     <string name="customize_timelines">Tùy chỉnh bảng tin</string>
     <string name="pref_contributor">Theme của cộng đồng</string>
     <string name="pref_contributor_summary">Chọn một theme được tạo bởi cộng đồng</string>
@@ -1180,7 +1180,7 @@
     <string name="message_has_been_sent">Đã gửi tin nhắn!</string>
     <string name="poll_type">Kiểu bình chọn:</string>
     <string name="poll_duration">Thời hạn bình chọn:</string>
-    <string name="set_display_bookmark_indication">Luôn hiển thị nút lưu tút</string>
+    <string name="set_display_bookmark_indication">Hiện nút lưu tút</string>
     <string name="more_actions">Nhiều hơn</string>
     <string name="toot_visibility_title">Thay đổi quyền riêng tư</string>
     <string name="toots_visibility_title">Kiểu tút mặc định:</string>
@@ -1194,22 +1194,22 @@
     <string name="join_fedi_instance">Tham gia một máy chủ Fediverse</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">Dùng frontend YouTube thay thế</string>
-    <string name="replace_youtube_host">Tên miền frontend YouTube</string>
+    <string name="replace_youtube_host">Địa chỉ frontend YouTube</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Dùng frontend Twitter thay thế</string>
-    <string name="replace_twitter_host">Tên miền frontend Twitter</string>
+    <string name="replace_twitter_host">Địa chỉ frontend Twitter</string>
     <string name="replace_instagram">Instagram</string>
     <string name="replace_instagram_description">Dùng frontend Instagram thay thế</string>
-    <string name="replace_instagram_host">Tên miền frontend Instagram</string>
+    <string name="replace_instagram_host">Địa chỉ frontend Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Dùng frontend Reddit thay thế</string>
-    <string name="replace_reddit_host">Tên miền frontend Reddit</string>
+    <string name="replace_reddit_host">Địa chỉ frontend Reddit</string>
     <string name="keepon">Tiếp tục</string>
     <string name="category_custom">Tùy chỉnh</string>
     <string name="instance_not_valid">Địa chỉ máy chủ không hợp lệ!</string>
     <string name="boosted_by">Đăng lại bởi</string>
     <string name="favourited_by">Thích bởi</string>
-    <string name="followers_only">Chỉ người theo dõi</string>
+    <string name="followers_only">Hạn chế</string>
     <string name="other">Khác</string>
     <string name="images">Hình ảnh</string>
     <string name="eg_sensitive_content">Vd: Nội Dung Nhạy Cảm</string>
@@ -1217,8 +1217,8 @@
     <string name="remove_status">Xóa trạng thái</string>
     <string name="post_message">Đang đăng thông điệp…</string>
     <string name="post_message_text">Đang gửi tin nhắn %d/%d</string>
-    <string name="is_up">Đã lên!</string>
-    <string name="is_down">Đã xuống!</string>
+    <string name="is_up">Tốt!</string>
+    <string name="is_down">Ổn!</string>
     <string name="instance_health_indication">phiên bản: %s
 \n %s người dùng - %s tút</string>
     <string name="instance_health_checkedat">Kiểm tra lúc: %s</string>
@@ -1264,7 +1264,7 @@
     <string name="locked">Đã khóa</string>
     <string name="save_changes">Lưu thay đổi</string>
     <string name="set_bot_content">Tài khoản Bot</string>
-    <string name="set_discoverable_content">Khám phá người dùng</string>
+    <string name="set_discoverable_content">Cho phép gợi ý tài khoản</string>
     <string name="delete_field">Xóa mục</string>
     <string name="select_a_theme">Chọn một theme</string>
     <string name="also_boosted_by">Đã đăng lại bởi:</string>

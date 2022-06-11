@@ -1261,4 +1261,8 @@ Durch das Löschen der Anwendung werden diese Daten sofort entfernt.\n
     <string name="approved">Genehmigt</string>
     <string name="origin_report">Ursprung des gemeldeten Kontos</string>
     <string name="resolved">Gelöst</string>
+    <string name="most_recent">Neuste</string>
+    <string name="filter">Filter</string>
+    <string name="approve">Genehmigen</string>
+    <string name="status">Status</string>
 </resources>
