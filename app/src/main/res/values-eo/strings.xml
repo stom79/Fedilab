@@ -214,11 +214,11 @@
     <string name="timed_mute_profile">%1$s is muted until %2$s.\n Tap here to unmute the account.</string>
     <!-- Notifications -->
     <string name="no_notifications">Neniun sciigon por montri</string>
-    <string name="notif_mention">%s menciis vin</string>
+    <string name="notif_mention">menciis vin</string>
     <string name="notif_status">wrote a new message</string>
     <string name="notif_reblog">{name} diskonigis vian mesaĝon</string>
     <string name="notif_favourite">{name} stelumis vian mesaĝon</string>
-    <string name="notif_follow">%s eksekvis vin</string>
+    <string name="notif_follow">eksekvis vin</string>
     <string name="notif_follow_request">asked to follow you</string>
     <plurals name="other_notifications">
         <item quantity="one">and another notification</item>
@@ -602,10 +602,12 @@
         <item>1 tago</item>
         <item>1 semajno</item>
     </string-array>
-    <string name="showcase_instance">        In this field, you need to write your instance host name.\nFor example, if you created your account on https://mastodon.social\nJust write <b>mastodon.social</b> (without https://)\n
-        You can start writing first letters and names will be suggested.\n\n
-        ⚠ The Login button will only work if the instance name is valid and the instance is up!
-    </string>
+    <string name="showcase_instance">In this field, you need to write your instance host name.
+\nFor example, if you created your account on https://mastodon.social
+\nJust write <b>mastodon.social</b> (without https://)
+\n You can start writing first letters and names will be suggested.
+\n
+\n ⚠ The Login button will only work if the instance name is valid and the instance is up! </string>
     <string name="more_information">More information</string>
     <!-- languages not translated -->
     <string name="languages">Lingvoj</string>
