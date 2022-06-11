@@ -1276,4 +1276,13 @@
     <string name="origin_report">Bildirilen hesabın kaynağı</string>
     <string name="status">Durum</string>
     <string name="resolved">Çözüldü</string>
+    <string name="fetch_more_messages">Daha fazla mesaj getir…</string>
+    <string name="label_shape">Şekil</string>
+    <string name="label_oval">Oval</string>
+    <string name="label_rectangle">Dikdörtgen</string>
+    <string name="label_line">Çizgi</string>
+    <string name="label_eraser_mode">Silgi Modu</string>
+    <string name="label_adjust">Ayarla</string>
+    <string name="msg_save_image">Resmi kaydetmeden çıkmak istiyor musunuz\?</string>
+    <string name="msg_share_image">Resim Paylaş</string>
 </resources>
