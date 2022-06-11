@@ -62,7 +62,7 @@ public class Instance implements Serializable {
 
     public List<String> getMimeTypeAudio() {
         List<String> mimeTypes = new ArrayList<>();
-        if (configuration == null || configuration.media_attachments == null) {
+        if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
             return mimeTypes;
         }
         for (String mimeType : configuration.media_attachments.supported_mime_types) {
@@ -75,7 +75,7 @@ public class Instance implements Serializable {
 
     public List<String> getMimeTypeVideo() {
         List<String> mimeTypes = new ArrayList<>();
-        if (configuration == null || configuration.media_attachments == null) {
+        if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
             return mimeTypes;
         }
         for (String mimeType : configuration.media_attachments.supported_mime_types) {
@@ -89,7 +89,7 @@ public class Instance implements Serializable {
 
     public List<String> getMimeTypeImage() {
         List<String> mimeTypes = new ArrayList<>();
-        if (configuration == null || configuration.media_attachments == null) {
+        if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
             return mimeTypes;
         }
         for (String mimeType : configuration.media_attachments.supported_mime_types) {
@@ -102,7 +102,7 @@ public class Instance implements Serializable {
 
     public List<String> getMimeTypeOther() {
         List<String> mimeTypes = new ArrayList<>();
-        if (configuration == null || configuration.media_attachments == null) {
+        if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
             return mimeTypes;
         }
         for (String mimeType : configuration.media_attachments.supported_mime_types) {
