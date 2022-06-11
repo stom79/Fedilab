@@ -135,6 +135,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);
+
             if (getItemViewType(position) == TYPE_MENTION) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
             } else if (getItemViewType(position) == TYPE_STATUS) {
@@ -149,6 +150,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notificationList, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false);
+            holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
