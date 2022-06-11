@@ -98,16 +98,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
-    private ActivityPaginationBinding binding;
-    private Account account;
-    private String instance, token;
-    private Uri photoFileUri;
-    private ScheduledStatus scheduledStatus;
-    private String visibility;
-    private app.fedilab.android.client.entities.api.Account accountMention;
-    private String statusReplyId;
-    private app.fedilab.android.client.entities.api.Account mentionBooster;
-
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -128,6 +118,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
     };
+    private ActivityPaginationBinding binding;
+    private Account account;
+    private String instance, token;
+    private Uri photoFileUri;
+    private ScheduledStatus scheduledStatus;
+    private String visibility;
+    private app.fedilab.android.client.entities.api.Account accountMention;
+    private String statusReplyId;
+    private app.fedilab.android.client.entities.api.Account mentionBooster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -415,33 +415,6 @@ public class MastodonHelper {
         alertDialogBoost.show();
     }
 
-    public enum MediaAccountType {
-        AVATAR,
-        HEADER
-    }
-
-    public enum visibility {
-        @SerializedName("PUBLIC")
-        PUBLIC("public"),
-        @SerializedName("UNLISTED")
-        UNLISTED("unlisted"),
-        @SerializedName("PRIVATE")
-        PRIVATE("private"),
-        @SerializedName("DIRECT")
-        DIRECT("direct");
-
-        private final String value;
-
-        visibility(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-
     /**
      * Insert a single message depending of its publication date
      *
@@ -478,6 +451,33 @@ public class MastodonHelper {
         }
         currentStatusList.addAll(i, statusesToInsert);
         adapter.notifyItemRangeInserted(i, statusesToInsert.size());
+    }
+
+
+    public enum MediaAccountType {
+        AVATAR,
+        HEADER
+    }
+
+    public enum visibility {
+        @SerializedName("PUBLIC")
+        PUBLIC("public"),
+        @SerializedName("UNLISTED")
+        UNLISTED("unlisted"),
+        @SerializedName("PRIVATE")
+        PRIVATE("private"),
+        @SerializedName("DIRECT")
+        DIRECT("direct");
+
+        private final String value;
+
+        visibility(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
     public enum ScheduleType {

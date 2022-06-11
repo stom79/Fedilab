@@ -38,7 +38,6 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 
-
 public class MainApplication extends MultiDexApplication {
 
 

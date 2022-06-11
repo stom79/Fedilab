@@ -65,6 +65,8 @@ import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
 
+    private static final int STATUS_PRESENT = -1;
+    private static final int STATUS_AT_THE_BOTTOM = -2;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private AccountsVM accountsVM;
@@ -75,7 +77,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String max_id, min_id, min_id_fetch_more;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
-    private static final int STATUS_PRESENT = -1;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -137,6 +138,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String viewModelKey, remoteInstance;
     private String ident;
     private String instance, user_id;
+    private ArrayList<String> idOfAddedStatuses;
 
     /**
      * Return the position of the status in the ArrayList
@@ -156,8 +158,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         return found ? position : -1;
     }
-
-
 
     /**
      * Returned list of checked status id for reports
@@ -180,14 +180,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-    private static final int STATUS_AT_THE_BOTTOM = -2;
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
-
-    private ArrayList<String> idOfAddedStatuses;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

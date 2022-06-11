@@ -39,9 +39,9 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     public static final int BOTTOM_TIMELINE_COUNT = 5; //home, local, public, notification, DM
     private final Pinned pinned;
     private final BottomMenu bottomMenu;
-    private Fragment mCurrentFragment;
     private final Context context;
     private final int toRemove;
+    private Fragment mCurrentFragment;
 
     public FedilabPageAdapter(Context context, FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

@@ -63,6 +63,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private final FilterViewAdapter mFilterViewAdapter = new FilterViewAdapter(this);
     private final ConstraintSet mConstraintSet = new ConstraintSet();
     PhotoEditor mPhotoEditor;
+    String path;
     private PropertiesBSFragment mPropertiesBSFragment;
     private ShapeBSFragment mShapeBSFragment;
     private ShapeBuilder mShapeBuilder;
@@ -70,6 +71,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private boolean mIsFilterVisible;
     private Uri uri;
     private boolean exit;
+    private ActivityEditImageBinding binding;
 
     private static int exifToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
@@ -81,9 +83,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         }
         return 0;
     }
-
-    String path;
-    private ActivityEditImageBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
