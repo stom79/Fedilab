@@ -393,11 +393,11 @@
         - <b>WAKE_LOCK</b>: Digunakan selama layanan pemberitahuan.
     </string>
     <string name="privacy_API_authorizations_title">Izin API:</string>
-    <string name="privacy_API_authorizations">        - <b>Read</b>: Membaca data.\
-        - <b>Write</b>: Posting status dan unggah media untuk status.\n
-        - <b>Follow</b>: Ikuti, berhenti ikuti, blokir, buka blokir.\n\n
-        <b>⚠ Tindakan ini hanya saat pengguna memintanya.</b>
-    </string>
+    <string name="privacy_API_authorizations"> - <b>Read</b>: Membaca data.
+\n - <b>Write</b>: Posting status dan unggah media untuk status.
+\n - <b>Follow</b>: Ikuti, berhenti ikuti, blokir, buka blokir.
+\n
+\n <b>⚠ Tindakan ini hanya saat pengguna memintanya.</b> </string>
     <string name="privacy_API_title">Pelacakan dan Perpustakaan</string>
     <string name="privacy_API">        Aplikasi <b>tidak menggunakan alat pelacak</b> (pengukuran pemirsa, kesalahan pelaporan, dll.) dan tidak berisi iklan apapun.\n\n
         Penggunaan perpustakaan diminimalkan: \n
@@ -430,14 +430,17 @@ https://yandex.ru/legal/confidential/?lang=en
     <!-- Migration -->
     <string name="account_moved_to">%1$s telah dipindahkan ke%2$s</string>
     <string name="issue_login_title">Otentikasi tidak bekerja?</string>
-    <string name="issue_login_message"><b>Disini ada beberapa pemeriksaan untuk membantu:
-</b>\n\n
-        - Periksa bahwa tidak ada kealahan dalam pengejaan contoh nama\n\n
-        - Periksa bahwa contoh tidak down\n\n
-        - Jika anda menggunakan two-factor authentication (2FA), gunakan link dibawah ini (begitu nama contoh terisi)\n\n
-        - Anda juga dapat menggunakan link tersebut tanpa menggunakan 2FA\n\n
-        - Jika hal tersebut tidak bekerja, anda dapat melaporkan masalah tersebut pada Github di https://github.com/stom79/mastalab/issues
-    </string>
+    <string name="issue_login_message"> <b>Disini ada beberapa pemeriksaan untuk membantu: </b>
+\n
+\n - Periksa bahwa tidak ada kealahan dalam pengejaan contoh nama
+\n
+\n - Periksa bahwa contoh tidak down
+\n
+\n - Jika anda menggunakan two-factor authentication (2FA), gunakan link dibawah ini (begitu nama contoh terisi)
+\n
+\n - Anda juga dapat menggunakan link tersebut tanpa menggunakan 2FA
+\n
+\n - Jika hal tersebut tidak bekerja, anda dapat melaporkan masalah tersebut pada Github di https://github.com/stom79/mastalab/issues </string>
     <string name="media_ready">Media telah berhasil dimuat. Klik disini untuk menampilkannya.</string>
     <string name="data_export_start">Tindakan cukup lama, Anda akan mendapatkan notifikasi ketika tindakan ini telah selesai.</string>
     <string name="data_export_running">Masih berjalan, tunggu sebentar…</string>
@@ -597,10 +600,12 @@ https://yandex.ru/legal/confidential/?lang=en
         <item>1 day</item>
         <item>1 week</item>
     </string-array>
-    <string name="showcase_instance">        In this field, you need to write your instance host name.\nFor example, if you created your account on https://mastodon.social\nJust write <b>mastodon.social</b> (without https://)\n
-        You can start writing first letters and names will be suggested.\n\n
-        ⚠ The Login button will only work if the instance name is valid and the instance is up!
-    </string>
+    <string name="showcase_instance">In this field, you need to write your instance host name.
+\nFor example, if you created your account on https://mastodon.social
+\nJust write <b>mastodon.social</b> (without https://)
+\n You can start writing first letters and names will be suggested.
+\n
+\n ⚠ The Login button will only work if the instance name is valid and the instance is up! </string>
     <string name="more_information">More information</string>
     <!-- languages not translated -->
     <string name="languages">Languages</string>

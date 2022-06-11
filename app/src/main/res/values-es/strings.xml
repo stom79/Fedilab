@@ -596,9 +596,8 @@ https://yandex.ru/legal/confidential/?lang=en    </string>
         <item>1 día</item>
         <item>1 semana</item>
     </string-array>
-    <string name="showcase_instance">En este campo, debe escribir el nombre de host de su instancia. \ Npor ejemplo, si creó su cuenta en https: //mastodon.social \ nSólo escriba <b> mastodon.social </b> (sin https: //) \norte
-         Puede comenzar a escribir las primeras letras y se sugerirán los nombres. \ N \ n
-         ⚠ El botón Iniciar sesión solo funcionará si el nombre de la instancia es válido y la instancia está activa!    </string>
+    <string name="showcase_instance">En este campo, debe escribir el nombre de host de su instancia. \u0020Npor ejemplo, si creó su cuenta en https: //mastodon.social \u0020nSólo escriba <b> mastodon.social </b> (sin https: //)
+\norte          Puede comenzar a escribir las primeras letras y se sugerirán los nombres. \u0020N \u0020n          ⚠ El botón Iniciar sesión solo funcionará si el nombre de la instancia es válido y la instancia está activa! </string>
     <string name="more_information">Más información</string>
     <!-- languages not translated -->
     <string name="languages">Idiomas</string>
