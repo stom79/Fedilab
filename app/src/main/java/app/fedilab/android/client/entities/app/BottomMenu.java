@@ -122,7 +122,7 @@ public class BottomMenu implements Serializable {
         bottomNavigationView.getMenu().clear();
         BottomMenu bottomMenu = null;
         try {
-            bottomMenu = getAllBottomMenu(account);
+            bottomMenu = getBottomMenu(account);
         } catch (DBException e) {
             e.printStackTrace();
         }

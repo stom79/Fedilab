@@ -148,7 +148,7 @@ public class PinnedTimelineHelper {
         activityMainBinding.tabLayout.removeAllTabs();
         //Small hack to hide first tabs (they represent the item of the bottom menu)
         int toRemove = itemToRemoveInBottomMenu(activity);
-        for (int i = 0; i < BOTTOM_TIMELINE_COUNT - toRemove; i++) {
+        for (int i = 0; i < (BOTTOM_TIMELINE_COUNT - toRemove); i++) {
             activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
             ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
         }
@@ -216,7 +216,7 @@ public class PinnedTimelineHelper {
 
             @Override
             public void onPageSelected(int position) {
-                if (position < BOTTOM_TIMELINE_COUNT) {
+                if (position < BOTTOM_TIMELINE_COUNT - toRemove) {
                     activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
                 } else {
                     activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
