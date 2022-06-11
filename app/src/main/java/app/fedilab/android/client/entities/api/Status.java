@@ -95,6 +95,7 @@ public class Status implements Serializable, Cloneable {
     public boolean isExpended = false;
     public boolean isTruncated = true;
     public boolean isFetchMore = false;
+    public boolean isFetchMoreHidden = false;
     public boolean isMediaDisplayed = false;
     public boolean isMediaObfuscated = true;
     public boolean isChecked = false;

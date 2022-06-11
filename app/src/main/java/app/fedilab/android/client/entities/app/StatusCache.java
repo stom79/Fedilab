@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -284,22 +285,24 @@ public class StatusCache {
      * @return Statuses
      * @throws DBException - throws a db exception
      */
-    public Statuses geStatuses(CacheEnum type, String instance, String user_id, String max_id, String min_id) throws DBException {
+    public Statuses geStatuses(CacheEnum type, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
+        String order = " DESC";
         String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "'";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
-        if (max_id == null && min_id != null) {
+        if (min_id != null) {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "'";
-        } else if (max_id != null && min_id == null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
+            order = " ASC";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
+        } else if (since_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "'";
             limit = null;
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
             return createStatusReply(cursorToListOfStatuses(c));
         } catch (Exception e) {
             e.printStackTrace();
@@ -373,6 +376,11 @@ public class StatusCache {
         statuses.statuses = statusList;
         Pagination pagination = new Pagination();
         if (statusList != null && statusList.size() > 0) {
+            //Status list is inverted, it happens for min_id due to ASC ordering
+            if (statusList.get(0).id.compareTo(statusList.get(statusList.size() - 1).id) < 0) {
+                Collections.reverse(statusList);
+                statuses.statuses = statusList;
+            }
             pagination.max_id = statusList.get(0).id;
             pagination.min_id = statusList.get(statusList.size() - 1).id;
         }

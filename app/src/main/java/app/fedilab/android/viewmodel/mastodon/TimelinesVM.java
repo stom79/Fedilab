@@ -193,6 +193,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getHome(@NonNull String instance, String token,
+                                      boolean fetchingMissing,
                                       String maxId,
                                       String sinceId,
                                       String minId,
@@ -211,18 +212,20 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.HOME);
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
                         statuses.pagination = MastodonHelper.getPagination(homeTlResponse.headers());
-                        for (Status status : statuses.statuses) {
-                            StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-                            StatusCache statusCache = new StatusCache();
-                            statusCache.instance = instance;
-                            statusCache.user_id = BaseMainActivity.currentUserID;
-                            statusCache.status = status;
-                            statusCache.type = StatusCache.CacheEnum.HOME;
-                            statusCache.status_id = status.id;
-                            try {
-                                statusCacheDAO.insertOrUpdate(statusCache);
-                            } catch (DBException e) {
-                                e.printStackTrace();
+                        if (!fetchingMissing) {
+                            for (Status status : statuses.statuses) {
+                                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                StatusCache statusCache = new StatusCache();
+                                statusCache.instance = instance;
+                                statusCache.user_id = BaseMainActivity.currentUserID;
+                                statusCache.status = status;
+                                statusCache.type = StatusCache.CacheEnum.HOME;
+                                statusCache.status_id = status.id;
+                                try {
+                                    statusCacheDAO.insertOrUpdate(statusCache);
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -249,13 +252,14 @@ public class TimelinesVM extends AndroidViewModel {
      */
     public LiveData<Statuses> getHomeCache(@NonNull String instance, String user_id,
                                            String maxId,
-                                           String minId) {
+                                           String minId,
+                                           String sinceId) {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Statuses statuses = null;
             try {
-                statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId);
+                statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId, sinceId);
                 if (statuses != null) {
                     statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statuses.statuses);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {

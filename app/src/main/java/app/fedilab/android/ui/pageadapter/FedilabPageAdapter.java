@@ -14,6 +14,7 @@ package app.fedilab.android.ui.pageadapter;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -27,6 +28,7 @@ import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
@@ -37,11 +39,15 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     private final Pinned pinned;
     private final BottomMenu bottomMenu;
     private Fragment mCurrentFragment;
+    private final Context context;
+    private final int toRemove;
 
-    public FedilabPageAdapter(FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
+    public FedilabPageAdapter(Context context, FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.pinned = pinned;
         this.bottomMenu = bottomMenu;
+        this.context = context;
+        toRemove = PinnedTimelineHelper.itemToRemoveInBottomMenu(context);
     }
 
     public Fragment getCurrentFragment() {
@@ -68,9 +74,10 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
         FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
         Bundle bundle = new Bundle();
         //Position 3 is for notifications
-        if (position < 5) {
+        if (position < BOTTOM_TIMELINE_COUNT - toRemove) {
             if (bottomMenu != null) {
                 BottomMenu.ItemMenuType type = BottomMenu.getType(bottomMenu, position);
+
                 if (type == null) {
                     return fragment;
                 }
@@ -91,7 +98,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             }
 
         } else {
-            int pinnedPosition = position - BOTTOM_TIMELINE_COUNT; //Real position has an offset.
+            int pinnedPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove); //Real position has an offset.
             PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
 
@@ -112,10 +119,11 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
+
         if (pinned != null && pinned.pinnedTimelines != null) {
-            return pinned.pinnedTimelines.size() + BOTTOM_TIMELINE_COUNT;
+            return pinned.pinnedTimelines.size() + BOTTOM_TIMELINE_COUNT - toRemove;
         } else {
-            return BOTTOM_TIMELINE_COUNT;
+            return BOTTOM_TIMELINE_COUNT - toRemove;
         }
     }
 }

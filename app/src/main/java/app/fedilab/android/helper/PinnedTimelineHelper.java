@@ -43,6 +43,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
@@ -146,7 +147,8 @@ public class PinnedTimelineHelper {
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
         //Small hack to hide first tabs (they represent the item of the bottom menu)
-        for (int i = 0; i < BOTTOM_TIMELINE_COUNT; i++) {
+        int toRemove = itemToRemoveInBottomMenu(activity);
+        for (int i = 0; i < BOTTOM_TIMELINE_COUNT - toRemove; i++) {
             activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
             ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
         }
@@ -203,7 +205,7 @@ public class PinnedTimelineHelper {
         activityMainBinding.viewPager.clearOnPageChangeListeners();
         activityMainBinding.tabLayout.clearOnTabSelectedListeners();
 
-        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity.getSupportFragmentManager(), pinned, bottomMenu);
+        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
         activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
         activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
         activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -254,6 +256,25 @@ public class PinnedTimelineHelper {
 
     }
 
+    public static int itemToRemoveInBottomMenu(Context context) {
+        //Small hack to hide first tabs (they represent the item of the bottom menu)
+        BottomMenu bottomMenuDb;
+        int toRemove = 0;
+        try {
+            //If some menu items have been hidden we should not create tab for them
+            bottomMenuDb = new BottomMenu(context).getAllBottomMenu(MainActivity.accountWeakReference.get());
+            if (bottomMenuDb != null && bottomMenuDb.bottom_menu != null) {
+                for (BottomMenu.MenuItem menuItem : bottomMenuDb.bottom_menu) {
+                    if (!menuItem.visible) {
+                        toRemove++;
+                    }
+                }
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return toRemove;
+    }
 
     /**
      * Manage long clicks on Tag timelines

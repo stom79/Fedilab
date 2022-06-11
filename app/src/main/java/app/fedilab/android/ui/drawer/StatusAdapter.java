@@ -1675,6 +1675,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewType == STATUS_ART) { //Art statuses
             DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FETCH_MORE) { //Fetch more button
+            DrawerFetchMoreBinding itemBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
         } else { //Classic statuses
             if (!minified) {
                 DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -1764,7 +1767,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         } else if (viewHolder.getItemViewType() == STATUS_FETCH_MORE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.bindingFetchMore.fetchMore.setOnClickListener(v -> fetchMoreCallBack.onClick(status.id));
+            if (status.isFetchMoreHidden) {
+                holder.bindingFetchMore.fetchMore.setVisibility(View.GONE);
+            } else {
+                holder.bindingFetchMore.fetchMore.setVisibility(View.VISIBLE);
+            }
+            holder.bindingFetchMore.fetchMore.setOnClickListener(v -> {
+                //We hide the button
+                status.isFetchMoreHidden = true;
+                notifyItemChanged(position);
+                if (position + 1 < statusList.size()) {
+                    fetchMoreCallBack.onClick(statusList.get(position + 1).id);
+                }
+            });
         }
     }
 
