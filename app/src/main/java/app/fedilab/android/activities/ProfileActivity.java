@@ -536,7 +536,7 @@ public class ProfileActivity extends BaseActivity {
     private void updateAccount() {
 
         //The value for account is from same server so id can be used
-        if (account.id.equals(BaseMainActivity.accountWeakReference.get().user_id)) {
+        if (BaseMainActivity.accountWeakReference.get() != null && account.id.equals(BaseMainActivity.accountWeakReference.get().user_id)) {
             binding.accountFollow.setVisibility(View.GONE);
             binding.headerEditProfile.setVisibility(View.VISIBLE);
             binding.headerEditProfile.bringToFront();
@@ -563,20 +563,7 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         }
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_enabled}, // enabled
-                new int[]{-android.R.attr.state_enabled}, // disabled
-                new int[]{-android.R.attr.state_checked}, // unchecked
-                new int[]{android.R.attr.state_pressed}  // pressed
-        };
-
-        int[] colors = new int[]{
-                ContextCompat.getColor(ProfileActivity.this, R.color.mastodonC4),
-                ContextCompat.getColor(ProfileActivity.this, R.color.mastodonC4___),
-                ContextCompat.getColor(ProfileActivity.this, R.color.mastodonC4),
-                ContextCompat.getColor(ProfileActivity.this, R.color.mastodonC4)
-        };
-        binding.accountFollow.setBackgroundTintList(new ColorStateList(states, colors));
+        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
         binding.accountFollow.setEnabled(true);
         //Visibility depending of the relationship
         if (relationship != null) {

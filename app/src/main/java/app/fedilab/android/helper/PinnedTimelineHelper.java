@@ -263,10 +263,13 @@ public class PinnedTimelineHelper {
         try {
             //If some menu items have been hidden we should not create tab for them
             bottomMenuDb = new BottomMenu(context).getAllBottomMenu(MainActivity.accountWeakReference.get());
-            if (bottomMenuDb != null && bottomMenuDb.bottom_menu != null) {
-                for (BottomMenu.MenuItem menuItem : bottomMenuDb.bottom_menu) {
-                    if (!menuItem.visible) {
-                        toRemove++;
+            if (bottomMenuDb != null) {
+                List<BottomMenu.MenuItem> menuItemList = bottomMenuDb.bottom_menu;
+                if (menuItemList != null) {
+                    for (BottomMenu.MenuItem menuItem : menuItemList) {
+                        if (!menuItem.visible) {
+                            toRemove++;
+                        }
                     }
                 }
             }

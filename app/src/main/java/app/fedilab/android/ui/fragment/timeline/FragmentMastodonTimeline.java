@@ -149,8 +149,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private int getPosition(Status status) {
         int position = 0;
         boolean found = false;
+        if (status.id == null) {
+            return -1;
+        }
         for (Status _status : statuses) {
-            if (_status.id.compareTo(status.id) == 0) {
+            if (_status.id != null && _status.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
             }

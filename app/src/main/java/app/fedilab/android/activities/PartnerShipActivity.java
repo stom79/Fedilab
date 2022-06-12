@@ -16,13 +16,19 @@ package app.fedilab.android.activities;
 
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,11 +36,10 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.databinding.ActivityAboutBinding;
+import app.fedilab.android.databinding.ActivityPartnershipBinding;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -42,17 +47,14 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
-public class AboutActivity extends BaseActivity {
-
-
-    private ActivityAboutBinding binding;
+public class PartnerShipActivity extends BaseActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ThemeHelper.applyThemeBar(this);
-        binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        ActivityPartnershipBinding binding = ActivityPartnershipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
@@ -60,33 +62,32 @@ public class AboutActivity extends BaseActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-            binding.aboutVersion.setText(getResources().getString(R.string.about_vesrion, version));
-        } catch (PackageManager.NameNotFoundException ignored) {
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
+            View view = inflater.inflate(R.layout.simple_bar, new LinearLayout(PartnerShipActivity.this), false);
+            view.setBackground(new ColorDrawable(ContextCompat.getColor(PartnerShipActivity.this, R.color.cyanea_primary)));
+            actionBar.setCustomView(view, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            ImageView toolbar_close = actionBar.getCustomView().findViewById(R.id.toolbar_close);
+            TextView toolbar_title = actionBar.getCustomView().findViewById(R.id.toolbar_title);
+            toolbar_close.setOnClickListener(v -> finish());
+            toolbar_title.setText(R.string.action_partnership);
         }
 
-        binding.aboutCode.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://codeberg.org/tom79/Fedilab"));
-        binding.aboutThekinrar.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://instances.social/"));
-        binding.aboutLicense.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.gnu.org/licenses/quick-guide-gplv3.fr.html"));
-        binding.aboutSupport.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://liberapay.com/tom79"));
-        if (BuildConfig.DONATIONS) {
-            binding.aboutSupport.setVisibility(View.VISIBLE);
-        } else {
-            binding.aboutSupport.setVisibility(View.GONE);
-        }
-        binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
+        TextView about_partnership = findViewById(R.id.about_partnership);
+        about_partnership.setMovementMethod(LinkMovementMethod.getInstance());
 
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(AboutActivity.this));
-        if (BuildConfig.DONATIONS) {
-            binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
-        } else {
-            binding.aboutSupportPaypal.setVisibility(View.GONE);
-        }
+        binding.mastohostLogo.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://masto.host"));
+            startActivity(browserIntent);
+        });
+        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(PartnerShipActivity.this));
+        setTitle(R.string.action_partnership);
         binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
-        binding.aboutWebsite.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://fedilab.app"));
-        CrossActionHelper.fetchRemoteAccount(AboutActivity.this, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
+        CrossActionHelper.fetchRemoteAccount(PartnerShipActivity.this, "@mastohost@mastodon.social", new CrossActionHelper.Callback() {
             @Override
             public void federatedStatus(Status status) {
 
@@ -94,31 +95,30 @@ public class AboutActivity extends BaseActivity {
 
             @Override
             public void federatedAccount(Account account) {
-                if (account != null && account.username.equalsIgnoreCase("apps")) {
-                    binding.developerTitle.setVisibility(View.VISIBLE);
+                if (account != null && account.username.equalsIgnoreCase("mastohost")) {
                     binding.acccountContainer.setVisibility(View.VISIBLE);
                     MastodonHelper.loadPPMastodon(binding.accountPp, account);
                     binding.accountDn.setText(account.display_name);
                     binding.accountUn.setText(account.acct);
                     binding.accountPp.setOnClickListener(v -> {
-                        Intent intent = new Intent(AboutActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(PartnerShipActivity.this, ProfileActivity.class);
                         Bundle b = new Bundle();
                         b.putSerializable(Helper.ARG_ACCOUNT, account);
                         intent.putExtras(b);
                         ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(AboutActivity.this, binding.accountPp, getString(R.string.activity_porfile_pp));
+                                .makeSceneTransitionAnimation(PartnerShipActivity.this, binding.accountPp, getString(R.string.activity_porfile_pp));
                         startActivity(intent, options.toBundle());
                     });
-                    AccountsVM accountsVM = new ViewModelProvider(AboutActivity.this).get(AccountsVM.class);
+                    AccountsVM accountsVM = new ViewModelProvider(PartnerShipActivity.this).get(AccountsVM.class);
                     List<String> ids = new ArrayList<>();
                     ids.add(account.id);
                     accountsVM.getRelationships(MainActivity.currentInstance, MainActivity.currentToken, ids)
-                            .observe(AboutActivity.this, relationShips -> {
+                            .observe(PartnerShipActivity.this, relationShips -> {
                                 if (relationShips != null && relationShips.size() > 0) {
                                     if (!relationShips.get(0).following) {
                                         binding.accountFollow.setVisibility(View.VISIBLE);
                                         binding.accountFollow.setOnClickListener(v -> accountsVM.follow(MainActivity.currentInstance, MainActivity.currentToken, account.id, true, false)
-                                                .observe(AboutActivity.this, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
+                                                .observe(PartnerShipActivity.this, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
                                     }
                                 }
                             });
@@ -135,6 +135,5 @@ public class AboutActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

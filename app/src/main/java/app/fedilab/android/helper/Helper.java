@@ -151,6 +151,7 @@ public class Helper {
     public static final String INSTANCE_SOCIAL_KEY = "jGj9gW3z9ptyIpB8CMGhAlTlslcemMV6AgoiImfw3vPP98birAJTHOWiu5ZWfCkLvcaLsFZw9e3Pb7TIwkbIyrj3z6S7r2oE6uy6EFHvls3YtapP8QKNZ980p9RfzTb4";
     public static final String WEBSITE_VALUE = "https://fedilab.app";
 
+    public static final String OLD_DB_NAME = "mastodon_etalab_db";
 
     public static final String RECEIVE_TOAST_MESSAGE = "RECEIVE_TOAST_MESSAGE";
     public static final String RECEIVE_TOAST_TYPE = "RECEIVE_TOAST_TYPE";
@@ -1571,5 +1572,29 @@ public class Helper {
                 mainHandler.post(myRunnable);
             }).start();
         }
+    }
+
+
+    public static void transfertIfExist(Context context) {
+        File dbFile = context.getDatabasePath(OLD_DB_NAME);
+        if (!dbFile.exists()) {
+            return;
+        }
+        int version = -1;
+        try {
+            SQLiteDatabase sqlDb = SQLiteDatabase.openDatabase
+                    (context.getDatabasePath(OLD_DB_NAME).getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
+            version = sqlDb.getVersion();
+        } catch (Exception ignored) {
+        }
+        try {
+            if (version == -1) {
+                version = 38;
+            }
+            SQLiteDatabase oldDb = Sqlite.getInstance(context.getApplicationContext(), OLD_DB_NAME, null, version).open();
+
+        } catch (Exception ignored) {
+        }
+        context.deleteDatabase(OLD_DB_NAME);
     }
 }

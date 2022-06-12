@@ -91,6 +91,7 @@ import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MastodonListActivity;
+import app.fedilab.android.activities.PartnerShipActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ProxyActivity;
 import app.fedilab.android.activities.ReorderTimelinesActivity;
@@ -346,6 +347,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_about) {
                 Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_partnership) {
+                Intent intent = new Intent(this, PartnerShipActivity.class);
                 startActivity(intent);
             }
             binding.drawerLayout.close();

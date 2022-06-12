@@ -61,8 +61,11 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/acccount_container"
             android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -74,19 +77,16 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
+                android:padding="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/account_dn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/account_un"
                     android:layout_width="wrap_content"
@@ -95,16 +95,17 @@
                     android:textSize="14sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/account_follow"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_margin="10dp"
                 android:contentDescription="@string/make_an_action"
                 android:scaleType="fitCenter"
                 android:visibility="gone"
+                android:tint="@color/white"
                 app:layout_constraintStart_toEndOf="@id/avatar_container"
                 app:layout_constraintTop_toBottomOf="@id/banner_container"
                 tools:src="@drawable/ic_baseline_person_add_24"

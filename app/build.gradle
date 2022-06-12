@@ -9,9 +9,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 31
-        versionCode 21
-        versionName "beta-21"
-
+        versionCode 385
+        versionName "3.0.0-beta-22"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
@@ -27,13 +26,13 @@ android {
     }
     productFlavors {
         fdroid {
-            applicationId "fr.gouv.etalab.mastodon.test"
+            applicationId "fr.gouv.etalab.mastodon"
             buildConfigField "boolean", "DONATIONS", "true"
             buildConfigField "boolean", "push", "false"
             flavor = "fdroid"
         }
         playstore {
-            applicationId "app.fedilab.android.test"
+            applicationId "app.fedilab.android"
             buildConfigField "boolean", "DONATIONS", "false"
             buildConfigField "boolean", "push", "true"
             flavor = "playstore"
@@ -98,8 +97,8 @@ dependencies {
     implementation project(path: ':cropper')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.penfeizhou.android.animation:apng:2.17.0'
-    implementation 'com.github.penfeizhou.android.animation:gif:2.17.0'
+    implementation 'com.github.penfeizhou.android.animation:apng:2.22.0'
+    implementation 'com.github.penfeizhou.android.animation:gif:2.22.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'
     implementation 'com.github.piasy:AudioProcessor:1.7.0'

@@ -710,8 +710,8 @@ public class SpannableHelper {
                                         } catch (Exception ignored) {
                                         }
                                     } else {
-                                        Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
                                         try {
+                                            Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
                                             drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
                                             drawable.setVisible(true, true);
                                             imageSpan = new ImageSpan(drawable);

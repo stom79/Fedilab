@@ -50,5 +50,10 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_baseline_info_24"
             android:title="@string/action_about" />
+
+        <item
+            android:id="@+id/nav_partnership"
+            android:icon="@drawable/ic_baseline_account_circle_24"
+            android:title="@string/action_partnership" />
     </group>
 </menu>
