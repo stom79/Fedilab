@@ -1260,4 +1260,13 @@
     <string name="disable_notifications">Disabìlita is notìficas</string>
     <string name="pref_theme_base">Base de su tema</string>
     <string name="pref_theme_base_summary">Sèbera si sa base de su tema diat dèpere èssere iscura o crara</string>
+    <string name="fetch_more_messages">Recùpera prus messàgios…</string>
+    <string name="label_line">Lìnia</string>
+    <string name="label_adjust">Adata</string>
+    <string name="msg_save_image">Boles essire chene sarvare s\'immàgine\?</string>
+    <string name="msg_share_image">Cumpartzi s\'immàgine</string>
+    <string name="label_eraser_mode">Modalidade gomma de iscantzellare</string>
+    <string name="label_rectangle">Retàngulu</string>
+    <string name="label_shape">Forma</string>
+    <string name="label_oval">Ovale</string>
 </resources>
