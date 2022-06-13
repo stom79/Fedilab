@@ -16,7 +16,6 @@ package app.fedilab.android.ui.pageadapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -75,11 +74,9 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
         FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
         Bundle bundle = new Bundle();
         //Position 3 is for notifications
-        Log.v(Helper.TAG, "position: " + position + " -> " + (BOTTOM_TIMELINE_COUNT - toRemove));
         if (position < (BOTTOM_TIMELINE_COUNT - toRemove)) {
             if (bottomMenu != null) {
                 BottomMenu.ItemMenuType type = BottomMenu.getType(bottomMenu, position);
-                Log.v(Helper.TAG, "type: " + type);
                 if (type == null) {
                     return fragment;
                 }
@@ -101,10 +98,8 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
         } else {
             int pinnedPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove); //Real position has an offset.
-            Log.v(Helper.TAG, "pinnedPosition: " + pinnedPosition);
             PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
-            Log.v(Helper.TAG, " pinnedTimeline.type: " + pinnedTimeline.type);
             if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                 bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {

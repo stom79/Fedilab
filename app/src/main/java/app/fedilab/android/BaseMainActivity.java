@@ -729,10 +729,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     private void manageFilters(int position) {
         View view = binding.bottomNavView.findViewById(R.id.nav_home);
-        if (position == 1) {
+        boolean showExtendedFilter = true;
+        if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_local)) {
             view = binding.bottomNavView.findViewById(R.id.nav_local);
-        } else if (position == 2) {
+            showExtendedFilter = false;
+        } else if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_public)) {
             view = binding.bottomNavView.findViewById(R.id.nav_public);
+            showExtendedFilter = false;
         }
         PopupMenu popup = new PopupMenu(new ContextThemeWrapper(BaseMainActivity.this, Helper.popupStyle()), view, Gravity.TOP);
         popup.getMenuInflater()
@@ -741,7 +744,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
         final MenuItem itemFilter = menu.findItem(R.id.action_filter);
-        if (position > 0) {
+        if (!showExtendedFilter) {
             itemShowBoosts.setVisible(false);
             itemShowReplies.setVisible(false);
         } else {
@@ -751,13 +754,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         String show_filtered = null;
-        if (position == 0) {
+        if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_home)) {
             show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
-        } else if (position == 1) {
+        } else if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_local)) {
             show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
-        } else if (position == 2) {
+        } else if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_public)) {
             show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
         }
+
         itemShowBoosts.setChecked(show_boosts);
         itemShowReplies.setChecked(show_replies);
         if (show_filtered != null && show_filtered.length() > 0) {

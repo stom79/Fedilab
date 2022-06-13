@@ -118,7 +118,7 @@ public class Account implements Serializable {
     public List<Account> getPushNotificationAccounts() {
 
         try {
-            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA' OR " + Sqlite.COL_API + " = 'FRIENDICA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
             return cursorToListUserWithOwner(c);
         } catch (Exception e) {
             return null;

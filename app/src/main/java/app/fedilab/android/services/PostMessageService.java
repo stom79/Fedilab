@@ -199,12 +199,14 @@ public class PostMessageService extends IntentService {
                     poll_hide_totals = false;
                 }
                 Call<Status> statusCall;
+                if (error) {
+                    return;
+                }
                 if (dataPost.scheduledDate == null) {
                     statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
                             poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language);
                     try {
                         Response<Status> statusResponse = statusCall.execute();
-
                         if (statusResponse.isSuccessful()) {
                             Status statusReply = statusResponse.body();
                             if (statusReply != null) {

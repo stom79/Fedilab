@@ -111,7 +111,9 @@ public class PushHelper {
 
 
     private static void registerAppWithDialog(Context context, List<Account> accounts) {
-
+        if (accounts == null) {
+            return;
+        }
         List<String> distributors = UnifiedPush.getDistributors(context, new ArrayList<>());
         if (distributors.size() == 1 || !UnifiedPush.getDistributor(context).isEmpty()) {
             if (distributors.size() == 1) {

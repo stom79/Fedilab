@@ -202,30 +202,32 @@ public class MastodonHelper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         @DrawableRes int placeholder = type == MediaAccountType.AVATAR ? R.drawable.ic_person : R.drawable.default_banner;
-        if (account == null) {
-            Glide.with(view.getContext())
-                    .asDrawable()
-                    .load(placeholder)
-                    .thumbnail(0.1f)
-                    .placeholder(placeholder)
-                    .into(view);
-            return;
-        }
-        String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
-        if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-            Glide.with(view.getContext())
-                    .asDrawable()
-                    .load(targetedUrl)
-                    .thumbnail(0.1f)
-                    .placeholder(placeholder)
-                    .into(view);
-        } else {
-            Glide.with(view.getContext())
-                    .asGif()
-                    .load(targetedUrl)
-                    .thumbnail(0.1f)
-                    .placeholder(placeholder)
-                    .into(view);
+        if (Helper.isValidContextForGlide(view.getContext())) {
+            if (account == null) {
+                Glide.with(view.getContext())
+                        .asDrawable()
+                        .load(placeholder)
+                        .thumbnail(0.1f)
+                        .placeholder(placeholder)
+                        .into(view);
+                return;
+            }
+            String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
+            if (disableGif || (!targetedUrl.endsWith(".gif"))) {
+                Glide.with(view.getContext())
+                        .asDrawable()
+                        .load(targetedUrl)
+                        .thumbnail(0.1f)
+                        .placeholder(placeholder)
+                        .into(view);
+            } else {
+                Glide.with(view.getContext())
+                        .asGif()
+                        .load(targetedUrl)
+                        .thumbnail(0.1f)
+                        .placeholder(placeholder)
+                        .into(view);
+            }
         }
     }
 

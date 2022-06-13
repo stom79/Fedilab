@@ -187,7 +187,7 @@ public class PinnedTimelineHelper {
             int finalI = i;
             Pinned finalPinned = pinned;
             tabStrip.getChildAt(i).setOnLongClickListener(v -> {
-                switch (pinnedTimelineVisibleList.get(finalI - BOTTOM_TIMELINE_COUNT).type) {
+                switch (pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - toRemove)).type) {
                     case LIST:
 
                         break;
@@ -288,9 +288,9 @@ public class PinnedTimelineHelper {
      * @param position - int position of the tab
      */
     public static void tagClick(Context context, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position) {
-
+        int toRemove = itemToRemoveInBottomMenu(context);
         PopupMenu popup = new PopupMenu(new ContextThemeWrapper(context, Helper.popupStyle()), view);
-        int offSetPosition = position - BOTTOM_TIMELINE_COUNT;
+        int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         String tag;
         TagTimeline tagTimeline = pinned.pinnedTimelines.get(offSetPosition).tagTimeline;
         if (tagTimeline == null)
@@ -503,7 +503,8 @@ public class PinnedTimelineHelper {
     public static void instanceClick(Context context, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position) {
 
         PopupMenu popup = new PopupMenu(new ContextThemeWrapper(context, Helper.popupStyle()), view);
-        int offSetPosition = position - BOTTOM_TIMELINE_COUNT;
+        int toRemove = itemToRemoveInBottomMenu(context);
+        int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         RemoteInstance remoteInstance = pinned.pinnedTimelines.get(offSetPosition).remoteInstance;
         if (remoteInstance == null)
             return;
