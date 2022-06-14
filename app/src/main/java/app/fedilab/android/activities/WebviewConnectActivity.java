@@ -16,9 +16,11 @@
 package app.fedilab.android.activities;
 
 
-import static app.fedilab.android.BaseMainActivity.api;
-import static app.fedilab.android.BaseMainActivity.currentInstance;
-import static app.fedilab.android.BaseMainActivity.software;
+import static app.fedilab.android.activities.LoginActivity.apiLogin;
+import static app.fedilab.android.activities.LoginActivity.client_idLogin;
+import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
+import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
@@ -52,7 +54,6 @@ import androidx.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.databinding.ActivityWebviewConnectBinding;
@@ -96,9 +97,9 @@ public class WebviewConnectActivity extends BaseActivity {
                 //update the database
                 new Account(activity).insertOrUpdate(account);
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                BaseMainActivity.currentToken = account.token;
-                BaseMainActivity.currentUserID = account.user_id;
-                api = Account.API.MASTODON;
+                MainActivity.currentToken = account.token;
+                MainActivity.currentUserID = account.user_id;
+                MainActivity.api = Account.API.MASTODON;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_TOKEN, account.token);
@@ -130,7 +131,6 @@ public class WebviewConnectActivity extends BaseActivity {
         if (b != null) {
             login_url = b.getString("login_url");
             requestedAdmin = b.getBoolean("requestedAdmin", false);
-
         }
         if (login_url == null)
             finish();
@@ -223,18 +223,18 @@ public class WebviewConnectActivity extends BaseActivity {
                     OauthVM oauthVM = new ViewModelProvider(WebviewConnectActivity.this).get(OauthVM.class);
                     //API call to get the user token
                     String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
-                    oauthVM.createToken(currentInstance, "authorization_code", BaseMainActivity.client_id, BaseMainActivity.client_secret, Helper.REDIRECT_CONTENT_WEB, scope, code)
+                    oauthVM.createToken(currentInstanceLogin, "authorization_code", client_idLogin, client_secretLogin, Helper.REDIRECT_CONTENT_WEB, scope, code)
                             .observe(WebviewConnectActivity.this, tokenObj -> {
                                 Account account = new Account();
-                                account.client_id = BaseMainActivity.client_id;
-                                account.client_secret = BaseMainActivity.client_secret;
+                                account.client_id = client_idLogin;
+                                account.client_secret = client_secretLogin;
                                 account.token = tokenObj.token_type + " " + tokenObj.access_token;
-                                account.api = api;
-                                account.software = software;
-                                account.instance = currentInstance;
+                                account.api = apiLogin;
+                                account.software = softwareLogin;
+                                account.instance = currentInstanceLogin;
                                 //API call to retrieve account information for the new token
                                 AccountsVM accountsVM = new ViewModelProvider(WebviewConnectActivity.this).get(AccountsVM.class);
-                                accountsVM.getConnectedAccount(currentInstance, account.token).observe(WebviewConnectActivity.this, mastodonAccount -> {
+                                accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(WebviewConnectActivity.this, mastodonAccount -> {
                                     account.mastodon_account = mastodonAccount;
                                     account.user_id = mastodonAccount.id;
                                     //We check if user have really moderator rights

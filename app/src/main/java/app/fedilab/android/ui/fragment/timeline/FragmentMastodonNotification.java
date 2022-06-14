@@ -183,7 +183,7 @@ public class FragmentMastodonNotification extends Fragment {
         binding.loader.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
         flagLoading = false;
-        if (notifications == null || notifications.notifications == null) {
+        if (notifications == null || notifications.notifications == null || notifications.notifications.size() == 0) {
             binding.noActionText.setText(R.string.no_notifications);
             binding.noAction.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.GONE);

@@ -46,6 +46,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -93,6 +94,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.jaredrummler.cyanea.Cyanea;
 
+import org.conscrypt.Conscrypt;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -105,6 +108,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.security.Security;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -119,6 +123,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.MainApplication;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
@@ -248,6 +253,7 @@ public class Helper {
     public static final String PREF_KEY_ID = "PREF_KEY_ID";
     public static final String PREF_INSTANCE = "PREF_INSTANCE";
 
+    public static final String SET_SECURITY_PROVIDER = "SET_SECURITY_PROVIDER";
 
     public static final int NOTIFICATION_INTENT = 1;
     public static final int OPEN_NOTIFICATION = 2;
@@ -433,7 +439,7 @@ public class Helper {
 
     public static void installProvider() {
 
-       /* boolean patch_provider = true;
+        boolean patch_provider = true;
         try {
             Context ctx = MainApplication.getApp();
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -445,7 +451,7 @@ public class Helper {
                 Security.insertProviderAt(Conscrypt.newProvider(), 1);
             } catch (Exception ignored) {
             }
-        }*/
+        }
     }
 
     /***
@@ -1597,4 +1603,41 @@ public class Helper {
         }
         context.deleteDatabase(OLD_DB_NAME);
     }
+
+
+    public static String dateDiffFull(Date dateToot) {
+        SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM, Locale.getDefault());
+        try {
+            return df.format(dateToot);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /**
+     * Makes the tvDate TextView field clickable, and displays the absolute date & time of a toot
+     * for 5 seconds.
+     *
+     * @param context Context
+     * @param tvDate  TextView
+     * @param date    Date
+     */
+
+    public static void absoluteDateTimeReveal(final Context context, final TextView tvDate, final Date date) {
+        tvDate.setOnClickListener(v -> {
+
+            tvDate.setText(dateDiffFull(date));
+
+            new CountDownTimer((5 * 1000), 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
+                    tvDate.setText(dateDiff(context, date));
+                }
+            }.start();
+        });
+    }
+
 }

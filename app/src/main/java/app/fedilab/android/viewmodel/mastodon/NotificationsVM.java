@@ -106,7 +106,9 @@ public class NotificationsVM extends AndroidViewModel {
                         if (notifications.notifications != null) {
                             for (Notification notification : notifications.notifications) {
                                 if (notification != null) {
-                                    notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
+                                    if (notification.status != null) {
+                                        notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
+                                    }
                                 }
                             }
                         }

@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
+
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -28,17 +30,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.QuickLoad;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.databinding.ActivityConversationBinding;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
+import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 
 public class ContextActivity extends BaseActivity {
 
@@ -91,6 +98,28 @@ public class ContextActivity extends BaseActivity {
             };
             mainHandler.post(myRunnable);
         }).start();
+        StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
+        timelinesVM.getStatus(MainActivity.currentInstance, MainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
+            StatusCache statusCache = new StatusCache();
+            statusCache.instance = MainActivity.currentInstance;
+            statusCache.user_id = MainActivity.currentUserID;
+            statusCache.status = status;
+            statusCache.status_id = status.id;
+            //Update cache
+            new Thread(() -> {
+                try {
+                    new StatusCache(getApplication()).updateIfExists(statusCache);
+                    new QuickLoad(getApplication().getApplicationContext()).updateStatus(MainActivity.accountWeakReference.get(), status);
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    //Update UI
+                    Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);
+                    mainHandler.post(myRunnable);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        });
     }
 
 

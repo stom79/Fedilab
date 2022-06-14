@@ -377,6 +377,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         flagLoading = false;
         if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             flagLoading = fetched_statuses.pagination.max_id == null;
+            binding.noAction.setVisibility(View.GONE);
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
                 List<Status> mediaStatuses = new ArrayList<>();

@@ -14,10 +14,12 @@ package app.fedilab.android.ui.fragment.login;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.api;
-import static app.fedilab.android.BaseMainActivity.client_id;
-import static app.fedilab.android.BaseMainActivity.client_secret;
-import static app.fedilab.android.BaseMainActivity.currentInstance;
+
+import static app.fedilab.android.activities.LoginActivity.apiLogin;
+import static app.fedilab.android.activities.LoginActivity.client_idLogin;
+import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
+import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -135,36 +138,40 @@ public class FragmentLoginMain extends Fragment {
                 binding.loginInstanceLayout.setErrorEnabled(true);
                 return;
             }
-            currentInstance = binding.loginInstance.getText().toString().trim().toLowerCase();
-            if (currentInstance.length() == 0) {
+            currentInstanceLogin = binding.loginInstance.getText().toString().trim().toLowerCase();
+            if (currentInstanceLogin.length() == 0) {
                 return;
             }
             binding.continueButton.setEnabled(false);
             NodeInfoVM nodeInfoVM = new ViewModelProvider(requireActivity()).get(NodeInfoVM.class);
             nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString()).observe(requireActivity(), nodeInfo -> {
-                if (nodeInfo == null) {
-                    return;
+                if (nodeInfo != null) {
+                    BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
+                    switch (nodeInfo.software.name.toUpperCase().trim()) {
+                        case "MASTODON":
+                            apiLogin = Account.API.MASTODON;
+                            break;
+                        case "FRIENDICA":
+                            apiLogin = Account.API.FRIENDICA;
+                            break;
+                        case "PIXELFED":
+                            apiLogin = Account.API.PIXELFED;
+                            break;
+                        case "PLEROMA":
+                            apiLogin = Account.API.PLEROMA;
+                            break;
+                        default:
+                            apiLogin = Account.API.UNKNOWN;
+                            break;
+                    }
+                    softwareLogin = nodeInfo.software.name.toUpperCase();
+                } else {
+                    apiLogin = Account.API.MASTODON;
+                    softwareLogin = "MASTODON";
                 }
+
                 binding.continueButton.setEnabled(true);
-                BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
-                switch (nodeInfo.software.name.toUpperCase().trim()) {
-                    case "MASTODON":
-                        api = Account.API.MASTODON;
-                        break;
-                    case "FRIENDICA":
-                        api = Account.API.FRIENDICA;
-                        break;
-                    case "PIXELFED":
-                        api = Account.API.PIXELFED;
-                        break;
-                    case "PLEROMA":
-                        api = Account.API.PLEROMA;
-                        break;
-                    default:
-                        api = Account.API.UNKNOWN;
-                        break;
-                }
-                retrievesClientId(currentInstance);
+                retrievesClientId(currentInstanceLogin);
             });
         });
         return root;
@@ -246,20 +253,21 @@ public class FragmentLoginMain extends Fragment {
         }
 
         try {
-            currentInstance = URLEncoder.encode(host, "utf-8");
+            currentInstanceLogin = URLEncoder.encode(host, "utf-8");
         } catch (UnsupportedEncodingException e) {
             Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
         }
         String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
-        appsVM.createApp(currentInstance, getString(R.string.app_name),
+        String finalInstance = instance;
+        appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
                 Helper.REDIRECT_CONTENT_WEB,
                 scopes,
                 Helper.WEBSITE_VALUE
         ).observe(requireActivity(), app -> {
-            client_id = app.client_id;
-            client_secret = app.client_secret;
-            String redirectUrl = MastodonHelper.authorizeURL(currentInstance, client_id, ((LoginActivity) requireActivity()).requestedAdmin());
+            client_idLogin = app.client_id;
+            client_secretLogin = app.client_secret;
+            String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, ((LoginActivity) requireActivity()).requestedAdmin());
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
             if (embedded_browser) {
@@ -272,6 +280,7 @@ public class FragmentLoginMain extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse(redirectUrl));
+                Log.v(Helper.TAG, ">value: " + finalInstance);
                 try {
                     startActivity(intent);
                 } catch (Exception e) {

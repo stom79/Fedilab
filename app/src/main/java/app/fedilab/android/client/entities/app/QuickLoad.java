@@ -198,6 +198,80 @@ public class QuickLoad {
         }
     }
 
+
+    /**
+     * Update a status in quickload
+     *
+     * @param account   {@link Account}
+     * @param newStatus - Status
+     * @throws DBException exception with database
+     */
+    public void updateStatus(Account account, Status newStatus) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+
+        QuickLoad homeQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.HOME, null);
+        QuickLoad localQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.LOCAL, null);
+        QuickLoad publicQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.PUBLIC, null);
+
+        if (homeQuickLoad != null && homeQuickLoad.statuses != null) {
+            for (int i = 0; i < homeQuickLoad.statuses.size(); i++) {
+                if (homeQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
+                    homeQuickLoad.statuses.set(i, newStatus);
+                    break;
+                }
+            }
+            ContentValues valuesHome = new ContentValues();
+            valuesHome.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(homeQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesHome, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{homeQuickLoad.user_id, homeQuickLoad.instance, homeQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (localQuickLoad != null && localQuickLoad.statuses != null) {
+            for (int i = 0; i < localQuickLoad.statuses.size(); i++) {
+                if (localQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
+                    localQuickLoad.statuses.set(i, newStatus);
+                    break;
+                }
+            }
+            ContentValues valuesLocal = new ContentValues();
+            valuesLocal.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(localQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesLocal, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{localQuickLoad.user_id, localQuickLoad.instance, localQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (publicQuickLoad != null && publicQuickLoad.statuses != null) {
+            for (int i = 0; i < publicQuickLoad.statuses.size(); i++) {
+                if (publicQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
+                    publicQuickLoad.statuses.set(i, newStatus);
+                    break;
+                }
+            }
+            ContentValues valuesPublic = new ContentValues();
+            valuesPublic.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(publicQuickLoad.statuses));
+            //Inserts token
+            try {
+                db.update(Sqlite.TABLE_QUICK_LOAD,
+                        valuesPublic, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                        new String[]{publicQuickLoad.user_id, publicQuickLoad.instance, publicQuickLoad.slug});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     /**
      * Delete a status in quickload
      *

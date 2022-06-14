@@ -763,6 +763,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.dateShort.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
             holder.binding.time.setVisibility(View.GONE);
+            Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, status.created_at);
         }
 
         //---- SPOILER TEXT -----
@@ -1718,6 +1719,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.timer.cancel();
                 holder.timer = null;
             }
+            if (holder.dateTimer != null) {
+                holder.dateTimer.cancel();
+                holder.dateTimer = null;
+            }
             if (status.emojis != null && status.emojis.size() > 0) {
                 holder.timer = new Timer();
                 holder.timer.scheduleAtFixedRate(new TimerTask() {
@@ -1730,6 +1735,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }, 100, 100);
             }
+            holder.dateTimer = new Timer();
+            holder.dateTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    Runnable myRunnable = () -> holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
+                    mainHandler.post(myRunnable);
+
+                }
+            }, 100, 10000);
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
@@ -1798,6 +1813,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof StatusViewHolder && ((StatusViewHolder) holder).timer != null) {
             ((StatusViewHolder) holder).timer.cancel();
         }
+        if (holder instanceof StatusViewHolder && ((StatusViewHolder) holder).dateTimer != null) {
+            ((StatusViewHolder) holder).dateTimer.cancel();
+        }
     }
 
     public static class StatusViewHolder extends RecyclerView.ViewHolder {
@@ -1808,6 +1826,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
         Timer timer;
+        Timer dateTimer;
 
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
