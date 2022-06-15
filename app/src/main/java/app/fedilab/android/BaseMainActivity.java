@@ -201,7 +201,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
                 } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
                     Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    Snackbar.make(binding.getRoot(), getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.display), view -> {
                                 Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
                                 intentContext.putExtra(Helper.ARG_STATUS, statusSent);

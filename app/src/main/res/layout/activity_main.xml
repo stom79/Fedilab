@@ -116,9 +116,15 @@
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/displaySnackBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="?actionBarSize"></androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         app:itemIconTint="?menuIconColor"
