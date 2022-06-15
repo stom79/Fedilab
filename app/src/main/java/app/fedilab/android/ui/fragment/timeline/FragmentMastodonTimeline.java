@@ -430,7 +430,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         int position = 0;
         for (Status statusAlreadyPresent : this.statuses) {
-            if (statusAlreadyPresent.created_at != null && statusReceived.created_at != null && statusReceived.created_at.after(statusAlreadyPresent.created_at)) {
+            if (statusAlreadyPresent.created_at != null && statusReceived.created_at != null && statusReceived.created_at.after(statusAlreadyPresent.created_at) && !statusAlreadyPresent.pinned) {
                 idOfAddedStatuses.add(statusReceived.id);
                 this.statuses.add(position, statusReceived);
                 statusAdapter.notifyItemInserted(position);

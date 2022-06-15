@@ -20,7 +20,6 @@ import static app.fedilab.android.helper.MastodonHelper.REDIRECT_CONTENT_WEB;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -63,7 +62,6 @@ public class LoginActivity extends BaseActivity {
             String code = matcher.group(1);
             OauthVM oauthVM = new ViewModelProvider(LoginActivity.this).get(OauthVM.class);
 
-            Log.v(Helper.TAG, "finalInstance: " + currentInstanceLogin);
             //We are dealing with a Mastodon API
             if (apiLogin == Account.API.MASTODON) {
                 //API call to get the user token

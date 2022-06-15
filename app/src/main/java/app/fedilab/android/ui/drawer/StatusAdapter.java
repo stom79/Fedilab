@@ -342,6 +342,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_reply_16, theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
@@ -416,6 +418,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.favoritesCount.setTextColor(theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
         }
 
         holder.binding.toggleTruncate.setVisibility(View.GONE);
@@ -737,6 +740,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_text_header_2_line != -1) {
             holder.binding.username.setTextColor(theme_text_header_2_line);
         }
+
+        if (statusToDeal.account.locked) {
+            final float scale = context.getResources().getDisplayMetrics().density;
+            Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_lock_24);
+            assert img != null;
+            img.setBounds(0, 0, (int) (16 * scale + 0.5f), (int) (16 * scale + 0.5f));
+            holder.binding.username.setCompoundDrawables(null, null, img, null);
+        } else {
+            holder.binding.username.setCompoundDrawables(null, null, null, null);
+        }
+
+        if (statusToDeal.account.bot) {
+            holder.binding.botIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.botIcon.setVisibility(View.GONE);
+        }
+        if (statusToDeal.in_reply_to_id != null) {
+            holder.binding.replyIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.replyIcon.setVisibility(View.GONE);
+        }
+
         if (status.isFocused) {
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
             holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));
@@ -944,7 +969,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                     Glide.with(layoutMediaBinding.media.getContext())
                             .load(statusToDeal.media_attachments.get(0).preview_url)
-                            .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
                             .into(layoutMediaBinding.media);
                 } else {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);

@@ -394,7 +394,12 @@ public class ProfileActivity extends BaseActivity {
             }
             binding.fieldsContainer.setVisibility(View.VISIBLE);
         }
-        binding.accountDn.setText(account.span_display_name != null ? account.span_display_name : account.display_name, TextView.BufferType.SPANNABLE);
+        if (account.span_display_name == null && account.display_name == null) {
+            binding.accountDn.setText(account.username);
+        } else {
+            binding.accountDn.setText(account.span_display_name != null ? account.span_display_name : account.display_name, TextView.BufferType.SPANNABLE);
+        }
+
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);

@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -280,7 +279,6 @@ public class FragmentLoginMain extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse(redirectUrl));
-                Log.v(Helper.TAG, ">value: " + finalInstance);
                 try {
                     startActivity(intent);
                 } catch (Exception e) {
