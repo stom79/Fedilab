@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="Tap here to refresh poll"
+                android:text="@string/tap_here_to_refresh_poll"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatTextView

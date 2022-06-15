@@ -1625,6 +1625,7 @@
     <string name="label_adjust">Adjust</string>
     <string name="msg_save_image">Are you want to exit without saving image ?</string>
     <string name="msg_share_image">Share Image</string>
+    <string name="tap_here_to_refresh_poll">Tap here to refresh poll</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
