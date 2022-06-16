@@ -14,6 +14,8 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.text.Spannable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -46,4 +48,7 @@ public class Announcement {
     public List<Emoji> emojis;
     @SerializedName("reactions")
     public List<Reaction> reactions;
+
+    //Some extra spannable element - They will be filled automatically when fetching the status
+    public transient Spannable span_content;
 }

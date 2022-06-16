@@ -80,6 +80,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.ActionActivity;
 import app.fedilab.android.activities.AdminActionActivity;
+import app.fedilab.android.activities.AnnouncementActivity;
 import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
@@ -99,6 +100,8 @@ import app.fedilab.android.activities.ScheduledActivity;
 import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
+import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.client.entities.api.MastodonList;
@@ -128,6 +131,7 @@ import es.dmoral.toasty.Toasty;
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
+    public static List<Emoji> emojis;
     public static Account.API api;
     public static boolean admin;
     public static WeakReference<Account> accountWeakReference;
@@ -350,6 +354,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_partnership) {
                 Intent intent = new Intent(this, PartnerShipActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_announcements) {
+                Intent intent = new Intent(this, AnnouncementActivity.class);
                 startActivity(intent);
             }
             binding.drawerLayout.close();
@@ -724,6 +731,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+        if (emojis == null) {
+            new Thread(() -> {
+                try {
+                    emojis = new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 
 
@@ -856,6 +872,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             return false;
         });
         popup.show();
+
     }
 
     public void refreshFragment() {

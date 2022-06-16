@@ -602,7 +602,6 @@ public class Helper {
     public static void removeAccount(Activity activity, Account account) throws DBException {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         //Current user
-        SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
         String userId = sharedpreferences.getString(PREF_USER_ID, null);
         String instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         Account accountDB = new Account(activity);
@@ -879,6 +878,34 @@ public class Helper {
 
     public static int popupStyle() {
         return Cyanea.getInstance().isDark() ? R.style.PopupDark : R.style.Popup;
+    }
+
+
+    /**
+     * Load a media into a view
+     *
+     * @param view ImageView - the view where the image will be loaded
+     * @param url  - String
+     */
+    public static void loadImage(ImageView view, String url) {
+        Context context = view.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
+        if (disableGif || (!url.endsWith(".gif"))) {
+            Glide.with(view.getContext())
+                    .asDrawable()
+                    .load(url)
+                    .thumbnail(0.1f)
+                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                    .into(view);
+        } else {
+            Glide.with(view.getContext())
+                    .asGif()
+                    .load(url)
+                    .thumbnail(0.1f)
+                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                    .into(view);
+        }
     }
 
     /**

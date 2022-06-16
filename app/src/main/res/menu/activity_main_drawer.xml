@@ -28,6 +28,13 @@
             android:id="@+id/nav_list"
             android:icon="@drawable/ic_baseline_view_list_24"
             android:title="@string/action_lists" />
+
+        <item
+            android:id="@+id/nav_announcements"
+            android:icon="@drawable/ic_baseline_message_24"
+            android:title="@string/action_announcements"
+            android:visible="true" />
+
         <item
             android:id="@+id/nav_scheduled"
             android:icon="@drawable/ic_baseline_schedule_24"

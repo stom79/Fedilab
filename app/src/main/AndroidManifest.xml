@@ -151,6 +151,9 @@
             android:name=".activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".activities.AnnouncementActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".activities.MediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/TransparentDark" />

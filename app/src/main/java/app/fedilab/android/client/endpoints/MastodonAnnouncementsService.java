@@ -30,28 +30,27 @@ import retrofit2.http.Query;
 
 public interface MastodonAnnouncementsService {
 
-    @GET("/announcements")
+    @GET("announcements")
     Call<List<Announcement>> getAnnouncements(
             @Header("Authorization") String token,
-            @Query("with_dismissed") boolean with_dismissed
+            @Query("with_dismissed") Boolean with_dismissed
     );
 
     @FormUrlEncoded
-    @POST("/announcements/{id}/dismiss")
+    @POST("announcements/{id}/dismiss")
     Call<Void> dismiss(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
-    @FormUrlEncoded
-    @PUT("/announcements/{id}/reactions/{name}")
+    @PUT("announcements/{id}/reactions/{name}")
     Call<Void> addReaction(
             @Header("Authorization") String app_token,
             @Path("id") String id,
             @Path("name") String name
     );
 
-    @DELETE("/announcements/{id}/reactions/{name}")
+    @DELETE("announcements/{id}/reactions/{name}")
     Call<Void> removeReaction(
             @Header("Authorization") String app_token,
             @Path("id") String id,

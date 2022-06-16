@@ -15,6 +15,7 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
@@ -124,7 +125,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final String visibility;
     private final app.fedilab.android.client.entities.api.Account mentionedAccount;
     public ManageDrafts manageDrafts;
-    List<Emoji> emojis;
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
@@ -1226,12 +1226,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
-        if (emojis != null) {
-            emojis.clear();
-            emojis = null;
-        }
 
-        emojis = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         int paddingPixel = 15;
         float density = context.getResources().getDisplayMetrics().density;

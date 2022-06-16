@@ -58,6 +58,7 @@ import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
@@ -70,6 +71,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private AccountsVM accountsVM;
+    private AnnouncementsVM announcementsVM;
     private boolean flagLoading;
     private List<Status> statuses;
     private String search, searchCache;
@@ -237,6 +239,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
         accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+        announcementsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AnnouncementsVM.class);
 
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);

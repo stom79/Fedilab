@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2022 Thomas Schneider
+
+    This file is a part of Fedilab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with Fedilab; if not,
+    see <http://www.gnu.org/licenses>.
+-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reaction_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="5dp"
+    android:paddingLeft="5dp"
+    android:paddingTop="2dp"
+    android:paddingEnd="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="2dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/reaction_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="3dp"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/reaction_emoji"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="3dp"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/reaction_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+</androidx.appcompat.widget.LinearLayoutCompat>
