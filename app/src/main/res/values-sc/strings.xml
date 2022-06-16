@@ -1270,4 +1270,5 @@
     <string name="label_shape">Forma</string>
     <string name="label_oval">Ovale</string>
     <string name="tap_here_to_refresh_poll">Toca inoghe pro annoare su sondàgiu</string>
+    <string name="action_announcement_from_to">Annùntziu · %1$s - %2$s</string>
 </resources>
