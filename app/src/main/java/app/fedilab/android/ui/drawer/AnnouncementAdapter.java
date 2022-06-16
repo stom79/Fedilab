@@ -150,12 +150,12 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             builder.setTitle(R.string.insert_emoji);
             if (emojis != null && emojis.size() > 0) {
                 GridView gridView = new GridView(context);
-                gridView.setAdapter(new EmojiAdapter(emojis));
+                gridView.setAdapter(new EmojiAdapter(emojis.get(MainActivity.currentInstance)));
                 gridView.setNumColumns(5);
                 gridView.setOnItemClickListener((parent, view, index, id) -> {
-                    String emojiStr = emojis.get(index).shortcode;
-                    String url = emojis.get(index).url;
-                    String static_url = emojis.get(index).static_url;
+                    String emojiStr = emojis.get(MainActivity.currentInstance).get(index).shortcode;
+                    String url = emojis.get(MainActivity.currentInstance).get(index).url;
+                    String static_url = emojis.get(MainActivity.currentInstance).get(index).static_url;
                     boolean alreadyAdded = false;
                     for (Reaction reaction : announcement.reactions) {
                         if (reaction.name.compareTo(emojiStr) == 0) {

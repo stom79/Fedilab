@@ -74,6 +74,7 @@ import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -131,7 +132,7 @@ import es.dmoral.toasty.Toasty;
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
-    public static List<Emoji> emojis;
+    public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
     public static Account.API api;
     public static boolean admin;
     public static WeakReference<Account> accountWeakReference;
@@ -731,10 +732,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        if (emojis == null) {
+        if (emojis == null || !emojis.containsKey(MainActivity.currentInstance)) {
             new Thread(() -> {
                 try {
-                    emojis = new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance);
+                    emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
                 } catch (DBException e) {
                     e.printStackTrace();
                 }

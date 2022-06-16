@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.ui.drawer.ComposeAdapter.prepareDraft;
 
 import android.Manifest;
@@ -63,6 +65,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Context;
+import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
@@ -199,7 +202,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (token == null) {
             token = account.token;
         }
-
+        if (emojis == null || !emojis.containsKey(currentInstance)) {
+            new Thread(() -> {
+                try {
+                    emojis.put(currentInstance, new EmojiInstance(ComposeActivity.this).getEmojiList(currentInstance));
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
         StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
         //Empty compose
         List<Status> statusDraftList = new ArrayList<>();
@@ -207,10 +218,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusDraftList.add(status);
 
         if (statusReplyId != null && statusDraft != null) {//Delete and redraft
-            statusesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+            statusesVM.getStatus(currentInstance, BaseMainActivity.currentToken, statusReplyId)
                     .observe(ComposeActivity.this, status1 -> {
                         if (status1 != null) {
-                            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReplyId)
                                     .observe(ComposeActivity.this, statusContext -> {
                                         if (statusContext != null) {
                                             initializeContextRedraftView(statusContext, status1);
@@ -297,7 +308,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
                     binding.recyclerView.setAdapter(composeAdapter);
-                    statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusReply.id)
+                    statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
                             .observe(ComposeActivity.this, this::initializeContextView);
                 };
                 mainHandler.post(myRunnable);
@@ -639,7 +650,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         delayToPass = (date.getTime() - new Date().getTime());
                     }
                     Data inputData = new Data.Builder()
-                            .putString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance)
+                            .putString(Helper.ARG_INSTANCE, currentInstance)
                             .putString(Helper.ARG_TOKEN, BaseMainActivity.currentToken)
                             .putString(Helper.ARG_USER_ID, BaseMainActivity.currentUserID)
                             .putLong(Helper.ARG_STATUS_DRAFT_ID, statusDraft.id)

@@ -15,6 +15,7 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
 
 import android.graphics.drawable.ColorDrawable;
@@ -24,7 +25,6 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.databinding.ActivityAnnouncementBinding;
@@ -59,10 +59,10 @@ public class AnnouncementActivity extends BaseActivity {
         }
 
         Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonAnnouncement(), null, null, null);
-        if (emojis == null) {
+        if (emojis == null || !emojis.containsKey(currentInstance)) {
             new Thread(() -> {
                 try {
-                    emojis = new EmojiInstance(AnnouncementActivity.this).getEmojiList(BaseMainActivity.currentInstance);
+                    emojis.put(currentInstance, new EmojiInstance(AnnouncementActivity.this).getEmojiList(currentInstance));
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
