@@ -640,7 +640,10 @@ public class ProfileActivity extends BaseActivity {
                 builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
                     String notes = input.getText().toString().trim();
-                    binding.accountNote.setText(notes);
+                    binding.personalNote.setText(notes);
+                    if (relationship != null) {
+                        relationship.note = notes;
+                    }
                     accountsVM.updateNote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, notes);
                     dialog.dismiss();
                 });
