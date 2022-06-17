@@ -6,16 +6,21 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <RelativeLayout
-        android:id="@+id/media_fragment_container"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
-        <!-- Main Loader -->
+        android:fillViewport="true">
+
         <RelativeLayout
-            android:id="@+id/loader"
+            android:id="@+id/media_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+            <!-- Main Loader -->
+            <RelativeLayout
+                android:id="@+id/loader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:gravity="center">
 
@@ -130,5 +135,6 @@
             android:textColor="@color/dark_text"
             android:textSize="14sp"
             android:visibility="gone" />
-    </RelativeLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

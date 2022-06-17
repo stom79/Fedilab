@@ -16,24 +16,22 @@
 -->
 <app.futured.hauler.HaulerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/haulerView"
+    android:background="@color/transparent"
+    app:dragUpEnabled="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:animateLayoutChanges="true"
+        android:background="@android:color/transparent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/media_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:background="@android:color/transparent">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/media_viewpager"
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,10 +50,10 @@
                 android:textColor="#ffffffff"
                 android:textIsSelectable="true"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
 </app.futured.hauler.HaulerView>

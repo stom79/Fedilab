@@ -1,3 +1,4 @@
+package app.fedilab.android.activities;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -12,8 +13,6 @@
  *
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
-package app.fedilab.android.activities;
-
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -144,18 +143,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         handler = new Handler();
         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
-            binding.mediaDescription.setVisibility(View.VISIBLE);
 
-            handler.postDelayed(() -> {
-                if (binding != null && !binding.mediaDescription.hasSelection()) {
-                    binding.mediaDescription.setVisibility(View.GONE);
-                }
-            }, med_desc_timeout);
-
-        } else {
-            if (!binding.mediaDescription.hasSelection()) {
-                binding.mediaDescription.setVisibility(View.GONE);
-            }
         }
         binding.mediaViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -172,18 +160,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                 handler = new Handler();
                 if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
                     binding.mediaDescription.setText(description);
-                    binding.mediaDescription.setVisibility(View.VISIBLE);
-
-                    handler.postDelayed(() -> {
-                        if (binding != null && !binding.mediaDescription.hasSelection()) {
-                            binding.mediaDescription.setVisibility(View.GONE);
-                        }
-                    }, med_desc_timeout);
-
-                } else {
-                    if (!binding.mediaDescription.hasSelection()) {
-                        binding.mediaDescription.setVisibility(View.GONE);
-                    }
                 }
             }
         });
@@ -302,18 +278,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                         handler = new Handler();
                         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
                             binding.mediaDescription.setText(description);
-                            binding.mediaDescription.setVisibility(View.VISIBLE);
-
-                            handler.postDelayed(() -> {
-                                if (binding != null && !binding.mediaDescription.hasSelection()) {
-                                    binding.mediaDescription.setVisibility(View.GONE);
-                                }
-                            }, med_desc_timeout);
-
-                        } else {
-                            if (!binding.mediaDescription.hasSelection()) {
-                                binding.mediaDescription.setVisibility(View.GONE);
-                            }
                         }
                     }
                 }
@@ -371,8 +335,9 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         this.fullscreen = fullscreen;
         if (!fullscreen) {
             showSystemUI();
-
+            binding.mediaDescription.setVisibility(View.VISIBLE);
         } else {
+            binding.mediaDescription.setVisibility(View.GONE);
             hideSystemUI();
         }
     }
@@ -395,11 +360,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     }
 
     // Shows the system bars by removing all the flags
-// except for the ones that make the content appear under the system bars.
+    // except for the ones that make the content appear under the system bars.
     private void showSystemUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 

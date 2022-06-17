@@ -10,6 +10,7 @@
     <color name="no_description">#FFEA00</color>
     <color name="having_description">#42A5F5</color>
 
+    <color name="dark_gray">#333</color>
     <color name="dark_text">#f3f3f3</color>
     <color name="dark_icon">#606984</color>
     <color name="marked_icon">#ca8f04</color>

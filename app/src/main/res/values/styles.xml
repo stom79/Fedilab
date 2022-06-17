@@ -138,6 +138,14 @@
         <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
     </style>
 
+    <style name="AppTheme.Draggable" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/dark_gray</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Theme.Cyanea.Dark" />
 

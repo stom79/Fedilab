@@ -33,7 +33,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.arges.sepan.argmusicplayer.Models.ArgAudio;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -68,7 +67,7 @@ public class FragmentMedia extends Fragment {
     private boolean swipeEnabled;
     private CustomWebview webview_video;
     private FragmentSlideMediaBinding binding;
-    private ArgAudio audio;
+
 
     public FragmentMedia() {
     }
