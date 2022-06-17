@@ -1281,4 +1281,15 @@
     <string name="resolved">Đã xử lý</string>
     <string name="approved">Đã duyệt</string>
     <string name="approve">Duyệt</string>
+    <string name="fetch_more_messages">Nạp thêm tút…</string>
+    <string name="msg_save_image">Bạn có chắc muốn thoát mà không lưu\?</string>
+    <string name="msg_share_image">Chia sẻ hình ảnh</string>
+    <string name="tap_here_to_refresh_poll">Nhấn để làm mới bình chọn</string>
+    <string name="action_announcement_from_to">Thông báo · %1$s - %2$s</string>
+    <string name="label_shape">Hình khối</string>
+    <string name="label_oval">Trái xoan</string>
+    <string name="label_rectangle">Chữ nhật</string>
+    <string name="label_line">Đường thẳng</string>
+    <string name="label_eraser_mode">Chế độ Xóa</string>
+    <string name="label_adjust">Điều chỉnh</string>
 </resources>
