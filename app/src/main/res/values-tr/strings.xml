@@ -1286,4 +1286,5 @@
     <string name="msg_save_image">Resmi kaydetmeden çıkmak istiyor musunuz\?</string>
     <string name="msg_share_image">Resim Paylaş</string>
     <string name="tap_here_to_refresh_poll">Anketi yenilemek için buraya dokunun</string>
+    <string name="action_announcement_from_to">Duyuru · %1$s - %2$s</string>
 </resources>
