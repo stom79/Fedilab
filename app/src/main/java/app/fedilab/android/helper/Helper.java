@@ -119,6 +119,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1546,66 +1547,7 @@ public class Helper {
         void onAttachmentCopied(Attachment attachment);
     }
 
-    public static class CacheTask {
-        private final WeakReference<Context> contextReference;
-        private float cacheSize;
-
-        public CacheTask(Context context) {
-            contextReference = new WeakReference<>(context);
-            doInBackground();
-        }
-
-        protected void doInBackground() {
-            new Thread(() -> {
-                long sizeCache = cacheSize(contextReference.get().getCacheDir().getParentFile());
-                cacheSize = 0;
-                if (sizeCache > 0) {
-                    cacheSize = (float) sizeCache / 1000000.0f;
-                }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(contextReference.get(), Helper.dialogStyle());
-                    LayoutInflater inflater = ((BaseMainActivity) contextReference.get()).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.popup_cache, new LinearLayout(contextReference.get()), false);
-                    TextView message = dialogView.findViewById(R.id.message);
-                    message.setText(contextReference.get().getString(R.string.cache_message, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", cacheSize), contextReference.get().getString(R.string.cache_units))));
-                    builder.setView(dialogView);
-                    builder.setTitle(R.string.cache_title);
-
-                    final SwitchCompat clean_all = dialogView.findViewById(R.id.clean_all);
-                    final float finalCacheSize = cacheSize;
-                    builder
-                            .setPositiveButton(R.string.clear, (dialog, which) -> new Thread(() -> {
-                                try {
-                                    String path = Objects.requireNonNull(contextReference.get().getCacheDir().getParentFile()).getPath();
-                                    File dir = new File(path);
-                                    if (dir.isDirectory()) {
-                                        deleteDir(dir);
-                                    }
-                                    if (clean_all.isChecked()) {
-                                        new QuickLoad(contextReference.get()).deleteForAllAccount();
-                                        new StatusCache(contextReference.get()).deleteForAllAccount();
-                                    } else {
-                                        new QuickLoad(contextReference.get()).deleteForAccount(MainActivity.accountWeakReference.get());
-                                        new StatusCache(contextReference.get()).deleteForAccount(MainActivity.accountWeakReference.get());
-                                    }
-                                    Handler mainHandler2 = new Handler(Looper.getMainLooper());
-                                    Runnable myRunnable2 = () -> {
-                                        Toasty.success(contextReference.get(), contextReference.get().getString(R.string.toast_cache_clear, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", finalCacheSize), contextReference.get().getString(R.string.cache_units))), Toast.LENGTH_LONG).show();
-                                        dialog.dismiss();
-                                    };
-                                    mainHandler2.post(myRunnable2);
-                                } catch (Exception ignored) {
-                                }
-                            }).start())
-                            .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                };
-                mainHandler.post(myRunnable);
-            }).start();
-        }
-    }
+    private static WeakReference<Account> currentAccount;
 
 
     public static void transfertIfExist(Context context) {
@@ -1667,4 +1609,88 @@ public class Helper {
         });
     }
 
+    public static String generateString() {
+        String uuid = UUID.randomUUID().toString();
+        return "@fedilab_fetch_more_" + uuid;
+    }
+
+    public static void setMastodonAccount(app.fedilab.android.client.entities.api.Account mastodon_account) {
+        if (currentAccount != null) {
+            currentAccount.get().mastodon_account = mastodon_account;
+        }
+    }
+
+    public static Account getCurrentAccount(Context context) {
+        if (currentAccount == null || currentAccount.get() == null || currentAccount.get().mastodon_account == null) {
+            try {
+                Account account = new Account(context).getUniqAccount(MainActivity.currentUserID, MainActivity.currentInstance);
+                currentAccount = new WeakReference<>(account);
+                currentAccount.get().mastodon_account = account.mastodon_account;
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+        return currentAccount.get();
+    }
+
+    public static class CacheTask {
+        private final WeakReference<Context> contextReference;
+        private float cacheSize;
+
+        public CacheTask(Context context) {
+            contextReference = new WeakReference<>(context);
+            doInBackground();
+        }
+
+        protected void doInBackground() {
+            new Thread(() -> {
+                long sizeCache = cacheSize(contextReference.get().getCacheDir().getParentFile());
+                cacheSize = 0;
+                if (sizeCache > 0) {
+                    cacheSize = (float) sizeCache / 1000000.0f;
+                }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(contextReference.get(), Helper.dialogStyle());
+                    LayoutInflater inflater = ((BaseMainActivity) contextReference.get()).getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.popup_cache, new LinearLayout(contextReference.get()), false);
+                    TextView message = dialogView.findViewById(R.id.message);
+                    message.setText(contextReference.get().getString(R.string.cache_message, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", cacheSize), contextReference.get().getString(R.string.cache_units))));
+                    builder.setView(dialogView);
+                    builder.setTitle(R.string.cache_title);
+
+                    final SwitchCompat clean_all = dialogView.findViewById(R.id.clean_all);
+                    final float finalCacheSize = cacheSize;
+                    builder
+                            .setPositiveButton(R.string.clear, (dialog, which) -> new Thread(() -> {
+                                try {
+                                    String path = Objects.requireNonNull(contextReference.get().getCacheDir().getParentFile()).getPath();
+                                    File dir = new File(path);
+                                    if (dir.isDirectory()) {
+                                        deleteDir(dir);
+                                    }
+                                    if (clean_all.isChecked()) {
+                                        new QuickLoad(contextReference.get()).deleteForAllAccount();
+                                        new StatusCache(contextReference.get()).deleteForAllAccount();
+                                    } else {
+                                        new QuickLoad(contextReference.get()).deleteForAccount(getCurrentAccount(contextReference.get()));
+                                        new StatusCache(contextReference.get()).deleteForAccount(getCurrentAccount(contextReference.get()));
+                                    }
+                                    Handler mainHandler2 = new Handler(Looper.getMainLooper());
+                                    Runnable myRunnable2 = () -> {
+                                        Toasty.success(contextReference.get(), contextReference.get().getString(R.string.toast_cache_clear, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", finalCacheSize), contextReference.get().getString(R.string.cache_units))), Toast.LENGTH_LONG).show();
+                                        dialog.dismiss();
+                                    };
+                                    mainHandler2.post(myRunnable2);
+                                } catch (Exception ignored) {
+                                }
+                            }).start())
+                            .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                };
+                mainHandler.post(myRunnable);
+            }).start();
+        }
+    }
 }

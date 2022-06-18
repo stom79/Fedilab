@@ -61,7 +61,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
@@ -163,7 +162,7 @@ public class MediaHelper {
                             Uri uri = Uri.fromFile(backupFile);
                             intent.setDataAndType(uri, mime);
                             if (!share) {
-                                notify_user(context, Helper.NOTIFICATION_MEDIA, BaseMainActivity.accountWeakReference.get(), intent, BitmapFactory.decodeResource(context.getResources(),
+                                notify_user(context, Helper.NOTIFICATION_MEDIA, Helper.getCurrentAccount(context), intent, BitmapFactory.decodeResource(context.getResources(),
                                         R.mipmap.ic_launcher), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {

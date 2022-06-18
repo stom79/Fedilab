@@ -26,7 +26,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.client.endpoints.MastodonSearchService;
 import app.fedilab.android.client.entities.api.Results;
 import app.fedilab.android.client.entities.app.BottomMenu;
@@ -69,7 +68,7 @@ public class ReorderVM extends AndroidViewModel {
         new Thread(() -> {
             Pinned pinned = null;
             try {
-                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(BaseMainActivity.accountWeakReference.get());
+                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(Helper.getCurrentAccount(getApplication().getApplicationContext()));
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -87,7 +86,7 @@ public class ReorderVM extends AndroidViewModel {
         new Thread(() -> {
             BottomMenu bottomMenu = null;
             try {
-                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).getAllBottomMenu(BaseMainActivity.accountWeakReference.get());
+                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).getAllBottomMenu(Helper.getCurrentAccount(getApplication().getApplicationContext()));
             } catch (DBException e) {
                 e.printStackTrace();
             }

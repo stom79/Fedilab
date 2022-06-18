@@ -59,7 +59,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.databinding.PopupStatusThemeBinding;
@@ -571,7 +570,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             Uri uri = Uri.parse("file://" + fullPath);
             intentOpen.setDataAndType(uri, "text/csv");
             String title = getString(R.string.data_export_theme);
-            Helper.notify_user(getActivity(), Helper.NOTIFICATION_THEMING, BaseMainActivity.accountWeakReference.get(), intentOpen, BitmapFactory.decodeResource(requireActivity().getResources(),
+            Helper.notify_user(getActivity(), Helper.NOTIFICATION_THEMING, Helper.getCurrentAccount(requireActivity()), intentOpen, BitmapFactory.decodeResource(requireActivity().getResources(),
                     R.mipmap.ic_launcher), Helper.NotifType.BACKUP, title, message);
         } catch (Exception e) {
             e.printStackTrace();

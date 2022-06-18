@@ -23,9 +23,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 
 public class TopBarVM extends AndroidViewModel {
 
@@ -42,7 +42,7 @@ public class TopBarVM extends AndroidViewModel {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Pinned pinnedTimeline = null;
             try {
-                pinnedTimeline = pinned.getPinned(BaseMainActivity.accountWeakReference.get());
+                pinnedTimeline = pinned.getPinned(Helper.getCurrentAccount(getApplication().getApplicationContext()));
             } catch (DBException e) {
                 e.printStackTrace();
             }

@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivitySettingsBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.settings.FragmentComposeSettings;
 import app.fedilab.android.ui.fragment.settings.FragmentInterfaceSettings;
@@ -68,7 +69,7 @@ public class SettingsActivity extends BaseActivity {
         binding.setTheming.setOnClickListener(v -> displaySettings(SettingsEnum.THEMING));
         binding.setAdministration.setOnClickListener(v -> displaySettings(SettingsEnum.ADMINISTRATION));
         binding.setLanguage.setOnClickListener(v -> displaySettings(SettingsEnum.LANGUAGE));
-        if (MainActivity.accountWeakReference.get().admin) {
+        if (Helper.getCurrentAccount(SettingsActivity.this).admin) {
             binding.setAdministration.setVisibility(View.VISIBLE);
         } else {
             binding.setAdministration.setVisibility(View.GONE);

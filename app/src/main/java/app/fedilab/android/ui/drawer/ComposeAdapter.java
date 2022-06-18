@@ -421,8 +421,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             List<Attachment> attachmentList = statusList.get(position).media_attachments;
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
-                holder.binding.sensitiveMedia.setChecked(BaseMainActivity.accountWeakReference.get().mastodon_account.source.sensitive);
-                statusList.get(position).sensitive = BaseMainActivity.accountWeakReference.get().mastodon_account.source.sensitive;
+                holder.binding.sensitiveMedia.setChecked(Helper.getCurrentAccount(context).mastodon_account.source.sensitive);
+                statusList.get(position).sensitive = Helper.getCurrentAccount(context).mastodon_account.source.sensitive;
                 holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
@@ -1070,8 +1070,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
-                } else if (BaseMainActivity.accountWeakReference.get().mastodon_account != null && BaseMainActivity.accountWeakReference.get().mastodon_account.source != null) {
-                    statusDraft.visibility = BaseMainActivity.accountWeakReference.get().mastodon_account.source.privacy;
+                } else if (Helper.getCurrentAccount(context).mastodon_account != null && Helper.getCurrentAccount(context).mastodon_account.source != null) {
+                    statusDraft.visibility = Helper.getCurrentAccount(context).mastodon_account.source.privacy;
                 } else {
                     statusDraft.visibility = "public";
                 }

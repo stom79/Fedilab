@@ -31,7 +31,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Pinned;
@@ -108,7 +107,7 @@ public class HashTagActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.action_add_timeline) {
             new Thread(() -> {
                 try {
-                    Pinned pinned = new Pinned(HashTagActivity.this).getPinned(BaseMainActivity.accountWeakReference.get());
+                    Pinned pinned = new Pinned(HashTagActivity.this).getPinned(Helper.getCurrentAccount(HashTagActivity.this));
                     boolean canBeAdded = true;
                     boolean update = true;
                     if (pinned == null) {

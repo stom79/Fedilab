@@ -18,6 +18,7 @@ import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.helper.Helper.deleteDir;
+import static app.fedilab.android.helper.Helper.getCurrentAccount;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -73,7 +74,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -135,7 +135,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
     public static Account.API api;
     public static boolean admin;
-    public static WeakReference<Account> accountWeakReference;
     public static status networkAvailable = UNKNOWN;
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;
@@ -654,7 +653,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
-                accountWeakReference = new WeakReference<>(account);
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                 Helper.loadPP(binding.profilePicture, account);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", account.mastodon_account.username, account.instance));
@@ -682,8 +680,18 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, account1 -> {
-
-                            BaseMainActivity.accountWeakReference.get().mastodon_account = account1;
+                            //Initialize static var
+                            getCurrentAccount(BaseMainActivity.this);
+                            //Set the Mastodon account
+                            Helper.setMastodonAccount(account1);
+                            new Thread(() -> {
+                                try {
+                                    //Update account in db
+                                    new Account(BaseMainActivity.this).insertOrUpdate(getCurrentAccount(BaseMainActivity.this));
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
                         });
                 //Update pinned timelines
                 new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()

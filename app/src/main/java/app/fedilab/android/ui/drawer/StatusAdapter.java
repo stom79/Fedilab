@@ -1806,24 +1806,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         } else if (viewHolder.getItemViewType() == STATUS_FETCH_MORE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            if (status.isFetchMoreHidden) {
-                holder.bindingFetchMore.fetchMore.setVisibility(View.GONE);
-            } else {
-                holder.bindingFetchMore.fetchMore.setVisibility(View.VISIBLE);
-            }
+            holder.bindingFetchMore.fetchMore.setEnabled(!status.isFetchMoreHidden);
             holder.bindingFetchMore.fetchMore.setOnClickListener(v -> {
-                //We hide the button
-                status.isFetchMoreHidden = true;
-                notifyItemChanged(position);
                 if (position + 1 < statusList.size()) {
-                    fetchMoreCallBack.onClick(statusList.get(position + 1).id);
+                    //We hide the button
+                    status.isFetchMoreHidden = true;
+                    notifyItemChanged(position);
+                    fetchMoreCallBack.onClick(statusList.get(position + 1).id, status.id);
                 }
             });
         }
     }
 
     public interface FetchMoreCallBack {
-        void onClick(String min_id);
+        void onClick(String min_id, String fetchmoreId);
     }
 
     @Override

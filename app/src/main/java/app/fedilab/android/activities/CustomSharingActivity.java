@@ -30,7 +30,6 @@ import androidx.preference.PreferenceManager;
 import java.util.List;
 import java.util.Set;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
@@ -100,7 +99,7 @@ public class CustomSharingActivity extends BaseActivity implements OnCustomShari
             bundle_thumbnailurl = status.account.avatar;
         }
         if (!bundle_creator.contains("@")) {
-            bundle_creator = bundle_creator + "@" + BaseMainActivity.accountWeakReference.get().instance;
+            bundle_creator = bundle_creator + "@" + Helper.getCurrentAccount(CustomSharingActivity.this).instance;
         }
 
         binding.setCustomSharingTitle.setEllipsize(TextUtils.TruncateAt.END);

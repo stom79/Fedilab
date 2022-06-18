@@ -43,7 +43,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
@@ -262,7 +261,7 @@ public class PinnedTimelineHelper {
         int toRemove = 0;
         try {
             //If some menu items have been hidden we should not create tab for them
-            bottomMenuDb = new BottomMenu(context).getAllBottomMenu(MainActivity.accountWeakReference.get());
+            bottomMenuDb = new BottomMenu(context).getAllBottomMenu(Helper.getCurrentAccount(context));
             if (bottomMenuDb != null) {
                 List<BottomMenu.MenuItem> menuItemList = bottomMenuDb.bottom_menu;
                 if (menuItemList != null) {

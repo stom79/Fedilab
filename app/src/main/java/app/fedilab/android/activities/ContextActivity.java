@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.QuickLoad;
@@ -85,9 +84,7 @@ public class ContextActivity extends BaseActivity {
             finish();
             return;
         }
-        if (BaseMainActivity.accountWeakReference.get() != null) {
-            MastodonHelper.loadPPMastodon(binding.profilePicture, BaseMainActivity.accountWeakReference.get().mastodon_account);
-        }
+        MastodonHelper.loadPPMastodon(binding.profilePicture, Helper.getCurrentAccount(ContextActivity.this).mastodon_account);
         Bundle bundle = new Bundle();
         new Thread(() -> {
             focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
@@ -109,7 +106,7 @@ public class ContextActivity extends BaseActivity {
             new Thread(() -> {
                 try {
                     new StatusCache(getApplication()).updateIfExists(statusCache);
-                    new QuickLoad(getApplication().getApplicationContext()).updateStatus(MainActivity.accountWeakReference.get(), status);
+                    new QuickLoad(getApplication().getApplicationContext()).updateStatus(Helper.getCurrentAccount(ContextActivity.this), status);
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     //Update UI
                     Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);

@@ -541,7 +541,7 @@ public class ProfileActivity extends BaseActivity {
     private void updateAccount() {
 
         //The value for account is from same server so id can be used
-        if (BaseMainActivity.accountWeakReference.get() != null && account.id.equals(BaseMainActivity.accountWeakReference.get().user_id)) {
+        if (account.id.equals(Helper.getCurrentAccount(ProfileActivity.this).user_id)) {
             binding.accountFollow.setVisibility(View.GONE);
             binding.headerEditProfile.setVisibility(View.VISIBLE);
             binding.headerEditProfile.bringToFront();

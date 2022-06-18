@@ -74,7 +74,7 @@ public class EditProfileActivity extends BaseActivity {
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {
                     if (account != null) {
-                        BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                        Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
                         initializeView();
                     } else {
                         Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
@@ -86,20 +86,20 @@ public class EditProfileActivity extends BaseActivity {
     @SuppressWarnings("deprecation")
     private void initializeView() {
         //Hydrate values
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, BaseMainActivity.accountWeakReference.get().mastodon_account, MastodonHelper.MediaAccountType.HEADER);
-        MastodonHelper.loadPPMastodon(binding.accountPp, BaseMainActivity.accountWeakReference.get().mastodon_account);
-        binding.displayName.setText(BaseMainActivity.accountWeakReference.get().mastodon_account.display_name);
-        binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", BaseMainActivity.accountWeakReference.get().mastodon_account.acct, BaseMainActivity.currentInstance));
+        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadPPMastodon(binding.accountPp, Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account);
+        binding.displayName.setText(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.display_name);
+        binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.acct, BaseMainActivity.currentInstance));
         String bio;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            bio = Html.fromHtml(BaseMainActivity.accountWeakReference.get().mastodon_account.note, Html.FROM_HTML_MODE_LEGACY).toString();
+            bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note, Html.FROM_HTML_MODE_LEGACY).toString();
         else
-            bio = Html.fromHtml(BaseMainActivity.accountWeakReference.get().mastodon_account.note).toString();
+            bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
         binding.bio.setText(bio);
-        binding.sensitive.setChecked(BaseMainActivity.accountWeakReference.get().mastodon_account.source.sensitive);
-        binding.bot.setChecked(BaseMainActivity.accountWeakReference.get().mastodon_account.bot);
-        binding.discoverable.setChecked(BaseMainActivity.accountWeakReference.get().mastodon_account.discoverable);
-        switch (BaseMainActivity.accountWeakReference.get().mastodon_account.source.privacy) {
+        binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
+        binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
+        binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
+        switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
             case "public":
                 binding.visibilityPublic.setChecked(true);
                 break;
@@ -113,12 +113,12 @@ public class EditProfileActivity extends BaseActivity {
                 binding.visibilityDirect.setChecked(true);
                 break;
         }
-        if (BaseMainActivity.accountWeakReference.get().mastodon_account.locked) {
+        if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.locked) {
             binding.locked.setChecked(true);
         } else {
             binding.unlocked.setChecked(true);
         }
-        List<Field> fields = BaseMainActivity.accountWeakReference.get().mastodon_account.fields;
+        List<Field> fields = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.fields;
         if (fields != null && fields.size() > 0) {
             for (Field field : fields) {
                 AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
@@ -194,11 +194,11 @@ public class EditProfileActivity extends BaseActivity {
                         if (account != null) {
                             sendBroadCast(account);
                             binding.avatarProgress.setVisibility(View.GONE);
-                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
                             Helper.recreateMainActivity(EditProfileActivity.this);
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -219,10 +219,10 @@ public class EditProfileActivity extends BaseActivity {
                         if (account != null) {
                             sendBroadCast(account);
                             binding.headerProgress.setVisibility(View.GONE);
-                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -313,10 +313,10 @@ public class EditProfileActivity extends BaseActivity {
             )
                     .observe(EditProfileActivity.this, account -> {
                         if (account != null) {
-                            BaseMainActivity.accountWeakReference.get().mastodon_account = account;
+                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(BaseMainActivity.accountWeakReference.get());
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
                                     sendBroadCast(account);
                                 } catch (DBException e) {
                                     e.printStackTrace();

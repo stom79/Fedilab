@@ -80,7 +80,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT) {
             new Thread(() -> {
                 try {
-                    List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(BaseMainActivity.accountWeakReference.get());
+                    List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(Helper.getCurrentAccount(requireActivity()));
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     binding.loader.setVisibility(View.GONE);
                     Runnable myRunnable = () -> {
@@ -105,7 +105,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_BOOST) {
             new Thread(() -> {
                 try {
-                    List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(BaseMainActivity.accountWeakReference.get());
+                    List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(Helper.getCurrentAccount(requireActivity()));
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
                         binding.loader.setVisibility(View.GONE);

@@ -34,7 +34,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Status;
@@ -81,7 +80,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         timelinesVM = new ViewModelProvider(DraftActivity.this).get(TimelinesVM.class);
-        timelinesVM.getDrafts(BaseMainActivity.accountWeakReference.get())
+        timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
                 .observe(DraftActivity.this, this::initializeDraftView);
     }
 
@@ -177,7 +176,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
         super.onResume();
         //We need to check if drafts changed (ie when coming back from the compose activity)
         if (statusDrafts != null && timelinesVM != null) {
-            timelinesVM.getDrafts(BaseMainActivity.accountWeakReference.get())
+            timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
                     .observe(DraftActivity.this, this::updateDrafts);
         }
     }
