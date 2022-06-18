@@ -368,7 +368,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param fetched_statuses Statuses
      */
-    private void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
+    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
         if (binding == null) {
             return;
         }
@@ -394,9 +394,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 fetched_statuses.statuses = mediaStatuses;
             }
             //Update the timeline with new statuses
-            int inserted = updateStatusListWith(fetched_statuses.statuses, fetchingMissing);
+            int inserted = updateStatusListWith(direction, fetched_statuses.statuses, fetchingMissing);
             if (fetchingMissing) {
-                binding.recyclerView.scrollToPosition(currentPosition + inserted);
+                //  binding.recyclerView.scrollToPosition(currentPosition + inserted);
             }
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
@@ -413,22 +413,45 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-    private int updateStatusListWith(List<Status> statusListReceived, boolean fetchingMissing) {
+    /**
+     * Update the timeline with received statuses
+     *
+     * @param statusListReceived - List<Status> Statuses received
+     * @param fetchingMissing    - boolean if the call concerns fetching messages (ie: refresh of from fetch more button)
+     * @return int - Number of messages that have been inserted in the middle of the timeline (ie between other statuses)
+     */
+    private int updateStatusListWith(DIRECTION direction, List<Status> statusListReceived, boolean fetchingMissing) {
         int numberInserted = 0;
+        int lastInsertedPosition = 0;
+        int initialInsertedPosition = STATUS_PRESENT;
         if (statusListReceived != null && statusListReceived.size() > 0) {
             int insertedPosition = STATUS_PRESENT;
             for (Status statusReceived : statusListReceived) {
                 insertedPosition = insertStatus(statusReceived);
                 if (insertedPosition != STATUS_PRESENT && insertedPosition != STATUS_AT_THE_BOTTOM) {
                     numberInserted++;
+                    if (initialInsertedPosition == STATUS_PRESENT) {
+                        initialInsertedPosition = insertedPosition;
+                    }
+                    if (insertedPosition < initialInsertedPosition) {
+                        initialInsertedPosition = lastInsertedPosition;
+                    }
                 }
             }
+            lastInsertedPosition = initialInsertedPosition + numberInserted;
+            //lastInsertedPosition contains the position of the last inserted status
             //If there were no overlap for top status
             if (fetchingMissing && insertedPosition != STATUS_PRESENT && insertedPosition != STATUS_AT_THE_BOTTOM && this.statuses.size() > insertedPosition) {
                 Status statusFetchMore = new Status();
                 statusFetchMore.isFetchMore = true;
                 statusFetchMore.id = Helper.generateString();
-                int insertAt = insertedPosition + 1;
+                int insertAt;
+                if (direction == DIRECTION.REFRESH) {
+                    insertAt = lastInsertedPosition;
+                } else {
+                    insertAt = initialInsertedPosition;
+                }
+
                 this.statuses.add(insertAt, statusFetchMore);
                 statusAdapter.notifyItemInserted(insertAt);
             }
@@ -436,6 +459,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         return numberInserted;
     }
 
+    /**
+     * Insert a status if not yet in the timeline
+     *
+     * @param statusReceived - Status coming from the api/db
+     * @return int >= 0 |  STATUS_PRESENT = -1 | STATUS_AT_THE_BOTTOM = -2
+     */
     private int insertStatus(Status statusReceived) {
         if (idOfAddedStatuses.contains(statusReceived.id)) {
             return STATUS_PRESENT;
@@ -445,7 +474,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         for (Status statusAlreadyPresent : this.statuses) {
             //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
             //Pinned messages are ignored because their date can be older
-            if (statusAlreadyPresent.created_at != null && statusReceived.created_at != null && statusReceived.created_at.after(statusAlreadyPresent.created_at) && !statusAlreadyPresent.pinned) {
+            if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
                 //We add the status to a list of id - thus we know it is already in the timeline
                 idOfAddedStatuses.add(statusReceived.id);
                 this.statuses.add(position, statusReceived);
@@ -823,10 +852,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
 
         } else if (direction == DIRECTION.REFRESH) {
-            timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchingMissing, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+            timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                     .observe(getViewLifecycleOwner(), statusRefresh -> {
                                 if (statusAdapter != null) {
-                                    dealWithPagination(statusRefresh, DIRECTION.REFRESH, fetchingMissing);
+                                    dealWithPagination(statusRefresh, DIRECTION.REFRESH, true);
                                 } else {
                                     initializeStatusesCommonView(statusRefresh);
                                 }

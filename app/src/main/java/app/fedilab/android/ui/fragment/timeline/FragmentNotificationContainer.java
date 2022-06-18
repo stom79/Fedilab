@@ -57,26 +57,6 @@ public class FragmentNotificationContainer extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentNotificationContainerBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-
-    public void scrollToTop() {
-        if (binding != null) {
-            FedilabNotificationPageAdapter fedilabNotificationPageAdapter = ((FedilabNotificationPageAdapter) binding.viewpager.getAdapter());
-            if (fedilabNotificationPageAdapter != null) {
-                FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) fedilabNotificationPageAdapter.getCurrentFragment();
-                if (fragmentMastodonNotification != null) {
-                    fragmentMastodonNotification.scrollToTop();
-                }
-            }
-        }
-    }
-
-    @SuppressLint("ApplySharedPref")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean display_all_notification = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_ALL_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
         if (!display_all_notification) {
@@ -259,6 +239,27 @@ public class FragmentNotificationContainer extends Fragment {
 
             }
         });
+        return binding.getRoot();
+    }
+
+
+    public void scrollToTop() {
+        if (binding != null) {
+            FedilabNotificationPageAdapter fedilabNotificationPageAdapter = ((FedilabNotificationPageAdapter) binding.viewpager.getAdapter());
+            if (fedilabNotificationPageAdapter != null) {
+                FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) fedilabNotificationPageAdapter.getCurrentFragment();
+                if (fragmentMastodonNotification != null) {
+                    fragmentMastodonNotification.scrollToTop();
+                }
+            }
+        }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
