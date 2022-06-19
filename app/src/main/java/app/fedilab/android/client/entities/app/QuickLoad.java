@@ -24,11 +24,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.sqlite.Sqlite;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 
 public class QuickLoad {
 
@@ -45,6 +47,8 @@ public class QuickLoad {
     public int position;
     @SerializedName("statuses")
     public List<Status> statuses;
+    @SerializedName("notifications")
+    public List<Notification> notifications;
     private Context _mContext;
 
     public QuickLoad() {
@@ -134,6 +138,29 @@ public class QuickLoad {
         }
     }
 
+
+    /**
+     * @param position             - current position in timeline
+     * @param notificationTypeEnum - Timeline.NotificationTypeEnum
+     * @param notificationList     - List<Notification> to save
+     */
+    public void storeNotifications(int position, String user_id, String instance, FragmentMastodonNotification.NotificationTypeEnum notificationTypeEnum, List<Notification> notificationList) {
+
+        String key = notificationTypeEnum.getValue();
+        QuickLoad quickLoad = new QuickLoad();
+        quickLoad.position = position;
+        quickLoad.notifications = notificationList;
+        quickLoad.slug = key;
+        quickLoad.instance = instance;
+        quickLoad.user_id = user_id;
+        purge(quickLoad);
+        try {
+            insertOrUpdate(quickLoad);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Insert a QuickLoad in db
      *
@@ -149,7 +176,11 @@ public class QuickLoad {
         values.put(Sqlite.COL_INSTANCE, quickLoad.instance);
         values.put(Sqlite.COL_SLUG, quickLoad.slug);
         values.put(Sqlite.COL_POSITION, quickLoad.position);
-        values.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(quickLoad.statuses));
+        if (quickLoad.statuses != null) {
+            values.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(quickLoad.statuses));
+        } else if (quickLoad.notifications != null) {
+            values.put(Sqlite.COL_STATUSES, Notification.notificationsToStringStorage(quickLoad.notifications));
+        }
         //Inserts token
         try {
             db.insertOrThrow(Sqlite.TABLE_QUICK_LOAD, null, values);
@@ -364,6 +395,40 @@ public class QuickLoad {
         }
         try {
             return get(user_id, instance, key);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * Retrieves saved values
+     *
+     * @param notificationTypeEnum - FragmentMastodonNotification.NotificationTypeEnum
+     * @return SavedValues
+     */
+    public QuickLoad getSavedValue(String user_id, String instance, FragmentMastodonNotification.NotificationTypeEnum notificationTypeEnum) {
+        String key = notificationTypeEnum.getValue();
+        try {
+            return get(user_id, instance, key);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * Retrieves saved values
+     *
+     * @param notificationTypeEnum - FragmentMastodonNotification.NotificationTypeEnum
+     * @return SavedValues
+     */
+    public QuickLoad getSavedValue(BaseAccount account, FragmentMastodonNotification.NotificationTypeEnum notificationTypeEnum) {
+        String key = notificationTypeEnum.getValue();
+        try {
+            return get(key, account);
         } catch (DBException e) {
             e.printStackTrace();
         }

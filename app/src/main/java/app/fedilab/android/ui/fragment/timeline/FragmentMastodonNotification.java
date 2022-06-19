@@ -14,6 +14,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.networkAvailable;
+
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +23,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +45,13 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
+import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -52,15 +60,16 @@ import app.fedilab.android.ui.drawer.NotificationAdapter;
 import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 
 
-public class FragmentMastodonNotification extends Fragment {
+public class FragmentMastodonNotification extends Fragment implements NotificationAdapter.FetchMoreCallBack {
 
 
     private FragmentPaginationBinding binding;
     private NotificationsVM notificationsVM;
     private FragmentMastodonNotification currentFragment;
     private boolean flagLoading;
-    private List<Notification> notifications;
-    private String max_id;
+    private static final int NOTIFICATION_PRESENT = -1;
+    private static final int NOTIFICATION__AT_THE_BOTTOM = -2;
+    private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -71,10 +80,10 @@ public class FragmentMastodonNotification extends Fragment {
                 if (receivedStatus != null && notificationAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
-                        if (notifications.get(position).status != null) {
-                            notifications.get(position).status.reblog = receivedStatus.reblog;
-                            notifications.get(position).status.favourited = receivedStatus.favourited;
-                            notifications.get(position).status.bookmarked = receivedStatus.bookmarked;
+                        if (notificationList.get(position).status != null) {
+                            notificationList.get(position).status.reblog = receivedStatus.reblog;
+                            notificationList.get(position).status.favourited = receivedStatus.favourited;
+                            notificationList.get(position).status.bookmarked = receivedStatus.bookmarked;
                             notificationAdapter.notifyItemChanged(position);
                         }
                     }
@@ -82,6 +91,11 @@ public class FragmentMastodonNotification extends Fragment {
             }
         }
     };
+    private Notifications notifications;
+    private String max_id, min_id, min_id_fetch_more;
+    private LinearLayoutManager mLayoutManager;
+    private String instance, user_id;
+    private ArrayList<String> idOfAddedNotifications;
     private NotificationTypeEnum notificationType;
     private List<String> excludeType;
     private boolean aggregateNotification;
@@ -95,7 +109,7 @@ public class FragmentMastodonNotification extends Fragment {
     private int getPosition(Status status) {
         int position = 0;
         boolean found = false;
-        for (Notification _notification : notifications) {
+        for (Notification _notification : notificationList) {
             if (_notification.status != null && _notification.status.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
@@ -110,6 +124,9 @@ public class FragmentMastodonNotification extends Fragment {
 
         currentFragment = this;
         flagLoading = false;
+        instance = MainActivity.currentInstance;
+        user_id = MainActivity.currentUserID;
+        idOfAddedNotifications = new ArrayList<>();
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         if (getArguments() != null) {
@@ -160,10 +177,28 @@ public class FragmentMastodonNotification extends Fragment {
             excludeType.remove("follow");
             excludeType.remove("follow_request");
         }
-        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+        new Thread(() -> {
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
+        }).start();
+        router(null);
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
+    }
+
+
+    private void router(FragmentMastodonTimeline.DIRECTION direction) {
+        if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
+            new Thread(() -> {
+                if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
+                    networkAvailable = Helper.isConnectedToInternet(requireActivity(), BaseMainActivity.currentInstance);
+                }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> route(direction, false);
+                mainHandler.post(myRunnable);
+            }).start();
+        } else {
+            route(direction, false);
+        }
     }
 
     @Override
@@ -172,6 +207,7 @@ public class FragmentMastodonNotification extends Fragment {
         NotificationManager notificationManager = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(Helper.NOTIFICATION_USER_NOTIF);
     }
+
 
     /**
      * Intialize the view for notifications
@@ -197,20 +233,26 @@ public class FragmentMastodonNotification extends Fragment {
             notifications.notifications = aggregateNotifications(notifications.notifications);
         }
         if (notificationAdapter != null && this.notifications != null) {
-            int size = this.notifications.size();
-            this.notifications.clear();
-            this.notifications = new ArrayList<>();
+            int size = this.notificationList.size();
+            this.notificationList.clear();
+            this.notificationList = new ArrayList<>();
             notificationAdapter.notifyItemRangeRemoved(0, size);
         }
-        this.notifications = notifications.notifications;
-        notificationAdapter = new NotificationAdapter(this.notifications);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
+        this.notificationList = notifications.notifications;
+        notificationAdapter = new NotificationAdapter(this.notificationList);
+        mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
         max_id = notifications.pagination.max_id;
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (requireActivity() instanceof BaseMainActivity) {
+                    if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
+                    if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
+                }
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
                 if (dy > 0) {
                     int visibleItemCount = mLayoutManager.getChildCount();
@@ -219,25 +261,80 @@ public class FragmentMastodonNotification extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                    .observe(FragmentMastodonNotification.this, fetched_notifications -> dealWithPagination(fetched_notifications));
+                            router(FragmentMastodonTimeline.DIRECTION.BOTTOM);
                         }
                     } else {
                         binding.loadingNextElements.setVisibility(View.GONE);
                     }
+                } else if (firstVisibleItem == 0) { //Scroll top and item is zero
+                    if (!flagLoading) {
+                        flagLoading = true;
+                        binding.loadingNextElements.setVisibility(View.VISIBLE);
+                        router(FragmentMastodonTimeline.DIRECTION.TOP);
+                    }
                 }
+            }
+        });
 
-            }
-        });
         binding.swipeContainer.setOnRefreshListener(() -> {
-            if (this.notifications.size() > 0) {
-                binding.swipeContainer.setRefreshing(true);
-                max_id = null;
-                flagLoading = false;
-                notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                        .observe(FragmentMastodonNotification.this, this::initializeNotificationView);
-            }
+            binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
+            route(FragmentMastodonTimeline.DIRECTION.REFRESH, true);
         });
+
+    }
+
+
+    /**
+     * Router for timelines
+     *
+     * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
+     */
+    private void route(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing) {
+        new Thread(() -> {
+            if (binding == null) {
+                return;
+            }
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
+            if (direction != FragmentMastodonTimeline.DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+                Statuses statuses = new Statuses();
+                statuses.statuses = quickLoad.statuses;
+                statuses.pagination = new Pagination();
+                statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
+                statuses.pagination.min_id = quickLoad.statuses.get(0).id;
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> initializeNotificationView(notifications);
+                mainHandler.post(myRunnable);
+            } else {
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    if (!isAdded()) {
+                        return;
+                    }
+                    if (direction == null) {
+                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
+                                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                    } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
+                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
+                                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                    } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
+                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
+                                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                    } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
+                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
+                                .observe(getViewLifecycleOwner(), notificationsReceived -> {
+                                    if (notificationAdapter != null) {
+                                        dealWithPagination(notificationsReceived);
+                                    } else {
+                                        initializeNotificationView(notificationsReceived);
+                                    }
+                                });
+                    }
+                };
+                mainHandler.post(myRunnable);
+            }
+
+        }).start();
 
     }
 
@@ -271,6 +368,124 @@ public class FragmentMastodonNotification extends Fragment {
         binding.recyclerView.scrollToPosition(0);
     }
 
+
+    /**
+     * Update view and pagination when scrolling down
+     *
+     * @param fetched_notifications Notifications
+     */
+    private synchronized void dealWithPagination(Notifications fetched_notifications, FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing) {
+        if (binding == null) {
+            return;
+        }
+        int currentPosition = mLayoutManager.findFirstVisibleItemPosition();
+        binding.swipeContainer.setRefreshing(false);
+        binding.loadingNextElements.setVisibility(View.GONE);
+        flagLoading = false;
+        if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && fetched_notifications.notifications.size() > 0) {
+            flagLoading = fetched_notifications.pagination.max_id == null;
+            binding.noAction.setVisibility(View.GONE);
+            //Update the timeline with new statuses
+            int inserted = updateNotificationListWith(direction, fetched_notifications.notifications, fetchingMissing);
+            if (fetchingMissing) {
+                //  binding.recyclerView.scrollToPosition(currentPosition + inserted);
+            }
+            if (!fetchingMissing) {
+                if (fetched_notifications.pagination.max_id == null) {
+                    flagLoading = true;
+                } else if (max_id == null || fetched_notifications.pagination.max_id.compareTo(max_id) < 0) {
+                    max_id = fetched_notifications.pagination.max_id;
+                }
+                if (min_id == null || (fetched_notifications.pagination.min_id != null && fetched_notifications.pagination.min_id.compareTo(min_id) > 0)) {
+                    min_id = fetched_notifications.pagination.min_id;
+                }
+            }
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
+            flagLoading = true;
+        }
+    }
+
+    /**
+     * Update the timeline with received statuses
+     *
+     * @param notificationsReceived - List<Notification> Notifications received
+     * @param fetchingMissing       - boolean if the call concerns fetching messages (ie: refresh of from fetch more button)
+     * @return int - Number of messages that have been inserted in the middle of the timeline (ie between other statuses)
+     */
+    private int updateNotificationListWith(FragmentMastodonTimeline.DIRECTION direction, List<Notification> notificationsReceived, boolean fetchingMissing) {
+        int numberInserted = 0;
+        int lastInsertedPosition = 0;
+        int initialInsertedPosition = NOTIFICATION_PRESENT;
+        if (notificationsReceived != null && notificationsReceived.size() > 0) {
+            int insertedPosition = NOTIFICATION_PRESENT;
+            for (Notification notificationReceived : notificationsReceived) {
+                insertedPosition = insertNotification(notificationReceived);
+                if (insertedPosition != NOTIFICATION_PRESENT && insertedPosition != NOTIFICATION__AT_THE_BOTTOM) {
+                    numberInserted++;
+                    if (initialInsertedPosition == NOTIFICATION_PRESENT) {
+                        initialInsertedPosition = insertedPosition;
+                    }
+                    if (insertedPosition < initialInsertedPosition) {
+                        initialInsertedPosition = lastInsertedPosition;
+                    }
+                }
+            }
+            lastInsertedPosition = initialInsertedPosition + numberInserted;
+            //lastInsertedPosition contains the position of the last inserted status
+            //If there were no overlap for top status
+            if (fetchingMissing && insertedPosition != NOTIFICATION_PRESENT && insertedPosition != NOTIFICATION__AT_THE_BOTTOM && this.notificationList.size() > insertedPosition) {
+                Notification notificationFetchMore = new Notification();
+                notificationFetchMore.isFetchMore = true;
+                notificationFetchMore.id = Helper.generateString();
+                int insertAt;
+                if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
+                    insertAt = lastInsertedPosition;
+                } else {
+                    insertAt = initialInsertedPosition;
+                }
+
+                this.notificationList.add(insertAt, notificationFetchMore);
+                notificationAdapter.notifyItemInserted(insertAt);
+            }
+        }
+        return numberInserted;
+    }
+
+    /**
+     * Insert a status if not yet in the timeline
+     *
+     * @param notificationReceived - Notification coming from the api/db
+     * @return int >= 0 |  STATUS_PRESENT = -1 | STATUS_AT_THE_BOTTOM = -2
+     */
+    private int insertNotification(Notification notificationReceived) {
+        if (idOfAddedNotifications.contains(notificationReceived.id)) {
+            return NOTIFICATION_PRESENT;
+        }
+        int position = 0;
+        //We loop through messages already in the timeline
+        for (Notification notificationsAlreadyPresent : this.notificationList) {
+            //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
+            //Pinned messages are ignored because their date can be older
+            if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
+                //We add the status to a list of id - thus we know it is already in the timeline
+                idOfAddedNotifications.add(notificationReceived.id);
+                this.notificationList.add(position, notificationReceived);
+                notificationAdapter.notifyItemInserted(position);
+                break;
+            }
+            position++;
+        }
+        //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+        if (position == this.notificationList.size()) {
+            //We add the status to a list of id - thus we know it is already in the timeline
+            idOfAddedNotifications.add(notificationReceived.id);
+            this.notificationList.add(position, notificationReceived);
+            notificationAdapter.notifyItemInserted(position);
+            return NOTIFICATION__AT_THE_BOTTOM;
+        }
+        return position;
+    }
+
     /**
      * Update view and pagination when scrolling down
      *
@@ -286,10 +501,10 @@ public class FragmentMastodonNotification extends Fragment {
             }
             int startId = 0;
             //There are some statuses present in the timeline
-            if (currentFragment.notifications.size() > 0) {
-                startId = currentFragment.notifications.size();
+            if (currentFragment.notificationList.size() > 0) {
+                startId = currentFragment.notificationList.size();
             }
-            currentFragment.notifications.addAll(fetched_notifications.notifications);
+            currentFragment.notificationList.addAll(fetched_notifications.notifications);
             max_id = fetched_notifications.pagination.max_id;
             notificationAdapter.notifyItemRangeInserted(startId, fetched_notifications.notifications.size());
         } else {
@@ -299,11 +514,34 @@ public class FragmentMastodonNotification extends Fragment {
 
     @Override
     public void onDestroyView() {
+        if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            new Thread(() -> {
+                try {
+                    new QuickLoad(requireActivity()).storeNotifications(position, user_id, instance, notificationType, notificationList);
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }
         super.onDestroyView();
         binding.recyclerView.setAdapter(null);
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         notificationAdapter = null;
         binding = null;
+    }
+
+    @Override
+    public void onPause() {
+        if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            new Thread(() -> {
+                try {
+                    new QuickLoad(requireActivity()).storeNotifications(position, user_id, instance, notificationType, notificationList);
+                } catch (Exception ignored) {
+                }
+            }).start();
+        }
+        super.onPause();
     }
 
 
@@ -334,4 +572,24 @@ public class FragmentMastodonNotification extends Fragment {
         }
     }
 
+
+    @Override
+    public void onClick(String min_id, String id) {
+        //Fetch more has been pressed
+        min_id_fetch_more = min_id;
+        Notification notification = null;
+        int position = 0;
+        for (Notification currentNotification : this.notificationList) {
+            if (currentNotification.id.compareTo(id) == 0) {
+                notification = currentNotification;
+                break;
+            }
+            position++;
+        }
+        if (notification != null) {
+            this.notificationList.remove(position);
+            notificationAdapter.notifyItemRemoved(position);
+        }
+        route(FragmentMastodonTimeline.DIRECTION.TOP, true);
+    }
 }

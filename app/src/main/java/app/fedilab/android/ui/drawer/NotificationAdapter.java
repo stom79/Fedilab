@@ -38,6 +38,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.app.Timeline;
+import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
@@ -56,7 +57,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_FAVOURITE = 4;
     private final int TYPE_POLL = 5;
     private final int TYPE_STATUS = 6;
+    private final int NOTIFICATION_FETCH_MORE = 7;
     private Context context;
+    public FetchMoreCallBack fetchMoreCallBack;
 
     public NotificationAdapter(List<Notification> notificationList) {
         this.notificationList = notificationList;
@@ -72,6 +75,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+        if (notificationList.get(position).isFetchMore) {
+            return NOTIFICATION_FETCH_MORE;
+        }
         String type = notificationList.get(position).type;
         switch (type) {
             case "follow":
@@ -99,6 +105,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST) {
             DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new ViewHolderFollow(itemBinding);
+        } else if (viewType == NOTIFICATION_FETCH_MORE) { //Fetch more button
+            DrawerFetchMoreBinding itemBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
         } else {
             DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusAdapter.StatusViewHolder(itemBinding);
@@ -131,6 +140,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .makeSceneTransitionAnimation((Activity) context, holderFollow.binding.avatar, context.getString(R.string.activity_porfile_pp));
                 // start the new activity
                 context.startActivity(intent, options.toBundle());
+            });
+        } else if (viewHolder.getItemViewType() == NOTIFICATION_FETCH_MORE) {
+            StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
+            holder.bindingFetchMore.fetchMore.setEnabled(!notification.isFetchMoreHidden);
+            holder.bindingFetchMore.fetchMore.setOnClickListener(v -> {
+                if (position + 1 < notificationList.size()) {
+                    //We hide the button
+                    notification.isFetchMoreHidden = true;
+                    notifyItemChanged(position);
+                    fetchMoreCallBack.onClick(notificationList.get(position + 1).id, notification.id);
+                }
             });
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
@@ -232,6 +252,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
         }
+    }
+
+    public interface FetchMoreCallBack {
+        void onClick(String min_id, String fetchmoreId);
     }
 
 

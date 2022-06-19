@@ -14,7 +14,9 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Date;
 import java.util.List;
@@ -33,4 +35,38 @@ public class Notification {
     public Status status;
 
     public transient List<Notification> relatedNotifications;
+    public boolean isFetchMore;
+    public boolean isFetchMoreHidden = false;
+
+    /**
+     * Serialized a list of Notification class
+     *
+     * @param notifications List of {@link Notification} to serialize
+     * @return String serialized emoji list
+     */
+    public static String notificationsToStringStorage(List<Notification> notifications) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(notifications);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Unserialized a notification List
+     *
+     * @param serializedNotificationList String serialized Status list
+     * @return List of {@link Notification}
+     */
+    public static List<Notification> restoreNotificationsFromString(String serializedNotificationList) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serializedNotificationList, new TypeToken<List<Notification>>() {
+            }.getType());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
