@@ -169,7 +169,7 @@ public class ScheduledBoost implements Serializable {
      * @param account Account
      * @return List<ScheduledBoost> - List of {@link ScheduledBoost}
      */
-    public List<ScheduledBoost> getScheduled(Account account) throws DBException {
+    public List<ScheduledBoost> getScheduled(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

@@ -45,6 +45,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.PostState;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
@@ -141,7 +142,7 @@ public class PostMessageService extends IntentService {
             }
             if (watermarkText == null) {
                 try {
-                    Account account = new Account(context).getAccountByToken(dataPost.token);
+                    BaseAccount account = new Account(context).getAccountByToken(dataPost.token);
                     watermarkText = account.mastodon_account.username + "@" + account.instance;
                 } catch (DBException e) {
                     e.printStackTrace();

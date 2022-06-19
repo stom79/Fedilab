@@ -40,6 +40,7 @@ import app.fedilab.android.client.endpoints.MastodonSearchService;
 import app.fedilab.android.client.entities.api.Results;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.drawer.AccountsSearchAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -67,14 +68,14 @@ public class CrossActionHelper {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         new Thread(() -> {
             try {
-                List<Account> accounts = new Account(context).getCrossAccounts();
+                List<BaseAccount> accounts = new Account(context).getCrossAccounts();
                 if (accounts.size() == 1) {
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> fetchRemote(context, actionType, accounts.get(0), targetedAccount, targetedStatus);
                     mainHandler.post(myRunnable);
                 } else {
                     List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
-                    for (Account account : accounts) {
+                    for (BaseAccount account : accounts) {
                         accountList.add(account.mastodon_account);
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -82,9 +83,9 @@ public class CrossActionHelper {
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
                         builderSingle.setTitle(context.getString(R.string.choose_accounts));
                         final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
-                        final Account[] accountArray = new Account[accounts.size()];
+                        final BaseAccount[] accountArray = new Account[accounts.size()];
                         int i = 0;
-                        for (Account account : accounts) {
+                        for (BaseAccount account : accounts) {
                             accountArray[i] = account;
                             i++;
                         }
@@ -92,7 +93,7 @@ public class CrossActionHelper {
                         builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
                             boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
                             boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
-                            Account selectedAccount = accountArray[which];
+                            BaseAccount selectedAccount = accountArray[which];
                             if ((actionType == TypeOfCrossAction.REBLOG_ACTION && confirmBoost) || (actionType == TypeOfCrossAction.FAVOURITE_ACTION && confirmFav)) {
                                 AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
                                 if (actionType == TypeOfCrossAction.REBLOG_ACTION) {
@@ -127,7 +128,7 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote account or status
      */
-    private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
+    private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", SearchVM.class);
         if (targetedAccount != null) {
@@ -165,7 +166,7 @@ public class CrossActionHelper {
     /**
      * Do action when status or account has been fetched
      */
-    private static void applyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
+    private static void applyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
         AccountsVM accountsVM = null;
         StatusesVM statusesVM = null;
@@ -263,7 +264,7 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
-    public static void fetchRemoteStatus(@NonNull Context context, @NonNull Account ownerAccount, String url, Callback callback) {
+    public static void fetchRemoteStatus(@NonNull Context context, @NonNull BaseAccount ownerAccount, String url, Callback callback) {
         MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, url, null, "statuses", false, true, false, 0, null, null, 1);
@@ -306,7 +307,7 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
-    public static void fetchRemoteAccount(@NonNull Context context, @NonNull Account ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Callback callback) {
+    public static void fetchRemoteAccount(@NonNull Context context, @NonNull BaseAccount ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Callback callback) {
 
 
         MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);

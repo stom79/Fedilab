@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.jobs.NotificationsWorker;
 
 public class PushHelper {
@@ -49,7 +50,7 @@ public class PushHelper {
         switch (typeOfNotification) {
             case "PUSH_NOTIFICATIONS":
                 new Thread(() -> {
-                    List<Account> accounts = new Account(context).getPushNotificationAccounts();
+                    List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
                         List<String> distributors = UnifiedPush.getDistributors(context, new ArrayList<>());
@@ -84,8 +85,8 @@ public class PushHelper {
                 break;
             case "REPEAT_NOTIFICATIONS":
                 new Thread(() -> {
-                    List<Account> accounts = new Account(context).getPushNotificationAccounts();
-                    for (Account account : accounts) {
+                    List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
+                    for (BaseAccount account : accounts) {
                         ((Activity) context).runOnUiThread(() -> {
                             UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
                         });
@@ -98,8 +99,8 @@ public class PushHelper {
             case "NO_NOTIFICATIONS":
                 WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_NOTIFICATION);
                 new Thread(() -> {
-                    List<Account> accounts = new Account(context).getPushNotificationAccounts();
-                    for (Account account : accounts) {
+                    List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
+                    for (BaseAccount account : accounts) {
                         ((Activity) context).runOnUiThread(() -> {
                             UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
                         });
@@ -110,7 +111,7 @@ public class PushHelper {
     }
 
 
-    private static void registerAppWithDialog(Context context, List<Account> accounts) {
+    private static void registerAppWithDialog(Context context, List<BaseAccount> accounts) {
         if (accounts == null) {
             return;
         }
@@ -119,7 +120,7 @@ public class PushHelper {
             if (distributors.size() == 1) {
                 UnifiedPush.saveDistributor(context, distributors.get(0));
             }
-            for (Account account : accounts) {
+            for (BaseAccount account : accounts) {
                 UnifiedPush.registerApp(context, account.user_id + "@" + account.instance, new ArrayList<>(), "");
             }
             return;
@@ -131,7 +132,7 @@ public class PushHelper {
         alert.setSingleChoiceItems(distributorsStr, -1, (dialog, item) -> {
             String distributor = distributorsStr[item];
             UnifiedPush.saveDistributor(context, distributor);
-            for (Account account : accounts) {
+            for (BaseAccount account : accounts) {
                 UnifiedPush.registerApp(context, account.user_id + "@" + account.instance, new ArrayList<>(), "");
             }
             dialog.dismiss();

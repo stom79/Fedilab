@@ -40,6 +40,7 @@ import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
@@ -286,7 +287,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @param account app.fedilab.android.client.entities.app.Account
      * @return LiveData<ist < StatusDraft>>
      */
-    public LiveData<List<StatusDraft>> getDrafts(app.fedilab.android.client.entities.app.Account account) {
+    public LiveData<List<StatusDraft>> getDrafts(BaseAccount account) {
         statusDraftListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             List<StatusDraft> statusCacheDAO = null;

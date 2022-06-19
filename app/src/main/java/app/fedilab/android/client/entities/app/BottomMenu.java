@@ -118,7 +118,7 @@ public class BottomMenu implements Serializable {
         return bottomMenu.bottom_menu.get(position).item_menu_type;
     }
 
-    public BottomMenu hydrate(Account account, BottomNavigationView bottomNavigationView) {
+    public BottomMenu hydrate(BaseAccount account, BottomNavigationView bottomNavigationView) {
         bottomNavigationView.getMenu().clear();
         BottomMenu bottomMenu = null;
         try {
@@ -237,7 +237,7 @@ public class BottomMenu implements Serializable {
      * @param account Account
      * @return BottomMenu - {@link BottomMenu}
      */
-    public BottomMenu getAllBottomMenu(Account account) throws DBException {
+    public BottomMenu getAllBottomMenu(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -256,7 +256,7 @@ public class BottomMenu implements Serializable {
      * @param account Account
      * @return BottomMenu - {@link BottomMenu}
      */
-    public BottomMenu getBottomMenu(Account account) throws DBException {
+    public BottomMenu getBottomMenu(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

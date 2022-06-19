@@ -165,6 +165,7 @@ public class QuickLoad {
      * @return long - db id
      * @throws DBException exception with database
      */
+    @SuppressWarnings("UnusedReturnValue")
     public long deleteForAllAccount() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
@@ -184,7 +185,8 @@ public class QuickLoad {
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long deleteForAccount(Account account) throws DBException {
+    @SuppressWarnings("UnusedReturnValue")
+    public long deleteForAccount(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -202,11 +204,11 @@ public class QuickLoad {
     /**
      * Update a status in quickload
      *
-     * @param account   {@link Account}
+     * @param account   {@link BaseAccount}
      * @param newStatus - Status
      * @throws DBException exception with database
      */
-    public void updateStatus(Account account, Status newStatus) throws DBException {
+    public void updateStatus(BaseAccount account, Status newStatus) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -279,7 +281,7 @@ public class QuickLoad {
      * @param id      - String id of the status
      * @throws DBException exception with database
      */
-    public void deleteStatus(Account account, String id) throws DBException {
+    public void deleteStatus(BaseAccount account, String id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -375,7 +377,7 @@ public class QuickLoad {
      * @param ident        - the name for pinned timeline
      * @return SavedValues
      */
-    public QuickLoad getSavedValue(Account account, Timeline.TimeLineEnum timeLineType, String ident) {
+    public QuickLoad getSavedValue(BaseAccount account, Timeline.TimeLineEnum timeLineType, String ident) {
         if (cannotBeStored(timeLineType)) {
             return null;
         }
@@ -455,7 +457,7 @@ public class QuickLoad {
      * @return Statuses
      * @throws DBException - throws a db exception
      */
-    private QuickLoad get(String slug, Account account) throws DBException {
+    private QuickLoad get(String slug, BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

@@ -53,6 +53,7 @@ import app.fedilab.android.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.exception.DBException;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -70,7 +71,7 @@ public class NotificationsHelper {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String[] slugArray = slug.split("@");
-        Account accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
+        BaseAccount accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
         if (accountDb == null) {
             return;
         }
@@ -147,7 +148,7 @@ public class NotificationsHelper {
         return retrofit.create(MastodonNotificationsService.class);
     }
 
-    public static void onRetrieveNotifications(Context context, Notifications newNotifications, final Account account) {
+    public static void onRetrieveNotifications(Context context, Notifications newNotifications, final BaseAccount account) {
         List<Notification> notificationsReceived = newNotifications.notifications;
         if (notificationsReceived == null || notificationsReceived.size() == 0 || account == null)
             return;

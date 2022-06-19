@@ -35,6 +35,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.client.entities.api.PushSubscription;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.exception.DBException;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -79,7 +80,7 @@ public class PushNotifications {
         ECDH finalEcdh = ecdh;
         new Thread(() -> {
             String[] slugArray = slug.split("@");
-            Account accountDb = null;
+            BaseAccount accountDb = null;
             try {
                 accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
             } catch (DBException e) {

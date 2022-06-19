@@ -91,7 +91,7 @@ import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Tag;
-import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
@@ -122,7 +122,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             "..--..", ".-.-.-", ".----.",};
     private final List<Status> statusList;
     private final int TYPE_NORMAL = 0;
-    private final Account account;
+    private final BaseAccount account;
     private final String visibility;
     private final app.fedilab.android.client.entities.api.Account mentionedAccount;
     public ManageDrafts manageDrafts;
@@ -130,7 +130,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private AlertDialog alertDialogEmoji;
 
-    public ComposeAdapter(List<Status> statusList, int statusCount, Account account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility) {
+    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility) {
         this.statusList = statusList;
         this.statusCount = statusCount;
         this.account = account;
@@ -1210,8 +1210,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 ImageViewCompat.setImageTintList(holder.binding.buttonPoll, null);
             }
+            holder.binding.buttonPost.setEnabled(!statusDraft.submitted);
 
-            holder.binding.buttonPost.setOnClickListener(v -> manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id)));
+            holder.binding.buttonPost.setOnClickListener(v -> {
+                statusDraft.submitted = true;
+                notifyItemChanged(position);
+                manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id));
+            });
         }
 
     }

@@ -20,7 +20,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,36 +36,10 @@ import app.fedilab.android.sqlite.Sqlite;
  * Accounts details are serialized and can be for different softwares
  * The type of the software is stored in api field
  */
-public class Account implements Serializable {
+public class Account extends BaseAccount implements Serializable {
 
 
     private final SQLiteDatabase db;
-    @SerializedName("user_id")
-    public String user_id;
-    @SerializedName("instance")
-    public String instance;
-    @SerializedName("api")
-    public API api;
-    @SerializedName("software")
-    public String software;
-    @SerializedName("token")
-    public String token;
-    @SerializedName("refresh_token")
-    public String refresh_token;
-    @SerializedName("token_validity")
-    public long token_validity;
-    @SerializedName("client_id")
-    public String client_id;
-    @SerializedName("client_secret")
-    public String client_secret;
-    @SerializedName("created_at")
-    public Date created_at;
-    @SerializedName("updated_at")
-    public Date updated_at;
-    @SerializedName("mastodon_account")
-    public app.fedilab.android.client.entities.api.Account mastodon_account;
-    @SerializedName("admin")
-    public boolean admin;
 
     private transient Context context;
 
@@ -81,9 +54,9 @@ public class Account implements Serializable {
     }
 
     /**
-     * Serialized a Mastodon Account class
+     * Serialized a Mastodon BaseAccount class
      *
-     * @param mastodon_account {@link app.fedilab.android.client.entities.api.Account} to serialize
+     * @param mastodon_account {@link BaseAccount} to serialize
      * @return String serialized account
      */
     public static String mastodonAccountToStringStorage(app.fedilab.android.client.entities.api.Account mastodon_account) {
@@ -96,7 +69,7 @@ public class Account implements Serializable {
     }
 
     /**
-     * Unserialized a Mastodon Account
+     * Unserialized a Mastodon BaseAccount
      *
      * @param serializedAccount String serialized account
      * @return {@link app.fedilab.android.client.entities.api.Account}
@@ -111,11 +84,11 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns all Account in db
+     * Returns all BaseAccount in db
      *
-     * @return Account List<Account>
+     * @return BaseAccount List<BaseAccount>
      */
-    public List<Account> getPushNotificationAccounts() {
+    public List<BaseAccount> getPushNotificationAccounts() {
 
         try {
             Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA' OR " + Sqlite.COL_API + " = 'FRIENDICA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
@@ -128,11 +101,11 @@ public class Account implements Serializable {
     /**
      * Insert or update a user
      *
-     * @param account {@link Account}
+     * @param account {@link BaseAccount}
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long insertOrUpdate(Account account) throws DBException {
+    public long insertOrUpdate(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -149,11 +122,11 @@ public class Account implements Serializable {
     /**
      * Insert an account in db
      *
-     * @param account {@link Account}
+     * @param account {@link BaseAccount}
      * @return long - db id
      * @throws DBException exception with database
      */
-    private long insertAccount(Account account) throws DBException {
+    private long insertAccount(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -185,11 +158,11 @@ public class Account implements Serializable {
     /**
      * Update an account in db
      *
-     * @param account {@link Account}
+     * @param account {@link BaseAccount}
      * @return long - db id
      * @throws DBException exception with database
      */
-    private long updateAccount(Account account) throws DBException {
+    private long updateAccount(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -223,11 +196,11 @@ public class Account implements Serializable {
     /**
      * Check if a user exists in db
      *
-     * @param account Account {@link Account}
+     * @param account BaseAccount {@link BaseAccount}
      * @return boolean - user exists
      * @throws DBException Exception
      */
-    public boolean accountExist(Account account) throws DBException {
+    public boolean accountExist(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -240,13 +213,13 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns an Account by userId and instance
+     * Returns an BaseAccount by userId and instance
      *
      * @param userId   String
      * @param instance String
-     * @return Account {@link Account}
+     * @return BaseAccount {@link BaseAccount}
      */
-    public Account getUniqAccount(String userId, String instance) throws DBException {
+    public BaseAccount getUniqAccount(String userId, String instance) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -259,12 +232,12 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns an Account by token
+     * Returns an BaseAccount by token
      *
      * @param token String
-     * @return Account {@link Account}
+     * @return BaseAccount {@link BaseAccount}
      */
-    public Account getAccountByToken(String token) throws DBException {
+    public BaseAccount getAccountByToken(String token) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -277,11 +250,11 @@ public class Account implements Serializable {
     }
 
     /**
-     * Returns authenticated Account
+     * Returns authenticated BaseAccount
      *
-     * @return Account {@link Account}
+     * @return BaseAccount {@link BaseAccount}
      */
-    public Account getConnectedAccount() throws DBException {
+    public BaseAccount getConnectedAccount() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -297,9 +270,9 @@ public class Account implements Serializable {
     /**
      * Returns all accounts that allows cross-account actions
      *
-     * @return Account List<{@link Account}>
+     * @return BaseAccount List<{@link BaseAccount}>
      */
-    public List<Account> getCrossAccounts() throws DBException {
+    public List<BaseAccount> getCrossAccounts() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -314,9 +287,9 @@ public class Account implements Serializable {
     /**
      * Returns all accounts
      *
-     * @return Account List<{@link Account}>
+     * @return BaseAccount List<{@link BaseAccount}>
      */
-    public List<Account> getAll() throws DBException {
+    public List<BaseAccount> getAll() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -331,9 +304,9 @@ public class Account implements Serializable {
     /**
      * Returns last used account
      *
-     * @return Account  {@link Account}
+     * @return BaseAccount  {@link BaseAccount}
      */
-    public Account getLastUsedAccount() throws DBException {
+    public BaseAccount getLastUsedAccount() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -348,10 +321,10 @@ public class Account implements Serializable {
     /**
      * Remove an account from db
      *
-     * @param account {@link Account}
+     * @param account {@link BaseAccount}
      * @return int
      */
-    public int removeUser(Account account) throws DBException {
+    public int removeUser(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -360,15 +333,15 @@ public class Account implements Serializable {
     }
 
 
-    private List<Account> cursorToListUser(Cursor c) {
+    private List<BaseAccount> cursorToListUser(Cursor c) {
         //No element found
         if (c.getCount() == 0) {
             c.close();
             return null;
         }
-        List<Account> accountList = new ArrayList<>();
+        List<BaseAccount> accountList = new ArrayList<>();
         while (c.moveToNext()) {
-            Account account = convertCursorToAccount(c);
+            BaseAccount account = convertCursorToAccount(c);
             //We don't add in the list the current connected account
             if (!account.token.equalsIgnoreCase(BaseMainActivity.currentToken)) {
                 accountList.add(account);
@@ -379,15 +352,15 @@ public class Account implements Serializable {
         return accountList;
     }
 
-    private List<Account> cursorToListUserWithOwner(Cursor c) {
+    private List<BaseAccount> cursorToListUserWithOwner(Cursor c) {
         //No element found
         if (c.getCount() == 0) {
             c.close();
             return null;
         }
-        List<Account> accountList = new ArrayList<>();
+        List<BaseAccount> accountList = new ArrayList<>();
         while (c.moveToNext()) {
-            Account account = convertCursorToAccount(c);
+            BaseAccount account = convertCursorToAccount(c);
             //We don't add in the list the current connected account
             accountList.add(account);
         }
@@ -397,11 +370,11 @@ public class Account implements Serializable {
     }
 
     /***
-     * Method to hydrate an Account from database
+     * Method to hydrate an BaseAccount from database
      * @param c Cursor
-     * @return Account {@link Account}
+     * @return BaseAccount {@link BaseAccount}
      */
-    private Account cursorToUser(Cursor c) {
+    private BaseAccount cursorToUser(Cursor c) {
         //No element found
         if (c.getCount() == 0) {
             c.close();
@@ -410,7 +383,7 @@ public class Account implements Serializable {
         //Take the first element
         c.moveToFirst();
         //New user
-        Account account = convertCursorToAccount(c);
+        BaseAccount account = convertCursorToAccount(c);
         //Close the cursor
         c.close();
         return account;
@@ -420,10 +393,10 @@ public class Account implements Serializable {
      * Read cursor and hydrate without closing it
      *
      * @param c - Cursor
-     * @return Account
+     * @return BaseAccount
      */
-    private Account convertCursorToAccount(Cursor c) {
-        Account account = new Account();
+    private BaseAccount convertCursorToAccount(Cursor c) {
+        BaseAccount account = new BaseAccount();
         account.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
         account.client_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_APP_CLIENT_ID));
         account.client_secret = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_APP_CLIENT_SECRET));

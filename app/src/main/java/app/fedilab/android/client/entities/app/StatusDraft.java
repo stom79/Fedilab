@@ -278,7 +278,7 @@ public class StatusDraft implements Serializable {
      * @param account Account
      * @return List<StatusDraft> - List of {@link StatusDraft}
      */
-    public List<StatusDraft> geStatusDraftList(Account account) throws DBException {
+    public List<StatusDraft> geStatusDraftList(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -297,7 +297,7 @@ public class StatusDraft implements Serializable {
      * @param account Account
      * @return List<StatusDraft> - List of {@link StatusDraft}
      */
-    public List<StatusDraft> geStatusDraftScheduledList(Account account) throws DBException {
+    public List<StatusDraft> geStatusDraftScheduledList(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

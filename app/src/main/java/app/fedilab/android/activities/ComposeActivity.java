@@ -70,6 +70,7 @@ import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
 import app.fedilab.android.databinding.PopupContactBinding;
@@ -122,7 +123,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
     };
     private ActivityPaginationBinding binding;
-    private Account account;
+    private BaseAccount account;
     private String instance, token;
     private Uri photoFileUri;
     private ScheduledStatus scheduledStatus;

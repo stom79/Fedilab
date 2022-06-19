@@ -149,7 +149,7 @@ public class Pinned implements Serializable {
      * @param account Account
      * @return Pinned - {@link Pinned}
      */
-    public Pinned getPinned(Account account) throws DBException {
+    public Pinned getPinned(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -178,7 +178,7 @@ public class Pinned implements Serializable {
      * @param account Account
      * @return Pinned - {@link Pinned}
      */
-    public Pinned getAllPinned(Account account) throws DBException {
+    public Pinned getAllPinned(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

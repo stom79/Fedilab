@@ -238,7 +238,7 @@ public class StatusCache {
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long deleteForAccount(Account account) throws DBException {
+    public long deleteForAccount(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

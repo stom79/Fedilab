@@ -108,6 +108,7 @@ import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -142,7 +143,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static boolean show_boosts, show_replies, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
     Fragment currentFragment;
-    private Account account;
+    private BaseAccount account;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Pinned pinned;
@@ -242,7 +243,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             instanceIntent = extras.getString(Helper.PREF_INSTANCE);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
                 try {
-                    Account account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
+                    BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
                     headerMenuOpen = false;
                     Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
@@ -379,7 +380,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
                 new Thread(() -> {
                     try {
-                        List<Account> accounts = new Account(BaseMainActivity.this).getAll();
+                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getAll();
                         Handler mainHandler = new Handler(Looper.getMainLooper());
                         Runnable myRunnable = () -> {
                             binding.navView.getMenu().clear();
@@ -390,7 +391,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             SubMenu currentSubmenu = null;
                             String lastInstance = "";
                             if (accounts != null) {
-                                for (final Account account : accounts) {
+                                for (final BaseAccount account : accounts) {
                                     if (!currentToken.equalsIgnoreCase(account.token)) {
                                         if (!lastInstance.trim().equalsIgnoreCase(account.instance.trim())) {
                                             lastInstance = account.instance.toUpperCase();
@@ -682,12 +683,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .observe(BaseMainActivity.this, account1 -> {
                             //Initialize static var
                             getCurrentAccount(BaseMainActivity.this);
-                            //Set the Mastodon account
-                            Helper.setMastodonAccount(account1);
                             new Thread(() -> {
                                 try {
                                     //Update account in db
                                     new Account(BaseMainActivity.this).insertOrUpdate(getCurrentAccount(BaseMainActivity.this));
+                                    getCurrentAccount(BaseMainActivity.this);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }

@@ -132,6 +132,7 @@ import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
@@ -593,68 +594,7 @@ public class Helper {
         return date;
     }
 
-    /**
-     * Log out the authenticated user by removing its token
-     *
-     * @param activity Activity
-     * @param account  {@link Account}
-     * @throws DBException Exception
-     */
-    public static void removeAccount(Activity activity, Account account) throws DBException {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        //Current user
-        String userId = sharedpreferences.getString(PREF_USER_ID, null);
-        String instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
-        Account accountDB = new Account(activity);
-        boolean accountRemovedIsLogged = false;
-        //Remove the current account
-        if (account == null) {
-            account = accountDB.getUniqAccount(userId, instance);
-            accountRemovedIsLogged = true;
-        }
-        if (account != null) {
-            Account finalAccount = account;
-            OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
-            //Revoke the token
-            oauthVM.revokeToken(account.instance, account.token, account.client_id, account.client_secret);
-            //Revoke token and remove user
-            new Thread(() -> {
-                try {
-                    accountDB.removeUser(finalAccount);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
-        //If the account removed is not the logged one, no need to log out the current user
-        if (!accountRemovedIsLogged) {
-            return;
-        }
-        //Log out the current user
-        Account newAccount = accountDB.getLastUsedAccount();
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if (newAccount == null) {
-            editor.putString(PREF_USER_TOKEN, null);
-            editor.putString(PREF_USER_INSTANCE, null);
-            editor.putString(PREF_USER_ID, null);
-            editor.apply();
-            Intent loginActivity = new Intent(activity, LoginActivity.class);
-            activity.startActivity(loginActivity);
-            activity.finish();
-        } else {
-            editor.putString(PREF_USER_TOKEN, newAccount.token);
-            editor.putString(PREF_USER_INSTANCE, newAccount.instance);
-            editor.putString(PREF_USER_ID, newAccount.user_id);
-            BaseMainActivity.currentUserID = newAccount.user_id;
-            BaseMainActivity.currentToken = newAccount.token;
-            BaseMainActivity.currentInstance = newAccount.instance;
-            editor.apply();
-            Intent changeAccount = new Intent(activity, MainActivity.class);
-            changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            activity.startActivity(changeAccount);
-        }
-
-    }
+    private static BaseAccount currentAccount;
 
     /**
      * Converts dp to pixel
@@ -910,31 +850,66 @@ public class Helper {
     }
 
     /**
-     * Load a profile picture for the account
+     * Log out the authenticated user by removing its token
      *
-     * @param view    ImageView - the view where the image will be loaded
-     * @param account - {@link Account}
+     * @param activity Activity
+     * @param account  {@link Account}
+     * @throws DBException Exception
      */
-    public static void loadPP(ImageView view, Account account) {
-        Context context = view.getContext();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
-        String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-            Glide.with(view.getContext())
-                    .asDrawable()
-                    .load(targetedUrl)
-                    .thumbnail(0.1f)
-                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                    .into(view);
-        } else {
-            Glide.with(view.getContext())
-                    .asGif()
-                    .load(targetedUrl)
-                    .thumbnail(0.1f)
-                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                    .into(view);
+    public static void removeAccount(Activity activity, BaseAccount account) throws DBException {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        //Current user
+        String userId = sharedpreferences.getString(PREF_USER_ID, null);
+        String instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
+        Account accountDB = new Account(activity);
+        boolean accountRemovedIsLogged = false;
+        //Remove the current account
+        if (account == null) {
+            account = accountDB.getUniqAccount(userId, instance);
+            accountRemovedIsLogged = true;
         }
+        if (account != null) {
+            BaseAccount finalAccount = account;
+            OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
+            //Revoke the token
+            oauthVM.revokeToken(account.instance, account.token, account.client_id, account.client_secret);
+            //Revoke token and remove user
+            new Thread(() -> {
+                try {
+                    accountDB.removeUser(finalAccount);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        //If the account removed is not the logged one, no need to log out the current user
+        if (!accountRemovedIsLogged) {
+            return;
+        }
+        //Log out the current user
+        BaseAccount newAccount = accountDB.getLastUsedAccount();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        if (newAccount == null) {
+            editor.putString(PREF_USER_TOKEN, null);
+            editor.putString(PREF_USER_INSTANCE, null);
+            editor.putString(PREF_USER_ID, null);
+            editor.apply();
+            Intent loginActivity = new Intent(activity, LoginActivity.class);
+            activity.startActivity(loginActivity);
+            activity.finish();
+        } else {
+            editor.putString(PREF_USER_TOKEN, newAccount.token);
+            editor.putString(PREF_USER_INSTANCE, newAccount.instance);
+            editor.putString(PREF_USER_ID, newAccount.user_id);
+            BaseMainActivity.currentUserID = newAccount.user_id;
+            BaseMainActivity.currentToken = newAccount.token;
+            BaseMainActivity.currentInstance = newAccount.instance;
+            editor.apply();
+            Intent changeAccount = new Intent(activity, MainActivity.class);
+            changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(changeAccount);
+        }
+
     }
 
     /**
@@ -1045,154 +1020,31 @@ public class Helper {
     }
 
     /**
-     * Sends notification with intent
+     * Load a profile picture for the account
      *
-     * @param context Context
-     * @param intent  Intent associated to the notifcation
-     * @param icon    Bitmap profile picture
-     * @param title   String title of the notification
-     * @param message String message for the notification
+     * @param view    ImageView - the view where the image will be loaded
+     * @param account - {@link Account}
      */
-    @SuppressLint("UnspecifiedImmutableFlag")
-    public static void notify_user(Context context, int notificationId, Account account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        // prepare intent which is triggered if the user click on the notification
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        int requestCode = (int) System.currentTimeMillis();
-        PendingIntent pIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
+    public static void loadPP(ImageView view, BaseAccount account) {
+        Context context = view.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
+        String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
+        if (disableGif || (!targetedUrl.endsWith(".gif"))) {
+            Glide.with(view.getContext())
+                    .asDrawable()
+                    .load(targetedUrl)
+                    .thumbnail(0.1f)
+                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                    .into(view);
         } else {
-            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
+            Glide.with(view.getContext())
+                    .asGif()
+                    .load(targetedUrl)
+                    .thumbnail(0.1f)
+                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                    .into(view);
         }
-        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        // build notification
-        String channelId;
-        String channelTitle;
-
-        switch (notifType) {
-            case FAV:
-                channelId = "channel_favourite";
-                channelTitle = context.getString(R.string.channel_notif_fav);
-                break;
-            case FOLLLOW:
-                channelId = "channel_follow";
-                channelTitle = context.getString(R.string.channel_notif_follow);
-                break;
-            case MENTION:
-                channelId = "channel_mention";
-                channelTitle = context.getString(R.string.channel_notif_mention);
-                break;
-            case POLL:
-                channelId = "channel_poll";
-                channelTitle = context.getString(R.string.channel_notif_poll);
-                break;
-            case BACKUP:
-                channelId = "channel_backup";
-                channelTitle = context.getString(R.string.channel_notif_backup);
-                break;
-            case STORE:
-                channelId = "channel_store";
-                channelTitle = context.getString(R.string.channel_notif_media);
-                break;
-            case TOOT:
-                channelId = "channel_status";
-                channelTitle = context.getString(R.string.channel_notif_status);
-                break;
-            default:
-                channelId = "channel_boost";
-                channelTitle = context.getString(R.string.channel_notif_boost);
-        }
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notification).setTicker(message)
-                .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true);
-        if (notifType == NotifType.MENTION) {
-            if (message.length() > 500) {
-                message = message.substring(0, 499) + "…";
-            }
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
-        }
-        notificationBuilder.setGroup(account.mastodon_account.acct + "@" + account.instance)
-                .setContentIntent(pIntent)
-                .setContentText(message);
-        int ledColour = Color.BLUE;
-        int prefColor;
-        try {
-            prefColor = sharedpreferences.getInt(context.getString(R.string.SET_LED_COLOUR_VAL), LED_COLOUR);
-        } catch (ClassCastException e) {
-            prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL), String.valueOf(LED_COLOUR)));
-        }
-        switch (prefColor) {
-            case 0: // BLUE
-                ledColour = Color.BLUE;
-                break;
-            case 1: // CYAN
-                ledColour = Color.CYAN;
-                break;
-            case 2: // MAGENTA
-                ledColour = Color.MAGENTA;
-                break;
-            case 3: // GREEN
-                ledColour = Color.GREEN;
-                break;
-            case 4: // RED
-                ledColour = Color.RED;
-                break;
-            case 5: // YELLOW
-                ledColour = Color.YELLOW;
-                break;
-            case 6: // WHITE
-                ledColour = Color.WHITE;
-                break;
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel;
-            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            if (sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_SILENT), false)) {
-                channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_LOW);
-                channel.setSound(null, null);
-                channel.setVibrationPattern(new long[]{500, 500, 500});
-                channel.enableVibration(true);
-                channel.setLightColor(ledColour);
-            } else {
-                channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_DEFAULT);
-                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
-                AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                        .build();
-                channel.setSound(Uri.parse(soundUri), audioAttributes);
-            }
-            assert mNotificationManager != null;
-            mNotificationManager.createNotificationChannel(channel);
-        } else {
-            if (sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_SILENT), false)) {
-                notificationBuilder.setVibrate(new long[]{500, 500, 500});
-            } else {
-                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
-                notificationBuilder.setSound(Uri.parse(soundUri));
-            }
-            notificationBuilder.setLights(ledColour, 500, 1000);
-        }
-        notificationBuilder.setContentTitle(title);
-        notificationBuilder.setLargeIcon(icon);
-        notificationManager.notify(notificationId, notificationBuilder.build());
-
-        Notification summaryNotification =
-                new NotificationCompat.Builder(context, channelId)
-                        .setContentTitle(title)
-                        .setContentText(channelTitle)
-                        .setContentIntent(pIntent)
-                        .setLargeIcon(icon)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setGroup(account.mastodon_account.acct + "@" + account.instance)
-                        .setGroupSummary(true)
-                        .build();
-        notificationManager.notify(notificationId, summaryNotification);
     }
 
     /**
@@ -1547,7 +1399,156 @@ public class Helper {
         void onAttachmentCopied(Attachment attachment);
     }
 
-    private static WeakReference<Account> currentAccount;
+    /**
+     * Sends notification with intent
+     *
+     * @param context Context
+     * @param intent  Intent associated to the notifcation
+     * @param icon    Bitmap profile picture
+     * @param title   String title of the notification
+     * @param message String message for the notification
+     */
+    @SuppressLint("UnspecifiedImmutableFlag")
+    public static void notify_user(Context context, int notificationId, BaseAccount account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // prepare intent which is triggered if the user click on the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        int requestCode = (int) System.currentTimeMillis();
+        PendingIntent pIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
+        } else {
+            pIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        // build notification
+        String channelId;
+        String channelTitle;
+
+        switch (notifType) {
+            case FAV:
+                channelId = "channel_favourite";
+                channelTitle = context.getString(R.string.channel_notif_fav);
+                break;
+            case FOLLLOW:
+                channelId = "channel_follow";
+                channelTitle = context.getString(R.string.channel_notif_follow);
+                break;
+            case MENTION:
+                channelId = "channel_mention";
+                channelTitle = context.getString(R.string.channel_notif_mention);
+                break;
+            case POLL:
+                channelId = "channel_poll";
+                channelTitle = context.getString(R.string.channel_notif_poll);
+                break;
+            case BACKUP:
+                channelId = "channel_backup";
+                channelTitle = context.getString(R.string.channel_notif_backup);
+                break;
+            case STORE:
+                channelId = "channel_store";
+                channelTitle = context.getString(R.string.channel_notif_media);
+                break;
+            case TOOT:
+                channelId = "channel_status";
+                channelTitle = context.getString(R.string.channel_notif_status);
+                break;
+            default:
+                channelId = "channel_boost";
+                channelTitle = context.getString(R.string.channel_notif_boost);
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_notification).setTicker(message)
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(true);
+        if (notifType == NotifType.MENTION) {
+            if (message.length() > 500) {
+                message = message.substring(0, 499) + "…";
+            }
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+        }
+        notificationBuilder.setGroup(account.mastodon_account.acct + "@" + account.instance)
+                .setContentIntent(pIntent)
+                .setContentText(message);
+        int ledColour = Color.BLUE;
+        int prefColor;
+        try {
+            prefColor = sharedpreferences.getInt(context.getString(R.string.SET_LED_COLOUR_VAL), LED_COLOUR);
+        } catch (ClassCastException e) {
+            prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL), String.valueOf(LED_COLOUR)));
+        }
+        switch (prefColor) {
+            case 0: // BLUE
+                ledColour = Color.BLUE;
+                break;
+            case 1: // CYAN
+                ledColour = Color.CYAN;
+                break;
+            case 2: // MAGENTA
+                ledColour = Color.MAGENTA;
+                break;
+            case 3: // GREEN
+                ledColour = Color.GREEN;
+                break;
+            case 4: // RED
+                ledColour = Color.RED;
+                break;
+            case 5: // YELLOW
+                ledColour = Color.YELLOW;
+                break;
+            case 6: // WHITE
+                ledColour = Color.WHITE;
+                break;
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel;
+            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_SILENT), false)) {
+                channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_LOW);
+                channel.setSound(null, null);
+                channel.setVibrationPattern(new long[]{500, 500, 500});
+                channel.enableVibration(true);
+                channel.setLightColor(ledColour);
+            } else {
+                channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_DEFAULT);
+                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build();
+                channel.setSound(Uri.parse(soundUri), audioAttributes);
+            }
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(channel);
+        } else {
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_SILENT), false)) {
+                notificationBuilder.setVibrate(new long[]{500, 500, 500});
+            } else {
+                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
+                notificationBuilder.setSound(Uri.parse(soundUri));
+            }
+            notificationBuilder.setLights(ledColour, 500, 1000);
+        }
+        notificationBuilder.setContentTitle(title);
+        notificationBuilder.setLargeIcon(icon);
+        notificationManager.notify(notificationId, notificationBuilder.build());
+
+        Notification summaryNotification =
+                new NotificationCompat.Builder(context, channelId)
+                        .setContentTitle(title)
+                        .setContentText(channelTitle)
+                        .setContentIntent(pIntent)
+                        .setLargeIcon(icon)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setGroup(account.mastodon_account.acct + "@" + account.instance)
+                        .setGroupSummary(true)
+                        .build();
+        notificationManager.notify(notificationId, summaryNotification);
+    }
 
 
     public static void transfertIfExist(Context context) {
@@ -1614,23 +1615,15 @@ public class Helper {
         return "@fedilab_fetch_more_" + uuid;
     }
 
-    public static void setMastodonAccount(app.fedilab.android.client.entities.api.Account mastodon_account) {
-        if (currentAccount != null) {
-            currentAccount.get().mastodon_account = mastodon_account;
-        }
-    }
-
-    public static Account getCurrentAccount(Context context) {
-        if (currentAccount == null || currentAccount.get() == null || currentAccount.get().mastodon_account == null) {
+    public static BaseAccount getCurrentAccount(Context context) {
+        if (currentAccount == null) {
             try {
-                Account account = new Account(context).getUniqAccount(MainActivity.currentUserID, MainActivity.currentInstance);
-                currentAccount = new WeakReference<>(account);
-                currentAccount.get().mastodon_account = account.mastodon_account;
+                currentAccount = new Account(context).getUniqAccount(MainActivity.currentUserID, MainActivity.currentInstance);
             } catch (DBException e) {
                 e.printStackTrace();
             }
         }
-        return currentAccount.get();
+        return currentAccount;
     }
 
     public static class CacheTask {
