@@ -55,10 +55,47 @@ public class QuickLoad {
         db = null;
     }
 
+    private type typeOfFetch;
+
     public QuickLoad(Context context) {
         //Creation of the DB with tables
         this.db = Sqlite.getInstance(context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
         _mContext = context;
+        this.typeOfFetch = type.STATUSES;
+    }
+
+    public QuickLoad(Context context, type type) {
+        //Creation of the DB with tables
+        this.db = Sqlite.getInstance(context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+        _mContext = context;
+        this.typeOfFetch = type;
+    }
+
+    /**
+     * Update a QuickLoad in db
+     *
+     * @param quickLoad {@link QuickLoad}
+     * @throws DBException exception with database
+     */
+    private void updateStatus(QuickLoad quickLoad) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        ContentValues values = new ContentValues();
+        values.put(Sqlite.COL_POSITION, quickLoad.position);
+        if (quickLoad.statuses != null) {
+            values.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(quickLoad.statuses));
+        } else if (quickLoad.notifications != null) {
+            values.put(Sqlite.COL_STATUSES, Notification.notificationsToStringStorage(quickLoad.notifications));
+        }
+        //Inserts token
+        try {
+            db.update(Sqlite.TABLE_QUICK_LOAD,
+                    values, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
+                    new String[]{quickLoad.user_id, quickLoad.instance, quickLoad.slug});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -474,26 +511,36 @@ public class QuickLoad {
     }
 
     /**
-     * Update a QuickLoad in db
+     * Convert a cursor to QuickLoad
      *
-     * @param quickLoad {@link QuickLoad}
-     * @throws DBException exception with database
+     * @param c Cursor
+     * @return QuickLoad
      */
-    private void updateStatus(QuickLoad quickLoad) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
+    private QuickLoad cursorToQuickLoad(Cursor c) {
+        //No element found
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
         }
-        ContentValues values = new ContentValues();
-        values.put(Sqlite.COL_POSITION, quickLoad.position);
-        values.put(Sqlite.COL_STATUSES, StatusDraft.mastodonStatusListToStringStorage(quickLoad.statuses));
-        //Inserts token
-        try {
-            db.update(Sqlite.TABLE_QUICK_LOAD,
-                    values, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_SLUG + "=?",
-                    new String[]{quickLoad.user_id, quickLoad.instance, quickLoad.slug});
-        } catch (Exception e) {
-            e.printStackTrace();
+        //Take the first element
+        c.moveToFirst();
+        QuickLoad quickLoad = new QuickLoad();
+        quickLoad.id = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ID));
+        quickLoad.instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
+        quickLoad.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
+        quickLoad.slug = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SLUG));
+        if (typeOfFetch == type.STATUSES) {
+            quickLoad.statuses = StatusDraft.restoreStatusListFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
+        } else if (typeOfFetch == type.NOTIFICATIONS) {
+            quickLoad.notifications = Notification.restoreNotificationsFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
         }
+        quickLoad.position = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_POSITION));
+
+        //TimelineHelper.filterStatus(_mContext, quickLoad.statuses, TimelineHelper.FilterTimeLineType.PUBLIC);
+        quickLoad.statuses = SpannableHelper.convertStatus(_mContext, quickLoad.statuses);
+        //Close the cursor
+        c.close();
+        return quickLoad;
     }
 
     /**
@@ -536,33 +583,9 @@ public class QuickLoad {
         }
     }
 
-    /**
-     * Convert a cursor to QuickLoad
-     *
-     * @param c Cursor
-     * @return QuickLoad
-     */
-    private QuickLoad cursorToQuickLoad(Cursor c) {
-        //No element found
-        if (c.getCount() == 0) {
-            c.close();
-            return null;
-        }
-        //Take the first element
-        c.moveToFirst();
-        QuickLoad quickLoad = new QuickLoad();
-        quickLoad.id = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ID));
-        quickLoad.instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
-        quickLoad.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
-        quickLoad.slug = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SLUG));
-        quickLoad.statuses = StatusDraft.restoreStatusListFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
-        quickLoad.position = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_POSITION));
-
-        //TimelineHelper.filterStatus(_mContext, quickLoad.statuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-        quickLoad.statuses = SpannableHelper.convertStatus(_mContext, quickLoad.statuses);
-        //Close the cursor
-        c.close();
-        return quickLoad;
+    enum type {
+        STATUSES,
+        NOTIFICATIONS
     }
 
 

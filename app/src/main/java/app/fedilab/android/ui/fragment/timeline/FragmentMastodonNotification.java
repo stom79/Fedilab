@@ -50,7 +50,6 @@ import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
@@ -65,7 +64,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     private FragmentPaginationBinding binding;
     private NotificationsVM notificationsVM;
-    private FragmentMastodonNotification currentFragment;
     private boolean flagLoading;
     private static final int NOTIFICATION_PRESENT = -1;
     private static final int NOTIFICATION__AT_THE_BOTTOM = -2;
@@ -91,7 +89,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
         }
     };
-    private Notifications notifications;
     private String max_id, min_id, min_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
     private String instance, user_id;
@@ -122,7 +119,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        currentFragment = this;
         flagLoading = false;
         instance = MainActivity.currentInstance;
         user_id = MainActivity.currentUserID;
@@ -232,7 +228,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (aggregateNotification) {
             notifications.notifications = aggregateNotifications(notifications.notifications);
         }
-        if (notificationAdapter != null && this.notifications != null) {
+        if (notificationAdapter != null && this.notificationList != null) {
             int size = this.notificationList.size();
             this.notificationList.clear();
             this.notificationList = new ArrayList<>();
@@ -240,6 +236,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         this.notificationList = notifications.notifications;
         notificationAdapter = new NotificationAdapter(this.notificationList);
+        notificationAdapter.fetchMoreCallBack = this;
         mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
@@ -296,12 +293,12 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 return;
             }
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
-            if (direction != FragmentMastodonTimeline.DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
-                Statuses statuses = new Statuses();
-                statuses.statuses = quickLoad.statuses;
-                statuses.pagination = new Pagination();
-                statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
-                statuses.pagination.min_id = quickLoad.statuses.get(0).id;
+            if (direction != FragmentMastodonTimeline.DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.notifications != null && quickLoad.notifications.size() > 0) {
+                Notifications notifications = new Notifications();
+                notifications.notifications = quickLoad.notifications;
+                notifications.pagination = new Pagination();
+                notifications.pagination.max_id = quickLoad.notifications.get(quickLoad.statuses.size() - 1).id;
+                notifications.pagination.min_id = quickLoad.notifications.get(0).id;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> initializeNotificationView(notifications);
                 mainHandler.post(myRunnable);
@@ -316,17 +313,17 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                                 .observe(getViewLifecycleOwner(), this::initializeNotificationView);
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                                .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, false));
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                                .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing));
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                .observe(getViewLifecycleOwner(), notificationsReceived -> {
+                                .observe(getViewLifecycleOwner(), notificationsRefresh -> {
                                     if (notificationAdapter != null) {
-                                        dealWithPagination(notificationsReceived);
+                                        dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true);
                                     } else {
-                                        initializeNotificationView(notificationsReceived);
+                                        initializeNotificationView(notificationsRefresh);
                                     }
                                 });
                     }
@@ -486,31 +483,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         return position;
     }
 
-    /**
-     * Update view and pagination when scrolling down
-     *
-     * @param fetched_notifications Notifications
-     */
-    private void dealWithPagination(Notifications fetched_notifications) {
-        binding.loadingNextElements.setVisibility(View.GONE);
-        flagLoading = false;
-        if (currentFragment.notifications != null && fetched_notifications != null && fetched_notifications.notifications != null) {
-            flagLoading = fetched_notifications.pagination.max_id == null;
-            if (aggregateNotification) {
-                fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
-            }
-            int startId = 0;
-            //There are some statuses present in the timeline
-            if (currentFragment.notificationList.size() > 0) {
-                startId = currentFragment.notificationList.size();
-            }
-            currentFragment.notificationList.addAll(fetched_notifications.notifications);
-            max_id = fetched_notifications.pagination.max_id;
-            notificationAdapter.notifyItemRangeInserted(startId, fetched_notifications.notifications.size());
-        } else {
-            flagLoading = true;
-        }
-    }
 
     @Override
     public void onDestroyView() {
