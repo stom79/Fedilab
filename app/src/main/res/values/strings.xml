@@ -1501,6 +1501,7 @@
     <string name="SET_NOTIF_MEDIA" translatable="false">SET_NOTIF_MEDIA</string>
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
+    <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
     <string name="SET_NOTIF_FOLLOW_FILTER" translatable="false">SET_NOTIF_FOLLOW_FILTER</string>
     <string name="SET_NOTIF_ADD_FILTER" translatable="false">SET_NOTIF_ADD_FILTER</string>
     <string name="SET_NOTIF_MENTION_FILTER" translatable="false">SET_NOTIF_MENTION_FILTER</string>
@@ -1627,6 +1628,13 @@
     <string name="msg_share_image">Share Image</string>
     <string name="tap_here_to_refresh_poll">Tap here to refresh poll</string>
     <string name="action_announcement_from_to">Announcement · %1$s - %2$s</string>
+    <string name="delete_cache">Delete cache</string>
+    <string name="messages_in_cache_for_home">Messages in cache for Home</string>
+    <string name="messages_in_cache_for_other_timelines">Messages in cache for other timelines</string>
+    <string name="messages_stored_in_drafts">Messages stored in drafts</string>
+    <string name="built_in_browser_cache">Built-in browser cache</string>
+    <string name="files_cache">Fiiles cache</string>
+    <string name="files_cache_size">File cache size</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

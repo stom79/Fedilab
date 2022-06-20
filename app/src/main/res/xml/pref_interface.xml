@@ -35,6 +35,14 @@
         app:title="@string/set_enable_crash_report" />
 
     <androidx.preference.SeekBarPreference
+        android:defaultValue="110"
+        android:max="180"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FONT_SCALE_INT"
+        app:showSeekBarValue="true"
+        app:title="@string/text_size" />
+
+    <androidx.preference.SeekBarPreference
         android:defaultValue="100"
         android:max="1000"
         app:iconSpaceReserved="false"

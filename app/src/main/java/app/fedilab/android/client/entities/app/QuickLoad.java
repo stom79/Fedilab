@@ -22,6 +22,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.Notification;
@@ -145,6 +146,30 @@ public class QuickLoad {
         int count = mCount.getInt(0);
         mCount.close();
         return (count > 0);
+    }
+
+
+    /**
+     * Count statuses in cache for an account
+     *
+     * @param account Account {@link Account}
+     * @return int - Number of statuses
+     * @throws DBException Exception
+     */
+    public int count(BaseAccount account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        int count = 0;
+        Cursor c = db.query(Sqlite.TABLE_QUICK_LOAD, null, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                new String[]{account.user_id, account.instance}, null, null, null, null);
+        List<QuickLoad> quickLoadList = cursorToQuickLoadList(c);
+        if (quickLoadList != null) {
+            for (QuickLoad quickLoad : quickLoadList) {
+                count += quickLoad.statuses.size();
+            }
+        }
+        return count;
     }
 
     /**
@@ -510,6 +535,52 @@ public class QuickLoad {
         quickLoad.statuses = statuses.subList(startAt, endAt);
     }
 
+
+    /**
+     * Restore statusDraft list from db
+     *
+     * @param c Cursor
+     * @return List<Emoji>
+     */
+    private List<QuickLoad> cursorToQuickLoadList(Cursor c) {
+        //No element found
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
+        }
+        List<QuickLoad> quickLoads = new ArrayList<>();
+        while (c.moveToNext()) {
+            QuickLoad quickLoad = convertCursorToQuickLoad(c);
+            quickLoads.add(quickLoad);
+        }
+        //Close the cursor
+        c.close();
+        return quickLoads;
+    }
+
+    /**
+     * Convert a cursor to QuickLoad
+     *
+     * @param c Cursor
+     * @return QuickLoad
+     */
+    private QuickLoad convertCursorToQuickLoad(Cursor c) {
+        QuickLoad quickLoad = new QuickLoad();
+        quickLoad.id = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ID));
+        quickLoad.instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
+        quickLoad.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
+        quickLoad.slug = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SLUG));
+        if (typeOfFetch == type.STATUSES) {
+            quickLoad.statuses = StatusDraft.restoreStatusListFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
+        } else if (typeOfFetch == type.NOTIFICATIONS) {
+            quickLoad.notifications = Notification.restoreNotificationsFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
+        }
+        quickLoad.position = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_POSITION));
+        //TimelineHelper.filterStatus(_mContext, quickLoad.statuses, TimelineHelper.FilterTimeLineType.PUBLIC);
+        quickLoad.statuses = SpannableHelper.convertStatus(_mContext, quickLoad.statuses);
+        return quickLoad;
+    }
+
     /**
      * Convert a cursor to QuickLoad
      *
@@ -524,20 +595,7 @@ public class QuickLoad {
         }
         //Take the first element
         c.moveToFirst();
-        QuickLoad quickLoad = new QuickLoad();
-        quickLoad.id = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ID));
-        quickLoad.instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
-        quickLoad.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
-        quickLoad.slug = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_SLUG));
-        if (typeOfFetch == type.STATUSES) {
-            quickLoad.statuses = StatusDraft.restoreStatusListFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
-        } else if (typeOfFetch == type.NOTIFICATIONS) {
-            quickLoad.notifications = Notification.restoreNotificationsFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUSES)));
-        }
-        quickLoad.position = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_POSITION));
-
-        //TimelineHelper.filterStatus(_mContext, quickLoad.statuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-        quickLoad.statuses = SpannableHelper.convertStatus(_mContext, quickLoad.statuses);
+        QuickLoad quickLoad = convertCursorToQuickLoad(c);
         //Close the cursor
         c.close();
         return quickLoad;

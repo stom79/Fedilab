@@ -184,6 +184,11 @@
             android:theme="@style/AppThemeBarDark"
             android:windowSoftInputMode="stateVisible" />
 
+        <activity
+            android:name=".activities.CacheActivity"
+            android:label="@string/action_cache"
+            android:theme="@style/AppThemeBarDark" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

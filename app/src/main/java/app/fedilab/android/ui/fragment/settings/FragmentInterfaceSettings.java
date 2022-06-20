@@ -19,8 +19,12 @@ import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SeekBarPreference;
 
 import app.fedilab.android.R;
+import app.fedilab.android.helper.Helper;
+import es.dmoral.toasty.Toasty;
 
 public class FragmentInterfaceSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -30,8 +34,21 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         createPref();
     }
 
+    boolean recreate;
     private void createPref() {
-
+        getPreferenceScreen().removeAll();
+        addPreferencesFromResource(R.xml.pref_interface);
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+        if (preferenceScreen == null) {
+            Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+            return;
+        }
+        SeekBarPreference SET_FONT_SCALE = findPreference(getString(R.string.SET_FONT_SCALE_INT));
+        if (SET_FONT_SCALE != null) {
+            SET_FONT_SCALE.setMax(180);
+            SET_FONT_SCALE.setMin(80);
+        }
+        recreate = false;
     }
 
     @Override
@@ -39,7 +56,12 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         if (getActivity() != null) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             SharedPreferences.Editor editor = sharedpreferences.edit();
-
+            if (key.compareToIgnoreCase(getString(R.string.SET_FONT_SCALE_INT)) == 0) {
+                int progress = sharedPreferences.getInt(getString(R.string.SET_FONT_SCALE_INT), 110);
+                float scale = (float) (progress) / 100.0f;
+                editor.putFloat(getString(R.string.SET_FONT_SCALE), scale);
+                recreate = true;
+            }
             editor.apply();
         }
     }
@@ -57,6 +79,11 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+        if (recreate) {
+            recreate = false;
+            requireActivity().recreate();
+            Helper.recreateMainActivity(requireActivity());
+        }
     }
 
 

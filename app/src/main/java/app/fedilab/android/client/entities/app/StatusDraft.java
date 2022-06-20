@@ -73,6 +73,7 @@ public class StatusDraft implements Serializable {
         this.db = Sqlite.getInstance(context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
     }
 
+
     /**
      * Serialized a list of Status class
      *
@@ -188,6 +189,19 @@ public class StatusDraft implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         return db.delete(Sqlite.TABLE_STATUS_DRAFT, Sqlite.COL_USER_ID + " = '" + BaseMainActivity.currentUserID + "' AND " + Sqlite.COL_INSTANCE + " = '" + BaseMainActivity.currentInstance + "'", null);
+    }
+
+
+    public int count(BaseAccount account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_DRAFT
+                + " where " + Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return count;
     }
 
     /**

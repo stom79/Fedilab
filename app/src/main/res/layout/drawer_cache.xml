@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/pp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/display_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:maxLines="1"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/pp"
+        app:layout_constraintTop_toTopOf="@+id/pp"
+        tools:text="@tools:sample/full_names" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/acct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/pp"
+        app:layout_constraintTop_toBottomOf="@+id/display_name"
+        tools:text="@tools:sample/last_names" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/label_home_timeline_cache_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:checked="true"
+        android:text="@string/messages_in_cache_for_home"
+        app:buttonTint="@color/cyanea_accent_dark_reference"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/home_count"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_home_timeline_cache_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/label_home_timeline_cache_count"
+        tools:text="50" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/label_timelines_cache_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:checked="true"
+        android:text="@string/messages_in_cache_for_other_timelines"
+        app:buttonTint="@color/cyanea_accent_dark_reference"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_home_timeline_cache_count" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/other_count"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_timelines_cache_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/label_timelines_cache_count"
+        tools:text="150" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/label_drafts_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:checked="false"
+        android:text="@string/messages_stored_in_drafts"
+        app:buttonTint="@color/cyanea_accent_dark_reference"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_timelines_cache_count" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/draft_count"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_drafts_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/label_drafts_count"
+        tools:text="49" />
+</androidx.constraintlayout.widget.ConstraintLayout>

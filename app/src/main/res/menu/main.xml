@@ -14,10 +14,6 @@
         android:title="@string/proxy_set"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_size"
-        android:title="@string/text_size"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_logout_account"
         android:title="@string/action_logout_account"
         app:showAsAction="never" />
