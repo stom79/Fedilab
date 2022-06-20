@@ -96,23 +96,30 @@ public class EditProfileActivity extends BaseActivity {
         else
             bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
         binding.bio.setText(bio);
-        binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
+        if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null) {
+            binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
+            switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
+                case "public":
+                    binding.visibilityPublic.setChecked(true);
+                    break;
+                case "unlisted":
+                    binding.visibilityUnlisted.setChecked(true);
+                    break;
+                case "private":
+                    binding.visibilityPrivate.setChecked(true);
+                    break;
+                case "direct":
+                    binding.visibilityDirect.setChecked(true);
+                    break;
+            }
+        } else {
+            binding.sensitive.setVisibility(View.GONE);
+            binding.visibilityGroup.setVisibility(View.GONE);
+        }
+
         binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
         binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
-        switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
-            case "public":
-                binding.visibilityPublic.setChecked(true);
-                break;
-            case "unlisted":
-                binding.visibilityUnlisted.setChecked(true);
-                break;
-            case "private":
-                binding.visibilityPrivate.setChecked(true);
-                break;
-            case "direct":
-                binding.visibilityDirect.setChecked(true);
-                break;
-        }
+
         if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.locked) {
             binding.locked.setChecked(true);
         } else {

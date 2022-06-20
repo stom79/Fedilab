@@ -14,8 +14,6 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.networkAvailable;
-
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -173,29 +171,12 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             excludeType.remove("follow");
             excludeType.remove("follow_request");
         }
-        new Thread(() -> {
-            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
-        }).start();
-        router(null);
+        route(null, false);
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
     }
 
 
-    private void router(FragmentMastodonTimeline.DIRECTION direction) {
-        if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
-            new Thread(() -> {
-                if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
-                    networkAvailable = Helper.isConnectedToInternet(requireActivity(), BaseMainActivity.currentInstance);
-                }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> route(direction, false);
-                mainHandler.post(myRunnable);
-            }).start();
-        } else {
-            route(direction, false);
-        }
-    }
 
     @Override
     public void onResume() {
@@ -211,10 +192,18 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      * @param notifications {@link Notifications}
      */
     private void initializeNotificationView(final Notifications notifications) {
-
-        binding.loader.setVisibility(View.GONE);
-        binding.swipeContainer.setRefreshing(false);
         flagLoading = false;
+        if (binding == null) {
+            return;
+        }
+        binding.loader.setVisibility(View.GONE);
+        binding.noAction.setVisibility(View.GONE);
+        binding.swipeContainer.setRefreshing(false);
+        binding.swipeContainer.setOnRefreshListener(() -> {
+            binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
+            route(FragmentMastodonTimeline.DIRECTION.REFRESH, true);
+        });
         if (notifications == null || notifications.notifications == null || notifications.notifications.size() == 0) {
             binding.noActionText.setText(R.string.no_notifications);
             binding.noAction.setVisibility(View.VISIBLE);
@@ -223,6 +212,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else {
             binding.noAction.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
+        }
+        for (Notification notification : notifications.notifications) {
+            idOfAddedNotifications.add(notification.id);
         }
         flagLoading = notifications.pagination.max_id == null;
         if (aggregateNotification) {
@@ -234,13 +226,24 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             this.notificationList = new ArrayList<>();
             notificationAdapter.notifyItemRangeRemoved(0, size);
         }
-        this.notificationList = notifications.notifications;
+        if (this.notificationList == null) {
+            this.notificationList = new ArrayList<>();
+        }
+        this.notificationList.addAll(notifications.notifications);
+
+        if (max_id == null || (notifications.pagination.max_id != null && notifications.pagination.max_id.compareTo(max_id) < 0)) {
+            max_id = notifications.pagination.max_id;
+        }
+        if (min_id == null || (notifications.pagination.min_id != null && notifications.pagination.min_id.compareTo(min_id) > 0)) {
+            min_id = notifications.pagination.min_id;
+        }
+
         notificationAdapter = new NotificationAdapter(this.notificationList);
         notificationAdapter.fetchMoreCallBack = this;
         mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
-        max_id = notifications.pagination.max_id;
+
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -258,7 +261,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            router(FragmentMastodonTimeline.DIRECTION.BOTTOM);
+                            route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
                         }
                     } else {
                         binding.loadingNextElements.setVisibility(View.GONE);
@@ -267,18 +270,11 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     if (!flagLoading) {
                         flagLoading = true;
                         binding.loadingNextElements.setVisibility(View.VISIBLE);
-                        router(FragmentMastodonTimeline.DIRECTION.TOP);
+                        route(FragmentMastodonTimeline.DIRECTION.TOP, false);
                     }
                 }
             }
         });
-
-        binding.swipeContainer.setOnRefreshListener(() -> {
-            binding.swipeContainer.setRefreshing(true);
-            flagLoading = false;
-            route(FragmentMastodonTimeline.DIRECTION.REFRESH, true);
-        });
-
     }
 
 
@@ -316,7 +312,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                                 .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, false));
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing));
+                                .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing));
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
                                 .observe(getViewLifecycleOwner(), notificationsRefresh -> {
@@ -330,9 +326,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 };
                 mainHandler.post(myRunnable);
             }
-
         }).start();
-
     }
 
     private List<Notification> aggregateNotifications(List<Notification> notifications) {
