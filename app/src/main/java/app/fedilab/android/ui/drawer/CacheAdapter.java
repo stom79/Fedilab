@@ -24,8 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.activities.ProfileActivity;
-import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.CacheAccount;
 import app.fedilab.android.databinding.DrawerCacheBinding;
 import app.fedilab.android.helper.CacheHelper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -33,11 +32,10 @@ import app.fedilab.android.helper.MastodonHelper;
 
 public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static ProfileActivity.action doAction;
-    private final List<BaseAccount> accountList;
+    private final List<CacheAccount> accountList;
     private Context context;
 
-    public CacheAdapter(List<BaseAccount> accountList) {
+    public CacheAdapter(List<CacheAccount> accountList) {
         this.accountList = accountList;
     }
 
@@ -46,9 +44,10 @@ public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return accountList.size();
     }
 
-    public BaseAccount getItem(int position) {
+    public CacheAccount getItem(int position) {
         return accountList.get(position);
     }
+
 
     @NonNull
     @Override
@@ -60,18 +59,24 @@ public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        BaseAccount account = accountList.get(position);
+        CacheAccount cacheAccount = accountList.get(position);
         AccountCacheViewHolder holder = (AccountCacheViewHolder) viewHolder;
-        MastodonHelper.loadPPMastodon(holder.binding.pp, account.mastodon_account);
-        holder.binding.acct.setText(String.format("@%s@%s", account.mastodon_account.username, account.instance));
-        holder.binding.displayName.setText(account.mastodon_account.display_name);
-        CacheHelper.getTimelineValues(context, account, countStatuses -> {
+        MastodonHelper.loadPPMastodon(holder.binding.pp, cacheAccount.account.mastodon_account);
+        holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.mastodon_account.username, cacheAccount.account.instance));
+        holder.binding.displayName.setText(cacheAccount.account.mastodon_account.display_name);
+        CacheHelper.getTimelineValues(context, cacheAccount.account, countStatuses -> {
             if (countStatuses != null && countStatuses.size() == 3) {
                 holder.binding.homeCount.setText(String.valueOf(countStatuses.get(0)));
                 holder.binding.otherCount.setText(String.valueOf(countStatuses.get(1)));
                 holder.binding.draftCount.setText(String.valueOf(countStatuses.get(2)));
             }
         });
+        holder.binding.labelHomeTimelineCacheCount.setChecked(cacheAccount.clear_home);
+        holder.binding.labelTimelinesCacheCount.setChecked(cacheAccount.clear_other);
+        holder.binding.labelDraftsCount.setChecked(cacheAccount.clear_drafts);
+        holder.binding.labelHomeTimelineCacheCount.setOnCheckedChangeListener((compoundButton, checked) -> cacheAccount.clear_home = checked);
+        holder.binding.labelTimelinesCacheCount.setOnCheckedChangeListener((compoundButton, checked) -> cacheAccount.clear_other = checked);
+        holder.binding.labelDraftsCount.setOnCheckedChangeListener((compoundButton, checked) -> cacheAccount.clear_drafts = checked);
     }
 
     public long getItemId(int position) {

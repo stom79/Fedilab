@@ -191,6 +191,17 @@ public class StatusDraft implements Serializable {
         return db.delete(Sqlite.TABLE_STATUS_DRAFT, Sqlite.COL_USER_ID + " = '" + BaseMainActivity.currentUserID + "' AND " + Sqlite.COL_INSTANCE + " = '" + BaseMainActivity.currentInstance + "'", null);
     }
 
+    /**
+     * Remove all drafts for an account from db
+     *
+     * @return int
+     */
+    public int removeAllDraftFor(BaseAccount account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        return db.delete(Sqlite.TABLE_STATUS_DRAFT, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND " + Sqlite.COL_INSTANCE + " = '" + account.instance + "'", null);
+    }
 
     public int count(BaseAccount account) throws DBException {
         if (db == null) {

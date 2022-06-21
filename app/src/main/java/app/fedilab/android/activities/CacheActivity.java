@@ -19,27 +19,34 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.CacheAccount;
 import app.fedilab.android.databinding.ActivityCacheBinding;
 import app.fedilab.android.helper.CacheHelper;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.CacheAdapter;
 
 public class CacheActivity extends BaseActivity {
 
     private ActivityCacheBinding binding;
-
+    private List<CacheAccount> cacheAccounts;
+    private CacheAdapter cacheAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,23 +68,51 @@ public class CacheActivity extends BaseActivity {
 
         new Thread(() -> {
             List<BaseAccount> accounts = new Account(CacheActivity.this).getPushNotificationAccounts();
+            cacheAccounts = new ArrayList<>();
+            for (BaseAccount baseAccount : accounts) {
+                CacheAccount cacheAccount = new CacheAccount();
+                cacheAccount.account = baseAccount;
+                cacheAccounts.add(cacheAccount);
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                CacheAdapter cacheAdapter = new CacheAdapter(accounts);
+                cacheAdapter = new CacheAdapter(cacheAccounts);
+                binding.cacheRecyclerview.setAdapter(cacheAdapter);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(CacheActivity.this);
                 binding.cacheRecyclerview.setLayoutManager(mLayoutManager);
-                binding.cacheRecyclerview.setAdapter(cacheAdapter);
             };
             mainHandler.post(myRunnable);
         }).start();
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_cache, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_clear) {
+            AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(CacheActivity.this, Helper.dialogStyle());
+            deleteConfirm.setTitle(getString(R.string.delete_cache));
+            deleteConfirm.setMessage(getString(R.string.delete_cache_message));
+            deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            deleteConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
+                CacheHelper.clearCache(CacheActivity.this, binding.labelFileCache.isChecked(), cacheAccounts, () -> CacheHelper.getCacheValues(CacheActivity.this, size -> {
+                    if (size > 0) {
+                        size = size / 1000000.0f;
+                    }
+                    binding.fileCacheSize.setText(String.format("%s %s", String.format(Locale.getDefault(), "%.2f", size), getString(R.string.cache_units)));
+                    cacheAdapter.notifyDataSetChanged();
+                }));
+                dialog.dismiss();
+            });
+            deleteConfirm.create().show();
             return true;
         }
         return super.onOptionsItemSelected(item);

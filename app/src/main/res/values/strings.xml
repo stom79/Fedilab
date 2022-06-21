@@ -1635,6 +1635,8 @@
     <string name="built_in_browser_cache">Built-in browser cache</string>
     <string name="files_cache">Fiiles cache</string>
     <string name="files_cache_size">File cache size</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="delete_cache_message">Are you sure you want to delete cache? If you have drafts with media, the attached media will be lost.</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

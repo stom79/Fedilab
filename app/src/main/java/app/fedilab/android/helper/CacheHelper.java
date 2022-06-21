@@ -14,35 +14,21 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.helper.Helper.getCurrentAccount;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SwitchCompat;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
-import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.CacheAccount;
 import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
-import es.dmoral.toasty.Toasty;
 
 public class CacheHelper {
 
@@ -133,65 +119,46 @@ public class CacheHelper {
         void getcount(List<Integer> countStatuses);
     }
 
-    public static class CacheTask {
-        private final WeakReference<Context> contextReference;
-        private float cacheSize;
-
-        public CacheTask(Context context) {
-            contextReference = new WeakReference<>(context);
-            doInBackground();
-        }
-
-        protected void doInBackground() {
-            new Thread(() -> {
-                long sizeCache = cacheSize(contextReference.get().getCacheDir().getParentFile());
-                cacheSize = 0;
-                if (sizeCache > 0) {
-                    cacheSize = (float) sizeCache / 1000000.0f;
+    public static void clearCache(Context context, boolean clearFiles, List<CacheAccount> cacheAccounts, CallbackClear callbackClear) {
+        new Thread(() -> {
+            if (clearFiles) {
+                String path = context.getCacheDir().getParentFile().getPath();
+                File dir = new File(path);
+                if (dir.isDirectory()) {
+                    deleteDir(dir);
                 }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(contextReference.get(), Helper.dialogStyle());
-                    LayoutInflater inflater = ((BaseMainActivity) contextReference.get()).getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.popup_cache, new LinearLayout(contextReference.get()), false);
-                    TextView message = dialogView.findViewById(R.id.message);
-                    message.setText(contextReference.get().getString(R.string.cache_message, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", cacheSize), contextReference.get().getString(R.string.cache_units))));
-                    builder.setView(dialogView);
-                    builder.setTitle(R.string.cache_title);
+            }
+            for (CacheAccount cacheAccount : cacheAccounts) {
+                if (cacheAccount.clear_home) {
+                    try {
+                        new StatusCache(context).deleteForAccount(cacheAccount.account);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (cacheAccount.clear_other) {
+                    try {
+                        new QuickLoad(context).deleteForAccount(cacheAccount.account);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (cacheAccount.clear_drafts) {
+                    try {
+                        new StatusDraft(context).removeAllDraftFor(cacheAccount.account);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = callbackClear::onCleared;
+            mainHandler.post(myRunnable);
+        }).start();
+    }
 
-                    final SwitchCompat clean_all = dialogView.findViewById(R.id.clean_all);
-                    final float finalCacheSize = cacheSize;
-                    builder
-                            .setPositiveButton(R.string.clear, (dialog, which) -> new Thread(() -> {
-                                try {
-                                    String path = Objects.requireNonNull(contextReference.get().getCacheDir().getParentFile()).getPath();
-                                    File dir = new File(path);
-                                    if (dir.isDirectory()) {
-                                        deleteDir(dir);
-                                    }
-                                    if (clean_all.isChecked()) {
-                                        new QuickLoad(contextReference.get()).deleteForAllAccount();
-                                        new StatusCache(contextReference.get()).deleteForAllAccount();
-                                    } else {
-                                        new QuickLoad(contextReference.get()).deleteForAccount(getCurrentAccount(contextReference.get()));
-                                        new StatusCache(contextReference.get()).deleteForAccount(getCurrentAccount(contextReference.get()));
-                                    }
-                                    Handler mainHandler2 = new Handler(Looper.getMainLooper());
-                                    Runnable myRunnable2 = () -> {
-                                        Toasty.success(contextReference.get(), contextReference.get().getString(R.string.toast_cache_clear, String.format("%s %s", String.format(Locale.getDefault(), "%.2f", finalCacheSize), contextReference.get().getString(R.string.cache_units))), Toast.LENGTH_LONG).show();
-                                        dialog.dismiss();
-                                    };
-                                    mainHandler2.post(myRunnable2);
-                                } catch (Exception ignored) {
-                                }
-                            }).start())
-                            .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                };
-                mainHandler.post(myRunnable);
-            }).start();
-        }
+    public interface CallbackClear {
+        void onCleared();
     }
 
 }
