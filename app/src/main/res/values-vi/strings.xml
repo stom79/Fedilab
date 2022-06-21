@@ -1292,4 +1292,13 @@
     <string name="label_line">Đường thẳng</string>
     <string name="label_eraser_mode">Chế độ Xóa</string>
     <string name="label_adjust">Điều chỉnh</string>
+    <string name="delete_cache">Xóa cache</string>
+    <string name="messages_in_cache_for_home">Tút trong cache Bảng tin</string>
+    <string name="messages_in_cache_for_other_timelines">Tút trong cache những bản tin khác</string>
+    <string name="messages_stored_in_drafts">Tút nháp</string>
+    <string name="built_in_browser_cache">Trình duyệt tích hợp</string>
+    <string name="files_cache">Tập tin</string>
+    <string name="files_cache_size">Kích cỡ cache tập tin</string>
+    <string name="clear_cache">Xóa sạch cache</string>
+    <string name="delete_cache_message">Bạn có chắc muốn xóa cache\? Nếu bạn có tút nháp đính kèm media, nó sẽ bị mất.</string>
 </resources>
