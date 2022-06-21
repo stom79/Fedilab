@@ -481,7 +481,7 @@
     <string name="filters">Filtreler</string>
     <string name="action_filters_empty_content">Görüntülenecek filtre yok. \"+\" düğmesine tıklayarak bir tane oluşturabilirsiniz.</string>
     <string name="filter_keyword">Anahtar sözcük veya ifade</string>
-    <string name="context_home">Anasayfa</string>
+    <string name="context_home">Ana zaman çizelgesi</string>
     <string name="context_public">Genel zaman çizelgesi</string>
     <string name="context_notification">Bildirimler</string>
     <string name="context_conversation">Görüşmeler</string>
@@ -1287,4 +1287,13 @@
     <string name="msg_share_image">Resim Paylaş</string>
     <string name="tap_here_to_refresh_poll">Anketi yenilemek için buraya dokunun</string>
     <string name="action_announcement_from_to">Duyuru · %1$s - %2$s</string>
+    <string name="files_cache_size">Dosya önbellek boyutu</string>
+    <string name="delete_cache_message">Önbelleği silmek istediğinizden emin misiniz\? Medya içeren taslaklarınız varsa, ekli medya kaybolacaktır.</string>
+    <string name="messages_in_cache_for_home">Ana sayfa için önbellekteki mesajlar</string>
+    <string name="delete_cache">Önbelleği sil</string>
+    <string name="built_in_browser_cache">Yerleşik tarayıcı önbelleği</string>
+    <string name="clear_cache">Önbelleği temizle</string>
+    <string name="messages_in_cache_for_other_timelines">Diğer zaman çizelgeleri için önbellekteki mesajlar</string>
+    <string name="messages_stored_in_drafts">Taslaklarda saklanan mesajlar</string>
+    <string name="files_cache">Dosyalar önbelleği</string>
 </resources>
