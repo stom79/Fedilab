@@ -512,20 +512,22 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onDestroyView() {
         //Update last read id for home timeline
-        if (mLayoutManager != null) {
-            int position = mLayoutManager.findFirstVisibleItemPosition();
-            new Thread(() -> {
-                try {
-                    new QuickLoad(requireActivity()).storeTimeline(position, user_id, instance, timelineType, statuses, ident);
-                } catch (Exception ignored) {
-                }
-            }).start();
+        if (isAdded()) {
+            if (mLayoutManager != null) {
+                int position = mLayoutManager.findFirstVisibleItemPosition();
+                new Thread(() -> {
+                    try {
+                        new QuickLoad(requireActivity()).storeTimeline(position, user_id, instance, timelineType, statuses, ident);
+                    } catch (Exception ignored) {
+                    }
+                }).start();
+            }
+            storeMarker();
+            if (binding != null) {
+                binding.recyclerView.setAdapter(null);
+            }
+            LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         }
-        storeMarker();
-        if (binding != null) {
-            binding.recyclerView.setAdapter(null);
-        }
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         statusAdapter = null;
         binding = null;
         super.onDestroyView();

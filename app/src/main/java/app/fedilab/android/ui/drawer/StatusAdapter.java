@@ -1663,7 +1663,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int position = 0;
         if (statusList != null) {
             for (Status _status : statusList) {
-                if (_status.id.compareTo(status.id) == 0 || (_status.reblog != null && _status.reblog.id.compareTo(status.id) == 0)) {
+                if (status.id != null && ((_status.id != null && _status.id.compareTo(status.id) == 0) || (_status.reblog != null && _status.reblog.id != null && _status.reblog.id.compareTo(status.id) == 0))) {
                     break;
                 }
                 position++;

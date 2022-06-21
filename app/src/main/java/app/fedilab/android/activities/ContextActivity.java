@@ -97,25 +97,26 @@ public class ContextActivity extends BaseActivity {
         }).start();
         StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
         timelinesVM.getStatus(MainActivity.currentInstance, MainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
-            StatusCache statusCache = new StatusCache();
-            statusCache.instance = MainActivity.currentInstance;
-            statusCache.user_id = MainActivity.currentUserID;
-            statusCache.status = status;
-            statusCache.status_id = status.id;
-            //Update cache
-            new Thread(() -> {
-                try {
-                    new StatusCache(getApplication()).updateIfExists(statusCache);
-                    new QuickLoad(getApplication().getApplicationContext()).updateStatus(Helper.getCurrentAccount(ContextActivity.this), status);
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    //Update UI
-                    Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);
-                    mainHandler.post(myRunnable);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
+            if (status != null) {
+                StatusCache statusCache = new StatusCache();
+                statusCache.instance = MainActivity.currentInstance;
+                statusCache.user_id = MainActivity.currentUserID;
+                statusCache.status = status;
+                statusCache.status_id = status.id;
+                //Update cache
+                new Thread(() -> {
+                    try {
+                        new StatusCache(getApplication()).updateIfExists(statusCache);
+                        new QuickLoad(getApplication().getApplicationContext()).updateStatus(Helper.getCurrentAccount(ContextActivity.this), status);
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        //Update UI
+                        Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);
+                        mainHandler.post(myRunnable);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
         });
     }
 
