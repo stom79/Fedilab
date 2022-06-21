@@ -454,6 +454,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
                 this.statuses.add(insertAt, statusFetchMore);
                 statusAdapter.notifyItemInserted(insertAt);
+                if (direction == DIRECTION.TOP && lastInsertedPosition + 1 < statuses.size()) {
+                    binding.recyclerView.scrollToPosition(lastInsertedPosition + 1);
+                }
             }
         }
         return numberInserted;
