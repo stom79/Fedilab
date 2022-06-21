@@ -18,7 +18,6 @@ import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.helper.CacheHelper.deleteDir;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.helper.Helper.getCurrentAccount;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -141,13 +140,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static boolean filterFetched;
     public static boolean show_boosts, show_replies, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
+    public static BaseAccount currentAccount;
     Fragment currentFragment;
-    private BaseAccount account;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Pinned pinned;
     private BottomMenu bottomMenu;
-
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -158,7 +156,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     redrawPinned(mastodonLists);
                 }
                 if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
-                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
+                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
                     if (bottomMenu != null) {
                         //ManageClick on bottom menu items
                         if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
@@ -366,7 +364,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account.mastodon_account);
+            b.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
             intent.putExtras(b);
             ActivityOptionsCompat options = ActivityOptionsCompat
                     .makeSceneTransitionAnimation(BaseMainActivity.this, headerMainBinding.instanceInfoContainer, getString(R.string.activity_porfile_pp));
@@ -500,17 +498,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (itemId == R.id.action_logout_account) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
                     alt_bld.setTitle(R.string.action_logout);
-                    if (account.mastodon_account != null && account.mastodon_account.username != null && account.instance != null) {
-                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.username, account.instance));
-                    } else if (account.mastodon_account != null && account.mastodon_account.acct != null) {
-                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.acct, ""));
+                    if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.username != null && currentAccount.instance != null) {
+                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
+                    } else if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.acct != null) {
+                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.acct, ""));
                     } else {
                         alt_bld.setMessage(getString(R.string.logout_account_confirmation, "", ""));
                     }
                     alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
                         dialog.dismiss();
                         try {
-                            Helper.removeAccount(BaseMainActivity.this, null);
+                            Helper.removeAccount(BaseMainActivity.this);
                         } catch (DBException e) {
                             e.printStackTrace();
                         }
@@ -536,28 +534,28 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             });
             popup.show();
         });
-        account = null;
+        currentAccount = null;
         //Update account details
         new Thread(() -> {
             try {
-                account = new Account(BaseMainActivity.this).getConnectedAccount();
+                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
             } catch (DBException e) {
                 e.printStackTrace();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (account == null) {
+                if (currentAccount == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
                     startActivity(myIntent);
                     finish();
                     return;
                 }
-                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(account, binding.bottomNavView);
-                if (account.mastodon_account.locked) {
+                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                if (currentAccount.mastodon_account.locked) {
                     binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
                 }
-                if (account.admin) {
+                if (currentAccount.admin) {
                     binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
                 }
                 if (bottomMenu != null) {
@@ -603,8 +601,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     });
                 }
 
-                currentInstance = account.instance;
-                currentUserID = account.user_id;
+                currentInstance = currentAccount.instance;
+                currentUserID = currentAccount.user_id;
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
                 show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
                 regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
@@ -612,14 +610,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
-                Helper.loadPP(binding.profilePicture, account);
-                headerMainBinding.accountAcc.setText(String.format("%s@%s", account.mastodon_account.username, account.instance));
-                if (account.mastodon_account.display_name.isEmpty()) {
-                    account.mastodon_account.display_name = account.mastodon_account.acct;
+                Helper.loadPP(binding.profilePicture, currentAccount);
+                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
+                if (currentAccount.mastodon_account.display_name.isEmpty()) {
+                    currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
-                headerMainBinding.accountName.setText(account.mastodon_account.display_name);
-                Helper.loadPP(headerMainBinding.accountProfilePicture, account);
-                MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, account.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+                headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
+                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount);
+                MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
                  *  - Instance info (for limits)
@@ -637,14 +635,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getFilters(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
-                        .observe(BaseMainActivity.this, account1 -> {
+                        .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            getCurrentAccount(BaseMainActivity.this);
+                            currentAccount.mastodon_account = mastodonAccount;
                             new Thread(() -> {
                                 try {
                                     //Update account in db
-                                    new Account(BaseMainActivity.this).insertOrUpdate(getCurrentAccount(BaseMainActivity.this));
-                                    getCurrentAccount(BaseMainActivity.this);
+                                    new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }

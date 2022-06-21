@@ -60,11 +60,11 @@ import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 public class FragmentMastodonNotification extends Fragment implements NotificationAdapter.FetchMoreCallBack {
 
 
+    private static final int NOTIFICATION_PRESENT = -1;
+    private static final int NOTIFICATION__AT_THE_BOTTOM = -2;
     private FragmentPaginationBinding binding;
     private NotificationsVM notificationsVM;
     private boolean flagLoading;
-    private static final int NOTIFICATION_PRESENT = -1;
-    private static final int NOTIFICATION__AT_THE_BOTTOM = -2;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -175,7 +175,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
     }
-
 
 
     @Override
@@ -510,6 +509,26 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onPause();
     }
 
+    @Override
+    public void onClick(String min_id, String id) {
+        //Fetch more has been pressed
+        min_id_fetch_more = min_id;
+        Notification notification = null;
+        int position = 0;
+        for (Notification currentNotification : this.notificationList) {
+            if (currentNotification.id.compareTo(id) == 0) {
+                notification = currentNotification;
+                break;
+            }
+            position++;
+        }
+        if (notification != null) {
+            this.notificationList.remove(position);
+            notificationAdapter.notifyItemRemoved(position);
+        }
+        route(FragmentMastodonTimeline.DIRECTION.TOP, true);
+    }
+
 
     public enum NotificationTypeEnum {
         @SerializedName("ALL")
@@ -536,26 +555,5 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         public String getValue() {
             return value;
         }
-    }
-
-
-    @Override
-    public void onClick(String min_id, String id) {
-        //Fetch more has been pressed
-        min_id_fetch_more = min_id;
-        Notification notification = null;
-        int position = 0;
-        for (Notification currentNotification : this.notificationList) {
-            if (currentNotification.id.compareTo(id) == 0) {
-                notification = currentNotification;
-                break;
-            }
-            position++;
-        }
-        if (notification != null) {
-            this.notificationList.remove(position);
-            notificationAdapter.notifyItemRemoved(position);
-        }
-        route(FragmentMastodonTimeline.DIRECTION.TOP, true);
     }
 }

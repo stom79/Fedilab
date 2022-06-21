@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.webview.ProxyHelper.setProxy;
 
 import android.annotation.SuppressLint;
@@ -588,7 +589,6 @@ public class Helper {
         return date;
     }
 
-    private static BaseAccount currentAccount;
 
     /**
      * Converts dp to pixel
@@ -847,58 +847,40 @@ public class Helper {
      * Log out the authenticated user by removing its token
      *
      * @param activity Activity
-     * @param account  {@link Account}
      * @throws DBException Exception
      */
-    public static void removeAccount(Activity activity, BaseAccount account) throws DBException {
+    public static void removeAccount(Activity activity) throws DBException {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         //Current user
         String userId = sharedpreferences.getString(PREF_USER_ID, null);
         String instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         Account accountDB = new Account(activity);
-        boolean accountRemovedIsLogged = false;
-        //Remove the current account
-        if (account == null) {
-            account = accountDB.getUniqAccount(userId, instance);
-            accountRemovedIsLogged = true;
-        }
-        if (account != null) {
-            BaseAccount finalAccount = account;
-            OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
-            //Revoke the token
-            oauthVM.revokeToken(account.instance, account.token, account.client_id, account.client_secret);
-            //Revoke token and remove user
-            new Thread(() -> {
-                try {
-                    accountDB.removeUser(finalAccount);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
-        //If the account removed is not the logged one, no need to log out the current user
-        if (!accountRemovedIsLogged) {
-            return;
-        }
+
+        OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
+
+        //Revoke the token
+        oauthVM.revokeToken(currentAccount.instance, currentAccount.token, currentAccount.client_id, currentAccount.client_secret);
         //Log out the current user
+        accountDB.removeUser(currentAccount);
         BaseAccount newAccount = accountDB.getLastUsedAccount();
         SharedPreferences.Editor editor = sharedpreferences.edit();
         if (newAccount == null) {
             editor.putString(PREF_USER_TOKEN, null);
             editor.putString(PREF_USER_INSTANCE, null);
             editor.putString(PREF_USER_ID, null);
-            editor.apply();
+            editor.commit();
             Intent loginActivity = new Intent(activity, LoginActivity.class);
             activity.startActivity(loginActivity);
             activity.finish();
         } else {
+            currentAccount = newAccount;
             editor.putString(PREF_USER_TOKEN, newAccount.token);
             editor.putString(PREF_USER_INSTANCE, newAccount.instance);
             editor.putString(PREF_USER_ID, newAccount.user_id);
             BaseMainActivity.currentUserID = newAccount.user_id;
             BaseMainActivity.currentToken = newAccount.token;
             BaseMainActivity.currentInstance = newAccount.instance;
-            editor.apply();
+            editor.commit();
             Intent changeAccount = new Intent(activity, MainActivity.class);
             changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(changeAccount);
@@ -1325,31 +1307,6 @@ public class Helper {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    //Enum that described actions to replace inside a toot content
-    public enum PatternType {
-        MENTION,
-        MENTION_LONG,
-        TAG,
-        GROUP
-    }
-
-    public enum NotifType {
-        FOLLLOW,
-        MENTION,
-        BOOST,
-        FAV,
-        POLL,
-        STATUS,
-        BACKUP,
-        STORE,
-        TOOT
-    }
-
-
-    public interface OnAttachmentCopied {
-        void onAttachmentCopied(Attachment attachment);
-    }
-
     /**
      * Sends notification with intent
      *
@@ -1501,7 +1458,6 @@ public class Helper {
         notificationManager.notify(notificationId, summaryNotification);
     }
 
-
     public static void transfertIfExist(Context context) {
         File dbFile = context.getDatabasePath(OLD_DB_NAME);
         if (!dbFile.exists()) {
@@ -1524,7 +1480,6 @@ public class Helper {
         }
         context.deleteDatabase(OLD_DB_NAME);
     }
-
 
     public static String dateDiffFull(Date dateToot) {
         SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM, Locale.getDefault());
@@ -1566,16 +1521,29 @@ public class Helper {
         return "@fedilab_fetch_more_" + uuid;
     }
 
-    public static BaseAccount getCurrentAccount(Context context) {
-        if (currentAccount == null) {
-            try {
-                currentAccount = new Account(context).getUniqAccount(MainActivity.currentUserID, MainActivity.currentInstance);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-        }
-        return currentAccount;
+
+    //Enum that described actions to replace inside a toot content
+    public enum PatternType {
+        MENTION,
+        MENTION_LONG,
+        TAG,
+        GROUP
     }
 
+    public enum NotifType {
+        FOLLLOW,
+        MENTION,
+        BOOST,
+        FAV,
+        POLL,
+        STATUS,
+        BACKUP,
+        STORE,
+        TOOT
+    }
+
+    public interface OnAttachmentCopied {
+        void onAttachmentCopied(Attachment attachment);
+    }
 
 }

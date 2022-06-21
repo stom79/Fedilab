@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -107,7 +109,7 @@ public class HashTagActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.action_add_timeline) {
             new Thread(() -> {
                 try {
-                    Pinned pinned = new Pinned(HashTagActivity.this).getPinned(Helper.getCurrentAccount(HashTagActivity.this));
+                    Pinned pinned = new Pinned(HashTagActivity.this).getPinned(currentAccount);
                     boolean canBeAdded = true;
                     boolean update = true;
                     if (pinned == null) {

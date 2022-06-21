@@ -109,16 +109,6 @@ public class CacheHelper {
         }
     }
 
-
-    public interface Callback {
-        void getCacheSize(float size);
-    }
-
-
-    public interface CallbackAccount {
-        void getcount(List<Integer> countStatuses);
-    }
-
     public static void clearCache(Context context, boolean clearFiles, List<CacheAccount> cacheAccounts, CallbackClear callbackClear) {
         new Thread(() -> {
             if (clearFiles) {
@@ -155,6 +145,15 @@ public class CacheHelper {
             Runnable myRunnable = callbackClear::onCleared;
             mainHandler.post(myRunnable);
         }).start();
+    }
+
+
+    public interface Callback {
+        void getCacheSize(float size);
+    }
+
+    public interface CallbackAccount {
+        void getcount(List<Integer> countStatuses);
     }
 
     public interface CallbackClear {

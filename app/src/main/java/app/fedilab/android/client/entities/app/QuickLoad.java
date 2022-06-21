@@ -51,12 +51,11 @@ public class QuickLoad {
     @SerializedName("notifications")
     public List<Notification> notifications;
     private Context _mContext;
+    private type typeOfFetch;
 
     public QuickLoad() {
         db = null;
     }
-
-    private type typeOfFetch;
 
     public QuickLoad(Context context) {
         //Creation of the DB with tables
@@ -70,6 +69,16 @@ public class QuickLoad {
         this.db = Sqlite.getInstance(context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
         _mContext = context;
         this.typeOfFetch = type;
+    }
+
+    /**
+     * Check if the current timeline can be stored
+     *
+     * @param timeLineType - Timeline.TimeLineEnum
+     * @return boolean
+     */
+    private static boolean cannotBeStored(Timeline.TimeLineEnum timeLineType) {
+        return timeLineType != Timeline.TimeLineEnum.HOME && timeLineType != Timeline.TimeLineEnum.LOCAL && timeLineType != Timeline.TimeLineEnum.PUBLIC && timeLineType != Timeline.TimeLineEnum.REMOTE && timeLineType != Timeline.TimeLineEnum.LIST && timeLineType != Timeline.TimeLineEnum.TAG;
     }
 
     /**
@@ -97,16 +106,6 @@ public class QuickLoad {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Check if the current timeline can be stored
-     *
-     * @param timeLineType - Timeline.TimeLineEnum
-     * @return boolean
-     */
-    private static boolean cannotBeStored(Timeline.TimeLineEnum timeLineType) {
-        return timeLineType != Timeline.TimeLineEnum.HOME && timeLineType != Timeline.TimeLineEnum.LOCAL && timeLineType != Timeline.TimeLineEnum.PUBLIC && timeLineType != Timeline.TimeLineEnum.REMOTE && timeLineType != Timeline.TimeLineEnum.LIST && timeLineType != Timeline.TimeLineEnum.TAG;
     }
 
     /**

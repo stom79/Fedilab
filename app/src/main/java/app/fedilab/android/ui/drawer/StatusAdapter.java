@@ -139,8 +139,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
-    private Context context;
     public FetchMoreCallBack fetchMoreCallBack;
+    private Context context;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
         this.statusList = statuses;
@@ -1818,10 +1818,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public interface FetchMoreCallBack {
-        void onClick(String min_id, String fetchmoreId);
-    }
-
     @Override
     public int getItemCount() {
         return statusList.size();
@@ -1836,6 +1832,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof StatusViewHolder && ((StatusViewHolder) holder).dateTimer != null) {
             ((StatusViewHolder) holder).dateTimer.cancel();
         }
+    }
+
+    public interface FetchMoreCallBack {
+        void onClick(String min_id, String fetchmoreId);
     }
 
     public static class StatusViewHolder extends RecyclerView.ViewHolder {

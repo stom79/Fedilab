@@ -14,6 +14,7 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
 import android.content.Intent;
@@ -74,7 +75,7 @@ public class EditProfileActivity extends BaseActivity {
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {
                     if (account != null) {
-                        Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
+                        currentAccount.mastodon_account = account;
                         initializeView();
                     } else {
                         Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
@@ -86,19 +87,19 @@ public class EditProfileActivity extends BaseActivity {
     @SuppressWarnings("deprecation")
     private void initializeView() {
         //Hydrate values
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account, MastodonHelper.MediaAccountType.HEADER);
-        MastodonHelper.loadPPMastodon(binding.accountPp, Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account);
-        binding.displayName.setText(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.display_name);
-        binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.acct, BaseMainActivity.currentInstance));
+        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadPPMastodon(binding.accountPp, currentAccount.mastodon_account);
+        binding.displayName.setText(currentAccount.mastodon_account.display_name);
+        binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", currentAccount.mastodon_account.acct, BaseMainActivity.currentInstance));
         String bio;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note, Html.FROM_HTML_MODE_LEGACY).toString();
+            bio = Html.fromHtml(currentAccount.mastodon_account.note, Html.FROM_HTML_MODE_LEGACY).toString();
         else
-            bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
+            bio = Html.fromHtml(currentAccount.mastodon_account.note).toString();
         binding.bio.setText(bio);
-        if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null) {
-            binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
-            switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
+        if (currentAccount.mastodon_account.source != null) {
+            binding.sensitive.setChecked(currentAccount.mastodon_account.source.sensitive);
+            switch (currentAccount.mastodon_account.source.privacy) {
                 case "public":
                     binding.visibilityPublic.setChecked(true);
                     break;
@@ -117,15 +118,15 @@ public class EditProfileActivity extends BaseActivity {
             binding.visibilityGroup.setVisibility(View.GONE);
         }
 
-        binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
-        binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
+        binding.bot.setChecked(currentAccount.mastodon_account.bot);
+        binding.discoverable.setChecked(currentAccount.mastodon_account.discoverable);
 
-        if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.locked) {
+        if (currentAccount.mastodon_account.locked) {
             binding.locked.setChecked(true);
         } else {
             binding.unlocked.setChecked(true);
         }
-        List<Field> fields = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.fields;
+        List<Field> fields = currentAccount.mastodon_account.fields;
         if (fields != null && fields.size() > 0) {
             for (Field field : fields) {
                 AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
@@ -201,11 +202,11 @@ public class EditProfileActivity extends BaseActivity {
                         if (account != null) {
                             sendBroadCast(account);
                             binding.avatarProgress.setVisibility(View.GONE);
-                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
+                            currentAccount.mastodon_account = account;
                             Helper.recreateMainActivity(EditProfileActivity.this);
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(currentAccount);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -226,10 +227,10 @@ public class EditProfileActivity extends BaseActivity {
                         if (account != null) {
                             sendBroadCast(account);
                             binding.headerProgress.setVisibility(View.GONE);
-                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
+                            currentAccount.mastodon_account = account;
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(currentAccount);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -320,10 +321,10 @@ public class EditProfileActivity extends BaseActivity {
             )
                     .observe(EditProfileActivity.this, account -> {
                         if (account != null) {
-                            Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account = account;
+                            currentAccount.mastodon_account = account;
                             new Thread(() -> {
                                 try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(currentAccount);
                                     sendBroadCast(account);
                                 } catch (DBException e) {
                                     e.printStackTrace();

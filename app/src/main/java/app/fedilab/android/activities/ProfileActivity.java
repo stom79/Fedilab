@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -541,7 +543,7 @@ public class ProfileActivity extends BaseActivity {
     private void updateAccount() {
 
         //The value for account is from same server so id can be used
-        if (account.id.equals(Helper.getCurrentAccount(ProfileActivity.this).user_id)) {
+        if (account.id.equals(currentAccount.user_id)) {
             binding.accountFollow.setVisibility(View.GONE);
             binding.headerEditProfile.setVisibility(View.VISIBLE);
             binding.headerEditProfile.bringToFront();

@@ -15,6 +15,7 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
@@ -421,8 +422,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             List<Attachment> attachmentList = statusList.get(position).media_attachments;
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
-                holder.binding.sensitiveMedia.setChecked(Helper.getCurrentAccount(context).mastodon_account.source.sensitive);
-                statusList.get(position).sensitive = Helper.getCurrentAccount(context).mastodon_account.source.sensitive;
+                holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
+                statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
                 holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
@@ -1070,8 +1071,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
-                } else if (Helper.getCurrentAccount(context).mastodon_account != null && Helper.getCurrentAccount(context).mastodon_account.source != null) {
-                    statusDraft.visibility = Helper.getCurrentAccount(context).mastodon_account.source.privacy;
+                } else if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
+                    statusDraft.visibility = currentAccount.mastodon_account.source.privacy;
                 } else {
                     statusDraft.visibility = "public";
                 }

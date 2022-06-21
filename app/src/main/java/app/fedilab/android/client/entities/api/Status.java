@@ -105,6 +105,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
+
     @NonNull
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

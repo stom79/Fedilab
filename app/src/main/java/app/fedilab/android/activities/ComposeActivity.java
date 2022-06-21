@@ -15,6 +15,7 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.ui.drawer.ComposeAdapter.prepareDraft;
@@ -190,7 +191,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusDraft.statusDraftList = statuses;
         }
         if (account == null) {
-            account = Helper.getCurrentAccount(ComposeActivity.this);
+            account = currentAccount;
         }
         if (account == null) {
             Toasty.error(ComposeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
@@ -268,7 +269,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     //We change order for mentions
                     //At first place the account that has been mentioned if it's not our
                     statusDraftList.get(0).mentions = new ArrayList<>();
-                    if (!statusReply.account.acct.equalsIgnoreCase(Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.acct)) {
+                    if (!statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                         Mention mention = new Mention();
                         mention.acct = "@" + statusReply.account.acct;
                         mention.url = statusReply.account.url;
@@ -279,7 +280,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     //There are other mentions to
                     if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                         for (Mention mentionTmp : statusReply.mentions) {
-                            if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.acct)) {
+                            if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                                 statusDraftList.get(0).mentions.add(mentionTmp);
                             }
                         }

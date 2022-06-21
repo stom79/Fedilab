@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.notify_user;
 
 import android.app.Activity;
@@ -162,7 +163,7 @@ public class MediaHelper {
                             Uri uri = Uri.fromFile(backupFile);
                             intent.setDataAndType(uri, mime);
                             if (!share) {
-                                notify_user(context, Helper.NOTIFICATION_MEDIA, Helper.getCurrentAccount(context), intent, BitmapFactory.decodeResource(context.getResources(),
+                                notify_user(context, Helper.NOTIFICATION_MEDIA, currentAccount, intent, BitmapFactory.decodeResource(context.getResources(),
                                         R.mipmap.ic_launcher), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {

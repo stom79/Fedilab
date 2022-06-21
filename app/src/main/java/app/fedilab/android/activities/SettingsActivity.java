@@ -14,6 +14,8 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -31,7 +33,6 @@ import java.util.Locale;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivitySettingsBinding;
-import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.settings.FragmentComposeSettings;
 import app.fedilab.android.ui.fragment.settings.FragmentInterfaceSettings;
@@ -69,7 +70,7 @@ public class SettingsActivity extends BaseActivity {
         binding.setTheming.setOnClickListener(v -> displaySettings(SettingsEnum.THEMING));
         binding.setAdministration.setOnClickListener(v -> displaySettings(SettingsEnum.ADMINISTRATION));
         binding.setLanguage.setOnClickListener(v -> displaySettings(SettingsEnum.LANGUAGE));
-        if (Helper.getCurrentAccount(SettingsActivity.this).admin) {
+        if (currentAccount.admin) {
             binding.setAdministration.setVisibility(View.VISIBLE);
         } else {
             binding.setAdministration.setVisibility(View.GONE);

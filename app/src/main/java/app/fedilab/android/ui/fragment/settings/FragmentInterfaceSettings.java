@@ -28,13 +28,14 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentInterfaceSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    boolean recreate;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_interface);
         createPref();
     }
 
-    boolean recreate;
     private void createPref() {
         getPreferenceScreen().removeAll();
         addPreferencesFromResource(R.xml.pref_interface);

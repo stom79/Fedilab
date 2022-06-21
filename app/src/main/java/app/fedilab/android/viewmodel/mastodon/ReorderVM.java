@@ -14,6 +14,8 @@ package app.fedilab.android.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
@@ -68,7 +70,7 @@ public class ReorderVM extends AndroidViewModel {
         new Thread(() -> {
             Pinned pinned = null;
             try {
-                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(Helper.getCurrentAccount(getApplication().getApplicationContext()));
+                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(currentAccount);
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -86,7 +88,7 @@ public class ReorderVM extends AndroidViewModel {
         new Thread(() -> {
             BottomMenu bottomMenu = null;
             try {
-                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).getAllBottomMenu(Helper.getCurrentAccount(getApplication().getApplicationContext()));
+                bottomMenu = new BottomMenu(getApplication().getApplicationContext()).getAllBottomMenu(currentAccount);
             } catch (DBException e) {
                 e.printStackTrace();
             }

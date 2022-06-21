@@ -14,6 +14,8 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -80,7 +82,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         timelinesVM = new ViewModelProvider(DraftActivity.this).get(TimelinesVM.class);
-        timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
+        timelinesVM.getDrafts(currentAccount)
                 .observe(DraftActivity.this, this::initializeDraftView);
     }
 
@@ -176,7 +178,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
         super.onResume();
         //We need to check if drafts changed (ie when coming back from the compose activity)
         if (statusDrafts != null && timelinesVM != null) {
-            timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
+            timelinesVM.getDrafts(currentAccount)
                     .observe(DraftActivity.this, this::updateDrafts);
         }
     }

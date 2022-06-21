@@ -46,10 +46,10 @@ import es.dmoral.toasty.Toasty;
 public class LoginActivity extends BaseActivity {
 
 
-    private final int PICK_IMPORT = 5557;
-    private boolean requestedAdmin;
     public static Account.API apiLogin;
     public static String currentInstanceLogin, client_idLogin, client_secretLogin, softwareLogin;
+    private final int PICK_IMPORT = 5557;
+    private boolean requestedAdmin;
 
     private void manageItent(Intent intent) {
         if (intent != null && intent.getData() != null && intent.getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {

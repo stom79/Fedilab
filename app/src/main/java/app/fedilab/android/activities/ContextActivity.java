@@ -15,6 +15,7 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.SharedPreferences;
@@ -84,7 +85,7 @@ public class ContextActivity extends BaseActivity {
             finish();
             return;
         }
-        MastodonHelper.loadPPMastodon(binding.profilePicture, Helper.getCurrentAccount(ContextActivity.this).mastodon_account);
+        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         Bundle bundle = new Bundle();
         new Thread(() -> {
             focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
@@ -107,7 +108,7 @@ public class ContextActivity extends BaseActivity {
                 new Thread(() -> {
                     try {
                         new StatusCache(getApplication()).updateIfExists(statusCache);
-                        new QuickLoad(getApplication().getApplicationContext()).updateStatus(Helper.getCurrentAccount(ContextActivity.this), status);
+                        new QuickLoad(getApplication().getApplicationContext()).updateStatus(currentAccount, status);
                         Handler mainHandler = new Handler(Looper.getMainLooper());
                         //Update UI
                         Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);

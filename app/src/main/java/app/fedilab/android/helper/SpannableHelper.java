@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.USER_AGENT;
 import static app.fedilab.android.helper.Helper.convertDpToPixel;
 import static app.fedilab.android.helper.Helper.urlPattern;
@@ -379,7 +380,7 @@ public class SpannableHelper {
                         Matcher matcherLink = link.matcher(url);
                         if (matcherLink.find() && !url.contains("medium.com")) {
                             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
+                                CrossActionHelper.fetchRemoteStatus(context, currentAccount, url, new CrossActionHelper.Callback() {
                                     @Override
                                     public void federatedStatus(Status status) {
                                         Intent intent = new Intent(context, ContextActivity.class);
@@ -394,7 +395,7 @@ public class SpannableHelper {
                                     }
                                 });
                             } else {//It's an account
-                                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), status.account, new CrossActionHelper.Callback() {
+                                CrossActionHelper.fetchRemoteAccount(context, currentAccount, status.account, new CrossActionHelper.Callback() {
                                     @Override
                                     public void federatedStatus(Status status) {
 
@@ -843,7 +844,7 @@ public class SpannableHelper {
                         Matcher matcherLink = link.matcher(url);
                         if (matcherLink.find() && !url.contains("medium.com")) {
                             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
+                                CrossActionHelper.fetchRemoteStatus(context, currentAccount, url, new CrossActionHelper.Callback() {
                                     @Override
                                     public void federatedStatus(Status status) {
                                         Intent intent = new Intent(context, ContextActivity.class);

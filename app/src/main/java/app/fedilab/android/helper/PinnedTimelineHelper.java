@@ -14,6 +14,7 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
 import android.content.Context;
@@ -261,7 +262,7 @@ public class PinnedTimelineHelper {
         int toRemove = 0;
         try {
             //If some menu items have been hidden we should not create tab for them
-            bottomMenuDb = new BottomMenu(context).getAllBottomMenu(Helper.getCurrentAccount(context));
+            bottomMenuDb = new BottomMenu(context).getAllBottomMenu(currentAccount);
             if (bottomMenuDb != null) {
                 List<BottomMenu.MenuItem> menuItemList = bottomMenuDb.bottom_menu;
                 if (menuItemList != null) {

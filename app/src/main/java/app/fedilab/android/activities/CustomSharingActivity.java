@@ -14,6 +14,8 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -99,7 +101,7 @@ public class CustomSharingActivity extends BaseActivity implements OnCustomShari
             bundle_thumbnailurl = status.account.avatar;
         }
         if (!bundle_creator.contains("@")) {
-            bundle_creator = bundle_creator + "@" + Helper.getCurrentAccount(CustomSharingActivity.this).instance;
+            bundle_creator = bundle_creator + "@" + currentAccount.instance;
         }
 
         binding.setCustomSharingTitle.setEllipsize(TextUtils.TruncateAt.END);

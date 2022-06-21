@@ -58,8 +58,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_POLL = 5;
     private final int TYPE_STATUS = 6;
     private final int NOTIFICATION_FETCH_MORE = 7;
-    private Context context;
     public FetchMoreCallBack fetchMoreCallBack;
+    private Context context;
 
     public NotificationAdapter(List<Notification> notificationList) {
         this.notificationList = notificationList;
@@ -254,11 +254,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public interface FetchMoreCallBack {
-        void onClick(String min_id, String fetchmoreId);
-    }
-
-
     public long getItemId(int position) {
         return position;
     }
@@ -268,6 +263,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return notificationList.size();
     }
 
+    public interface FetchMoreCallBack {
+        void onClick(String min_id, String fetchmoreId);
+    }
 
     static class ViewHolderFollow extends RecyclerView.ViewHolder {
         DrawerFollowBinding binding;
