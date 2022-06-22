@@ -44,15 +44,6 @@
         <item name="colorSwitchThumbNormal">#E0E0E0</item>
     </style>
 
-    <style name="MenuPopup" parent="AppTheme.PopupOverlay">
-        <item name="android:itemBackground">@drawable/menu_selector_dark</item>
-        <item name="backgroundTint">@color/cyanea_background_dark</item>
-    </style>
-
-    <style name="SwitchTheme" parent="Theme.Cyanea.Dark">
-        <item name="android:colorControlActivated">@color/red_1</item>
-    </style>
-
     <style name="AppThemeDark" parent="Theme.Cyanea.Dark.NoActionBar">
         <item name="cardviewColor">@color/mastodonC1_</item>
         <item name="iconColor">@color/dark_icon_theme</item>
@@ -137,21 +128,6 @@
         <item name="android:windowBackground">@color/black</item>
         <item name="colorControlActivated">@color/cyanea_accent_dark_reference</item>
     </style>
-
-    <style name="AppTheme.Draggable" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/dark_gray</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="Theme.Cyanea.Dark" />
-
-    <style name="AppTheme.PopupOverlay" parent="Theme.Cyanea.Light" />
-
-    <style name="AppTheme.Overlay" parent="Theme.Cyanea.Dark" />
 
 
     <style name="Popup" parent="Cyanea.PopupMenu.Light">

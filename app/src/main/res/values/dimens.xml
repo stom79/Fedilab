@@ -7,18 +7,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="card_margin">6dp</dimen>
     <dimen name="drawer_padding">2dp</dimen>
-    <dimen name="toot_padding">10dp</dimen>
-    <bool name="isTablet">false</bool>
     <dimen name="layout_height_header">180dp</dimen>
-    <dimen name="fab_margin_floating">16dp</dimen>
-    <dimen name="item_offset">5dp</dimen>
-    <dimen name="settings_option_margin">10dp</dimen>
-    <dimen name="activity_vertical_margin_login">50dp</dimen>
-    <dimen name="badge_count_textsize">12sp</dimen>
 
 
     <dimen name="editor_size">35dp</dimen>
-    <dimen name="normal_margin">8dp</dimen>
-    <dimen name="large_margin">16dp</dimen>
     <dimen name="top_tool_icon_width">50dp</dimen>
 </resources>

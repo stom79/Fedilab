@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Отвори мени</string>
-    <string name="navigation_drawer_close">Затвори мени</string>
     <string name="action_about">О програму</string>
     <string name="action_about_instance">О инстанци</string>
     <string name="action_privacy">Приватност</string>
     <string name="action_cache">Кеш</string>
     <string name="action_logout">Одјава</string>
-    <string name="login">Пријава</string>
     <!-- common -->
     <string name="close">Затвори</string>
     <string name="yes">Да</string>
@@ -23,24 +20,16 @@
     <string name="toots">Тутови</string>
     <string name="tags">Ознаке</string>
     <string name="save">Сачувај</string>
-    <string name="restore">Поврати</string>
-    <string name="no_result">Нема резултата!</string>
     <string name="instance">Инстанца</string>
     <string name="instance_example">Инстанца: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Сада сте на налогу %1$s</string>
     <string name="add_account">Додај налог</string>
     <string name="clipboard">Садржај тута је копиран у клипборд</string>
     <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
-    <string name="change">Измени</string>
-    <string name="choose_picture">Одаберите слику…</string>
-    <string name="clear">Очисти</string>
     <string name="camera">Камера</string>
     <string name="delete_all">Избриши све</string>
-    <string name="translate_toot">Преведи тут.</string>
     <string name="schedule">Закажи</string>
     <string name="text_size">Величине текста и иконица</string>
-    <string name="text_size_change">Промените тренутну величину текста:</string>
-    <string name="icon_size_change">Промените тренутну величину иконица:</string>
     <string name="next">Следећа</string>
     <string name="previous">Претходна</string>
     <string name="open_with">Отворите помоћу</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">Прикажи одговоре</string>
     <string name="action_open_in_web">Отвори у прегледачу</string>
     <string name="translate">Преведи</string>
-    <string name="please_wait">Сачекајте неколико секунди пре него што урадите ову радњу.</string>
     <!--- Menu -->
     <string name="home_menu">Почетна</string>
     <string name="local_menu">Локална лајна</string>
-    <string name="global_menu">Здружена лајна</string>
-    <string name="neutral_menu_title">Подешавања</string>
-    <string name="favorites_menu">Омиљени</string>
-    <string name="communication_menu_title">Комуникација</string>
     <string name="muted_menu">Ућуткани корисници</string>
     <string name="blocked_menu">Блокирани корисници</string>
     <string name="notifications">Обавештења</string>
     <string name="follow_request">Захтеви за праћење</string>
     <string name="settings">Подешавања</string>
-    <string name="delete_account_title">Избриши налог</string>
-    <string name="delete_account_message" formatted="false">Избриши налог %1$s из апликације?</string>
     <string name="send_email">Пошаљи е-пошту</string>
-    <string name="click_to_change">Кликните на путању да је промените</string>
-    <string name="failed">Неуспешно!</string>
     <string name="scheduled_toots">Заказани тутови</string>
     <string name="disclaimer_full">Информације испод не морају да тачно одсликавају кориснички профил.</string>
     <string name="insert_emoji">Убаци емотикон</string>
     <string name="no_emoji">Апликација није покупила произвољне емотиконе за моменат.</string>
-    <string name="push_notif">Push notifications</string>
-    <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Нема тутова за приказ</string>
-    <string name="no_stories">No stories to display</string>
-    <string name="stories">Stories</string>
-    <string name="reblog_by">Подржао (ла) %1$s</string>
     <string name="favourite_add">Додај овај тут у омиљене?</string>
     <string name="favourite_remove">Уклони овај тут из омиљених?</string>
     <string name="reblog_add">Подржи овај тут?</string>
     <string name="reblog_remove">Склони подршку за овај тут?</string>
-    <string name="pin_add">Прикачи овај тут?</string>
-    <string name="pin_remove">Откачи овај тут?</string>
     <string name="more_action_1">Ућуткај</string>
     <string name="more_action_2">Блокирај</string>
     <string name="more_action_3">Пријави</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">Забелешке</string>
     <string name="bookmark_add">Додај у забелешке</string>
     <string name="bookmark_remove">Уклони забелешку</string>
-    <string name="bookmarks_empty">Нема забелешки за приказ</string>
     <string name="status_bookmarked">Статус је додат у забелешке!</string>
     <string name="status_unbookmarked">Статус је уклоњен из забелешки!</string>
     <!-- Date -->
@@ -152,34 +124,15 @@
         <item quantity="other">%d days</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Упозорење</string>
-    <string name="toot_placeholder">Шта Вам је на уму?</string>
-    <string name="toot_it">Тутни!</string>
-    <string name="queet_it">QUEET!</string>
-    <string name="cw">cw</string>
-    <string name="toot_title">Напиши тут</string>
-    <string name="toot_title_reply">Одговори на тут</string>
-    <string name="queet_title">Write a queet</string>
-    <string name="queet_title_reply">Reply to a queet</string>
-    <string name="toot_select_image">Одаберите мултимедију</string>
     <string name="toot_select_image_error">Грешка приликом одабирања мултимедије!</string>
     <string name="toot_delete_media">Уклони ову мултимедију?</string>
     <string name="toot_error_no_content">Тут је празан!</string>
     <string name="toot_sent">Тут је послат!</string>
-    <string name="toot_reply_content_title">Одговарате на овај тут:</string>
     <string name="toot_sensitive">Осетљив садржај?</string>
-    <string-array name="toot_visibility">
-        <item>Пошаљи на јавне лајне</item>
-        <item>Не шаљи на јавне лајне</item>
-        <item>Пошаљи само пратиоцима</item>
-        <item>Пошаљи само поменутим корисницима</item>
-    </string-array>
     <string name="no_draft">Нема нацрта!</string>
-    <string name="choose_toot">Одаберите тут</string>
     <string name="choose_accounts">Одаберите налог</string>
     <string name="select_accounts">Одаберите неки налог</string>
     <string name="remove_draft">Уклони нацрт?</string>
-    <string name="show_reply">Кликните на дугме да прикажете оригинални тут</string>
     <string name="upload_form_description">Опишите за слабовиде</string>
     <!-- Instance -->
     <string name="instance_no_description">Нема описа!</string>
@@ -189,28 +142,20 @@
     <string name="about_license">Лиценца: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Изворни код: </string>
-    <string name="about_yandex">Превод тутова:</string>
     <string name="about_thekinrar">Претражи инстанце:</string>
-    <string name="thanks_text_logo">Дизајнер иконица:</string>
     <!-- Conversation -->
-    <string name="conversation">Разговор</string>
     <!-- Accounts -->
     <string name="no_accounts">Нема налога за приказ</string>
     <string name="no_follow_request">Нема захтева за праћење</string>
     <string name="status_cnt">Тутови \n %1$s</string>
     <string name="following_cnt">Праћени \n %1$s</string>
     <string name="followers_cnt">Пратиоци \n %1$s</string>
-    <string name="pins_cnt">Прикачени \n %d</string>
-    <string name="authorize">Одобри</string>
     <string name="reject">Одбаци</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Нема заказаних тутова за приказ!</string>
-    <string name="no_scheduled_toots_indications">Напишите тут и потом одаберите <b>Закажи</b> из горњег менија.</string>
     <string name="remove_scheduled">Обриши заказани тут?</string>
-    <string name="media_count">Мултимедија: %d</string>
     <string name="toot_scheduled">Тут је заказан!</string>
     <string name="toot_scheduled_date">Датум заказивања мора бити већи од тренутног сата!</string>
-    <string name="warning_battery">Укључена је уштеда батерија! Ово можда и неће ради према очекивањима.</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Време за дужину ућуткивања треба да је веће од једног минута.</string>
     <string name="timed_mute_date">%1$s је ућуткан до %2$s.\n Можете искључити ућуткивање овом налогу са његове/њене профилне стране.</string>
@@ -223,28 +168,12 @@
     <string name="notif_favourite">је ставио Ваш статус као омиљени</string>
     <string name="notif_follow">Вас је запратио</string>
     <string name="notif_follow_request">asked to follow you</string>
-    <plurals name="other_notifications">
-        <item quantity="one">и још једно обавештење</item>
-        <item quantity="few">и још %d обавештења</item>
-        <item quantity="other">и још %d обавештења</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="one">%d like</item>
-        <item quantity="few">%d likes</item>
-        <item quantity="other">%d likes</item>
-    </plurals>
-    <string name="delete_notification_ask">Обриши обавештење?</string>
     <string name="delete_notification_ask_all">Обрисати сва обавештења?</string>
-    <string name="delete_notification">Обавештење је обрисано!</string>
     <string name="delete_notification_all">Сва обавештења су обрисана!</string>
     <!-- HEADER -->
-    <string name="following">Праћени</string>
     <string name="followers">Пратиоци</string>
-    <string name="pinned_toots">Прикачени тутови</string>
     <!-- TOAST -->
     <string name="client_error">Није могуће добити id клијента!</string>
-    <string name="connect_error">Unable to connect to instance domain!</string>
-    <string name="no_internet">Не постоји веза са интернетом!</string>
     <string name="toast_block">Налог блокиран!</string>
     <string name="toast_unblock">Налог није више блокиран!</string>
     <string name="toast_mute">Налог ућуткан!</string>
@@ -255,37 +184,16 @@
     <string name="toast_unreblog">Тут није више подржан!</string>
     <string name="toast_favourite">Тут је додат у Ваше омиљене!</string>
     <string name="toast_unfavourite">Тут је склоњен из Ваших омиљених!</string>
-    <string name="toast_report">Тут је пријављен!</string>
-    <string name="toast_unstatus">Тут је обрисан!</string>
-    <string name="toast_pin">Тут прикачен!</string>
-    <string name="toast_unpin">Тут није више прикачен!</string>
     <string name="toast_error">Упс, дошло је до грешке!</string>
     <string name="toast_code_error">Дошло је до грешке! Инстанца није вратила код за ауторизацију!</string>
     <string name="toast_error_instance">Не делује да је домен инстанце исправан!</string>
     <string name="toast_error_loading_account">Дошло је до грешке приликом пребацивања између налога!</string>
     <string name="toast_error_search">Грешка приликом претраге!</string>
-    <string name="toast_update_credential_ok">Подаци о профилу су сачувани!</string>
     <string name="nothing_to_do">Није предузето ништа</string>
-    <string name="toast_saved">Мултимедија је сачувана!</string>
     <string name="toast_error_translate">Десила се грешка приликом превођења!</string>
-    <string name="toast_error_translations_disabled">Translations are disabled in settings</string>
-    <string name="toast_toot_saved">Нацрт сачуван!</string>
-    <string name="toast_error_char_limit">Да ли сте сигурни да ова инстанца дозвољава оволики број карактера? Обично је ова вредност око 500 карактера.</string>
-    <string name="toast_visibility_changed">Видљивост тутова је промењена за налог %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Број тутова по једном учитавању</string>
-    <string name="set_attachment_always">Увек</string>
-    <string name="set_attachment_wifi">Само на бежичној мрежи</string>
-    <string name="set_attachment_ask">Питај</string>
-    <string name="set_attachment_action">Учитавање мултимедије</string>
-    <string name="load_attachment">Учитавање слика</string>
-    <string name="load_attachment_spoiler">Прикажи више…</string>
-    <string name="load_attachment_spoiler_less">Прикажи мање…</string>
-    <string name="load_sensitive_attachment">Осетљив садржај</string>
     <string name="set_disable_gif">Онемогући GIF аватаре</string>
-    <string name="set_folder_title">Путања: </string>
-    <string name="set_auto_store_toot">Аутоматски чувај нацрте</string>
-    <string name="set_auto_add_media_url">Додај адресу мултимедије у тутове</string>
     <string name="set_notif_follow">Обавести када Вас неко запрати</string>
     <string name="set_notif_follow_share">Обавести када неко подржи Ваш статус</string>
     <string name="set_notif_follow_add">Обавести када неко стави да му је Ваш статус омиљен</string>
@@ -294,39 +202,20 @@
     <string name="set_notif_status">Notify for new posts</string>
     <string name="set_share_validation">Прикажи потврду пре давања подршке некоме</string>
     <string name="set_share_validation_fav">Прикажи дијалог за потврду пре додавања у омиљене</string>
-    <string name="set_wifi_only">Обавештавај само на бежичној мрежи</string>
     <string name="set_notify">Обавештења?</string>
     <string name="set_notif_silent">Тиха обавештења</string>
     <string name="set_nsfw_timeout">NSFW временско ограничење приказа (у секундама, 0 значи искључено)</string>
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
-    <string name="settings_title_profile">Измени профил</string>
     <string name="settings_title_custom_sharing">Custom sharing</string>
     <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
-    <string name="set_profile_description">Биографија…</string>
     <string name="set_lock_account">Закључај налог</string>
     <string name="set_save_changes">Сачувај промене</string>
-    <string name="set_header_picture_overlay">Одаберите слику заглавља</string>
     <string name="set_fit_preview">Прилагоди преглед слике да стане</string>
-    <string name="set_automatically_split_toot">Аутоматски подели тутове преко 500 карактера у одговору</string>
-    <string name="note_no_space">Достигли сте дозвољених 160 карактера!</string>
-    <string name="username_no_space">Достигли сте дозвољених 30 карактера!</string>
     <string name="settings_time_from">Између</string>
     <string name="settings_time_to">и</string>
-    <string name="settings_time_greater">Време мора бити веће од %1$s</string>
-    <string name="settings_time_lower">Време мора бити мање од %1$s</string>
-    <string name="settings_hour_init">Почетно време</string>
-    <string name="settings_hour_end">Крајње време</string>
     <string name="embedded_browser">Користите уграђени прегледач</string>
     <string name="custom_tabs">Произвољни језичци</string>
-    <string name="use_javascript">Омогућите JavaScript</string>
     <string name="expand_cw">Аутоматски приказуј осетљиве садржаје</string>
-    <string name="use_cookies">Дозволите независне колачиће</string>
-    <string name="your_api_key">Ваш API кључ, можете оставити празно за Yandex</string>
-    <string-array name="settings_theme">
-        <item>Тамна</item>
-        <item>Светла</item>
-        <item>Црна</item>
-    </string-array>
     <string name="set_led_colour">Постави ЛЕД боју:</string>
     <string-array name="led_colours">
         <item>Плава</item>
@@ -343,20 +232,12 @@
     <string name="action_unmute">Искључи ућуткивање</string>
     <string name="request_sent">Захтев послат</string>
     <string name="followed_by">Прати Вас</string>
-    <string name="action_search">Претрага</string>
     <string name="set_capitalize">Прво слово велико у одговорима</string>
     <string name="set_resize_picture">Мењај величине слика</string>
     <string name="set_resize_video">Resize videos</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">Брза обавештења</string>
-    <string name="settings_popup_message">        Потврдите која брза обавештења желите да примате.
-        Можете укључити и искључити ова обавештења накнадно у подешавањима (језичак за Обавештења).
-    </string>
     <!-- CACHE -->
-    <string name="cache_title">Обриши кеш</string>
-    <string name="cache_message">Тренутно има %1$s података у кешу.\n\nДа ли желите да их обришете?</string>
     <string name="cache_units">Mb</string>
-    <string name="toast_cache_clear">Кеш очишћен! %1$s ослобођено</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Title</string>
     <string name="title_hint_custom_sharing">Title…</string>
@@ -364,99 +245,25 @@
     <string name="keywords_header_custom_sharing">Keywords</string>
     <string name="keywords_hint_custom_sharing">Keywords…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">Синхронизуј</string>
-    <string name="action_filter">Филтрирај</string>
-    <string name="owner_cached_toots">Ваши тутови</string>
-    <string name="owner_cached_notifications">Your notifications</string>
     <string name="v_public">Јавни</string>
     <string name="v_unlisted">Неизлистани</string>
     <string name="v_private">Приватни</string>
     <string name="v_direct">Директни</string>
-    <string name="v_keywords">Неке кључне речи…</string>
-    <string name="show_media">Прикажи мултимедију</string>
-    <string name="show_pinned">Прикажи закачене</string>
-    <string name="filter_no_result">Нема пронађених резултата!</string>
-    <string name="data_backup_toots">Прављење резерве тутова за %1$s</string>
-    <string name="data_backup_success">%1$s нови тут је увежен</string>
-    <string name="data_backup_notification_success">%1$s new notifications have been imported</string>
-    <string-array name="filter_order">
-        <item>Dates descending</item>
-        <item>Dates ascending</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>Не</item>
-        <item>Само</item>
-        <item>Оба</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">Нема тутова у бази. Користите дугме за синхронизацију да их преузмете.</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">Снимљени подаци</string>
-    <string name="privacy_data">        Само основне информације о налозима су ускладиштене на уређају.
-        Ови подаци су строго поверљиви и може их користити само ова апликација.
-        Брисање апликација моментално брише ове податке.\n
-        ⚠ Пријаве и лозинке се никад не складиште. Користе се само за време безбедног (SSL) пријављивања са инстанцом.
-    </string>
-    <string name="privacy_authorizations_title">Дозволе:</string>
-    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Користи се да види да ли је уређај накачен на бежичну мрежу.\n
-        - <b>INTERNET</b>: Користи се да прича са инстанцом.\n
-        - <b>WRITE_EXTERNAL_STORAGE</b>: Користи се да ускладишти мултимедију или да помери апликацију на SD картицу.\n
-        - <b>READ_EXTERNAL_STORAGE</b>: Користи се да дода мултимедију на тутове.\n
-        - <b>BOOT_COMPLETED</b>: Користи се да стартује сервис за обавештења.\n
-        - <b>WAKE_LOCK</b>: Користи се током рада сервиса за обавештења.
-    </string>
-    <string name="privacy_API_authorizations_title">API дозволе:</string>
-    <string name="privacy_API_authorizations">        - <b>Читај</b>: Чита податке.\n
-        - <b>Пиши</b>: Шаље статусе и отпрема мултимедију за статусе.\n
-        - <b>Прати</b>: Прати, уклаља праћења, блокира, одблокира.\n\n
-        <b>⚠ Ове акције се изводе само када их корисник захтева.</b>
-    </string>
-    <string name="privacy_API_title">Праћење и библиотеке</string>
-    <string name="privacy_API">         Апликација <b> не користи за праћење алатке </b>&gt; (мерење публике, грешке за извештавање, итд.) и не садржи никакве рекламе.\n\n
-        Употреба библиотека је минимизована: \n
-        - <b>Glide</b>: за управљање мултимедијом\n
-        - <b>Android-Job</b>: за управљање  сервисима\n
-        - <b>PhotoView</b>: за управљање сликама\n
-    </string>
-    <string name="privacy_API_yandex_title">Превод тутова</string>
-    <string name="privacy_API_yandex_authorizations">        Апликација нуди могућност да преводи тутове на језик уређаја користећи Yandex API.\n
-        Yandex има своју конкретну политику приватности која се може наћи овде: https://yandex.ru/legal/confidential/?lang=en
-    </string>
-    <string name="thanks_text_dev">        Хвала Вам на:
-    </string>
     <string name="filter_regex">Филтрирај по регуларним изразима</string>
     <string name="search">Претрага</string>
     <string name="delete">Обриши</string>
-    <string name="fetch_more_toots">Дохвати још тутова…</string>
     <!-- About lists -->
     <string name="action_lists">Листе</string>
     <string name="action_lists_confirm_delete">Да ли сте сигурни да желите да трајно избришете ову листу?</string>
-    <string name="action_lists_empty_content">Тренутно нема ништа у овој листи. Када чланови ове листе пошаљу нове статусе, они ће се појавити овде.</string>
     <string name="action_lists_add_to">Додај на листу</string>
-    <string name="action_lists_create">Додај листу</string>
     <string name="action_lists_delete">Обриши листу</string>
-    <string name="action_lists_update">Измени листу</string>
     <string name="action_lists_title_placeholder">Ново име листе</string>
     <string name="action_lists_add_user">The account was added to the list!</string>
     <string name="action_lists_empty">You don\'t have any lists yet!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s се померио на %2$s</string>
-    <string name="issue_login_title">Пријављивање не ради?</string>
-    <string name="issue_login_message">        <b>Ево неких провера које могу да помогну:</b>\n\n
-        - Проверите да нема грешака у куцању имена инстанце\n\n
-        - Проверите да ли је инстанца жива и ради\n\n
-        - Ако користите двофакторско пријављивање (2FA), користите линк на дну (када попуните име инстанце)\n\n
-        - Линк испод можете користити и без да користите 2FA\n\n
-        - Ако ништа ни даље не ради, пријавите нам проблем на Framagit-у, на https://framagit.org/tom79/fedilab/issues
-    </string>
     <string name="media_ready">Мултимедија је учитана. Кликните овде да је прикажете.</string>
-    <string name="data_export_start">Ова акција може да потраје. Бићете обавештени када се заврши.</string>
-    <string name="data_export_running">Још увек се извршава, сачекајте…</string>
-    <string name="data_export">Статуси извоза</string>
-    <string name="data_export_toots">Статуси извоза за %1$s</string>
-    <string name="data_export_success">Извежено %1$s од укупно %2$s тутова.</string>
-    <string name="data_export_error">Дошло је до грешке приликом извоза података за %1$s</string>
-    <string name="data_export_error_simple">Дошло је до грешке приликом извоза података!</string>
-    <string name="data_import_error_simple">Дошло је до грешке приликом увоза података!</string>
     <!-- Proxy -->
     <string name="proxy_set">Прокси</string>
     <string name="proxy_enable">Омогући прокси?</string>
@@ -468,21 +275,13 @@
     <string name="support_the_app_on_liberapay">Подржи апликацију на Liberapay-у</string>
     <string name="alert_regex">Постоји грешка у регуларном изразу!</string>
     <string name="toast_instance_unavailable">На овој инстанци није нађена ниједан временска лајна!</string>
-    <string name="delete_instance">Избриши ову инстанцу?</string>
-    <string name="which_language">Преведи на</string>
     <string name="follow_instance">Прати инстанцу</string>
     <string name="toast_instance_already_added">Већ пратите ову инстанцу!</string>
-    <string name="toast_instance_followed">Инстанца запраћена!</string>
     <string name="action_partnership">Партнерства</string>
-    <string name="neutral_menu_information">Информације</string>
     <string name="hide_boost">Сакриј подрше од %s</string>
     <string name="endorse">Истакнуто на профилу</string>
     <string name="show_boost">Прикажи подршке од %s</string>
     <string name="unendorse">Не истичи на профилу</string>
-    <string name="toast_endorse">Овај налог је сада истакнут на профилу</string>
-    <string name="toast_unendorse">Овај налог није више истакнут на профилу</string>
-    <string name="toast_show_boost">Подршке су сада приказане!</string>
-    <string name="toast_hide_boost">Подршке су сада скривене!</string>
     <string name="direct_message">Директна порука</string>
     <string name="filters">Филтери</string>
     <string name="action_filters_empty_content">Нема филтера за приказ. Можете га направити кликом на „+“ дугме.</string>
@@ -501,101 +300,44 @@
     <string name="filter_expire">Истиче после</string>
     <string name="action_filter_delete">Обриши филтер?</string>
     <string name="action_update_filter">Ажурирај филтер</string>
-    <string name="action_filter_create">Направи филтер</string>
-    <string name="how_to_follow">Кога запратити</string>
-    <string name="action_who_to_follow_empty_content">Тренутно нема излистаних налога!</string>
-    <string name="follow_account">Прати</string>
-    <string name="select_all">Одабери све</string>
-    <string name="unselect_all">Пониште све одабране</string>
-    <string name="follow_trunk">%s запраћен!</string>
-    <string name="create_list_trunk">Правим списак %s</string>
-    <string name="add_account_list_trunk">Додајем налоге на списак</string>
-    <string name="account_added_list_trunk">Налози су додати на списак</string>
-    <string name="adding_account_list_trunk">Додајем налоге на списак</string>
     <string name="action_list_add">Још нисте направили ниједан списак. Кликните на \"+\" дугме да направите нови.</string>
-    <string name="about_trunk">Кога пратити</string>
-    <string name="about_trunk_action">Trunk API</string>
-    <string name="toast_impossible_to_follow">Налог(зи) не могу бити запраћени</string>
-    <string name="retrieve_remote_account">Дохватам удаљени налог</string>
     <string name="expand_image">Аутоматски прошири скривену мултимедију</string>
     <string name="channel_notif_follow">Нови пратиоц</string>
     <string name="channel_notif_boost">Нова подршка</string>
     <string name="channel_notif_fav">Нови омиљени</string>
     <string name="channel_notif_mention">Ново спомињање</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_toot">Нови тут</string>
     <string name="channel_notif_backup">Резервне копије тутова</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Преузимање мултимедије</string>
-    <string name="set_notif_sound">Промени звук обавештења</string>
     <string name="select_sound">Изаберите тон</string>
     <string name="set_enable_time_slot">Омогући термин</string>
-    <string name="how_to_videos">Видео упутства</string>
-    <string name="retrieve_remote_conversation">Дохватам удаљену преписку!</string>
-    <string name="no_blocked_domain">Нема блокираних домена!</string>
-    <string name="unblock_domain_confirm">Одблокирај домен</string>
-    <string name="unblock_domain_confirm_message">Да ли сте сигурни да желите да одблокирате %s?</string>
     <string name="block_domain_confirm_message">Да ли сте сигурни да желите да блокирате %s?</string>
-    <string name="blocked_domains">Блокирани домени</string>
     <string name="block_domain">Блокирај домен</string>
     <string name="toast_block_domain">Домен блокиран</string>
-    <string name="toast_unblock_domain">Домен није више блокиран!</string>
     <string name="retrieve_remote_status">Дохватам удаљени статус</string>
-    <string name="comment">Коментар</string>
     <string name="peertube_instance">Peertube инстанца</string>
-    <string name="no_comments">Први оставите коментар на овај видео са овим дугметом горе десно!</string>
-    <string name="number_view_video">%s прегледа</string>
-    <string name="duration_video">Трајање: %s</string>
-    <string name="add_remote_instance">Додај инстанцу</string>
-    <string name="comment_no_allowed_peertube">Коментари нису омогућени на овом видео запису!</string>
-    <string name="pickup_resolution">Одаберите резолуцију</string>
-    <string name="peertube_favorites">Peertube омиљени</string>
-    <string name="bookmark_add_peertube">Видео је додат у забелешке!</string>
-    <string name="bookmark_remove_peertube">Видео је уклоњен из забелешки!</string>
-    <string name="bookmark_peertube_empty">Нема Peertube видео записа у Вашим омиљеним ставкама!</string>
-    <string name="channel">Канал</string>
-    <string name="videos">Видео снимци</string>
-    <string name="channels">Канали</string>
     <string name="set_display_emoji">Користите Емоји 1</string>
     <string name="information">Информације</string>
     <string name="set_display_card">Прикажи претпрегледе у свим тутовима</string>
-    <string name="thanks_text_ux">Нови дизајнер за UX/UI</string>
-    <string name="set_display_video_preview">Прикажи видео претпрегледе</string>
     <string name="account_id_clipbloard">Идентификација налога копирана у клипборд!</string>
     <string name="set_change_locale">Промени језик</string>
-    <string name="default_language">Подразумевани језик</string>
     <string name="truncate_long_toots">Скратите дугачке тутове</string>
     <string name="set_truncate_toot">Скратите тутове преко \'x\' линија. 0 значи да је искључено.</string>
     <string name="display_toot_truncate">Прикажи још</string>
     <string name="hide_toot_truncate">Прикажи мање</string>
-    <string name="manage_tags">Управљање ознакама</string>
     <string name="tags_already_stored">Ознака већ постоји!</string>
-    <string name="tags_stored">Ознака ускладиштена!</string>
-    <string name="tags_renamed">Ознака промењена!</string>
-    <string name="tags_deleted">Ознака избрисана!</string>
     <string name="schedule_boost">Закажи подршке</string>
     <string name="boost_scheduled">Подршка је заказана!</string>
     <string name="no_scheduled_boosts">Нема заказаних подршки за приказ!</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[Отворите мени тута и одаберите <b>Закажи подршку</b>.]]></string>
-    <string name="art_menu">Уметничка лајна</string>
     <string name="open_menu">Отвори мени</string>
-    <string name="go_back">Go back</string>
-    <string name="app_logo">Логотип апликације</string>
     <string name="profile_picture">Профилна слика</string>
     <string name="profile_banner">Профилни банер</string>
     <string name="contact_instance_admin">Контактирајте администратора ове инстанце</string>
-    <string name="add_new">Додај нови</string>
     <string name="mastohost_logo">MastoHost лого</string>
     <string name="emoji_picker">Емоџи бирач</string>
-    <string name="refresh">Оcвежи</string>
     <string name="expand_conversation">Прошири разговор</string>
-    <string name="remove_account">Уклони налог</string>
-    <string name="delete_domain">Избриши блокирани домен</string>
     <string name="custom_emoji_picker">Произвољни емоџи бирач</string>
-    <string name="play_video">Пусти видео</string>
-    <string name="new_toot">Нови тут</string>
-    <string name="card_view_image">Слика картице</string>
-    <string name="hide_media">Сакриј мултимедију</string>
     <string name="favicon">Фавикон</string>
     <string name="media_description">Add description for media (for the visually impaired)</string>
     <string-array name="filter_expire">
@@ -607,19 +349,10 @@
         <item>1 дан</item>
         <item>Недељу дана</item>
     </string-array>
-    <string name="showcase_instance">        In this field, you need to write your instance host name.\nFor example, if you created your account on https://mastodon.social\nJust write <b>mastodon.social</b> (without https://)\n
-        You can start writing first letters and names will be suggested.\n\n
-        ⚠ The Login button will only work if the instance name is valid and the instance is up!
-    </string>
-    <string name="more_information">Више информација</string>
     <!-- languages not translated -->
     <string name="languages">Језици</string>
     <string name="show_media_only">Само мултимедија</string>
     <string name="show_media_nsfw">Прикажи NSFW</string>
-    <string name="crowdin_translations">Crowdin преводи</string>
-    <string name="crowdin_manager">Crowdin менаџер</string>
-    <string name="translation_app">Превод апликације</string>
-    <string name="about_crowdin">О Crowdin-у</string>
     <string name="bot">Бот</string>
     <string name="pixelfed_instance">Pixelfed инстанца</string>
     <string name="mastodon_instance">Мастодонт инстанца</string>
@@ -631,110 +364,36 @@
     <string name="some_tags">Add some words to filter (space-separated)</string>
     <string name="change_tag_column">Измени име колоне</string>
     <string name="misskey_instance">Misskey инстанца</string>
-    <string name="toast_no_apps">No app supporting this link is installed on your device.</string>
-    <string name="subscriptions">Претплате</string>
-    <string name="overview">Преглед</string>
     <string name="trending">У порасту</string>
-    <string name="recently_added">Недавно додато</string>
     <string name="local">Локално</string>
-    <string name="upload_video">Отпреми</string>
-    <string name="reply">Одговори</string>
-    <string name="delete_comment">Обриши коментар</string>
-    <string name="delete_comment_confirm">Да ли сте сигурни да желите да обришете овај коментар?</string>
-    <string name="fullscreen">Видео преко целог екрана</string>
-    <string name="set_video_mode">Режим за видео записе</string>
-    <string name="file_to_upload">Изабери фајл за отпремање</string>
-    <string name="my_videos">Моји видео снимци</string>
-    <string name="title">Наслов</string>
-    <string name="license">Лиценца</string>
     <string name="category">Категорија</string>
-    <string name="language">Језик</string>
-    <string name="peertube_nsfw">This video contains mature or explicit content</string>
-    <string name="peertube_enable_comments">Укључи коментаре на видео снимке</string>
-    <string name="update_video">Ажурирај видео</string>
     <string name="description">Опис</string>
-    <string name="toast_peertube_video_updated">Видео снимак је ажуриран!</string>
-    <string name="toast_cancelled">Отпремање отказано!</string>
-    <string name="upload_video_success">Видео снимак је отпремљен!</string>
-    <string name="uploading">Отпремам, сачекајте…</string>
-    <string name="video_uploaded_action">Кликните овде да измените видео податке.</string>
-    <string name="delete_video">Обриши видео</string>
-    <string name="delete_video_confirmation">Да ли сте сигурни да желите да обришете овај видео снимак?</string>
-    <string name="display_nsfw_videos">Приказуј NSFW видео снимке</string>
-    <string name="no_video_to_display">Нема видео снимака за приказ!</string>
-    <string name="leave_a_comment">Остави коментар</string>
     <string name="share">Подели</string>
-    <string name="choose_schedule">Одабери режим заказивања</string>
-    <string name="device_schedule">Са уређаја</string>
-    <string name="server_schedule">Са сервера</string>
     <string name="toots_server">Тутови (Сервер)</string>
     <string name="toots_client">Toots (Device)</string>
-    <string name="modify">Modify</string>
-    <string name="set_display_content_after_fetch_more">Display new toots above the \"Fetch more\" button</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
-    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> commented your video <b>%2$s</b>]]></string>
-    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> is following your channel <b>%2$s</b>]]></string>
-    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> is following your account]]></string>
-    <string name="peertube_video_published"><![CDATA[Your video <b>%1$s</b> has been published]]></string>
-    <string name="peertube_video_import_success"><![CDATA[Your video import <b>%1$s</b> succeeded]]></string>
-    <string name="peertube_video_import_error"><![CDATA[Your video import <b>%1$s</b> failed]]></string>
-    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> published a new video: <b>%2$s</b>]]></string>
-    <string name="peertube_video_blacklist"><![CDATA[Your video <b>%1$s</b> has been blacklisted]]></string>
-    <string name="peertube_video_unblacklist"><![CDATA[Your video <b>%1$s</b> has been unblacklisted]]></string>
-    <string name="export_data">Export data</string>
-    <string name="import_data">Import Data</string>
-    <string name="toot_select_import">Select the file to import</string>
     <string name="toot_select_file_error">An error occurred when selecting the backup file!</string>
-    <string name="add_public_comment">Add a public comment</string>
-    <string name="send_comment">Send comment</string>
-    <string name="toast_toot_saved_error">There is no Internet connection. Your message has been stored in drafts.</string>
-    <string name="action_plain_text">Plain text</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">Logout account</string>
     <string name="all">All</string>
-    <string name="about_opencollective">Support the app</string>
-    <string name="more_about_opencollective">Open Collective enables groups to quickly set up a collective, raise funds and manage them transparently.</string>
     <string name="copy_link">Copy link</string>
-    <string name="connect_instance">Connect</string>
-    <string name="set_normal">Normal</string>
-    <string name="set_compact">Compact</string>
-    <string name="set_console">Console</string>
-    <string name="set_mode">Set display mode</string>
-    <string name="set_security_provider">Patch the Security Provider</string>
-    <string name="update_tracking_domains">Update tracking domains</string>
-    <string name="tracking_db_updated">The tracking data base has been updated!</string>
     <string name="calls_blocked">http calls blocked by the application</string>
     <string name="list_of_blocked_domains">List of blocked calls</string>
     <string name="submit">Submit</string>
-    <string name="data_base_exported">The data base has been exported!</string>
-    <string name="featured_hashtags">Featured hashtags</string>
     <string name="filter_timeline_with_a_tag">Filter timeline with tags</string>
     <string name="no_tags">No tags</string>
-    <string name="set_hide_delete_notification_on_tab">Hide the \"delete\" button in the notification tab</string>
     <string name="set_retrieve_metadata_share_from_extras">Attach an image when sharing a URL</string>
     <!-- end languages -->
-    <string name="poll">Poll</string>
-    <string name="polls">Polls</string>
     <string name="create_poll">Create a poll</string>
-    <string name="poll_choice_1">Choice 1</string>
-    <string name="poll_choice_2">Choice 2</string>
     <string name="poll_choice_s">Choice %d</string>
     <string name="poll_invalid_choices">You need two choices at least for the poll!</string>
     <string name="done">Done</string>
     <string name="poll_finish_at">end at %s</string>
-    <string name="refresh_poll">Refresh poll</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
     <string name="notif_poll_self">A poll you tooted has ended</string>
-    <string name="settings_category_notif_customize">Customize</string>
     <string name="settings_category_notif_categories">Categories</string>
-    <string name="settings_category_notif_time_slot">Time slot</string>
-    <string name="settings_category_notif_advanced">Advanced</string>
-    <string name="set_display_new_badge">Display \'new\' badge on unread toots</string>
-    <string name="peertube_menu">Peertube</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
     <string name="reorder_timelines">Reorder timelines</string>
@@ -742,71 +401,37 @@
     <string name="reorder_instance_removed">Followed instance removed</string>
     <string name="reorder_tag_removed">Pinned tag removed</string>
     <string name="undo">Undo</string>
-    <string name="visible_tabs_needed">You need to keep two visible tabs!</string>
-    <string name="action_reorder_timeline">Reorder timelines</string>
     <string name="warning_main_timeline">Main timelines can only be hidden!</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">Always mark media as sensitive</string>
     <string name="gnu_instance">GNU instance</string>
-    <string name="cached_status">Cached status</string>
     <string name="set_forward_tags">Forward tags in replies</string>
     <string name="set_long_press_media">Long press to store media</string>
-    <string name="set_blur_sensitive">Blur sensitive media</string>
-    <string name="set_display_timeline_in_list">Display timelines in a list</string>
-    <string name="display_timeline">Display timelines</string>
-    <string name="set_display_bot_icon">Mark bot accounts in toots</string>
     <string name="add_tags">Manage tags</string>
-    <string name="set_remember_position">Remember the position in Home timeline</string>
-    <string name="history">History</string>
-    <string name="playlists">Playlists</string>
     <string name="display_name">Display name</string>
-    <string name="action_playlist_add">You don\'t have any playlists. Tap on the \"+\" icon to add a new playlist</string>
-    <string name="error_display_name">You must provide a display name!</string>
-    <string name="error_channel_mandatory">The channel is required when the playlist is public.</string>
-    <string name="action_playlist_create">Create a playlist</string>
-    <string name="action_playlist_empty_content">There is nothing in this playlist yet.</string>
-    <string name="redo">redo</string>
-    <string name="gallery">Gallery</string>
     <string name="label_emoji">Emoji</string>
-    <string name="label_sticker">Sticker</string>
-    <string name="label_eraser">Eraser</string>
     <string name="label_text">Text</string>
     <string name="label_filter">Filter</string>
     <string name="label_brush">Brush</string>
-    <string name="confirm_exit_editing">Are you sure you want to exit without saving the image?</string>
     <string name="discard">Discard</string>
     <string name="saving">Saving…</string>
     <string name="image_saved">Image Saved Successfully!</string>
     <string name="save_image_failed">Failed to save Image</string>
-    <string name="opacity">Opacity</string>
-    <string name="set_photo_editor">Enable photo editor</string>
     <string name="add_poll_item">Add a poll item</string>
-    <string name="remove_poll_item">Remove last poll item</string>
     <string name="mute_conversation">Mute conversation</string>
     <string name="unmute_conversation">Unmute conversation</string>
     <string name="toast_unmute_conversation">The conversation is no longer muted!</string>
     <string name="toast_mute_conversation">The conversation is muted</string>
-    <string name="app_features">Open application features</string>
-    <string name="timed_mute">Timed mute</string>
-    <string name="mention_account">Mention the account</string>
-    <string name="refresh_cache">Refresh cache</string>
-    <string name="mention_status">Mention the status</string>
-    <string name="action_news">News</string>
     <string name="category_general">General</string>
     <string name="category_regional">Regional</string>
     <string name="category_art">Art</string>
-    <string name="category_journalism">Journalism</string>
     <string name="category_activism">Activism</string>
     <string name="category_games">Gaming</string>
     <string name="category_tech">Technology</string>
-    <string name="category_adult">Adult content</string>
     <string name="category_furry">Furry</string>
     <string name="category_food">Food</string>
     <string name="instance_logo">Logo of the instance</string>
-    <string name="toast_error_instance_reg">Something went wrong when checking available instances!</string>
     <string name="join_mastodon">Join Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="pickup_instance_peertube">Choose an instance by tapping on a check button.</string>
     <string name="users">%1$s users</string>
     <string name="password_confirm">Confirm password</string>
     <string name="agreement_check">I agree to %1$s and %2$s</string>
@@ -814,10 +439,8 @@
     <string name="tos">terms of service</string>
     <string name="sign_up">Sign up</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
-    <string name="all_field_filled">Please, fill all the fields!</string>
     <string name="password_error">Passwords don\'t match!</string>
     <string name="email_error">The email doesn\'t seem to be valid!</string>
-    <string name="username_indicator">Your username will be unique on %1$s</string>
     <string name="email_indicator">You will be sent a confirmation e-mail</string>
     <string name="password_indicator">Use at least 8 characters</string>
     <string name="password_too_short">Password should contain at least 8 characters</string>
@@ -831,137 +454,36 @@
     <string name="save_draft">Save the message in drafts?</string>
     <string name="administration">Administration</string>
     <string name="reports">Reports</string>
-    <string name="no_reports">No reports to display!</string>
-    <string name="reconnect_account">Reconnect the account</string>
-    <string name="reconnect_account_message">The application failed to access the admin features. You might need to reconnect the account for having the correct scope.</string>
     <string name="unresolved">Unresolved</string>
     <string name="remote">Remote</string>
     <string name="active">Active</string>
     <string name="pending">Pending</string>
     <string name="disabled">Disabled</string>
-    <string name="silenced">Silenced</string>
     <string name="suspended">Suspended</string>
     <string name="permissions">Permissions</string>
-    <string name="email_status">Email status</string>
-    <string name="login_status">Login status</string>
-    <string name="joined">Joined</string>
-    <string name="recent_ip">Most recent IP</string>
-    <string name="warn">Warn</string>
     <string name="disable">Disable</string>
     <string name="silence">Silence</string>
-    <string name="email_user">Notify the user per e-mail</string>
-    <string name="custom_warning">Custom warning</string>
-    <string name="user">User</string>
-    <string name="moderator">Moderator</string>
-    <string name="administrator">Administrator</string>
-    <string name="confirmed">Confirmed</string>
-    <string name="unconfirmed">Not confirmed</string>
-    <string name="list_reported_statuses">Reported statuses</string>
     <string name="account">Account</string>
     <string name="unsilence">Undo silence</string>
     <string name="undisable">Undo disable</string>
     <string name="suspend">Suspend</string>
     <string name="unsuspend">Undo suspend</string>
-    <string name="account_silenced">The account is silenced!</string>
-    <string name="account_unsilenced">The account is no longer silenced!</string>
-    <string name="account_suspended">The account is suspended!</string>
-    <string name="account_unsuspended">The account is no longer suspended!</string>
-    <string name="account_disabled">The account is disabled!</string>
-    <string name="account_undisabled">The account is no longer disabled!</string>
-    <string name="account_warned">The account has been warned!</string>
-    <string name="set_display_admin_menu">Display the admin menu</string>
-    <string name="set_display_admin_toot">Display the admin feature in statuses</string>
-    <string name="allow">Allow</string>
-    <string name="account_approved">The account is approved!</string>
-    <string name="account_rejected">The account is rejected!</string>
-    <string name="assign_to_me">Assign to me</string>
-    <string name="unassign">Unassign</string>
-    <string name="mark_resolved">Mark as resolved</string>
-    <string name="mark_unresolved">Mark as unresolved</string>
-    <string name="toast_empty_content">Empty content!</string>
-    <string name="set_display_fedilab_features_button">Display Fedilab features button</string>
     <string name="audio">The application needs to access audio recording</string>
     <string name="voice_message">Voice message</string>
-    <string name="set_quick_reply">Enable quick reply</string>
-    <string name="reply_might_be_useless">The account you are replying might not see your message!</string>
-    <string name="set_remember_position_indication">If disabled, the app will always load last statuses</string>
-    <string name="set_blur_sensitive_indication">If disabled, sensitive media will be hidden with a button</string>
-    <string name="set_long_press_media_indication">Store media in full size with a long press on previews</string>
-    <string name="set_display_timeline_in_list_indication">Add an ellipse button at the top right for listing all tags/instances/lists</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
-    <string name="set_display_fedilab_features_button_indication">Display a Fedilab button below profile picture. It is a shortcut for accessing in-app features.</string>
-    <string name="set_quick_reply_indication">Allow to reply directly in timelines below statuses</string>
     <string name="set_fit_preview_indication">Previews will not be cropped in timelines</string>
-    <string name="set_display_video_preview_indication">Allow to play embedded videos directly in timelines</string>
-    <string name="set_display_content_after_fetch_more_indication">Allow to reverse the way to read statuses that are displayed once tapping the fetch more button</string>
-    <string name="set_security_provider_indication">This option allows to support recent cipher suites. It is useful for older Android devices or if you cannot connect to your instance.</string>
-    <string name="set_video_mode_indication">Exclusively for Peertube videos. Switch this mode if you cannot play them.</string>
-    <string name="featured_hashtags_indication">These tags will allow to filter statuses from profiles. You will have to use the context menu for seeing them.</string>
     <string name="set_capitalize_indication">Automatically insert a line break after the mention to capitalize the first letter</string>
     <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
     <string name="compose">Compose</string>
-    <string name="upload_image_maximum_retry_times">Maximum retry times when uploading media</string>
-    <string name="new_folder">Create a new Folder here</string>
-    <string name="folder_name">Enter the folder name</string>
-    <string name="valid_folder_name">Please enter a valid folder name</string>
-    <string name="folder_exists">This folder already exists.\n Please provide another name for the folder</string>
     <string name="select">Select</string>
-    <string name="default_directory">Default Directory</string>
-    <string name="folder">Folder</string>
-    <string name="create_folder">Create folder</string>
-    <string name="set_display_confirm">Display a toast message after an action has been completed (boost, fav, etc.)?</string>
-    <string name="muted_instance_exported">Muted instances have been exported!</string>
     <string name="add_instances">Add an instance</string>
-    <string name="export_instances">Export instances</string>
-    <string name="import_instances">Import instances</string>
-    <string name="set_crash_reports">Crash reports</string>
     <string name="set_enable_crash_report">Enable crash reports</string>
     <string name="set_enable_crash_report_indication">If enabled, a crash report will be created locally and then you will be able to share it.</string>
     <string name="crash_title">Масталаб је престао да ради :(</string>
     <string name="crash_message">Можете ми послати извештај о грешци е-поштом. То може да ми помогне да је исправим:)\n\nМожете додати и неки додатни садржај. Хвала!</string>
-    <string name="set_wysiwyg">Use the wysiwyg</string>
-    <string name="set_wysiwyg_indication">When enabled, you will be able to format your text easily with tools.</string>
-    <string name="action_stats">Statistics</string>
-    <string name="total_statuses">Total statuses</string>
-    <string name="number_boosts">Number of boosts</string>
-    <string name="number_favourites">Number of favourites</string>
-    <string name="number_mentions">Number of mentions</string>
-    <string name="number_follows">Number of follows</string>
-    <string name="number_polls">Number of polls</string>
-    <string name="number_replies">Number of replies</string>
-    <string name="number_statuses">Number of statuses</string>
-    <string name="statuses">Statuses</string>
     <string name="visibility">Visibility</string>
-    <string name="number_with_media">Number with media</string>
-    <string name="number_with_sensitive_media">Number with sensitive media</string>
-    <string name="number_with_cw">Number with CW</string>
-    <string name="first_toot_date">First status date</string>
-    <string name="last_toot_date">Last status date</string>
-    <string name="first_notification_date">First notification date</string>
-    <string name="last_notification_date">Last notification date</string>
-    <string name="frequency">Frequency</string>
-    <string name="toot_per_day">%s statuses per day</string>
-    <string name="notification_per_day">%s notifications per day</string>
-    <string name="date_range">Date range</string>
-    <string name="action_groups">Groups</string>
-    <string name="no_messages">No groups!</string>
     <string name="set_disable_animated_emoji">Disable custom animated emojis</string>
-    <string name="owner_charts">Charts</string>
-    <string name="display_charts">Display charts</string>
-    <string name="collecting_data_wait">The application collects your local data, please wait…</string>
-    <string name="set_backup">Backup</string>
-    <string name="set_auto_backup">Auto backup statuses</string>
-    <string name="set_auto_backup_indication">This option is per account. It will launch a service that will automatically store your statuses locally in the database. That allows to get statistics and charts</string>
-    <string name="set_auto_backup_notifications">Auto backup notifications</string>
-    <string name="set_auto_backup_notifications_indication">This option is per account. It will launch a service that will automatically store your notifications locally in the database. That allows to get statistics and charts</string>
     <string name="report_account">Report account</string>
-    <string name="send_invitation">Send an invitation</string>
-    <string name="registration_closed">Your instance does not allow to register a new account!</string>
-    <plurals name="number_of_vote">
-        <item quantity="one">%d vote</item>
-        <item quantity="few">%d votes</item>
-        <item quantity="other">%d votes</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="one">%d voter</item>
         <item quantity="few">%d voters</item>
@@ -980,25 +502,7 @@
         <item>3 days</item>
         <item>7 days</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Webview</item>
-        <item>Direct stream</item>
-    </string-array>
-    <string name="join_instance">For joining my instance \"%1$s\", you can download Fedilab:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nThen open the link below with Fedilab and create your account :)\n\n%4$s
-    </string>
     <string name="poll_duplicated_entry">Your poll can\'t have duplicated options!</string>
-    <string name="all_accounts">For all accounts</string>
-    <string name="database_cache">Database cache</string>
-    <string name="cache_timeline_clear">Clear your home timeline cache</string>
-    <string name="cache_owntoots_clear">Clear your cached statuses</string>
-    <string name="cache_bookmarks_clear">Clear your bookmarks</string>
-    <string name="file_cache">Files in cache</string>
-    <string name="total_notifications">Total notifications</string>
-    <string name="hide_menu_items">Hide menu items</string>
-    <string name="top_notification">Fedilab is running live notifications</string>
-    <string name="top_notification_message">For %1$s accounts with %2$s events</string>
-    <string name="set_allow_live_notifications">Live notifications for %1$s</string>
-    <string name="set_allow_live_notifications_indication">Live notifications will be enabled for this account.</string>
     <string name="set_clear_cache_exit">Clear cache when leaving</string>
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
@@ -1006,36 +510,12 @@
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
-    <string name="replace_wikipedia">Replace Wikipedia links</string>
-    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
-    <string name="replace_wikipedia_host">Default: wikiless.org</string>
-    <string name="set_hide_status_bar">Hide Fedilab notification bar</string>
-    <string name="set_hide_status_bar_indication">For hiding the remaining notification in the status bar, tap on the eye icon button then uncheck: \"Display in status bar\"</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
-    <string name="no_live_notif">No live notifications</string>
-    <string name="live_notif">Live notifications</string>
-    <string name="no_live_indication">Notifications will be fetched every 15 minutes.</string>
     <string name="action_add_notes">Add notes</string>
     <string name="note_for_account">Notes for the account</string>
     <string name="set_resize_picture_indication">Allow to compress large photos into smaller sized photos with very less or negligible loss in quality of the image.</string>
     <string name="set_resize_video_indication">Allow compressing videos while maintaining their quality.</string>
-    <string name="please_wait_compression">The app is compressing the media, it can be quite long…</string>
-    <string name="change_app_icon_experimental">Change app icon</string>
-    <string name="click_to_change_the_app_icon">Tap to change the app icon</string>
-    <string name="post">Post</string>
-    <string name="post_visibility_tilte">Visibility of the post</string>
-    <string name="add_photo_pixelfed">Tap here to add photos</string>
-    <string name="add_photo_indication_pixelfed">Accepted Formats: jpeg, png, gif  \n\nMax File Size: 15 MB  \n\nAlbums can contain up to 4 photos or videos</string>
-    <string name="upload_media">Upload media</string>
-    <string name="pixelfed_compose_placeholder">Add an optional caption</string>
-    <string name="long_api_error">The app received a very long error message from the API %1$s</string>
-    <string name="message_preview">Message preview</string>
-    <string name="report_mention">Add mentions in each message</string>
-    <string name="fetch_conversation">Fetching conversation</string>
     <string name="order_by">Order by</string>
-    <string name="title_video_peertube">Title for the video</string>
-    <string name="join_peertube">Join Peertube</string>
-    <string name="agreement_check_peertube">I am at least 16 years old and agree to the %1$s of this instance</string>
     <string name="link_color_title">Links</string>
     <string name="link_color">Change the color of links (URLs, mentions, tags, etc.) in messages</string>
     <string name="boost_header_color_title">Reblogs header</string>
@@ -1049,84 +529,46 @@
     <string name="reset">Reset</string>
     <string name="icons_color_title">Icons</string>
     <string name="icons_color">Color of bottom icons in timelines</string>
-    <string name="pin_tag">Pin this tag</string>
     <string name="logo_of_the_instance">Logo of the instance</string>
     <string name="edit_profile">Edit profile</string>
     <string name="make_an_action">Make an action</string>
     <string name="translation">Translation</string>
-    <string name="image_preview">Image preview</string>
     <string name="text_color_title">Text color</string>
     <string name="text_color">Change the text color in pots</string>
-    <string name="apply_changes">Apply changes</string>
-    <string name="restart_message">You need to restart the application to apply changes</string>
-    <string name="restart">Restart</string>
     <string name="pref_custom_theme">Use a custom theme</string>
-    <string name="pref_custom_theme_summary">Allow to override colors of the  selected theme above</string>
     <string name="theming">Theming</string>
-    <string name="store_before">Store before</string>
     <string name="data_export_theme">The theme was exported</string>
     <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
-    <string name="pref_colored_status_bar_summary">Apply the primary color to the status bar</string>
-    <string name="pref_colored_status_bar_title">Status bar color</string>
-    <string name="restore_default_theme">Restore a default theme</string>
     <string name="import_theme">Import a theme</string>
     <string name="import_theme_title">Tap here to import a theme from a previous export</string>
     <string name="export_theme">Export the theme</string>
     <string name="export_theme_title">Tap here to export the current theme</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
-    <string name="label_theme_picker">Theme Picker</string>
-    <string name="pref_theme_summary">Select a pre-installed theme</string>
-    <string name="pref_theme_title">Themes</string>
-    <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
-    <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
-    <string name="pref_background_color_summary">The underlying color of the app’s content.</string>
-    <string name="pref_background_color_title">Background color</string>
-    <string name="pref_accent_color_summary">Accents select parts of the UI.</string>
-    <string name="pref_accent_color_title">Accent color</string>
-    <string name="pref_primary_color_summary">Displayed most frequently across your app.</string>
-    <string name="pref_primary_color_title">Primary color</string>
-    <string name="export_bookmarks">Export bookmarks to the instance</string>
-    <string name="import_bookmarks">Import bookmarks from the instance</string>
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
     <string name="instance_count">Instance count</string>
-    <string name="blocked">Blocked</string>
     <string name="poll_finish_in">End in %s</string>
-    <string name="release_note_title">What\'s new in %s</string>
-    <string name="follow_account_update">You can follow my account for updates</string>
     <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
     <string name="display_full_link">Display full link</string>
     <string name="share_link">Share link</string>
-    <string name="link_copy">The URL has been copied to the clipboard</string>
     <string name="open_other_app">Open with another app</string>
     <string name="check_redirect">Check redirect</string>
     <string name="no_redirect">This URL does not redirect</string>
     <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
-    <string name="set_user_agent">Change the user agent</string>
-    <string name="set_user_agent_hint">Set a custom user agent or leave blank</string>
-    <string name="set_user_agent_indication">Allows to customize the user agent used for api calls or with the built-in browser.</string>
     <string name="set_utm_parameters">Remove UTM parameters</string>
     <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
-    <string name="action_trends">Trends</string>
-    <string name="trending_now">Trending now</string>
     <string name="talking_about">%d people talking</string>
     <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter usernames space separated</string>
     <string name="identity_proofs">Identity proofs</string>
     <string name="verified_user">Verified identity</string>
     <string name="verified_by">Verified by %1$s (%2$s)</string>
-    <string name="remove_notification">Delete the notification</string>
-    <string name="display_more_options">Display more options</string>
-    <string name="pixelfed_story">It is a Pixelfed story</string>
-    <string name="story_indication">Upload a media, it will be automatically added to your Pixelfed story.</string>
-    <string name="added_to_story">Media successfully added to your story!</string>
     <string name="action_disabled">Action disabled</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
     <string name="action_announcements">Announcements</string>
     <string name="no_announcements">No announcements!</string>
     <string name="add_reaction">Add a reaction</string>
-    <string name="set_custom_tabs_indication">Use your favourite browser inside the app. Uncheck this feature to open links externally.</string>
     <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
     <string name="set_watermark">Watermarks</string>
     <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>

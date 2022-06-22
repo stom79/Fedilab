@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Mở menu</string>
-    <string name="navigation_drawer_close">Đóng menu</string>
     <string name="action_about">Giới thiệu</string>
     <string name="action_about_instance">Về máy chủ</string>
     <string name="action_privacy">Riêng tư</string>
     <string name="action_cache">Bộ nhớ đệm</string>
     <string name="action_logout">Đăng xuất</string>
-    <string name="login">Đăng nhập</string>
     <!-- common -->
     <string name="close">Đóng</string>
     <string name="yes">Đồng ý</string>
@@ -23,24 +20,16 @@
     <string name="toots">Tút</string>
     <string name="tags">Tag</string>
     <string name="save">Lưu</string>
-    <string name="restore">Khôi phục</string>
-    <string name="no_result">Không có kết quả!</string>
     <string name="instance">Máy chủ</string>
     <string name="instance_example">Ví dụ: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Hiện đang sử dụng tài khoản %1$s</string>
     <string name="add_account">Thêm một tài khoản</string>
     <string name="clipboard">Đã chép nội dung tút vào bộ nhớ tạm</string>
     <string name="clipboard_url">Đã chép URL tút vào bộ nhớ tạm</string>
-    <string name="change">Thay đổi</string>
-    <string name="choose_picture">Chọn ảnh…</string>
-    <string name="clear">Dọn dẹp</string>
     <string name="camera">Máy ảnh</string>
     <string name="delete_all">Xóa hết</string>
-    <string name="translate_toot">Dịch tút này.</string>
     <string name="schedule">Lên lịch đăng</string>
     <string name="text_size">Kích cỡ chữ và biểu tượng</string>
-    <string name="text_size_change">Thay đổi kích cỡ chữ hiện tại:</string>
-    <string name="icon_size_change">Thay đổi kích cỡ biểu tượng hiện tại:</string>
     <string name="next">Kế tiếp</string>
     <string name="previous">Trước đó</string>
     <string name="open_with">Mở bằng</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">Hiện lượt trả lời</string>
     <string name="action_open_in_web">Mở trong trình duyệt</string>
     <string name="translate">Dịch</string>
-    <string name="please_wait">Hãy chờ vài giây trước khi thực hiện hành động này.</string>
     <!--- Menu -->
     <string name="home_menu">Bảng tin</string>
     <string name="local_menu">Máy chủ</string>
-    <string name="global_menu">Lịch trình liên kết</string>
-    <string name="neutral_menu_title">Tùy chọn</string>
-    <string name="favorites_menu">Đã thích</string>
-    <string name="communication_menu_title">Giao tiếp</string>
     <string name="muted_menu">Người đã ẩn</string>
     <string name="blocked_menu">Người đã chặn</string>
     <string name="notifications">Thông báo</string>
     <string name="follow_request">Yêu cầu theo dõi</string>
     <string name="settings">Cài đặt</string>
-    <string name="delete_account_title">Xóa tài khoản</string>
-    <string name="delete_account_message" formatted="false">Xóa tài khoản %1$s khỏi ứng dụng?</string>
     <string name="send_email">Gửi email</string>
-    <string name="click_to_change">Nhấn vào đường dẫn để thay đổi nó</string>
-    <string name="failed">Thất bại!</string>
     <string name="scheduled_toots">Những tút đã lên lịch</string>
     <string name="disclaimer_full">Nội dung có thể hiển thị không đầy đủ. Nhấn để mở xem chi tiết trên trình duyệt.</string>
     <string name="insert_emoji">Chèn emoji</string>
     <string name="no_emoji">Ứng dụng không thể thu thập emoji tùy chỉnh vào thời điểm này.</string>
-    <string name="push_notif">Thông báo đẩy</string>
-    <string name="logout_confirmation">Bạn có chắc muốn đăng xuất\?</string>
     <string name="logout_account_confirmation">Bạn có chắc muốn đăng xuất @%1$s@%2$s\?</string>
     <!-- Status -->
     <string name="no_status">Không có tút nào</string>
-    <string name="no_stories">Không có story nào</string>
-    <string name="stories">Story</string>
-    <string name="reblog_by">Đăng lại bởi %1$s</string>
     <string name="favourite_add">Thêm tút này vào mục yêu thích của bạn\?</string>
     <string name="favourite_remove">Xóa tút này khỏi mục yêu thích của bạn\?</string>
     <string name="reblog_add">Đăng lại tút này\?</string>
     <string name="reblog_remove">Bỏ đăng lại tút này\?</string>
-    <string name="pin_add">Ghim tút này\?</string>
-    <string name="pin_remove">Bỏ ghim tút này\?</string>
     <string name="more_action_1">Ẩn</string>
     <string name="more_action_2">Chặn</string>
     <string name="more_action_3">Báo cáo</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">Tút đã lưu</string>
     <string name="bookmark_add">Lưu tút</string>
     <string name="bookmark_remove">Hủy lưu</string>
-    <string name="bookmarks_empty">Chưa lưu gì hết</string>
     <string name="status_bookmarked">Đã lưu tút!</string>
     <string name="status_unbookmarked">Đã hủy lưu tút!</string>
     <!-- Date -->
@@ -144,34 +116,15 @@
         <item quantity="other">%d ngày</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Nội dung ẩn</string>
-    <string name="toot_placeholder">Bạn đang nghĩ về điều gì\?</string>
-    <string name="toot_it">ĐĂNG</string>
-    <string name="queet_it">ĐĂNG NGAY</string>
-    <string name="cw">cw</string>
-    <string name="toot_title">Viết tút mới</string>
-    <string name="toot_title_reply">Trả lời tút</string>
-    <string name="queet_title">Viết tút</string>
-    <string name="queet_title_reply">Trả lời tút</string>
-    <string name="toot_select_image">Đính kèm tập tin</string>
     <string name="toot_select_image_error">Đã xảy ra lỗi khi chọn tập tin media!</string>
     <string name="toot_delete_media">Xóa tập tin media này\?</string>
     <string name="toot_error_no_content">Không thể đăng tút trống!</string>
     <string name="toot_sent">Tút đã được đăng!</string>
-    <string name="toot_reply_content_title">Bạn đang trả lời tút này:</string>
     <string name="toot_sensitive">Nội dung nhạy cảm?</string>
-    <string-array name="toot_visibility">
-        <item>Đăng lên các mốc công khai</item>
-        <item>Không đăng lên các dòng thời gian công khai</item>
-        <item>Đăng lên người theo dõi chỉ</item>
-        <item>Đăng lên chỉ những người dùng được đề cập</item>
-    </string-array>
     <string name="no_draft">Không có bản nháp!</string>
-    <string name="choose_toot">Chọn một tút</string>
     <string name="choose_accounts">Chọn một tài khoản</string>
     <string name="select_accounts">Chọn nhiều tài khoản</string>
     <string name="remove_draft">Xóa bản nháp\?</string>
-    <string name="show_reply">Nhấn vào nút để hiển thị tút gốc</string>
     <string name="upload_form_description">Mô tả cho người khiếm thị</string>
     <!-- Instance -->
     <string name="instance_no_description">Không có mô tả nào!</string>
@@ -181,28 +134,20 @@
     <string name="about_license">Giấy phép: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Mã nguồn: </string>
-    <string name="about_yandex">Dịch tút bằng:</string>
     <string name="about_thekinrar">Tìm máy chủ:</string>
-    <string name="thanks_text_logo">Thiết kế biểu tượng:</string>
     <!-- Conversation -->
-    <string name="conversation">Thảo luận</string>
     <!-- Accounts -->
     <string name="no_accounts">Không có tài khoản nào</string>
     <string name="no_follow_request">Không có yêu cầu theo dõi</string>
     <string name="status_cnt">%1$s tút</string>
     <string name="following_cnt">%1$s Đang theo dõi</string>
     <string name="followers_cnt">%1$s Người theo dõi</string>
-    <string name="pins_cnt">Đã ghim \n %d</string>
-    <string name="authorize">Cho phép</string>
     <string name="reject">Từ chối</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Không có tút đã lên lịch!</string>
-    <string name="no_scheduled_toots_indications">Viết tút và sau đó chọn <b>Lên lịch</b> từ menu trên cùng.</string>
     <string name="remove_scheduled">Xóa tút đã lên lịch\?</string>
-    <string name="media_count">Media: %d</string>
     <string name="toot_scheduled">Tút đã được lên lịch!</string>
     <string name="toot_scheduled_date">Ngày đăng phải lớn hơn ngày hiện tại!</string>
-    <string name="warning_battery">Trình tiết kiệm pin đã được kích hoạt! Nó có thể không hoạt động như mong đợi.</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Thời gian ẩn phải nhiều hơn một phút.</string>
     <string name="timed_mute_date">%1$s sẽ bị ẩn cho tới %2$s.
@@ -217,24 +162,12 @@
     <string name="notif_favourite">thích tút của bạn</string>
     <string name="notif_follow">theo dõi bạn</string>
     <string name="notif_follow_request">yêu cầu theo dõi bạn</string>
-    <plurals name="other_notifications">
-        <item quantity="other">và %d thông báo khác</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="other">%d lượt thích</item>
-    </plurals>
-    <string name="delete_notification_ask">Xóa thông báo?</string>
     <string name="delete_notification_ask_all">Xóa tất cả các thông báo?</string>
-    <string name="delete_notification">Thông báo đã bị xóa!</string>
     <string name="delete_notification_all">Tất cả các thông báo đã bị xóa!</string>
     <!-- HEADER -->
-    <string name="following">Đang theo dõi</string>
     <string name="followers">Người theo dõi</string>
-    <string name="pinned_toots">Ghim</string>
     <!-- TOAST -->
     <string name="client_error">Không thể lấy id ứng dụng!</string>
-    <string name="connect_error">Không thể kết nối tới máy chủ!</string>
-    <string name="no_internet">Không có kết nối Internet!</string>
     <string name="toast_block">Người dùng đã bị chặn!</string>
     <string name="toast_unblock">Người dùng đã được bỏ chặn!</string>
     <string name="toast_mute">Người dùng đã bị ẩn!</string>
@@ -245,37 +178,16 @@
     <string name="toast_unreblog">Đã bỏ đăng lại tút!</string>
     <string name="toast_favourite">Đã thích tút!</string>
     <string name="toast_unfavourite">Đã bỏ thích tút!</string>
-    <string name="toast_report">Đã báo cáo tút!</string>
-    <string name="toast_unstatus">Đã xóa tút!</string>
-    <string name="toast_pin">Đã ghim tút!</string>
-    <string name="toast_unpin">Đã bỏ ghim tút!</string>
     <string name="toast_error">Rất tiếc! Đã xảy ra lỗi!</string>
     <string name="toast_code_error">Đã xảy ra lỗi! Máy chủ không trả về mã xác minh!</string>
     <string name="toast_error_instance">Địa chỉ máy chủ không hợp lệ!</string>
     <string name="toast_error_loading_account">Đã xảy ra lỗi khi chuyển đổi giữa các tài khoản!</string>
     <string name="toast_error_search">Đã xảy ra lỗi khi tìm kiếm!</string>
-    <string name="toast_update_credential_ok">Đã lưu dữ liệu tài khoản!</string>
     <string name="nothing_to_do">Không thể thực hiện hành động</string>
-    <string name="toast_saved">Đã lưu tập tin media!</string>
     <string name="toast_error_translate">Đã xảy ra lỗi khi dịch!</string>
-    <string name="toast_error_translations_disabled">Đã tắt dịch trong cài đặt</string>
-    <string name="toast_toot_saved">Bản nháp đã được lưu!</string>
-    <string name="toast_error_char_limit">Bạn có chắc là máy chủ cho phép số lượng ký tự này\? Thông thường, giá trị này gần 500 ký tự.</string>
-    <string name="toast_visibility_changed">Kiểu tút mặc định đã được thay đổi cho tài khoản %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Số lượng tút mỗi lần tải</string>
-    <string name="set_attachment_always">Luôn luôn</string>
-    <string name="set_attachment_wifi">WIFI</string>
-    <string name="set_attachment_ask">Hỏi</string>
-    <string name="set_attachment_action">Tải media</string>
-    <string name="load_attachment">Tải hình ảnh</string>
-    <string name="load_attachment_spoiler">Tải thêm…</string>
-    <string name="load_attachment_spoiler_less">Thu gọn</string>
-    <string name="load_sensitive_attachment">Nội dung nhạy cảm</string>
     <string name="set_disable_gif">Tắt ảnh đại diện GIF</string>
-    <string name="set_folder_title">Đường dẫn:</string>
-    <string name="set_auto_store_toot">Tự động lưu bản nháp</string>
-    <string name="set_auto_add_media_url">Thêm URL của tập tin vào tút</string>
     <string name="set_notif_follow">Khi ai đó theo dõi tôi</string>
     <string name="set_notif_follow_share">Khi ai đó đăng lại tút của tôi</string>
     <string name="set_notif_follow_add">Khi ai đó thích tút của tôi</string>
@@ -284,39 +196,20 @@
     <string name="set_notif_status">Nhắc khi có tút mới</string>
     <string name="set_share_validation">Hiện xác nhận trước khi đăng lại tút</string>
     <string name="set_share_validation_fav">Hiện xác nhận trước khi thích tút</string>
-    <string name="set_wifi_only">Chỉ thông báo bằng WIFI</string>
     <string name="set_notify">Thông báo?</string>
     <string name="set_notif_silent">Tắt thông báo</string>
     <string name="set_nsfw_timeout">Thời gian chờ của NSFW (giây, 0 = tắt)</string>
     <string name="set_med_desc_timeout">Thời gian chờ mô tả media (giây, 0 = tắt)</string>
-    <string name="settings_title_profile">Sửa hồ sơ</string>
     <string name="settings_title_custom_sharing">Chia sẻ tùy chỉnh</string>
     <string name="settings_custom_sharing_url">URL chia sẻ tùy chỉnh của bạn…</string>
-    <string name="set_profile_description">Tiểu sử…</string>
     <string name="set_lock_account">Tài khoản riêng tư</string>
     <string name="set_save_changes">Lưu thay đổi</string>
-    <string name="set_header_picture_overlay">Chọn ảnh bìa</string>
     <string name="set_fit_preview">Hình ảnh xem trước đầy đủ</string>
-    <string name="set_automatically_split_toot">Tự động chia tút trong trả lời khi số ký tự vượt quá:</string>
-    <string name="note_no_space">Bạn đã đạt đến 160 ký tự cho phép!</string>
-    <string name="username_no_space">Bạn đã đạt đến 30 ký tự cho phép!</string>
     <string name="settings_time_from">Giữa</string>
     <string name="settings_time_to">và</string>
-    <string name="settings_time_greater">Thời gian phải lớn hơn %1$s</string>
-    <string name="settings_time_lower">Thời gian phải nhỏ hơn %1$s</string>
-    <string name="settings_hour_init">Thời gian bắt đầu</string>
-    <string name="settings_hour_end">Thời gian kết thúc</string>
     <string name="embedded_browser">Sử dụng trình duyệt tích hợp</string>
     <string name="custom_tabs">Tab tùy chỉnh</string>
-    <string name="use_javascript">Bật JavaScript</string>
     <string name="expand_cw">Hiện nội dung ẩn</string>
-    <string name="use_cookies">Cho phép cookie của bên thứ ba</string>
-    <string name="your_api_key">Mã API của bạn, để trống là dùng Yandex</string>
-    <string-array name="settings_theme">
-        <item>Dark</item>
-        <item>Light</item>
-        <item>Black</item>
-    </string-array>
     <string name="set_led_colour">Chọn màu LED:</string>
     <string-array name="led_colours">
         <item>Màu xanh da trời</item>
@@ -333,20 +226,12 @@
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="request_sent">Đã gửi yêu cầu</string>
     <string name="followed_by">Theo dõi bạn</string>
-    <string name="action_search">Tìm kiếm</string>
     <string name="set_capitalize">Viết hoa chữ đầu khi trả lời</string>
     <string name="set_resize_picture">Giảm kích cỡ hình ảnh</string>
     <string name="set_resize_video">Giảm kích thước video</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">Thông báo đẩy</string>
-    <string name="settings_popup_message">Chọn loại thông báo đẩy bạn muốn nhận. Bạn có thể bật tắt những thông báo này trong cài đặt (Tab thông báo).</string>
     <!-- CACHE -->
-    <string name="cache_title">Xóa bộ nhớ đệm</string>
-    <string name="cache_message">Có %1$s dữ liệu trong bộ nhớ đệm.
-\n
-\nBạn có muốn xóa chúng\?</string>
     <string name="cache_units">MB</string>
-    <string name="toast_cache_clear">Đã xóa bộ nhớ đệm! %1$s đã được làm trống</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Tiêu đề</string>
     <string name="title_hint_custom_sharing">Tiêu đề…</string>
@@ -354,98 +239,25 @@
     <string name="keywords_header_custom_sharing">Từ khóa</string>
     <string name="keywords_hint_custom_sharing">Từ khóa…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">Đồng bộ</string>
-    <string name="action_filter">Bộ lọc</string>
-    <string name="owner_cached_toots">Tút của bạn</string>
-    <string name="owner_cached_notifications">Thông báo của bạn</string>
     <string name="v_public">Công khai</string>
     <string name="v_unlisted">Hạn chế</string>
     <string name="v_private">Riêng tư</string>
     <string name="v_direct">Nhắn riêng</string>
-    <string name="v_keywords">Hiện từ khóa…</string>
-    <string name="show_media">Hiện media</string>
-    <string name="show_pinned">Hiện tút ghim</string>
-    <string name="filter_no_result">Không có kết quả phù hợp!</string>
-    <string name="data_backup_toots">Sao lưu tút của %1$s</string>
-    <string name="data_backup_success">%1$s tút mới đã được nhập</string>
-    <string name="data_backup_notification_success">%1$s thông báo mới đã được nhập</string>
-    <string-array name="filter_order">
-        <item>Dates descending</item>
-        <item>Dates ascending</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>No</item>
-        <item>Only</item>
-        <item>Both</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">Không tìm thấy tút trong cơ sở dữ liệu. Hãy dùng nút đồng bộ trong menu để nạp lại.</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">Dữ liệu đã ghi</string>
-    <string name="privacy_data">Chỉ thông tin cơ bản từ các tài khoản được lưu trữ trên thiết bị. Những dữ liệu này được bảo mật và chỉ có thể được sử dụng bởi ứng dụng. Xóa ứng dụng sẽ xóa ngay những dữ liệu này.
-\n ⚠ Đăng nhập và mật khẩu không bao giờ được lưu trữ. Chúng chỉ được sử dụng trong quá trình xác thực an toàn (SSL) với mỗi máy chủ.</string>
-    <string name="privacy_authorizations_title">Quyền:</string>
-    <string name="privacy_authorizations"> - <b>ACCESS_NETWORK_STATE</b>: Phát hiện thiết bị có kết nối WIFI hay không.
-\n - <b>INTERNET</b>: Thực hiện truy vấn tới máy chủ.
-\n - <b>WRITE_EXTERNAL_STORAGE</b>: Lưu trữ media hoặc di chuyển ứng dụng trên thẻ nhớ.
-\n - <b>READ_EXTERNAL_STORAGE</b>: Thêm media vào tút.
-\n - <b>BOOT_COMPLETED</b>: Bắt đầu dịch vụ thông báo.
-\n - <b>WAKE_LOCK</b>: Thực hiện dịch vụ thông báo. </string>
-    <string name="privacy_API_authorizations_title">Quyền của API:</string>
-    <string name="privacy_API_authorizations"> - <b>Đọc</b>: Đọc dữ liệu.
-\n - <b>Viết</b>: Đăng tút và tải media cho tút.
-\n - <b>Theo dõi</b>: Theo dõi, ngưng theo dõi, chặn, bỏ chặn.
-\n
-\n <b>⚠ Những hành động này chỉ được thực hiện khi người dùng yêu cầu.</b> </string>
-    <string name="privacy_API_title">Theo dõi và Thư viện</string>
-    <string name="privacy_API"> Ứng dụng <b>không sử dụng công cụ theo dõi</b> (đo lường đối tượng, báo lỗi, etc.) và không chứa bất kỳ quảng cáo nào.
-\n
-\n Việc sử dụng thư viện được giảm thiểu:
-\n - <b>Glide</b>: Quản lý media
-\n - <b>Android-Job</b>: Quản lý dịch vụ
-\n - <b>PhotoView</b>: Quản lý hình ảnh
-\n </string>
-    <string name="privacy_API_yandex_title">Dịch tút</string>
-    <string name="privacy_API_yandex_authorizations">Ứng dụng cho phép dịch tút thông qua Yandex API.
-\n Yandex có chính sách bảo mật có thể xem ở đây: https://yandex.ru/legal/confidential/\?lang=en</string>
-    <string name="thanks_text_dev">Cảm ơn:</string>
     <string name="filter_regex">Lọc theo biểu thức thông thường</string>
     <string name="search">Tìm kiếm</string>
     <string name="delete">Xóa</string>
-    <string name="fetch_more_toots">Tải thêm tút…</string>
     <!-- About lists -->
     <string name="action_lists">Danh sách</string>
     <string name="action_lists_confirm_delete">Bạn có chắc muốn xóa vĩnh viễn danh sách này\?</string>
-    <string name="action_lists_empty_content">Không có gì trong danh sách này. Khi những người trong danh sách này đăng tút mới, chúng sẽ xuất hiện ở đây.</string>
     <string name="action_lists_add_to">Thêm vào danh sách</string>
-    <string name="action_lists_create">Thêm danh sách</string>
     <string name="action_lists_delete">Xoá danh sách</string>
-    <string name="action_lists_update">Chỉnh sửa danh sách</string>
     <string name="action_lists_title_placeholder">Tên danh sách mới</string>
     <string name="action_lists_add_user">Đã thêm tài khoản vào danh sách!</string>
     <string name="action_lists_empty">Bạn chưa có danh sách nào!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s đã chuyển sang %2$s</string>
-    <string name="issue_login_title">Xác minh không hoạt động\?</string>
-    <string name="issue_login_message"> <b>Dưới đây là một số cách:</b>
-\n
-\n - Kiểm tra xem có lỗi chính tả nào trong tên máy chủ
-\n
-\n - Kiểm tra xem máy chủ có hoạt động không
-\n
-\n - Nếu bạn dùng xác minh 2 bước (2FA), hãy dùng liên kết ở dưới (khi tên máy chủ được điền)
-\n
-\n - Bạn cũng có thể sử dụng liên kết này mà không cần sử dụng 2FA
-\n
-\n - Nếu nó vẫn không hoạt động, vui lòng báo lỗi trên FramaGit tại https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">Đã tải media. Nhấn vào đây để hiển thị.</string>
-    <string name="data_export_start">Hành động này có thể mất nhiều thời gian. Bạn sẽ được thông báo khi đã xong.</string>
-    <string name="data_export_running">Đang xử lý, xin chờ…</string>
-    <string name="data_export">Trạng thái xuất dữ liệu</string>
-    <string name="data_export_toots">Trạng thái xuất dữ liệu của %1$s</string>
-    <string name="data_export_success">%1$s tút của %2$s đã được xuất ra.</string>
-    <string name="data_export_error">Xảy ra lỗi khi xuất dữ liệu của %1$s</string>
-    <string name="data_export_error_simple">Xảy ra lỗi khi xuất dữ liệu!</string>
-    <string name="data_import_error_simple">Xảy ra lỗi khi nhập dữ liệu!</string>
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Bật proxy\?</string>
@@ -457,21 +269,13 @@
     <string name="support_the_app_on_liberapay">Ủng hộ bằng Liberapay</string>
     <string name="alert_regex">Đã xảy ra lỗi trong biểu thức chính quy!</string>
     <string name="toast_instance_unavailable">Không tìm thấy bảng tin của máy chủ này!</string>
-    <string name="delete_instance">Xóa máy chủ này\?</string>
-    <string name="which_language">Dịch sang</string>
     <string name="follow_instance">Theo dõi máy chủ</string>
     <string name="toast_instance_already_added">Bạn đã theo dõi máy chủ này rồi!</string>
-    <string name="toast_instance_followed">Đã theo dõi máy chủ!</string>
     <string name="action_partnership">Đối tác</string>
-    <string name="neutral_menu_information">Thông tin</string>
     <string name="hide_boost">Ẩn đăng lại từ %s</string>
     <string name="endorse">Tôn vinh người này</string>
     <string name="show_boost">Hiện đăng lại từ %s</string>
     <string name="unendorse">Bỏ tôn vinh người này</string>
-    <string name="toast_endorse">Bạn đã tôn vinh người này trên hồ sơ</string>
-    <string name="toast_unendorse">Người này không còn được tôn vinh trên hồ sơ</string>
-    <string name="toast_show_boost">Đã hiện những lượt đăng lại!</string>
-    <string name="toast_hide_boost">Đã ẩn những lượt đăng lại!</string>
     <string name="direct_message">Nhắn riêng</string>
     <string name="filters">Bộ lọc</string>
     <string name="action_filters_empty_content">Chưa có bộ lọc. Bạn có thể tạo bằng cách nhấn nút \"+\".</string>
@@ -490,103 +294,46 @@
     <string name="filter_expire">Hết hạn sau</string>
     <string name="action_filter_delete">Xoá bộ lọc\?</string>
     <string name="action_update_filter">Cập nhật bộ lọc</string>
-    <string name="action_filter_create">Tạo bộ lọc</string>
-    <string name="how_to_follow">Gợi ý theo dõi</string>
-    <string name="action_who_to_follow_empty_content">Chưa có người nào!</string>
-    <string name="follow_account">Theo dõi</string>
-    <string name="select_all">Chọn tất cả</string>
-    <string name="unselect_all">Bỏ chọn tất cả</string>
-    <string name="follow_trunk">Đã theo dõi %s!</string>
-    <string name="create_list_trunk">Đang tạo danh sách %s</string>
-    <string name="add_account_list_trunk">Thêm người dùng vào danh sách</string>
-    <string name="account_added_list_trunk">Người dùng đã được thêm vào danh sách</string>
-    <string name="adding_account_list_trunk">Thêm người dùng vào danh sách</string>
     <string name="action_list_add">Bạn chưa tạo danh sách nào. Nhấn nút \"+\" để tạo danh sách mới.</string>
-    <string name="about_trunk">Gợi ý theo dõi</string>
-    <string name="about_trunk_action">Trunk API</string>
-    <string name="toast_impossible_to_follow">Không thể theo dõi người dùng</string>
-    <string name="retrieve_remote_account">Đang nạp tài khoản từ xa</string>
     <string name="expand_image">Hiện media ẩn</string>
     <string name="channel_notif_follow">Người theo dõi mới</string>
     <string name="channel_notif_boost">Lượt đăng lại mới</string>
     <string name="channel_notif_fav">Lượt thích mới</string>
     <string name="channel_notif_mention">Lượt nhắc mới</string>
     <string name="channel_notif_poll">Cuộc bình chọn kết thúc</string>
-    <string name="channel_notif_toot">Tút mới</string>
     <string name="channel_notif_backup">Sao lưu tút</string>
     <string name="channel_notif_status">Tút mới</string>
     <string name="channel_notif_media">Tải media</string>
-    <string name="set_notif_sound">Đổi âm thanh thông báo</string>
     <string name="select_sound">Chọn âm thanh</string>
     <string name="set_enable_time_slot">Hiện thời gian đăng</string>
-    <string name="how_to_videos">Hướng dẫn qua video</string>
-    <string name="retrieve_remote_conversation">Đang nạp tút từ xa!</string>
-    <string name="no_blocked_domain">Không có máy chủ đã chặn!</string>
-    <string name="unblock_domain_confirm">Mở khóa máy chủ</string>
-    <string name="unblock_domain_confirm_message">Bạn có chắc bỏ chặn %s\?</string>
     <string name="block_domain_confirm_message">Bạn có chắc bỏ chặn %s\?
 \n
 \nBạn sẽ không thấy bất kỳ nội dung nào từ máy chủ này trong bảng tin và thông báo của bạn. Những người theo dõi bạn từ máy chủ này cũng sẽ bị xóa.</string>
-    <string name="blocked_domains">Máy chủ đã chặn</string>
     <string name="block_domain">Chặn máy chủ</string>
     <string name="toast_block_domain">Máy chủ đã bị chặn</string>
-    <string name="toast_unblock_domain">Máy chủ đã được bỏ chặn!</string>
     <string name="retrieve_remote_status">Đang nạp tút từ xa</string>
-    <string name="comment">Bình luận</string>
     <string name="peertube_instance">Máy chủ Peertube</string>
-    <string name="no_comments">Hãy là người đầu tiên để lại nhận xét về video này bằng nút trên cùng bên phải!</string>
-    <string name="number_view_video">%s lượt xem</string>
-    <string name="duration_video">Thời lượng: %s</string>
-    <string name="add_remote_instance">Thêm một máy chủ</string>
-    <string name="comment_no_allowed_peertube">Bình luận đã bị tắt trên video này!</string>
-    <string name="pickup_resolution">Chọn độ phân giải</string>
-    <string name="peertube_favorites">Video Peertube yêu thích</string>
-    <string name="bookmark_add_peertube">Đã lưu tút!</string>
-    <string name="bookmark_remove_peertube">Đã bỏ lưu tút!</string>
-    <string name="bookmark_peertube_empty">Chưa thích video PeerTube nào!</string>
-    <string name="channel">Kênh</string>
-    <string name="videos">Video</string>
-    <string name="channels">Kênh</string>
     <string name="set_display_emoji">Dùng Emoji One</string>
     <string name="information">Thông tin</string>
     <string name="set_display_card">Hiện xem trước tất cả tút</string>
-    <string name="thanks_text_ux">UX/UI designer</string>
-    <string name="set_display_video_preview">Hiển thị xem trước video</string>
     <string name="account_id_clipbloard">Đã chép ID tài khoản vào bộ nhớ tạm!</string>
     <string name="set_change_locale">Thay đổi ngôn ngữ</string>
-    <string name="default_language">Ngôn ngữ mặc định</string>
     <string name="truncate_long_toots">Thu gọn tút dài</string>
     <string name="set_truncate_toot">Thu gọn tút quá \'x\' dòng. 0 nghĩa là tắt.</string>
     <string name="display_toot_truncate">Hiện thêm</string>
     <string name="hide_toot_truncate">Hiện ít hơn</string>
-    <string name="manage_tags">Quản lý hashtag</string>
     <string name="tags_already_stored">Thẻ này đã tồn tại!</string>
-    <string name="tags_stored">Thẻ đã được lưu trữ!</string>
-    <string name="tags_renamed">Thẻ đã được thay đổi!</string>
-    <string name="tags_deleted">Thẻ đã bị xóa!</string>
     <string name="schedule_boost">Lên lịch đăng lại</string>
     <string name="boost_scheduled">Đã lên lịch đăng lại!</string>
     <string name="no_scheduled_boosts">Không có tút đăng lại đã lên lịch!</string>
-    <string name="no_scheduled_boosts_indications">Mở menu tút và chọn <b>Lên lịch đăng lại</b>.</string>
-    <string name="art_menu">Nghệ thuật</string>
     <string name="open_menu">Mở menu</string>
-    <string name="go_back">Quay lại</string>
-    <string name="app_logo">Logo ứng dụng</string>
     <string name="profile_picture">Ảnh đại diện</string>
     <string name="profile_banner">Ảnh bìa</string>
     <string name="contact_instance_admin">Liên hệ quản trị viên</string>
-    <string name="add_new">Thêm mục mới</string>
     <string name="mastohost_logo">Logo MastoHost</string>
     <string name="emoji_picker">Chọn emoji</string>
-    <string name="refresh">Làm mới</string>
     <string name="expand_conversation">Xem toàn bộ thảo luận</string>
-    <string name="remove_account">Gỡ bỏ tài khoản</string>
-    <string name="delete_domain">Bỏ chặn máy chủ</string>
     <string name="custom_emoji_picker">Chọn emoji</string>
-    <string name="play_video">Phát video</string>
-    <string name="new_toot">Tút mới</string>
-    <string name="card_view_image">Ảnh xem trước</string>
-    <string name="hide_media">Ẩn media</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Thêm mô tả cho người khiếm thị</string>
     <string-array name="filter_expire">
@@ -598,19 +345,10 @@
         <item>1 ngày</item>
         <item>1 tuần</item>
     </string-array>
-    <string name="showcase_instance">Trong mục này, bạn cần viết địa chỉ máy chủ.
-\nVí dụ, nếu bạn tạo tài khoản trên https://mastodon.social
-\nHãy điền <b>mastodon.social</b>
-\nBạn có thể bắt đầu viết những chữ cái đầu tiên và tên sẽ được gợi ý. </string>
-    <string name="more_information">Thêm thông tin</string>
     <!-- languages not translated -->
     <string name="languages">Ngôn ngữ</string>
     <string name="show_media_only">Chỉ tút có media</string>
     <string name="show_media_nsfw">Hiển thị NSFW</string>
-    <string name="crowdin_translations">Crowdin dịch</string>
-    <string name="crowdin_manager">Quản lý Crowdin</string>
-    <string name="translation_app">Dịch ứng dụng</string>
-    <string name="about_crowdin">Về Crowdin</string>
     <string name="bot">Bot</string>
     <string name="pixelfed_instance">Máy chủ Pixelfed</string>
     <string name="mastodon_instance">Máy chủ Mastodon</string>
@@ -622,110 +360,36 @@
     <string name="some_tags">Thêm vài chữ cho bộ lọc (tách bằng dấu phẩy)</string>
     <string name="change_tag_column">Đổi tên cột</string>
     <string name="misskey_instance">Máy chủ Misskey</string>
-    <string name="toast_no_apps">Không có app nào trên thiết bị hỗ trợ liên kết này.</string>
-    <string name="subscriptions">Đăng ký</string>
-    <string name="overview">Tổng quan</string>
     <string name="trending">Xu hướng</string>
-    <string name="recently_added">Được thêm gần đây</string>
     <string name="local">Máy chủ</string>
-    <string name="upload_video">Tải lên</string>
-    <string name="reply">Trả lời</string>
-    <string name="delete_comment">Xoá bình luận</string>
-    <string name="delete_comment_confirm">Bạn có chắc muốn xóa bình luận này không\?</string>
-    <string name="fullscreen">Video toàn màn hình</string>
-    <string name="set_video_mode">Chế độ xem</string>
-    <string name="file_to_upload">Chọn tập tin để tải lên</string>
-    <string name="my_videos">Video của tôi</string>
-    <string name="title">Tựa đề</string>
-    <string name="license">Giấy phép</string>
     <string name="category">Phân loại</string>
-    <string name="language">Ngôn ngữ</string>
-    <string name="peertube_nsfw">Video này chứa nội dung người lớn</string>
-    <string name="peertube_enable_comments">Cho phép đăng bình luận</string>
-    <string name="update_video">Cập nhật video</string>
     <string name="description">Mô tả</string>
-    <string name="toast_peertube_video_updated">Video đã được cập nhật!</string>
-    <string name="toast_cancelled">Đã hủy tải lên!</string>
-    <string name="upload_video_success">Video đã được tải lên!</string>
-    <string name="uploading">Đang tải, vui lòng chờ…</string>
-    <string name="video_uploaded_action">Nhấn vào đây để dữ liệu video.</string>
-    <string name="delete_video">Xóa video</string>
-    <string name="delete_video_confirmation">Bạn có chắc muốn xóa video này không\?</string>
-    <string name="display_nsfw_videos">Hiện video NSFW</string>
-    <string name="no_video_to_display">Không có video nào!</string>
-    <string name="leave_a_comment">Thêm bình luận</string>
     <string name="share">Chia sẻ</string>
-    <string name="choose_schedule">Chọn chế độ lịch</string>
-    <string name="device_schedule">Từ thiết bị</string>
-    <string name="server_schedule">Từ máy chủ</string>
     <string name="toots_server">Tút (Máy chủ)</string>
     <string name="toots_client">Tút (Thiết bị)</string>
-    <string name="modify">Chỉnh sửa</string>
-    <string name="set_display_content_after_fetch_more">Hiện những tút mới trên nút \"Nạp thêm\"</string>
     <string name="settings_category_label_timelines">Dòng thời gian</string>
     <string name="settings_category_label_interface">Giao diện</string>
     <string name="contact">Danh bạ</string>
-    <string name="peertube_comment_on_video"><b>%1$s</b> bình luận video của bạn <b>%2$s</b></string>
-    <string name="peertube_follow_channel"><b>%1$s</b> đăng ký kênh của bạn <b>%2$s</b></string>
-    <string name="peertube_follow_account"><b>%1$s</b> đang theo dõi bạn</string>
-    <string name="peertube_video_published">Video của bạn <b>%1$s</b> đã được đăng</string>
-    <string name="peertube_video_import_success">Bạn đã nhập video <b>%1$s</b> thành công</string>
-    <string name="peertube_video_import_error">Bạn đã nhập video <b>%1$s</b> thất bại</string>
-    <string name="peertube_video_from_subscription"><b>%1$s</b> đăng một video mới: <b>%2$s</b></string>
-    <string name="peertube_video_blacklist">Video của bạn <b>%1$s</b> bị đưa vào danh sách đen</string>
-    <string name="peertube_video_unblacklist">Video của bạn <b>%1$s</b> được bỏ khỏi danh sách đen</string>
-    <string name="export_data">Xuất dữ liệu</string>
-    <string name="import_data">Nhập dữ liệu</string>
-    <string name="toot_select_import">Chọn một tập tin để nhập</string>
     <string name="toot_select_file_error">Xảy ra lỗi khi chọn tập tin sao lưu!</string>
-    <string name="add_public_comment">Thêm bình luận công khai</string>
-    <string name="send_comment">Gửi bình luận</string>
-    <string name="toast_toot_saved_error">Rớt mạng. Tút của bạn sẽ được lưu thành bản nháp.</string>
-    <string name="action_plain_text">Văn bản thuần</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">Đăng xuất</string>
     <string name="all">Tất cả</string>
-    <string name="about_opencollective">Ủng hộ app</string>
-    <string name="more_about_opencollective">Open Collective cho phép các nhóm nhanh chóng gây quỹ và quản lý chúng một cách minh bạch.</string>
     <string name="copy_link">Sao chép liên kết</string>
-    <string name="connect_instance">Kết nối</string>
-    <string name="set_normal">Bình thường</string>
-    <string name="set_compact">Thu gọn</string>
-    <string name="set_console">Console</string>
-    <string name="set_mode">Chế độ hiển thị</string>
-    <string name="set_security_provider">Vá lỗi cung cấp bảo mật</string>
-    <string name="update_tracking_domains">Cập nhật máy chủ đánh dấu</string>
-    <string name="tracking_db_updated">Cơ sở dữ liệu đánh dấu đã được cập nhật!</string>
     <string name="calls_blocked">http calls đã bị chặn bởi ứng dụng</string>
     <string name="list_of_blocked_domains">Danh sách những máy chủ chặn</string>
     <string name="submit">Gửi</string>
-    <string name="data_base_exported">Cơ sở dữ liệu đã được xuất!</string>
-    <string name="featured_hashtags">Hashtag thường dùng</string>
     <string name="filter_timeline_with_a_tag">Lọc với hashtag</string>
     <string name="no_tags">Không có hashtag</string>
-    <string name="set_hide_delete_notification_on_tab">Ẩn nút \"xóa\" trên tab thông báo</string>
     <string name="set_retrieve_metadata_share_from_extras">Hiện hình ảnh khi chia sẻ URL</string>
     <!-- end languages -->
-    <string name="poll">Bình chọn</string>
-    <string name="polls">Bình chọn</string>
     <string name="create_poll">Tạo bình chọn</string>
-    <string name="poll_choice_1">Lựa chọn 1</string>
-    <string name="poll_choice_2">Lựa chọn 2</string>
     <string name="poll_choice_s">Lựa chọn %d</string>
     <string name="poll_invalid_choices">Bạn cần cho ít nhất 2 lựa chọn!</string>
     <string name="done">Xong</string>
     <string name="poll_finish_at">kết thúc lúc %s</string>
-    <string name="refresh_poll">Làm mới</string>
     <string name="vote">Bình chọn</string>
     <string name="notif_poll">Cuộc bình chọn có bạn tham gia đã kết thúc</string>
     <string name="notif_poll_self">Cuộc bình chọn của bạn đã kết thúc</string>
-    <string name="settings_category_notif_customize">Tùy chỉnh</string>
     <string name="settings_category_notif_categories">Loại</string>
-    <string name="settings_category_notif_time_slot">Thời điểm</string>
-    <string name="settings_category_notif_advanced">Nâng cao</string>
-    <string name="set_display_new_badge">Hiện nhãn \'mới\' với những tút chưa đọc</string>
-    <string name="peertube_menu">Peertube</string>
     <string name="move_timeline">Chuyển bảng tin</string>
     <string name="hide_timeline">Ẩn bảng tin</string>
     <string name="reorder_timelines">Sắp xếp bảng tin</string>
@@ -733,71 +397,37 @@
     <string name="reorder_instance_removed">Đã xóa theo dõi máy chủ</string>
     <string name="reorder_tag_removed">Đã xóa hashtag ghim</string>
     <string name="undo">Hoàn tác</string>
-    <string name="visible_tabs_needed">Bạn cần hiển thị ít nhất 2 tab!</string>
-    <string name="action_reorder_timeline">Sắp xếp bảng tin</string>
     <string name="warning_main_timeline">Bảng tin chính có thể bị ẩn!</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">Tài khoản nhạy cảm</string>
     <string name="gnu_instance">Máy chủ GNU</string>
-    <string name="cached_status">Tút lưu trong bộ nhớ đệm</string>
     <string name="set_forward_tags">Dùng lại hashtag trong trả lời</string>
     <string name="set_long_press_media">Nhấn và giữ để tải xuống media</string>
-    <string name="set_blur_sensitive">Che mờ nội dung nhạy cảm</string>
-    <string name="set_display_timeline_in_list">Hiện bảng tin trong một danh sách</string>
-    <string name="display_timeline">Hiện bảng tin</string>
-    <string name="set_display_bot_icon">Đánh dấu tài khoản bot</string>
     <string name="add_tags">Quản lý hashtag</string>
-    <string name="set_remember_position">Ghi vị trí trong bảng tin</string>
-    <string name="history">Lịch sử</string>
-    <string name="playlists">Danh sách phát</string>
     <string name="display_name">Tên hiển thị</string>
-    <string name="action_playlist_add">Bạn chưa có danh sách phát nào. Nhấn \"+\" để tạo mới</string>
-    <string name="error_display_name">Bạn phải cung cấp tên hiển thị!</string>
-    <string name="error_channel_mandatory">Bắt buộc có kênh nếu danh sách phát là công khai.</string>
-    <string name="action_playlist_create">Tạo danh sách phát</string>
-    <string name="action_playlist_empty_content">Chưa có gì trong danh sách phát.</string>
-    <string name="redo">làm lại</string>
-    <string name="gallery">Gallery</string>
     <string name="label_emoji">Emoji</string>
-    <string name="label_sticker">Sticker</string>
-    <string name="label_eraser">Tẩy</string>
     <string name="label_text">Văn bản</string>
     <string name="label_filter">Bộ lọc</string>
     <string name="label_brush">Bút vẽ</string>
-    <string name="confirm_exit_editing">Bạn chắc chắn muốn thoát mà không lưu\?</string>
     <string name="discard">Bỏ qua</string>
     <string name="saving">Đang lưu…</string>
     <string name="image_saved">Đã lưu ảnh thành công!</string>
     <string name="save_image_failed">Không thể lưu hình ảnh</string>
-    <string name="opacity">Độ trong suốt</string>
-    <string name="set_photo_editor">Trình chỉnh sửa ảnh</string>
     <string name="add_poll_item">Thêm lựa chọn</string>
-    <string name="remove_poll_item">Xóa lựa chọn cuối</string>
     <string name="mute_conversation">Không quan tâm nữa</string>
     <string name="unmute_conversation">Quan tâm</string>
     <string name="toast_unmute_conversation">Đã quan tâm lại cuộc thảo luận!</string>
     <string name="toast_mute_conversation">Đã ẩn cuộc thảo luận</string>
-    <string name="app_features">Mở tính năng ứng dụng</string>
-    <string name="timed_mute">Thời gian ẩn</string>
-    <string name="mention_account">Nhắc đến người dùng</string>
-    <string name="refresh_cache">Làm mới bộ nhớ đệm</string>
-    <string name="mention_status">Nhắc tới tút</string>
-    <string name="action_news">Tin tức</string>
     <string name="category_general">Chung</string>
     <string name="category_regional">Khu vực</string>
     <string name="category_art">Nghệ thuật</string>
-    <string name="category_journalism">Nhật ký</string>
     <string name="category_activism">Hoạt động xã hội</string>
     <string name="category_games">Game</string>
     <string name="category_tech">Công nghệ</string>
-    <string name="category_adult">Nội dung người lớn</string>
     <string name="category_furry">Furry</string>
     <string name="category_food">Đồ ăn</string>
     <string name="instance_logo">Logo máy chủ</string>
-    <string name="toast_error_instance_reg">Xảy ra lỗi khi kiểm tra máy chủ khả dụng!</string>
     <string name="join_mastodon">Tham gia Mastodon</string>
     <string name="pickup_instance_category">Chọn một máy chủ bằng cách chọn phân loại, sau khi nhấn nút kiểm tra.</string>
-    <string name="pickup_instance_peertube">Chọn máy chủ bằng cách nhấn nút kiểm tra.</string>
     <string name="users">%1$s người dùng</string>
     <string name="password_confirm">Xác nhận mật khẩu</string>
     <string name="agreement_check">Tôi đồng ý %1$s và %2$s</string>
@@ -805,10 +435,8 @@
     <string name="tos">điều khoản dịch vụ</string>
     <string name="sign_up">Đăng ký</string>
     <string name="validation_needed">Máy chủ này chỉ cho đăng ký thông qua lời mời. Tài khoản của bạn sẽ cần được quản trị viên phê duyệt theo cách thủ công trước khi có thể sử dụng được.</string>
-    <string name="all_field_filled">Vui lòng điền tất cả mục!</string>
     <string name="password_error">Mật khẩu không khớp!</string>
     <string name="email_error">Địa chỉ email không hợp lệ!</string>
-    <string name="username_indicator">Tên người dùng của bạn sẽ là duy nhất trên %1$s</string>
     <string name="email_indicator">Bạn sẽ được gửi một email xác nhận</string>
     <string name="password_indicator">Phải có ít nhất 8 ký tự</string>
     <string name="password_too_short">Mật khẩu phải chứa ít nhất 8 ký tự</string>
@@ -824,138 +452,38 @@
     <string name="save_draft">Lưu dưới dạng bản nháp\?</string>
     <string name="administration">Quản trị máy chủ</string>
     <string name="reports">Báo cáo</string>
-    <string name="no_reports">Không có báo cáo!</string>
-    <string name="reconnect_account">Kết nối lại tài khoản</string>
-    <string name="reconnect_account_message">Ứng dụng không thể truy cập tính năng quản trị máy chủ. Bạn có thể cần kết nối lại tài khoản để có phạm vi chính xác.</string>
     <string name="unresolved">Chờ xử lý</string>
     <string name="remote">Từ xa</string>
     <string name="active">Hoạt động</string>
     <string name="pending">Đang chờ</string>
     <string name="disabled">Đã khóa</string>
-    <string name="silenced">Đã ẩn</string>
     <string name="suspended">Vô hiệu hóa</string>
     <string name="permissions">Quyền</string>
-    <string name="email_status">Trạng thái email</string>
-    <string name="login_status">Trạng thái đăng nhập</string>
-    <string name="joined">Đã tham gia</string>
-    <string name="recent_ip">IP gần đây</string>
-    <string name="warn">Cảnh cáo</string>
     <string name="disable">Tắt</string>
     <string name="silence">Ẩn</string>
-    <string name="email_user">Thông báo cho người này qua email</string>
-    <string name="custom_warning">Ghi chú riêng</string>
-    <string name="user">Người dùng</string>
-    <string name="moderator">Kiểm duyệt viên</string>
-    <string name="administrator">Quản trị viên</string>
-    <string name="confirmed">Đã xác nhận</string>
-    <string name="unconfirmed">Chưa xác nhận</string>
-    <string name="list_reported_statuses">Tút bị báo cáo</string>
     <string name="account">Tài khoản</string>
     <string name="unsilence">Bỏ ẩn</string>
     <string name="undisable">Bỏ khóa</string>
     <string name="suspend">Vô hiệu hóa</string>
     <string name="unsuspend">Bỏ vô hiệu hóa</string>
-    <string name="account_silenced">Tài khoản đã bị ẩn!</string>
-    <string name="account_unsilenced">Tài khoản đã được bỏ ẩn!</string>
-    <string name="account_suspended">Tài khoản đã bị vô hiệu hóa!</string>
-    <string name="account_unsuspended">Tài khoản đã được bỏ vô hiệu hóa!</string>
-    <string name="account_disabled">Tài khoản đã bị khóa!</string>
-    <string name="account_undisabled">Tài khoản đã được bỏ khóa!</string>
-    <string name="account_warned">Tài khoản đã bị cảnh cáo!</string>
-    <string name="set_display_admin_menu">Hiện menu quản trị viên</string>
-    <string name="set_display_admin_toot">Hiện tính năng quản trị trong tút</string>
-    <string name="allow">Cho phép</string>
-    <string name="account_approved">Tài khoản đã được duyệt!</string>
-    <string name="account_rejected">Tài khoản bị từ chối!</string>
-    <string name="assign_to_me">Giao cho tôi</string>
-    <string name="unassign">Bỏ chỉ định</string>
-    <string name="mark_resolved">Đánh dấu đã xử lý</string>
-    <string name="mark_unresolved">Mở lại</string>
-    <string name="toast_empty_content">Nội dung trống!</string>
-    <string name="set_display_fedilab_features_button">Hiện nút tính năng Fedilab</string>
     <string name="audio">Ứng dụng cần truy cập ghi âm</string>
     <string name="voice_message">Ghi âm</string>
-    <string name="set_quick_reply">Chèn trả lời nhanh</string>
-    <string name="reply_might_be_useless">Tài khoản bạn đang trả lời có thể không thấy trả lời của bạn!</string>
-    <string name="set_remember_position_indication">Nếu tắt, ứng dụng sẽ luôn tải các tút cuối cùng</string>
-    <string name="set_blur_sensitive_indication">Nếu tắt, nội dung nhạy cảm sẽ bị ẩn bằng một nút bấm</string>
-    <string name="set_long_press_media_indication">Lưu trữ media kích thước gốc bằng cách nhấn-giữ</string>
-    <string name="set_display_timeline_in_list_indication">Thêm một nút hình elip ở trên cùng bên phải để liệt kê tất cả hashtag/máy chủ/danh sách</string>
     <string name="set_enable_time_slot_indication">Ứng dụng sẽ gửi thông báo vào thời điểm chỉ định. Bạn có thể đảo ngược (tức là: im lặng) thời điểm này bằng con quay bên phải.</string>
-    <string name="set_display_fedilab_features_button_indication">Hiện nút Fedilab bên dưới ảnh đại diện. Nó là một phím tắt để truy cập các tính năng trong ứng dụng.</string>
-    <string name="set_quick_reply_indication">Cho phép trả lời trực tiếp trong dòng thời gian bên dưới các tút</string>
     <string name="set_fit_preview_indication">Không cắt ảnh xem trước</string>
-    <string name="set_display_video_preview_indication">Phát video nhúng trong bảng tin</string>
-    <string name="set_display_content_after_fetch_more_indication">Cho phép đảo ngược cách đọc tút được hiển thị sau khi nhấn vào nút tìm tải thêm</string>
-    <string name="set_security_provider_indication">Tùy chọn này cho phép hỗ trợ các bộ giải mã gần đây. Nó hữu ích cho các thiết bị Android đời cũ hoặc nếu bạn không thể kết nối với máy chủ của mình.</string>
-    <string name="set_video_mode_indication">Dành riêng cho video Peertube. Chuyển chế độ này nếu bạn không thể phát chúng.</string>
-    <string name="featured_hashtags_indication">Các hashtag này sẽ cho phép lọc các tút từ hồ sơ. Bạn sẽ phải sử dụng menu ngữ cảnh để xem chúng.</string>
     <string name="set_capitalize_indication">Tự động chèn dấu ngắt dòng sau phần đề cập để viết hoa chữ cái đầu tiên</string>
     <string name="settings_title_custom_sharing_indication">Chia sẻ tút với nguồn cấp dữ liệu RSS</string>
     <string name="compose">Soạn thảo</string>
-    <string name="upload_image_maximum_retry_times">Thử nhiều lần khi tải lên media</string>
-    <string name="new_folder">Tạo thư mục mới</string>
-    <string name="folder_name">Nhập tên thư mục</string>
-    <string name="valid_folder_name">Vui lòng nhập tên hợp lệ cho thư mục</string>
-    <string name="folder_exists">Thư mục này đã tồn tại.
-\n Hãy chọn tên khác</string>
     <string name="select">Chọn</string>
-    <string name="default_directory">Thư mục mặc định</string>
-    <string name="folder">Thư mục</string>
-    <string name="create_folder">Tạo thư mục</string>
-    <string name="set_display_confirm">Hiển thị thông báo sau khi thực hiện một hành động (đăng lại, yêu thích, etc.)\?</string>
-    <string name="muted_instance_exported">Đã xuất những máy chủ ẩn!</string>
     <string name="add_instances">Thêm một máy chủ</string>
-    <string name="export_instances">Xuất máy chủ</string>
-    <string name="import_instances">Nhập máy chủ</string>
-    <string name="set_crash_reports">Báo cáo sự cố</string>
     <string name="set_enable_crash_report">Bật báo cáo sự cố</string>
     <string name="set_enable_crash_report_indication">Nếu bật, báo cáo sự cố sẽ được tạo cục bộ và sau đó bạn có thể chia sẻ nó.</string>
     <string name="crash_title">Fedilab đã ngừng :(</string>
     <string name="crash_message">Bạn có thể gửi báo cáo sự cố qua email. Tôi sẽ giúp khắc phục nó :)
 \n
 \nBạn có thể thêm nội dung. Cảm ơn bạn!</string>
-    <string name="set_wysiwyg">Dùng WYSIWYG</string>
-    <string name="set_wysiwyg_indication">Khi bật, bạn sẽ có thể định dạng văn bản của mình một cách dễ dàng bằng các công cụ.</string>
-    <string name="action_stats">Thống kê</string>
-    <string name="total_statuses">Tổng số tút</string>
-    <string name="number_boosts">Số lượt đăng lại</string>
-    <string name="number_favourites">Lượt thích</string>
-    <string name="number_mentions">Lượt nhắc</string>
-    <string name="number_follows">Lượt theo dõi</string>
-    <string name="number_polls">Lượt bình chọn</string>
-    <string name="number_replies">Lượt trả lời</string>
-    <string name="number_statuses">Tút</string>
-    <string name="statuses">Tút</string>
     <string name="visibility">Mức độ hiển thị</string>
-    <string name="number_with_media">Có media</string>
-    <string name="number_with_sensitive_media">Có NSFW</string>
-    <string name="number_with_cw">Có nội dung ẩn</string>
-    <string name="first_toot_date">Tút đầu tiên</string>
-    <string name="last_toot_date">Tút mới nhất</string>
-    <string name="first_notification_date">Thông báo đầu tiên</string>
-    <string name="last_notification_date">Thông báo mới nhất</string>
-    <string name="frequency">Tần suất</string>
-    <string name="toot_per_day">%s tút mỗi ngày</string>
-    <string name="notification_per_day">%s thông báo mỗi ngày</string>
-    <string name="date_range">Khoảng thời gian</string>
-    <string name="action_groups">Nhóm</string>
-    <string name="no_messages">Không có nhóm!</string>
     <string name="set_disable_animated_emoji">Tắt emoji dạng GIF</string>
-    <string name="owner_charts">Biểu đồ</string>
-    <string name="display_charts">Hiện biểu đồ</string>
-    <string name="collecting_data_wait">Ứng dụng đang thu thập dữ liệu cục bộ của bạn, vui lòng chờ…</string>
-    <string name="set_backup">Sao lưu</string>
-    <string name="set_auto_backup">Tự động sao lưu tút</string>
-    <string name="set_auto_backup_indication">Tùy chọn này áp dụng cho từng tài khoản. Nó sẽ khởi chạy một dịch vụ tự động lưu trữ cục bộ các tút của bạn trong cơ sở dữ liệu. Điều này cho phép lấy số liệu thống kê và biểu đồ</string>
-    <string name="set_auto_backup_notifications">Tự động sao lưu thông báo</string>
-    <string name="set_auto_backup_notifications_indication">Tùy chọn này áp dụng cho từng tài khoản. Nó sẽ khởi chạy một dịch vụ tự động lưu trữ cục bộ các thông báo của bạn trong cơ sở dữ liệu. Điều này cho phép lấy số liệu thống kê và biểu đồ</string>
     <string name="report_account">Báo cáo tài khoản</string>
-    <string name="send_invitation">Gửi lời mời</string>
-    <string name="registration_closed">Máy chủ của bạn đã tắt đăng ký mới!</string>
-    <plurals name="number_of_vote">
-        <item quantity="other">%d bình chọn</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="other">%d bình chọn</item>
     </plurals>
@@ -972,31 +500,7 @@
         <item>3 days</item>
         <item>7 days</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Webview</item>
-        <item>Direct stream</item>
-    </string-array>
-    <string name="join_instance">Để tham gia máy chủ \"%1$s\" của tôi, bạn cần tải Fedilab:
-\n
-\nF-Droid: %2$s
-\nGoogle: %3$s
-\n
-\nSau đó mở liên kết bên dưới bằng Fedilab và tạo tài khoản :)
-\n
-\n%4$s</string>
     <string name="poll_duplicated_entry">Có lựa chọn trùng lặp!</string>
-    <string name="all_accounts">Đối với tất cả tài khoản</string>
-    <string name="database_cache">Bộ nhớ đệm cơ sở dữ liệu</string>
-    <string name="cache_timeline_clear">Xóa bộ nhớ đệm bảng tin</string>
-    <string name="cache_owntoots_clear">Xóa bộ nhớ đệm tút</string>
-    <string name="cache_bookmarks_clear">Xóa tút đã lưu</string>
-    <string name="file_cache">Tập tin trong bộ nhớ đệm</string>
-    <string name="total_notifications">Toàn bộ thông báo</string>
-    <string name="hide_menu_items">Ẩn mục menu</string>
-    <string name="top_notification">Fedilab đang hiện thông báo thời gian thực</string>
-    <string name="top_notification_message">Cho %1$s tài khoản với %2$s sự kiện</string>
-    <string name="set_allow_live_notifications">Thông báo thời gian thực cho %1$s</string>
-    <string name="set_allow_live_notifications_indication">Thông báo thời gian thực được bật cho tài khoản này.</string>
     <string name="set_clear_cache_exit">Xóa bộ nhớ đệm khi thoát</string>
     <string name="set_clear_cache_exit_indication">Bộ nhớ đệm (media, tút, dữ liệu từ trình duyệt tích hợp) sẽ tự động bị xóa khi thoát ứng dụng.</string>
     <string name="unfollow_confirm">Bạn có muốn ngưng theo dõi tài khoản này\?</string>
@@ -1004,40 +508,12 @@
     <string name="replace_medium">Thay thế liên kết từ Medium</string>
     <string name="replace_medium_description">Thay thế liên kết từ medium.com với một giao diện mã nguồn mở, chú trọng bảo mật.</string>
     <string name="replace_medium_host">Mặc định: scribe.rip</string>
-    <string name="replace_wikipedia">Thay thế liên kết từ Wikipedia</string>
-    <string name="replace_wikipedia_description">Thay thế liên kết từ Wikipedia với một giao diện mã nguồn mở, chú trọng bảo mật.</string>
-    <string name="replace_wikipedia_host">Mặc định: wikiless.org</string>
-    <string name="set_hide_status_bar">Ẩn thanh thông báo Fedilab</string>
-    <string name="set_hide_status_bar_indication">Để ẩn thông báo còn lại trên thanh trạng thái, hãy nhấn vào nút biểu tượng con mắt rồi bỏ chọn: \"Hiển thị trên thanh trạng thái\"</string>
     <string name="set_push_notifications">Sử dụng hệ thống thông báo đẩy để nhận thông báo trong thời gian thực.</string>
-    <string name="no_live_notif">Không thông báo đẩy</string>
-    <string name="live_notif">Thông báo đẩy</string>
-    <string name="no_live_indication">Thông báo sẽ được tìm nạp sau mỗi 15 phút.</string>
     <string name="action_add_notes">Thêm ghi chú</string>
     <string name="note_for_account">Ghi chú về người này</string>
     <string name="set_resize_picture_indication">Cho phép giảm kích cỡ hình ảnh.</string>
     <string name="set_resize_video_indication">Cho phép giảm độ phân giải video.</string>
-    <string name="please_wait_compression">Ứng dụng đang nén media, xin vui lòng chờ…</string>
-    <string name="change_app_icon_experimental">Đổi biểu tượng app</string>
-    <string name="click_to_change_the_app_icon">Nhấn để thay đổi biểu tượng</string>
-    <string name="post">Đăng</string>
-    <string name="post_visibility_tilte">Thay đổi quyền riêng tư</string>
-    <string name="add_photo_pixelfed">Nhấn để thêm hình ảnh</string>
-    <string name="add_photo_indication_pixelfed">Định dạng: jpeg, png, gif
-\n
-\nTối đa: 15 MB
-\n
-\nAlbum có thể chứa 4 hình ảnh hoặc video</string>
-    <string name="upload_media">Tải lên media</string>
-    <string name="pixelfed_compose_placeholder">Thêm mô tả tùy chọn</string>
-    <string name="long_api_error">Ứng dụng nhận thông báo lỗi từ API %1$s</string>
-    <string name="message_preview">Xem trước thông điệp</string>
-    <string name="report_mention">Thêm lượt nhắc trong mỗi thông điệp</string>
-    <string name="fetch_conversation">Đang nạp thảo luận</string>
     <string name="order_by">Sắp xếp</string>
-    <string name="title_video_peertube">Tựa đề video</string>
-    <string name="join_peertube">Tham gia Peertube</string>
-    <string name="agreement_check_peertube">Tôi lớn hơn 16 tuổi và đồng ý %1$s của máy chủ này</string>
     <string name="link_color_title">Liên kết</string>
     <string name="link_color">Đổi màu liên kết (URL, lượt nhắc, hashtag, etc.) trong thông điệp</string>
     <string name="boost_header_color_title">Màu thanh đăng lại</string>
@@ -1051,55 +527,28 @@
     <string name="reset">Đặt lại</string>
     <string name="icons_color_title">Biểu tượng</string>
     <string name="icons_color">Màu của biểu tượng bên dưới bảng tin</string>
-    <string name="pin_tag">Ghim hashtag này</string>
     <string name="logo_of_the_instance">Logo máy chủ</string>
     <string name="edit_profile">Sửa hồ sơ</string>
     <string name="make_an_action">Chọn một hành động</string>
     <string name="translation">Dịch</string>
-    <string name="image_preview">Xem trước ảnh</string>
     <string name="text_color_title">Màu chữ</string>
     <string name="text_color">Đổi màu chữ trong tút</string>
-    <string name="apply_changes">Áp dụng thay đổi</string>
-    <string name="restart_message">Bạn phải khởi động lại ứng dụng để áp dụng thay đổi</string>
-    <string name="restart">Khởi động lại</string>
     <string name="pref_custom_theme">Dùng theme</string>
-    <string name="pref_custom_theme_summary">Cho phép ghi đè các màu của theme đã chọn ở trên</string>
     <string name="theming">Theme</string>
-    <string name="store_before">Lưu lại trước</string>
     <string name="data_export_theme">Đã xuất theme</string>
     <string name="data_export_theme_success">Theme đã xuất ra tập tin CSV</string>
-    <string name="pref_colored_status_bar_summary">Áp dụng màu chính cho thanh tút</string>
-    <string name="pref_colored_status_bar_title">Thanh tút</string>
-    <string name="restore_default_theme">Khôi phục theme mặc định</string>
     <string name="import_theme">Nhập theme</string>
     <string name="import_theme_title">Nhập theme từ một tập tin</string>
     <string name="export_theme">Xuất theme</string>
     <string name="export_theme_title">Nhấn để xuất theme đang dùng</string>
     <string name="theme_file_error">Xảy ra lỗi khi chọn tập tin theme</string>
-    <string name="label_theme_picker">Chọn theme</string>
-    <string name="pref_theme_summary">Chọn theme đã cài trước đây</string>
-    <string name="pref_theme_title">Theme</string>
-    <string name="pref_colored_navigation_bar_summary">Áp dụng màu chính cho thanh điều hướng</string>
-    <string name="pref_colored_navigation_bar_title">Màu thanh điều hướng</string>
-    <string name="pref_background_color_summary">Màu của nội dung app.</string>
-    <string name="pref_background_color_title">Màu nền</string>
-    <string name="pref_accent_color_summary">Chọn phần màu phụ của UI.</string>
-    <string name="pref_accent_color_title">Màu phụ</string>
-    <string name="pref_primary_color_summary">Hiển thị thường xuyên trên app của bạn.</string>
-    <string name="pref_primary_color_title">Màu chính</string>
-    <string name="export_bookmarks">Xuất tút đã lưu</string>
-    <string name="import_bookmarks">Nhập tút đã lưu</string>
     <string name="user_count">Số người dùng</string>
     <string name="status_count">Số tút</string>
     <string name="instance_count">Số máy chủ</string>
-    <string name="blocked">Đã chặn</string>
     <string name="poll_finish_in">còn %s</string>
-    <string name="release_note_title">Có gì mới trong %s</string>
-    <string name="follow_account_update">Theo dõi tài khoản của tôi để cập nhật</string>
     <string name="no_instance_reccord">Máy chủ này không có trên https://instances.social</string>
     <string name="display_full_link">Hiện đầy đủ liên kết</string>
     <string name="share_link">Chia sẻ liên kết</string>
-    <string name="link_copy">Liên kết đã được sao chép vào bộ nhớ tạm</string>
     <string name="open_other_app">Mở trong một ứng dụng khác</string>
     <string name="check_redirect">Kiểm tra chuyển hướng</string>
     <string name="no_redirect">URL này không chuyển hướng</string>
@@ -1108,31 +557,20 @@
 \nchuyển hướng tới
 \n
 \n %2$s</string>
-    <string name="set_user_agent">Đổi giao diện người dùng</string>
-    <string name="set_user_agent_hint">Chọn một giao diện người dùng hoặc để trống</string>
-    <string name="set_user_agent_indication">Tùy biến giao diện người dùng cho api calls hoặc trình duyệt tích hợp sẵn.</string>
     <string name="set_utm_parameters">Xóa UTM parameters</string>
     <string name="set_utm_parameters_indication">Ứng dụng sẽ tự động xóa UTM parameters khỏi những URL trước khi mở một liên kết.</string>
-    <string name="action_trends">Xu hướng</string>
-    <string name="trending_now">Xu hướng hôm nay</string>
     <string name="talking_about">%d người đang thảo luận</string>
     <string name="twitter_accounts">Tài khoản Twitter (qua Nitter)</string>
     <string name="list_of_twitter_accounts">Tên người dùng Twitter phân cách bằng dấu cách</string>
     <string name="identity_proofs">Bằng chứng nhận dạng</string>
     <string name="verified_user">Xác minh danh tính</string>
     <string name="verified_by">Xác minh bởi %1$s (%2$s)</string>
-    <string name="remove_notification">Xóa thông báo này</string>
-    <string name="display_more_options">Hiện thêm tùy chọn</string>
-    <string name="pixelfed_story">Đây là Pixelfed story</string>
-    <string name="story_indication">Tải lên media, sẽ tự động thêm vào Pixelfed story.</string>
-    <string name="added_to_story">Đã thêm media vào story!</string>
     <string name="action_disabled">Hành động bị tắt</string>
     <string name="action_unfollow">Ngưng theo dõi</string>
     <string name="error_destination_path">Có lỗi xảy ra, kiểm tra thư mục tải về trong cài đặt.</string>
     <string name="action_announcements">Thông báo</string>
     <string name="no_announcements">Không có thông báo!</string>
     <string name="add_reaction">Thêm biểu cảm</string>
-    <string name="set_custom_tabs_indication">Dùng trình duyệt yêu thích của bạn trong app. Bỏ chọn để mở bên ngoài app.</string>
     <string name="set_video_cache">Bộ nhớ đệm video (MB, 0 = không lưu)</string>
     <string name="set_watermark">Watermark</string>
     <string name="set_watermark_indication">Tự động thêm watermark dưới hình ảnh. Nội dung có thể thay đổi cho từng tài khoản.</string>
@@ -1153,7 +591,6 @@
     <string name="not_valid_list_name">Tên danh sách không hợp lệ!</string>
     <string name="no_account_in_list">Không có người dùng nào trong danh sách này!</string>
     <string name="scheduled">Đã lên lịch</string>
-    <string name="notification_options">Tùy chọn thông báo</string>
     <string name="notifications_are">Trong khoảng thời gian</string>
     <string name="pref_theme_base">Theme gốc</string>
     <string name="pref_theme_base_summary">Chọn theme gốc là tối hay sáng</string>
@@ -1169,12 +606,10 @@
     <string name="invite_join_the_fediverse">Xin chào! Chúng tôi mời bạn tham gia Fediverse.</string>
     <string name="disable_notifications">Tắt thông báo</string>
     <string name="type_of_notifications">Loại thông báo</string>
-    <string name="alternative_frontends">Frontend thay thế</string>
     <string name="type_of_notifications_title">Chọn loại thông báo</string>
     <string name="notification_sounds">Âm thanh thông báo</string>
     <string name="pref_custom_theme_new_summary">Cho phép tạo theme tùy chỉnh</string>
     <string name="bottom_menu">Menu dưới</string>
-    <string name="customize_main_colors">Tùy chỉnh màu chính</string>
     <string name="types_of_notifications_to_display">Loại thông báo hiển thị</string>
     <string name="set_unfollow_validation_title">Xác nhận ngưng theo dõi</string>
     <string name="message_has_been_sent">Đã gửi tin nhắn!</string>
@@ -1182,7 +617,6 @@
     <string name="poll_duration">Thời hạn bình chọn:</string>
     <string name="set_display_bookmark_indication">Hiện nút lưu tút</string>
     <string name="more_actions">Nhiều hơn</string>
-    <string name="toot_visibility_title">Thay đổi quyền riêng tư</string>
     <string name="toots_visibility_title">Kiểu tút mặc định:</string>
     <string name="toast_bookmark">Đã thêm tút vào mục yêu thích!</string>
     <string name="toast_unbookmark">Đã xóa tút khỏi mục yêu thích!</string>
@@ -1190,8 +624,6 @@
     <string name="set_notifications_page">Số lượng thông báo mỗi lần tải</string>
     <string name="category_music">Âm nhạc</string>
     <string name="cannot_be_empty">Không thể để trống mục này!</string>
-    <string name="permission_record">Ứng dụng cần cấp quyền truy cập ghi âm</string>
-    <string name="join_fedi_instance">Tham gia một máy chủ Fediverse</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">Dùng frontend YouTube thay thế</string>
     <string name="replace_youtube_host">Địa chỉ frontend YouTube</string>
@@ -1211,7 +643,6 @@
     <string name="favourited_by">Thích bởi</string>
     <string name="followers_only">Hạn chế</string>
     <string name="other">Khác</string>
-    <string name="images">Hình ảnh</string>
     <string name="eg_sensitive_content">Vd: Nội Dung Nhạy Cảm</string>
     <string name="add_status">Thêm trạng thái</string>
     <string name="remove_status">Xóa trạng thái</string>
@@ -1253,7 +684,6 @@
     <string name="display_all_categories">Hiện toàn bộ</string>
     <string name="delete_notification_all_warning">Bạn có chắc muốn xóa tất cả thông báo\? Không thể khôi phục lại.</string>
     <string name="about_mastodon">\"Mastodon không phải là một trang web duy nhất như Twitter hoặc Facebook, đó là một mạng lưới hàng ngàn cộng đồng được điều hành bởi các tổ chức và cá nhân khác nhau cung cấp trải nghiệm truyền thông xã hội liền mạch.\"</string>
-    <string name="join_peertube_message">\"Peertube, được phát triển bởi Framasoft, là sự thay thế miễn phí và phi tập trung cho các nền tảng video, cung cấp cho bạn hơn 400.000 video được xuất bản bởi 60.000 người dùng và xem hơn 15 triệu lần\"</string>
     <string name="notif_display_mentions">Lượt nhắc</string>
     <string name="notif_display_favourites">Lượt thích</string>
     <string name="notif_display_reblogs">Lượt đăng lại</string>
@@ -1283,7 +713,6 @@
     <string name="approve">Duyệt</string>
     <string name="fetch_more_messages">Nạp thêm tút…</string>
     <string name="msg_save_image">Bạn có chắc muốn thoát mà không lưu\?</string>
-    <string name="msg_share_image">Chia sẻ hình ảnh</string>
     <string name="tap_here_to_refresh_poll">Nhấn để làm mới bình chọn</string>
     <string name="action_announcement_from_to">Thông báo · %1$s - %2$s</string>
     <string name="label_shape">Hình khối</string>
@@ -1291,5 +720,4 @@
     <string name="label_rectangle">Chữ nhật</string>
     <string name="label_line">Đường thẳng</string>
     <string name="label_eraser_mode">Chế độ Xóa</string>
-    <string name="label_adjust">Điều chỉnh</string>
 </resources>

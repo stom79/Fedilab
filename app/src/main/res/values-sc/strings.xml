@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Aberi su menù</string>
-    <string name="navigation_drawer_close">Serra su menù</string>
     <string name="action_about">Informatziones</string>
     <string name="action_about_instance">Informatziones subra s\'istàntzia</string>
     <string name="action_privacy">Riservadesa</string>
     <string name="action_cache">Memòria temporànea</string>
     <string name="action_logout">Essi</string>
-    <string name="login">Intra</string>
     <!-- common -->
     <string name="close">Serra</string>
     <string name="yes">Eja</string>
@@ -23,24 +20,16 @@
     <string name="toots">Tuts</string>
     <string name="tags">Etichetas</string>
     <string name="save">Sarva</string>
-    <string name="restore">Riprìstina</string>
-    <string name="no_result">Perunu resurtadu!</string>
     <string name="instance">Istàntzia</string>
     <string name="instance_example">Istàntzia: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Como funtzionat cun su contu %1$s</string>
     <string name="add_account">Agiunghe unu contu</string>
     <string name="clipboard">As copiadu su cuntenutu de su tut in punta de billete</string>
     <string name="clipboard_url">As copiadu s\'URL de su tut in punta de billete</string>
-    <string name="change">Càmbia</string>
-    <string name="choose_picture">Seletziona un\'immàgine…</string>
-    <string name="clear">Lìmpia</string>
     <string name="camera">Fotocàmera</string>
     <string name="delete_all">Iscantzella totu</string>
-    <string name="translate_toot">Tradui custu tut.</string>
     <string name="schedule">Pranìfica</string>
     <string name="text_size">Mannària de su testu e de is iconas</string>
-    <string name="text_size_change">Càmbia sa mannària atuale de su testu:</string>
-    <string name="icon_size_change">Càmbia sa mannària atuale de is iconas:</string>
     <string name="next">Sighi</string>
     <string name="previous">Pretzedente</string>
     <string name="open_with">Aberi cun</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">Ammustra rispostas</string>
     <string name="action_open_in_web">Aberi in su navigadore</string>
     <string name="translate">Tradui</string>
-    <string name="please_wait">Iseta unos cantos segundos in antis de fàghere custa atzione.</string>
     <!--- Menu -->
     <string name="home_menu">Printzipale</string>
     <string name="local_menu">Lìnia de tempus locale</string>
-    <string name="global_menu">Lìnia de tempus federada</string>
-    <string name="neutral_menu_title">Optziones</string>
-    <string name="favorites_menu">Preferidos</string>
-    <string name="communication_menu_title">Comunicatzione</string>
     <string name="muted_menu">Persones a sa muda</string>
     <string name="blocked_menu">Persones blocadas</string>
     <string name="notifications">Notìficas</string>
     <string name="follow_request">Rechestas de sighidura</string>
     <string name="settings">Cunfiguratziones</string>
-    <string name="delete_account_title">Cantzella unu contu</string>
-    <string name="delete_account_message" formatted="false">Boles cantzellare su contu %1$s dae s\'aplicatzione?</string>
     <string name="send_email">Imbia una lìtera eletrònica</string>
-    <string name="click_to_change">Toca in s\'andala pro la cambiare</string>
-    <string name="failed">Faddina!</string>
     <string name="scheduled_toots">Tuts pranificados</string>
     <string name="disclaimer_full">Is informatziones inoghe in suta diant pòdere rapresentare su profilu de s\'utente in manera incumpleta.</string>
     <string name="insert_emoji">Inserta un\'emoji</string>
     <string name="no_emoji">S\'aplicatzione no at ancora collidu peruna emoji personalizada.</string>
-    <string name="push_notif">Notìficas push</string>
-    <string name="logout_confirmation">Ses seguru de bòlere essire?</string>
     <string name="logout_account_confirmation">Ses seguru de bòlere essire @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Perunu tut de ammustrare</string>
-    <string name="no_stories">Peruna istòria de ammustrare</string>
-    <string name="stories">Istòrias</string>
-    <string name="reblog_by">Cumpatzidu dae %1$s</string>
     <string name="favourite_add">Boles agiùnghere custu tut a is preferidos tuos?</string>
     <string name="favourite_remove">Boles bogare custu tut dae is preferidos tuos?</string>
     <string name="reblog_add">Boles cumpartzire custu tut?</string>
     <string name="reblog_remove">Acabare de cumpartzire custu tut?</string>
-    <string name="pin_add">Boles apicare custu tut?</string>
-    <string name="pin_remove">Boles bogare custu tut dae is apicados?</string>
     <string name="more_action_1">A sa muda</string>
     <string name="more_action_2">Bloca</string>
     <string name="more_action_3">Signala</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">Sinnalibros</string>
     <string name="bookmark_add">Agiunghe a is sinnalibros</string>
     <string name="bookmark_remove">Boga su sinnalibru</string>
-    <string name="bookmarks_empty">Perunu sinnalibru de ammustrare</string>
     <string name="status_bookmarked">S\'istadu est istadu agiuntu a is sinnalibros!</string>
     <string name="status_unbookmarked">S\'istadu est istadu bogadu dae is sinnalibros!</string>
     <!-- Date -->
@@ -148,34 +120,15 @@
         <item quantity="other">%d dies</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Dae cara</string>
-    <string name="toot_placeholder">A ite ses pensende?</string>
-    <string name="toot_it">TUT!</string>
-    <string name="queet_it">CUITA!</string>
-    <string name="cw">ac</string>
-    <string name="toot_title">Iscrie unu tut</string>
-    <string name="toot_title_reply">Risponde a unu tut</string>
-    <string name="queet_title">Iscrie unu cuit</string>
-    <string name="queet_title_reply">Risponde a unu cuit</string>
-    <string name="toot_select_image">Seletziona unu mèdiu</string>
     <string name="toot_select_image_error">Ddoe est istadu un\'errore seletzionende su cuntenutu multimediale!</string>
     <string name="toot_delete_media">Cantzellare custu mèdiu?</string>
     <string name="toot_error_no_content">Su tut tuo est bòidu!</string>
     <string name="toot_sent">Su tut est istadu imbiadu!</string>
-    <string name="toot_reply_content_title">Ses rispondende a custu tut:</string>
     <string name="toot_sensitive">Cuntenutu sensìbile?</string>
-    <string-array name="toot_visibility">
-        <item>Pùblica in is lìnias de tempus pùblicas</item>
-        <item>Non pùbliches in is lìnias de tempus pùblicas</item>
-        <item>Pùblica sceti cara a is sighidores</item>
-        <item>Pùblica sceti cara a is utentes mentovados</item>
-    </string-array>
     <string name="no_draft">Perunu abbotzu!</string>
-    <string name="choose_toot">Sèbera unu tut</string>
     <string name="choose_accounts">Sèbera unu contu</string>
     <string name="select_accounts">Seletziona unos cantos contos</string>
     <string name="remove_draft">Boles cantzellare s\'abbotzu?</string>
-    <string name="show_reply">Toca in su butone pro ammustrare su tut originale</string>
     <string name="upload_form_description">Decrie·lu pro chie tenet problemas de visione</string>
     <!-- Instance -->
     <string name="instance_no_description">Peruna descritzione a disponimentu!</string>
@@ -185,28 +138,20 @@
     <string name="about_license">Litzèntzia:</string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Còdighe mitza:</string>
-    <string name="about_yandex">Tradutzione de is tuts:</string>
     <string name="about_thekinrar">Istàntzias de chirca:</string>
-    <string name="thanks_text_logo">Disinnadore de is iconas:</string>
     <!-- Conversation -->
-    <string name="conversation">Arresonada</string>
     <!-- Accounts -->
     <string name="no_accounts">Perunu contu de ammustrare</string>
     <string name="no_follow_request">Peruna rechesta de sighidura</string>
     <string name="status_cnt">Tuts \n %1$s</string>
     <string name="following_cnt">Sighende \n %1$s</string>
     <string name="followers_cnt">Sighidores \n %1$s</string>
-    <string name="pins_cnt">Apicadu \n %d</string>
-    <string name="authorize">Autoriza</string>
     <string name="reject">Refuda</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Perunu tut pranificadu de ammustrare!</string>
-    <string name="no_scheduled_toots_indications">Iscrie unu tut e sèbera &lt;b &gt;Pranìfica&lt;/b&gt; dae su menù in artu.</string>
     <string name="remove_scheduled">Cantzellare su tut pranificadu?</string>
-    <string name="media_count">Mèdiu: %d</string>
     <string name="toot_scheduled">Su tut est istadu pranificadu!</string>
     <string name="toot_scheduled_date">Su data de pranìfica depet èssere a pustis de como!</string>
-    <string name="warning_battery">Su rispàrmiu energèticu est abilitadu! Diat pòdere non funtzionare comente si tocat.</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Su tempus de silentziamentu depet èssere prus mannu de unu minutu.</string>
     <string name="timed_mute_date">%1$s est istadu postu a sa muda finas a su %2$s.\n Podes bogare su silentziamentu a custu contu dae sa pàgina de profilu sua.</string>
@@ -219,26 +164,12 @@
     <string name="notif_favourite">at agiuntu s\'istadu tuo a is preferidos suos</string>
     <string name="notif_follow">at comintzadu a ti sighire</string>
     <string name="notif_follow_request">at pedidu de ti pòdere sighire</string>
-    <plurals name="other_notifications">
-        <item quantity="one">e un\'àtera notìfica</item>
-        <item quantity="other">e àteras %d notìficas</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="one">%d agradessimentu</item>
-        <item quantity="other">%d agradessimentos</item>
-    </plurals>
-    <string name="delete_notification_ask">Cantzellare una notìfica?</string>
     <string name="delete_notification_ask_all">Cantzellare totu is notìficas?</string>
-    <string name="delete_notification">Sa notìfica est istada cantzellada!</string>
     <string name="delete_notification_all">Totu is notìficas sunt istadas cantzelladas!</string>
     <!-- HEADER -->
-    <string name="following">Sighende</string>
     <string name="followers">Sighidores</string>
-    <string name="pinned_toots">Apicadu</string>
     <!-- TOAST -->
     <string name="client_error">Impossìbile otènnere s\'id de su cliente!</string>
-    <string name="connect_error">Connessione a su domìniu de s\'istàntzia fallida!</string>
-    <string name="no_internet">Peruna connessione a ìnternet!</string>
     <string name="toast_block">Su contu est istadu blocadu!</string>
     <string name="toast_unblock">Su contu no est prus blocadu!</string>
     <string name="toast_mute">Su contu est istadu postu a sa muda!</string>
@@ -249,37 +180,16 @@
     <string name="toast_unreblog">Su tut no est prus cumpartzidu!</string>
     <string name="toast_favourite">As agiuntu su tut a is preferidos tuos!</string>
     <string name="toast_unfavourite">Su tut est istadu bogadu dae is preferidos tuos!</string>
-    <string name="toast_report">Su tut est istadu sinnaladu!</string>
-    <string name="toast_unstatus">Su tut est istadu cantzelladu!</string>
-    <string name="toast_pin">Su tut est istadu apicadu!</string>
-    <string name="toast_unpin">Su tut no est prus apicadu!</string>
     <string name="toast_error">Oops! Ddoe est istadu un\'errore!</string>
     <string name="toast_code_error">Ddoe est istadu un\'errore! S\'istàntzia no at frunidu unu còdighe de autorizatzione!</string>
     <string name="toast_error_instance">Custu domìniu de istàntzia non paret èssere vàlidu!</string>
     <string name="toast_error_loading_account">Ddoe est istadu un\'errore colende dae unu contu a s\'àteru!</string>
     <string name="toast_error_search">Ddoe est istadu un\'errore cun sa chirca!</string>
-    <string name="toast_update_credential_ok">Is datos de su profilu sunt istados sarvados!</string>
     <string name="nothing_to_do">Non podes fàghere peruna atzione</string>
-    <string name="toast_saved">Su mèdiu est istadu sarvadu!</string>
     <string name="toast_error_translate">Ddoe est istadu un\'errore cun sa tradutzione!</string>
-    <string name="toast_error_translations_disabled">Is tradutziones sunt disabilitadas in is cunfiguratziones</string>
-    <string name="toast_toot_saved">Abbotzu sarvadu!</string>
-    <string name="toast_error_char_limit">Ses seguru chi cust\'istàntzia permitat custu nùmeru de caràteres? Pro su prus custu valore est a curtzu a 500 caràteres.</string>
-    <string name="toast_visibility_changed">Sa visibilidade de is tuts est istada cambiada pro su contu %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Nùmeru de tuts pro carrigamentu</string>
-    <string name="set_attachment_always">Semper</string>
-    <string name="set_attachment_wifi">WIFI</string>
-    <string name="set_attachment_ask">Pedi</string>
-    <string name="set_attachment_action">Càrriga is cuntenutos multimediales</string>
-    <string name="load_attachment">Càrriga is immàgines</string>
-    <string name="load_attachment_spoiler">Ammustra de prus…</string>
-    <string name="load_attachment_spoiler_less">Ammustra de mancu…</string>
-    <string name="load_sensitive_attachment">Cuntenutu sensìbile</string>
     <string name="set_disable_gif">Disabìlita is avatars GIF</string>
-    <string name="set_folder_title">Àndala:</string>
-    <string name="set_auto_store_toot">Sarva is abbotzos automaticamente</string>
-    <string name="set_auto_add_media_url">Agiunghe is URL de sos cuntenutos multimediales in is tuts</string>
     <string name="set_notif_follow">Notìfica cando calicunu ti sighet</string>
     <string name="set_notif_follow_share">Notìfica cando calicunu cumpartzit s\'istadu tuo</string>
     <string name="set_notif_follow_add">Notìfica cando calicunu ponet s\'istadu tuo in is preferidos suos</string>
@@ -288,39 +198,20 @@
     <string name="set_notif_status">Notìfica pro sas publicatziones noas</string>
     <string name="set_share_validation">Ammustra una ventanedda de diàlogu de cunfirma in antis de cumpartzire</string>
     <string name="set_share_validation_fav">Ammustra una ventanedda de diàlogu de cunfirma in antis de agiùnghere a is preferidos</string>
-    <string name="set_wifi_only">Notìfica sceti cun su WIFI</string>
     <string name="set_notify">Notificare?</string>
     <string name="set_notif_silent">Notìficas a sa muda</string>
     <string name="set_nsfw_timeout">Tempus de isetu pro sa visualizatzione de materiale sensìbile NSFW (segundos, 0 cheret nàrrere istudadu)</string>
     <string name="set_med_desc_timeout">Tempus de isetu de sa descritzione de is cuntenutos multimediales (segundos, 0 bolet nàrrere istudadu)</string>
-    <string name="settings_title_profile">Modìfica su profilu</string>
     <string name="settings_title_custom_sharing">Cumpartzidura personalizada</string>
     <string name="settings_custom_sharing_url">S\'URL de sa cumpartzidura personalizada tua…</string>
-    <string name="set_profile_description">Biografia…</string>
     <string name="set_lock_account">Imposta su contu privadu</string>
     <string name="set_save_changes">Sarva is modìficas</string>
-    <string name="set_header_picture_overlay">Sèbera un\'immàgine de intestatzione</string>
     <string name="set_fit_preview">Adata is antiprimas de is immàgines</string>
-    <string name="set_automatically_split_toot">Partzi automaticamente is tuts in rispostas cando is caràteres sunt prus de:</string>
-    <string name="note_no_space">Ses arribbadu a is 160 caràteres permìtidos!</string>
-    <string name="username_no_space">Ses arribbadu a is 30 caràteres permìtidos!</string>
     <string name="settings_time_from">Intre is</string>
     <string name="settings_time_to">e is</string>
-    <string name="settings_time_greater">S\'oràriu depet èssere prus mannu de %1$s</string>
-    <string name="settings_time_lower">S\'oràriu depet èssere prus piticu de %1$s</string>
-    <string name="settings_hour_init">Ora de cumintzu</string>
-    <string name="settings_hour_end">Ora de acabu</string>
     <string name="embedded_browser">Imprea su navigadore integradu</string>
     <string name="custom_tabs">Ischedas personalizadas</string>
-    <string name="use_javascript">Abìlita Javascript</string>
     <string name="expand_cw">Ismànnia automaticamente is ac</string>
-    <string name="use_cookies">Permite is testimòngios de tertzas partes</string>
-    <string name="your_api_key">Sa crae API tua. La podes lassare bòida pro Yandex</string>
-    <string-array name="settings_theme">
-        <item>Iscuru</item>
-        <item>Craru</item>
-        <item>Nieddu</item>
-    </string-array>
     <string name="set_led_colour">Imposta su colore LED:</string>
     <string-array name="led_colours">
         <item>Biaitu</item>
@@ -337,18 +228,12 @@
     <string name="action_unmute">Ativa su sonu</string>
     <string name="request_sent">Pregunta imbiada</string>
     <string name="followed_by">Ti sighit</string>
-    <string name="action_search">Chirca</string>
     <string name="set_capitalize">Prima lìtera majùscula in is rispostas</string>
     <string name="set_resize_picture">Càmbia sa mannària de is immàgines</string>
     <string name="set_resize_video">Càmbia sa mannària de is vìdeos</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">Notìficas push</string>
-    <string name="settings_popup_message">Pro praghere cunfirma is notìficas chi cheres retzire. As a pòdere abilitare o disabilitare custas notìficas prus a tardu in is cunfiguratziones (barra de is notìficas).</string>
     <!-- CACHE -->
-    <string name="cache_title">Isbòida sa memòria temporànea</string>
-    <string name="cache_message">Tenes %1$s de datos in sa memòria temporànea tua.\n \n Ddos dias bòlere cantzellare?</string>
     <string name="cache_units">Mb</string>
-    <string name="toast_cache_clear">Sa memòria temporànea est istada isboidada! Si sunt liberados %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Tìtulu</string>
     <string name="title_hint_custom_sharing">Tìtulu…</string>
@@ -356,96 +241,25 @@
     <string name="keywords_header_custom_sharing">Paràulas crae</string>
     <string name="keywords_hint_custom_sharing">Paràulas crae…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">Sincroniza</string>
-    <string name="action_filter">Filtru</string>
-    <string name="owner_cached_toots">Is tuts tuos</string>
-    <string name="owner_cached_notifications">Is notìficas tuas</string>
     <string name="v_public">Pùblicu</string>
     <string name="v_unlisted">Esclùidu de sa lista</string>
     <string name="v_private">Privadu</string>
     <string name="v_direct">Deretu</string>
-    <string name="v_keywords">Unas cantas paràulas crae…</string>
-    <string name="show_media">Ammustra is cuntenutos multimediales</string>
-    <string name="show_pinned">Ammustra is apicados</string>
-    <string name="filter_no_result">Perunu resurtadu chi currispondat agatadu!</string>
-    <string name="data_backup_toots">Faghe una còpia de seguresa de is tuts de %1$s</string>
-    <string name="data_backup_success">As importadu %1$s tuts noos</string>
-    <string name="data_backup_notification_success">As importadu %1$s notìficas noas</string>
-    <string-array name="filter_order">
-        <item>Datas menguantes</item>
-        <item>Datas in artziada</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>Nono</item>
-        <item>Ebbia</item>
-        <item>Ambos</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">Perunu tut agatadu in sa base de datos. Imprea su butone de sincronizatzione dae su menù pro ddos recuperare.</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">Datos registrados</string>
-    <string name="privacy_data">In su dispositivu benint sarvadas sceti informatziones debase de sos contos. Custas informatziones sunt cunfidentziales e ddas podet impreare s\'aplicatzione ebbia. Cantzellende s\'aplicatzione as a cantzellare immediatamente custos datos.\n ⚠ Is datos de intrada e is craes de intrada non benint sarvados mai. Benint impreados sceti durante un autenticatzione segura (SSL) cun un\'istàntzia.</string>
-    <string name="privacy_authorizations_title">Permissos:</string>
-    <string name="privacy_authorizations"> - <b>ACCESS_NETWORK_STATE</b>: Impreadu pro rilevare si su dispositivu est connessu a una retza WIFI.
-\n - <b>INTERNET</b>: Impreadu pro consultare is istàntzias.
-\n - <b>WRITE_EXTERNAL_STORAGE</b>: Impreadu pro sarvare documentos multimediales o tramudare s\'aplicatzione a un\'ischeda SD.
-\n - <b>READ_EXTERNAL_STORAGE</b>: Impreadu pro agiùnghere documentos multimediales a is tuts.
-\n - <b>BOOT_COMPLETED</b>: Impreadu pro allùghere su servìtziu de notìfica.
-\n - <b>WAKE_LOCK</b>: Impreadu durante su servìtziu de notìfica. </string>
-    <string name="privacy_API_authorizations_title">Permissos de s\'API:</string>
-    <string name="privacy_API_authorizations"> - <b>Leghe</b>: Leghe datos.
-\n - <b>Iscrie</b>: Pùblica istados e càrriga cuntenutos multimediales pro is istados.
-\n - <b>Sighi</b>: Sighi, acaba de sighire, bloca, isbloca.
-\n
-\n <b>⚠ Custas atziones benint fatas sceti cando lu pedit s\'utente.</b> </string>
-    <string name="privacy_API_title">Arrastamentu e librerias</string>
-    <string name="privacy_API"> S\'aplicatzione <b>no impreat ainas de arrastamentu</b> (medida de su pùblicu, sinnalatzione de errores, etc.) e non cuntenet publitzidade peruna.
-\n
-\n S\'impreu de librerias est minimadu:
-\n - <b>Glide</b>: Pro gestire is cuntenutos multimediales (\"mèdios\")
-\n - <b>Android-Job</b>: Pro gestire is servìtzios
-\n - <b>PhotoView</b>: Pro gestire is immàgines
-\n </string>
-    <string name="privacy_API_yandex_title">Tradutzione de is tuts</string>
-    <string name="privacy_API_yandex_authorizations">Custa aplicatzione frunit sa possibilidade de bortare is tuts impreende sa limba de su dispositivu e s\'API de Yandex.\n Yandex tenet una polìtica pro sa riservadesa sua, chi podes agatare inoghe: https://yandex.ru/legal/confidential/?lang=en</string>
-    <string name="thanks_text_dev">Torramus gràtzias a:</string>
     <string name="filter_regex">Filtra cun espressiones regulares</string>
     <string name="search">Chirca</string>
     <string name="delete">Cantzella</string>
-    <string name="fetch_more_toots">Recùpera àteros tuts…</string>
     <!-- About lists -->
     <string name="action_lists">Listas</string>
     <string name="action_lists_confirm_delete">Seguru chi boles cantzellare custa lista in manera permanente?</string>
-    <string name="action_lists_empty_content">Non ddoe est ancora nudda in custa lista. Cando is persones de custa lista ant a publicare àteros istados, ant a aparèssere inoghe.</string>
     <string name="action_lists_add_to">Agiùnghe a sa lista</string>
-    <string name="action_lists_create">Agiunghe lista</string>
     <string name="action_lists_delete">Cantzella sa lista</string>
-    <string name="action_lists_update">Modìfica sa lista</string>
     <string name="action_lists_title_placeholder">Lista noa</string>
     <string name="action_lists_add_user">Contu annantu a sa lista!</string>
     <string name="action_lists_empty">Non tenes ancora peruna lista!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s s\'est tramudadu a %2$s</string>
-    <string name="issue_login_title">S\'autenticatzione no est funtzionende?</string>
-    <string name="issue_login_message"> <b>Custas sunt una paja de verìficas chi diant pòdere agiudare:</b>
-\n
-\n - Verìfica chi non bi siant faddinas de iscritura in su nùmene de s\'istàntzia
-\n
-\n - Verìfica chi s\'istàntzia tua non siat inativa
-\n
-\n - Si impreas s\'autenticatzione in duas fases (A2F/2FA), imprea su ligàmene in fundu (a pustis de àere insertadu su nùmene de s\'istàntzia)
-\n
-\n - Podes fintzas impreare custu ligàmene sena impreare sa 2FA
-\n
-\n - Si sighit a non funtzionare, aberi una sinnalatzione in FramaGit in https://framagit.org/tom79/fedilab/issues </string>
     <string name="media_ready">Su cuntenutu multimediale est istadu carrigadu. Toca inoghe pro dd\'ammustrare.</string>
-    <string name="data_export_start">Custa atzione diat pòdere durare a longu meda. As a retzire una notìfica cando at a èssere acabada.</string>
-    <string name="data_export_running">Galu traballende, iseta pro praghere…</string>
-    <string name="data_export">Esporta is istados</string>
-    <string name="data_export_toots">Esporta is istados pro %1$s</string>
-    <string name="data_export_success">%1$s de %2$s tuts sunt istados esportados.</string>
-    <string name="data_export_error">B\'at àpidu unu problema esportende is datos pro %1$s</string>
-    <string name="data_export_error_simple">B\'at àpidu unu problema esportende is datos!</string>
-    <string name="data_import_error_simple">B\'at àpidu carchi problema cun s\'importatzione de is datos!</string>
     <!-- Proxy -->
     <string name="proxy_set">Server intermediàriu</string>
     <string name="proxy_enable">Abilitare su server intermèdiu?</string>
@@ -457,21 +271,13 @@
     <string name="support_the_app_on_liberapay">Suporta s\'aplicatzione in Liberapay</string>
     <string name="alert_regex">Dd\'est una faddina in s\'espressione regulare!</string>
     <string name="toast_instance_unavailable">Peruna lìnia de tempus agatada in custa istàntzia!</string>
-    <string name="delete_instance">Cantzellare cust\'istàntzia?</string>
-    <string name="which_language">Borta in</string>
     <string name="follow_instance">Sighi s\'istàntzia</string>
     <string name="toast_instance_already_added">Ses giai sighende custa istàntzia!</string>
-    <string name="toast_instance_followed">S\'istàntzia est sighida!</string>
     <string name="action_partnership">Collaboratziones</string>
-    <string name="neutral_menu_information">Informatziones</string>
     <string name="hide_boost">Cua is cumpartziduras de %s</string>
     <string name="endorse">Cussìgia in su profilu tuo</string>
     <string name="show_boost">Ammustra is cumpartziduras dae %s</string>
     <string name="unendorse">Non cussiges in su profilu</string>
-    <string name="toast_endorse">Su contu como est in evidèntzia in su profilu tuo</string>
-    <string name="toast_unendorse">Su contu no est prus postu in evidèntzia in su profilu</string>
-    <string name="toast_show_boost">Is cumpartziduras como benint ammustradas!</string>
-    <string name="toast_hide_boost">Is cumpartziduras como sunt cuadas!</string>
     <string name="direct_message">Messàgiu diretu</string>
     <string name="filters">Filtros</string>
     <string name="action_filters_empty_content">Perunu filtru de ammustrare. Nde podes creare unu incarchende in su butone \"+\".</string>
@@ -490,101 +296,44 @@
     <string name="filter_expire">Iscadit a pustis de</string>
     <string name="action_filter_delete">Cantzellare su filtru?</string>
     <string name="action_update_filter">Agiorna su filtru</string>
-    <string name="action_filter_create">Crea unu filtru</string>
-    <string name="how_to_follow">Chie sighire</string>
-    <string name="action_who_to_follow_empty_content">In custu momentu non dd\'est perunu contu allistadu!</string>
-    <string name="follow_account">Sighi</string>
-    <string name="select_all">Seletziona totu</string>
-    <string name="unselect_all">Annulla sa seletzione</string>
-    <string name="follow_trunk">Sighis a %s!</string>
-    <string name="create_list_trunk">Creende sa lista %s</string>
-    <string name="add_account_list_trunk">Agiunghende contos a sa lista</string>
-    <string name="account_added_list_trunk">Is contos sunt istados agiuntos a sa lista</string>
-    <string name="adding_account_list_trunk">Agiunghende contos a sa lista</string>
     <string name="action_list_add">No as creadu ancora peruna lista. Toca in su butone \"+\" pro nde agiùnghere una noa.</string>
-    <string name="about_trunk">Chie sighire</string>
-    <string name="about_trunk_action">API Trunk</string>
-    <string name="toast_impossible_to_follow">Non podes sighire su(is) contu(os)</string>
-    <string name="retrieve_remote_account">Recuperende su contu remotu</string>
     <string name="expand_image">Ismànnia automaticamente sos cuntenutos cuados</string>
     <string name="channel_notif_follow">Sighidura noa</string>
     <string name="channel_notif_boost">Cumpartzidura noa</string>
     <string name="channel_notif_fav">Preferidu nou</string>
     <string name="channel_notif_mention">Mentovu nou</string>
     <string name="channel_notif_poll">Sondàgiu acabadu</string>
-    <string name="channel_notif_toot">Tut nou</string>
     <string name="channel_notif_backup">Còpia de seguresa de is tuts</string>
     <string name="channel_notif_status">Publicatziones noas</string>
     <string name="channel_notif_media">Iscàrriga is mèdios</string>
-    <string name="set_notif_sound">Càmbia su sonu de notìfica</string>
     <string name="select_sound">Seletziona sa soneria</string>
     <string name="set_enable_time_slot">Abìlita sa fàscia orària</string>
-    <string name="how_to_videos">Vìdeos de agiudu</string>
-    <string name="retrieve_remote_conversation">Recuperende s\'arresonada remota!</string>
-    <string name="no_blocked_domain">Perunu domìniu blocadu!</string>
-    <string name="unblock_domain_confirm">Isbloca su domìniu</string>
-    <string name="unblock_domain_confirm_message">Ses seguru de bòlere isblocare %s?</string>
     <string name="block_domain_confirm_message">Ses seguru de bòlere blocare %s?\n \n No as a bìdere perunu cuntenutu dae custu domìniu o in is notìficas tuas. Is sighidores tuos dae custu domìniu ant a èssere bogados.</string>
-    <string name="blocked_domains">Domìnios blocados</string>
     <string name="block_domain">Bloca su domìniu</string>
     <string name="toast_block_domain">Su domìniu est blocadu</string>
-    <string name="toast_unblock_domain">Su domìniu no est prus blocadu!</string>
     <string name="retrieve_remote_status">Recuperende s\'istadu remotu</string>
-    <string name="comment">Cummenta</string>
     <string name="peertube_instance">Istàntzia de Peertube</string>
-    <string name="no_comments">Sias su primu a lassare unu cummentu a custu vìdeu cun su butone in artu a destra!</string>
-    <string name="number_view_video">%s visualizatziones</string>
-    <string name="duration_video">Longària: %s</string>
-    <string name="add_remote_instance">Agiunghe un\'istàntzia</string>
-    <string name="comment_no_allowed_peertube">Is cummentos non sunt abilitados in custu vìdeu!</string>
-    <string name="pickup_resolution">Sèbera una risolutzione</string>
-    <string name="peertube_favorites">Preferidos de Peertube</string>
-    <string name="bookmark_add_peertube">As agiuntu su vìdeu a is sinnalibros!</string>
-    <string name="bookmark_remove_peertube">As bogadu su vìdeu dae is sinnalibros!</string>
-    <string name="bookmark_peertube_empty">Non tenes perunu vìdeu de Peertube in is preferidos tuos!</string>
-    <string name="channel">Canale</string>
-    <string name="videos">Vìdeos</string>
-    <string name="channels">Canales</string>
     <string name="set_display_emoji">Imprea is Emoji One</string>
     <string name="information">Informatziones</string>
     <string name="set_display_card">Ammustra is antiprimas in totu is tuts</string>
-    <string name="thanks_text_ux">Disinnadore UX/UI nou</string>
-    <string name="set_display_video_preview">Ammustra is antiprimas de is vìdeos</string>
     <string name="account_id_clipbloard">S\'id de su contu est istadu copiadu in punta de billete!</string>
     <string name="set_change_locale">Càmbia sa limba</string>
-    <string name="default_language">Limba predefinida</string>
     <string name="truncate_long_toots">Trunca is tuts longos</string>
     <string name="set_truncate_toot">Trunca is tuts prus longos de \'x\' lìnias. Zero cheret nàrrere disabilitadu.</string>
     <string name="display_toot_truncate">Ammustra àteru</string>
     <string name="hide_toot_truncate">Ammustra de mancu</string>
-    <string name="manage_tags">Amministra is etichetas</string>
     <string name="tags_already_stored">S\'eticheta esistit giai!</string>
-    <string name="tags_stored">S\'eticheta est istada sarvada!</string>
-    <string name="tags_renamed">S\'eticheta est istada cambiada!</string>
-    <string name="tags_deleted">S\'eticheta est istada cantzellada!</string>
     <string name="schedule_boost">Pranìfica una cumpartzidura</string>
     <string name="boost_scheduled">As pranificadu sa cumpartzidura!</string>
     <string name="no_scheduled_boosts">Peruna cumpartzidura pranificada de ammustrare!</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[Aberi su menù de unu tut e sèbera <b>Pranìfica sa cumpartzidura</b>.]]></string>
-    <string name="art_menu">Lìnia de tempus de Arte</string>
     <string name="open_menu">Aberi su menù</string>
-    <string name="go_back">Torra in segus</string>
-    <string name="app_logo">Logotipu de s\'aplicatzione</string>
     <string name="profile_picture">Immàgine de su profilu</string>
     <string name="profile_banner">Immàgine de profilu</string>
     <string name="contact_instance_admin">Cuntata s\'amministradore de s\'istàntzia</string>
-    <string name="add_new">Agiunghe nou</string>
     <string name="mastohost_logo">Logotipu de MastoHost</string>
     <string name="emoji_picker">Seletzionadore de emoji</string>
-    <string name="refresh">Atualiza</string>
     <string name="expand_conversation">Ismànnia s\'arresonada</string>
-    <string name="remove_account">Boga unu contu</string>
-    <string name="delete_domain">Cantzella su domìniu blocadu</string>
     <string name="custom_emoji_picker">Seletzionadore de emoji personalizadas</string>
-    <string name="play_video">Riprodui su vìdeu</string>
-    <string name="new_toot">Tut nou</string>
-    <string name="card_view_image">Immàgine de s\'ischeda</string>
-    <string name="hide_media">Cua mèdia</string>
     <string name="favicon">Icona de is preferidos</string>
     <string name="media_description">Agiunghe una descritzione pro su cuntenutu multimediale (pro chie tenet problemas de bisione)</string>
     <string-array name="filter_expire">
@@ -596,19 +345,10 @@
         <item>1 die</item>
         <item>1 chida</item>
     </string-array>
-    <string name="showcase_instance">In custu campu depes iscrìere su domìniu de s\'istàntzia tua.
-\n A esèmpiu, si as creadu su contu tuo in https://mastodon.social
-\n Iscrie sceti <b>mastodon.social</b>
-\n Podes cumintzare a iscrìere is primas lìteras e as a retzire cussìgios pro is nùmenes. </string>
-    <string name="more_information">Àteras informatziones</string>
     <!-- languages not translated -->
     <string name="languages">Limbas</string>
     <string name="show_media_only">Multimediale isceti</string>
     <string name="show_media_nsfw">Ammustra is cuntenutos sensìbiles (NSFW)</string>
-    <string name="crowdin_translations">Tradutziones de Crowdin</string>
-    <string name="crowdin_manager">Amministradore de Crowdin</string>
-    <string name="translation_app">Tradutzione de s\'aplicatzione</string>
-    <string name="about_crowdin">A pitzu de Crowdin</string>
     <string name="bot">Bot</string>
     <string name="pixelfed_instance">Istàntzia Pixelfed</string>
     <string name="mastodon_instance">Istàntzia de Mastodon</string>
@@ -620,110 +360,36 @@
     <string name="some_tags">Agiunghe unas cantas paràulas a su filtru (separadas dae ispàtzios)</string>
     <string name="change_tag_column">Càmbia su nùmene de sa colonna</string>
     <string name="misskey_instance">Istàntzia Misskey</string>
-    <string name="toast_no_apps">Non tenes aplicatzione peruna chi suportet custu ligàmene installada in su dispositivu tuo.</string>
-    <string name="subscriptions">Abbonamentos</string>
-    <string name="overview">Resumu</string>
     <string name="trending">De tendèntzia</string>
-    <string name="recently_added">Agiuntos dae pagu</string>
     <string name="local">Locale</string>
-    <string name="upload_video">Càrriga</string>
-    <string name="reply">Risponde</string>
-    <string name="delete_comment">Cantzella unu cummentu</string>
-    <string name="delete_comment_confirm">Ses seguru de bòlere cantzellare custu cummentu?</string>
-    <string name="fullscreen">Vìdeu a ischermu intreu</string>
-    <string name="set_video_mode">Modalidade pro is vìdeos</string>
-    <string name="file_to_upload">Seletziona su documentu de carrigare</string>
-    <string name="my_videos">Vìdeos meos</string>
-    <string name="title">Tìtulu</string>
-    <string name="license">Litzèntzia</string>
     <string name="category">Categoria</string>
-    <string name="language">Limba</string>
-    <string name="peertube_nsfw">Custu vìdeu tenet cuntenutos pro adultos o esplìtzitu</string>
-    <string name="peertube_enable_comments">Abìlita is commentos a su vìdeu</string>
-    <string name="update_video">Agiorna su vìdeu</string>
     <string name="description">Descritzione</string>
-    <string name="toast_peertube_video_updated">Su vìdeu est istadu agiornadu!</string>
-    <string name="toast_cancelled">Carrigamentu annulladu!</string>
-    <string name="upload_video_success">Su vìdeu est istadu carrigadu!</string>
-    <string name="uploading">Carrighende, iseta…</string>
-    <string name="video_uploaded_action">Toca inoghe pro modificare is datos de su vìdeu.</string>
-    <string name="delete_video">Cantzella su vìdeu</string>
-    <string name="delete_video_confirmation">Ses seguru de bòlere cantzellare custu vìdeu?</string>
-    <string name="display_nsfw_videos">Ammustra is vìdeos non seguros pro su traballu (NSFW)</string>
-    <string name="no_video_to_display">Perunu vìdeu de ammustrare!</string>
-    <string name="leave_a_comment">Lassa unu cummentu</string>
     <string name="share">Cumpartzi</string>
-    <string name="choose_schedule">Sèbera una modalidade de pranificatzione</string>
-    <string name="device_schedule">Dae su dispositivu</string>
-    <string name="server_schedule">Dae su serbidore</string>
     <string name="toots_server">Tuts (Serbidore)</string>
     <string name="toots_client">Tuts (Dispositivu)</string>
-    <string name="modify">Modìfica</string>
-    <string name="set_display_content_after_fetch_more">Ammustra is tuts noos a pitzu de su butone \"Càstia àteru\"</string>
     <string name="settings_category_label_timelines">Lìnias de tempus</string>
     <string name="settings_category_label_interface">Interfache</string>
     <string name="contact">Cuntatos</string>
-    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> at cummentadu su vìdeu tuo <b>%2$s</b>]]></string>
-    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> est sighende su canale tuo <b>%2$s</b>]]></string>
-    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> est sighende su contu tuo]]></string>
-    <string name="peertube_video_published"><![CDATA[Su vìdeu tuo <b>%1$s</b> est istadu publicadu]]></string>
-    <string name="peertube_video_import_success"><![CDATA[S\'importatzione vìdeu tua <b>%1$s</b> est acabada sena problemas]]></string>
-    <string name="peertube_video_import_error"><![CDATA[S\'importatzione vìdeu tua <b>%1$s</b> est fallida]]></string>
-    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> at publicadu unu vìdeu nou: <b>%2$s</b>]]></string>
-    <string name="peertube_video_blacklist"><![CDATA[Su vìdeu tuo <b>%1$s</b> est istadu postu in sa lista niedda]]></string>
-    <string name="peertube_video_unblacklist"><![CDATA[Su vìdeu tuo <b>%1$s</b> est istadu bogadu dae sa lista niedda]]></string>
-    <string name="export_data">Esporta is datos</string>
-    <string name="import_data">Importa datos</string>
-    <string name="toot_select_import">Seletziona su documentu de importare</string>
     <string name="toot_select_file_error">Ddoe est istadu un\'errore cun sa seletzione de su documentu de sa còpia de seguresa!</string>
-    <string name="add_public_comment">Agiunghe unu cummentu pùblicu</string>
-    <string name="send_comment">Imbia unu cummentu</string>
-    <string name="toast_toot_saved_error">Non ddoe est peruna connessione a ìnternet. Su messàgiu tuo est istadu sarvadu in is abbotzos.</string>
-    <string name="action_plain_text">Testu puru</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">Essi dae su contu</string>
     <string name="all">Totu</string>
-    <string name="about_opencollective">Suporta s\'aplicatzione</string>
-    <string name="more_about_opencollective">Open Collective permitit a is grupos de impostare in presse unu colletivu, collire dinare e de dd\'amministrare in manera trasparente.</string>
     <string name="copy_link">Còpia ligàmene</string>
-    <string name="connect_instance">Connete</string>
-    <string name="set_normal">Normale</string>
-    <string name="set_compact">Cumpatadu</string>
-    <string name="set_console">Terminale</string>
-    <string name="set_mode">Imposta sa modalidade de visualizatzione</string>
-    <string name="set_security_provider">Règula su frunidore de seguresa</string>
-    <string name="update_tracking_domains">Agiorna is domìnios de arrastamentu</string>
-    <string name="tracking_db_updated">Sa base de datos de arrastamentu est istada agiornada!</string>
     <string name="calls_blocked">cramadas http blocadas dae s\'aplicatzione</string>
     <string name="list_of_blocked_domains">Lista de mutidas blocadas</string>
     <string name="submit">Imbia</string>
-    <string name="data_base_exported">As esportadu sa base de datos!</string>
-    <string name="featured_hashtags">Etichetas in evidèntzia</string>
     <string name="filter_timeline_with_a_tag">Filtra sa lìnia de su tempus cun is etichetas</string>
     <string name="no_tags">Peruna eticheta</string>
-    <string name="set_hide_delete_notification_on_tab">Cua su butone \"iscantzella\" in s\'ischeda de sas notìficas</string>
     <string name="set_retrieve_metadata_share_from_extras">Allòngia un\'immàgine cando ses cumpartzende un\'URL</string>
     <!-- end languages -->
-    <string name="poll">Sondàgiu</string>
-    <string name="polls">Sondàgios</string>
     <string name="create_poll">Crea unu sondàgiu</string>
-    <string name="poll_choice_1">Sèberu 1</string>
-    <string name="poll_choice_2">Sèberu 2</string>
     <string name="poll_choice_s">Sèberu %d</string>
     <string name="poll_invalid_choices">Tenes bisòngiu de a su mancu duos sèberos pro su sondàgiu!</string>
     <string name="done">Fatu</string>
     <string name="poll_finish_at">acaba in %s</string>
-    <string name="refresh_poll">Annoa su sondàgiu</string>
     <string name="vote">Vota</string>
     <string name="notif_poll">Unu sondàgiu in su chi as votadu est acabbadu</string>
     <string name="notif_poll_self">Unu sondàgiu chi as publicadu est acabadu</string>
-    <string name="settings_category_notif_customize">Personaliza</string>
     <string name="settings_category_notif_categories">Categorias</string>
-    <string name="settings_category_notif_time_slot">Fàscia orària</string>
-    <string name="settings_category_notif_advanced">Avantzadas</string>
-    <string name="set_display_new_badge">Ammustra su distintivu \'nou\' in is tuts non lèghidos</string>
-    <string name="peertube_menu">Peertube</string>
     <string name="move_timeline">Move sa lìnia de tempus</string>
     <string name="hide_timeline">Cua sa lìnia de su tempus</string>
     <string name="reorder_timelines">Torra a ordinare is lìnias de su tempus</string>
@@ -731,71 +397,37 @@
     <string name="reorder_instance_removed">Istàntzia sighida bogada</string>
     <string name="reorder_tag_removed">Eticheta apicada bogada</string>
     <string name="undo">Annulla</string>
-    <string name="visible_tabs_needed">Depes mantènnere duas ischedas visìbiles!</string>
-    <string name="action_reorder_timeline">Torra a ordinare is lìnias de su tempus</string>
     <string name="warning_main_timeline">Is lìnias de tempus printzipales si podent sceti cuare!</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">Sinna semper is cuntenutos multimediales comente sensìbiles</string>
     <string name="gnu_instance">Istàntzia GNU</string>
-    <string name="cached_status">Istadu in sa memòria temporànea</string>
     <string name="set_forward_tags">Inoltra is etichetas in is rispostas</string>
     <string name="set_long_press_media">Incarca a longu pro sarvare is cuntenutos multimediales</string>
-    <string name="set_blur_sensitive">Isfoca is cuntenutos multimediales sensìbiles</string>
-    <string name="set_display_timeline_in_list">Ammustra is lìnias de tempus in una lista</string>
-    <string name="display_timeline">Ammustra is lìnias de su tempus</string>
-    <string name="set_display_bot_icon">Marca is contos de bots in is tuts</string>
     <string name="add_tags">Amministra is etichetas</string>
-    <string name="set_remember_position">Ammenta sa positzione in sa lìnia de tempus printzipale</string>
-    <string name="history">Cronologia</string>
-    <string name="playlists">Iscalitas</string>
     <string name="display_name">Nòmine visìbile</string>
-    <string name="action_playlist_add">Non tenes peruna iscalita. Toca in su butone \"+\" pro agiùnghere un\'iscalita noa</string>
-    <string name="error_display_name">Depes frunire unu nùmene de ammustrare!</string>
-    <string name="error_channel_mandatory">B\'at bisòngiu de su canale cando s\'iscalita est pùblica.</string>
-    <string name="action_playlist_create">Crea un\'iscalita</string>
-    <string name="action_playlist_empty_content">In custa iscalita non dd\'est ancora nudda.</string>
-    <string name="redo">ripite</string>
-    <string name="gallery">Galleria</string>
     <string name="label_emoji">Emoji</string>
-    <string name="label_sticker">Adesivu</string>
-    <string name="label_eraser">Gomma pro cantzellare</string>
     <string name="label_text">Testu</string>
     <string name="label_filter">Filtru</string>
     <string name="label_brush">Pintzellu</string>
-    <string name="confirm_exit_editing">Ses seguru de bòlere essire sena sarvare s\'immàgine?</string>
     <string name="discard">Iscarta</string>
     <string name="saving">Sarvende…</string>
     <string name="image_saved">Immàgine sarvada sena problemas!</string>
     <string name="save_image_failed">Sarvamentu de s\'immàgine fallidu</string>
-    <string name="opacity">Annapadura</string>
-    <string name="set_photo_editor">Abìlita s\'editore de fotografias</string>
     <string name="add_poll_item">Agiunghe un\'elementu a su sondàgiu</string>
-    <string name="remove_poll_item">Boga s\'ùrtimu elementu de su sondàgiu</string>
     <string name="mute_conversation">Silèntzia s\'arresonada</string>
     <string name="unmute_conversation">Boga su silentziamentu a s\'arresonada</string>
     <string name="toast_unmute_conversation">S\'arresonada no est prus a sa muda!</string>
     <string name="toast_mute_conversation">S\'arresonada est impostada a sa muda</string>
-    <string name="app_features">Aberi is funtzionalidades de s\'aplicatzione</string>
-    <string name="timed_mute">Silentziamentu temporizadu</string>
-    <string name="mention_account">Mentova su contu</string>
-    <string name="refresh_cache">Annoa sa memòria temporànea</string>
-    <string name="mention_status">Mentova s\'istadu</string>
-    <string name="action_news">Noas</string>
     <string name="category_general">Generales</string>
     <string name="category_regional">Regionales</string>
     <string name="category_art">Arte</string>
-    <string name="category_journalism">Giornalismu</string>
     <string name="category_activism">Ativismu</string>
     <string name="category_games">Giogos</string>
     <string name="category_tech">Tecnologia</string>
-    <string name="category_adult">Cuntenutu pro adultos</string>
     <string name="category_furry">Furry</string>
     <string name="category_food">Màndigu</string>
     <string name="instance_logo">Logotipu de s\'istàntzia</string>
-    <string name="toast_error_instance_reg">Ddoe est istadu carchi problema chirchende is istàntzias a disponimentu!</string>
     <string name="join_mastodon">Iscrie·ti a Mastodon</string>
     <string name="pickup_instance_category">Sèbera un\'istàntzia pighende una categoria e, a pustis, tochende unu butone de verìfica.</string>
-    <string name="pickup_instance_peertube">Sèbera un\'istàntzia tochende unu butone de verìfica.</string>
     <string name="users">%1$s utentes</string>
     <string name="password_confirm">Cunfirma sa crae de intrada</string>
     <string name="agreement_check">Atzeto is %1$s e is %2$s</string>
@@ -803,10 +435,8 @@
     <string name="tos">cunditziones de su servìtziu</string>
     <string name="sign_up">Iscrie·ti</string>
     <string name="validation_needed">Cust\'istàntzia funtzionat cun invitos. Su contu tuo at a bisongiare de èssere aprovadu dae un\'amministradore in antis chi tue lu potzas impreare.</string>
-    <string name="all_field_filled">Iscrie in totu is campos, pro praghere!</string>
     <string name="password_error">Is craes non currispondent!</string>
     <string name="email_error">S\'indiritzu de posta non paret vàlidu!</string>
-    <string name="username_indicator">Su nùmene de utente tuo at a èssere ùnicu in %1$s</string>
     <string name="email_indicator">As a retzire una lìtera eletrònica de cunfirma</string>
     <string name="password_indicator">Imprea a su mancu 8 caràteres</string>
     <string name="password_too_short">Sa crae de intrada diat cuntènnere a su mancu 8 caràteres</string>
@@ -822,136 +452,36 @@
     <string name="save_draft">Sarvare su messàgiu in is abbotzos?</string>
     <string name="administration">Amministratzione</string>
     <string name="reports">Sinnalatziones</string>
-    <string name="no_reports">Perunu raportu de ammustrare!</string>
-    <string name="reconnect_account">Torra a connètere su contu</string>
-    <string name="reconnect_account_message">S\'aplicatzione no est resèssida a atzèdere a is funtzionalidades de amministratzione. Dias pòdere dèpere torrare a collegare su contu pro tènnere is autorizatziones curretas.</string>
     <string name="unresolved">Non risoltu</string>
     <string name="remote">Dae remotu</string>
     <string name="active">Ativas</string>
     <string name="pending">Isetende</string>
     <string name="disabled">Disabilitadu</string>
-    <string name="silenced">A sa muda</string>
     <string name="suspended">Suspesu</string>
     <string name="permissions">Permissos</string>
-    <string name="email_status">Istadu de sa posta eletrònica</string>
-    <string name="login_status">Istadu de atzessu</string>
-    <string name="joined">Iscritu</string>
-    <string name="recent_ip">IP prus reghente</string>
-    <string name="warn">Avisa</string>
     <string name="disable">Disabìlita</string>
     <string name="silence">Pone a sa muda</string>
-    <string name="email_user">Notìfica s\'utente pro mèdiu de posta eletrònica</string>
-    <string name="custom_warning">Avisu personalizadu</string>
-    <string name="user">Utente</string>
-    <string name="moderator">Moderadore</string>
-    <string name="administrator">Amministradore</string>
-    <string name="confirmed">Cunfirmadu</string>
-    <string name="unconfirmed">Non cunfirmadu</string>
-    <string name="list_reported_statuses">Istados sinnalados</string>
     <string name="account">Contu</string>
     <string name="unsilence">Annulla su silentziamentu</string>
     <string name="undisable">Annulla sa disabilitatzione</string>
     <string name="suspend">Suspende</string>
     <string name="unsuspend">Annulla sa suspensione</string>
-    <string name="account_silenced">Su contu est silentziadu!</string>
-    <string name="account_unsilenced">Su contu no est prus silentziadu!</string>
-    <string name="account_suspended">Su contu est suspesu!</string>
-    <string name="account_unsuspended">Su contu no est prus sospesu!</string>
-    <string name="account_disabled">Su contu est disabilitadu!</string>
-    <string name="account_undisabled">Su contu no est prus disabilitadu!</string>
-    <string name="account_warned">Su contu est istadu avisadu!</string>
-    <string name="set_display_admin_menu">Ammustra su menù de amministradore</string>
-    <string name="set_display_admin_toot">Ammustra sa funtzionalidade de amministradore in is istados</string>
-    <string name="allow">Permite</string>
-    <string name="account_approved">Su contu est aprovadu!</string>
-    <string name="account_rejected">Su contu est respintu!</string>
-    <string name="assign_to_me">Assigna·mi·lu</string>
-    <string name="unassign">Annulla s\'assinnamentu</string>
-    <string name="mark_resolved">Sinna comente risoltu</string>
-    <string name="mark_unresolved">Sinna comente non risoltu</string>
-    <string name="toast_empty_content">Cuntenutu bòidu!</string>
-    <string name="set_display_fedilab_features_button">Ammustra su butone de sas funtzionalidades de Fedilab</string>
     <string name="audio">S\'aplicatzione tenet bisòngiu de atzèdere a sa registratzione àudio</string>
     <string name="voice_message">Messàgiu vocale</string>
-    <string name="set_quick_reply">Abìlita is rispostas lestras</string>
-    <string name="reply_might_be_useless">Su contu a su cale ses rispondende diat pòdere non bìdere su messàgiu tuo!</string>
-    <string name="set_remember_position_indication">Si est disabilitadu s\'aplicatzione at a carrigare semper is ùrtimos istados</string>
-    <string name="set_blur_sensitive_indication">Si est disabilitadu sos cuntenutos multimediales ant a èssere cuados cun unu butone</string>
-    <string name="set_long_press_media_indication">Sarva is cuntenutos multimediales in mannària intrea incarchende a longu in is antiprimas</string>
-    <string name="set_display_timeline_in_list_indication">Agiunghe unu butone ellìticu in artu a destra pro allistare totu is etichetas/istàntzias/listas</string>
     <string name="set_enable_time_slot_indication">Durante sa fàscia orària s\'aplicatzione at a imbiare notìficas. Podes furriare (pònnere a sa muda) custa fàscia orària cun su menù a destra.</string>
-    <string name="set_display_fedilab_features_button_indication">Ammustra unu butone de Fedilab in suta de s\'immàgine de profilu. Est un\'incurtzada pro atzèdere a is funtzionalidades de s\'aplicatzione.</string>
-    <string name="set_quick_reply_indication">Permite de rispòndere diretamente in is lìnias de tempus, dae suta de is istados</string>
     <string name="set_fit_preview_indication">Is anteprimas no ant a èssere ritalliadas in is lìnias de tempus</string>
-    <string name="set_display_video_preview_indication">Permite de riproduire vìdeos integrados diretamente in is lìnias de tempus</string>
-    <string name="set_display_content_after_fetch_more_indication">Permite de furriare sa manera de lèghere is istados chi benint ammustrados prus de una borta tochende su butone pro nde recuperare àteros</string>
-    <string name="set_security_provider_indication">Custa atzione permitet de suportare is mètodos de tzifradura prus noos. Est discansosa pro dispositivos Android betzos o si non ti podes connètere a s\'istàntzia tua.</string>
-    <string name="set_video_mode_indication">Pro is vìdeos de Peertube ebbia. Cola a custa modalidade si non resessis a los riproduire.</string>
-    <string name="featured_hashtags_indication">Custas etichetas t\'ant a permìtere de filtrare istados dae is profilos. As a depere impreare su menù de cuntestu pro ddos bìdere.</string>
     <string name="set_capitalize_indication">Inserta automaticamente un\'interrutzione de lìnia a pustis de su mentovu pro pònnere sa prima lìtera majùscula</string>
     <string name="settings_title_custom_sharing_indication">Permite a is creadores de cuntenutos de cumpartzire is istados in is fontes de cuntenutos RSS issoro</string>
     <string name="compose">Cumpone</string>
-    <string name="upload_image_maximum_retry_times">Nùmeru màssimu de tentativos pro su carrigamentu de sos cuntenutos multimediales</string>
-    <string name="new_folder">Crea una cartella noa inoghe</string>
-    <string name="folder_name">Inserta su nùmene pro sa cartella</string>
-    <string name="valid_folder_name">Inserta unu nùmene vàlidu pro sa cartella</string>
-    <string name="folder_exists">Custa cartella esistit giai.\n Sèbera un\'àteru nùmene pro sa cartella</string>
     <string name="select">Seletziona</string>
-    <string name="default_directory">Cartella predefinida</string>
-    <string name="folder">Cartella</string>
-    <string name="create_folder">Crea una cartella</string>
-    <string name="set_display_confirm">Boles ammustrare una ventanedda de messàgiu a pustis chi un\'atzione benit acabada (cumpatzidura, preferidu etz.)?</string>
-    <string name="muted_instance_exported">As esportadu is istàntzias postas a sa muda!</string>
     <string name="add_instances">Agiunghe un\'istàntzia</string>
-    <string name="export_instances">Esporta is istàntzias</string>
-    <string name="import_instances">Importa istàntzias</string>
-    <string name="set_crash_reports">Sinnalatziones de arrestu anòmalu</string>
     <string name="set_enable_crash_report">Abìlita is sinnalatziones pro is arrestos anòmalos</string>
     <string name="set_enable_crash_report_indication">Si est abilitadu s\'at a creare una sinnalatzione in locale e l\'as a pòdere cumpartzire.</string>
     <string name="crash_title">Fedilab s\'est firmadu :(</string>
     <string name="crash_message">Mi podes imbiare su raportu de arrestu anòmalu pro mèdiu de posta eletrònica. At a agiudare a lu risòlvere :)\n\nPodes agiùnghere cuntenutos in prus. \"Gràtzias!</string>
-    <string name="set_wysiwyg">Imprea su wysiwyg (editore visuale)</string>
-    <string name="set_wysiwyg_indication">Cando est abilitadu as a pòdere formatare su testu tuo in manera fàtzile cun is ainas.</string>
-    <string name="action_stats">Istatìsticas</string>
-    <string name="total_statuses">Istados totales</string>
-    <string name="number_boosts">Nùmeru de cumpartziduras</string>
-    <string name="number_favourites">Nùmeru de preferidos</string>
-    <string name="number_mentions">Nùmeru de mentovos</string>
-    <string name="number_follows">Nùmeru de sighiduras</string>
-    <string name="number_polls">Nùmeru de sondàgios</string>
-    <string name="number_replies">Nùmeru de rispostas</string>
-    <string name="number_statuses">Nùmeru de istados</string>
-    <string name="statuses">Istados</string>
     <string name="visibility">Visibilidade</string>
-    <string name="number_with_media">Nùmeru cun cuntenutos multimediales</string>
-    <string name="number_with_sensitive_media">Nùmeru cun cuntenutos sensìbiles</string>
-    <string name="number_with_cw">Nùmeru cun AC</string>
-    <string name="first_toot_date">Data de su primu istadu</string>
-    <string name="last_toot_date">Data de s\'ùrtimu istadu</string>
-    <string name="first_notification_date">Data de sa prima notìfica</string>
-    <string name="last_notification_date">Data de s\'ùrtima notìfica</string>
-    <string name="frequency">Frecuèntzia</string>
-    <string name="toot_per_day">%s istados a sa die</string>
-    <string name="notification_per_day">%s notìficas a sa die</string>
-    <string name="date_range">Intervallu de datas</string>
-    <string name="action_groups">Grupos</string>
-    <string name="no_messages">Grupu perunu!</string>
     <string name="set_disable_animated_emoji">Disabìlita is emoji animadas personalizadas</string>
-    <string name="owner_charts">Gràficos</string>
-    <string name="display_charts">Ammustra is gràficos</string>
-    <string name="collecting_data_wait">S\'aplicatzione est collende is datos locales tuos, iseta…</string>
-    <string name="set_backup">Còpia de seguresa</string>
-    <string name="set_auto_backup">Faghe automaticamente una còpia de seguresa de is istados</string>
-    <string name="set_auto_backup_indication">Custa optzione est pro contu. At a aviare unu servìtziu chi at a archiviare in manera automàtica is istados tuos in sa base de datos. Custu permitet de otènnere istatìsticas e gràficos</string>
-    <string name="set_auto_backup_notifications">Archìvia automaticamente is notìficas</string>
-    <string name="set_auto_backup_notifications_indication">Custa optzione est pro contu. At a aviare unu servìtziu chi at a archiviare in manera automàtica is notìficas tuas in sa base de datos. Custu permitet de otènnere istatìsticas e gràficos</string>
     <string name="report_account">Sinnala su contu</string>
-    <string name="send_invitation">Imbia un\'invitu</string>
-    <string name="registration_closed">S\'istàntzia tua non permitit de registrare unu contu nou!</string>
-    <plurals name="number_of_vote">
-        <item quantity="one">%d votu</item>
-        <item quantity="other">%d votos</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="one">%d votante</item>
         <item quantity="other">%d votantes</item>
@@ -969,24 +499,7 @@
         <item>3 dies</item>
         <item>7 dies</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Vista web</item>
-        <item>Flussu diretu</item>
-    </string-array>
-    <string name="join_instance">Pro t\'iscrìere a s\'istàntzia mea \"%1$s\", podes iscarrigare Fedilab:\n \n F-Droid: %2$s\n Google: %3$s\n \n A pustis aberi su ligàmene inoghe in suta cun Fedilab e crea su contu tuo :)\n \n %4$s</string>
     <string name="poll_duplicated_entry">Su sondàgiu tuo non podet tènnere optziones duplicadas!</string>
-    <string name="all_accounts">Pro totu is contos</string>
-    <string name="database_cache">Memòria temporànea de sa base de datos</string>
-    <string name="cache_timeline_clear">Isbòida sa memòria temporànea de sa lìnia de tempus printzipale tua</string>
-    <string name="cache_owntoots_clear">Cantzella is istados sarvados in sa memòria temporànea</string>
-    <string name="cache_bookmarks_clear">Isbòida is sinnalibros tuos</string>
-    <string name="file_cache">Documentos in sa memòria temporànea</string>
-    <string name="total_notifications">Notìficas totales</string>
-    <string name="hide_menu_items">Cua is elementos de su menù</string>
-    <string name="top_notification">Fedilab est faghende notìficas in tempus reale</string>
-    <string name="top_notification_message">Pro %1$s contos cun %2$s eventos</string>
-    <string name="set_allow_live_notifications">Notìficas in direta pro %1$s</string>
-    <string name="set_allow_live_notifications_indication">Is notìficas in direta ant a bènnere abilitadas pro custu contu.</string>
     <string name="set_clear_cache_exit">Isbòida sa memòria temporànea cando essis</string>
     <string name="set_clear_cache_exit_indication">Sa memòria temporànea (cuntenutos multimediales, messàgios sarvados in cue, datos de su navigadore integradu) s\'at a isboidare automaticamente cando as a essire dae s\'aplicatzione.</string>
     <string name="unfollow_confirm">Boles acabare de sighire custu contu?</string>
@@ -994,36 +507,12 @@
     <string name="replace_medium">Remplasa is ligàmenes de Medium</string>
     <string name="replace_medium_description">Imprea un\'interfache alternativa pro Medium</string>
     <string name="replace_medium_host">Predefinidu: scribe.rip</string>
-    <string name="replace_wikipedia">Remplasa is ligàmenes de Wikipedia</string>
-    <string name="replace_wikipedia_description">Remplasa is ligàmenes de Wikipedia cun un\'interfache alternativa a còdighe abertu chi dat cara a sa riservadesa.</string>
-    <string name="replace_wikipedia_host">Predefinidu: wikiless.org</string>
-    <string name="set_hide_status_bar">Cua sa barra de is notìficas de Fedilab</string>
-    <string name="set_hide_status_bar_indication">Pro cuare is notìficas chi abarrant in sa barra de istadu toca in su butone cun s\'icona a forma de ogru e boga sa seletzione a: \"Ammustra in sa barra de istadu\"</string>
     <string name="set_push_notifications">Imprea unu sistema de notìficas push pro retzire notìficas in tempus reale.</string>
-    <string name="no_live_notif">Peruna notìfica in direta</string>
-    <string name="live_notif">Notìficas in direta</string>
-    <string name="no_live_indication">Sas notìficas ant a èssere recuperadas cada 15 minutos.</string>
     <string name="action_add_notes">Agiunghe notas</string>
     <string name="note_for_account">Notas pro su contu</string>
     <string name="set_resize_picture_indication">Permite de cumprimire is fotografias mannas in fotografias prus minores cun una pèrdida de calidade de s\'immàgine mìnima o irrilevante.</string>
     <string name="set_resize_video_indication">Permitet de cumprimire is vìdeos mantenende sa calidade issoro.</string>
-    <string name="please_wait_compression">S\'aplicatzione est cumprimende su cuntenutu multimediale. Bi diat podere bòlere tempus meda…</string>
-    <string name="change_app_icon_experimental">Càmbia s\'icona de s\'aplicatzione</string>
-    <string name="click_to_change_the_app_icon">Toca pro cambiare s\'icona de s\'aplicatzione</string>
-    <string name="post">Publicatzione</string>
-    <string name="post_visibility_tilte">Visibilidade de sa publicatzione</string>
-    <string name="add_photo_pixelfed">Toca inoghe pro agiùnghere fotografias</string>
-    <string name="add_photo_indication_pixelfed">Formados atzetados: jpeg, png, gif \n \n Mannària màssima de is documentos: 15 MB \n \n Is albums podent cuntènnere finas a 4 fotografias o vìdeos</string>
-    <string name="upload_media">Càrriga unu mèdiu</string>
-    <string name="pixelfed_compose_placeholder">Agiunghe una didascalia optzionale</string>
-    <string name="long_api_error">S\'aplicatzione at retzidu unu messàgiu de errore longu meda dae s\'API %1$s</string>
-    <string name="message_preview">Antiprima de su messàgiu</string>
-    <string name="report_mention">Agiunghe mentovos in cada messàgiu</string>
-    <string name="fetch_conversation">Recuperende s\'arresonada</string>
     <string name="order_by">Òrdina pro</string>
-    <string name="title_video_peertube">Tìtulu pro su vìdeu</string>
-    <string name="join_peertube">Iscrie·ti a Peertube</string>
-    <string name="agreement_check_peertube">Tèngio a su mancu 16 annos e atzeto is %1$s de custa istàntzia</string>
     <string name="link_color_title">Ligàmenes</string>
     <string name="link_color">Càmbia su colore de is ligàmenes (URLs, mentovos, etichetas etz.) in is messàgios</string>
     <string name="boost_header_color_title">Intestatzione de is cumpartziduras</string>
@@ -1037,84 +526,46 @@
     <string name="reset">Reseta</string>
     <string name="icons_color_title">Iconas</string>
     <string name="icons_color">Colores de is iconas de fundu de is lìnias de tempus</string>
-    <string name="pin_tag">Apica custa eticheta</string>
     <string name="logo_of_the_instance">Logotipu de s\'istàntzia</string>
     <string name="edit_profile">Modìfica su profilu</string>
     <string name="make_an_action">Faghe un\'atzione</string>
     <string name="translation">Tradutzione</string>
-    <string name="image_preview">Antiprima de s\'immàgine</string>
     <string name="text_color_title">Colore de su testu</string>
     <string name="text_color">Càmbia su colore de su testu in is ricuadros</string>
-    <string name="apply_changes">Àplica is modìficas</string>
-    <string name="restart_message">Depes torrare a allùghere s\'aplicatzione pro aplicare is modìficas</string>
-    <string name="restart">Torra a allùghere</string>
     <string name="pref_custom_theme">Imprea unu tema personalizadu</string>
-    <string name="pref_custom_theme_summary">Permite de subraiscrìere is colores de su tema seletzionadu a pitzu</string>
     <string name="theming">Temas</string>
-    <string name="store_before">Sarva in antis</string>
     <string name="data_export_theme">As esportadu su tema</string>
     <string name="data_export_theme_success">Su tema est istadu esportadu in CSV sena problemas</string>
-    <string name="pref_colored_status_bar_summary">Àplica su colore primàriu a sa barra de istadu</string>
-    <string name="pref_colored_status_bar_title">Colore de sa barra de istadu</string>
-    <string name="restore_default_theme">Riprìstina unu tema predefinidu</string>
     <string name="import_theme">Importa unu tema</string>
     <string name="import_theme_title">Toca inoghe pro importare unu tema dae un\'esportatzione prus betza</string>
     <string name="export_theme">Esporta su tema</string>
     <string name="export_theme_title">Toca inoghe pro esportare su tema atuale</string>
     <string name="theme_file_error">Ddoe est istadu un\'errore seletzionende su documentu de su tema</string>
-    <string name="label_theme_picker">Seletzionadore de temas</string>
-    <string name="pref_theme_summary">Seletziona unu tema pre-installadu</string>
-    <string name="pref_theme_title">Temas</string>
-    <string name="pref_colored_navigation_bar_summary">Àplica su colore primàriu a sa barra de navigatzione</string>
-    <string name="pref_colored_navigation_bar_title">Colore de sa barra de navigatzione</string>
-    <string name="pref_background_color_summary">Colore de suta de su cuntenutu de s\'aplicatzione.</string>
-    <string name="pref_background_color_title">Colore de isfundu</string>
-    <string name="pref_accent_color_summary">Colores de ènfasi pro unas cantas partes de s\'IU.</string>
-    <string name="pref_accent_color_title">Colore de ènfasi</string>
-    <string name="pref_primary_color_summary">Is ammustrados prus a fitianu in s\'aplicatzione tua.</string>
-    <string name="pref_primary_color_title">Colore primàriu</string>
-    <string name="export_bookmarks">Esporta is sinnalibros a s\'istàntzia</string>
-    <string name="import_bookmarks">Importa is sinnalibros dae s\'istàntzia</string>
     <string name="user_count">Nùmeru de utentes</string>
     <string name="status_count">Nùmeru de istados</string>
     <string name="instance_count">Nùmeru de istàntzias</string>
-    <string name="blocked">Blocadu</string>
     <string name="poll_finish_in">Acaba in %s</string>
-    <string name="release_note_title">Ite dd\'est de nou in sa %s</string>
-    <string name="follow_account_update">Podes sighire su contu meu pro agiornamentos</string>
     <string name="no_instance_reccord">S\'istàntzia no est a disponimentu in https://instances.social</string>
     <string name="display_full_link">Ammustra su ligàmene intreu</string>
     <string name="share_link">Cumpartzi su ligàmene</string>
-    <string name="link_copy">As copiadu s\'URL in punta de billete</string>
     <string name="open_other_app">Aberi cun un\'àtera aplicatzione</string>
     <string name="check_redirect">Verìfica sa deviatzione</string>
     <string name="no_redirect">Custu URL non torrat a indiritzare</string>
     <string name="redirect_detected">%1$s \n \n torrat a imbiare cara a\n \n %2$s</string>
-    <string name="set_user_agent">Càmbia s\'agente de s\'utente</string>
-    <string name="set_user_agent_hint">Imposta un\'agente de s\'utente personalizadu o lassa·lu bòidu</string>
-    <string name="set_user_agent_indication">Permitet de personalizare s\'agente de s\'utente impreadu pro is cramadas api o cun su navigadore integradu.</string>
     <string name="set_utm_parameters">Boga is paràmetros UTM</string>
     <string name="set_utm_parameters_indication">S\'aplicatzione at a bogare in manera automàtica is paràmetros UTM dae is URL in antis de abèrrere unu ligàmene.</string>
-    <string name="action_trends">Tendèntzias</string>
-    <string name="trending_now">Tendèntzias de como</string>
     <string name="talking_about">%d persones nde sunt chistionende</string>
     <string name="twitter_accounts">Contos de Twitter (pro mèdiu de Nitter)</string>
     <string name="list_of_twitter_accounts">Nùmenes de utente de Twitter separados dae ispàtzios</string>
     <string name="identity_proofs">Proas de identidade</string>
     <string name="verified_user">Identidade verificada</string>
     <string name="verified_by">Verificada dae %1$s (%2$s)</string>
-    <string name="remove_notification">Cantzella sa notìfica</string>
-    <string name="display_more_options">Ammustra prus optziones</string>
-    <string name="pixelfed_story">Est un\'istòria de Pixelfed</string>
-    <string name="story_indication">Càrriga unu cuntenutu multimediale e s\'at a agiùnghere automaticamente a s\'istòria de Pixelfed tua.</string>
-    <string name="added_to_story">Cuntenutu multimediale agiuntu a s\'istòria tua!</string>
     <string name="action_disabled">Atzione disabilitada</string>
     <string name="action_unfollow">Acaba de sighire</string>
     <string name="error_destination_path">B\'at àpidu carchi problema. Controlla sa cartella de iscarrigamentu tua in is cunfiguratziones.</string>
     <string name="action_announcements">Annùntzios</string>
     <string name="no_announcements">Perunu annùntziu!</string>
     <string name="add_reaction">Agiunghe una reatzione</string>
-    <string name="set_custom_tabs_indication">Imprea su navigadore preferidu tuo in intro de s\'aplicatzione. Boga sa seletzione a custa funtzionalidade pro abèrrere is ligàmenes esternamente.</string>
     <string name="set_video_cache">Memòria temporànea pro is vìdeos in MB. Zero cheret nàrrere peruna memòria.</string>
     <string name="set_watermark">Filigranas</string>
     <string name="set_watermark_indication">Agiunghe automaticamente una filigrana a fundu de is immàgines. Podes personalizare su testu pro cada contu.</string>
@@ -1123,7 +574,6 @@
     <string name="select_distributors">Ischerta unu distribudore</string>
     <string name="replace_instagram">Instagram</string>
     <string name="other">Àteru</string>
-    <string name="permission_record">S\'aplicatzione tenet bisòngiu de s\'atzessu a sa registratzione sonora</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">Imprea un\'interfache alternativa pro YouTube</string>
     <string name="replace_youtube_host">Domìniu de s\'interfache pro YouTube</string>
@@ -1134,7 +584,6 @@
     <string name="followers_only">Sighidores ebbia</string>
     <string name="instance_health_indication">versione: %s
 \n %s utentes - %s istados</string>
-    <string name="join_fedi_instance">Auni·ti a un\'istàntzia de su Fediversu</string>
     <string name="replace_instagram_description">Imprea un\'interfache alternativa pro Instagram</string>
     <string name="replace_instagram_host">Domìniu de s\'interfache pro Instagram</string>
     <string name="hide_content">Cua su cuntenutu &gt;</string>
@@ -1147,7 +596,6 @@
     <string name="report_val_more4">Su problema non istat a intro de àteras categorias</string>
     <string name="report_1_mute">No as a bìdere is publicatziones suas. Ti podet galu sighire, at a bìdere is publicatziones tuas e no at a ischire chi est a sa muda.</string>
     <string name="report_1_block_title">Bloca a %1$s</string>
-    <string name="toot_visibility_title">Visibilidade de su tut</string>
     <string name="toots_visibility_title">Visibilidade predefinida de is tuts:</string>
     <string name="toast_unbookmark">Su tut est istadu bogadu dae is sinnalibros tuos!</string>
     <string name="set_accounts_page">Nùmeru de contos pro carrigamentu</string>
@@ -1162,7 +610,6 @@
     <string name="instance_not_valid">S\'istàntzia non paret chi siat vàlida!</string>
     <string name="boosted_by">Cumpartzidu dae</string>
     <string name="favourited_by">Postu in is preferidos dae</string>
-    <string name="images">Immàgines</string>
     <string name="eg_sensitive_content">A es.: Cuntenutu sensìbile</string>
     <string name="add_status">Agiunghe un\'istadu</string>
     <string name="remove_status">Boga s\'istadu</string>
@@ -1197,14 +644,12 @@
     <string name="notif_display_mentions">Mentovos</string>
     <string name="notif_display_favourites">Preferidos</string>
     <string name="report_1_block">No as a bìdere is publicatziones suas. No at a pòdere bìdere is publicatziones tuas e non t\'at a pòdere sighire. At a ischire chi est blocadu.</string>
-    <string name="join_peertube_message">\"PeerTube, isvilupadu dae Framasoft, est s\'alternativa lìbera e detzentralizada a is prataformas de vìdeos, chi frunit prus de 400,000 vìdeos publicados dae 60,000 utentes e pompiados prus de 15 milliones de bortas\"</string>
     <string name="mark_all_as_read">Marca totu is notìficas comente lèghidas</string>
     <string name="set_bot_content">Contu bot</string>
     <string name="customize_timelines">Personaliza is lìnias de tempus</string>
     <string name="types_of_notifications_to_display">Castas de notìficas de ammustrare</string>
     <string name="set_unfollow_validation_title">Cunfirma is agabbos de sighidura</string>
     <string name="also_favourite_by">"Postu in is preferidos fintzas dae: "</string>
-    <string name="customize_main_colors">Personaliza is colores printzipales</string>
     <string name="more_actions">Àteras atziones</string>
     <string name="set_display_bookmark_indication">Ammustra semper su butone de is preferidos</string>
     <string name="pref_contributor">Temas dae is contribuidores</string>
@@ -1252,9 +697,7 @@
     <string name="notif_display_updates_from_people">Agiornamentos dae sa gente</string>
     <string name="scheduled">Programmadu</string>
     <string name="type_of_notifications">Casta de notìficas</string>
-    <string name="alternative_frontends">Interfaches alternativas</string>
     <string name="type_of_notifications_title">Sèbera sa casta de notìficas</string>
-    <string name="notification_options">Optziones de notìfica</string>
     <string name="notifications_are">Durante custa fàscia orària</string>
     <string name="notification_sounds">Sonos de notìfica</string>
     <string name="disable_notifications">Disabìlita is notìficas</string>
@@ -1262,9 +705,7 @@
     <string name="pref_theme_base_summary">Sèbera si sa base de su tema diat dèpere èssere iscura o crara</string>
     <string name="fetch_more_messages">Recùpera prus messàgios…</string>
     <string name="label_line">Lìnia</string>
-    <string name="label_adjust">Adata</string>
     <string name="msg_save_image">Boles essire chene sarvare s\'immàgine\?</string>
-    <string name="msg_share_image">Cumpartzi s\'immàgine</string>
     <string name="label_eraser_mode">Modalidade gomma de iscantzellare</string>
     <string name="label_rectangle">Retàngulu</string>
     <string name="label_shape">Forma</string>

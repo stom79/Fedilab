@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Åpne menyen</string>
-    <string name="navigation_drawer_close">Lukk menyen</string>
     <string name="action_about">Om</string>
     <string name="action_about_instance">Om instansen</string>
     <string name="action_privacy">Personvern</string>
     <string name="action_cache">Mellomlager</string>
     <string name="action_logout">Logg ut</string>
-    <string name="login">Logg Inn</string>
     <!-- common -->
     <string name="close">Lukk</string>
     <string name="yes">Ja</string>
@@ -23,24 +20,16 @@
     <string name="toots">Toots</string>
     <string name="tags">Stikkord</string>
     <string name="save">Lagre</string>
-    <string name="restore">Gjenopprett</string>
-    <string name="no_result">Ingen resultater!</string>
     <string name="instance">Instans</string>
     <string name="instance_example">Instans: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Bruker nå kontoen %1$s</string>
     <string name="add_account">Legg til en konto</string>
     <string name="clipboard">Tootet er kopiert til utklippstavlen!</string>
     <string name="clipboard_url">Nettadressen til tootet er kopiert til utklippstavlen</string>
-    <string name="change">Endre</string>
-    <string name="choose_picture">Velg et bilde…</string>
-    <string name="clear">Fjern</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Vil du slette alt?</string>
-    <string name="translate_toot">Oversett dette tootet.</string>
     <string name="schedule">Planlegg</string>
     <string name="text_size">Tekst- og ikonstørrelser</string>
-    <string name="text_size_change">Endre gjeldende tekststørrelse:</string>
-    <string name="icon_size_change">Endre gjeldende ikonstørrelse:</string>
     <string name="next">Neste</string>
     <string name="previous">Forrige</string>
     <string name="open_with">Åpne med</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">Vis svar</string>
     <string name="action_open_in_web">Åpne i nettleseren</string>
     <string name="translate">Oversett</string>
-    <string name="please_wait">Vennligst vent noen sekunder før du utfører denne handlingen.</string>
     <!--- Menu -->
     <string name="home_menu">Hjem</string>
     <string name="local_menu">Lokal tidslinje</string>
-    <string name="global_menu">Forent tidslinje</string>
-    <string name="neutral_menu_title">Alternativer</string>
-    <string name="favorites_menu">Favoritter</string>
-    <string name="communication_menu_title">Kommunikasjon</string>
     <string name="muted_menu">Dempede brukere</string>
     <string name="blocked_menu">Blokkerte brukere</string>
     <string name="notifications">Varsler</string>
     <string name="follow_request">Forespørsler om følging</string>
     <string name="settings">Innstillinger</string>
-    <string name="delete_account_title">Slett en konto</string>
-    <string name="delete_account_message" formatted="false">Slett kontoen %1$s fra applikasjonen?</string>
     <string name="send_email">Send en e-post</string>
-    <string name="click_to_change">Klikk på stien for å endre den</string>
-    <string name="failed">Feilet!</string>
     <string name="scheduled_toots">Planlagte toots</string>
     <string name="disclaimer_full">Informasjon nedenfor kan gjenspeile brukerens profil ufullstendig.</string>
     <string name="insert_emoji">Sett inn emoji</string>
     <string name="no_emoji">Appen samler ikke tilpassede emojis for øyeblikket.</string>
-    <string name="push_notif">Push notifications</string>
-    <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Ingen toots å vise</string>
-    <string name="no_stories">Ingen historier å vise</string>
-    <string name="stories">Historier</string>
-    <string name="reblog_by">Boostet av %1$s</string>
     <string name="favourite_add">Legge dette tootet til dine favoritter?</string>
     <string name="favourite_remove">Fjerne dette tootet fra favorittene dine?</string>
     <string name="reblog_add">Booste dette tootet?</string>
     <string name="reblog_remove">Fjerne boosten på dette tootet?</string>
-    <string name="pin_add">Feste dette tootet?</string>
-    <string name="pin_remove">Løsne dette tootet?</string>
     <string name="more_action_1">Demp</string>
     <string name="more_action_2">Blokker</string>
     <string name="more_action_3">Rapporter</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">Bokmerker</string>
     <string name="bookmark_add">Legg til bokmerke</string>
     <string name="bookmark_remove">Fjern fra bokmerker</string>
-    <string name="bookmarks_empty">Ingen bokmerker å vise</string>
     <string name="status_bookmarked">Tootet er lagt til bokmerker!</string>
     <string name="status_unbookmarked">Tootet er fjernet fra bokmerker!</string>
     <!-- Date -->
@@ -148,34 +120,15 @@
         <item quantity="other">%d dager</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Innholdsadvarsel</string>
-    <string name="toot_placeholder">Hva tenker du på?</string>
-    <string name="toot_it">TOOT!</string>
-    <string name="queet_it">QUEET!</string>
-    <string name="cw">cw</string>
-    <string name="toot_title">Skriv et toot</string>
-    <string name="toot_title_reply">Svar på et toot</string>
-    <string name="queet_title">Skriv et queet</string>
-    <string name="queet_title_reply">Svar på et queet</string>
-    <string name="toot_select_image">Velg et medie</string>
     <string name="toot_select_image_error">Det oppsto en feil under valg av media!</string>
     <string name="toot_delete_media">Slett dette mediet?</string>
     <string name="toot_error_no_content">Din toot er tom!</string>
     <string name="toot_sent">Tootet er sendt!</string>
-    <string name="toot_reply_content_title">Du svarer på dette tootet:</string>
     <string name="toot_sensitive">Sensitivt innhold?</string>
-    <string-array name="toot_visibility">
-        <item>Post til offentlige tidslinjer</item>
-        <item>Ikke post til offentlige tidslinjer</item>
-        <item>Bare post til følgere</item>
-        <item>Bare post til nevnte brukere</item>
-    </string-array>
     <string name="no_draft">Ingen lagrede utkast!</string>
-    <string name="choose_toot">Velg et toot</string>
     <string name="choose_accounts">Velg en konto</string>
     <string name="select_accounts">Velg en eller flere kontoer</string>
     <string name="remove_draft">Slette utkast?</string>
-    <string name="show_reply">Klikk på knappen for å vise originaltootet</string>
     <string name="upload_form_description">Beskriv for synshemmede</string>
     <!-- Instance -->
     <string name="instance_no_description">Ingen beskrivelse tilgjengelig!</string>
@@ -185,29 +138,20 @@
     <string name="about_license">Lisens: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Kildekode: </string>
-    <string name="about_yandex">Oversetting av toots:</string>
     <string name="about_thekinrar">Søk instanser:</string>
-    <string name="thanks_text_logo">Ikon-designer:</string>
     <!-- Conversation -->
-    <string name="conversation">Samtale</string>
     <!-- Accounts -->
     <string name="no_accounts">Ingen konto å vise</string>
     <string name="no_follow_request">Ingen følg-forespørsel</string>
     <string name="status_cnt">Toots \n %1$s</string>
     <string name="following_cnt">Følger \n %1$s</string>
     <string name="followers_cnt">Følgere \n %1$s</string>
-    <string name="pins_cnt">Festet
-\n %d</string>
-    <string name="authorize">Autorisere</string>
     <string name="reject">Avslå</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Ingen planlagte toots å vise!</string>
-    <string name="no_scheduled_toots_indications">Skriv et toot og velg deretter <b>Planlegg</b> fra toppmenyen.</string>
     <string name="remove_scheduled">Slette planlagt toot?</string>
-    <string name="media_count">Medier: %d</string>
     <string name="toot_scheduled">Tootet har blitt planlagt!</string>
     <string name="toot_scheduled_date">Den planlagte datoen må være senere enn den nåværende timen!</string>
-    <string name="warning_battery">Batterisparer er aktivert! Det virker kanskje ikke som forventet.</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Tiden for demping bør være mer enn ett minutt.</string>
     <string name="timed_mute_date">%1$s er dempet til %2$s. \n Du kan også slå av demping manuelt igjen fra han/hennes profil.</string>
@@ -220,26 +164,12 @@
     <string name="notif_favourite">favoriserte tootet ditt</string>
     <string name="notif_follow">fulgte deg</string>
     <string name="notif_follow_request">bedt om å følge deg</string>
-    <plurals name="other_notifications">
-        <item quantity="one">og et annet varsel</item>
-        <item quantity="other">og %d andre varsler</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="one">%d liker</item>
-        <item quantity="other">%d liker</item>
-    </plurals>
-    <string name="delete_notification_ask">Slett et varsel?</string>
     <string name="delete_notification_ask_all">Slett alle varsler?</string>
-    <string name="delete_notification">Varselet er slettet!</string>
     <string name="delete_notification_all">Alle varsler er slettet!</string>
     <!-- HEADER -->
-    <string name="following">Følger</string>
     <string name="followers">Følgere</string>
-    <string name="pinned_toots">Festet</string>
     <!-- TOAST -->
     <string name="client_error">Kunne ikke hente klient-id!</string>
-    <string name="connect_error">Unable to connect to instance domain!</string>
-    <string name="no_internet">Ingen Internett-tilkobling!</string>
     <string name="toast_block">Kontoen ble blokkert!</string>
     <string name="toast_unblock">Kontoen er ikke lenger blokkert!</string>
     <string name="toast_mute">Kontoen ble dempet!</string>
@@ -250,37 +180,16 @@
     <string name="toast_unreblog">Tootet er ikke lenger boostet!</string>
     <string name="toast_favourite">Tootet ble lagt til dine favoritter!</string>
     <string name="toast_unfavourite">Tootet ble fjernet fra dine favoritter!</string>
-    <string name="toast_report">Tootet ble rapportert!</string>
-    <string name="toast_unstatus">Tootet ble slettet!</string>
-    <string name="toast_pin">Tootet ble festet!</string>
-    <string name="toast_unpin">Tootet ble løsnet!</string>
     <string name="toast_error">Ups! En feil oppstod!</string>
     <string name="toast_code_error">En feil oppstod! Instansen returnerte ikke en autorisasjonskode!</string>
     <string name="toast_error_instance">Adressen til instansen ser ikke ut til å være gyldig!</string>
     <string name="toast_error_loading_account">Det oppsto en feil under bytte mellom kontoer!</string>
     <string name="toast_error_search">Det oppsto en feil under søking!</string>
-    <string name="toast_update_credential_ok">Profildataene er lagret!</string>
     <string name="nothing_to_do">Ingen handling kan tas</string>
-    <string name="toast_saved">Media har blitt lagret!</string>
     <string name="toast_error_translate">Det oppstod en feil under oversettelsen!</string>
-    <string name="toast_error_translations_disabled">Oversettelse er skrudd av i innstillingene</string>
-    <string name="toast_toot_saved">Utkast lagret!</string>
-    <string name="toast_error_char_limit">Er du sikker på at denne instansen tillater dette antall tegn? Vanligvis er denne verdien nær 500 tegn.</string>
-    <string name="toast_visibility_changed">Synligheten til toots er endret for kontoen %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Antall toots per innlasting</string>
-    <string name="set_attachment_always">Alltid</string>
-    <string name="set_attachment_wifi">WIFI</string>
-    <string name="set_attachment_ask">Spør</string>
-    <string name="set_attachment_action">Last media</string>
-    <string name="load_attachment">Last bildene</string>
-    <string name="load_attachment_spoiler">Vis mer…</string>
-    <string name="load_attachment_spoiler_less">Vis mindre…</string>
-    <string name="load_sensitive_attachment">Sensitivt innhold</string>
     <string name="set_disable_gif">Deaktiver GIF-avatarer</string>
-    <string name="set_folder_title">Sti: </string>
-    <string name="set_auto_store_toot">Lagre utkast automatisk</string>
-    <string name="set_auto_add_media_url">Legg til URL til media i toots</string>
     <string name="set_notif_follow">Varlse når noen følger deg</string>
     <string name="set_notif_follow_share">Varsle når noen booster tootene dine</string>
     <string name="set_notif_follow_add">Varsle når noen favoriserer tootene dine</string>
@@ -289,39 +198,20 @@
     <string name="set_notif_status">Send merknad om nye innlegg</string>
     <string name="set_share_validation">Vis bekreftelsesdialog før du booster</string>
     <string name="set_share_validation_fav">Vis bekreftelsesdialog før du legger til i favoritter</string>
-    <string name="set_wifi_only">Varsle kun på WIFI</string>
     <string name="set_notify">Varsle?</string>
     <string name="set_notif_silent">Dempede varslinger</string>
     <string name="set_nsfw_timeout">NSFW visningspause i sekunder (0 betyr ingen visningspause)</string>
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
-    <string name="settings_title_profile">Rediger profil</string>
     <string name="settings_title_custom_sharing">Tilpasset deling</string>
     <string name="settings_custom_sharing_url">Din URL for tilpasset deling…</string>
-    <string name="set_profile_description">Bio…</string>
     <string name="set_lock_account">Lås konto</string>
     <string name="set_save_changes">Lagre endringer</string>
-    <string name="set_header_picture_overlay">Velg et toppbilde</string>
     <string name="set_fit_preview">Tilpass forhåndsvisningsbilder</string>
-    <string name="set_automatically_split_toot">Del opp toots over 500 tegn i svar</string>
-    <string name="note_no_space">Du har nådd de 160 tegnene som er tillatt!</string>
-    <string name="username_no_space">Du har nådd de 30 tegnene som er tillatt!</string>
     <string name="settings_time_from">Mellom</string>
     <string name="settings_time_to">og</string>
-    <string name="settings_time_greater">Tiden må være større enn %1$s</string>
-    <string name="settings_time_lower">Tiden må være mindre enn %1$s</string>
-    <string name="settings_hour_init">Starttid</string>
-    <string name="settings_hour_end">Sluttid</string>
     <string name="embedded_browser">Bruk den innebygde nettleseren</string>
     <string name="custom_tabs">Egendefinerte faner</string>
-    <string name="use_javascript">Aktiver Javascript</string>
     <string name="expand_cw">Utvid cw automatisk</string>
-    <string name="use_cookies">Tillat cookies fra tredjeparter</string>
-    <string name="your_api_key">API-nøkkel, du kan la denne stå tom dersom Yandex benyttes</string>
-    <string-array name="settings_theme">
-        <item>Mørkt</item>
-        <item>Lyst</item>
-        <item>Svart</item>
-    </string-array>
     <string name="set_led_colour">Angi LED-farge:</string>
     <string-array name="led_colours">
         <item>Blå</item>
@@ -338,19 +228,12 @@
     <string name="action_unmute">Skru av demping</string>
     <string name="request_sent">Forespørsel sendt</string>
     <string name="followed_by">Følger deg</string>
-    <string name="action_search">Søk</string>
     <string name="set_capitalize">Stor forbokstav i svar</string>
     <string name="set_resize_picture">Endre størrelsen på bilder</string>
     <string name="set_resize_video">Endre størrelse på videoer</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">Push-varsler</string>
-    <string name="settings_popup_message">Vennligst bekreft push notifications som du vil motta.
-Du kan aktivere eller deaktivere disse meldingene senere i innstillingene (Meldinger-fanen).    </string>
     <!-- CACHE -->
-    <string name="cache_title">Slett mellomlager</string>
-    <string name="cache_message">Det er %1$s med data i mellomlageret. \n \nVil du slette alle data fra mellomlageret?</string>
     <string name="cache_units">Mb</string>
-    <string name="toast_cache_clear">Cachen ble ryddet! %1$s ble utgitt</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Tittel</string>
     <string name="title_hint_custom_sharing">Tittel…</string>
@@ -358,93 +241,25 @@ Du kan aktivere eller deaktivere disse meldingene senere i innstillingene (Meldi
     <string name="keywords_header_custom_sharing">Nøkkelord</string>
     <string name="keywords_hint_custom_sharing">Nøkkelord…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">Synkroniser</string>
-    <string name="action_filter">Filter</string>
-    <string name="owner_cached_toots">Dine toots</string>
-    <string name="owner_cached_notifications">Varslene dine</string>
     <string name="v_public">Offentlig</string>
     <string name="v_unlisted">Ikke listet</string>
     <string name="v_private">Privat</string>
     <string name="v_direct">Direkte</string>
-    <string name="v_keywords">Søkeord…</string>
-    <string name="show_media">Vis media</string>
-    <string name="show_pinned">Vis festede</string>
-    <string name="filter_no_result">Ingen treff!</string>
-    <string name="data_backup_toots">Sikkerhetskopier toots for %1$s</string>
-    <string name="data_backup_success">%1$s nye toots er importert</string>
-    <string name="data_backup_notification_success">%1$s nye varsler er importert</string>
-    <string-array name="filter_order">
-        <item>Dates descending</item>
-        <item>Dates ascending</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>Nei</item>
-        <item>Bare</item>
-        <item>Begge</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">Ingen toots ble funnet. Bruk Oppdater-knappen oppe til høyre for å hente dem.</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">Lagrede data</string>
-    <string name="privacy_data">Bare grunnleggende informasjon fra kontoer lagres på enheten.
- Disse dataene er strengt konfidensielle og kan bare brukes av applikasjonen.
- Hvis du sletter programmet, fjernes disse dataene. \n
- ⚠ Brukernavn og passord lagres aldri. De brukes kun under sikker autentisering (SSL) med en instans.    </string>
-    <string name="privacy_authorizations_title">Tillatelser:</string>
-    <string name="privacy_authorizations"><b> ACCESS_NETWORK_STATE </b>: Brukes til å oppdage om enheten er koblet til et WIFI-nettverk. \n
-         - <b> INTERNET </b>: Brukes for spørringer til en instans. \n
-         - <b> WRITE_EXTERNAL_STORAGE </b>: Brukes til å lagre media eller flytte appen på et SD-kort. \n
-         - <b> READ_EXTERNAL_STORAGE </b>: Brukes til å legge til media til toots. \n
-         - <b> BOOT_COMPLETED </b>: Brukes til å starte varslingstjenesten. \n
-         - <b> WAKE_LOCK </b>: Brukes under varsling.    </string>
-    <string name="privacy_API_authorizations_title">API-tillatelser:</string>
-    <string name="privacy_API_authorizations"> - <b>Les</b>: Les data.
-\n - <b>Skriv</b>: Legg inn statuser og last opp medier for statuser.
-\n - <b>Følg</b>: Følg, avfølg, blokker, avblokker.
-\n
-\n <b>⚠ Disse handlingene utføres kun når brukeren ber om dem.</b> </string>
-    <string name="privacy_API_title">Sporing og biblioteker</string>
-    <string name="privacy_API">Applikasjonen<b> bruker ikke sporingsverktøy </b> (målgruppemåling, feilrapportering, etc.), og inneholder ingen reklame. \n \n
-         Bruken av biblioteker er minmal: \n
-         - <b>Glide</b>: For å administrere media \n
-         - <b>Android-job</b>: For å administrere tjenester \n
-         - <b>PhotoView</b>: For å administrere bilder \n    </string>
-    <string name="privacy_API_yandex_title">Oversettelse av toots</string>
-    <string name="privacy_API_yandex_authorizations">Programmet tilbyr muligheten til å oversette toots ved hjelp av lokasjonen til enheten og Yandex APIet. \n
-         Yandex har sin egen personvernerklæring som finnes her: https://yandex.ru/legal/confidential/?lang=en    </string>
-    <string name="thanks_text_dev">Takk til:    </string>
     <string name="filter_regex">Filtrer ut med regulære uttrykk</string>
     <string name="search">Søk</string>
     <string name="delete">Slett</string>
-    <string name="fetch_more_toots">Hent flere toots…</string>
     <!-- About lists -->
     <string name="action_lists">Lister</string>
     <string name="action_lists_confirm_delete">Er du sikker på at du vil slette dette filteret?</string>
-    <string name="action_lists_empty_content">Det er ingenting i denne listen. Når medlemmer av denne listen legger inn nye statuser, vises de her.</string>
     <string name="action_lists_add_to">Legg til i liste</string>
-    <string name="action_lists_create">Opprett ny liste</string>
     <string name="action_lists_delete">Slett liste</string>
-    <string name="action_lists_update">Rediger liste</string>
     <string name="action_lists_title_placeholder">Tittel på liste</string>
     <string name="action_lists_add_user">Kontoen ble lagt til på listen!</string>
     <string name="action_lists_empty">Du har ikke noen lister ennå!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s er flyttet til %2$s</string>
-    <string name="issue_login_title">Får du ikke logget inn?</string>
-    <string name="issue_login_message"><b>Her er noen ting du kan sjekke:</b>\n\n
-- Kontroller at det ikke er noen skrivefeil i adressen til instansen\n\n
-- Kontroller at instansen ikke er nede (offline)\n\n
-- Hvis du bruker tofaktorautentisering (2FA), vennligst benytt linken på bunnen (etter at adressen til instansen er fylt inn)\n\n
-- Du kan også benytte denne linken for å logge inn med 2FA\n\n
-- Hvis det fortsatt ikke fungerer å koble til instansen, vennligst opprett en sak på Framagit, https://framagit.org/tom79/fedilab/issues\n\n    </string>
     <string name="media_ready">Mediet er lastet. Klikk her for å vise.</string>
-    <string name="data_export_start">Denne handlingen kan ta lang tid. Du vil bli varslet når det er ferdig.</string>
-    <string name="data_export_running">Kjører fortsatt, vennligst vent…</string>
-    <string name="data_export">Eksporter statuser</string>
-    <string name="data_export_toots">Eksportere statuser for %1$s</string>
-    <string name="data_export_success">%1$s av %2$s toots har blitt eksportert.</string>
-    <string name="data_export_error">Noe gikk galt under eksport av data for %1$s</string>
-    <string name="data_export_error_simple">Noe gikk galt under eksport av data!</string>
-    <string name="data_import_error_simple">Noe gikk galt under import av data!</string>
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Aktivere proxy?</string>
@@ -456,21 +271,13 @@ Du kan aktivere eller deaktivere disse meldingene senere i innstillingene (Meldi
     <string name="support_the_app_on_liberapay">Støtt denne applikasjonen med Liberapay</string>
     <string name="alert_regex">Det er en feil i det regulære uttrykket!</string>
     <string name="toast_instance_unavailable">Fant ingen tidslinjer på denne instansen!</string>
-    <string name="delete_instance">Slette denne instansen?</string>
-    <string name="which_language">Oversett med</string>
     <string name="follow_instance">Følg instanse</string>
     <string name="toast_instance_already_added">Du følger allerede denne instansen!</string>
-    <string name="toast_instance_followed">Instansen følges!</string>
     <string name="action_partnership">Samarbeid</string>
-    <string name="neutral_menu_information">Informasjon</string>
     <string name="hide_boost">Skjul boosts fra %s</string>
     <string name="endorse">Vis på profilen</string>
     <string name="show_boost">Vis boosts fra %s</string>
     <string name="unendorse">Ikke vis på profilen</string>
-    <string name="toast_endorse">Brukerkontoen blir nå vist på profilen</string>
-    <string name="toast_unendorse">Brukerkontoen er ikke lenger vist på profilen</string>
-    <string name="toast_show_boost">Boosts blir nå vist!</string>
-    <string name="toast_hide_boost">Boosts er nå skjult!</string>
     <string name="direct_message">Direktemelding</string>
     <string name="filters">Filtre</string>
     <string name="action_filters_empty_content">Du har ikke opprettet noen filtre. Du kan opprette et filter ved å klikke på \"+\"-knappen.</string>
@@ -489,101 +296,44 @@ Du kan aktivere eller deaktivere disse meldingene senere i innstillingene (Meldi
     <string name="filter_expire">Utløper etter</string>
     <string name="action_filter_delete">Slette filteret?</string>
     <string name="action_update_filter">Oppdater filter</string>
-    <string name="action_filter_create">Opprett filter</string>
-    <string name="how_to_follow">Hvem å følge</string>
-    <string name="action_who_to_follow_empty_content">Det er ingen kontoer oppført for øyeblikket!</string>
-    <string name="follow_account">Følg</string>
-    <string name="select_all">Velg alle</string>
-    <string name="unselect_all">Fjern alle valg</string>
-    <string name="follow_trunk">%s følges!</string>
-    <string name="create_list_trunk">Oppretter listen %s</string>
-    <string name="add_account_list_trunk">Legg til brukerkontoer i listen</string>
-    <string name="account_added_list_trunk">Brukerkontoer ble lagt til listen</string>
-    <string name="adding_account_list_trunk">Legger brukerkontoer til listen</string>
     <string name="action_list_add">Du har ikke opprettet noen lister. Klikk på \"+\"-knappen for å opprette en ny.</string>
-    <string name="about_trunk">Hvem å følge</string>
-    <string name="about_trunk_action">Trunk API</string>
-    <string name="toast_impossible_to_follow">Brukerkonto(ene) kan ikke følges</string>
-    <string name="retrieve_remote_account">Henter ekstern brukerkonto</string>
     <string name="expand_image">Utvid skjult media automatisk</string>
     <string name="channel_notif_follow">Ny følger</string>
     <string name="channel_notif_boost">Ny boost</string>
     <string name="channel_notif_fav">Ny favoritt</string>
     <string name="channel_notif_mention">Ny nevning</string>
     <string name="channel_notif_poll">Avstemming avsluttet</string>
-    <string name="channel_notif_toot">Ny toot</string>
     <string name="channel_notif_backup">Backup av toots</string>
     <string name="channel_notif_status">Nye innlegg</string>
     <string name="channel_notif_media">Last ned media</string>
-    <string name="set_notif_sound">Endre varsellyd</string>
     <string name="select_sound">Velg varsellyd</string>
     <string name="set_enable_time_slot">Aktiver tidsvindu</string>
-    <string name="how_to_videos">Instruksjonsvideoer</string>
-    <string name="retrieve_remote_conversation">Henter eksterne tråd!</string>
-    <string name="no_blocked_domain">Ingen blokkerte domener!</string>
-    <string name="unblock_domain_confirm">Oppheve blokkering av domenet?</string>
-    <string name="unblock_domain_confirm_message">Er du sikker på at du vil å oppheve blokkering av %s?</string>
     <string name="block_domain_confirm_message">Er du sikker på at du vil blokkere %s?</string>
-    <string name="blocked_domains">Blokkerte domener</string>
     <string name="block_domain">Blokker domenet</string>
     <string name="toast_block_domain">Domenet er blokkert</string>
-    <string name="toast_unblock_domain">Domenet er ikke lenger blokkert!</string>
     <string name="retrieve_remote_status">Henter ekstern status</string>
-    <string name="comment">Kommentar</string>
     <string name="peertube_instance">Peertube-instans</string>
-    <string name="no_comments">Vær den første til å kommentere på denne videoen. Bruk knappen oppe til høyre!</string>
-    <string name="number_view_video">%s visninger</string>
-    <string name="duration_video">Varighet: %s</string>
-    <string name="add_remote_instance">Legg til instans</string>
-    <string name="comment_no_allowed_peertube">Kommentarer er ikke aktivert på for denne videoen!</string>
-    <string name="pickup_resolution">Velg en oppløsningen</string>
-    <string name="peertube_favorites">Peertube-favoritter</string>
-    <string name="bookmark_add_peertube">Videoen er lagt til bokmerker!</string>
-    <string name="bookmark_remove_peertube">Videoen er fjernet fra bokmerker!</string>
-    <string name="bookmark_peertube_empty">Det er ingen Peertube-videoer blant favorittene dine!</string>
-    <string name="channel">Kanal</string>
-    <string name="videos">Videoer</string>
-    <string name="channels">Kanaler</string>
     <string name="set_display_emoji">Bruk Emoji One</string>
     <string name="information">Informasjon</string>
     <string name="set_display_card">Forhåndsvis alle toots</string>
-    <string name="thanks_text_ux">Ny UX/UI-designer</string>
-    <string name="set_display_video_preview">Forhåndsvis videoer</string>
     <string name="account_id_clipbloard">Id på brukerkonto er kopiert til utklippstavlen!</string>
     <string name="set_change_locale">Endre språk</string>
-    <string name="default_language">Standardspråk</string>
     <string name="truncate_long_toots">Avkort lange toots</string>
     <string name="set_truncate_toot">Avkort toots lengre enn \'x\' linjer. 0 betyr at toots ikke avkortes.</string>
     <string name="display_toot_truncate">Vis mer</string>
     <string name="hide_toot_truncate">Vis mindre</string>
-    <string name="manage_tags">Administrer stikkord</string>
     <string name="tags_already_stored">Dette stikkordet eksisterer allerede!</string>
-    <string name="tags_stored">Stikkordet er lagret!</string>
-    <string name="tags_renamed">Stikkordet er endret!</string>
-    <string name="tags_deleted">Stikkordet er slettet!</string>
     <string name="schedule_boost">Planlegg boost</string>
     <string name="boost_scheduled">Boosten er planlagt!</string>
     <string name="no_scheduled_boosts">Ingen planlagte boosts å vise!</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[Åpne menyen på et toot, og velg <b>Planlegg boost</b>.]]></string>
-    <string name="art_menu">Kunsttidslinje</string>
     <string name="open_menu">Åpne meny</string>
-    <string name="go_back">Tilbake</string>
-    <string name="app_logo">Applikasjonens logo</string>
     <string name="profile_picture">Profilbilde</string>
     <string name="profile_banner">Profilfane</string>
     <string name="contact_instance_admin">Kontakt instansadministratoren</string>
-    <string name="add_new">Legg til ny</string>
     <string name="mastohost_logo">MasoHost-logo</string>
     <string name="emoji_picker">Emoji-velger</string>
-    <string name="refresh">Oppdater</string>
     <string name="expand_conversation">Utvid samtalen</string>
-    <string name="remove_account">Fjern en konto</string>
-    <string name="delete_domain">Slett det blokkerte domenet</string>
     <string name="custom_emoji_picker">Egendefinert emoji-velger</string>
-    <string name="play_video">Spill av video</string>
-    <string name="new_toot">Ny toot</string>
-    <string name="card_view_image">Bilde på kortet</string>
-    <string name="hide_media">Skjul media</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Media for å legge til en beskrivelse</string>
     <string-array name="filter_expire">
@@ -595,18 +345,10 @@ Du kan aktivere eller deaktivere disse meldingene senere i innstillingene (Meldi
         <item>1 dag</item>
         <item>1 uke</item>
     </string-array>
-    <string name="showcase_instance">I dette feltet skriver du adressen til instansen. Hvis du opprettet en konto på https://mastodon.social\n, skriv <b>mastodon.social</b> (uten https://)\n
-Adresser vil bli foreslått når du begynner å skrive.\n\n
-⚠ Logg inn-knappen vil bare fungere hvis navnet på instansen er gyldig, og instansen er oppe (online)!    </string>
-    <string name="more_information">Mer informasjon</string>
     <!-- languages not translated -->
     <string name="languages">Språk</string>
     <string name="show_media_only">Kun media</string>
     <string name="show_media_nsfw">Vis NSFW</string>
-    <string name="crowdin_translations">Crowdin-oversettelser</string>
-    <string name="crowdin_manager">Crowdin-administrator</string>
-    <string name="translation_app">Hjelp til å oversette applikasjonen på Crowdin</string>
-    <string name="about_crowdin">Åpne Crowdin</string>
     <string name="bot">Robot</string>
     <string name="pixelfed_instance">Pixelfed-instans</string>
     <string name="mastodon_instance">Mastodon-instans</string>
@@ -618,110 +360,36 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="some_tags">Legg noen ord til filteret (skill dem med mellomrom)</string>
     <string name="change_tag_column">Endre kolonnenavn</string>
     <string name="misskey_instance">Misskey-instans</string>
-    <string name="toast_no_apps">Ingen app som støtter denne koblingen er installert på enheten.</string>
-    <string name="subscriptions">Abonnementer</string>
-    <string name="overview">Oversikt</string>
     <string name="trending">Populære</string>
-    <string name="recently_added">Nylig lagt til</string>
     <string name="local">Lokale</string>
-    <string name="upload_video">Last opp</string>
-    <string name="reply">Svar</string>
-    <string name="delete_comment">Slett en kommentar</string>
-    <string name="delete_comment_confirm">Er du sikker på at du vil slette denne kommentaren?</string>
-    <string name="fullscreen">Fullskjerm video</string>
-    <string name="set_video_mode">Videomodus</string>
-    <string name="file_to_upload">Velg filen som skal lastes opp</string>
-    <string name="my_videos">Mine videoer</string>
-    <string name="title">Tittel</string>
-    <string name="license">Lisens</string>
     <string name="category">Kategori</string>
-    <string name="language">Språk</string>
-    <string name="peertube_nsfw">Denne videoen har innhold som kan være støtende</string>
-    <string name="peertube_enable_comments">Aktiver videokommentarer</string>
-    <string name="update_video">Oppdater video</string>
     <string name="description">Beskrivelse</string>
-    <string name="toast_peertube_video_updated">Videoen er oppdatert!</string>
-    <string name="toast_cancelled">Opplasting avbrutt!</string>
-    <string name="upload_video_success">Videoen har blitt lastet opp!</string>
-    <string name="uploading">Laster opp, vennligst vent…</string>
-    <string name="video_uploaded_action">Klikk her for å redigere videoinformasjon.</string>
-    <string name="delete_video">Slett video</string>
-    <string name="delete_video_confirmation">Er du sikker på at du vil slette denne videoen?</string>
-    <string name="display_nsfw_videos">Vis NSFW-videoer</string>
-    <string name="no_video_to_display">Ingen videoer å vise!</string>
-    <string name="leave_a_comment">Legg igjen en kommentar</string>
     <string name="share">Del</string>
-    <string name="choose_schedule">Velg en tidsplan-modus</string>
-    <string name="device_schedule">Fra enhet</string>
-    <string name="server_schedule">Fra server</string>
     <string name="toots_server">Toots (Server)</string>
     <string name="toots_client">Toots (enhet)</string>
-    <string name="modify">Endre</string>
-    <string name="set_display_content_after_fetch_more">Vise nye toots over \"Hent flere toots…\"-knappen</string>
     <string name="settings_category_label_timelines">Tidslinjer</string>
     <string name="settings_category_label_interface">Brukergrensesnitt</string>
     <string name="contact">Kontakter</string>
-    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> kommenterte på din video <b>%2$s</b>]]></string>
-    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> følger din kanal <b>%2$s</b>]]></string>
-    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> følger deg]]></string>
-    <string name="peertube_video_published"><![CDATA[Din video <b>%1$s</b> er publisert]]></string>
-    <string name="peertube_video_import_success"><![CDATA[Din video <b>%1$s</b> er importert]]></string>
-    <string name="peertube_video_import_error"><![CDATA[Importering av din video <b>%1$s</b> mislyktes]]></string>
-    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> publiserte en ny video: <b>%2$s</b>]]></string>
-    <string name="peertube_video_blacklist"><![CDATA[Din video <b>%1$s</b> er blitt svartelistet]]></string>
-    <string name="peertube_video_unblacklist"><![CDATA[Din video <b>%1$s</b> er ikke lenger svartelistet]]></string>
-    <string name="export_data">Eksporter data</string>
-    <string name="import_data">Importer data</string>
-    <string name="toot_select_import">Velg filen som skal importeres</string>
     <string name="toot_select_file_error">Det oppsto en feil under valg av fil!</string>
-    <string name="add_public_comment">Ny kommentar</string>
-    <string name="send_comment">Send kommentar</string>
-    <string name="toast_toot_saved_error">Enheten er ikke koblet til internett. Meldingen er lagret som kladd.</string>
-    <string name="action_plain_text">Ren tekst</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">Logg ut</string>
     <string name="all">Alle</string>
-    <string name="about_opencollective">Støtt applikasjonen</string>
-    <string name="more_about_opencollective">Open Collective gjør det enkelt å sette opp et kollektiv, hente inn penger, og håndtere dem transparent.</string>
     <string name="copy_link">Kopier lenke</string>
-    <string name="connect_instance">Koble til</string>
-    <string name="set_normal">Normal</string>
-    <string name="set_compact">Kompakt</string>
-    <string name="set_console">Konsoll</string>
-    <string name="set_mode">Angi visningsmodus</string>
-    <string name="set_security_provider">Oppdater sikkerhetstilbyder</string>
-    <string name="update_tracking_domains">Oppdater sporingsdomener</string>
-    <string name="tracking_db_updated">Sporingsdata er oppdatert!</string>
     <string name="calls_blocked">HTTP-kall blokkert av applikasjonen</string>
     <string name="list_of_blocked_domains">Liste over blokkerte kall</string>
     <string name="submit">Send</string>
-    <string name="data_base_exported">Databasen er eksportert!</string>
-    <string name="featured_hashtags">Utvalgte stikkord</string>
     <string name="filter_timeline_with_a_tag">Filtrer tidslinjen med stikkord</string>
     <string name="no_tags">Ingen stikkord</string>
-    <string name="set_hide_delete_notification_on_tab">Skjul slett-knappen</string>
     <string name="set_retrieve_metadata_share_from_extras">Tilknytt et bilde når du deler en URL</string>
     <!-- end languages -->
-    <string name="poll">Avstemning</string>
-    <string name="polls">Avstemminger</string>
     <string name="create_poll">Lag en avstemming</string>
-    <string name="poll_choice_1">Valg 1</string>
-    <string name="poll_choice_2">Valg 2</string>
     <string name="poll_choice_s">Valg %d</string>
     <string name="poll_invalid_choices">Du trenger minst to valg i avstemmingen!</string>
     <string name="done">Ferdig</string>
     <string name="poll_finish_at">steng %s</string>
-    <string name="refresh_poll">Oppdater avstemming</string>
     <string name="vote">Stem</string>
     <string name="notif_poll">En avstemming du har stemt på er avsluttet</string>
     <string name="notif_poll_self">En avstemming du har tootet er avsluttet</string>
-    <string name="settings_category_notif_customize">Tilpass</string>
     <string name="settings_category_notif_categories">Kategorier</string>
-    <string name="settings_category_notif_time_slot">Tidsluke</string>
-    <string name="settings_category_notif_advanced">Avansert</string>
-    <string name="set_display_new_badge">Vis \"ny\"-merket på uleste toots</string>
-    <string name="peertube_menu">Peertube</string>
     <string name="move_timeline">Flytt tidslinje</string>
     <string name="hide_timeline">Skjul tidslinje</string>
     <string name="reorder_timelines">Endre rekkefølge på tidslinjer</string>
@@ -729,71 +397,37 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="reorder_instance_removed">Fulgt instans er fjernet</string>
     <string name="reorder_tag_removed">Festet emneord er fjernet</string>
     <string name="undo">Angre</string>
-    <string name="visible_tabs_needed">Du må ha to synlige faner!</string>
-    <string name="action_reorder_timeline">Endre rekkefølge på tidslinjer</string>
     <string name="warning_main_timeline">Hovedtidslinjer kan bare skjules!</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">Marker alltid media som sensitivt</string>
     <string name="gnu_instance">GNU-instans</string>
-    <string name="cached_status">Mellomlagret status</string>
     <string name="set_forward_tags">Videresend emneord i svar</string>
     <string name="set_long_press_media">Langt trykk for å lagre media</string>
-    <string name="set_blur_sensitive">Dim sensitiv media</string>
-    <string name="set_display_timeline_in_list">Vis tidslinjer i en liste</string>
-    <string name="display_timeline">Vis tidslinjer</string>
-    <string name="set_display_bot_icon">Marker robot-kontoer i toots</string>
     <string name="add_tags">Administrer stikkord</string>
-    <string name="set_remember_position">Husk posisjonen i tidslinken</string>
-    <string name="history">Historikk</string>
-    <string name="playlists">Spilleliste</string>
     <string name="display_name">Visningsnavn</string>
-    <string name="action_playlist_add">Du har ingen spillelister. Trykk på \"+\"-ikonet for å opprette en spilleliste</string>
-    <string name="error_display_name">Du må oppgi et visningsnavn</string>
-    <string name="error_channel_mandatory">Kanal er påkrevd når spillelisten er offentlig.</string>
-    <string name="action_playlist_create">Opprett en spilleliste</string>
-    <string name="action_playlist_empty_content">Det er ingenting i denne spilleliste enda.</string>
-    <string name="redo">Gjør om igjen</string>
-    <string name="gallery">Galleri</string>
     <string name="label_emoji">Emoji</string>
-    <string name="label_sticker">Klistremerke</string>
-    <string name="label_eraser">Viskelær</string>
     <string name="label_text">Tekst</string>
     <string name="label_filter">Filter</string>
     <string name="label_brush">Pensel</string>
-    <string name="confirm_exit_editing">Er du sikker på at du vil avslutte uten å lagre bildet?</string>
     <string name="discard">Forkast</string>
     <string name="saving">Lagrer…</string>
     <string name="image_saved">Bildet er lagret!</string>
     <string name="save_image_failed">Klarte ikke å lagre bildet</string>
-    <string name="opacity">Opasitet</string>
-    <string name="set_photo_editor">Aktiver bilderedigering</string>
     <string name="add_poll_item">Legg til valg</string>
-    <string name="remove_poll_item">Fjern siste valg</string>
     <string name="mute_conversation">Demp samtalen</string>
     <string name="unmute_conversation">Fjern demping av samtalen</string>
     <string name="toast_unmute_conversation">Denne samtalen er ikke lenger dempet!</string>
     <string name="toast_mute_conversation">Samtalen er dempet</string>
-    <string name="app_features">Åpne applikasjonsfunksjoner</string>
-    <string name="timed_mute">Tidsbestemt demping</string>
-    <string name="mention_account">Nevn en konto</string>
-    <string name="refresh_cache">Oppdater mellomlager</string>
-    <string name="mention_status">Nevn statusen</string>
-    <string name="action_news">Nyheter</string>
     <string name="category_general">Generelt</string>
     <string name="category_regional">Regionalt</string>
     <string name="category_art">Kunst</string>
-    <string name="category_journalism">Journalistikk</string>
     <string name="category_activism">Aktivisme</string>
     <string name="category_games">Spilling</string>
     <string name="category_tech">Teknologi</string>
-    <string name="category_adult">Voksent innhold</string>
     <string name="category_furry">Furry</string>
     <string name="category_food">Mat</string>
     <string name="instance_logo">Instansens logo</string>
-    <string name="toast_error_instance_reg">Noe gikk galt under henting av tilgjengelige instanser!</string>
     <string name="join_mastodon">Opprett Mastodon-konto</string>
     <string name="pickup_instance_category">Velg en instans fra en av kategoriene.</string>
-    <string name="pickup_instance_peertube">Choose an instance by tapping on a check button.</string>
     <string name="users">%1$s brukere</string>
     <string name="password_confirm">Bekreft passord</string>
     <string name="agreement_check">Jeg er enig i %1$s og %2$s</string>
@@ -801,10 +435,8 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="tos">vilkår for tjenesten</string>
     <string name="sign_up">Registrer deg</string>
     <string name="validation_needed">Instansen tillater bare nye medlemmer som er invitert. Kontoen din må manuelt godkjennes av en administrator før den kan brukes.</string>
-    <string name="all_field_filled">Vennligst fyll ut alle feltene!</string>
     <string name="password_error">Passordene er ikke like!</string>
     <string name="email_error">E-postadressen ser ikke ut til å være gyldig!</string>
-    <string name="username_indicator">Brukernavnet ditt vil være unikt på %1$s</string>
     <string name="email_indicator">Du vil få tilsendt en bekreftelse per e-post</string>
     <string name="password_indicator">Bruk minst 8 tegn</string>
     <string name="password_too_short">Passordet må inneholde minst 8 tegn</string>
@@ -817,136 +449,36 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="save_draft">Lagre meldingen som kladd?</string>
     <string name="administration">Administrasjon</string>
     <string name="reports">Rapporter</string>
-    <string name="no_reports">Ingen rapporter å vise!</string>
-    <string name="reconnect_account">Koble til kontoen på nytt</string>
-    <string name="reconnect_account_message">The application failed to access the admin features. You might need to reconnect the account for having the correct scope.</string>
     <string name="unresolved">Uløst</string>
     <string name="remote">Ekstern</string>
     <string name="active">Aktiv</string>
     <string name="pending">Avventer</string>
     <string name="disabled">Deaktivert</string>
-    <string name="silenced">Silenced</string>
     <string name="suspended">Suspendert</string>
     <string name="permissions">Tillatelser</string>
-    <string name="email_status">E-poststatus</string>
-    <string name="login_status">Login status</string>
-    <string name="joined">Ble med</string>
-    <string name="recent_ip">Siste IP</string>
-    <string name="warn">Advar</string>
     <string name="disable">Deaktiver</string>
     <string name="silence">Forstum</string>
-    <string name="email_user">Gi beskjed til brukeren per e-post</string>
-    <string name="custom_warning">Tilpasset advarsel</string>
-    <string name="user">Bruker</string>
-    <string name="moderator">Moderator</string>
-    <string name="administrator">Administrator</string>
-    <string name="confirmed">Bekreftet</string>
-    <string name="unconfirmed">Ikke bekreftet</string>
-    <string name="list_reported_statuses">Rapporterte statuser</string>
     <string name="account">Konto</string>
     <string name="unsilence">Angre forstumming</string>
     <string name="undisable">Angre forstumming</string>
     <string name="suspend">Suspender</string>
     <string name="unsuspend">Angre suspendere</string>
-    <string name="account_silenced">The account is silenced!</string>
-    <string name="account_unsilenced">The account is no longer silenced!</string>
-    <string name="account_suspended">Kontoen er sperret!</string>
-    <string name="account_unsuspended">The account is no longer suspended!</string>
-    <string name="account_disabled">The account is disabled!</string>
-    <string name="account_undisabled">The account is no longer disabled!</string>
-    <string name="account_warned">Kontoen har blitt advart!</string>
-    <string name="set_display_admin_menu">Display the admin menu</string>
-    <string name="set_display_admin_toot">Display the admin feature in statuses</string>
-    <string name="allow">Tillat</string>
-    <string name="account_approved">Kontoen er godkjent!</string>
-    <string name="account_rejected">Kontoen er forkastet!</string>
-    <string name="assign_to_me">Assign to me</string>
-    <string name="unassign">Unassign</string>
-    <string name="mark_resolved">Merk som løst</string>
-    <string name="mark_unresolved">Merk som uoppklart</string>
-    <string name="toast_empty_content">Empty content!</string>
-    <string name="set_display_fedilab_features_button">Display Fedilab features button</string>
     <string name="audio">Applikasjonen trenger tilgang til lydopptak</string>
     <string name="voice_message">Talemelding</string>
-    <string name="set_quick_reply">Enable quick reply</string>
-    <string name="reply_might_be_useless">Det kan hende at kontoen du svarer ikke ser meldingen din!</string>
-    <string name="set_remember_position_indication">If disabled, the app will always load last statuses</string>
-    <string name="set_blur_sensitive_indication">If disabled, sensitive media will be hidden with a button</string>
-    <string name="set_long_press_media_indication">Store media in full size with a long press on previews</string>
-    <string name="set_display_timeline_in_list_indication">Add an ellipse button at the top right for listing all tags/instances/lists</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
-    <string name="set_display_fedilab_features_button_indication">Display a Fedilab button below profile picture. It is a shortcut for accessing in-app features.</string>
-    <string name="set_quick_reply_indication">Allow to reply directly in timelines below statuses</string>
     <string name="set_fit_preview_indication">Previews will not be cropped in timelines</string>
-    <string name="set_display_video_preview_indication">Allow to play embedded videos directly in timelines</string>
-    <string name="set_display_content_after_fetch_more_indication">Allow to reverse the way to read statuses that are displayed once tapping the fetch more button</string>
-    <string name="set_security_provider_indication">This option allows to support recent cipher suites. It is useful for older Android devices or if you cannot connect to your instance.</string>
-    <string name="set_video_mode_indication">Exclusively for Peertube videos. Switch this mode if you cannot play them.</string>
-    <string name="featured_hashtags_indication">These tags will allow to filter statuses from profiles. You will have to use the context menu for seeing them.</string>
     <string name="set_capitalize_indication">Automatically insert a line break after the mention to capitalize the first letter</string>
     <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
     <string name="compose">Compose</string>
-    <string name="upload_image_maximum_retry_times">Maximum retry times when uploading media</string>
-    <string name="new_folder">Opprett en ny mappe her</string>
-    <string name="folder_name">Skriv inn mappenavnet</string>
-    <string name="valid_folder_name">Skriv inn et gyldig mappenavn</string>
-    <string name="folder_exists">This folder already exists.\n Please provide another name for the folder</string>
     <string name="select">Velg</string>
-    <string name="default_directory">Default Directory</string>
-    <string name="folder">Mappe</string>
-    <string name="create_folder">Opprett mappe</string>
-    <string name="set_display_confirm">Display a toast message after an action has been completed (boost, fav, etc.)?</string>
-    <string name="muted_instance_exported">Muted instances have been exported!</string>
     <string name="add_instances">Legg til en instans</string>
-    <string name="export_instances">Eksporter instanser</string>
-    <string name="import_instances">Importer instanser</string>
-    <string name="set_crash_reports">Krasjrapporter</string>
     <string name="set_enable_crash_report">Skru på krasjrapportering</string>
     <string name="set_enable_crash_report_indication">If enabled, a crash report will be created locally and then you will be able to share it.</string>
     <string name="crash_title">Fedilab har stoppet :(</string>
     <string name="crash_message">Du kan sende meg krasjrapporten på e-post. Det vil hjelpe til med å fikse problemet :)\n\nDu kan også legge til ekstra informasjon du mener er nyttig. Tusen takk!</string>
-    <string name="set_wysiwyg">Use the wysiwyg</string>
-    <string name="set_wysiwyg_indication">When enabled, you will be able to format your text easily with tools.</string>
-    <string name="action_stats">Statistikk</string>
-    <string name="total_statuses">Total statuses</string>
-    <string name="number_boosts">Number of boosts</string>
-    <string name="number_favourites">Number of favourites</string>
-    <string name="number_mentions">Number of mentions</string>
-    <string name="number_follows">Number of follows</string>
-    <string name="number_polls">Antall avstemminger</string>
-    <string name="number_replies">Antall svar</string>
-    <string name="number_statuses">Antall statuser</string>
-    <string name="statuses">Statuser</string>
     <string name="visibility">Synlighet</string>
-    <string name="number_with_media">Number with media</string>
-    <string name="number_with_sensitive_media">Number with sensitive media</string>
-    <string name="number_with_cw">Number with CW</string>
-    <string name="first_toot_date">First status date</string>
-    <string name="last_toot_date">Last status date</string>
-    <string name="first_notification_date">First notification date</string>
-    <string name="last_notification_date">Last notification date</string>
-    <string name="frequency">Hyppighet</string>
-    <string name="toot_per_day">%s status per dag</string>
-    <string name="notification_per_day">%s meldinger per dag</string>
-    <string name="date_range">Date range</string>
-    <string name="action_groups">Grupper</string>
-    <string name="no_messages">Ingen grupper!</string>
     <string name="set_disable_animated_emoji">Disable custom animated emojis</string>
-    <string name="owner_charts">Charts</string>
-    <string name="display_charts">Display charts</string>
-    <string name="collecting_data_wait">The application collects your local data, please wait…</string>
-    <string name="set_backup">Sikkerhetskopi</string>
-    <string name="set_auto_backup">Auto backup statuses</string>
-    <string name="set_auto_backup_indication">This option is per account. It will launch a service that will automatically store your statuses locally in the database. That allows to get statistics and charts</string>
-    <string name="set_auto_backup_notifications">Auto backup notifications</string>
-    <string name="set_auto_backup_notifications_indication">This option is per account. It will launch a service that will automatically store your notifications locally in the database. That allows to get statistics and charts</string>
     <string name="report_account">Rapporter konto</string>
-    <string name="send_invitation">Send en invitasjon</string>
-    <string name="registration_closed">Your instance does not allow to register a new account!</string>
-    <plurals name="number_of_vote">
-        <item quantity="one">%d stemme</item>
-        <item quantity="other">%d stemmer</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="one">%d voter</item>
         <item quantity="other">%d voters</item>
@@ -964,25 +496,7 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
         <item>3 dager</item>
         <item>7 dager</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Torrent</item>
-        <item>Webvisning</item>
-    </string-array>
-    <string name="join_instance">For joining my instance \"%1$s\", you can download Fedilab:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nThen open the link below with Fedilab and create your account :)\n\n%4$s
-    </string>
     <string name="poll_duplicated_entry">Your poll can\'t have duplicated options!</string>
-    <string name="all_accounts">For alle kontoer</string>
-    <string name="database_cache">Database cache</string>
-    <string name="cache_timeline_clear">Clear your home timeline cache</string>
-    <string name="cache_owntoots_clear">Clear your cached statuses</string>
-    <string name="cache_bookmarks_clear">Clear your bookmarks</string>
-    <string name="file_cache">Files in cache</string>
-    <string name="total_notifications">Total notifications</string>
-    <string name="hide_menu_items">Hide menu items</string>
-    <string name="top_notification">Fedilab is running live notifications</string>
-    <string name="top_notification_message">For %1$s accounts with %2$s events</string>
-    <string name="set_allow_live_notifications">Live notifications for %1$s</string>
-    <string name="set_allow_live_notifications_indication">Live notifications will be enabled for this account.</string>
     <string name="set_clear_cache_exit">Clear cache when leaving</string>
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
@@ -990,36 +504,12 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
-    <string name="replace_wikipedia">Replace Wikipedia links</string>
-    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
-    <string name="replace_wikipedia_host">Default: wikiless.org</string>
-    <string name="set_hide_status_bar">Hide Fedilab notification bar</string>
-    <string name="set_hide_status_bar_indication">For hiding the remaining notification in the status bar, tap on the eye icon button then uncheck: \"Display in status bar\"</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
-    <string name="no_live_notif">No live notifications</string>
-    <string name="live_notif">Live notifications</string>
-    <string name="no_live_indication">Notifications will be fetched every 15 minutes.</string>
     <string name="action_add_notes">Legg til notater</string>
     <string name="note_for_account">Notater for kontoen</string>
     <string name="set_resize_picture_indication">Allow to compress large photos into smaller sized photos with very less or negligible loss in quality of the image.</string>
     <string name="set_resize_video_indication">Allow compressing videos while maintaining their quality.</string>
-    <string name="please_wait_compression">The app is compressing the media, it can be quite long…</string>
-    <string name="change_app_icon_experimental">Endre app-ikon</string>
-    <string name="click_to_change_the_app_icon">Tap to change the app icon</string>
-    <string name="post">Legg ut</string>
-    <string name="post_visibility_tilte">Synlighet for innlegget</string>
-    <string name="add_photo_pixelfed">Tap here to add photos</string>
-    <string name="add_photo_indication_pixelfed">Accepted Formats: jpeg, png, gif  \n\nMax File Size: 15 MB  \n\nAlbums can contain up to 4 photos or videos</string>
-    <string name="upload_media">Upload media</string>
-    <string name="pixelfed_compose_placeholder">Add an optional caption</string>
-    <string name="long_api_error">The app received a very long error message from the API %1$s</string>
-    <string name="message_preview">Meldingsforhåndsvisning</string>
-    <string name="report_mention">Add mentions in each message</string>
-    <string name="fetch_conversation">Fetching conversation</string>
     <string name="order_by">Sortert etter</string>
-    <string name="title_video_peertube">Title for the video</string>
-    <string name="join_peertube">Join Peertube</string>
-    <string name="agreement_check_peertube">I am at least 16 years old and agree to the %1$s of this instance</string>
     <string name="link_color_title">Lenker</string>
     <string name="link_color">Change the color of links (URLs, mentions, tags, etc.) in messages</string>
     <string name="boost_header_color_title">Reblogs header</string>
@@ -1033,84 +523,46 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="reset">Tilbakestill</string>
     <string name="icons_color_title">Ikoner</string>
     <string name="icons_color">Color of bottom icons in timelines</string>
-    <string name="pin_tag">Pin this tag</string>
     <string name="logo_of_the_instance">Logo of the instance</string>
     <string name="edit_profile">Rediger profil</string>
     <string name="make_an_action">Make an action</string>
     <string name="translation">Oversettelse</string>
-    <string name="image_preview">Forhåndsvisning av bilde</string>
     <string name="text_color_title">Tekstfarge</string>
     <string name="text_color">Change the text color in pots</string>
-    <string name="apply_changes">Apply changes</string>
-    <string name="restart_message">You need to restart the application to apply changes</string>
-    <string name="restart">Start på nytt</string>
     <string name="pref_custom_theme">Bruk en egendefinert drakt</string>
-    <string name="pref_custom_theme_summary">Allow to override colors of the  selected theme above</string>
     <string name="theming">Theming</string>
-    <string name="store_before">Store before</string>
     <string name="data_export_theme">The theme was exported</string>
     <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
-    <string name="pref_colored_status_bar_summary">Apply the primary color to the status bar</string>
-    <string name="pref_colored_status_bar_title">Status bar color</string>
-    <string name="restore_default_theme">Restore a default theme</string>
     <string name="import_theme">Import a theme</string>
     <string name="import_theme_title">Tap here to import a theme from a previous export</string>
     <string name="export_theme">Export the theme</string>
     <string name="export_theme_title">Tap here to export the current theme</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
-    <string name="label_theme_picker">Theme Picker</string>
-    <string name="pref_theme_summary">Select a pre-installed theme</string>
-    <string name="pref_theme_title">Temaer</string>
-    <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
-    <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
-    <string name="pref_background_color_summary">The underlying color of the app’s content.</string>
-    <string name="pref_background_color_title">Background color</string>
-    <string name="pref_accent_color_summary">Accents select parts of the UI.</string>
-    <string name="pref_accent_color_title">Accent color</string>
-    <string name="pref_primary_color_summary">Displayed most frequently across your app.</string>
-    <string name="pref_primary_color_title">Primærfarge</string>
-    <string name="export_bookmarks">Eksporter bokmerker til instansen</string>
-    <string name="import_bookmarks">Importer bokmerker fra instansen</string>
     <string name="user_count">Brukerantall</string>
     <string name="status_count">Statusantall</string>
     <string name="instance_count">Instansantall</string>
-    <string name="blocked">Blokkert</string>
     <string name="poll_finish_in">Slutter om %s</string>
-    <string name="release_note_title">Hva er nytt i %s</string>
-    <string name="follow_account_update">You can follow my account for updates</string>
     <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
     <string name="display_full_link">Display full link</string>
     <string name="share_link">Del kobling</string>
-    <string name="link_copy">The URL has been copied to the clipboard</string>
     <string name="open_other_app">Open with another app</string>
     <string name="check_redirect">Check redirect</string>
     <string name="no_redirect">This URL does not redirect</string>
     <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
-    <string name="set_user_agent">Endre brukeragenten</string>
-    <string name="set_user_agent_hint">Set a custom user agent or leave blank</string>
-    <string name="set_user_agent_indication">Allows to customize the user agent used for api calls or with the built-in browser.</string>
     <string name="set_utm_parameters">Remove UTM parameters</string>
     <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
-    <string name="action_trends">Trends</string>
-    <string name="trending_now">Trending now</string>
     <string name="talking_about">%d people talking</string>
     <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter usernames space separated</string>
     <string name="identity_proofs">Identity proofs</string>
     <string name="verified_user">Verifisert identitet</string>
     <string name="verified_by">Verified by %1$s (%2$s)</string>
-    <string name="remove_notification">Delete the notification</string>
-    <string name="display_more_options">Display more options</string>
-    <string name="pixelfed_story">It is a Pixelfed story</string>
-    <string name="story_indication">Upload a media, it will be automatically added to your Pixelfed story.</string>
-    <string name="added_to_story">Media successfully added to your story!</string>
     <string name="action_disabled">Action disabled</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
     <string name="action_announcements">Announcements</string>
     <string name="no_announcements">No announcements!</string>
     <string name="add_reaction">Add a reaction</string>
-    <string name="set_custom_tabs_indication">Use your favourite browser inside the app. Uncheck this feature to open links externally.</string>
     <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
     <string name="set_watermark">Vannmerker</string>
     <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>
@@ -1131,8 +583,6 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="set_accounts_page">Antall kontoer per innlasting</string>
     <string name="category_music">Musikk</string>
     <string name="cannot_be_empty">Dette feltet må fylles ut.</string>
-    <string name="join_fedi_instance">Ta del i en Fediverse-instans</string>
-    <string name="permission_record">Programmet må ha tilgang til å ta opp lyd</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_twitter_host">Domene for Twitter-grenseflate</string>
@@ -1144,7 +594,6 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="keepon">Fortsett</string>
     <string name="category_custom">Tilpasset</string>
     <string name="followers_only">Kun følgere</string>
-    <string name="images">Bilder</string>
     <string name="is_down">Er nede.</string>
     <string name="instance_health_checkedat">Sjekket: %s</string>
     <string name="report_1_mute_title">Forstum %1$s</string>
@@ -1177,10 +626,8 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="delete_field_confirm">Vil du slette dette feltet\?</string>
     <string name="pref_contributor">Drakter fra bidragsytere</string>
     <string name="select_a_theme">Velg en drakt</string>
-    <string name="customize_main_colors">Tilpass hovedfarger</string>
     <string name="more_actions">Flere handlinger</string>
     <string name="set_display_bookmark_indication">Alltid vis bokmerkeknapp</string>
-    <string name="toot_visibility_title">Synlighet for tutingen</string>
     <string name="toots_visibility_title">Forvalgt synlighet for tutinger:</string>
     <string name="toast_bookmark">Tutingen ble lagt til som bokmerke.</string>
     <string name="toast_unbookmark">Bokmerking av tutingen ble fjerning.</string>
@@ -1197,9 +644,7 @@ Adresser vil bli foreslått når du begynner å skrive.\n\n
     <string name="save_changes">Lagre endringer</string>
     <string name="scheduled">Planlagt</string>
     <string name="type_of_notifications">Type merknader</string>
-    <string name="alternative_frontends">Alternative grenseflater</string>
     <string name="type_of_notifications_title">Velg typen merknad</string>
-    <string name="notification_options">Merknadsinnstillinger</string>
     <string name="notification_sounds">Merknadslyder</string>
     <string name="disable_notifications">Skru av merknader</string>
     <string name="notifications_are">I løpet av denne tidsperioden</string>

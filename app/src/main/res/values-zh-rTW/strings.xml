@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">開啟選單</string>
-    <string name="navigation_drawer_close">關閉選單</string>
     <string name="action_about">關於</string>
     <string name="action_about_instance">關於站台</string>
     <string name="action_privacy">隱私權</string>
     <string name="action_cache">快取</string>
     <string name="action_logout">登出</string>
-    <string name="login">登入</string>
     <!-- common -->
     <string name="close">關閉</string>
     <string name="yes">是</string>
@@ -23,24 +20,16 @@
     <string name="toots">嘟文</string>
     <string name="tags">標籤</string>
     <string name="save">儲存</string>
-    <string name="restore">還原</string>
-    <string name="no_result">沒有結果！</string>
     <string name="instance">站台</string>
     <string name="instance_example">站台：mastodon.social</string>
     <string name="toast_account_changed" formatted="false">現在使用帳號 %1$s</string>
     <string name="add_account">新增帳號</string>
     <string name="clipboard">已將嘟文的內容複製到剪貼簿</string>
     <string name="clipboard_url">已將嘟文網址複製到剪貼簿中</string>
-    <string name="change">變更</string>
-    <string name="choose_picture">選取圖片…</string>
-    <string name="clear">清理</string>
     <string name="camera">相機</string>
     <string name="delete_all">全部刪除</string>
-    <string name="translate_toot">翻譯此嘟文。</string>
     <string name="schedule">排程</string>
     <string name="text_size">文字與圖示大小</string>
-    <string name="text_size_change">更改目前文字大小：</string>
-    <string name="icon_size_change">變更目前圖示大小：</string>
     <string name="next">下一個</string>
     <string name="previous">上一個</string>
     <string name="open_with">選擇開啟工具</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">顯示回覆</string>
     <string name="action_open_in_web">在瀏覽器中開啟</string>
     <string name="translate">翻譯</string>
-    <string name="please_wait">請等待幾秒鐘再進行此操作。</string>
     <!--- Menu -->
     <string name="home_menu">首頁</string>
     <string name="local_menu">本地時間軸</string>
-    <string name="global_menu">站點聯盟時間軸</string>
-    <string name="neutral_menu_title">選項</string>
-    <string name="favorites_menu">最愛</string>
-    <string name="communication_menu_title">通訊</string>
     <string name="muted_menu">已靜音的使用者</string>
     <string name="blocked_menu">被封鎖的使用者</string>
     <string name="notifications">通知</string>
     <string name="follow_request">關注請求</string>
     <string name="settings">設定</string>
-    <string name="delete_account_title">刪除帳號</string>
-    <string name="delete_account_message" formatted="false">是否從應用程式刪除 %1$s 帳號？</string>
     <string name="send_email">傳送電子郵件</string>
-    <string name="click_to_change">點選路徑變更</string>
-    <string name="failed">失敗！</string>
     <string name="scheduled_toots">排程的嘟文</string>
     <string name="disclaimer_full">下面的資訊可能不完全反映使用者的個人資料。</string>
     <string name="insert_emoji">插入表情符號</string>
     <string name="no_emoji">應用程式目前不能收集自訂表情符號。</string>
-    <string name="push_notif">推播通知</string>
-    <string name="logout_confirmation">您確定您要登出嗎？</string>
     <string name="logout_account_confirmation">您確定您要登出 @%1$s@%2$s 嗎？</string>
     <!-- Status -->
     <string name="no_status">尚無嘟文</string>
-    <string name="no_stories">沒有可顯示的動態</string>
-    <string name="stories">動態</string>
-    <string name="reblog_by">被 %1$s 轉嘟</string>
     <string name="favourite_add">將此嘟文新增到您的最愛？</string>
     <string name="favourite_remove">從您的最愛中移除此嘟文？</string>
     <string name="reblog_add">轉嘟此嘟文？</string>
     <string name="reblog_remove">移除此嘟文的轉嘟？</string>
-    <string name="pin_add">是否釘選此嘟文？</string>
-    <string name="pin_remove">是否取消此嘟文的釘選？</string>
     <string name="more_action_1">靜音</string>
     <string name="more_action_2">封鎖</string>
     <string name="more_action_3">檢舉</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">書籤</string>
     <string name="bookmark_add">新增至書籤</string>
     <string name="bookmark_remove">移除書籤</string>
-    <string name="bookmarks_empty">尚無書籤</string>
     <string name="status_bookmarked">已將此嘟文加入書籤！</string>
     <string name="status_unbookmarked">已將此嘟文從書籤中移除！</string>
     <!-- Date -->
@@ -144,34 +116,15 @@
         <item quantity="other">%d天</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">警告</string>
-    <string name="toot_placeholder">您正在想些什麼？</string>
-    <string name="toot_it">嘟出去！</string>
-    <string name="queet_it">QUEET!</string>
-    <string name="cw">cw</string>
-    <string name="toot_title">撰寫一則嘟文</string>
-    <string name="toot_title_reply">回覆一則嘟文</string>
-    <string name="queet_title">寫一篇 queet</string>
-    <string name="queet_title_reply">回覆一則 queet</string>
-    <string name="toot_select_image">選取媒體</string>
     <string name="toot_select_image_error">選擇媒體時發生錯誤！</string>
     <string name="toot_delete_media">刪除此媒體？</string>
     <string name="toot_error_no_content">您的嘟文是空的！</string>
     <string name="toot_sent">已送出嘟文！</string>
-    <string name="toot_reply_content_title">您正在回覆此嘟文：</string>
     <string name="toot_sensitive">敏感內容？</string>
-    <string-array name="toot_visibility">
-        <item>張貼到公開時間軸</item>
-        <item>不要張貼到公開時間軸</item>
-        <item>僅關注者可見</item>
-        <item>僅提及的使用者可見</item>
-    </string-array>
     <string name="no_draft">沒有草稿！</string>
-    <string name="choose_toot">選擇一個嘟文</string>
     <string name="choose_accounts">選擇一個帳號</string>
     <string name="select_accounts">選取一些帳號</string>
     <string name="remove_draft">移除草稿？</string>
-    <string name="show_reply">點選按鈕以顯示原始嘟文</string>
     <string name="upload_form_description">為視力障礙者提供描述</string>
     <!-- Instance -->
     <string name="instance_no_description">沒有可用的描述！</string>
@@ -181,28 +134,20 @@
     <string name="about_license">授權條款：</string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">原始碼：</string>
-    <string name="about_yandex">嘟文翻譯提供者：</string>
     <string name="about_thekinrar">搜尋站台：</string>
-    <string name="thanks_text_logo">圖示設計者：</string>
     <!-- Conversation -->
-    <string name="conversation">對話</string>
     <!-- Accounts -->
     <string name="no_accounts">沒有帳號</string>
     <string name="no_follow_request">無關注請求</string>
     <string name="status_cnt">嘟文\n%1$s</string>
     <string name="following_cnt">正在關注\n %1$s</string>
     <string name="followers_cnt">關注者\n %1$s</string>
-    <string name="pins_cnt">已釘選\n %d</string>
-    <string name="authorize">授權</string>
     <string name="reject">拒絕</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">沒有已排程的嘟文！</string>
-    <string name="no_scheduled_toots_indications">先撰寫嘟文，再從頂端選單選擇<b>排程</b>。</string>
     <string name="remove_scheduled">刪除排程的嘟文？</string>
-    <string name="media_count">媒體：%d</string>
     <string name="toot_scheduled">嘟文已經排程！</string>
     <string name="toot_scheduled_date">嘟文排程的時間必須大於目前的時間！</string>
-    <string name="warning_battery">已開啟電量節省模式！它可能無法如預期般運作。</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">靜音時間應該大於一分鐘。</string>
     <string name="timed_mute_date">%1$s 已經靜音到 %2$s。\n 您可以從他／她的個人資料頁面解除靜音該帳號。</string>
@@ -215,24 +160,12 @@
     <string name="notif_favourite">將您的嘟文加到最愛</string>
     <string name="notif_follow">關注了您</string>
     <string name="notif_follow_request">要求追蹤您</string>
-    <plurals name="other_notifications">
-        <item quantity="other">和另外 %d 個通知</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="other">%d 個喜歡</item>
-    </plurals>
-    <string name="delete_notification_ask">刪除通知？</string>
     <string name="delete_notification_ask_all">刪除全部通知？</string>
-    <string name="delete_notification">通知已被刪除！</string>
     <string name="delete_notification_all">所有通知都已刪除！</string>
     <!-- HEADER -->
-    <string name="following">正在關注</string>
     <string name="followers">關注者</string>
-    <string name="pinned_toots">已釘選</string>
     <!-- TOAST -->
     <string name="client_error">無法取得客戶端 id！</string>
-    <string name="connect_error">無法連線到站台所在的網域！</string>
-    <string name="no_internet">沒有網路連線！</string>
     <string name="toast_block">帳號被封鎖！</string>
     <string name="toast_unblock">帳號不再被封鎖！</string>
     <string name="toast_mute">帳號被靜音！</string>
@@ -243,37 +176,16 @@
     <string name="toast_unreblog">嘟文無法再被轉嘟了！</string>
     <string name="toast_favourite">嘟文已新增至您的最愛！</string>
     <string name="toast_unfavourite">嘟文已從您的最愛中移除！</string>
-    <string name="toast_report">嘟文已被回報！</string>
-    <string name="toast_unstatus">嘟文已被刪除！</string>
-    <string name="toast_pin">嘟文已被釘選！</string>
-    <string name="toast_unpin">嘟文已被取消釘選！</string>
     <string name="toast_error">唉呀！發生錯誤！</string>
     <string name="toast_code_error">發生錯誤！站台未回傳授權代碼！</string>
     <string name="toast_error_instance">站台網域似乎不是有效的網域！</string>
     <string name="toast_error_loading_account">在帳號間切換時發生錯誤！</string>
     <string name="toast_error_search">搜尋時發生錯誤！</string>
-    <string name="toast_update_credential_ok">個人資料已儲存！</string>
     <string name="nothing_to_do">無法採取行動</string>
-    <string name="toast_saved">媒體已儲存！</string>
     <string name="toast_error_translate">翻譯時發生錯誤！</string>
-    <string name="toast_error_translations_disabled">已在設定中停用翻譯</string>
-    <string name="toast_toot_saved">草稿已儲存！</string>
-    <string name="toast_error_char_limit">您確定此站台允許此數量的字元嗎？一般來說，此值約為 500 個字元左右。</string>
-    <string name="toast_visibility_changed">%1$s 帳號的嘟文可見度已變更</string>
     <!-- Settings -->
     <string name="set_toots_page">每次載入的嘟文數量</string>
-    <string name="set_attachment_always">總是</string>
-    <string name="set_attachment_wifi">Wi-Fi</string>
-    <string name="set_attachment_ask">詢問</string>
-    <string name="set_attachment_action">載入媒體</string>
-    <string name="load_attachment">載入圖片</string>
-    <string name="load_attachment_spoiler">顯示更多……</string>
-    <string name="load_attachment_spoiler_less">顯示較少……</string>
-    <string name="load_sensitive_attachment">敏感內容</string>
     <string name="set_disable_gif">停用 GIF 大頭貼</string>
-    <string name="set_folder_title">路徑：</string>
-    <string name="set_auto_store_toot">自動儲存草稿</string>
-    <string name="set_auto_add_media_url">在嘟文中新增媒體的 URL</string>
     <string name="set_notif_follow">當有人關注您時通知您</string>
     <string name="set_notif_follow_share">當有人轉嘟您的嘟文時通知</string>
     <string name="set_notif_follow_add">當有人收藏您的嘟文時通知您</string>
@@ -282,39 +194,20 @@
     <string name="set_notif_status">通知新貼文</string>
     <string name="set_share_validation">在轉嘟前顯示確認對話框</string>
     <string name="set_share_validation_fav">在新增至最愛前顯示確認對話框</string>
-    <string name="set_wifi_only">僅在使用 Wi-Fi 時才啟用通知</string>
     <string name="set_notify">通知？</string>
     <string name="set_notif_silent">靜音通知</string>
     <string name="set_nsfw_timeout">NSFW 檢視逾時（秒，0 代表關閉）</string>
     <string name="set_med_desc_timeout">媒體描述逾時（秒，0 代表關閉）</string>
-    <string name="settings_title_profile">編輯個人資料</string>
     <string name="settings_title_custom_sharing">自訂分享</string>
     <string name="settings_custom_sharing_url">您的自訂分享 URL…</string>
-    <string name="set_profile_description">簡介……</string>
     <string name="set_lock_account">鎖定帳號</string>
     <string name="set_save_changes">儲存變更</string>
-    <string name="set_header_picture_overlay">選擇頁首圖片</string>
     <string name="set_fit_preview">適當的預覽圖片</string>
-    <string name="set_automatically_split_toot">自動分離超過 500 個字元的嘟文到回覆中</string>
-    <string name="note_no_space">您已經到達允許的 160 個字元！</string>
-    <string name="username_no_space">您已經到達允許的 30 個字元！</string>
     <string name="settings_time_from">介於</string>
     <string name="settings_time_to">以及</string>
-    <string name="settings_time_greater">時間必須大於 %1$s</string>
-    <string name="settings_time_lower">時間必須低於 %1$s</string>
-    <string name="settings_hour_init">開始時間</string>
-    <string name="settings_hour_end">結束時間</string>
     <string name="embedded_browser">使用內建瀏覽器</string>
     <string name="custom_tabs">內嵌分頁</string>
-    <string name="use_javascript">啟用 Javascript</string>
     <string name="expand_cw">自動展開 cw</string>
-    <string name="use_cookies">允許第三方 cookies</string>
-    <string name="your_api_key">您的 API 金鑰，若為 Yandex 則可留空</string>
-    <string-array name="settings_theme">
-        <item>暗</item>
-        <item>亮</item>
-        <item>黑</item>
-    </string-array>
     <string name="set_led_colour">設定 LED 顏色：</string>
     <string-array name="led_colours">
         <item>藍色</item>
@@ -331,20 +224,12 @@
     <string name="action_unmute">取消靜音</string>
     <string name="request_sent">已送出請求</string>
     <string name="followed_by">關注您</string>
-    <string name="action_search">搜尋</string>
     <string name="set_capitalize">回覆的第一個字母大寫</string>
     <string name="set_resize_picture">調整圖片大小</string>
     <string name="set_resize_video">調整影片大小</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">推播通知</string>
-    <string name="settings_popup_message">        請確認要接收的推播通知。
-        您稍後可以在設定（通知分頁）中啟用或停用這些通知。
-    </string>
     <!-- CACHE -->
-    <string name="cache_title">清除快取</string>
-    <string name="cache_message">快取中有 %1$s 的資料。\n\n 您要刪除它們嗎？</string>
     <string name="cache_units">Mb</string>
-    <string name="toast_cache_clear">快取已清除！%1$s 被釋放</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">標題</string>
     <string name="title_hint_custom_sharing">標題…</string>
@@ -352,99 +237,25 @@
     <string name="keywords_header_custom_sharing">關鍵字</string>
     <string name="keywords_hint_custom_sharing">關鍵字…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">同步</string>
-    <string name="action_filter">過濾</string>
-    <string name="owner_cached_toots">您的嘟文</string>
-    <string name="owner_cached_notifications">您的通知</string>
     <string name="v_public">公開</string>
     <string name="v_unlisted">不列出</string>
     <string name="v_private">私人</string>
     <string name="v_direct">直接</string>
-    <string name="v_keywords">一些關鍵字……</string>
-    <string name="show_media">顯示媒體</string>
-    <string name="show_pinned">顯示已釘選的</string>
-    <string name="filter_no_result">找不到符合的結果！</string>
-    <string name="data_backup_toots">%1$s 的嘟文備份</string>
-    <string name="data_backup_success">%1$s 的新嘟文已匯入</string>
-    <string name="data_backup_notification_success">已匯入 %1$s 個新通知</string>
-    <string-array name="filter_order">
-        <item>日期遞減</item>
-        <item>日期遞增</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>否</item>
-        <item>僅</item>
-        <item>兩者</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">在資料庫中找不到嘟文。請從選單中使用同步按鈕以擷取它們。</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">已記錄的資料</string>
-    <string name="privacy_data">        只有帳號中的基本資訊才會儲存在裝置上。\n
-這些資料嚴格保密，僅能由應用程式使用。\n
-刪除應用程式將會立即移除這些資料。\n
-⚠ 不會儲存密碼與登入資訊。它們僅會在有安全驗證 (SSL) 的站台上使用。
-    </string>
-    <string name="privacy_authorizations_title">權限：</string>
-    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>：用於偵測裝置是否連線至 WIFI 網路。\n
-- <b>INTERNET</b>：用於查詢站台。\n
-- <b>WRITE_EXTERNAL_STORAGE</b>：用於儲存媒體或將應用程式移動到記憶卡上。\n
-- <b>READ_EXTERNAL_STORAGE</b>：用於將媒體新增到嘟文中。\n
-- <b>BOOT_COMPLETED</b>：用於啟動通知服務。\n
-- <b>WAKE_LOCK</b>：在通知服務期間使用。
-    </string>
-    <string name="privacy_API_authorizations_title">API 權限：</string>
-    <string name="privacy_API_authorizations">        - <b>Read</b>：讀取資料。\n
-        - <b>Write</b>：貼出狀態與為狀態上傳媒體。\n
-        - <b>Follow</b>：關注、取消關注、阻擋、取消阻擋。\n\n
-        <b>⚠ 這些動作僅在使用者要求執行時才會執行。</b>
-    </string>
-    <string name="privacy_API_title">追蹤與函式庫</string>
-    <string name="privacy_API">        本應用程式<b>不使用追蹤工具</b>（粉絲追蹤、錯誤回報等等）且不包含任何廣告。\n\n
-        使用的函式庫也盡量減到最少：\n
-        - <b>Glide</b>：管理媒體\n
-        - <b>Android-Job</b>：管理服務\n
-        - <b>PhotoView</b>：管理圖片\n
-    </string>
-    <string name="privacy_API_yandex_title">嘟文翻譯</string>
-    <string name="privacy_API_yandex_authorizations">        該應用程式提供了使用裝置的語系設定與 Yandex API 進行翻譯的功能。\n
-Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/legal/confidential/?lang=en
-    </string>
-    <string name="thanks_text_dev">        感謝您：
-    </string>
     <string name="filter_regex">按正規表達式進行過濾</string>
     <string name="search">搜尋</string>
     <string name="delete">刪除</string>
-    <string name="fetch_more_toots">擷取更多嘟文……</string>
     <!-- About lists -->
     <string name="action_lists">列表</string>
     <string name="action_lists_confirm_delete">您確定您想要永久刪除此列表嗎？</string>
-    <string name="action_lists_empty_content">這份列表裡沒有東西。當此列表的成員張貼新的狀態時，它們將會出現在這裡。</string>
     <string name="action_lists_add_to">新增到列表</string>
-    <string name="action_lists_create">新增列表</string>
     <string name="action_lists_delete">刪除列表</string>
-    <string name="action_lists_update">編輯列表</string>
     <string name="action_lists_title_placeholder">新列表標題</string>
     <string name="action_lists_add_user">已將帳號新增至清單中！</string>
     <string name="action_lists_empty">您還沒有任何清單！</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s 已經移動到 %2$s</string>
-    <string name="issue_login_title">身份驗證無法運作？</string>
-    <string name="issue_login_message">        <b>這裡有一些可能會有幫助的檢查：</b>\n\n
-        - 檢查站台名稱沒有拼字錯誤\n\n
-        - 檢查您的站台是否仍在運行\n\n
-        - 若您使用雙因素驗證 (2FA)，請使用下方的連結（填寫站台名稱後）\n\n
-        - 您也可以在不使用 2FA 的狀況下使用此連結\n\n
-        - 若還是無法運作，請在 Framagit 上回報問題，網址為 https://framagit.org/tom79/fedilab/issues
-    </string>
     <string name="media_ready">媒體已載入。點選這裡以顯示。</string>
-    <string name="data_export_start">此動作可能會很久，您將在完成時收到通知。</string>
-    <string name="data_export_running">仍在執行中，請稍候……</string>
-    <string name="data_export">匯出狀態</string>
-    <string name="data_export_toots">%1$s 的匯出狀態</string>
-    <string name="data_export_success">%2$s 中的 %1$s 個嘟文已匯出。</string>
-    <string name="data_export_error">在匯出 %1$s 資料時發生錯誤</string>
-    <string name="data_export_error_simple">匯出資料時出錯！</string>
-    <string name="data_import_error_simple">匯入資料時出錯！</string>
     <!-- Proxy -->
     <string name="proxy_set">代理伺服器</string>
     <string name="proxy_enable">啟用代理伺服器？</string>
@@ -456,21 +267,13 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="support_the_app_on_liberapay">在 Liberpay 上支援應用程式</string>
     <string name="alert_regex">在正規表達式中有錯誤！</string>
     <string name="toast_instance_unavailable">在此站台上找不到時間軸！</string>
-    <string name="delete_instance">刪除此站台？</string>
-    <string name="which_language">翻譯成</string>
     <string name="follow_instance">追蹤站台</string>
     <string name="toast_instance_already_added">您已經追蹤此站台了！</string>
-    <string name="toast_instance_followed">站台已被追蹤！</string>
     <string name="action_partnership">夥伴</string>
-    <string name="neutral_menu_information">資訊</string>
     <string name="hide_boost">隱藏由 %s 轉嘟的嘟文</string>
     <string name="endorse">在個人資料頁面上推薦</string>
     <string name="show_boost">顯示由 %s 轉嘟的嘟文</string>
     <string name="unendorse">不要在個人資料頁面上推薦</string>
-    <string name="toast_endorse">帳號已在個人資料頁面上推薦</string>
-    <string name="toast_unendorse">帳號不再於個人資料頁面上推薦</string>
-    <string name="toast_show_boost">現在會顯示轉嘟的嘟文了！</string>
-    <string name="toast_hide_boost">現在會隱藏轉嘟的嘟文了！</string>
     <string name="direct_message">直接訊息</string>
     <string name="filters">過濾器</string>
     <string name="action_filters_empty_content">沒有過濾器。您可以透過點選 \"+\" 按鈕來建立一個。</string>
@@ -489,101 +292,44 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="filter_expire">多久後過期</string>
     <string name="action_filter_delete">刪除過濾器？</string>
     <string name="action_update_filter">更新過濾器</string>
-    <string name="action_filter_create">建立過濾器</string>
-    <string name="how_to_follow">要關注誰</string>
-    <string name="action_who_to_follow_empty_content">目前沒有在列表中的帳號！</string>
-    <string name="follow_account">關注</string>
-    <string name="select_all">選取全部</string>
-    <string name="unselect_all">取消選取全部</string>
-    <string name="follow_trunk">%s 已被關注！</string>
-    <string name="create_list_trunk">正在建立列表 %s</string>
-    <string name="add_account_list_trunk">新增帳號到列表</string>
-    <string name="account_added_list_trunk">帳號已新增至列表</string>
-    <string name="adding_account_list_trunk">正在新增帳號到列表</string>
     <string name="action_list_add">您尚未建立列表。點選 \"+\" 按鈕以新增一個新的。</string>
-    <string name="about_trunk">要關注誰</string>
-    <string name="about_trunk_action">Trunk API</string>
-    <string name="toast_impossible_to_follow">無法關注帳號</string>
-    <string name="retrieve_remote_account">正在擷取遠端帳號</string>
     <string name="expand_image">自動展開隱藏的媒體</string>
     <string name="channel_notif_follow">新關注</string>
     <string name="channel_notif_boost">新轉嘟</string>
     <string name="channel_notif_fav">新最愛</string>
     <string name="channel_notif_mention">新提及</string>
     <string name="channel_notif_poll">投票結束</string>
-    <string name="channel_notif_toot">新嘟文</string>
     <string name="channel_notif_backup">嘟文備份</string>
     <string name="channel_notif_status">新貼文</string>
     <string name="channel_notif_media">媒體下載</string>
-    <string name="set_notif_sound">變更通知音效</string>
     <string name="select_sound">選取鈴聲</string>
     <string name="set_enable_time_slot">啟用時間帶</string>
-    <string name="how_to_videos">操作方法的影片</string>
-    <string name="retrieve_remote_conversation">正在擷取遠端嘟文串！</string>
-    <string name="no_blocked_domain">沒有封鎖的網域！</string>
-    <string name="unblock_domain_confirm">解除封鎖網域</string>
-    <string name="unblock_domain_confirm_message">您確定要解除封鎖 %s？</string>
     <string name="block_domain_confirm_message">您確定要封鎖 %s？</string>
-    <string name="blocked_domains">已封鎖的網域</string>
     <string name="block_domain">封鎖網域</string>
     <string name="toast_block_domain">網域已被封鎖</string>
-    <string name="toast_unblock_domain">網域不再被封鎖！</string>
     <string name="retrieve_remote_status">正在擷取遠端狀態</string>
-    <string name="comment">評論</string>
     <string name="peertube_instance">PeerTube 站台</string>
-    <string name="no_comments">使用右上角的按鈕來成為第一個對這部影片留下評論的人！</string>
-    <string name="number_view_video">%s 次檢視</string>
-    <string name="duration_video">長度：%s</string>
-    <string name="add_remote_instance">新增站台</string>
-    <string name="comment_no_allowed_peertube">此影片未啟用評論！</string>
-    <string name="pickup_resolution">選擇解析度</string>
-    <string name="peertube_favorites">Peertube 最愛</string>
-    <string name="bookmark_add_peertube">影片已加入到書籤中！</string>
-    <string name="bookmark_remove_peertube">影片已從書籤中移除！</string>
-    <string name="bookmark_peertube_empty">您的最愛中沒有 PeerTube 影片！</string>
-    <string name="channel">頻道</string>
-    <string name="videos">影片</string>
-    <string name="channels">頻道</string>
     <string name="set_display_emoji">使用 Emoji One</string>
     <string name="information">資訊</string>
     <string name="set_display_card">在所有嘟文中顯示預覽</string>
-    <string name="thanks_text_ux">新的 UX/UI 設計師</string>
-    <string name="set_display_video_preview">顯示影片預覽</string>
     <string name="account_id_clipbloard">帳號 id 已複製到剪貼簿！</string>
     <string name="set_change_locale">變更語言</string>
-    <string name="default_language">預設語言</string>
     <string name="truncate_long_toots">截斷長嘟文</string>
     <string name="set_truncate_toot">截斷超過「x」行的嘟文。0 代表停用。</string>
     <string name="display_toot_truncate">顯示更多</string>
     <string name="hide_toot_truncate">顯示較少</string>
-    <string name="manage_tags">管理標籤</string>
     <string name="tags_already_stored">標籤已存在！</string>
-    <string name="tags_stored">標籤已儲存！</string>
-    <string name="tags_renamed">標籤已變更！</string>
-    <string name="tags_deleted">標籤已刪除！</string>
     <string name="schedule_boost">排程轉嘟</string>
     <string name="boost_scheduled">已排程轉嘟！</string>
     <string name="no_scheduled_boosts">尚無排程轉嘟！</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[開啟嘟文選單然後選擇<b>排程轉嘟</b>。]]></string>
-    <string name="art_menu">藝術時間軸</string>
     <string name="open_menu">開啟選單</string>
-    <string name="go_back">返回</string>
-    <string name="app_logo">應用程式圖示</string>
     <string name="profile_picture">個人檔案照片</string>
     <string name="profile_banner">個人檔案封面照片</string>
     <string name="contact_instance_admin">聯絡站台的管理員</string>
-    <string name="add_new">加入新的</string>
     <string name="mastohost_logo">MastoHost 圖示</string>
     <string name="emoji_picker">顏文字選擇器</string>
-    <string name="refresh">重新整理</string>
     <string name="expand_conversation">展開對話</string>
-    <string name="remove_account">移除帳號</string>
-    <string name="delete_domain">刪除已封鎖的網域</string>
     <string name="custom_emoji_picker">自訂顏文字選擇器</string>
-    <string name="play_video">播放影片</string>
-    <string name="new_toot">新嘟文</string>
-    <string name="card_view_image">卡片的圖片</string>
-    <string name="hide_media">隱藏媒體</string>
     <string name="favicon">網站圖示</string>
     <string name="media_description">新增媒體描述</string>
     <string-array name="filter_expire">
@@ -595,19 +341,10 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
         <item>1 天</item>
         <item>1 週</item>
     </string-array>
-    <string name="showcase_instance">        在此欄位，您必須填寫您的站台主機名稱。\n舉例來說，如果您在 https://mastodon.social 上建立帳號\n只要填寫 <b>mastodon.social</b>（不要填寫 https://）\n
-        您可以填寫首字母，然後就會有建議的名稱。\n\n
-        ⚠ 登入按鈕將只在站台名稱有效且站台正常運作時才會運作！
-    </string>
-    <string name="more_information">更多資訊</string>
     <!-- languages not translated -->
     <string name="languages">語言</string>
     <string name="show_media_only">僅媒體</string>
     <string name="show_media_nsfw">顯示 NSFW</string>
-    <string name="crowdin_translations">Crowdin 翻譯</string>
-    <string name="crowdin_manager">Crowdin 管理員</string>
-    <string name="translation_app">應用程式翻譯</string>
-    <string name="about_crowdin">關於 Crowdin</string>
     <string name="bot">機器人</string>
     <string name="pixelfed_instance">Pixelfed 站台</string>
     <string name="mastodon_instance">Mastodon 站台</string>
@@ -619,110 +356,36 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="some_tags">新增要過濾的字詞（以空格分隔）</string>
     <string name="change_tag_column">變更欄位名稱</string>
     <string name="misskey_instance">Misskey 站台</string>
-    <string name="toast_no_apps">您的裝置上沒有安裝任何支援此連結的應用程式。</string>
-    <string name="subscriptions">訂閱</string>
-    <string name="overview">概覽</string>
     <string name="trending">趨勢</string>
-    <string name="recently_added">最近新增</string>
     <string name="local">本機</string>
-    <string name="upload_video">上傳</string>
-    <string name="reply">回覆</string>
-    <string name="delete_comment">刪除留言</string>
-    <string name="delete_comment_confirm">您想要刪除此留言嗎？</string>
-    <string name="fullscreen">全螢幕影片</string>
-    <string name="set_video_mode">影片模式</string>
-    <string name="file_to_upload">選取要上傳的檔案</string>
-    <string name="my_videos">我的影片</string>
-    <string name="title">標題</string>
-    <string name="license">授權條款</string>
     <string name="category">分類</string>
-    <string name="language">語言</string>
-    <string name="peertube_nsfw">這個影片包含成人或裸露的內容</string>
-    <string name="peertube_enable_comments">啟用影片留言</string>
-    <string name="update_video">更新影片</string>
     <string name="description">描述</string>
-    <string name="toast_peertube_video_updated">影片已更新！</string>
-    <string name="toast_cancelled">上傳已取消！</string>
-    <string name="upload_video_success">影片已上傳！</string>
-    <string name="uploading">正在上傳，請稍候……</string>
-    <string name="video_uploaded_action">點選這裡以編輯影片資料。</string>
-    <string name="delete_video">刪除影片</string>
-    <string name="delete_video_confirmation">您確定要刪除此部影片嗎？</string>
-    <string name="display_nsfw_videos">顯示 NSFW 影片</string>
-    <string name="no_video_to_display">沒有影片</string>
-    <string name="leave_a_comment">留下評論</string>
     <string name="share">分享</string>
-    <string name="choose_schedule">選擇排程模式</string>
-    <string name="device_schedule">從裝置</string>
-    <string name="server_schedule">從伺服器</string>
     <string name="toots_server">嘟文（伺服器）</string>
     <string name="toots_client">嘟文（裝置）</string>
-    <string name="modify">修改</string>
-    <string name="set_display_content_after_fetch_more">在「擷取更多」按鈕之上顯示新嘟文</string>
     <string name="settings_category_label_timelines">時間軸</string>
     <string name="settings_category_label_interface">界面</string>
     <string name="contact">聯絡人</string>
-    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> 已在您的影片留言 <b>%2$s</b>]]></string>
-    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> 追蹤您的頻道 <b>%2$s</b>]]></string>
-    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> 追蹤您的帳號]]></string>
-    <string name="peertube_video_published"><![CDATA[您的影片 <b>%1$s</b> 已發佈]]></string>
-    <string name="peertube_video_import_success"><![CDATA[您的影片匯入 <b>%1$s</b> 成功]]></string>
-    <string name="peertube_video_import_error"><![CDATA[您的影片匯入 <b>%1$s</b> 失敗]]></string>
-    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> 發佈了新影片：<b>%2$s</b>]]></string>
-    <string name="peertube_video_blacklist"><![CDATA[您的影片 <b>%1$s</b> 已被加入黑名單]]></string>
-    <string name="peertube_video_unblacklist"><![CDATA[您的影片 <b>%1$s</b> 已被解除黑名單]]></string>
-    <string name="export_data">匯出資料</string>
-    <string name="import_data">匯入資料</string>
-    <string name="toot_select_import">選取要匯入的檔案</string>
     <string name="toot_select_file_error">選擇備份檔時發生錯誤！</string>
-    <string name="add_public_comment">新增公開留言</string>
-    <string name="send_comment">傳送留言</string>
-    <string name="toast_toot_saved_error">沒有網路連線。您的訊息已經儲存為草稿。</string>
-    <string name="action_plain_text">純文字</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">登出帳號</string>
     <string name="all">全部</string>
-    <string name="about_opencollective">幫助改進應用程式</string>
-    <string name="more_about_opencollective">Open Collective 讓群組可以快速設定集合，募集資金並以透明的方式管理。</string>
     <string name="copy_link">複製連結</string>
-    <string name="connect_instance">連線</string>
-    <string name="set_normal">正常</string>
-    <string name="set_compact">緊湊</string>
-    <string name="set_console">主控臺</string>
-    <string name="set_mode">設定顯示模式</string>
-    <string name="set_security_provider">修補程式安全提供者</string>
-    <string name="update_tracking_domains">更新追蹤網域</string>
-    <string name="tracking_db_updated">追蹤資料庫已更新！</string>
     <string name="calls_blocked">應用程式阻擋了 http 呼叫</string>
     <string name="list_of_blocked_domains">阻擋呼叫清單</string>
     <string name="submit">遞交</string>
-    <string name="data_base_exported">資料庫已匯出！</string>
-    <string name="featured_hashtags">特色主題標籤</string>
     <string name="filter_timeline_with_a_tag">以標籤過濾時間軸</string>
     <string name="no_tags">沒有標籤</string>
-    <string name="set_hide_delete_notification_on_tab">在通知分頁隱藏刪除通知按鈕</string>
     <string name="set_retrieve_metadata_share_from_extras">如果網址是從其他應用程式分享的，則接收其中繼資料</string>
     <!-- end languages -->
-    <string name="poll">投票</string>
-    <string name="polls">投票</string>
     <string name="create_poll">建立投票</string>
-    <string name="poll_choice_1">第一種選擇</string>
-    <string name="poll_choice_2">第二種選擇</string>
     <string name="poll_choice_s">第 %d 種選擇</string>
     <string name="poll_invalid_choices">建立投票至少需要兩個選擇！</string>
     <string name="done">完成</string>
     <string name="poll_finish_at">在 %s 結束投票</string>
-    <string name="refresh_poll">重新整理投票</string>
     <string name="vote">投票</string>
     <string name="notif_poll">您曾投過的投票已經結束</string>
     <string name="notif_poll_self">您所嘟過的投票已經結束</string>
-    <string name="settings_category_notif_customize">自訂</string>
     <string name="settings_category_notif_categories">分類</string>
-    <string name="settings_category_notif_time_slot">時段</string>
-    <string name="settings_category_notif_advanced">進階</string>
-    <string name="set_display_new_badge">在未讀的嘟文上顯示「新」的標章</string>
-    <string name="peertube_menu">PeerTube</string>
     <string name="move_timeline">移動時間軸</string>
     <string name="hide_timeline">隱藏時間軸</string>
     <string name="reorder_timelines">重新排列時間軸</string>
@@ -730,71 +393,37 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="reorder_instance_removed">追蹤的站台遭移除</string>
     <string name="reorder_tag_removed">已移除釘選標籤</string>
     <string name="undo">復原</string>
-    <string name="visible_tabs_needed">您必須保留兩個可見的分頁！</string>
-    <string name="action_reorder_timeline">重新排列時間軸</string>
     <string name="warning_main_timeline">主時間軸只能被隱藏！</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">一律將媒體標記為敏感訊息</string>
     <string name="gnu_instance">GNU 站台</string>
-    <string name="cached_status">已快取嘟文</string>
     <string name="set_forward_tags">在回覆中轉發標籤</string>
     <string name="set_long_press_media">長按以儲存媒體</string>
-    <string name="set_blur_sensitive">將敏感內容模糊化</string>
-    <string name="set_display_timeline_in_list">以清單顯示時間軸</string>
-    <string name="display_timeline">顯示時間軸</string>
-    <string name="set_display_bot_icon">在嘟文中標記機器人帳號</string>
     <string name="add_tags">管理標籤</string>
-    <string name="set_remember_position">記住首頁時間軸的位置</string>
-    <string name="history">歷史紀錄</string>
-    <string name="playlists">播放清單</string>
     <string name="display_name">顯示名稱</string>
-    <string name="action_playlist_add">您沒有任何播放清單。按一下「+」圖示以新增播放清單</string>
-    <string name="error_display_name">您必須提供顯示名稱！</string>
-    <string name="error_channel_mandatory">當播放清單公開時，頻道為必填。</string>
-    <string name="action_playlist_create">建立播放清單</string>
-    <string name="action_playlist_empty_content">目前播放清單中還沒有東西。</string>
-    <string name="redo">重作</string>
-    <string name="gallery">媒體庫</string>
     <string name="label_emoji">表情符號</string>
-    <string name="label_sticker">貼圖</string>
-    <string name="label_eraser">橡皮擦</string>
     <string name="label_text">文字</string>
     <string name="label_filter">過濾</string>
     <string name="label_brush">筆刷</string>
-    <string name="confirm_exit_editing">確定不儲存影像離開？</string>
     <string name="discard">捨棄</string>
     <string name="saving">儲存中…</string>
     <string name="image_saved">影像成功儲存！</string>
     <string name="save_image_failed">無法儲存影像</string>
-    <string name="opacity">不透明度</string>
-    <string name="set_photo_editor">啟用圖片編輯器</string>
     <string name="add_poll_item">新增投票項目</string>
-    <string name="remove_poll_item">移除末尾投票項目</string>
     <string name="mute_conversation">靜音對話</string>
     <string name="unmute_conversation">取消靜音對話</string>
     <string name="toast_unmute_conversation">已取消此對話的靜音！</string>
     <string name="toast_mute_conversation">此對話已經靜音</string>
-    <string name="app_features">開啟應用程式功能</string>
-    <string name="timed_mute">定時靜音</string>
-    <string name="mention_account">提及此帳號</string>
-    <string name="refresh_cache">重新快取</string>
-    <string name="mention_status">提及此嘟文</string>
-    <string name="action_news">新聞</string>
     <string name="category_general">一般</string>
     <string name="category_regional">地區性</string>
     <string name="category_art">藝術</string>
-    <string name="category_journalism">新聞</string>
     <string name="category_activism">行動</string>
     <string name="category_games">遊戲</string>
     <string name="category_tech">科技</string>
-    <string name="category_adult">成人內容</string>
     <string name="category_furry">怪獸</string>
     <string name="category_food">食物</string>
     <string name="instance_logo">站台圖示</string>
-    <string name="toast_error_instance_reg">在檢查可用站台時發生了些問題！</string>
     <string name="join_mastodon">加入 Mastodon</string>
     <string name="pickup_instance_category">透過挑選分類，然後按下按鈕來選擇站台。</string>
-    <string name="pickup_instance_peertube">按一下勾選按鈕以選擇站台。</string>
     <string name="users">%1$s 位使用者</string>
     <string name="password_confirm">確認密碼</string>
     <string name="agreement_check">我同意 %1$s 和 %2$s</string>
@@ -802,10 +431,8 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="tos">服務條款</string>
     <string name="sign_up">註冊</string>
     <string name="validation_needed">本站台是以邀請制運作。您的帳號需要先由任一管理員手動核准通過才能使用。</string>
-    <string name="all_field_filled">請填寫所有欄位！</string>
     <string name="password_error">密碼不相符！</string>
     <string name="email_error">電子郵件似乎是無效的！</string>
-    <string name="username_indicator">您的使用者名稱在 %1$s 將會是獨一無二的</string>
     <string name="email_indicator">您將會收到一封確認用的電子郵件</string>
     <string name="password_indicator">使用至少 8 個字元</string>
     <string name="password_too_short">密碼應該包含至少 8 個字元</string>
@@ -819,135 +446,36 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="save_draft">將訊息儲存至草稿？</string>
     <string name="administration">管理系統</string>
     <string name="reports">報告</string>
-    <string name="no_reports">沒有要顯示的報告！</string>
-    <string name="reconnect_account">重新連結帳號</string>
-    <string name="reconnect_account_message">應用程式無法存取管理功能。您可能需要重新連結帳號才能有正確的功能。</string>
     <string name="unresolved">尚未解決</string>
     <string name="remote">遠端</string>
     <string name="active">活躍</string>
     <string name="pending">等待中</string>
     <string name="disabled">已停用</string>
-    <string name="silenced">已靜音</string>
     <string name="suspended">已暫停</string>
     <string name="permissions">權限</string>
-    <string name="email_status">電子信箱狀態</string>
-    <string name="login_status">登入狀態</string>
-    <string name="joined">已加入</string>
-    <string name="recent_ip">最近登入 IP</string>
-    <string name="warn">警告</string>
     <string name="disable">停用</string>
     <string name="silence">靜音</string>
-    <string name="email_user">透過電子郵件通知使用者</string>
-    <string name="custom_warning">自訂警告</string>
-    <string name="user">使用者</string>
-    <string name="moderator">版主</string>
-    <string name="administrator">管理員</string>
-    <string name="confirmed">已確認</string>
-    <string name="unconfirmed">未確認</string>
-    <string name="list_reported_statuses">已回報嘟文</string>
     <string name="account">帳號</string>
     <string name="unsilence">復原靜音</string>
     <string name="undisable">復原停用</string>
     <string name="suspend">暫停</string>
     <string name="unsuspend">復原暫停</string>
-    <string name="account_silenced">這個帳號已經靜音！</string>
-    <string name="account_unsilenced">這個帳號已取消靜音！</string>
-    <string name="account_suspended">這個帳號已經暫停！</string>
-    <string name="account_unsuspended">這個帳號已取消暫停！</string>
-    <string name="account_disabled">這個帳號已經停用！</string>
-    <string name="account_undisabled">這個帳號已取消停用！</string>
-    <string name="account_warned">這個帳號已被警告！</string>
-    <string name="set_display_admin_menu">顯示管理選單</string>
-    <string name="set_display_admin_toot">在嘟文中顯示管理功能</string>
-    <string name="allow">允許</string>
-    <string name="account_approved">這個帳號已被核准！</string>
-    <string name="account_rejected">這個帳號已被拒絕！</string>
-    <string name="assign_to_me">分配給我</string>
-    <string name="unassign">取消分配</string>
-    <string name="mark_resolved">標記解決</string>
-    <string name="mark_unresolved">標記未解決</string>
-    <string name="toast_empty_content">內容為空！</string>
-    <string name="set_display_fedilab_features_button">顯示 Fedilab 功能按鈕</string>
     <string name="audio">應用程式需要存取音訊錄製</string>
     <string name="voice_message">音訊訊息</string>
-    <string name="set_quick_reply">啟用快速回覆</string>
-    <string name="reply_might_be_useless">您回覆的帳號可能看不到您的訊息！</string>
-    <string name="set_remember_position_indication">若停用，App 將永遠會載入最新嘟文</string>
-    <string name="set_blur_sensitive_indication">若停用，敏感媒體將會隱藏並顯示按鈕</string>
-    <string name="set_long_press_media_indication">在預覽中長按可以儲存完整大小的媒體</string>
-    <string name="set_display_timeline_in_list_indication">在右上角新增一個按鈕，列出所有標籤／站台／清單</string>
     <string name="set_enable_time_slot_indication">在該時段，應用程式將會傳送通知。您可以使用右側的微調器來反轉（亦即讓其安靜）此時段。</string>
-    <string name="set_display_fedilab_features_button_indication">在個人資料圖片下顯示 Fedilab 按鈕。這是存取應用程式內功能的快捷鍵。</string>
-    <string name="set_quick_reply_indication">允許在時間軸中直接回覆狀態</string>
     <string name="set_fit_preview_indication">將不會裁切時間軸中的預覽畫面。</string>
-    <string name="set_display_video_preview_indication">允許直接在時間軸內播放嵌入影片</string>
-    <string name="set_display_content_after_fetch_more_indication">點擊擷取更多按鈕後，允許反轉讀取狀態的顯示方式</string>
-    <string name="set_security_provider_indication">此選項可支援最近的加密套裝軟體。它對較舊的 Android 裝置或無法連線至您的站台時很有用。</string>
-    <string name="set_video_mode_indication">專為 Peertube 影片而設。如果您無法讀取它們的話，請切換此模式。</string>
-    <string name="featured_hashtags_indication">這些標籤將允許從個人資料過濾狀態。您必須使用情境選單來查看它們。</string>
     <string name="set_capitalize_indication">在提及後自動插入斷行符號以將首字母大寫</string>
     <string name="settings_title_custom_sharing_indication">允許內容創作者將狀態分享至他們的 RSS feed</string>
     <string name="compose">組成</string>
-    <string name="upload_image_maximum_retry_times">上傳媒體時的最大重試次數</string>
-    <string name="new_folder">在此建立新資料夾</string>
-    <string name="folder_name">輸入資料夾名稱</string>
-    <string name="valid_folder_name">請輸入有效的資料夾名稱</string>
-    <string name="folder_exists">此資料夾已存在。\n請為此資料夾提供另一個名字</string>
     <string name="select">選取</string>
-    <string name="default_directory">預設目錄</string>
-    <string name="folder">資料夾</string>
-    <string name="create_folder">建立資料夾</string>
-    <string name="set_display_confirm">在動作完成後顯示快顯訊息（轉嘟、最愛等等）？</string>
-    <string name="muted_instance_exported">靜音的站台已匯出！</string>
     <string name="add_instances">新增站台</string>
-    <string name="export_instances">匯出站台</string>
-    <string name="import_instances">匯入站台</string>
-    <string name="set_crash_reports">當機回報</string>
     <string name="set_enable_crash_report">啟用當機回報</string>
     <string name="set_enable_crash_report_indication">若啟用，將會在本機建立當機回報，然後您就可以分享它了。</string>
     <string name="crash_title">Fedilab 已停止 :(</string>
     <string name="crash_message">您可以透過電子郵件傳送當機報告給我。這可以協助我修復它 :)\n\n您可以加入鵝外的內容。感謝您！</string>
-    <string name="set_wysiwyg">使用所見即所得</string>
-    <string name="set_wysiwyg_indication">啟用時，您將可以使用工具很簡單地格式化您的文字。</string>
-    <string name="action_stats">統計</string>
-    <string name="total_statuses">總狀態數</string>
-    <string name="number_boosts">轉嘟數</string>
-    <string name="number_favourites">最愛的數量</string>
-    <string name="number_mentions">提及的數量</string>
-    <string name="number_follows">追蹤的數量</string>
-    <string name="number_polls">投票的數量</string>
-    <string name="number_replies">回覆數</string>
-    <string name="number_statuses">狀態數</string>
-    <string name="statuses">狀態</string>
     <string name="visibility">能見度</string>
-    <string name="number_with_media">有媒體的數量</string>
-    <string name="number_with_sensitive_media">有敏感媒體的數量</string>
-    <string name="number_with_cw">CW 數量</string>
-    <string name="first_toot_date">第一個狀態的日期</string>
-    <string name="last_toot_date">最後一個狀態的日期</string>
-    <string name="first_notification_date">第一個通知日期</string>
-    <string name="last_notification_date">最後通知日期</string>
-    <string name="frequency">頻率</string>
-    <string name="toot_per_day">%s 每日狀態數</string>
-    <string name="notification_per_day">每天 %s 個通知</string>
-    <string name="date_range">日期範圍</string>
-    <string name="action_groups">群組</string>
-    <string name="no_messages">沒有群組！</string>
     <string name="set_disable_animated_emoji">停用自訂 Emoji 動畫</string>
-    <string name="owner_charts">圖表</string>
-    <string name="display_charts">顯示圖表</string>
-    <string name="collecting_data_wait">應用程式蒐集您的本機資料中，請稍候……</string>
-    <string name="set_backup">備份</string>
-    <string name="set_auto_backup">自動備份狀態</string>
-    <string name="set_auto_backup_indication">此選項是每個帳號分開生效的。它將會啟動一個會自動將您的狀態儲存到本機資料庫的服務。這樣就可以取得統計資料與圖表</string>
-    <string name="set_auto_backup_notifications">自動備份通知</string>
-    <string name="set_auto_backup_notifications_indication">此選項是每個帳號分開生效的。它會啟動一個會自動將您的通知儲存到本機資料庫的服務。讓您可以取得統計資料與圖表</string>
     <string name="report_account">回報帳號</string>
-    <string name="send_invitation">傳送邀請</string>
-    <string name="registration_closed">您的站臺不允許註冊新帳號！</string>
-    <plurals name="number_of_vote">
-        <item quantity="other">%d 人投票</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="other">%d 位投票者</item>
     </plurals>
@@ -964,24 +492,7 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
         <item>3 天</item>
         <item>7 天</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Torrent</item>
-        <item>Webview</item>
-    </string-array>
-    <string name="join_instance">要加入我的站臺「%1$s」，您可以在這些地方下載 Fedilab：\n\nF-Droid：%2$s\nGoogle：%3$s\n\n然後用 Fedilab 開啟下方的連結並建立您的帳號 :)\n\n%4$s</string>
     <string name="poll_duplicated_entry">您的投票不能有重覆的選項！</string>
-    <string name="all_accounts">給所有帳號</string>
-    <string name="database_cache">資料庫快取</string>
-    <string name="cache_timeline_clear">清除您的家時間軸快取</string>
-    <string name="cache_owntoots_clear">清除您已快取的狀態</string>
-    <string name="cache_bookmarks_clear">清除您的書籤</string>
-    <string name="file_cache">在快取中的檔案</string>
-    <string name="total_notifications">總通知</string>
-    <string name="hide_menu_items">隱藏選單項目</string>
-    <string name="top_notification">Fedilab 正在執行即時通知</string>
-    <string name="top_notification_message">為 %1$s 帳號的 %2$s 事件</string>
-    <string name="set_allow_live_notifications">%1$s 的即時通知</string>
-    <string name="set_allow_live_notifications_indication">即時通知將只會為此帳號停用。</string>
     <string name="set_clear_cache_exit">離開時清除快取</string>
     <string name="set_clear_cache_exit_indication">快取（媒體、已快取的訊息、從內建瀏覽器而來的資料）將會在離開應用程式時自動清除。</string>
     <string name="unfollow_confirm">您想要取消追蹤此帳號嗎？</string>
@@ -989,36 +500,12 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="replace_medium">取代 Medium 連結</string>
     <string name="replace_medium_description">使用專注於隱私的開放原始碼替代前端來取代 medium.com 連結。</string>
     <string name="replace_medium_host">預設值：scribe.rip</string>
-    <string name="replace_wikipedia">取代維基百科連結</string>
-    <string name="replace_wikipedia_description">使用專注於隱私的開放原始碼替代前端來取代維基百科連結。</string>
-    <string name="replace_wikipedia_host">預設值：wikiless.org</string>
-    <string name="set_hide_status_bar">隱藏 Fedilab 通知列</string>
-    <string name="set_hide_status_bar_indication">要隱藏狀態列中的其餘通知，點擊眼睛圖示的按鈕上然後取消勾選「在狀態列中顯示」</string>
     <string name="set_push_notifications">使用推播通知系統來取得即時通知。</string>
-    <string name="no_live_notif">沒有即時通知</string>
-    <string name="live_notif">即時通知</string>
-    <string name="no_live_indication">將會每15分鐘擷取一次通知。</string>
     <string name="action_add_notes">新增註記</string>
     <string name="note_for_account">帳號註記</string>
     <string name="set_resize_picture_indication">允許將較大的相片壓縮成尺寸較小的相片，且只有非常少或可忽略不計的圖片品質損失。</string>
     <string name="set_resize_video_indication">允許在維持品質的同時壓縮影片。</string>
-    <string name="please_wait_compression">應用程式正在壓縮媒體，可能會很久……</string>
-    <string name="change_app_icon_experimental">變更應用程式圖示</string>
-    <string name="click_to_change_the_app_icon">按一下變更應用程式圖示</string>
-    <string name="post">張貼</string>
-    <string name="post_visibility_tilte">嘟文可見度</string>
-    <string name="add_photo_pixelfed">按一下這裡新增照片</string>
-    <string name="add_photo_indication_pixelfed">可用格式：JPEG、PNG、GIF \n\n 最大檔案大小：15 MB \n\n 相簿可以包含最多 4 張照片或影片</string>
-    <string name="upload_media">上傳媒體</string>
-    <string name="pixelfed_compose_placeholder">新增可選標題</string>
-    <string name="long_api_error">應用程式從 API %1$s 收到非常長的錯誤訊息</string>
-    <string name="message_preview">訊息預覽</string>
-    <string name="report_mention">在每個訊息中新增提及</string>
-    <string name="fetch_conversation">正在擷取對話</string>
     <string name="order_by">排序依</string>
-    <string name="title_video_peertube">影片標題</string>
-    <string name="join_peertube">加入 Peertube</string>
-    <string name="agreement_check_peertube">我至少 16 歲並同意此站台的 %1$s</string>
     <string name="link_color_title">連結</string>
     <string name="link_color">在訊息中變更連結的顏色（URL、提及、標籤等等）</string>
     <string name="boost_header_color_title">轉發標頭</string>
@@ -1032,84 +519,46 @@ Yandex 有適當的隱私權政策，可以在這裡找到：https://yandex.ru/l
     <string name="reset">重設</string>
     <string name="icons_color_title">圖示</string>
     <string name="icons_color">時間軸底部圖示的顏色</string>
-    <string name="pin_tag">釘選此標籤</string>
     <string name="logo_of_the_instance">站台圖示</string>
     <string name="edit_profile">編輯個人資料</string>
     <string name="make_an_action">做動作</string>
     <string name="translation">翻譯</string>
-    <string name="image_preview">圖片預覽</string>
     <string name="text_color_title">文字色彩</string>
     <string name="text_color">變更嘟文／轉嘟／訊息等的文字色彩</string>
-    <string name="apply_changes">套用變更</string>
-    <string name="restart_message">您必須重新啟動應用程式以套用變更</string>
-    <string name="restart">重新啟動</string>
     <string name="pref_custom_theme">使用自訂佈景主題</string>
-    <string name="pref_custom_theme_summary">允許覆寫在上方選定的佈景主題的顏色</string>
     <string name="theming">主題</string>
-    <string name="store_before">儲存之前</string>
     <string name="data_export_theme">佈景主題已匯出</string>
     <string name="data_export_theme_success">佈景主題已成功匯出為 CSV</string>
-    <string name="pref_colored_status_bar_summary">將主要色彩套用到狀態列上</string>
-    <string name="pref_colored_status_bar_title">狀態列色彩</string>
-    <string name="restore_default_theme">恢復預設佈景主題</string>
     <string name="import_theme">匯入佈景主題</string>
     <string name="import_theme_title">點擊這裡以從先前匯出的檔案匯入佈景主題</string>
     <string name="export_theme">匯出佈景主題</string>
     <string name="export_theme_title">點擊這裡以匯出目前的佈景主題</string>
     <string name="theme_file_error">選取佈景主題檔案時遇到錯誤</string>
-    <string name="label_theme_picker">佈景主題挑選程式</string>
-    <string name="pref_theme_summary">選取預先安裝的佈景主題</string>
-    <string name="pref_theme_title">佈景主題</string>
-    <string name="pref_colored_navigation_bar_summary">將主要顏色套用到導覽列上</string>
-    <string name="pref_colored_navigation_bar_title">導航列顏色</string>
-    <string name="pref_background_color_summary">應用程式內容的基礎顏色。</string>
-    <string name="pref_background_color_title">背景色彩</string>
-    <string name="pref_accent_color_summary">選取部份使用者界面的強調色彩。</string>
-    <string name="pref_accent_color_title">強調色彩</string>
-    <string name="pref_primary_color_summary">最常顯示在您的應用程式中。</string>
-    <string name="pref_primary_color_title">主要色彩</string>
-    <string name="export_bookmarks">匯出書籤到站臺</string>
-    <string name="import_bookmarks">從站臺匯入書籤</string>
     <string name="user_count">使用者數量</string>
     <string name="status_count">狀態數量</string>
     <string name="instance_count">站臺數量</string>
-    <string name="blocked">已阻擋</string>
     <string name="poll_finish_in">結束於 %s</string>
-    <string name="release_note_title">%s 新鮮事</string>
-    <string name="follow_account_update">您可以追蹤我的帳號來取得更新</string>
     <string name="no_instance_reccord">此站臺於 https://instances.social 上不可用</string>
     <string name="display_full_link">顯示完整連結</string>
     <string name="share_link">分享連結</string>
-    <string name="link_copy">URL 已複製到剪貼簿</string>
     <string name="open_other_app">使用其他應用程式開啟</string>
     <string name="check_redirect">檢查重新導向</string>
     <string name="no_redirect">此 URL 不會重新導向</string>
     <string name="redirect_detected">%1$s \n\n重新導向到\n\n %2$s</string>
-    <string name="set_user_agent">變更使用者代理字串</string>
-    <string name="set_user_agent_hint">設定自訂的使用者代理字串或留空</string>
-    <string name="set_user_agent_indication">允許自訂用於 api 呼叫或內建瀏覽器的使用者字串</string>
     <string name="set_utm_parameters">移除 UTM 參數</string>
     <string name="set_utm_parameters_indication">應用程式將會在造訪連結前自動移除 UTM 參數</string>
-    <string name="action_trends">趨勢</string>
-    <string name="trending_now">目前趨勢</string>
     <string name="talking_about">%d 個正在談論</string>
     <string name="twitter_accounts">Twitter 帳號（透過 Nitter）</string>
     <string name="list_of_twitter_accounts">以空格分開的 Twitter 使用者名稱</string>
     <string name="identity_proofs">身份證明</string>
     <string name="verified_user">已驗證的身份</string>
     <string name="verified_by">由 %1$s 驗證 (%2$s)</string>
-    <string name="remove_notification">刪除通知</string>
-    <string name="display_more_options">顯示更多選項</string>
-    <string name="pixelfed_story">這是一則 Pixelfed 動態</string>
-    <string name="story_indication">上傳媒體，它將會自動加入到您的 Pixelfed 動態。</string>
-    <string name="added_to_story">媒體已成功新增到您的動態中！</string>
     <string name="action_disabled">動作已停用</string>
     <string name="action_unfollow">取消追蹤</string>
     <string name="error_destination_path">發生錯誤，請檢查設定中的下載目錄設定。</string>
     <string name="action_announcements">公告</string>
     <string name="no_announcements">沒有公告！</string>
     <string name="add_reaction">新增反應</string>
-    <string name="set_custom_tabs_indication">在應用程式中使用您最愛的瀏覽器。取消勾選此功能以使用外部應用程式開啟連結。</string>
     <string name="set_video_cache">以 MB 計的視訊快取，零代表沒有快取。</string>
     <string name="set_watermark">浮水印</string>
     <string name="set_watermark_indication">自動在圖片底部加入浮水印。可以為每個帳號自訂文字。</string>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="navigation_drawer_open">Άνοιγμα μενού</string>
-    <string name="navigation_drawer_close">Κλείσιμο μενού</string>
     <string name="action_about">Σχετικά με...</string>
     <string name="action_about_instance">Σχετικά με την υπόσταση</string>
     <string name="action_privacy">Απόρρητο</string>
     <string name="action_cache">Ενδιάμεση καταχώρηση</string>
     <string name="action_logout">Αποσύνδεση</string>
-    <string name="login">Σύνδεση</string>
     <!-- common -->
     <string name="close">Κλείσιμο</string>
     <string name="yes">Ναι</string>
@@ -23,24 +20,16 @@
     <string name="toots">Toots</string>
     <string name="tags">Ετικέτες</string>
     <string name="save">Αποθήκευση</string>
-    <string name="restore">Επαναφορά</string>
-    <string name="no_result">Κανένα αποτέλεσμα!</string>
     <string name="instance">Υπόσταση</string>
     <string name="instance_example">Υπόσταση: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Τώρα λειτουργεί με τον λογαριασμό %1$s</string>
     <string name="add_account">Προσθήκη λογαριασμού</string>
     <string name="clipboard">Το περιεχόμενο του toot αντιγράφηκε ως απόκομμα</string>
     <string name="clipboard_url">Η διεύθυνση URL της φωνής αντιγράφηκε στο πρόχειρο</string>
-    <string name="change">Αλλαγή</string>
-    <string name="choose_picture">Επιλογή φωτογραφίας…</string>
-    <string name="clear">Καθαρισμός</string>
     <string name="camera">Φωτογραφική μηχανή</string>
     <string name="delete_all">Σβήσε τα όλα</string>
-    <string name="translate_toot">Μετέφρασε αυτό το toot.</string>
     <string name="schedule">Προγραμματισμός</string>
     <string name="text_size">Μέγεθος κειμένου και εικονιδίων</string>
-    <string name="text_size_change">Άλλαξε το τρέχον μέγεθος κειμένου:</string>
-    <string name="icon_size_change">Άλλαξε το τρέχον μέγεθος εικονιδίων:</string>
     <string name="next">Επόμενο</string>
     <string name="previous">Προηγούμενο</string>
     <string name="open_with">Άνοιξε με</string>
@@ -59,42 +48,26 @@
     <string name="show_replies">Εμφάνισε τις αναφορές</string>
     <string name="action_open_in_web">Άνοιγμα στον περιηγητή</string>
     <string name="translate">Μετάφραση</string>
-    <string name="please_wait">Παρακαλώ, πριν κάνετε αυτή την ενέργεια περιμένετε μερικά δευτερολεπτα.</string>
     <!--- Menu -->
     <string name="home_menu">Αφετηρία</string>
     <string name="local_menu">Τοπικό χρονολόγιο</string>
-    <string name="global_menu">Ομόσπονδο χρονολόγιο</string>
-    <string name="neutral_menu_title">Επιλογές</string>
-    <string name="favorites_menu">Αγαπημένα</string>
-    <string name="communication_menu_title">Επικοινωνία</string>
     <string name="muted_menu">Χρήστες σε σίγαση</string>
     <string name="blocked_menu">Χρήστες σε αποκλεισμό</string>
     <string name="notifications">Ειδοποιήσεις</string>
     <string name="follow_request">Αιτήσεις ακολούθησης</string>
     <string name="settings">Ρυθμίσεις</string>
-    <string name="delete_account_title">Διέγραψε έναν λογαριασμό</string>
-    <string name="delete_account_message" formatted="false">Διέγραψε τον λογαριασμό %1$s από την εφαρμογή;</string>
     <string name="send_email">Στείλε ένα email</string>
-    <string name="click_to_change">Kλίκαρε στη διαδρομή για να την αλλάξεις</string>
-    <string name="failed">Απέτυχε!</string>
     <string name="scheduled_toots">Προγραμματισμένες φωνές</string>
     <string name="disclaimer_full">Οι παρακάτω πληροφορίες ίσως να είναι μια ανεπαρκής παρουσίαση του προσώπου του χρήστη.</string>
     <string name="insert_emoji">Εισαγωγή ιδεογράμματος</string>
     <string name="no_emoji">Για την ώρα, η εφαρμογή δεν συνέλεξε προσαρμοσμένα ιδεογράμματα.</string>
-    <string name="push_notif">Push notifications</string>
-    <string name="logout_confirmation">Are you sure you want to logout?</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Καμία φωνή προς εμφάνιση</string>
-    <string name="no_stories">No stories to display</string>
-    <string name="stories">Stories</string>
-    <string name="reblog_by">Ενίσχυση από %1$s</string>
     <string name="favourite_add">Προσθήκη αυτής της φωνής στις αγαπημένες σου;</string>
     <string name="favourite_remove">Απομάκρυνση αυτής της φωνής από τις αγαπημένες σου;</string>
     <string name="reblog_add">Δυνάμωμα αυτής της φωνής;</string>
     <string name="reblog_remove">Χαμήλωμα αυτής της φωνής;</string>
-    <string name="pin_add">Καρφίτσωμα αυτής της φωνής;</string>
-    <string name="pin_remove">Ξεκαρφίτσωμα αυτής της φωνής;</string>
     <string name="more_action_1">Σίγαση</string>
     <string name="more_action_2">Φραγή</string>
     <string name="more_action_3">Αναφορά</string>
@@ -123,7 +96,6 @@
     <string name="bookmarks">Σελιδοδείκτες</string>
     <string name="bookmark_add">Προσθήκη στους σελιδοδείκτες</string>
     <string name="bookmark_remove">Απομάκρυνση του σελιδοδείκτη</string>
-    <string name="bookmarks_empty">Δεν υπάρχουν σελιδοδείκτες προς εμφάνιση</string>
     <string name="status_bookmarked">Η κατάσταση προστέθηκε στους σελιδοδείκτες.</string>
     <string name="status_unbookmarked">Η κατάσταση απομακρύνθηκε από τους σελιδοδείκτες.</string>
     <!-- Date -->
@@ -148,34 +120,15 @@
         <item quantity="other">%d ημέρες</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_cw_placeholder">Προειδοποίηση</string>
-    <string name="toot_placeholder">Τι συλλογιέσαι;</string>
-    <string name="toot_it">ΦΩΝΗ!</string>
-    <string name="queet_it">ΟΥ-ΟΥ!</string>
-    <string name="cw">Π.Π.</string>
-    <string name="toot_title">Γράψιμο μιας φωνής</string>
-    <string name="toot_title_reply">Απάντηση σε μια φωνή</string>
-    <string name="queet_title">Γράψιμο ενός ού-ου</string>
-    <string name="queet_title_reply">Απάντηση σε ένα ού-ου</string>
-    <string name="toot_select_image">Επιλογή ενός πολυμέσου</string>
     <string name="toot_select_image_error">Παρουσιάστηκε κάποιο σφάλμα κατά την επιλογή του πολυμέσου.</string>
     <string name="toot_delete_media">Διαγραφή αυτού του πολυμέσου;</string>
     <string name="toot_error_no_content">Η φωνή σου είναι άδεια.</string>
     <string name="toot_sent">Η φωνή στάλθηκε!</string>
-    <string name="toot_reply_content_title">Αποκρίνεσαι σε αυτή τη φωνή:</string>
     <string name="toot_sensitive">Ευαίσθητο περιεχόμενο;</string>
-    <string-array name="toot_visibility">
-        <item>Δημοσίευση σε δημόσιες χρονοστήλες</item>
-        <item>Μη δημοσίευση σε δημόσιες χρονοστήλες</item>
-        <item>Δημοσίευση μόνο προς όσους σε παρακολουθούν</item>
-        <item>Δημοσίευση μόνο στους αναφερόμενους χρήστες</item>
-    </string-array>
     <string name="no_draft">Καθόλου προσχέδια.</string>
-    <string name="choose_toot">Επέλεξε μια φωνή</string>
     <string name="choose_accounts">Επέλεξε ένα λογαριασμό</string>
     <string name="select_accounts">Επέλεξε μερικούς λογαριασμούς</string>
     <string name="remove_draft">Απομάκρυνση του προσχέδιου;</string>
-    <string name="show_reply">Κλίκαρε στο πλήκτρο, για να εμφανιστεί η αρχική φωνή</string>
     <string name="upload_form_description">Περιγραφή για όσους είναι με προβλήματα όρασης</string>
     <!-- Instance -->
     <string name="instance_no_description">Δεν υπάρχει διαθέσιμη περιγραφή.</string>
@@ -185,28 +138,20 @@
     <string name="about_license">Άδεια: </string>
     <string name="about_license_action">GNU Γενική Δημόσια Άδεια, Έκδοση 3η</string>
     <string name="about_code">Πηγαίος κώδικας: </string>
-    <string name="about_yandex">Μετάφραση με... :</string>
     <string name="about_thekinrar">Αναζήτηση για υποστάσεις:</string>
-    <string name="thanks_text_logo">Σχεδιαστής εικονιδίου:</string>
     <!-- Conversation -->
-    <string name="conversation">Συζήτηση</string>
     <!-- Accounts -->
     <string name="no_accounts">Δεν υπάρχει λογαριασμός προς εμφάνιση</string>
     <string name="no_follow_request">Κανένα αίτημα παρακολούθησης</string>
     <string name="status_cnt">Φωνές \n %1$s</string>
     <string name="following_cnt">Παρακολουθεί \n %1$s</string>
     <string name="followers_cnt">Τον παρακολουθούν \n %1$s</string>
-    <string name="pins_cnt">Πινέζες \n %d</string>
-    <string name="authorize">Εξουσιοδότηση</string>
     <string name="reject">Απόρριψη</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Δεν υπάρχει κάποια προγραμματισμένη φωνή για να εμφανιστεί.</string>
-    <string name="no_scheduled_toots_indications">Γράψε μία φωνή, και μετά, από τον κατάλογο των επιλογών, διάλεξε το <b>Προγραμματισμός</b> .</string>
     <string name="remove_scheduled">Διαγραφή των προγραμματισμένων φωνών;</string>
-    <string name="media_count">Πολυμέσα: %d</string>
     <string name="toot_scheduled">Η φωνή προγραμματίστηκε.</string>
     <string name="toot_scheduled_date">Η προγραμματισμένη ημερομηνία θα πρέπει να είναι αργότερα από την τωρινή ώρα.</string>
-    <string name="warning_battery">Είναι ενεργοποιημένη η εξοικονόμηση της ενέργειας. Ίσως να μη λειτουργήσει, όπως θα ήταν αναμενόμενο.</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Ο χρόνος φίμωσης θα πρέπει να είναι μεγαλύτερος από ένα λεπτό.</string>
     <string name="timed_mute_date">%1$s έχει φιμωθεί έως τις %2$s.\nΜπορείς να βγάλεις αυτό το λογαριασμό από τη σιγή, μέσω της σελίδας του προσώπου του ή της.</string>
@@ -219,26 +164,12 @@
     <string name="notif_favourite">έδειξε προτίμηση στην κατάστασή σου</string>
     <string name="notif_follow">άρχισε να σε παρακολουθεί</string>
     <string name="notif_follow_request">asked to follow you</string>
-    <plurals name="other_notifications">
-        <item quantity="one">και ακόμη μία ειδοποίηση</item>
-        <item quantity="other">και %d άλλες ειδοποιήσεις</item>
-    </plurals>
-    <plurals name="likes">
-        <item quantity="one">%d, άρεσε</item>
-        <item quantity="other">%d, άρεσε</item>
-    </plurals>
-    <string name="delete_notification_ask">Διαγραφή μιας ειδοποίησης;</string>
     <string name="delete_notification_ask_all">Διαγραφή όλων των ειδοποιήσεων;</string>
-    <string name="delete_notification">Η ειδοποίηση διαγράφηκε.</string>
     <string name="delete_notification_all">Όλες οι ειδοποιήσεις διαγράφτηκαν.</string>
     <!-- HEADER -->
-    <string name="following">Παρακολουθείς</string>
     <string name="followers">Σε παρακολουθούν</string>
-    <string name="pinned_toots">Καρφιτσωμένα</string>
     <!-- TOAST -->
     <string name="client_error">Αδυναμία λήψης του αριθμού ταυτότητας (id) του πελάτη.</string>
-    <string name="connect_error">Αδυναμία σύνδεσης στον τομέα της υπόστασης.</string>
-    <string name="no_internet">Καμία σύνδεση στο διαδίκτυο.</string>
     <string name="toast_block">Ο λογαριασμός φράχτηκε.</string>
     <string name="toast_unblock">Ο λογαριασμός δεν είναι πλέον φραγμένος.</string>
     <string name="toast_mute">Ο λογαριασμός φιμώθηκε.</string>
@@ -249,37 +180,16 @@
     <string name="toast_unreblog">Αυτή η φωνή δεν είναι ενισχυμένη, πλέον.</string>
     <string name="toast_favourite">Η φωνή προστέθηκε στις αγαπημένες σου.</string>
     <string name="toast_unfavourite">Η φωνή απομακρύνθηκε από τις αγαπημένες σου.</string>
-    <string name="toast_report">Έγινε αναφορά της φωνής.</string>
-    <string name="toast_unstatus">Η φωνή διαγράφηκε.</string>
-    <string name="toast_pin">Η φωνή καρφιτσώθηκε.</string>
-    <string name="toast_unpin">Η φωνή ξεκαρφιτσώθηκε.</string>
     <string name="toast_error">Ώπα... Παρουσιάστηκε κάποιο σφάλμα.</string>
     <string name="toast_code_error">Παρουσιάστηκε κάποιο σφάλμα. Η υπόσταση δεν απάντησε με κωδικό εξουσιοδότησης.</string>
     <string name="toast_error_instance">Ο τομέας της υπόστασης δεν φαίνεται για έγκυρος.</string>
     <string name="toast_error_loading_account">Παρουσιάστηκε κάποιο σφάλμα, κατά την εναλλαγή μεταξύ των λογαριασμών.</string>
     <string name="toast_error_search">Παρουσιάστηκε κάποιο σφάλμα κατά την αναζήτηση.</string>
-    <string name="toast_update_credential_ok">Τα δεδομένα του προσώπου έχουν αποθηκευτεί.</string>
     <string name="nothing_to_do">Δεν μπορεί να εκτελεστεί καμία ενέργεια</string>
-    <string name="toast_saved">Το πολυμέσο αποθηκεύθηκε.</string>
     <string name="toast_error_translate">Παρουσιάστηκε κάποιο σφάλμα κατά την μετάφραση.</string>
-    <string name="toast_error_translations_disabled">Οι μεταφράσεις είναι απενεργοποιημένες στις ρυθμίσεις</string>
-    <string name="toast_toot_saved">Αποθηκεύτηκε το προσχέδιο.</string>
-    <string name="toast_error_char_limit">Είσαι σίγουρος πως αυτή η υπόσταση επιτρέπει αυτό το πλήθος των χαρακτήρων; Συνήθως αυτή η τιμή είναι γύρω στους 500 χαρακτήρες.</string>
-    <string name="toast_visibility_changed">Έχει αλλαχτεί η αναγνωσιμότητα των φωνών, για το λογαριασμό %1$s</string>
     <!-- Settings -->
     <string name="set_toots_page">Πλήθος φωνών ανά φόρτωμα</string>
-    <string name="set_attachment_always">Πάντα</string>
-    <string name="set_attachment_wifi">με Γουάι-Φάι</string>
-    <string name="set_attachment_ask">Ερώτηση</string>
-    <string name="set_attachment_action">Φόρτωση των πολυμέσων</string>
-    <string name="load_attachment">Φόρτωση των εικόνων</string>
-    <string name="load_attachment_spoiler">Εμφάνιση περισσότερων…</string>
-    <string name="load_attachment_spoiler_less">Εμφάνιση λιγότερων…</string>
-    <string name="load_sensitive_attachment">Ευαίσθητο περιεχόμενο</string>
     <string name="set_disable_gif">Απενεργοποίηση των προσωπικών απεικονίσεων μορφής GIF</string>
-    <string name="set_folder_title">Διαδρομή: </string>
-    <string name="set_auto_store_toot">Αυτόματη αποθήκευση των προσχεδίων</string>
-    <string name="set_auto_add_media_url">Προσθήκη της διεύθυνσης URL στις φωνές πολυμέσων</string>
     <string name="set_notif_follow">Ειδοποίηση όταν κάποιος σε παρακολουθεί</string>
     <string name="set_notif_follow_share">Ειδοποίηση όταν κάποιος ενισχύει την κατάστασή σου</string>
     <string name="set_notif_follow_add">Ειδοποίηση όταν σε κάποιον αρέσει η κατάστασή σου</string>
@@ -288,39 +198,20 @@
     <string name="set_notif_status">Notify for new posts</string>
     <string name="set_share_validation">Προβολή του διαλόγου επιβεβαίωσης, πριν από την ενίσχυση</string>
     <string name="set_share_validation_fav">Προβολή του διαλόγου επιβεβαίωσης, πριν να γίνει προσθήκη στα Αγαπημένα</string>
-    <string name="set_wifi_only">Ειδοποίηση μόνο όταν σε Γουάι-Φάι</string>
     <string name="set_notify">Ειδοποιήσεις;</string>
     <string name="set_notif_silent">Άηχες Ειδοποιήσεις</string>
     <string name="set_nsfw_timeout">Χρόνος λήξης της προβολής των Ακατάλληλων (σε δευτερόλεπτα· το 0 σημαίνει ανενεργό)</string>
     <string name="set_med_desc_timeout">Χρόνος λήξης της Περιγραφής των Πολυμέσων (σε δευτερόλεπτα, το 0 σημαίνει ανενεργό)</string>
-    <string name="settings_title_profile">Επεξεργασία του προσώπου</string>
     <string name="settings_title_custom_sharing">Προσαρμοσμένη κοινοποίηση</string>
     <string name="settings_custom_sharing_url">Η διεύθυνση URL… τς προσαρμοσμένης μοιρασιάς</string>
-    <string name="set_profile_description">Βιογραφικό…</string>
     <string name="set_lock_account">Κλείδωμα του λογαριασμού</string>
     <string name="set_save_changes">Αποθήκευση των αλλαγών</string>
-    <string name="set_header_picture_overlay">Επέλεξε μία εικόνα κεφαλίδας</string>
     <string name="set_fit_preview">Ταίριασμα των εικόνων προεπισκόπησης</string>
-    <string name="set_automatically_split_toot">Στις απαντήσεις, αυτόματο κομμάτιασμα των φωνών, που έχουν περισσότερους από 500 χαρακτήρες</string>
-    <string name="note_no_space">Έχεις χρησιμοποιήσει το πλήθος των 160 επιτρεπόμενων χαρακτήρων.</string>
-    <string name="username_no_space">Έχεις χρησιμοποιήσει το πλήθος των 30 επιτρεπόμενων χαρακτήρων.</string>
     <string name="settings_time_from">Από</string>
     <string name="settings_time_to">ως</string>
-    <string name="settings_time_greater">Η ώρα θα πρέπει να είναι αργότερα από τις %1$s</string>
-    <string name="settings_time_lower">Η ώρα θα πρέπει να είναι νωρίτερα από τις %1$s</string>
-    <string name="settings_hour_init">Ώρα έναρξης</string>
-    <string name="settings_hour_end">Ώρα λήξης</string>
     <string name="embedded_browser">Χρήση του ενσωματωμένου πλοηγού διαδικτύου</string>
     <string name="custom_tabs">Προσαρμοσμένες καρτέλες</string>
-    <string name="use_javascript">Ενεργοποίηση των Σεναρίων της Τζάβα</string>
     <string name="expand_cw">Αυτόματη επέκταση της Προειδοποίησης Περιεχομένου</string>
-    <string name="use_cookies">Να επιτρέπονται τα κουλουράκια τρίτων</string>
-    <string name="your_api_key">Το API κλειδί σου· μπορείς να το αφήσεις κενό για το Yandex</string>
-    <string-array name="settings_theme">
-        <item>Σκοτεινό</item>
-        <item>Φωτεινό</item>
-        <item>Μαύρο</item>
-    </string-array>
     <string name="set_led_colour">Το χρώμα του λεντιού:</string>
     <string-array name="led_colours">
         <item>Μπλε</item>
@@ -337,20 +228,12 @@
     <string name="action_unmute">Ακύρωση της σίγασης</string>
     <string name="request_sent">Η αίτηση στάλθηκε</string>
     <string name="followed_by">Σε παρακολουθεί</string>
-    <string name="action_search">Αναζήτηση</string>
     <string name="set_capitalize">Το πρώτο γράμμα κεφαλαίο, στις απαντήσεις</string>
     <string name="set_resize_picture">Προσαρμογή των εικόνων</string>
     <string name="set_resize_video">Αλλαγή διαστάσεων των βίντεων</string>
     <!-- Quick settings for notifications -->
-    <string name="settings_popup_title">Ειδοποιήσεις προωθήσεων</string>
-    <string name="settings_popup_message">        Παρακαλώ, επιβεβαίωσε τις ειδοποιήσεις προωθήσεων, που θα ήθελες να λαμβάνεις.
-        Μπορείς να ενεργοποιήσεις ή να απενεργοποιήσεις αυτές τις ειδοποιήσεις, αργότερα, στις ρυθμίσεις (στην καρτέλα Ειδοποιήσεων).
-    </string>
     <!-- CACHE -->
-    <string name="cache_title">Καθάρισμα της μικραποθήκευσης</string>
-    <string name="cache_message">Υπάρχουν %1$s δεδομένων στην μικραποθήκευση.\n\nΘα ήθελες να διαγραφούν;</string>
     <string name="cache_units">Μεγαμπάιτια</string>
-    <string name="toast_cache_clear">Η μικραποθήκευση καθαρίστηκε. Απελευθερώθηκαν %1$s</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Τίτλος</string>
     <string name="title_hint_custom_sharing">Τίτλος…</string>
@@ -358,99 +241,25 @@
     <string name="keywords_header_custom_sharing">Λέξεις-κλειδιά</string>
     <string name="keywords_hint_custom_sharing">Λέξεις-κλειδιά…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="action_sync">Συγχρονισμός</string>
-    <string name="action_filter">Κόσκινο</string>
-    <string name="owner_cached_toots">Οι φωνές σου</string>
-    <string name="owner_cached_notifications">Οι ειδοποιήσεις σου</string>
     <string name="v_public">Δημόσια</string>
     <string name="v_unlisted">Αταξινόμητα</string>
     <string name="v_private">Ιδιωτικά</string>
     <string name="v_direct">Απευθείας</string>
-    <string name="v_keywords">Μερικές λέξει-κλειδιά…</string>
-    <string name="show_media">Εμφάνιση των πολυμέσων</string>
-    <string name="show_pinned">Εμφάνιση των καρφιτσωμένων</string>
-    <string name="filter_no_result">Δεν βρέθηκαν αποτελέσματα που να ταιριάζουν.</string>
-    <string name="data_backup_toots">Δημιουργία αντιγράφου δεδομένων των φωνών του %1$s</string>
-    <string name="data_backup_success">Έχουν εισαχθεί %1$s νέες φωνές</string>
-    <string name="data_backup_notification_success">Έχουν εισαχθεί %1$s νέες ειδοποιήσεις</string>
-    <string-array name="filter_order">
-        <item>Ημερομηνίες προς τα πίσω</item>
-        <item>Ημερομηνίες προς τα εμπρός</item>
-    </string-array>
-    <string-array name="filter_select">
-        <item>Καθόλου</item>
-        <item>Μόνο</item>
-        <item>Καί</item>
-    </string-array>
-    <string name="owner_cached_toots_empty">Δεν βρέθηκαν φωνές στην βάση δεδομένων. Παρακαλώ, για να τις λάβεις, χρησιμοποίησε το πλήκτρο συγχρονισμού από τον κατάλογο των επιλογών.</string>
     <!-- PRIVACY -->
-    <string name="privacy_data_title">Αρχειοθετημένα δεδομένα</string>
-    <string name="privacy_data">        Στη συσκευή, αποθηκεύονται μόνο βασικές πληροφορίες των λογαριασμών.
-        Αυτά τα δεδομένα είναι αυστηρώς εμπιστευτικά, και μπορούν να χρησιμοποιηθούν μόνο από την εφαρμογή.
-        Η διαγραφή της εφαρμογής άμεσα απομακρύνει και αυτά τα δεδομένα.\n
-        ⚠ Ποτέ δεν αποθηκεύονται η σύνδεση και το συνθηματικό. Χρησιμοποιούνται μόνο κατά την ασφαλή ταυτοποίηση (SSL), με μία υπόσταση.
-    </string>
-    <string name="privacy_authorizations_title">Δικαιώματα:</string>
-    <string name="privacy_authorizations">        - <b>ACCESS_NETWORK_STATE</b>: Used to detect if the device is connected to a WIFI network.\n
-        - <b>INTERNET</b>: Used for queries to an instance.\n
-        - <b>WRITE_EXTERNAL_STORAGE</b>: Used to store media or to move the app on a SD card.\n
-        - <b>READ_EXTERNAL_STORAGE</b>: Used to add media to toots.\n
-        - <b>BOOT_COMPLETED</b>: Used to start the notification service.\n
-        - <b>WAKE_LOCK</b>: Used during the notification service.
-    </string>
-    <string name="privacy_API_authorizations_title">Δικαιώματα API:</string>
-    <string name="privacy_API_authorizations">        - <b>Read</b>: Ανάγνωση δεδομένων.\n
-        - <b>Write</b>: Δημοσίευση καταστάσεων και ανέβασμα πολυμέσων για καταστάσεις.\n
-        - <b>Follow</b>: Παρακολούθηση, κατάργηση παρακολούθησης, φραγή, απόφραξη.\n\n
-        <b>⚠ Αυτές οι ενέργειες εκτελούνται μόνο όταν τις ζητήσει ο χρήστης.</b>
-    </string>
-    <string name="privacy_API_title">Παρακολούθηση και Βιβλιοθήκες</string>
-    <string name="privacy_API">        Η εφαρμογή <b>δεν χρησιμοποιεί εργαλεία ιχνηλάτησης</b> (μετρήσεις κοινού, αναφορά σφαλμάτων, κλπ) και δεν περιέχει καμία διαφήμιση.\n\n
-        Η χρήση βιβλιοθηκών είναι περιορισμένη: \n
-        - <b>Glide</b>: Για τη διαχείριση πολυμέσων\n
-        - <b>Android-Job</b>: Για τη διαχείριση υπηρεσιών\n
-        - <b>PhotoView</b>: Για τη διαχείριση εικόνων\n
-    </string>
-    <string name="privacy_API_yandex_title">Μετάφραση των φωνών</string>
-    <string name="privacy_API_yandex_authorizations">        Η εφαρμογή προσφέρει τη δυνατότητα να μεταφράσεις φωνές χρησιμοποιώντας την τοπικοποίηση της συσκευής σου και την API του Yandex.\n
-        Το Yandex έχει κανονική πολιτική απορρήτου, την οποία μπορείς να βρεις εδώ: https://yandex.ru/legal/confidential/?lang=en
-    </string>
-    <string name="thanks_text_dev">        Ευχαριστίες στους:
-    </string>
     <string name="filter_regex">Απομάκρυνση σύμφωνα με τις κανονικές εκφράσεις</string>
     <string name="search">Αναζήτηση</string>
     <string name="delete">Διαγραφή</string>
-    <string name="fetch_more_toots">Λήψη περισσότερων φωνών…</string>
     <!-- About lists -->
     <string name="action_lists">Κατάστιχα</string>
     <string name="action_lists_confirm_delete">Σίγουρα, να διαγραφεί αυτό το κατάστιχο, αμετάκλητα;</string>
-    <string name="action_lists_empty_content">Ακόμη δεν υπάρχει τίποτα σε αυτό το κατάστιχο. Όταν κάποια μέλη αυτού του κατάστιχου θα δημοσιεύσουν νέες καταστάσεις, αυτές θα εμφανιστούν εδώ.</string>
     <string name="action_lists_add_to">Προσθήκη στο κατάστιχο</string>
-    <string name="action_lists_create">Προσθήκη κατάστιχου</string>
     <string name="action_lists_delete">Διαγραφή κατάστιχου</string>
-    <string name="action_lists_update">Επεξεργασία κατάστιχου</string>
     <string name="action_lists_title_placeholder">Το όνομα του νέου κατάστιχου</string>
     <string name="action_lists_add_user">Ο λογαριασμός προστέθηκε στο κατάστιχο.</string>
     <string name="action_lists_empty">Ακόμα να ορίσεις κάποια κατάστιχα.</string>
     <!-- Migration -->
     <string name="account_moved_to">Το %1$s έχει πάει στο %2$s</string>
-    <string name="issue_login_title">Μήπως δεν δουλεύει η έλεγχος ταυτότητας;</string>
-    <string name="issue_login_message"><b>Here are some checks that might help:</b>\n\n
-        - Check there is no spelling mistakes in the instance name\n\n
-        - Check that your instance is not down\n\n
-        - If you use the two-factor authentication (2FA), please use the link at the bottom (once the instance name is filled)\n\n
-        - You can also use this link without using the 2FA\n\n
-        - If it still does not work, please raise an issue on Framagit at https://framagit.org/tom79/fedilab/issues
-    </string>
     <string name="media_ready">Φορτώθηκε το πολυμέσο. Κλίκαρε εδώ για να προβληθεί.</string>
-    <string name="data_export_start">Αυτή η ενέργεια μπορεί να είναι χρονοβόρα. Θα ειδοποιηθείς, όταν θα ολοκληρωθεί.</string>
-    <string name="data_export_running">Ακόμη τρέχει· παρακαλώ, περίμενε…</string>
-    <string name="data_export">Εξαγωγή των καταστάσεων</string>
-    <string name="data_export_toots">Εξαγωγή των καταστάσεων για %1$s</string>
-    <string name="data_export_success">Εξάχθηκαν %1$s φωνές από τις %2$s .</string>
-    <string name="data_export_error">Παρουσιάστηκε κάποιο σφάλμα, κατά την εξαγωγή δεδομένων για το %1$s</string>
-    <string name="data_export_error_simple">Παρουσιάστηκε κάποιο σφάλμα, κατά την εξαγωγή δεδομένων.</string>
-    <string name="data_import_error_simple">Παρουσιάστηκε κάποιο σφάλμα, κατά την εισαγωγή δεδομένων.</string>
     <!-- Proxy -->
     <string name="proxy_set">Μεσολαβητής</string>
     <string name="proxy_enable">Ενεργοποίηση του μεσολαβητή;</string>
@@ -462,21 +271,13 @@
     <string name="support_the_app_on_liberapay">Υποστήριξη της εφαρμογής στο Liberapay</string>
     <string name="alert_regex">Υπάρχει κάποιο σφάλμα στην κανονική έκφραση.</string>
     <string name="toast_instance_unavailable">Δεν βρέθηκε κάποια χρονοστήλη σε αυτή την υπόσταση.</string>
-    <string name="delete_instance">Διαγραφή αυτής της υπόστασης;</string>
-    <string name="which_language">Μετάφραση στο</string>
     <string name="follow_instance">Παρακολούθηση της υπόστασης</string>
     <string name="toast_instance_already_added">Ήδη παρακολουθείς αυτή την υπόσταση.</string>
-    <string name="toast_instance_followed">Η υπόσταση παρακολουθείται.</string>
     <string name="action_partnership">Συνεργασίες</string>
-    <string name="neutral_menu_information">Πληροφορίες</string>
     <string name="hide_boost">Απόκρυψη των ενισχύσεων από %s</string>
     <string name="endorse">Τοποθέτηση στο πρόσωπο</string>
     <string name="show_boost">Προβολή των ενισχύσεων από %s</string>
     <string name="unendorse">Μη τοποθέτηση στο πρόσωπο</string>
-    <string name="toast_endorse">Ο λογαριασμός έχει τοποθετηθεί, τώρα, σε προεξέχουσα θέση στο πρόσωπο</string>
-    <string name="toast_unendorse">Ο λογαριασμός δεν είναι, πια, τοποθετημένος σε προεξέχουσα θέση στο πρόσωπο</string>
-    <string name="toast_show_boost">Οι ανυψώσεις εμφανίζονται, τώρα.</string>
-    <string name="toast_hide_boost">Οι ενισχύσεις κρύβονται τώρα.</string>
     <string name="direct_message">Απευθείας μήνυμα</string>
     <string name="filters">Κόσκινα</string>
     <string name="action_filters_empty_content">Δεν υπάρχουν κόσκινα για προβολή. Για να δημιουργήσεις ένα, κλίκαρε στο κουμπί με το « + ».</string>
@@ -495,101 +296,44 @@
     <string name="filter_expire">Λήγει μετά από</string>
     <string name="action_filter_delete">Διαγραφή του κόσκινου;</string>
     <string name="action_update_filter">Ενημέρωση του κόσκινου</string>
-    <string name="action_filter_create">Δημιουργία κόσκινου</string>
-    <string name="how_to_follow">Ποιον να παρακολουθείς</string>
-    <string name="action_who_to_follow_empty_content">Για την ώρα, δεν υπάρχουν καταχωρημένοι κατάλογοι.</string>
-    <string name="follow_account">Παρακολούθησε</string>
-    <string name="select_all">Επιλογή όλων</string>
-    <string name="unselect_all">Αποεπιλογή όλων</string>
-    <string name="follow_trunk">%s παρακολουθείται.</string>
-    <string name="create_list_trunk">Δημιουργείται το κατάστιχο %s</string>
-    <string name="add_account_list_trunk">Προστίθενται λογαριασμοί στο κατάστιχο</string>
-    <string name="account_added_list_trunk">Λογαριασμοί προστέθηκαν στο κατάστιχο</string>
-    <string name="adding_account_list_trunk">Προστίθενται λογαριασμοί στο κατάστιχο</string>
     <string name="action_list_add">Ακόμη δεν έχεις δημιουργήσει ένα κατάστιχο. Για να δημιουργήσεις ένα νέο, κλίκαρε στο κουμπί με το « + ».</string>
-    <string name="about_trunk">Ποιον να παρακολουθείς</string>
-    <string name="about_trunk_action">Trunk API</string>
-    <string name="toast_impossible_to_follow">Αδύνατη η παρακολούθηση του λογαριασμού ή των λογαριασμών</string>
-    <string name="retrieve_remote_account">Λαμβάνεται απομακρυσμένος λογαριασμος</string>
     <string name="expand_image">Αυτόματη επέκταση των κρυμμένων πολυμέσων</string>
     <string name="channel_notif_follow">Νέα παρακολούθηση</string>
     <string name="channel_notif_boost">Νέα Ενίσχυση</string>
     <string name="channel_notif_fav">Νέο Αγαπημένο</string>
     <string name="channel_notif_mention">Νέα Μνημόνευση</string>
     <string name="channel_notif_poll">Η Ψηφοφορία Τελείωσε</string>
-    <string name="channel_notif_toot">Νέα Φωνή</string>
     <string name="channel_notif_backup">Αντίγραφο των Φωνών</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Κατέβασμα Πολυμέσων</string>
-    <string name="set_notif_sound">Αλλαγή του ήχου των ειδοποιήσεων</string>
     <string name="select_sound">Επιλογή Τόνου</string>
     <string name="set_enable_time_slot">Ενεργοποίηση της χρονικής περιόδου</string>
-    <string name="how_to_videos">Βίντεο Οδηγιών</string>
-    <string name="retrieve_remote_conversation">Λαμβάνει την απομακρυσμένη  πλοκή.</string>
-    <string name="no_blocked_domain">Κανένας φραγμένος τομέας.</string>
-    <string name="unblock_domain_confirm">Απόφραξη τομέα</string>
-    <string name="unblock_domain_confirm_message">Σίγουρα απόφραξη του %s;</string>
     <string name="block_domain_confirm_message">Θέλεις, σίγουρα, να φράξεις το %s ;\n\nΔεν θα βλέπεις καθόλου περιεχόμενο από αυτόν τον τομέα, σε καμία δημόσια χρονοστήλη, ούτε στις ειδοποιήσεις σου. Όσοι σε παρακολουθούν, από αυτόν τον τομέα, θα απομακρυνθούν.</string>
-    <string name="blocked_domains">Φραγμένοι τομείς</string>
     <string name="block_domain">Φράξιμο του τομέα</string>
     <string name="toast_block_domain">Ο τομέας έχει φραχτεί</string>
-    <string name="toast_unblock_domain">Ο τομέας δεν είναι πλέον φραγμένος.</string>
     <string name="retrieve_remote_status">Λαμβάνει την απομακρυσμένη κατάσταση</string>
-    <string name="comment">Σχολιασμός</string>
     <string name="peertube_instance">Υπόσταση Peertube</string>
-    <string name="no_comments">Μπορείς να προλάβεις να σχολιάσεις πρώτος αυτό το βίντεο, χρησιμοποιώντας το πλήκτρο, εκεί, πάνω δεξιά.</string>
-    <string name="number_view_video">%s προβολές</string>
-    <string name="duration_video">Διάρκεια: %s</string>
-    <string name="add_remote_instance">Προσθήκη μιας υπόστασης</string>
-    <string name="comment_no_allowed_peertube">Τα σχόλια δεν είναι ενεργοποιημένα σε αυτό το βίντεο.</string>
-    <string name="pickup_resolution">Διάλεξε μια ανάλυση</string>
-    <string name="peertube_favorites">Αγαπητά στο Peertube</string>
-    <string name="bookmark_add_peertube">Αυτό το βίντεο προστέθηκε στους σελιδοδείκτες.</string>
-    <string name="bookmark_remove_peertube">Αυτό το βίντεο απομακρύνθηκε από τους σελιδοδείκτες.</string>
-    <string name="bookmark_peertube_empty">Δεν υπάρχουν Πειρτιούμπια βίντεα στα αγαπημένα σου.</string>
-    <string name="channel">Κανάλι</string>
-    <string name="videos">Βίντεα</string>
-    <string name="channels">Κανάλια</string>
     <string name="set_display_emoji">Χρήση του Πρώτου Ιδεογράμματος</string>
     <string name="information">Πληροφορίες</string>
     <string name="set_display_card">Εμφάνιση των προεπισκοπήσεων σε όλες τις φωνές</string>
-    <string name="thanks_text_ux">Σχεδιαστής της νέας Εμπειρίας Χρήστη κ´ του νέου Περιβάλλοντος Χρήσης</string>
-    <string name="set_display_video_preview">Προβολή των προεπισκοπήσεων των βίντεων</string>
     <string name="account_id_clipbloard">Η ID ταυτότητα του λογαριασμού αντιγράφηκε στο πρόχειρο.</string>
     <string name="set_change_locale">Αλλαγή της γλώσσας</string>
-    <string name="default_language">Προεπιλεγμένη γλώσσα</string>
     <string name="truncate_long_toots">Ψαλίδισμα των μακροσκελών φωνών</string>
     <string name="set_truncate_toot">Ψαλίδισμα των φωνών με περισσότερες από «χ» γραμμές (το 0 σημαίνει απενεργοποιημένο).</string>
     <string name="display_toot_truncate">Εμφάνιση περισσότερων</string>
     <string name="hide_toot_truncate">Εμφάνιση λιγότερων</string>
-    <string name="manage_tags">Διαχείριση των καρτελών</string>
     <string name="tags_already_stored">Η ετικέτα υπάρχει, ήδη.</string>
-    <string name="tags_stored">Η ετικέτα έχει αποθηκευθεί.</string>
-    <string name="tags_renamed">Η ετικέτα έχει αλλαχτεί.</string>
-    <string name="tags_deleted">Η ετικέτα έχει διαγραφεί.</string>
     <string name="schedule_boost">Προγραμματισμός της ενίσχυσης</string>
     <string name="boost_scheduled">Η ενίσχυση προγραμματίστηκε.</string>
     <string name="no_scheduled_boosts">Δεν υπάρχει κάποια προγραμματισμένη ενίσχυση για να εμφανιστεί.</string>
-    <string name="no_scheduled_boosts_indications"><![CDATA[Άνοιξε το κατάστιχο των επιλογών μίας φωνής και επέλεξε τον <b>Προγραμματισμό της ανύψωσης</b> .]]></string>
-    <string name="art_menu">Χρονοστήλη καλλιτεχνίας</string>
     <string name="open_menu">Άνοιγμα του κατάλογου επιλογών</string>
-    <string name="go_back">Επιστροφή</string>
-    <string name="app_logo">Το λογότυπο της εφαρμογής</string>
     <string name="profile_picture">Εικόνα του προσώπου</string>
     <string name="profile_banner">Σημαία του προσώπου</string>
     <string name="contact_instance_admin">Επικοινωνία με τον διαχειριστή της υπόστασης</string>
-    <string name="add_new">Προθήκη νέου</string>
     <string name="mastohost_logo">Λογότυπο του MastoHost</string>
     <string name="emoji_picker">Επιλογέας ιδεογραμμάτων</string>
-    <string name="refresh">Ανανέωση</string>
     <string name="expand_conversation">Επέκταση της συνομιλίας</string>
-    <string name="remove_account">Απομάκρυνση ενός λογαριασμού</string>
-    <string name="delete_domain">Διαγραφή του φραγμένου τομέα</string>
     <string name="custom_emoji_picker">Επιλογέας προσαρμοσμένων ιδεογραμμάτων</string>
-    <string name="play_video">Αναπαραγωγή βίντεου</string>
-    <string name="new_toot">Νέα φωνή</string>
-    <string name="card_view_image">Εικόνα της κάρτας</string>
-    <string name="hide_media">Απόκρυψη πολυμέσων</string>
     <string name="favicon">Έμβλημα</string>
     <string name="media_description">Προσθήκη περιγραφής των πολυμέσων (για όσους έχουν προβλήματα όρασης)</string>
     <string-array name="filter_expire">
@@ -601,19 +345,10 @@
         <item>1 ημέρα</item>
         <item>1 εβδομάδα</item>
     </string-array>
-    <string name="showcase_instance">        Σε αυτό το πεδίο, χρειάζεται να συμπληρώσεις το όνομα του οικοδεσπότη της υπόστασής σου.\nΓια παράδειγμα, αν δημιούργησες τον λογαριασμό σου στο https://mastodon.social\nΑπλά γράψε <b>mastodon.social</b> (χωρίς το https://)\n
-        Μπορείς να ξεκινήσεις να γράφεις τα πρώτα γράμματα, και θα προταθούν ολόκληρες οι ονομασίες.\n\n
-        ⚠ Το πλήκτρο Σύνδεσης λειτουργεί, μόνο όταν είναι έγκυρο το όνομα της υπόστασης, και είναι η υπόσταση σε λειτουργία!
-    </string>
-    <string name="more_information">Περισσότερες πληροφορίες</string>
     <!-- languages not translated -->
     <string name="languages">Γλώσσες</string>
     <string name="show_media_only">Μόνο πολυμέσα</string>
     <string name="show_media_nsfw">Εμφάνιση των ακατάλληλων</string>
-    <string name="crowdin_translations">Μεταφράσεις Crowdin</string>
-    <string name="crowdin_manager">Διαχειριστής Crowdin</string>
-    <string name="translation_app">Μετάφραση της εφαρμογής</string>
-    <string name="about_crowdin">Σχετικά με το Crowdin</string>
     <string name="bot">Αυτόματος Εργάτης</string>
     <string name="pixelfed_instance">Υπόσταση Pixelfed</string>
     <string name="mastodon_instance">Υπόσταση Mastodon</string>
@@ -625,110 +360,36 @@
     <string name="some_tags">Πρόσθεσε μερικές λέξεις για το κόσκινο (χωρισμένες με κενά)</string>
     <string name="change_tag_column">Αλλαγή του ονόματος της στήλης</string>
     <string name="misskey_instance">Υπόσταση Misskey</string>
-    <string name="toast_no_apps">Δεν υπάρχει κάποια εφαρμογή εγκατεστημένη στο σύστημά σου, η οποία να υποστηρίζει αυτόν το δεσμό.</string>
-    <string name="subscriptions">Συνδρομές</string>
-    <string name="overview">Σύνοψη</string>
     <string name="trending">Τάσεις</string>
-    <string name="recently_added">Προστέθηκαν πρόσφατα</string>
     <string name="local">Τοπικά</string>
-    <string name="upload_video">Ανέβασμα</string>
-    <string name="reply">Απόκριση</string>
-    <string name="delete_comment">Διαγραφή ενός σχόλιου</string>
-    <string name="delete_comment_confirm">Θέλεις να διαγράψεις αυτό το σχόλιο, στα σίγουρα;</string>
-    <string name="fullscreen">Βίντεο πλήρης οθόνης</string>
-    <string name="set_video_mode">Κατάσταση για τα βίντεα</string>
-    <string name="file_to_upload">Επέλεξε το αρχείο για αποστολή</string>
-    <string name="my_videos">Τα βίντεά μου</string>
-    <string name="title">Τίτλος</string>
-    <string name="license">Άδεια</string>
     <string name="category">Κατηγορία</string>
-    <string name="language">Γλώσσα</string>
-    <string name="peertube_nsfw">Αυτό το βίντεο έχει περιεχόμενο ωμό ή ενηλίκων</string>
-    <string name="peertube_enable_comments">Να επιτρέπονται τα σχόλια στο βίντεο</string>
-    <string name="update_video">Ενημέρωση του βίντεου</string>
     <string name="description">Περιγραφή</string>
-    <string name="toast_peertube_video_updated">Αυτό το βίντεο έχει ενημερωθεί.</string>
-    <string name="toast_cancelled">Ακυρώθηκε η αποστολή.</string>
-    <string name="upload_video_success">Το βίντεο έχει ανεβεί.</string>
-    <string name="uploading">Αποστέλνεται· υπομονή…</string>
-    <string name="video_uploaded_action">Κλίκαρε εδώ, για να επεξεργαστείς τα δεδομένα του βίντεου.</string>
-    <string name="delete_video">Διαγραφή του βίντεου</string>
-    <string name="delete_video_confirmation">Να διαγραφεί το βίντεο, στα σίγουρα;</string>
-    <string name="display_nsfw_videos">Προβολή των Ακατάλληλων βίντεων</string>
-    <string name="no_video_to_display">Δεν υπάρχουν βίντεα για προβολή.</string>
-    <string name="leave_a_comment">Γράψε ένα σχόλιο</string>
     <string name="share">Να γυρίζει</string>
-    <string name="choose_schedule">Επιλέξτε μια κατάσταση λειτουργίας προγραμματισμού</string>
-    <string name="device_schedule">Από συσκευή</string>
-    <string name="server_schedule">Από διακομιστή</string>
     <string name="toots_server">Φωνές (Εξυπηρετητής)</string>
     <string name="toots_client">Φωνές (Συσκευή)</string>
-    <string name="modify">Τροποποίηση</string>
-    <string name="set_display_content_after_fetch_more">Εμφάνιση νέων φωνών πάνω από το πλήκτρο « Λήψη περισσότερων »</string>
     <string name="settings_category_label_timelines">Χρονοστήλη</string>
     <string name="settings_category_label_interface">Περιβάλλον Χρήσης</string>
     <string name="contact">Επαφές</string>
-    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> σχολίασε το βίντεό σου <b>%2$s</b>]]></string>
-    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> παρακολουθεί το κανάλι σου <b>%2$s</b>]]></string>
-    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> παρακολουθεί το λογαριασμό σου]]></string>
-    <string name="peertube_video_published"><![CDATA[Έχει δημοσιευθεί το βίντεό σου <b>%1$s</b>]]></string>
-    <string name="peertube_video_import_success"><![CDATA[Επιτυχής εισαγωγή του βίντεού σου <b>%1$s</b>]]></string>
-    <string name="peertube_video_import_error"><![CDATA[Αποτυχία εισαγωγής του βίντεού σου <b>%1$s</b>]]></string>
-    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> Δημοσίευσε ένα νέο βίντεο: <b>%2$s</b>]]></string>
-    <string name="peertube_video_blacklist"><![CDATA[Το βίντεό σου <b>%1$s</b> έχει μπει στη μαύρη λίστα]]></string>
-    <string name="peertube_video_unblacklist"><![CDATA[Το βίντεό σου <b>%1$s</b> έχει βγει στη μαύρη λίστα]]></string>
-    <string name="export_data">Εξαγωγή δεδομένων</string>
-    <string name="import_data">Εισαγωγή δεδομένων</string>
-    <string name="toot_select_import">Επέλεξε το αρχείο προς εισαγωγή</string>
     <string name="toot_select_file_error">Παρουσιάστηκε κάποιο σφάλμα στη συλλογή του αρχείου εξασφάλισης.</string>
-    <string name="add_public_comment">Προσθήκη ενός δημόσιου σχόλιου</string>
-    <string name="send_comment">Αποστολή σχόλιου</string>
-    <string name="toast_toot_saved_error">Δεν υπάρχει σύνδεση στο διαδίκτυο. Το μήνυμα σου έχει αποθηκευθεί στα προσχέδια.</string>
-    <string name="action_plain_text">Απλό κείμενο</string>
-    <string name="action_html">HTML</string>
-    <string name="action_markdown">Markdown</string>
     <string name="action_logout_account">Αποσύνδεση του λογαριασμού</string>
     <string name="all">Όλα</string>
-    <string name="about_opencollective">Στήριξη της εφαρμογής</string>
-    <string name="more_about_opencollective">Η Ανοιχτή Συλλογικότητα δίνει, σε ομάδες, τη δυνατότητα να στήσουν γρήγορα μια συλλογικότητα, να συγκεντρώσουν έσοδα, και να τα διαχειριστούν με διαφάνεια.</string>
     <string name="copy_link">Αντιγραφή του συνδέσμου</string>
-    <string name="connect_instance">Σύνδεση</string>
-    <string name="set_normal">Κανονική</string>
-    <string name="set_compact">Συμπαγής</string>
-    <string name="set_console">Κονσόλας</string>
-    <string name="set_mode">Όρισε την κατάσταση λειτουργίας της εμφάνισης</string>
-    <string name="set_security_provider">Χρήση του Προμηθευτή Ασφάλειας</string>
-    <string name="update_tracking_domains">Ενημέρωση των τομέων παρακολούθησης</string>
-    <string name="tracking_db_updated">Έχει γίνει ενημέρωση της βάσης δεδομένων παρακολούθησης.</string>
     <string name="calls_blocked">Οι κλήσεις http είναι φραγμένες από την εφαρμογή</string>
     <string name="list_of_blocked_domains">Κατάστιχο των φραγμένων κλήσεων</string>
     <string name="submit">Υποβολή</string>
-    <string name="data_base_exported">Έγινε εξαγωγή της βάσης δεδομένων.</string>
-    <string name="featured_hashtags">Προβεβλημένα #αριθμοθέματα</string>
     <string name="filter_timeline_with_a_tag">Κοσκίνισμα της χρονοστήλης με καρτέλες</string>
     <string name="no_tags">Καμία καρτέλα</string>
-    <string name="set_hide_delete_notification_on_tab">Απόκρυψη του πλήκτρου διαγραφής της ειδοποίησης, στην καρτέλα των ειδοποιήσεων</string>
     <string name="set_retrieve_metadata_share_from_extras">Προσκόλληση μιας εικόνας, όταν κοινοποιείται διεύθυνση URL</string>
     <!-- end languages -->
-    <string name="poll">Ψηφοφορία</string>
-    <string name="polls">Ψηφοφορίες</string>
     <string name="create_poll">Δημιουργία ψηφοφορίας</string>
-    <string name="poll_choice_1">1η επιλογή</string>
-    <string name="poll_choice_2">2η επιλογή</string>
     <string name="poll_choice_s">Επιλογή %d</string>
     <string name="poll_invalid_choices">Απαιτούνται τουλάχιστον δύο επιλογές για μία ψηφοφορία.</string>
     <string name="done">Έγινε</string>
     <string name="poll_finish_at">τελειώνει στις %s</string>
-    <string name="refresh_poll">Ανανέωση της ψηφοφορίας</string>
     <string name="vote">Ψήφισμα</string>
     <string name="notif_poll">Μία ψηφοφορία στην οποία συμμετείχες έχει τελειώσει</string>
     <string name="notif_poll_self">Μια ψηφοφορία που κάλεσες τελείωσε</string>
-    <string name="settings_category_notif_customize">Προσαρμογή</string>
     <string name="settings_category_notif_categories">Κατηγορίες</string>
-    <string name="settings_category_notif_time_slot">Χρονική Περίοδος</string>
-    <string name="settings_category_notif_advanced">Προχωρημένα</string>
-    <string name="set_display_new_badge">Εμφάνιση το σήματος «νέο», στις αδιάβαστες φωνές</string>
-    <string name="peertube_menu">Peertube</string>
     <string name="move_timeline">Μετακίνηση της χρονοστήλης</string>
     <string name="hide_timeline">Απόκρυψη της χρονοστήλης</string>
     <string name="reorder_timelines">Αναδιάταξη των χρονοστήλων</string>
@@ -736,71 +397,37 @@
     <string name="reorder_instance_removed">Η ακολουθούμενη υπόσταση απομακρύνθηκε</string>
     <string name="reorder_tag_removed">Η καρφιτσωμένη καρτέλα απομακρύνθηκε</string>
     <string name="undo">Αναίρεση</string>
-    <string name="visible_tabs_needed">Θα πρέπει να διατηρείς δύο καρτέλες ορατές.</string>
-    <string name="action_reorder_timeline">Χρονοστήλες</string>
     <string name="warning_main_timeline">Η κύρια χρονοστήλη μπορεί, μονάχα, να κρυφτεί.</string>
-    <string name="action_bbcode">BBCode</string>
     <string name="set_sensitive_content">Πάντα σημείωση των πολυμέσων ως περιέχοντα ευαίσθητο περιεχόμενο</string>
     <string name="gnu_instance">Υπόσταση GNU</string>
-    <string name="cached_status">Μικραποθηκευμένη κατάσταση</string>
     <string name="set_forward_tags">Προώθηση των καρτελών στις απαντήσεις</string>
     <string name="set_long_press_media">Διαρκές πάτημα για την αποθήκευση πολυμέσων</string>
-    <string name="set_blur_sensitive">Θόλωση των ευαίσθητου περιεχόμενου πολυμέσων</string>
-    <string name="set_display_timeline_in_list">Προβολή των χρονοστηλών σε ένα κατάστιχο</string>
-    <string name="display_timeline">Προβολή των χρονοστηλών</string>
-    <string name="set_display_bot_icon">Επισήμανση των αυτόματων εργατών στις φωνές</string>
     <string name="add_tags">Διαχείριση των καρτελών</string>
-    <string name="set_remember_position">Απομνημόνευση της θέσης της Σπιτικής χρονοστήλης</string>
-    <string name="history">Ιστορικό</string>
-    <string name="playlists">Κατάστιχα αναπαραγωγής</string>
     <string name="display_name">Προβολή του ονόματος</string>
-    <string name="action_playlist_add">Δεν έχεις κανένα κατάστιχο αναπαραγωγής. Κλίκαρε στο εικονίδιο « + », για να προσθέσεις ένα καινούριο κατάστιχο</string>
-    <string name="error_display_name">Πρέπει να εισάγεις ένα όνομα ανάγνωσης</string>
-    <string name="error_channel_mandatory">Το κανάλι απαιτείται, όταν το κατάστιχο αναπαραγωγής είναι δημόσιο.</string>
-    <string name="action_playlist_create">Δημιουργία ενός κατάστιχου αναπαραγωγής</string>
-    <string name="action_playlist_empty_content">Δεν υπάρχει τίποτα στο κατάστιχο αναπαραγωγής, ακόμη.</string>
-    <string name="redo">επαναφορά</string>
-    <string name="gallery">Εικονοθήκη</string>
     <string name="label_emoji">Ιδεόγραμμα</string>
-    <string name="label_sticker">Αυτοκόλλητο</string>
-    <string name="label_eraser">Σβήστρα</string>
     <string name="label_text">Κείμενο</string>
     <string name="label_filter">Κόσκινο</string>
     <string name="label_brush">Πινέλο</string>
-    <string name="confirm_exit_editing">Έξοδος χωρίς αποθήκευση, εντελώς στα σίγουρα;</string>
     <string name="discard">Απόρριψη</string>
     <string name="saving">Αποθηκεύεται…</string>
     <string name="image_saved">Η Εικόνα Αποθηκεύτηκε Επιτυχώς!</string>
     <string name="save_image_failed">Αποτυχία αποθήκευσης της εικόνας</string>
-    <string name="opacity">Αδιαφάνεια</string>
-    <string name="set_photo_editor">Ενεργοποίηση του επεξεργαστή φωτογραφιών</string>
     <string name="add_poll_item">Προσθήκη ενός αντικειμένου ψηφοφορίας</string>
-    <string name="remove_poll_item">Απομάκρυνση του τελευταίου αντικειμένου ψηφοφορίας</string>
     <string name="mute_conversation">Φίμωμα της συζήτησης</string>
     <string name="unmute_conversation">Ξεφίμωμα της συζήτησης</string>
     <string name="toast_unmute_conversation">Η συζήτηση δεν είναι, πια, φιμωμένη!</string>
     <string name="toast_mute_conversation">Η συζήτηση είναι σιωπηρή</string>
-    <string name="app_features">Άνοιγμα των χαρακτηριστικών της εφαρμογής</string>
-    <string name="timed_mute">Χρονομετρημένη σίγαση</string>
-    <string name="mention_account">Μνημόνευση του λογαριασμού</string>
-    <string name="refresh_cache">Ανανέωση της μικραποθήκευσης</string>
-    <string name="mention_status">Μνημόνευση της κατάστασης</string>
-    <string name="action_news">Νέα</string>
     <string name="category_general">Γενικά</string>
     <string name="category_regional">Κατά περιοχή</string>
     <string name="category_art">Τέχνη</string>
-    <string name="category_journalism">Δημοσιογραφία</string>
     <string name="category_activism">Ακτιβισμός</string>
     <string name="category_games">Παιχνίδια</string>
     <string name="category_tech">Τεχνολογία</string>
-    <string name="category_adult">Για ενήλικες</string>
     <string name="category_furry">Furry</string>
     <string name="category_food">Φαΐ</string>
     <string name="instance_logo">Το λογότυπο της υπόστασης</string>
-    <string name="toast_error_instance_reg">Κάτι δεν πήγε καλά, κατά τον έλεγχο των διαθέσιμων υποστάσεων.</string>
     <string name="join_mastodon">Συμμετοχή στο Μαστόδοντα</string>
     <string name="pickup_instance_category">Διάλεξε μία υπόσταση, επιλέγοντας μία κατηγορία, και μετά κλίκαρε στο πλήκτρο ελέγχου.</string>
-    <string name="pickup_instance_peertube">Επέλεξε μια υπόσταση πατώντας στο πλήκτρο επιλογής.</string>
     <string name="users">%1$s χρήστες</string>
     <string name="password_confirm">Επιβεβαίωση του κωδικού πρόσβασης</string>
     <string name="agreement_check">Συμφωνώ με τους %1$s και τους %2$s</string>
@@ -808,10 +435,8 @@
     <string name="tos">όρους παροχής υπηρεσιών</string>
     <string name="sign_up">Εγγραφή</string>
     <string name="validation_needed">Η υπόσταση λειτουργεί με προσκλήσεις. Θα πρέπει, ο λογαριασμός σου να εγκριθεί χειροκίνητα, από έναν διαχειριστή, ώστε να μπορείς να τον χρησιμοποιήσεις.</string>
-    <string name="all_field_filled">Παρακαλώ, συμπλήρωσε όλα τα πεδία.</string>
     <string name="password_error">Οι κωδικοί πρόσβασης δεν ταιριάζουν.</string>
     <string name="email_error">Δεν φαίνεται να είναι έγκυρος αυτός ο λογαριασμός ηλεκτρονικού ταχυδρομείου .</string>
-    <string name="username_indicator">Το ψευδώνυμό σου θα είναι μοναδικό στο %1$s</string>
     <string name="email_indicator">Θα σταλθεί, σε εσένα, ένα μήνυμα ηλεκτρονικού ταχυδρομείου, για επιβεβαίωση</string>
     <string name="password_indicator">Χρησιμοποίησε τουλάχιστον 8 χαρακτήρες</string>
     <string name="password_too_short">Ο κωδικός πρόσβασης θα πρέπει να αποτελείται από τουλάχιστον 8 χαρακτήρες</string>
@@ -825,136 +450,36 @@
     <string name="save_draft">Αποθήκευση του μηνύματος στα προσχέδια;</string>
     <string name="administration">Διαχείριση</string>
     <string name="reports">Αναφορές</string>
-    <string name="no_reports">Δεν υπάρχουν αναφορές προς εμφάνιση.</string>
-    <string name="reconnect_account">Επανασύνδεση του λογαριασμού</string>
-    <string name="reconnect_account_message">The application failed to access the admin features. You might need to reconnect the account for having the correct scope.</string>
     <string name="unresolved">Αδιευθέτητο</string>
     <string name="remote">Απομακρυσμένο</string>
     <string name="active">Ενεργό</string>
     <string name="pending">Εκκρεμές</string>
     <string name="disabled">Απενεργοποιημένο</string>
-    <string name="silenced">Φιμωμένος</string>
     <string name="suspended">Σε αναστολή</string>
     <string name="permissions">Δικαιώματα</string>
-    <string name="email_status">Κατάσταση ηλεκ. ταχυδρομείου</string>
-    <string name="login_status">Κατάσταση σύνδεσης</string>
-    <string name="joined">Εγγράφηκε</string>
-    <string name="recent_ip">Πρόσφατη IP</string>
-    <string name="warn">Προειδοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="silence">Φίμωση</string>
-    <string name="email_user">Notify the user per e-mail</string>
-    <string name="custom_warning">Προσαρμοσμένη προειδοποίηση</string>
-    <string name="user">Χρήστης</string>
-    <string name="moderator">Συντονιστής</string>
-    <string name="administrator">Διαχειριστής</string>
-    <string name="confirmed">Επιβεβαιωμένη</string>
-    <string name="unconfirmed">Μη επιβεβαιωμένη</string>
-    <string name="list_reported_statuses">Αναφερμένες καταστάσεις</string>
     <string name="account">Λογαριασμός</string>
     <string name="unsilence">Αναίρεση της φίμωσης</string>
     <string name="undisable">Αναίρεση της απενεργοποίησης</string>
     <string name="suspend">Αναστολή</string>
     <string name="unsuspend">Αναίρεση της αναστολής</string>
-    <string name="account_silenced">Ο λογαριασμός φιμώθηκε.</string>
-    <string name="account_unsilenced">Ο λογαριασμός δεν είναι πλέον φιμωμένος.</string>
-    <string name="account_suspended">Ο λογαριασμός έχει ανασταλεί.</string>
-    <string name="account_unsuspended">Ο λογαριασμός δεν είναι πλέον σε αναστολή.</string>
-    <string name="account_disabled">Ο λογαριασμός απενεργοποιήθηκε.</string>
-    <string name="account_undisabled">Ο λογαριασμός δεν είναι πλέον απενεργοποιημένος.</string>
-    <string name="account_warned">Ο λογαριασμός έχει προειδοποιηθεί.</string>
-    <string name="set_display_admin_menu">Προβολή του κατάλογου επιλογών του διαχειριστή</string>
-    <string name="set_display_admin_toot">Προβολή των λειτουργιών διαχείρισης στις καταστάσεις</string>
-    <string name="allow">Να επιτρέπεται</string>
-    <string name="account_approved">Ο λογαριασμός έχει εγκριθεί.</string>
-    <string name="account_rejected">Ο λογαριασμός απορρίφθηκε.</string>
-    <string name="assign_to_me">Ανάθεση σε εμένα</string>
-    <string name="unassign">Κατάργηση της ανάθεσης</string>
-    <string name="mark_resolved">Σήμανση ως λυμένο</string>
-    <string name="mark_unresolved">Σήμανση ως άλυτο</string>
-    <string name="toast_empty_content">Άδειο περιεχόμενο.</string>
-    <string name="set_display_fedilab_features_button">Προβολή του πλήκτρου λειτουργιών του Φέντιλαμπ</string>
     <string name="audio">Η εφαρμογή πρέπει να έχει πρόσβαση στην εγγραφή ήχου</string>
     <string name="voice_message">Ηχητικό μήνυμα</string>
-    <string name="set_quick_reply">Ενεργοποίηση των γρήγορων απαντήσεων</string>
-    <string name="reply_might_be_useless">Ο λογαριασμός, στον οποίο απαντάς, ίσως να μην μπορεί να δει το μήνυμά σου.</string>
-    <string name="set_remember_position_indication">Αν απενεργοποιηθεί, η εφαρμογή θα φορτώνει, πάντα, τις τελευταίες καταστάσεις</string>
-    <string name="set_blur_sensitive_indication">Αν απενεργοποιηθεί, τα πολυμέσα με ευαίσθητο περιεχόμενο θα αποκρύπτονται με ένα πλήκτρο</string>
-    <string name="set_long_press_media_indication">Αποθήκευση των πολυμέσων, στις πλήρης διαστάσεις τους, με πάτημα διαρκείας στην προ-επισκόπηση</string>
-    <string name="set_display_timeline_in_list_indication">Προσθήκη ενός πλήκτρου αποσιωπητικών, πάνω δεξιά, για την παράθεση όλων των ετικετών/υποστάσεων/κατάστιχων</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
-    <string name="set_display_fedilab_features_button_indication">Προβολή ενός Φενδιλάμπιου πλήκτρου κάτω από την εικόνα του προσώπου. Είναι μια συντόμευση, η οποία επιτρέπει την πρόσβαση σε λειτουργίες της εφαρμογής.</string>
-    <string name="set_quick_reply_indication">Επιτρέπει την άμεση απόκριση, στις χρονοστήλες, κάτω από τις καταστάσεις</string>
     <string name="set_fit_preview_indication">Οι προεπισκοπήσεις δεν θα περικόπτονται στις χρονοστήλες</string>
-    <string name="set_display_video_preview_indication">Να επιτρέπεται η αναπαραγωγή βίντεων μέσα στις χρονοστήλες</string>
-    <string name="set_display_content_after_fetch_more_indication">Allow to reverse the way to read statuses that are displayed once tapping the fetch more button</string>
-    <string name="set_security_provider_indication">This option allows to support recent cipher suites. It is useful for older Android devices or if you cannot connect to your instance.</string>
-    <string name="set_video_mode_indication">Αποκλειστικά για βίντεα του Πειρτιούμπ: Κάνε εναλλαγή αυτής της λειτουργίας αν δεν αναπαράγονται σωστά.</string>
-    <string name="featured_hashtags_indication">These tags will allow to filter statuses from profiles. You will have to use the context menu for seeing them.</string>
     <string name="set_capitalize_indication">Αυτόματη εισαγωγή μίας νέας γραμμής, μετά από μια μνημόνευση, και μετατροπή του πρώτου γράμματος σε κεφαλαίο</string>
     <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
     <string name="compose">Δημιουργία</string>
-    <string name="upload_image_maximum_retry_times">Μέγιστο πλήθος προσπαθειών όταν ανεβαίνουν πολυμέσα</string>
-    <string name="new_folder">Δημιουργία, εδώ, ενός νέου Φάκελου</string>
-    <string name="folder_name">Εισαγωγή του ονόματος του φάκελου</string>
-    <string name="valid_folder_name">Παρακαλώ, εισήγαγε ένα έγκυρο όνομα φακέλου</string>
-    <string name="folder_exists">Αυτός ο φάκελος υπάρχει ήδη.\n Παρακαλώ δώσε ένα άλλο όνομα γι αυτό το φάκελο</string>
     <string name="select">Επιλογή</string>
-    <string name="default_directory">Προεπιλεγμένος Κατάλογος</string>
-    <string name="folder">Φάκελος</string>
-    <string name="create_folder">Δημιουργία φακέλου</string>
-    <string name="set_display_confirm">Να προβάλλεται ένα φρυγαναίικο μήνυμα, μετά την ολοκλήρωση μίας ενέργειας (ενίσχυση, αγαπημένο, κλπ) ;</string>
-    <string name="muted_instance_exported">Οι φιμωμένες υποστάσεις εξάχθηκαν.</string>
     <string name="add_instances">Προσθήκη μιας υπόστασης</string>
-    <string name="export_instances">Εξαγωγή των υποστάσεων</string>
-    <string name="import_instances">Εισαγωγή των υποστάσεων</string>
-    <string name="set_crash_reports">Αναφορές κατάρρευσης</string>
     <string name="set_enable_crash_report">Ενεργοποίηση των αναφορών κατάρρευσης</string>
     <string name="set_enable_crash_report_indication">Αν ενεργοποιηθεί, θα δημιουργηθεί, τοπικά, μια αναφορά κατάρρευσης και, μετά, θα μπορείς να τη μοιραστείς.</string>
     <string name="crash_title">Το Φέντιλαμπ σταμάτησε :(</string>
     <string name="crash_message">Μπορείς να μου στείλεις την αναφορά κατάρρευσης με ηλεκτρονικό ταχυδρομείο. Αυτό θα βοηθήσει στην βελτίωση του Φέντιλαμπ. :)\n\n Μπορείς να προσθέσεις και επιπλέον στοιχεία. Ευχαριστώ!</string>
-    <string name="set_wysiwyg">Χρήση του «Ό,τι Βλέπεις Παίρνεις»</string>
-    <string name="set_wysiwyg_indication">Όταν ενεργοποιηθεί. θα μπορείς να μορφοποιήσεις εύκολα τα κείμενά σου χρησιμοποιώντας εργαλεία.</string>
-    <string name="action_stats">Στατιστικά</string>
-    <string name="total_statuses">Σύνολο των καταστάσεων</string>
-    <string name="number_boosts">Πλήθος ενισχύσεων</string>
-    <string name="number_favourites">Πλήθος αγαπημένων</string>
-    <string name="number_mentions">Πλήθος μνημονεύσεων</string>
-    <string name="number_follows">Πλήθος παρακολουθήσεων</string>
-    <string name="number_polls">Πλήθος ψηφοφοριών</string>
-    <string name="number_replies">Πλήθος απαντήσεων</string>
-    <string name="number_statuses">Πλήθος καταστάσεων</string>
-    <string name="statuses">Καταστάσεις</string>
     <string name="visibility">Αναγνωσιμότητα</string>
-    <string name="number_with_media">Φέροντα πολυμέσα</string>
-    <string name="number_with_sensitive_media">Ευαίσθητου περιεχόμενου</string>
-    <string name="number_with_cw">Με Προειδοποίηση Περιεχόμενου</string>
-    <string name="first_toot_date">Πρώτη κατάσταση</string>
-    <string name="last_toot_date">Τελευταία κατάσταση</string>
-    <string name="first_notification_date">Ημερομηνία πρώτης ειδοποίησης</string>
-    <string name="last_notification_date">Τελευταία ειδοποίηση</string>
-    <string name="frequency">Συχνότητα</string>
-    <string name="toot_per_day">%s καταστάσεις/ημέρα</string>
-    <string name="notification_per_day">%s ειδοποιήσεις/ημέρα</string>
-    <string name="date_range">Ημερολογιακό Εύρος</string>
-    <string name="action_groups">Ομάδες</string>
-    <string name="no_messages">Χωρίς ομάδες.</string>
     <string name="set_disable_animated_emoji">Απενεργοποίηση των προσαρμοσμένων κινούμενων ιδεογραμμάτων</string>
-    <string name="owner_charts">Διαγράμματα</string>
-    <string name="display_charts">Προβολή διαγραμμάτων</string>
-    <string name="collecting_data_wait">Η εφαρμογή συλλέγει τα τοπικά δεδομένα σου· λίγη υπομονή...</string>
-    <string name="set_backup">Αντίγραφο Ασφαλείας</string>
-    <string name="set_auto_backup">Αυτόματη δημιουργία αντιγράφων ασφαλείας των καταστάσεων</string>
-    <string name="set_auto_backup_indication">Αυτή η επιλογή ισχύει ξεχωριστά για κάθε λογαριασμό. Θα εκκινήσει μια υπηρεσία, η οποία θα αποθηκεύει αυτόματα τις καταστάσεις σου, τοπικά, σε μία βάση δεδομένων. Αυτό θα επιτρέπει την λήψη στατιστικών και διαγραμμάτων.</string>
-    <string name="set_auto_backup_notifications">Αυτόματη δημιουργία αντιγράφων ασφαλείας των ειδοποιήσεων</string>
-    <string name="set_auto_backup_notifications_indication">Αυτή η επιλογή ισχύει ξεχωριστά για κάθε λογαριασμό. Θα εκκινήσει μια υπηρεσία, η οποία θα αποθηκεύει αυτόματα τις ειδοποιήσεις σου, τοπικά, σε μία βάση δεδομένων. Αυτό θα επιτρέπει την λήψη στατιστικών και διαγραμμάτων.</string>
     <string name="report_account">Αναφορά του λογαριασμού</string>
-    <string name="send_invitation">Αποστολή μίας πρόσκλησης</string>
-    <string name="registration_closed">Η υπόσταση δεν επιτρέπει την καταχώρηση ενός νέου λογαριασμού.</string>
-    <plurals name="number_of_vote">
-        <item quantity="one">%d ψήφος</item>
-        <item quantity="other">%d ψήφοι</item>
-    </plurals>
     <plurals name="number_of_voters">
         <item quantity="one">%d ψηφοφόρος</item>
         <item quantity="other">%d ψηφοφόροι</item>
@@ -972,25 +497,7 @@
         <item>3 ημέρες</item>
         <item>7 ημέρες</item>
     </string-array>
-    <string-array name="settings_video_mode">
-        <item>Webview</item>
-        <item>Άμεση ροή</item>
-    </string-array>
-    <string name="join_instance">For joining my instance \"%1$s\", you can download Fedilab:\n\nF-Droid: %2$s\nGoogle: %3$s\n\nThen open the link below with Fedilab and create your account :)\n\n%4$s
-    </string>
     <string name="poll_duplicated_entry">Δεν είναι δυνατό η ψηφοφορία σου να έχει διπλότυπες επιλογές.</string>
-    <string name="all_accounts">Για όλους του λογαριασμούς</string>
-    <string name="database_cache">Μικραποθήκευση της βάσης δεδομένων</string>
-    <string name="cache_timeline_clear">Καθάρισμα της μικραποθήκευσης την σπιτικής χρονοστήλης σου</string>
-    <string name="cache_owntoots_clear">Καθάρισμα των μικραποθηκευμένων καταστάσεών σου</string>
-    <string name="cache_bookmarks_clear">Καθάρισμα των σελιδοδεικτών σου</string>
-    <string name="file_cache">Αρχεία στην μικραποθήκευσή σου</string>
-    <string name="total_notifications">Σύνολο των ειδοποιήσεων</string>
-    <string name="hide_menu_items">Απόκρυψη των στοιχείων του μενού</string>
-    <string name="top_notification">Το Φέντιλαμπ τρέχει ζωντανές ειδοποιήσεις</string>
-    <string name="top_notification_message">Για %1$s λογαριασμούς με %2$s γεγονότα</string>
-    <string name="set_allow_live_notifications">Ζωντανές ειδοποιήσεις για το %1$s</string>
-    <string name="set_allow_live_notifications_indication">Οι ζωντανές ειδοποιήσεις θα είναι ενεργές γι αυτό το λογαριασμό.</string>
     <string name="set_clear_cache_exit">Εκκαθάριση της μικραποθήκευσης κατά την έξοδο</string>
     <string name="set_clear_cache_exit_indication">Η προσωρινή μνήμη (πολυμέσα, μικραποθηκευμένα μηνύματα, δεδομένα από τον ενσωματωμένο πλοηγό) θα καθαρίζει αυτόματα, όταν θα κλείνεις την εφαρμογή.</string>
     <string name="unfollow_confirm">Θέλεις να σταματήσεις να παρακολουθείς αυτό το λογαριασμό;</string>
@@ -998,36 +505,12 @@
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
-    <string name="replace_wikipedia">Replace Wikipedia links</string>
-    <string name="replace_wikipedia_description">Replace Wikipedia link with an open source alternative front-end focused on privacy.</string>
-    <string name="replace_wikipedia_host">Default: wikiless.org</string>
-    <string name="set_hide_status_bar">Απόκρυψη της γραμμής ειδοποιήσεων του Φέντιλαμπ</string>
-    <string name="set_hide_status_bar_indication">Για απόκρυψη της υπόλοιπης ειδοποίησης στη γραμμή κατάστασης, πίεσε στο πλήκτρο με το μάτι, και μετά απο-επέλεξε την...: «Προβολή στη γραμμή κατάστασης»</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
-    <string name="no_live_notif">Καθόλου ζωντανές ειδοποιήσεις</string>
-    <string name="live_notif">Live notifications</string>
-    <string name="no_live_indication">Οι ειδοποιήσεις θα λαμβάνονται κάθε 15 λεπτά.</string>
     <string name="action_add_notes">Προσθήκη σημειώσεων</string>
     <string name="note_for_account">Σημειώσεις για το λογαριασμό</string>
     <string name="set_resize_picture_indication">Επιτρέπει την συμπίεση μεγάλων φωτογραφιών σε μικρότερων διαστάσεων φωτογραφίες, με πολύ μικρές, ή αμελητέες, απώλειες στην ποιότητα της εικόνας.</string>
     <string name="set_resize_video_indication">Επιτρέπει την συμπίεση βίντεων, διατηρώντας, όμως, την ποιότητά τους.</string>
-    <string name="please_wait_compression">Η εφαρμογή συμπιέζει το πολυμέσο· αυτό μπορεί να διαρκέσει αρκετά…</string>
-    <string name="change_app_icon_experimental">Αλλαγή του εικονιδίου της εφαρμογής</string>
-    <string name="click_to_change_the_app_icon">Πίεσε για να αλλάξεις το εικονίδιο της εφαρμογής</string>
-    <string name="post">Δημοσίευση</string>
-    <string name="post_visibility_tilte">Αναγνωσιμότητα της δημοσίευσης</string>
-    <string name="add_photo_pixelfed">Πίεσε εδώ για προσθέσεις μία φωτογραφία</string>
-    <string name="add_photo_indication_pixelfed">Αποδεκτές Μορφές Αρχείων: jpeg, png, gif  \n\nΜέγιστο Μέγεθος Αρχείου: 15 MB  \n\nΗ συλλογή μπορεί να περιέχει μέχρι 4 φωτογραφίες ή βίντεα</string>
-    <string name="upload_media">Ανέβασμα των πολυμέσων</string>
-    <string name="pixelfed_compose_placeholder">Προσθήκη προαιρετικής περιγραφής</string>
-    <string name="long_api_error">Η εφαρμογή έλαβε ένα μακροσκελές μήνυμα λάθους από την API %1$s</string>
-    <string name="message_preview">Προεπισκόπηση του μηνύματος</string>
-    <string name="report_mention">Προσθήκη μνημονεύσεων σε κάθε μήνυμα</string>
-    <string name="fetch_conversation">Λαμβάνεται η συζήτηση</string>
     <string name="order_by">Ταξινόμηση κατά</string>
-    <string name="title_video_peertube">Τίτλος του βίντεου</string>
-    <string name="join_peertube">Συμμετοχή στο Peertube</string>
-    <string name="agreement_check_peertube">Είμαι μεγαλύτερος από από 16 χρονών, και συμφωνώ με %1$s αυτής της υπόστασης</string>
     <string name="link_color_title">Σύνδεσμοι</string>
     <string name="link_color">Αλλαγή των χρωμάτων των συνδέσμων (URL, μνημονεύσεις, ετικέτες, κλπ) στα μηνύματα</string>
     <string name="boost_header_color_title">Reblogs header</string>
@@ -1041,84 +524,46 @@
     <string name="reset">Επαναφορά</string>
     <string name="icons_color_title">Εικονίδια</string>
     <string name="icons_color">Χρώμα των κάτω εικονιδίων στις χρονοστήλες</string>
-    <string name="pin_tag">Καρφίτσωμα αυτής της ετικέτας</string>
     <string name="logo_of_the_instance">Το λογότυπο της υπόστασης</string>
     <string name="edit_profile">Επεξεργασία του προσώπου</string>
     <string name="make_an_action">Επέλεξε μία κίνηση</string>
     <string name="translation">Μετάφραση</string>
-    <string name="image_preview">Προεπισκόπηση εικόνας</string>
     <string name="text_color_title">Χρώμα κειμένου</string>
     <string name="text_color">Change the text color in pots</string>
-    <string name="apply_changes">Εφαρμογή των αλλαγών</string>
-    <string name="restart_message">Θα πρέπει να επανεκκινήσεις την εφαρμογή για να εφαρμοστούν οι αλλαγές</string>
-    <string name="restart">Επανεκκίνηση</string>
     <string name="pref_custom_theme">Χρήση ενός προσαρμοσμένου θέματος</string>
-    <string name="pref_custom_theme_summary">Να επιτρέπεται η αντικατάσταση των χρωμάτων του παραπάνω επιλεγμένου θέματος</string>
     <string name="theming">Θεματισμός</string>
-    <string name="store_before">Πρώτα αποθήκευση</string>
     <string name="data_export_theme">Έγινε εξαγωγή του θέματος</string>
     <string name="data_export_theme_success">Έγινε επιτυχής εξαγωγή του θέματος σε μορφή CSV</string>
-    <string name="pref_colored_status_bar_summary">Εφαρμογή του πρωτεύοντος χρώματος στη γραμμή κατάστασης</string>
-    <string name="pref_colored_status_bar_title">Χρώμα γραμμής κατάστασης</string>
-    <string name="restore_default_theme">Αποκατάσταση ενός προεπιλεγμένου θέματος</string>
     <string name="import_theme">Εισαγωγή ενός θέματος</string>
     <string name="import_theme_title">Πίεσε εδώ, για να γίνει εισαγωγή ενός θέματος, από προηγούμενη εξαγωγή</string>
     <string name="export_theme">Εξαγωγή του θέματος</string>
     <string name="export_theme_title">Πίεσε εδώ για να εξάγεις το τωρινό θέμα</string>
     <string name="theme_file_error">Παρουσιάστηκε κάποιο σφάλμα στην επιλογή του αρχείου με το θέμα</string>
-    <string name="label_theme_picker">Theme Picker</string>
-    <string name="pref_theme_summary">Select a pre-installed theme</string>
-    <string name="pref_theme_title">Themes</string>
-    <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
-    <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
-    <string name="pref_background_color_summary">The underlying color of the app’s content.</string>
-    <string name="pref_background_color_title">Background color</string>
-    <string name="pref_accent_color_summary">Accents select parts of the UI.</string>
-    <string name="pref_accent_color_title">Accent color</string>
-    <string name="pref_primary_color_summary">Displayed most frequently across your app.</string>
-    <string name="pref_primary_color_title">Primary color</string>
-    <string name="export_bookmarks">Εξαγωγή των σελιδοδεικτών στην υπόσταση</string>
-    <string name="import_bookmarks">Εισαγωγή των σελιδοδεικτών από την υπόσταση</string>
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
     <string name="instance_count">Instance count</string>
-    <string name="blocked">Φραγμένοι</string>
     <string name="poll_finish_in">Να τελειώσει στις %s</string>
-    <string name="release_note_title">Τι είναι νέο στο %s</string>
-    <string name="follow_account_update">Μπορείς να παρακολουθείς των λογαριασμό μου για ενημερώσεις</string>
     <string name="no_instance_reccord">Αυτή η υπόσταση δεν είναι διαθέσιμη στην https://instances.social</string>
     <string name="display_full_link">Display full link</string>
     <string name="share_link">Share link</string>
-    <string name="link_copy">The URL has been copied to the clipboard</string>
     <string name="open_other_app">Open with another app</string>
     <string name="check_redirect">Check redirect</string>
     <string name="no_redirect">This URL does not redirect</string>
     <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
-    <string name="set_user_agent">Change the user agent</string>
-    <string name="set_user_agent_hint">Set a custom user agent or leave blank</string>
-    <string name="set_user_agent_indication">Allows to customize the user agent used for api calls or with the built-in browser.</string>
     <string name="set_utm_parameters">Remove UTM parameters</string>
     <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
-    <string name="action_trends">Trends</string>
-    <string name="trending_now">Trending now</string>
     <string name="talking_about">%d people talking</string>
     <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter usernames space separated</string>
     <string name="identity_proofs">Identity proofs</string>
     <string name="verified_user">Verified identity</string>
     <string name="verified_by">Verified by %1$s (%2$s)</string>
-    <string name="remove_notification">Delete the notification</string>
-    <string name="display_more_options">Display more options</string>
-    <string name="pixelfed_story">It is a Pixelfed story</string>
-    <string name="story_indication">Upload a media, it will be automatically added to your Pixelfed story.</string>
-    <string name="added_to_story">Media successfully added to your story!</string>
     <string name="action_disabled">Action disabled</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
     <string name="action_announcements">Announcements</string>
     <string name="no_announcements">No announcements!</string>
     <string name="add_reaction">Add a reaction</string>
-    <string name="set_custom_tabs_indication">Use your favourite browser inside the app. Uncheck this feature to open links externally.</string>
     <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
     <string name="set_watermark">Watermarks</string>
     <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>
