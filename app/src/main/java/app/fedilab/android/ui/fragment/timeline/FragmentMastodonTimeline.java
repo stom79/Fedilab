@@ -526,15 +526,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }).start();
             }
             storeMarker();
-            if (binding != null) {
-                binding.recyclerView.setAdapter(null);
-            }
-            LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         }
-        statusAdapter = null;
-        binding = null;
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         super.onDestroyView();
     }
+
 
     private void storeMarker() {
         if (timelineType == Timeline.TimeLineEnum.HOME && mLayoutManager != null) {

@@ -489,10 +489,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }).start();
         }
         super.onDestroyView();
-        binding.recyclerView.setAdapter(null);
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
-        notificationAdapter = null;
-        binding = null;
     }
 
     @Override

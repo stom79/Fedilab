@@ -263,14 +263,4 @@ public class FragmentMastodonAccount extends Fragment {
             flagLoading = true;
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (binding != null) {
-            binding.recyclerView.setAdapter(null);
-        }
-        accountAdapter = null;
-        binding = null;
-    }
 }

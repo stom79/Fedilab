@@ -197,16 +197,6 @@ public class FragmentAdminAccount extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (binding != null) {
-            binding.recyclerView.setAdapter(null);
-        }
-        adminAccountAdapter = null;
-        binding = null;
-    }
-
     interface Callback {
         void accountFetched(AdminAccounts adminAccounts);
     }

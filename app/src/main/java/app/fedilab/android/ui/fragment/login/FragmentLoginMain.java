@@ -233,12 +233,6 @@ public class FragmentLoginMain extends Fragment {
         popupMenu.show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
     private void retrievesClientId(String instance) {
         if (!instance.startsWith("http://") && !instance.startsWith("https://")) {
             instance = "https://" + instance;

@@ -110,12 +110,4 @@ public class FragmentMastodonAnnouncement extends Fragment {
         binding.recyclerView.scrollToPosition(0);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.recyclerView.setAdapter(null);
-        announcementAdapter = null;
-        binding = null;
-    }
-
 }

@@ -257,9 +257,6 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        binding.recyclerView.setAdapter(null);
-        statusAdapter = null;
-        binding = null;
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
         super.onDestroyView();
     }

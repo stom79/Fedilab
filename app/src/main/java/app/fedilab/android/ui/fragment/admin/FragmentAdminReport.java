@@ -204,16 +204,6 @@ public class FragmentAdminReport extends Fragment {
         super.onPause();
     }
 
-    @Override
-    public void onDestroyView() {
-        if (binding != null) {
-            binding.recyclerView.setAdapter(null);
-        }
-        statusAdapter = null;
-        binding = null;
-        super.onDestroyView();
-    }
-
 
     /**
      * Refresh status in list

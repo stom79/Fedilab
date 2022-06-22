@@ -152,11 +152,4 @@ public class FragmentMastodonConversation extends Fragment {
         binding.recyclerView.scrollToPosition(0);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.recyclerView.setAdapter(null);
-        conversationAdapter = null;
-        binding = null;
-    }
 }

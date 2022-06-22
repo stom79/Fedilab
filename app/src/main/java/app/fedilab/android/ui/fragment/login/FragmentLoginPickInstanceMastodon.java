@@ -132,10 +132,4 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
                     args, null, FragmentLoginRegisterMastodon.class.getName());
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }

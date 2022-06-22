@@ -117,11 +117,4 @@ public class FragmentMastodonTag extends Fragment {
         binding.recyclerView.setAdapter(tagAdapter);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding.recyclerView.setAdapter(null);
-        tagAdapter = null;
-        binding = null;
-    }
 }
