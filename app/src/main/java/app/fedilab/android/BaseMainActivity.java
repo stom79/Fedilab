@@ -193,7 +193,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 if (binding.viewPager.getCurrentItem() == position) {
                                     scrollToTop();
                                 } else {
-                                    binding.viewPager.setCurrentItem(position);
+                                    binding.viewPager.setCurrentItem(position, false);
                                 }
                             }
                             return true;
@@ -588,13 +588,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         });
                     }
                     binding.bottomNavView.setOnItemSelectedListener(item -> {
+
                         int itemId = item.getItemId();
                         int position = BottomMenu.getPosition(bottomMenu, itemId);
                         if (position >= 0) {
                             if (binding.viewPager.getCurrentItem() == position) {
                                 scrollToTop();
                             } else {
-                                binding.viewPager.setCurrentItem(position);
+                                binding.viewPager.setCurrentItem(position, false);
                             }
                         }
                         return true;
