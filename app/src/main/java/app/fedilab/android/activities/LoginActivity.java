@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity {
     private boolean requestedAdmin;
 
     private void manageItent(Intent intent) {
+
         if (intent != null && intent.getData() != null && intent.getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {
             String url = intent.getData().toString();
             Matcher matcher = Helper.codePattern.matcher(url);
@@ -61,38 +62,35 @@ public class LoginActivity extends BaseActivity {
             }
             String code = matcher.group(1);
             OauthVM oauthVM = new ViewModelProvider(LoginActivity.this).get(OauthVM.class);
-
             //We are dealing with a Mastodon API
-            if (apiLogin == Account.API.MASTODON) {
-                //API call to get the user token
-                String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
-                oauthVM.createToken(currentInstanceLogin, "authorization_code", client_idLogin, client_secretLogin, Helper.REDIRECT_CONTENT_WEB, scope, code)
-                        .observe(LoginActivity.this, tokenObj -> {
-                            Account account = new Account();
-                            account.client_id = client_idLogin;
-                            account.client_secret = client_secretLogin;
-                            account.token = tokenObj.token_type + " " + tokenObj.access_token;
-                            account.api = apiLogin;
-                            account.software = softwareLogin;
-                            account.instance = currentInstanceLogin;
-                            //API call to retrieve account information for the new token
-                            AccountsVM accountsVM = new ViewModelProvider(LoginActivity.this).get(AccountsVM.class);
-                            accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
-                                account.mastodon_account = mastodonAccount;
-                                account.user_id = mastodonAccount.id;
-                                //We check if user have really moderator rights
-                                if (requestedAdmin) {
-                                    AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
-                                    adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
-                                        account.admin = adminAccount != null;
-                                        WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
-                                    });
-                                } else {
+            //API call to get the user token
+            String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+            oauthVM.createToken(currentInstanceLogin, "authorization_code", client_idLogin, client_secretLogin, Helper.REDIRECT_CONTENT_WEB, scope, code)
+                    .observe(LoginActivity.this, tokenObj -> {
+                        Account account = new Account();
+                        account.client_id = client_idLogin;
+                        account.client_secret = client_secretLogin;
+                        account.token = tokenObj.token_type + " " + tokenObj.access_token;
+                        account.api = apiLogin;
+                        account.software = softwareLogin;
+                        account.instance = currentInstanceLogin;
+                        //API call to retrieve account information for the new token
+                        AccountsVM accountsVM = new ViewModelProvider(LoginActivity.this).get(AccountsVM.class);
+                        accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
+                            account.mastodon_account = mastodonAccount;
+                            account.user_id = mastodonAccount.id;
+                            //We check if user have really moderator rights
+                            if (requestedAdmin) {
+                                AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
+                                adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
+                                    account.admin = adminAccount != null;
                                     WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
-                                }
-                            });
+                                });
+                            } else {
+                                WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
+                            }
                         });
-            }
+                    });
         }
     }
 
