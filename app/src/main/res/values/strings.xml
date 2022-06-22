@@ -1633,7 +1633,7 @@
     <string name="messages_in_cache_for_other_timelines">Messages in cache for other timelines</string>
     <string name="messages_stored_in_drafts">Messages stored in drafts</string>
     <string name="built_in_browser_cache">Built-in browser cache</string>
-    <string name="files_cache">Fiiles cache</string>
+    <string name="files_cache">Files cache</string>
     <string name="files_cache_size">File cache size</string>
     <string name="clear_cache">Clear cache</string>
     <string name="delete_cache_message">Are you sure you want to delete cache? If you have drafts with media, the attached media will be lost.</string>
