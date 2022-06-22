@@ -1290,4 +1290,7 @@
     <string name="messages_stored_in_drafts">Messages stockés dans les brouillons</string>
     <string name="built_in_browser_cache">Cache du navigateur intégré</string>
     <string name="label_eraser_mode">Mode gomme</string>
+    <string name="files_cache">Cache des fichiers</string>
+    <string name="label_rectangle">Rectangle</string>
+    <string name="msg_save_image">Souhaitez-vous quitter sans enregistrer l’image \?</string>
 </resources>
