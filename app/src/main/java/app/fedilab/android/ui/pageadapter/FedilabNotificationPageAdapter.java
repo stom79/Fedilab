@@ -16,43 +16,33 @@ package app.fedilab.android.ui.pageadapter;
 
 
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 
-public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
+public class FedilabNotificationPageAdapter extends FragmentStateAdapter {
 
     private final boolean extended;
-    private Fragment mCurrentFragment;
 
 
-    public FedilabNotificationPageAdapter(FragmentManager fm, boolean extended) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
+    public FedilabNotificationPageAdapter(FragmentActivity fa, boolean extended) {
+        super(fa);
         this.extended = extended;
     }
 
-    public Fragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
     @Override
-    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (getCurrentFragment() != object) {
-            mCurrentFragment = ((Fragment) object);
-        }
-        super.setPrimaryItem(container, position, object);
+    public int getItemCount() {
+        return extended ? 7 : 2;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         Bundle bundle = new Bundle();
         FragmentMastodonNotification fragmentMastodonNotification = new FragmentMastodonNotification();
         if (!extended) {
@@ -93,8 +83,5 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
         return fragmentMastodonNotification;
     }
 
-    @Override
-    public int getCount() {
-        return extended ? 7 : 2;
-    }
+
 }

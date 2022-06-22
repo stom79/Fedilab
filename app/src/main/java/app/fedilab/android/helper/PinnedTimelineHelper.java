@@ -209,6 +209,7 @@ public class PinnedTimelineHelper {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                activityMainBinding.tabLayout.selectTab(activityMainBinding.tabLayout.getTabAt(position));
             }
 
             @Override

@@ -21,7 +21,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -34,20 +33,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.preference.PreferenceManager;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import org.jetbrains.annotations.NotNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
 
@@ -99,7 +93,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     private int minTouch, maxTouch;
     private float startX;
     private float startY;
-    private FragmentMedia mCurrentFragment;
     private ActivityMediaPagerBinding binding;
 
     @Override
@@ -113,8 +106,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
 
 
         fullscreen = false;
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
-        final int med_desc_timeout = sharedpreferences.getInt(getString(R.string.SET_MED_DESC_TIMEOUT), 3) * 1000;
         flags = getWindow().getDecorView().getSystemUiVisibility();
         Bundle b = getIntent().getExtras();
         if (b != null) {
@@ -132,11 +123,10 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
 
         setTitle("");
 
-        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(MediaActivity.this);
         binding.mediaViewpager.setAdapter(mPagerAdapter);
 
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
-        binding.mediaViewpager.setOffscreenPageLimit(0);
         binding.haulerView.setOnDragDismissedListener(dragDirection -> ActivityCompat.finishAfterTransition(MediaActivity.this));
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         String description = attachments.get(mediaPosition - 1).description;
@@ -145,14 +135,15 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
             binding.mediaDescription.setText(description);
 
         }
-        binding.mediaViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {
-            }
-
+        binding.mediaViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
 
+            @Override
             public void onPageSelected(int position) {
+                super.onPageSelected(position);
                 String description = attachments.get(position).description;
                 if (handler != null) {
                     handler.removeCallbacksAndMessages(null);
@@ -162,8 +153,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                     binding.mediaDescription.setText(description);
                 }
             }
-        });
 
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
 
         setFullscreen(true);
         Display display = getWindowManager().getDefaultDisplay();
@@ -258,8 +253,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
 
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
-        final int med_desc_timeout = sharedpreferences.getInt(getString(R.string.SET_MED_DESC_TIMEOUT), 3) * 1000;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = event.getX();
@@ -305,10 +298,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         binding = null;
         unregisterReceiver(onDownloadComplete);
         super.onDestroy();
-    }
-
-    public FragmentMedia getCurrentFragment() {
-        return mCurrentFragment;
     }
 
     @Override
@@ -372,15 +361,15 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     /**
      * Media Pager
      */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
 
-        ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ScreenSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
         }
 
-        @NotNull
+        @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             Bundle bundle = new Bundle();
             FragmentMedia mediaSliderFragment = new FragmentMedia();
             bundle.putInt(Helper.ARG_MEDIA_POSITION, position);
@@ -390,15 +379,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         }
 
         @Override
-        public void setPrimaryItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
-            if (getCurrentFragment() != object) {
-                mCurrentFragment = ((FragmentMedia) object);
-            }
-            super.setPrimaryItem(container, position, object);
-        }
-
-        @Override
-        public int getCount() {
+        public int getItemCount() {
             return attachments.size();
         }
     }

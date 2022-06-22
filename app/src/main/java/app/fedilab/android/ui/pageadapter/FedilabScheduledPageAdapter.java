@@ -15,40 +15,26 @@ package app.fedilab.android.ui.pageadapter;
  * see <http://www.gnu.org/licenses>. */
 
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.fragment.timeline.FragmentScheduled;
 
-public class FedilabScheduledPageAdapter extends FragmentStatePagerAdapter {
+public class FedilabScheduledPageAdapter extends FragmentStateAdapter {
 
-    private Fragment mCurrentFragment;
 
-    public FedilabScheduledPageAdapter(FragmentManager fm) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-    }
-
-    public Fragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
-    @Override
-    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (getCurrentFragment() != object) {
-            mCurrentFragment = ((Fragment) object);
-        }
-        super.setPrimaryItem(container, position, object);
+    public FedilabScheduledPageAdapter(FragmentActivity fa) {
+        super(fa);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         Bundle bundle = new Bundle();
         bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
         FragmentScheduled fragmentScheduled = new FragmentScheduled();
@@ -67,7 +53,7 @@ public class FedilabScheduledPageAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return 3;
     }
 }

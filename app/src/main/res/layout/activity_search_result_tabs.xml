@@ -30,7 +30,7 @@
         app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
         app:tabMode="scrollable" />
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/search_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -29,10 +28,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -99,7 +97,7 @@ public class SearchResultTabActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
                 Fragment fragment;
                 if (binding.searchViewpager.getAdapter() != null) {
-                    fragment = (Fragment) binding.searchViewpager.getAdapter().instantiateItem(binding.searchViewpager, tab.getPosition());
+                    fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.searchViewpager.getCurrentItem());
                     if (fragment instanceof FragmentMastodonAccount) {
                         FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
                         fragmentMastodonAccount.scrollToTop();
@@ -134,7 +132,7 @@ public class SearchResultTabActivity extends BaseActivity {
                 imm.hideSoftInputFromWindow(binding.searchTabLayout.getWindowToken(), 0);
                 query = query.replaceAll("^#+", "");
                 search = query.trim();
-                PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
                 binding.searchViewpager.setAdapter(mPagerAdapter);
                 searchView.clearFocus();
                 setTitle(search);
@@ -158,16 +156,19 @@ public class SearchResultTabActivity extends BaseActivity {
         });
 
 
-        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
         binding.searchViewpager.setAdapter(mPagerAdapter);
 
-        binding.searchViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.searchViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                binding.searchTabLayout.selectTab(binding.searchTabLayout.getTabAt(position));
             }
 
             @Override
             public void onPageSelected(int position) {
+                super.onPageSelected(position);
                 TabLayout.Tab tab = binding.searchTabLayout.getTabAt(position);
                 if (tab != null)
                     tab.select();
@@ -175,6 +176,7 @@ public class SearchResultTabActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
             }
         });
         return true;
@@ -196,15 +198,16 @@ public class SearchResultTabActivity extends BaseActivity {
     /**
      * Pager adapter for the 4 fragments
      */
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
 
-        ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ScreenSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
         }
 
-        @NotNull
+
+        @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             Bundle bundle = new Bundle();
             switch (position) {
                 case 0:
@@ -231,12 +234,7 @@ public class SearchResultTabActivity extends BaseActivity {
         }
 
         @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-
-        }
-
-        @Override
-        public int getCount() {
+        public int getItemCount() {
             return 4;
         }
     }

@@ -98,7 +98,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (delete_statuses_for_user != null && statusAdapter != null) {
                     List<Status> statusesToRemove = new ArrayList<>();
                     for (Status status : statuses) {
-                        if (status.account.id.equals(delete_statuses_for_user)) {
+                        if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
                             statusesToRemove.add(status);
                         }
                     }

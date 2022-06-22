@@ -15,12 +15,11 @@ package app.fedilab.android.ui.pageadapter;
  * see <http://www.gnu.org/licenses>. */
 
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.helper.Helper;
@@ -28,31 +27,19 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentProfileTimeline;
 
-public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
+public class FedilabProfileTLPageAdapter extends FragmentStateAdapter {
 
     private final Account account;
-    private Fragment mCurrentFragment;
 
-    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+    public FedilabProfileTLPageAdapter(FragmentActivity fa, Account account) {
+        super(fa);
         this.account = account;
     }
 
-    public Fragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
-    @Override
-    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (getCurrentFragment() != object) {
-            mCurrentFragment = ((Fragment) object);
-        }
-        super.setPrimaryItem(container, position, object);
-    }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         switch (position) {
 
             case 0:
@@ -76,7 +63,7 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return 3;
     }
 

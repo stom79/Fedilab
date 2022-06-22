@@ -59,6 +59,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -125,7 +126,7 @@ public class ProfileActivity extends BaseActivity {
             if (b != null) {
                 Account accountReceived = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
                 if (b.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
-                    if (account != null && accountReceived.id.equalsIgnoreCase(account.id)) {
+                    if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
                         initializeView(accountReceived);
                     }
                 }
@@ -246,15 +247,20 @@ public class ProfileActivity extends BaseActivity {
         }
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
-        binding.accountViewpager.clearOnPageChangeListeners();
         //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account);
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(ProfileActivity.this, account);
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
         binding.accountViewpager.setOffscreenPageLimit(3);
-        binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
+        binding.accountViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                binding.accountTabLayout.selectTab(binding.accountTabLayout.getTabAt(position));
+            }
+        });
         binding.accountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

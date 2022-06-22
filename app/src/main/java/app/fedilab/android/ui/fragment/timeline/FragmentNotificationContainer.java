@@ -63,7 +63,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.mention)));
             binding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
-            binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), false));
+            binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(requireActivity(), false));
         } else {
             binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)));
@@ -73,7 +73,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_poll_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
-            binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), true));
+            binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(requireActivity(), true));
         }
         AtomicBoolean changes = new AtomicBoolean(false);
         binding.settings.setOnClickListener(v -> {
@@ -214,7 +214,6 @@ public class FragmentNotificationContainer extends Fragment {
 
         binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
-        binding.viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -230,7 +229,7 @@ public class FragmentNotificationContainer extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
                 Fragment fragment;
                 if (binding.viewpager.getAdapter() != null) {
-                    fragment = (Fragment) binding.viewpager.getAdapter().instantiateItem(binding.viewpager, tab.getPosition());
+                    fragment = (Fragment) requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
                     if (fragment instanceof FragmentMastodonNotification) {
                         FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
                         fragmentMastodonNotification.scrollToTop();
@@ -245,12 +244,9 @@ public class FragmentNotificationContainer extends Fragment {
 
     public void scrollToTop() {
         if (binding != null) {
-            FedilabNotificationPageAdapter fedilabNotificationPageAdapter = ((FedilabNotificationPageAdapter) binding.viewpager.getAdapter());
-            if (fedilabNotificationPageAdapter != null) {
-                FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) fedilabNotificationPageAdapter.getCurrentFragment();
-                if (fragmentMastodonNotification != null) {
-                    fragmentMastodonNotification.scrollToTop();
-                }
+            FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+            if (fragmentMastodonNotification != null) {
+                fragmentMastodonNotification.scrollToTop();
             }
         }
     }

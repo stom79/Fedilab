@@ -57,10 +57,8 @@ public class FragmentProfileTimeline extends Fragment {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.media)));
         binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
-        binding.viewpager.setAdapter(new FedilabProfilePageAdapter(
-                getChildFragmentManager(), account));
+        binding.viewpager.setAdapter(new FedilabProfilePageAdapter(requireActivity(), account));
         binding.viewpager.setOffscreenPageLimit(3);
-        binding.viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -74,7 +72,6 @@ public class FragmentProfileTimeline extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
