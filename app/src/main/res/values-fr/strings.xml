@@ -1280,4 +1280,14 @@
     <string name="label_adjust">Ajuster</string>
     <string name="fetch_more_messages">Récupérer plus de messages …</string>
     <string name="label_shape">Forme</string>
+    <string name="tap_here_to_refresh_poll">Appuyez ici pour actualiser le sondage</string>
+    <string name="files_cache_size">Taille du cache de fichiers</string>
+    <string name="clear_cache">Vider le cache</string>
+    <string name="delete_cache_message">Êtes-vous sûr de vouloir supprimer le cache \? Si vous avez des brouillons avec des médias, les médias attachés seront perdus.</string>
+    <string name="msg_share_image">Partager l’image</string>
+    <string name="action_announcement_from_to">Annonce · %1$s - %2$s</string>
+    <string name="delete_cache">Supprimer le cache</string>
+    <string name="messages_stored_in_drafts">Messages stockés dans les brouillons</string>
+    <string name="built_in_browser_cache">Cache du navigateur intégré</string>
+    <string name="label_eraser_mode">Mode gomme</string>
 </resources>
