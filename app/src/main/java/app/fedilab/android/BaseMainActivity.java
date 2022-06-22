@@ -748,7 +748,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         popup.setOnDismissListener(menu1 -> {
             if (binding.viewPager.getAdapter() != null) {
-                Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+                Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
                 if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                     FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                     fragmentMastodonTimeline.refreshAllAdapters();
@@ -879,7 +879,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      */
     private void scrollToTop() {
         if (binding.viewPager.getAdapter() != null) {
-            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
             if (fragment instanceof FragmentMastodonTimeline) {
                 FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                 fragmentMastodonTimeline.scrollToTop();

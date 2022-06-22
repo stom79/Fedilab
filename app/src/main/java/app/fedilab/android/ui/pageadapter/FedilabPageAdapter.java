@@ -14,15 +14,15 @@ package app.fedilab.android.ui.pageadapter;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.content.Context;
+
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -33,44 +33,24 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 
-public class FedilabPageAdapter extends FragmentStatePagerAdapter {
+public class FedilabPageAdapter extends FragmentStateAdapter {
 
     public static final int BOTTOM_TIMELINE_COUNT = 5; //home, local, public, notification, DM
     private final Pinned pinned;
     private final BottomMenu bottomMenu;
-    private final Context context;
     private final int toRemove;
-    private Fragment mCurrentFragment;
 
-    public FedilabPageAdapter(Context context, FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+    public FedilabPageAdapter(BaseMainActivity activity, FragmentActivity fa, Pinned pinned, BottomMenu bottomMenu) {
+        super(fa);
         this.pinned = pinned;
         this.bottomMenu = bottomMenu;
-        this.context = context;
-        toRemove = PinnedTimelineHelper.itemToRemoveInBottomMenu(context);
+        toRemove = PinnedTimelineHelper.itemToRemoveInBottomMenu(activity);
     }
 
-    public Fragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
-    @Override
-    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (getCurrentFragment() != object) {
-            mCurrentFragment = ((Fragment) object);
-        }
-        super.setPrimaryItem(container, position, object);
-    }
-
-    @Override
-    public int getItemPosition(@NonNull Object object) {
-        // POSITION_NONE makes it possible to reload the PagerAdapter
-        return POSITION_NONE;
-    }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
         Bundle bundle = new Bundle();
         //Position 3 is for notifications
@@ -116,11 +96,12 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         if (pinned != null && pinned.pinnedTimelines != null) {
             return pinned.pinnedTimelines.size() + BOTTOM_TIMELINE_COUNT - toRemove;
         } else {
             return BOTTOM_TIMELINE_COUNT - toRemove;
         }
     }
+
 }

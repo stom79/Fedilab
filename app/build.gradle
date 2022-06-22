@@ -101,6 +101,7 @@ dependencies {
     implementation 'com.github.penfeizhou.android.animation:apng:2.22.0'
     implementation 'com.github.penfeizhou.android.animation:gif:2.22.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'
     implementation 'com.github.piasy:AudioProcessor:1.7.0'
     implementation "androidx.work:work-runtime:2.7.1"
