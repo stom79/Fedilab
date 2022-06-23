@@ -20,15 +20,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -60,21 +55,6 @@ public class PartnerShipActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
-        }
-
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-            assert inflater != null;
-            View view = inflater.inflate(R.layout.simple_bar, new LinearLayout(PartnerShipActivity.this), false);
-            view.setBackground(new ColorDrawable(ContextCompat.getColor(PartnerShipActivity.this, R.color.cyanea_primary)));
-            actionBar.setCustomView(view, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            ImageView toolbar_close = actionBar.getCustomView().findViewById(R.id.toolbar_close);
-            TextView toolbar_title = actionBar.getCustomView().findViewById(R.id.toolbar_title);
-            toolbar_close.setOnClickListener(v -> finish());
-            toolbar_title.setText(R.string.action_partnership);
         }
 
         TextView about_partnership = findViewById(R.id.about_partnership);

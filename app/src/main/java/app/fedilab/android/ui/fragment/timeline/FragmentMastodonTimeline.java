@@ -249,12 +249,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         return binding.getRoot();
     }
 
+    private void initializeStatusesCommonView(final Statuses statuses) {
+        initializeStatusesCommonView(statuses, -1);
+    }
+
     /**
      * Intialize the common view for statuses on different timelines
      *
      * @param statuses {@link Statuses}
      */
-    private void initializeStatusesCommonView(final Statuses statuses) {
+    private void initializeStatusesCommonView(final Statuses statuses, int position) {
         flagLoading = false;
         if (binding == null) {
             return;
@@ -327,6 +331,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
 
+        if (position != -1 && position < this.statuses.size()) {
+            binding.recyclerView.scrollToPosition(position);
+        }
 
         if (searchCache == null) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -372,7 +379,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (binding == null) {
             return;
         }
-        int currentPosition = mLayoutManager.findFirstVisibleItemPosition();
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
@@ -394,10 +400,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 fetched_statuses.statuses = mediaStatuses;
             }
             //Update the timeline with new statuses
-            int inserted = updateStatusListWith(direction, fetched_statuses.statuses, fetchingMissing);
-            if (fetchingMissing) {
-                //  binding.recyclerView.scrollToPosition(currentPosition + inserted);
-            }
+            updateStatusListWith(direction, fetched_statuses.statuses, fetchingMissing);
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
                     flagLoading = true;
@@ -418,9 +421,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param statusListReceived - List<Status> Statuses received
      * @param fetchingMissing    - boolean if the call concerns fetching messages (ie: refresh of from fetch more button)
-     * @return int - Number of messages that have been inserted in the middle of the timeline (ie between other statuses)
      */
-    private int updateStatusListWith(DIRECTION direction, List<Status> statusListReceived, boolean fetchingMissing) {
+    private void updateStatusListWith(DIRECTION direction, List<Status> statusListReceived, boolean fetchingMissing) {
         int numberInserted = 0;
         int lastInsertedPosition = 0;
         int initialInsertedPosition = STATUS_PRESENT;
@@ -459,7 +461,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
         }
-        return numberInserted;
     }
 
     /**
@@ -571,14 +572,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 return;
             }
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
-            if (direction != DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+            if (!fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
                 statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
                 statuses.pagination.min_id = quickLoad.statuses.get(0).id;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> initializeStatusesCommonView(statuses);
+                Runnable myRunnable = () -> initializeStatusesCommonView(statuses, quickLoad.position);
                 mainHandler.post(myRunnable);
             } else {
                 Handler mainHandler = new Handler(Looper.getMainLooper());

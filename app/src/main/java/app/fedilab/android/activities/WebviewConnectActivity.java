@@ -28,27 +28,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -134,19 +126,6 @@ public class WebviewConnectActivity extends BaseActivity {
         }
         if (login_url == null)
             finish();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            assert inflater != null;
-            View view = inflater.inflate(R.layout.simple_bar, new LinearLayout(WebviewConnectActivity.this), false);
-            view.setBackground(new ColorDrawable(ContextCompat.getColor(WebviewConnectActivity.this, R.color.cyanea_primary)));
-            actionBar.setCustomView(view, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            ImageView toolbar_close = actionBar.getCustomView().findViewById(R.id.toolbar_close);
-            TextView toolbar_title = actionBar.getCustomView().findViewById(R.id.toolbar_title);
-            toolbar_close.setOnClickListener(v -> finish());
-            toolbar_title.setText(R.string.add_account);
-        }
 
         clearCookies(WebviewConnectActivity.this);
         binding.webviewConnect.getSettings().setJavaScriptEnabled(true);

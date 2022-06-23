@@ -6,10 +6,6 @@
         android:title="@string/action_about_instance"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_cache"
-        android:title="@string/action_cache"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_proxy"
         android:title="@string/proxy_set"
         app:showAsAction="never" />

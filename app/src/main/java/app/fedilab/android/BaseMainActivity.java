@@ -356,6 +356,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_announcements) {
                 Intent intent = new Intent(this, AnnouncementActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_cache) {
+                Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
+                startActivity(intent);
             }
             binding.drawerLayout.close();
             return false;
@@ -519,10 +522,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     return true;
                 } else if (itemId == R.id.action_about_instance) {
                     Intent intent = new Intent(BaseMainActivity.this, InstanceActivity.class);
-                    startActivity(intent);
-                    return true;
-                } else if (itemId == R.id.action_cache) {
-                    Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
                     startActivity(intent);
                     return true;
                 } else if (itemId == R.id.action_proxy) {
@@ -749,7 +748,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         popup.setOnDismissListener(menu1 -> {
             if (binding.viewPager.getAdapter() != null) {
-                Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
                 if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                     FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                     fragmentMastodonTimeline.refreshAllAdapters();
@@ -880,7 +879,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      */
     private void scrollToTop() {
         if (binding.viewPager.getAdapter() != null) {
-            Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
             if (fragment instanceof FragmentMastodonTimeline) {
                 FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                 fragmentMastodonTimeline.scrollToTop();
