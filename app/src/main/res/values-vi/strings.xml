@@ -116,7 +116,6 @@
         <item quantity="other">%d ngày</item>
     </plurals>
     <!-- TOOT -->
-    <string name="queet_title">Viết tút</string>
     <string name="toot_select_image_error">Đã xảy ra lỗi khi chọn tập tin media!</string>
     <string name="toot_delete_media">Xóa tập tin media này\?</string>
     <string name="toot_error_no_content">Không thể đăng tút trống!</string>
@@ -194,7 +193,6 @@
     <string name="toast_error_translate">Đã xảy ra lỗi khi dịch!</string>
     <!-- Settings -->
     <string name="set_toots_page">Số lượng tút mỗi lần tải</string>
-    <string name="load_sensitive_attachment">Nội dung nhạy cảm</string>
     <string name="set_disable_gif">Tắt ảnh đại diện GIF</string>
     <string name="set_notif_follow">Khi ai đó theo dõi tôi</string>
     <string name="set_notif_follow_share">Khi ai đó đăng lại tút của tôi</string>
@@ -265,7 +263,6 @@
         <item>Only</item>
         <item>Both</item>
     </string-array>
-    <string name="owner_cached_toots_empty">Không tìm thấy tút trong cơ sở dữ liệu. Hãy dùng nút đồng bộ trong menu để nạp lại.</string>
     <!-- PRIVACY -->
     <string name="privacy_API"> Ứng dụng <b>không sử dụng công cụ theo dõi</b> (đo lường đối tượng, báo lỗi, etc.) và không chứa bất kỳ quảng cáo nào.
 \n
@@ -288,7 +285,6 @@
     <!-- Migration -->
     <string name="account_moved_to">%1$s đã chuyển sang %2$s</string>
     <string name="media_ready">Đã tải media. Nhấn vào đây để hiển thị.</string>
-    <string name="data_import_error_simple">Xảy ra lỗi khi nhập dữ liệu!</string>
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Bật proxy\?</string>
@@ -325,7 +321,6 @@
     <string name="filter_expire">Hết hạn sau</string>
     <string name="action_filter_delete">Xoá bộ lọc\?</string>
     <string name="action_update_filter">Cập nhật bộ lọc</string>
-    <string name="create_list_trunk">Đang tạo danh sách %s</string>
     <string name="action_list_add">Bạn chưa tạo danh sách nào. Nhấn nút \"+\" để tạo danh sách mới.</string>
     <string name="expand_image">Hiện media ẩn</string>
     <string name="channel_notif_follow">Người theo dõi mới</string>
@@ -345,7 +340,6 @@
     <string name="toast_block_domain">Máy chủ đã bị chặn</string>
     <string name="retrieve_remote_status">Đang nạp tút từ xa</string>
     <string name="peertube_instance">Máy chủ Peertube</string>
-    <string name="bookmark_add_peertube">Đã lưu tút!</string>
     <string name="set_display_emoji">Dùng Emoji One</string>
     <string name="information">Thông tin</string>
     <string name="set_display_card">Hiện xem trước tất cả tút</string>
@@ -395,22 +389,18 @@
     <string name="misskey_instance">Máy chủ Misskey</string>
     <string name="trending">Xu hướng</string>
     <string name="local">Máy chủ</string>
-    <string name="my_videos">Video của tôi</string>
     <string name="category">Phân loại</string>
     <string name="description">Mô tả</string>
-    <string name="display_nsfw_videos">Hiện video NSFW</string>
     <string name="share">Chia sẻ</string>
     <string name="toots_server">Tút (Máy chủ)</string>
     <string name="toots_client">Tút (Thiết bị)</string>
     <string name="settings_category_label_timelines">Dòng thời gian</string>
     <string name="settings_category_label_interface">Giao diện</string>
     <string name="contact">Danh bạ</string>
-    <string name="peertube_video_blacklist">Video của bạn <b>%1$s</b> bị đưa vào danh sách đen</string>
     <string name="toot_select_file_error">Xảy ra lỗi khi chọn tập tin sao lưu!</string>
     <string name="action_logout_account">Đăng xuất</string>
     <string name="all">Tất cả</string>
     <string name="copy_link">Sao chép liên kết</string>
-    <string name="tracking_db_updated">Cơ sở dữ liệu đánh dấu đã được cập nhật!</string>
     <string name="calls_blocked">http calls đã bị chặn bởi ứng dụng</string>
     <string name="list_of_blocked_domains">Danh sách những máy chủ chặn</string>
     <string name="submit">Gửi</string>
@@ -498,13 +488,11 @@
     <string name="permissions">Quyền</string>
     <string name="disable">Tắt</string>
     <string name="silence">Ẩn</string>
-    <string name="list_reported_statuses">Tút bị báo cáo</string>
     <string name="account">Tài khoản</string>
     <string name="unsilence">Bỏ ẩn</string>
     <string name="undisable">Bỏ khóa</string>
     <string name="suspend">Vô hiệu hóa</string>
     <string name="unsuspend">Bỏ vô hiệu hóa</string>
-    <string name="set_display_admin_menu">Hiện menu quản trị viên</string>
     <string name="mark_unresolved">Mở lại</string>
     <string name="audio">Ứng dụng cần truy cập ghi âm</string>
     <string name="voice_message">Ghi âm</string>
@@ -521,11 +509,8 @@
     <string name="crash_message">Bạn có thể gửi báo cáo sự cố qua email. Tôi sẽ giúp khắc phục nó :)
 \n
 \nBạn có thể thêm nội dung. Cảm ơn bạn!</string>
-    <string name="number_follows">Lượt theo dõi</string>
     <string name="visibility">Mức độ hiển thị</string>
-    <string name="frequency">Tần suất</string>
     <string name="set_disable_animated_emoji">Tắt emoji dạng GIF</string>
-    <string name="set_auto_backup_notifications_indication">Tùy chọn này áp dụng cho từng tài khoản. Nó sẽ khởi chạy một dịch vụ tự động lưu trữ cục bộ các thông báo của bạn trong cơ sở dữ liệu. Điều này cho phép lấy số liệu thống kê và biểu đồ</string>
     <string name="report_account">Báo cáo tài khoản</string>
     <plurals name="number_of_voters">
         <item quantity="other">%d bình chọn</item>
@@ -548,7 +533,6 @@
         <item>Direct stream</item>
     </string-array>
     <string name="poll_duplicated_entry">Có lựa chọn trùng lặp!</string>
-    <string name="hide_menu_items">Ẩn mục menu</string>
     <string name="set_clear_cache_exit">Xóa bộ nhớ đệm khi thoát</string>
     <string name="set_clear_cache_exit_indication">Bộ nhớ đệm (media, tút, dữ liệu từ trình duyệt tích hợp) sẽ tự động bị xóa khi thoát ứng dụng.</string>
     <string name="unfollow_confirm">Bạn có muốn ngưng theo dõi tài khoản này\?</string>
@@ -561,7 +545,6 @@
     <string name="note_for_account">Ghi chú về người này</string>
     <string name="set_resize_picture_indication">Cho phép giảm kích cỡ hình ảnh.</string>
     <string name="set_resize_video_indication">Cho phép giảm độ phân giải video.</string>
-    <string name="upload_media">Tải lên media</string>
     <string name="order_by">Sắp xếp</string>
     <string name="link_color_title">Liên kết</string>
     <string name="link_color">Đổi màu liên kết (URL, lượt nhắc, hashtag, etc.) trong thông điệp</string>
@@ -591,7 +574,6 @@
     <string name="export_theme">Xuất theme</string>
     <string name="export_theme_title">Nhấn để xuất theme đang dùng</string>
     <string name="theme_file_error">Xảy ra lỗi khi chọn tập tin theme</string>
-    <string name="pref_accent_color_summary">Chọn phần màu phụ của UI.</string>
     <string name="user_count">Số người dùng</string>
     <string name="status_count">Số tút</string>
     <string name="instance_count">Số máy chủ</string>
