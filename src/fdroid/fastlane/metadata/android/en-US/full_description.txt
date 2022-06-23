@@ -1,7 +1,6 @@
 It supports:
 - Mastodon, Pleroma, Pixelfed and Friendica.
 
-
 The app has advanced features :
 
 - Compose threads
