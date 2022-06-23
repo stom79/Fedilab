@@ -1,0 +1,16 @@
+Spiyro:
+- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+
+
+Aplikacyjo mo szyroke funkcyje (nojbarzij we Pleromie i Mastodonie):
+
+- Sparcie do wielu kōnt
+- Planowanie wiadōmości ze masziny
+- Planowanie rozgłosōw
+- Zokłodki wiadōmości
+- Śledzynie i kōntaktowanie sie ze zdalnymi instancyjami
+- Wyciszanie kōnt na jakiś czas
+- Akcyje na wielu kōntach po dugim prziciśniyńciu
+- Przekłady
+- Raje kōnsztu
+- Raje wideo

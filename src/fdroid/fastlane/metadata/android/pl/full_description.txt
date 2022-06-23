@@ -1,0 +1,16 @@
+Wspierane platformy:
+- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+
+
+Aplikacja posiada zaawansowane funkcje (zwłaszcza dla Pleroma i Mastodon):
+
+- Wsparcie dla wielu kont
+- Zaplanuj wiadomości z urządzenia
+- Zaplanuj podbicie
+Wiadomości do zakładek
+- Obserwuj i współpracuj ze zdalnymi instancjami
+- Czasowe wyciszenie kont
+Działania między kontami przy długim dotknięciu
+- Funkcja tłumaczenia
+- Oś czasu sztuki
+- Oś czasu wideo

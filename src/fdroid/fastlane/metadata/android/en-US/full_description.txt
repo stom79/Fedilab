@@ -1,0 +1,13 @@
+It supports:
+- Mastodon, Pleroma, Pixelfed and Friendica.
+
+
+The app has advanced features :
+
+- Compose threads
+- Multi-accounts support
+- Schedule messages from the device
+- Follow and interact with remote instances
+- Cross-account actions with a long press
+- Translation feature
+- Art timelines

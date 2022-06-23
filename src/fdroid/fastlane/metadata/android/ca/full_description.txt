@@ -1,0 +1,16 @@
+Pot incorporar:
+- Mastodont, Pleroma, Pixelfed, Paertub, GNUSocial, Friendica.
+
+
+L'aplicació té funcionalitats avançades (sobretot per a Pleroma i Mastodont):
+
+- Pot assumir múltiples comptes
+- Programar missatges des del dispositiu
+- Programar difusions d'altres missatges
+- Marcar missatges
+- Seguir i interactuar amb instàncies remotes
+- Comptes temporalment silenciats
+- Determinar el compte d'una acció fent una pitjada llarga
+- Funcionalitat de traducció
+- Pissarres amb art
+- Pissarres de vídeo

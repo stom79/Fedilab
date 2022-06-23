@@ -1,0 +1,16 @@
+Ezeket támogatja:
+– Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+
+
+Az alkalmazás fejlett funkciókkal rendelkezik (különösen Pleroma és Mastodon esetén):
+
+– Több fiók támogatása
+– Az eszközről küldött üzenetek ütemezése
+– Megtolások ütemezése
+– Üzenetek könyvjelzőzése
+– Távoli példányok követése, és interakció azokkal
+– Fiókok némítása bizonyos időtávig
+– Fiókok közti műveletek hosszú érintésre
+– Fordítási funkció
+– Művészies idővonalak
+– Videós idővonalak

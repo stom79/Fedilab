@@ -1,0 +1,1 @@
+Fedilab 是一个多功能的 Android 客户端，可以访问分布式Fediverse ，包括微博客、照片共享和视频主机。

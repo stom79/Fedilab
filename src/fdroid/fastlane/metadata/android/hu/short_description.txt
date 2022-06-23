@@ -1,0 +1,1 @@
+A Fedilab egy többfunkciós android kliens, mellyel hozzáférhet az elosztott Födiverzumhoz; mikroblogolást, fénykép- és videómegosztást tartalmaz.

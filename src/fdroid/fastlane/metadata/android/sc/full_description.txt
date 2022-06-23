@@ -1,0 +1,16 @@
+Suportat:
+- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+
+
+S'aplicatzione tenet funtzionalidades avantzadas (mescamente pro Pleroma e Mastodon):
+
+- Suportu pro profilos mùltiplos
+- Pranìfica messàgios dae su dispositivu
+- Pranìfica cumpartziduras
+- Agiunghe messàgios a is sinnalibros
+- Sighi e interagi cun istàntzias remotas
+- Silentziamentu temporizadu pro is profilos
+- Atziones in prus contos cun un'incarcu a longu
+- Funtzionalidade de Tradutzione
+- Lìnia de tempus pro s'arte
+- Lìnia de tempus pro is vìdeos

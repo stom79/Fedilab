@@ -1,0 +1,1 @@
+Fedilab to wielofunkcyjny klient Fediwersum dla systemu Android, umożliwiający mikro blogging, udostępnianie zdjęć i nagrań.
