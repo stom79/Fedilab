@@ -568,7 +568,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     private void route(DIRECTION direction, boolean fetchingMissing) {
         new Thread(() -> {
-            if (binding == null) {
+            if (binding == null || !isAdded()) {
                 return;
             }
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
