@@ -712,4 +712,11 @@
     <string name="label_oval">Ovale</string>
     <string name="tap_here_to_refresh_poll">Toca inoghe pro annoare su sondàgiu</string>
     <string name="action_announcement_from_to">Annùntziu · %1$s - %2$s</string>
+    <string name="messages_stored_in_drafts">Messàgios sarvados in is abbotzos</string>
+    <string name="files_cache_size">Mannària de sa memòria temporànea de is archìvios</string>
+    <string name="messages_in_cache_for_home">Messàgios in memòria temporànea pro sa lìnia printzipale</string>
+    <string name="delete_cache">Isbòida sa memòria temporànea</string>
+    <string name="messages_in_cache_for_other_timelines">Messàgios in memòria temporànea pro àteras lìnias de tempus</string>
+    <string name="delete_cache_message">Ses seguru de bòlere isboidare sa memòria temporànea\? Si tenes abbotzos cun cuntenutos multimediales as a pèrdere sos cuntenutos alligados.</string>
+    <string name="clear_cache">Isbòida sa memòria temporànea</string>
 </resources>
