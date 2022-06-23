@@ -17,15 +17,15 @@
     <string name="password">Crae</string>
     <string name="email">Posta eletrònica</string>
     <string name="accounts">Contos</string>
-    <string name="toots">Tuts</string>
+    <string name="toots">Messàgios</string>
     <string name="tags">Etichetas</string>
     <string name="save">Sarva</string>
     <string name="instance">Istàntzia</string>
     <string name="instance_example">Istàntzia: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Como funtzionat cun su contu %1$s</string>
     <string name="add_account">Agiunghe unu contu</string>
-    <string name="clipboard">As copiadu su cuntenutu de su tut in punta de billete</string>
-    <string name="clipboard_url">As copiadu s\'URL de su tut in punta de billete</string>
+    <string name="clipboard">As copiadu su cuntenutu de su messàgiu in punta de billete</string>
+    <string name="clipboard_url">As copiadu s\'URL de su messàgiu in punta de billete</string>
     <string name="camera">Fotocàmera</string>
     <string name="delete_all">Iscantzella totu</string>
     <string name="schedule">Pranìfica</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Rechestas de sighidura</string>
     <string name="settings">Cunfiguratziones</string>
     <string name="send_email">Imbia una lìtera eletrònica</string>
-    <string name="scheduled_toots">Tuts pranificados</string>
+    <string name="scheduled_toots">Messàgios pranificados</string>
     <string name="disclaimer_full">Is informatziones inoghe in suta diant pòdere rapresentare su profilu de s\'utente in manera incumpleta.</string>
     <string name="insert_emoji">Inserta un\'emoji</string>
     <string name="no_emoji">S\'aplicatzione no at ancora collidu peruna emoji personalizada.</string>
     <string name="logout_account_confirmation">Ses seguru de bòlere essire @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Perunu tut de ammustrare</string>
-    <string name="favourite_add">Boles agiùnghere custu tut a is preferidos tuos?</string>
-    <string name="favourite_remove">Boles bogare custu tut dae is preferidos tuos?</string>
-    <string name="reblog_add">Boles cumpartzire custu tut?</string>
-    <string name="reblog_remove">Acabare de cumpartzire custu tut?</string>
+    <string name="no_status">Perunu messàgiu de ammustrare</string>
+    <string name="favourite_add">Boles agiùnghere custu messàgiu a is preferidos tuos\?</string>
+    <string name="favourite_remove">Boles bogare custu messàgiu dae is preferidos tuos\?</string>
+    <string name="reblog_add">Boles cumpartzire custu messàgiu\?</string>
+    <string name="reblog_remove">Acabbare de cumpartzire custu messàgiu\?</string>
     <string name="more_action_1">A sa muda</string>
     <string name="more_action_2">Bloca</string>
     <string name="more_action_3">Signala</string>
@@ -122,8 +122,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Ddoe est istadu un\'errore seletzionende su cuntenutu multimediale!</string>
     <string name="toot_delete_media">Cantzellare custu mèdiu?</string>
-    <string name="toot_error_no_content">Su tut tuo est bòidu!</string>
-    <string name="toot_sent">Su tut est istadu imbiadu!</string>
+    <string name="toot_error_no_content">Su messàgiu tuo est bòidu!</string>
+    <string name="toot_sent">Su messàgiu est istadu imbiadu!</string>
     <string name="toot_sensitive">Cuntenutu sensìbile?</string>
     <string name="no_draft">Perunu abbotzu!</string>
     <string name="choose_accounts">Sèbera unu contu</string>
@@ -143,14 +143,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Perunu contu de ammustrare</string>
     <string name="no_follow_request">Peruna rechesta de sighidura</string>
-    <string name="status_cnt">Tuts \n %1$s</string>
+    <string name="status_cnt">Messàgios
+\n %1$s</string>
     <string name="following_cnt">Sighende \n %1$s</string>
     <string name="followers_cnt">Sighidores \n %1$s</string>
     <string name="reject">Refuda</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Perunu tut pranificadu de ammustrare!</string>
-    <string name="remove_scheduled">Cantzellare su tut pranificadu?</string>
-    <string name="toot_scheduled">Su tut est istadu pranificadu!</string>
+    <string name="no_scheduled_toots">Perunu messàgiu pranificadu de ammustrare!</string>
+    <string name="remove_scheduled">Cantzellare su messàgiu pranificadu\?</string>
+    <string name="toot_scheduled">Su messàgiu est istadu pranificadu!</string>
     <string name="toot_scheduled_date">Su data de pranìfica depet èssere a pustis de como!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Su tempus de silentziamentu depet èssere prus mannu de unu minutu.</string>
@@ -176,10 +177,10 @@
     <string name="toast_unmute">Su contu no est prus a sa muda!</string>
     <string name="toast_follow">Su contu est sighidu!</string>
     <string name="toast_unfollow">Non sighis prus su contu!</string>
-    <string name="toast_reblog">Su tut est istadu cumpartzidu!</string>
-    <string name="toast_unreblog">Su tut no est prus cumpartzidu!</string>
-    <string name="toast_favourite">As agiuntu su tut a is preferidos tuos!</string>
-    <string name="toast_unfavourite">Su tut est istadu bogadu dae is preferidos tuos!</string>
+    <string name="toast_reblog">Su messàgiu est istadu cumpartzidu!</string>
+    <string name="toast_unreblog">Su messàgiu no est prus cumpartzidu!</string>
+    <string name="toast_favourite">As agiuntu su messàgiu a is preferidos tuos!</string>
+    <string name="toast_unfavourite">Su messàgiu est istadu bogadu dae is preferidos tuos!</string>
     <string name="toast_error">Oops! Ddoe est istadu un\'errore!</string>
     <string name="toast_code_error">Ddoe est istadu un\'errore! S\'istàntzia no at frunidu unu còdighe de autorizatzione!</string>
     <string name="toast_error_instance">Custu domìniu de istàntzia non paret èssere vàlidu!</string>
@@ -188,7 +189,7 @@
     <string name="nothing_to_do">Non podes fàghere peruna atzione</string>
     <string name="toast_error_translate">Ddoe est istadu un\'errore cun sa tradutzione!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Nùmeru de tuts pro carrigamentu</string>
+    <string name="set_toots_page">Nùmeru de messàgios pro carrigamentu</string>
     <string name="set_disable_gif">Disabìlita is avatars GIF</string>
     <string name="set_notif_follow">Notìfica cando calicunu ti sighet</string>
     <string name="set_notif_follow_share">Notìfica cando calicunu cumpartzit s\'istadu tuo</string>
@@ -267,7 +268,7 @@
     <string name="poxy_port">Ghenna</string>
     <string name="poxy_login">Intra</string>
     <string name="poxy_password">Crae</string>
-    <string name="set_share_details">Agiunghe detàllios a is tuts cando los ses cumpartzende</string>
+    <string name="set_share_details">Agiunghe detàllios a is messàgios cando los ses cumpartzende</string>
     <string name="support_the_app_on_liberapay">Suporta s\'aplicatzione in Liberapay</string>
     <string name="alert_regex">Dd\'est una faddina in s\'espressione regulare!</string>
     <string name="toast_instance_unavailable">Peruna lìnia de tempus agatada in custa istàntzia!</string>
@@ -286,9 +287,9 @@
     <string name="context_public">Lìnias de tempus pùblicas</string>
     <string name="context_notification">Notìficas</string>
     <string name="context_conversation">Arresonadas</string>
-    <string name="filter_keyword_explanations">Su cunfrontu s\'at fàghere ignorende is majùsculas e sas minùsculas e is avisos de cuntenutu de unu tut</string>
+    <string name="filter_keyword_explanations">Su cunfrontu s\'at fàghere ignorende is majùsculas e sas minùsculas e is avisos de cuntenutu de unu messàgiu</string>
     <string name="context_drop">Ignora imbetzes de cuare</string>
-    <string name="context_drop_explanations">Is tuts filtrados ant a isparèssere in manera irreversìbile, fintzas si a pustis as a bogare su filtru</string>
+    <string name="context_drop_explanations">Is messàgios filtrados ant a isparèssere in manera irreversìbile, fintzas si a pustis as a bogare su filtru</string>
     <string name="context_whole_word_explanations">Cando sa paràula o sa fràsia crae est alfanumèrica ebbia, at a èssere aplicada petzi si currispondet a sa paràula intrea</string>
     <string name="context_whole_word">Totu su mundu</string>
     <string name="filter_context">Filtra is cuntestos</string>
@@ -303,7 +304,7 @@
     <string name="channel_notif_fav">Preferidu nou</string>
     <string name="channel_notif_mention">Mentovu nou</string>
     <string name="channel_notif_poll">Sondàgiu acabadu</string>
-    <string name="channel_notif_backup">Còpia de seguresa de is tuts</string>
+    <string name="channel_notif_backup">Còpia de seguresa de is messàgios</string>
     <string name="channel_notif_status">Publicatziones noas</string>
     <string name="channel_notif_media">Iscàrriga is mèdios</string>
     <string name="select_sound">Seletziona sa soneria</string>
@@ -315,11 +316,11 @@
     <string name="peertube_instance">Istàntzia de Peertube</string>
     <string name="set_display_emoji">Imprea is Emoji One</string>
     <string name="information">Informatziones</string>
-    <string name="set_display_card">Ammustra is antiprimas in totu is tuts</string>
+    <string name="set_display_card">Ammustra is antiprimas in totu is messàgios</string>
     <string name="account_id_clipbloard">S\'id de su contu est istadu copiadu in punta de billete!</string>
     <string name="set_change_locale">Càmbia sa limba</string>
-    <string name="truncate_long_toots">Trunca is tuts longos</string>
-    <string name="set_truncate_toot">Trunca is tuts prus longos de \'x\' lìnias. Zero cheret nàrrere disabilitadu.</string>
+    <string name="truncate_long_toots">Mutza is messàgios longos</string>
+    <string name="set_truncate_toot">Mutza is messàgios prus longos de \'x\' lìnias. Zero cheret nàrrere inabilitadu.</string>
     <string name="display_toot_truncate">Ammustra àteru</string>
     <string name="hide_toot_truncate">Ammustra de mancu</string>
     <string name="tags_already_stored">S\'eticheta esistit giai!</string>
@@ -365,8 +366,8 @@
     <string name="category">Categoria</string>
     <string name="description">Descritzione</string>
     <string name="share">Cumpartzi</string>
-    <string name="toots_server">Tuts (Serbidore)</string>
-    <string name="toots_client">Tuts (Dispositivu)</string>
+    <string name="toots_server">Messàgios (Serbidore)</string>
+    <string name="toots_client">Messàgios (Dispositivu)</string>
     <string name="settings_category_label_timelines">Lìnias de tempus</string>
     <string name="settings_category_label_interface">Interfache</string>
     <string name="contact">Cuntatos</string>
@@ -579,7 +580,7 @@
     <string name="replace_youtube_host">Domìniu de s\'interfache pro YouTube</string>
     <string name="keepon">Sighi</string>
     <string name="category_custom">Personalizadu</string>
-    <string name="toast_bookmark">Su tut est istadu annantu a is sinnalibros tuos!</string>
+    <string name="toast_bookmark">Su messàgiu est istadu annantu a is sinnalibros tuos!</string>
     <string name="replace_twitter_host">Domìniu de s\'interfache pro Twitter</string>
     <string name="followers_only">Sighidores ebbia</string>
     <string name="instance_health_indication">versione: %s
@@ -596,8 +597,8 @@
     <string name="report_val_more4">Su problema non istat a intro de àteras categorias</string>
     <string name="report_1_mute">No as a bìdere is publicatziones suas. Ti podet galu sighire, at a bìdere is publicatziones tuas e no at a ischire chi est a sa muda.</string>
     <string name="report_1_block_title">Bloca a %1$s</string>
-    <string name="toots_visibility_title">Visibilidade predefinida de is tuts:</string>
-    <string name="toast_unbookmark">Su tut est istadu bogadu dae is sinnalibros tuos!</string>
+    <string name="toots_visibility_title">Visibilidade predefinida de is messàgios:</string>
+    <string name="toast_unbookmark">Su messàgiu est istadu bogadu dae is sinnalibros tuos!</string>
     <string name="set_accounts_page">Nùmeru de contos pro carrigamentu</string>
     <string name="set_notifications_page">Nùmeru de notìficas pro carrigamentu</string>
     <string name="category_music">Mùsica</string>
