@@ -17,15 +17,15 @@
     <string name="password">Parola</string>
     <string name="email">E-posta</string>
     <string name="accounts">Hesaplar</string>
-    <string name="toots">Tootlar</string>
+    <string name="toots">Mesajlar</string>
     <string name="tags">Etiketler</string>
     <string name="save">Kaydet</string>
     <string name="instance">Sunucu</string>
     <string name="instance_example">Sunucu: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Şimdi %1$s hesabın aktif</string>
     <string name="add_account">Hesap ekle</string>
-    <string name="clipboard">Toot içeriği panoya kopyalandı</string>
-    <string name="clipboard_url">Toot URL\'si panoya kopyalandı</string>
+    <string name="clipboard">Mesajın içeriği panoya kopyalandı</string>
+    <string name="clipboard_url">Mesajın URL\'si panoya kopyalandı</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="schedule">Zamanla</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Takip İsteği</string>
     <string name="settings">Ayarlar</string>
     <string name="send_email">Bana bir e-posta gönder</string>
-    <string name="scheduled_toots">Zamanlanmış tootlar</string>
+    <string name="scheduled_toots">Zamanlanmış mesajlar</string>
     <string name="disclaimer_full">Aşağıdaki bilgiler kullanıcının profilini eksik gösterebilir.</string>
     <string name="insert_emoji">İfade ekle</string>
     <string name="no_emoji">Uygulama şu an için özel ifade toplayamadı.</string>
     <string name="logout_account_confirmation">\@%1$s@%2$s oturumunu kapatmak istediğinizden emin misiniz?</string>
     <!-- Status -->
-    <string name="no_status">Görüntülenecek toot yok</string>
-    <string name="favourite_add">Bu toot\'u favorilere ekleyin?</string>
-    <string name="favourite_remove">Bu toot\'u favorilerden kaldırın?</string>
-    <string name="reblog_add">Bu toot\'u arttır?</string>
-    <string name="reblog_remove">Bu toot\'u arttırma?</string>
+    <string name="no_status">Görüntülenecek mesaj yok</string>
+    <string name="favourite_add">Bu mesaj favorilerinize eklensin mi\?</string>
+    <string name="favourite_remove">Bu mesaj favorilerinizden kaldırılsın mı\?</string>
+    <string name="reblog_add">Bu mesaj arttırılsın mı\?</string>
+    <string name="reblog_remove">Bu mesajın arttırılması iptal edilsin mi\?</string>
     <string name="more_action_1">Sustur</string>
     <string name="more_action_2">Engelle</string>
     <string name="more_action_3">Bildir</string>
@@ -122,8 +122,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Medya dosyasını seçerken bir hata oluştu!</string>
     <string name="toot_delete_media">Bu ortamı sil?</string>
-    <string name="toot_error_no_content">Toot boş!</string>
-    <string name="toot_sent">Toot gönderildi!</string>
+    <string name="toot_error_no_content">Mesajınız boş!</string>
+    <string name="toot_sent">Mesaj gönderildi!</string>
     <string name="toot_sensitive">Hassas içerik?</string>
     <string name="no_draft">Taslak Yok!</string>
     <string name="choose_accounts">Bir hesap seçin</string>
@@ -143,15 +143,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Gösterilecek hesap yok</string>
     <string name="no_follow_request">Takip İsteği yok</string>
-    <string name="status_cnt">Tootlar
+    <string name="status_cnt">Mesajlar
 \n %1$s</string>
     <string name="following_cnt">Takip Edilen \n %1$s</string>
     <string name="followers_cnt">Takip Eden \n %1$s</string>
     <string name="reject">Reddet</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Gösterilecek zamanlanmış toot yok!</string>
-    <string name="remove_scheduled">Zamanlanmış toot silinsin mi?</string>
-    <string name="toot_scheduled">Toot zamanlandı!</string>
+    <string name="no_scheduled_toots">Gösterilecek zamanlanmış mesaj yok!</string>
+    <string name="remove_scheduled">Zamanlanmış mesaj silinsin mi\?</string>
+    <string name="toot_scheduled">Mesaj zamanlandı!</string>
     <string name="toot_scheduled_date">Planlanan tarih geçerli saatten daha büyük olması gerekir!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Susturulacak süre, bir dakikadan fazla olmalı.</string>
@@ -177,10 +177,10 @@
     <string name="toast_unmute">Bu hesap artık susturulmuş değil!</string>
     <string name="toast_follow">Hesap takip edildi!</string>
     <string name="toast_unfollow">Bu hesap artık takip edilmiyor!</string>
-    <string name="toast_reblog">Toot arttırıldı!</string>
-    <string name="toast_unreblog">Toot artık arttırılmış değil!</string>
-    <string name="toast_favourite">Toot favorilere eklendi!</string>
-    <string name="toast_unfavourite">Toot favorilerden kaldırıldı!</string>
+    <string name="toast_reblog">Mesaj arttırıldı!</string>
+    <string name="toast_unreblog">Mesaj artık arttırılmış değil!</string>
+    <string name="toast_favourite">Mesaj favorilerinize eklendi!</string>
+    <string name="toast_unfavourite">Mesaj favorilerinizden kaldırıldı!</string>
     <string name="toast_error">Üzgünüz ! Bir hata oluştu!</string>
     <string name="toast_code_error">Bir hata oluştu! Sunucu bir yetki kodu dönmedi!</string>
     <string name="toast_error_instance">Sunucu alan adı geçerli değil gibi görünüyor!</string>
@@ -189,7 +189,7 @@
     <string name="nothing_to_do">Yapılabilecek bir işlem yok</string>
     <string name="toast_error_translate">Arama sırasında bir hata oluştu!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Yükleme başına toot</string>
+    <string name="set_toots_page">Yükleme başına mesaj sayısı</string>
     <string name="set_disable_gif">Haraketli Avatarları Devre Dışı Bırak</string>
     <string name="set_notif_follow">Biri sizi takip ettiğinde bildir</string>
     <string name="set_notif_follow_share">Birisi durumunuzu artırdığında bildir</string>
@@ -268,7 +268,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Giriş</string>
     <string name="poxy_password">Parola</string>
-    <string name="set_share_details">Paylaşırken toot ayrıntılarını ekle</string>
+    <string name="set_share_details">Paylaşırken mesaj ayrıntılarını ekle</string>
     <string name="support_the_app_on_liberapay">Uygulamayı Liberapay ile destekle</string>
     <string name="alert_regex">Düzenli ifadede sorun var!</string>
     <string name="toast_instance_unavailable">Bu sunucuda hiç zaman tüneli bulunamadı!</string>
@@ -287,9 +287,9 @@
     <string name="context_public">Genel zaman çizelgesi</string>
     <string name="context_notification">Bildirimler</string>
     <string name="context_conversation">Görüşmeler</string>
-    <string name="filter_keyword_explanations">Metnin büyük/küçük harf durumundan veya toot içerik uyarısından bağımsız olarak eşleştirilecek</string>
+    <string name="filter_keyword_explanations">Metnin büyük/küçük harf durumundan veya mesaj içerik uyarısından bağımsız olarak eşleştirilecek</string>
     <string name="context_drop">Gizlemek yerine bırak</string>
-    <string name="context_drop_explanations">Filtre uygulanmış tootlar, filtre daha sonra kaldırılsa bile geri döndürülemez biçimde kaybolacaktır</string>
+    <string name="context_drop_explanations">Filtre uygulanmış mesajlar, filtre daha sonra kaldırılsa bile geri döndürülemez biçimde kaybolacaktır</string>
     <string name="context_whole_word_explanations">Anahtar kelime veya ifade sadece harfler ve rakamlardan oluştuğunda, yalnızca tam sözcükle eşleşirse uygulanacaktır</string>
     <string name="context_whole_word">Tam sözcük</string>
     <string name="filter_context">Filtre içerikleri</string>
@@ -304,7 +304,7 @@
     <string name="channel_notif_fav">Yeni Favori</string>
     <string name="channel_notif_mention">Yeni Bahsetme</string>
     <string name="channel_notif_poll">Anket Sona Erdi</string>
-    <string name="channel_notif_backup">Toot Yedekleme</string>
+    <string name="channel_notif_backup">Mesaj Yedekleme</string>
     <string name="channel_notif_status">Yeni iletiler</string>
     <string name="channel_notif_media">Medya İndirme</string>
     <string name="select_sound">Ton Seçin</string>
@@ -318,11 +318,11 @@
     <string name="peertube_instance">Peertube sunucusu</string>
     <string name="set_display_emoji">Emoji One kullan</string>
     <string name="information">Bilgi</string>
-    <string name="set_display_card">Tüm tootlarda ön izlemeleri göster</string>
+    <string name="set_display_card">Tüm mesajlarda ön izlemeleri göster</string>
     <string name="account_id_clipbloard">Hesap kimliği panoya kopyalandı!</string>
     <string name="set_change_locale">Dili değiştir</string>
-    <string name="truncate_long_toots">Uzun tootları kırp</string>
-    <string name="set_truncate_toot">\'x\' satırdan uzun tootları kırp. Sıfır, devre dışı anlamına gelir.</string>
+    <string name="truncate_long_toots">Uzun mesajları kırp</string>
+    <string name="set_truncate_toot">\'x\' satırdan uzun mesajları kırp. Sıfır, devre dışı anlamına gelir.</string>
     <string name="display_toot_truncate">Daha fazla göster</string>
     <string name="hide_toot_truncate">Daha az göster</string>
     <string name="tags_already_stored">Etiket zaten var!</string>
@@ -368,8 +368,8 @@
     <string name="category">Kategori</string>
     <string name="description">Açıklama</string>
     <string name="share">Paylaş</string>
-    <string name="toots_server">Tootlar (Sunucu)</string>
-    <string name="toots_client">Tootlar (Aygıt)</string>
+    <string name="toots_server">Mesajlar (Sunucu)</string>
+    <string name="toots_client">Mesajlar (Aygıt)</string>
     <string name="settings_category_label_timelines">Zaman çizelgeleri</string>
     <string name="settings_category_label_interface">Arayüz</string>
     <string name="contact">Bağlantılar</string>
@@ -391,7 +391,7 @@
     <string name="poll_finish_at">bitiş: %s</string>
     <string name="vote">Oy ver</string>
     <string name="notif_poll">Oy verdiğiniz bir anket sona erdi</string>
-    <string name="notif_poll_self">Tootladığınız bir anket sona erdi</string>
+    <string name="notif_poll_self">Yayınladığınız bir anket sona erdi</string>
     <string name="settings_category_notif_categories">Kategoriler</string>
     <string name="move_timeline">Zaman çizelgesini taşı</string>
     <string name="hide_timeline">Zaman çizelgesini gizle</string>
@@ -618,7 +618,7 @@
     <string name="poll_duration">Anket süresi:</string>
     <string name="set_display_bookmark_indication">Her zaman yer imi düğmesini görüntüle</string>
     <string name="bottom_menu">Alt menü</string>
-    <string name="toots_visibility_title">Tootların öntanımlı görünürlüğü:</string>
+    <string name="toots_visibility_title">Mesajların öntanımlı görünürlüğü:</string>
     <string name="set_accounts_page">Yükleme başına hesap sayısı</string>
     <string name="set_notifications_page">Yükleme başına bildirim sayısı</string>
     <string name="category_music">Müzik</string>
@@ -663,11 +663,11 @@
     <string name="also_favourite_by">"Ayrıca favorilere ekleyen: "</string>
     <string name="also_boosted_by">Ayrıca arttıran:</string>
     <string name="set_discoverable_content">Hesap keşfedilebilir</string>
-    <string name="toast_unbookmark">Toot, yer imlerinizden kaldırıldı!</string>
+    <string name="toast_unbookmark">Mesaj, yer imlerinizden kaldırıldı!</string>
     <string name="replace_youtube_description">YouTube için alternatif bir ön uç kullanın</string>
     <string name="replace_twitter_host">Twitter ön uç etki alanı</string>
     <string name="remove_status">Durumu kaldır</string>
-    <string name="toast_bookmark">Toot, yer imlerinize eklendi!</string>
+    <string name="toast_bookmark">Mesaj, yer imlerinize eklendi!</string>
     <string name="replace_instagram_description">Instagram için alternatif bir ön uç kullanın</string>
     <string name="category_custom">Özel</string>
     <string name="instance_health_indication">sürüm: %s
