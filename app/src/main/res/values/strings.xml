@@ -19,15 +19,15 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="accounts">Accounts</string>
-    <string name="toots">Toots</string>
+    <string name="toots">Messages</string>
     <string name="tags">Tags</string>
     <string name="save">Save</string>
     <string name="instance">Instance</string>
     <string name="instance_example">Instance: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Now works with the account %1$s</string>
     <string name="add_account">Add an account</string>
-    <string name="clipboard">The content of the toot has been copied to the clipboard</string>
-    <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
+    <string name="clipboard">The content of the message has been copied to the clipboard</string>
+    <string name="clipboard_url">The URL of the message has been copied to the clipboard</string>
     <string name="camera">Camera</string>
     <string name="delete_all">Delete all</string>
     <string name="schedule">Schedule</string>
@@ -59,20 +59,20 @@
     <string name="follow_request">Follow requests</string>
     <string name="settings">Settings</string>
     <string name="send_email">Send an email</string>
-    <string name="scheduled_toots">Scheduled toots</string>
+    <string name="scheduled_toots">Scheduled messages</string>
     <string name="disclaimer_full">Information below may reflect the user\'s profile incompletely.</string>
     <string name="insert_emoji">Insert emoji</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
 
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">No toot to display</string>
+    <string name="no_status">No message to display</string>
 
 
-    <string name="favourite_add">Add this toot to your favourites?</string>
-    <string name="favourite_remove">Remove this toot from your favourites?</string>
-    <string name="reblog_add">Boost this toot?</string>
-    <string name="reblog_remove">Unboost this toot?</string>
+    <string name="favourite_add">Add this message to your favourites?</string>
+    <string name="favourite_remove">Remove this message from your favourites?</string>
+    <string name="reblog_add">Boost this message?</string>
+    <string name="reblog_remove">Unboost this message?</string>
 
     <string name="more_action_1">Mute</string>
     <string name="more_action_2">Block</string>
@@ -86,7 +86,7 @@
     <string-array name="more_action_confirm">
         <item>Mute this account?</item>
         <item>Block this account?</item>
-        <item>Report this toot?</item>
+        <item>Report this message?</item>
         <item>Block this domain?</item>
         <item>Unmute this account?</item>
         <item>Unblock this account?</item>
@@ -98,8 +98,8 @@
     </string-array>
 
     <string-array name="more_action_owner_confirm">
-        <item>Delete this toot?</item>
-        <item>Delete &amp; re-draft this toot?</item>
+        <item>Delete this message?</item>
+        <item>Delete &amp; re-draft this message?</item>
     </string-array>
 
     <string name="bookmarks">Bookmarks</string>
@@ -135,9 +135,9 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">An error occurred while selecting the media!</string>
     <string name="toot_delete_media">Remove this media?</string>
-    <string name="toot_error_no_content">Your toot is empty!</string>
-    <string name="toots_visibility_title">Visibility of the toots by default: </string>
-    <string name="toot_sent">The toot has been sent!</string>
+    <string name="toot_error_no_content">Your message is empty!</string>
+    <string name="toots_visibility_title">Visibility of the messages by default: </string>
+    <string name="toot_sent">The message has been sent!</string>
     <string name="toot_sensitive">Sensitive content?</string>
 
     <string name="no_draft">No drafts!</string>
@@ -163,16 +163,16 @@
     <!-- Accounts -->
     <string name="no_accounts">No account to display</string>
     <string name="no_follow_request">No follow request</string>
-    <string name="status_cnt">Toots \n %1$s</string>
+    <string name="status_cnt">Messages \n %1$s</string>
     <string name="following_cnt">Following \n %1$s</string>
     <string name="followers_cnt">Followers \n %1$s</string>
     <string name="reject">Reject</string>
 
 
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">No scheduled toots to display!</string>
-    <string name="remove_scheduled">Delete scheduled toot?</string>
-    <string name="toot_scheduled">The toot has been scheduled!</string>
+    <string name="no_scheduled_toots">No scheduled messages to display!</string>
+    <string name="remove_scheduled">Delete scheduled message?</string>
+    <string name="toot_scheduled">The message has been scheduled!</string>
     <string name="toot_scheduled_date">The scheduled date must be greater than the current hour!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">The time for muting should be greater than one minute.</string>
@@ -198,12 +198,12 @@
     <string name="toast_unmute">The account is no longer muted!</string>
     <string name="toast_follow">The account was followed!</string>
     <string name="toast_unfollow">The account is no longer followed!</string>
-    <string name="toast_reblog">The toot was boosted!</string>
-    <string name="toast_unreblog">The toot is no longer boosted!</string>
-    <string name="toast_favourite">The toot was added to your favourites!</string>
-    <string name="toast_unfavourite">The toot was removed from your favourites!</string>
-    <string name="toast_bookmark">The toot was added to your bookmarks!</string>
-    <string name="toast_unbookmark">The toot was removed from your bookmarks!</string>
+    <string name="toast_reblog">The message was boosted!</string>
+    <string name="toast_unreblog">The message is no longer boosted!</string>
+    <string name="toast_favourite">The message was added to your favourites!</string>
+    <string name="toast_unfavourite">The message was removed from your favourites!</string>
+    <string name="toast_bookmark">The message was added to your bookmarks!</string>
+    <string name="toast_unbookmark">The message was removed from your bookmarks!</string>
     <string name="toast_error">Oops ! An error occurred!</string>
     <string name="toast_code_error">An error occurred! The instance did not return an authorisation code!</string>
     <string name="toast_error_instance">The instance domain does not seem to be valid!</string>
@@ -212,7 +212,7 @@
     <string name="nothing_to_do">No action can be taken</string>
     <string name="toast_error_translate">An error occurred while translating!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Number of toots per load</string>
+    <string name="set_toots_page">Number of messages per load</string>
     <string name="set_accounts_page">Number of accounts per load</string>
     <string name="set_notifications_page">Number of notifications per load</string>
 
@@ -311,7 +311,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Password</string>
-    <string name="set_share_details">Add toot details when sharing</string>
+    <string name="set_share_details">Add message details when sharing</string>
     <string name="support_the_app_on_liberapay">Support the app on Liberapay</string>
     <string name="alert_regex">There is an error in the regular expression!</string>
     <string name="toast_instance_unavailable">No timelines was found on this instance!</string>
@@ -332,9 +332,9 @@
     <string name="context_public">Public timelines</string>
     <string name="context_notification">Notifications</string>
     <string name="context_conversation">Conversations</string>
-    <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a toot</string>
+    <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a message</string>
     <string name="context_drop">Drop instead of hide</string>
-    <string name="context_drop_explanations">Filtered toots will disappear irreversibly, even if filter is later removed</string>
+    <string name="context_drop_explanations">Filtered messages will disappear irreversibly, even if filter is later removed</string>
     <string name="context_whole_word_explanations">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="context_whole_word">Whole word</string>
     <string name="filter_context">Filter contexts</string>
@@ -356,7 +356,7 @@
     <string name="channel_notif_fav">New Favourite</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup">Toots Backup</string>
+    <string name="channel_notif_backup">Messages Backup</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
@@ -368,11 +368,11 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
-    <string name="set_display_card">Display previews in all toots</string>
+    <string name="set_display_card">Display previews in all messages</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
-    <string name="truncate_long_toots">Truncate long toots</string>
-    <string name="set_truncate_toot">Truncate toots over \'x\' lines. Zero means disabled.</string>
+    <string name="truncate_long_toots">Truncate long messages</string>
+    <string name="set_truncate_toot">Truncate messages over \'x\' lines. Zero means disabled.</string>
     <string name="display_toot_truncate">Display more</string>
     <string name="hide_toot_truncate">Display less</string>
     <string name="tags_already_stored">The tag already exists!</string>
@@ -422,8 +422,8 @@
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="share">Share</string>
-    <string name="toots_server">Toots (Server)</string>
-    <string name="toots_client">Toots (Device)</string>
+    <string name="toots_server">Messages (Server)</string>
+    <string name="toots_client">Messages (Device)</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
@@ -447,7 +447,7 @@
     <string name="poll_finish_at">end at %s</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
-    <string name="notif_poll_self">A poll you tooted has ended</string>
+    <string name="notif_poll_self">A poll you published has ended</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
