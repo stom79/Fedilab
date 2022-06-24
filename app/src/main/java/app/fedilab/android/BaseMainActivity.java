@@ -587,7 +587,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         });
                     }
                     binding.bottomNavView.setOnItemSelectedListener(item -> {
-
                         int itemId = item.getItemId();
                         int position = BottomMenu.getPosition(bottomMenu, itemId);
                         if (position >= 0) {
@@ -878,21 +877,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      * Allow to scroll to top for bottom navigation items
      */
     private void scrollToTop() {
-        if (binding.viewPager.getAdapter() != null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
-            if (fragment instanceof FragmentMastodonTimeline) {
-                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                fragmentMastodonTimeline.scrollToTop();
-            } else if (fragment instanceof FragmentMastodonNotification) {
-                FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
-                fragmentMastodonNotification.scrollToTop();
-            } else if (fragment instanceof FragmentMastodonConversation) {
-                FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
-                fragmentMastodonConversation.scrollToTop();
-            } else if (fragment instanceof FragmentNotificationContainer) {
-                FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
-                fragmentNotificationContainer.scrollToTop();
-            }
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
+        if (fragment instanceof FragmentMastodonTimeline) {
+            FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+            fragmentMastodonTimeline.scrollToTop();
+        } else if (fragment instanceof FragmentMastodonNotification) {
+            FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+            fragmentMastodonNotification.scrollToTop();
+        } else if (fragment instanceof FragmentMastodonConversation) {
+            FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
+            fragmentMastodonConversation.scrollToTop();
+        } else if (fragment instanceof FragmentNotificationContainer) {
+            FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
+            fragmentNotificationContainer.scrollToTop();
         }
     }
 
