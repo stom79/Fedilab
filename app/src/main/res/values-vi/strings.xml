@@ -264,13 +264,6 @@
         <item>Both</item>
     </string-array>
     <!-- PRIVACY -->
-    <string name="privacy_API"> Ứng dụng <b>không sử dụng công cụ theo dõi</b> (đo lường đối tượng, báo lỗi, etc.) và không chứa bất kỳ quảng cáo nào.
-\n
-\n Việc sử dụng thư viện được giảm thiểu:
-\n - <b>Glide</b>: Quản lý media
-\n - <b>Android-Job</b>: Quản lý dịch vụ
-\n - <b>PhotoView</b>: Quản lý hình ảnh
-\n </string>
     <string name="filter_regex">Lọc theo biểu thức thông thường</string>
     <string name="search">Tìm kiếm</string>
     <string name="delete">Xóa</string>
@@ -493,7 +486,6 @@
     <string name="undisable">Bỏ khóa</string>
     <string name="suspend">Vô hiệu hóa</string>
     <string name="unsuspend">Bỏ vô hiệu hóa</string>
-    <string name="mark_unresolved">Mở lại</string>
     <string name="audio">Ứng dụng cần truy cập ghi âm</string>
     <string name="voice_message">Ghi âm</string>
     <string name="set_enable_time_slot_indication">Ứng dụng sẽ gửi thông báo vào thời điểm chỉ định. Bạn có thể đảo ngược (tức là: im lặng) thời điểm này bằng con quay bên phải.</string>
