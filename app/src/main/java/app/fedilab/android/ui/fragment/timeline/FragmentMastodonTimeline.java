@@ -260,7 +260,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     private void initializeStatusesCommonView(final Statuses statuses, int position) {
         flagLoading = false;
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -376,7 +376,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param fetched_statuses Statuses
      */
     private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.swipeContainer.setRefreshing(false);

@@ -177,7 +177,7 @@ public class FragmentAdminAccount extends Fragment {
      * @param adminAccounts AdminAccounts
      */
     private void dealWithPagination(AdminAccounts adminAccounts) {
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);

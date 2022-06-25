@@ -172,7 +172,7 @@ public class FragmentMastodonAccount extends Fragment {
      */
     private void initializeAccountCommonView(final Accounts accounts) {
         flagLoading = false;
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -242,7 +242,7 @@ public class FragmentMastodonAccount extends Fragment {
      */
     private void dealWithPagination(Accounts fetched_accounts) {
         flagLoading = false;
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);

@@ -227,6 +227,9 @@ public class FragmentMastodonContext extends Fragment {
             Helper.sendToastMessage(requireActivity(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
             return;
         }
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
         if (pullToRefresh) {
             pullToRefresh = false;
             int size = this.statuses.size();

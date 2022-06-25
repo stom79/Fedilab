@@ -33,6 +33,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +61,19 @@ public class FragmentNotificationContainer extends Fragment {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean display_all_notification = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_ALL_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
         if (!display_all_notification) {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.mention)));
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
             binding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
             binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(requireActivity(), false));
         } else {
             binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_reply_24));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_star_24));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_repeat));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_poll_24));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
+            binding.tabLayout.addTab(binding.tabLayout.newTab());
             binding.viewpager.setAdapter(new FedilabNotificationPageAdapter(requireActivity(), true));
         }
         AtomicBoolean changes = new AtomicBoolean(false);
@@ -187,7 +188,6 @@ public class FragmentNotificationContainer extends Fragment {
                 }
             });
             dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> {
-
                 if (changes.get()) {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     if (excludedCategoriesList.size() > 0) {
@@ -202,7 +202,6 @@ public class FragmentNotificationContainer extends Fragment {
                     } else {
                         editor.putString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
                     }
-
                     editor.commit();
                     ((BaseMainActivity) requireActivity()).refreshFragment();
                 }
@@ -214,6 +213,47 @@ public class FragmentNotificationContainer extends Fragment {
 
         binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
+
+        new TabLayoutMediator(binding.tabLayout, binding.viewpager,
+                (tab, position) -> {
+                    binding.viewpager.setCurrentItem(tab.getPosition(), true);
+                    if (!display_all_notification) {
+                        switch (position) {
+                            case 0:
+                                tab.setText(getString(R.string.all));
+                                break;
+                            case 1:
+                                tab.setText(getString(R.string.mention));
+                                break;
+                        }
+                    } else {
+                        switch (position) {
+                            case 0:
+                                tab.setText(getString(R.string.all));
+                                break;
+                            case 1:
+                                tab.setIcon(R.drawable.ic_baseline_reply_24);
+                                break;
+                            case 2:
+                                tab.setIcon(R.drawable.ic_baseline_star_24);
+                                break;
+                            case 3:
+                                tab.setIcon(R.drawable.ic_repeat);
+                                break;
+                            case 4:
+                                tab.setIcon(R.drawable.ic_baseline_poll_24);
+                                break;
+                            case 5:
+                                tab.setIcon(R.drawable.ic_baseline_home_24);
+                                break;
+                            case 6:
+                                tab.setIcon(R.drawable.ic_baseline_person_add_alt_1_24);
+                                break;
+                        }
+                    }
+
+                }
+        ).attach();
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -227,15 +267,11 @@ public class FragmentNotificationContainer extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment;
-                if (binding.viewpager.getAdapter() != null) {
-                    fragment = (Fragment) requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
-                    if (fragment instanceof FragmentMastodonNotification) {
-                        FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
-                        fragmentMastodonNotification.scrollToTop();
-                    }
+                Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+                if (fragment instanceof FragmentMastodonNotification) {
+                    FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+                    fragmentMastodonNotification.scrollToTop();
                 }
-
             }
         });
         return binding.getRoot();
@@ -244,9 +280,9 @@ public class FragmentNotificationContainer extends Fragment {
 
     public void scrollToTop() {
         if (binding != null) {
-            FragmentMastodonNotification fragmentMastodonNotification = (FragmentMastodonNotification) requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
-            if (fragmentMastodonNotification != null) {
-                fragmentMastodonNotification.scrollToTop();
+            Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+            if (fragment instanceof FragmentMastodonNotification) {
+                ((FragmentMastodonNotification) fragment).scrollToTop();
             }
         }
     }

@@ -532,6 +532,14 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/account_tabLayout"
             android:layout_width="match_parent"
@@ -539,13 +547,11 @@
             android:background="?backgroundColorLight"
             app:tabGravity="fill"
             app:tabMode="fixed" />
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/account_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/account_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

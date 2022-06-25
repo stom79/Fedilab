@@ -55,6 +55,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
@@ -838,8 +839,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
     public void refreshFragment() {
-        if (binding.viewPager.getAdapter() != null) {
-            binding.viewPager.getAdapter().notifyDataSetChanged();
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
+        if (fragment instanceof FragmentNotificationContainer) {
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            fragTransaction.detach(fragment).commit();
+            FragmentTransaction fragTransaction2 = getSupportFragmentManager().beginTransaction();
+            fragTransaction2.attach(fragment);
+            fragTransaction2.commit();
         }
     }
 

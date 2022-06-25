@@ -98,7 +98,7 @@ public class FragmentAdminReport extends Fragment {
      * @param adminReports {@link AdminReports}
      */
     private void initializeStatusesCommonView(final AdminReports adminReports) {
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -180,7 +180,7 @@ public class FragmentAdminReport extends Fragment {
      */
     private void dealWithPagination(AdminReports admReports) {
 
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);

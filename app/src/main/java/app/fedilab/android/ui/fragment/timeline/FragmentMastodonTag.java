@@ -95,6 +95,9 @@ public class FragmentMastodonTag extends Fragment {
      * @param tags List of {@link Tag}
      */
     private void initializeTagCommonView(final List<Tag> tags) {
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
