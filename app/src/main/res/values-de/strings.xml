@@ -719,4 +719,5 @@
     <string name="msg_save_image">Möchten Sie ohne das Bild zu speichern verlassen\?</string>
     <string name="label_shape">Form</string>
     <string name="domain">Domain</string>
+    <string name="staff">Personal</string>
 </resources>
