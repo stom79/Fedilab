@@ -267,7 +267,7 @@ public class FragmentNotificationContainer extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+                Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
                 if (fragment instanceof FragmentMastodonNotification) {
                     FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
                     fragmentMastodonNotification.scrollToTop();
@@ -280,7 +280,7 @@ public class FragmentNotificationContainer extends Fragment {
 
     public void scrollToTop() {
         if (binding != null) {
-            Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+            Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
             if (fragment instanceof FragmentMastodonNotification) {
                 ((FragmentMastodonNotification) fragment).scrollToTop();
             }

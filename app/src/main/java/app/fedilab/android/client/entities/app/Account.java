@@ -277,7 +277,7 @@ public class Account extends BaseAccount implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, Sqlite.COL_API + " = 'MASTODON'", null, null, null, null, null);
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, null, null, null, null, null, null);
             return cursorToListUser(c);
         } catch (Exception e) {
             return null;

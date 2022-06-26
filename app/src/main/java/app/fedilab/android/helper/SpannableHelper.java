@@ -247,7 +247,7 @@ public class SpannableHelper {
                 content.setSpan(new LongClickableSpan() {
                     @Override
                     public void onLongClick(View view) {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
                         PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();

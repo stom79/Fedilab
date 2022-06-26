@@ -747,12 +747,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             itemFilter.setTitle(show_filtered);
         }
         popup.setOnDismissListener(menu1 -> {
-            if (binding.viewPager.getAdapter() != null) {
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                    fragmentMastodonTimeline.refreshAllAdapters();
-                }
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
+            if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                fragmentMastodonTimeline.refreshAllAdapters();
             }
         });
         String finalShow_filtered = show_filtered;

@@ -312,22 +312,19 @@ public class PinnedTimelineHelper {
         popup.setOnDismissListener(menu1 -> {
             if (changes[0]) {
                 FragmentMastodonTimeline fragmentMastodonTimeline;
-                if (activityMainBinding.viewPager.getAdapter() != null) {
-                    Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                        FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction.detach(fragmentMastodonTimeline).commit();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-                        bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
-                        fragmentMastodonTimeline.setArguments(bundle);
-                        FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction2.attach(fragmentMastodonTimeline);
-                        fragTransaction2.commit();
-                    }
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
+                    fragTransaction.detach(fragmentMastodonTimeline).commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+                    bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
+                    fragmentMastodonTimeline.setArguments(bundle);
+                    FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                    fragTransaction2.attach(fragmentMastodonTimeline);
+                    fragTransaction2.commit();
                 }
-
             }
         });
 
@@ -529,11 +526,9 @@ public class PinnedTimelineHelper {
             });
             changes[0] = true;
             FragmentMastodonTimeline fragmentMastodonTimeline = null;
-            if (activityMainBinding.viewPager.getAdapter() != null) {
-                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                }
+            Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
+            if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
             }
             if (fragmentMastodonTimeline == null)
                 return false;
@@ -576,12 +571,10 @@ public class PinnedTimelineHelper {
                 MenuItem item = popup.getMenu().add(0, 0, Menu.NONE, title);
                 item.setOnMenuItemClickListener(item1 -> {
                     FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                    if (activityMainBinding.viewPager.getAdapter() != null) {
-                        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                            fragmentMastodonTimeline.refreshAllAdapters();
-                        }
+                    Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
+                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        fragmentMastodonTimeline.refreshAllAdapters();
                     }
                     FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
                     if (fragmentMastodonTimeline == null)
@@ -659,12 +652,10 @@ public class PinnedTimelineHelper {
         popup.setOnDismissListener(menu -> {
             if (changes[0]) {
                 FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                if (activityMainBinding.viewPager.getAdapter() != null) {
-                    Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                        fragmentMastodonTimeline.refreshAllAdapters();
-                    }
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.refreshAllAdapters();
                 }
                 FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
                 if (fragmentMastodonTimeline == null)

@@ -155,7 +155,7 @@ public class FragmentMastodonContext extends Fragment {
             focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
         }
         if (focusedStatus == null) {
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            getChildFragmentManager().beginTransaction().remove(this).commit();
         }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
