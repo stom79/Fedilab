@@ -262,10 +262,10 @@ public class ProfileActivity extends BaseActivity {
                             tab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
                             break;
                         case 1:
-                            tab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.statuses_count)));
+                            tab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
                             break;
                         case 2:
-                            tab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.statuses_count)));
+                            tab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
                             break;
                     }
                 }
