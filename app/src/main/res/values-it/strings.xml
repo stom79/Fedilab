@@ -15,17 +15,17 @@
     <string name="save_over">Media salvato</string>
     <string name="download_from" formatted="false">File: %1$s</string>
     <string name="password">Password</string>
-    <string name="email">Email</string>
+    <string name="email">E-mail</string>
     <string name="accounts">Account</string>
-    <string name="toots">Toot</string>
+    <string name="toots">Messaggi</string>
     <string name="tags">Etichette</string>
     <string name="save">Salva</string>
     <string name="instance">Istanza</string>
     <string name="instance_example">Istanza: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Ora funziona con l\'account %1$s</string>
     <string name="add_account">Aggiungi un account</string>
-    <string name="clipboard">Il contenuto del toot è stato copiato negli appunti</string>
-    <string name="clipboard_url">L\'URL del toot è stato copiato negli appunti</string>
+    <string name="clipboard">Il contenuto del messaggio è stato copiato negli appunti</string>
+    <string name="clipboard_url">L\'URL del messaggio è stato copiato negli appunti</string>
     <string name="camera">Fotocamera</string>
     <string name="delete_all">Elimina tutto</string>
     <string name="schedule">Pianifica</string>
@@ -56,18 +56,18 @@
     <string name="notifications">Notifiche</string>
     <string name="follow_request">Richieste di follow</string>
     <string name="settings">Impostazioni</string>
-    <string name="send_email">Invia un\'email</string>
-    <string name="scheduled_toots">Toot programmati</string>
+    <string name="send_email">Invia un\'e-mail</string>
+    <string name="scheduled_toots">Messaggi programmati</string>
     <string name="disclaimer_full">Le informazioni qui sotto potrebbero riflettere in modo incompleto il profilo dell\'utente.</string>
     <string name="insert_emoji">Inserisci emoji</string>
     <string name="no_emoji">L\'app non raccoglie emoji personalizzate per il momento.</string>
     <string name="logout_account_confirmation">Sei sicuro di volerti disconnettere @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Nessun toot da mostrare</string>
-    <string name="favourite_add">Aggiungere questo toot ai tuoi preferiti?</string>
-    <string name="favourite_remove">Rimuovere questo toot dai tuoi preferiti?</string>
-    <string name="reblog_add">Condividere questo toot?</string>
-    <string name="reblog_remove">Smettere di condividere questo toot?</string>
+    <string name="no_status">Nessun messaggio da mostrare</string>
+    <string name="favourite_add">Aggiungere questo messaggio ai tuoi preferiti\?</string>
+    <string name="favourite_remove">Rimuovere questo messaggio dai tuoi preferiti\?</string>
+    <string name="reblog_add">Condividere questo messaggio\?</string>
+    <string name="reblog_remove">Smettere di condividere questo messaggo\?</string>
     <string name="more_action_1">Silenzia</string>
     <string name="more_action_2">Blocca</string>
     <string name="more_action_3">Segnala</string>
@@ -122,8 +122,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Si è verificato un errore durante la selezione del media!</string>
     <string name="toot_delete_media">Eliminare questo media?</string>
-    <string name="toot_error_no_content">Il tuo toot è vuoto!</string>
-    <string name="toot_sent">Il toot è stato inviato!</string>
+    <string name="toot_error_no_content">Il tuo messaggio è vuoto!</string>
+    <string name="toot_sent">Il messaggio è stato inviato!</string>
     <string name="toot_sensitive">Contenuto sensibile?</string>
     <string name="no_draft">Nessuna bozza!</string>
     <string name="choose_accounts">Seleziona un account</string>
@@ -143,14 +143,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Nessun account da visualizzare</string>
     <string name="no_follow_request">Nessuna richiesta di follow</string>
-    <string name="status_cnt">Toot \n %1$s</string>
+    <string name="status_cnt">Messaggi
+\n %1$s</string>
     <string name="following_cnt">Seguendo \n %1$s</string>
     <string name="followers_cnt">Follower \n %1$s</string>
     <string name="reject">Rifiuta</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Nessun toot programmato da visualizzare!</string>
-    <string name="remove_scheduled">Eliminare toot programmato?</string>
-    <string name="toot_scheduled">Il toot è stato programmato!</string>
+    <string name="no_scheduled_toots">Nessun messaggio programmato da visualizzare!</string>
+    <string name="remove_scheduled">Eliminare messaggio programmato\?</string>
+    <string name="toot_scheduled">Il messaggio è stato programmato!</string>
     <string name="toot_scheduled_date">La data di programmazione deve essere successiva all\'ora corrente!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Il tempo di silenziamento deve essere maggiore di un minuto.</string>
@@ -176,10 +177,10 @@
     <string name="toast_unmute">Questo account non è più silenziato!</string>
     <string name="toast_follow">L\'account è seguito!</string>
     <string name="toast_unfollow">L\'account non è più seguito!</string>
-    <string name="toast_reblog">Il toot è stato ricondiviso!</string>
-    <string name="toast_unreblog">Il toot non è più ricondiviso!</string>
-    <string name="toast_favourite">Il toot è stato aggiunto ai tuoi preferiti!</string>
-    <string name="toast_unfavourite">Il toot è stato rimosso dai tuoi preferiti!</string>
+    <string name="toast_reblog">Il messaggio è stato ricondiviso!</string>
+    <string name="toast_unreblog">Il messaggio non è più ricondiviso!</string>
+    <string name="toast_favourite">Il messaggio è stato aggiunto ai tuoi preferiti!</string>
+    <string name="toast_unfavourite">Il messaggio è stato rimosso dai tuoi preferiti!</string>
     <string name="toast_error">Oops! Si è verificato un errore!</string>
     <string name="toast_code_error">Si è verificato un errore! L\'istanza non ha restituito un codice di autorizzazione!</string>
     <string name="toast_error_instance">Il dominio dell\'istanza non sembra essere valido!</string>
@@ -188,7 +189,7 @@
     <string name="nothing_to_do">Nessuna azione può essere intrapresa</string>
     <string name="toast_error_translate">Si è verificato un errore durante la traduzione!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Numero di toot per caricamento</string>
+    <string name="set_toots_page">Numero di messaggi per caricamento</string>
     <string name="set_disable_gif">Disabilita avatar GIF</string>
     <string name="set_notif_follow">Notifica quando qualcuno ti segue</string>
     <string name="set_notif_follow_share">Notifica quando qualcuno ricondivide al tuo stato</string>
@@ -267,7 +268,7 @@
     <string name="poxy_port">Porta</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Password</string>
-    <string name="set_share_details">Aggiungi dettagli del toot quando condividi</string>
+    <string name="set_share_details">Aggiungi dettagli del messaggio quando condividi</string>
     <string name="support_the_app_on_liberapay">Supporta l\'app su Liberapay</string>
     <string name="alert_regex">C\'è un errore nell\'espressione regolare!</string>
     <string name="toast_instance_unavailable">Nessuna timeline trovata su questa istanza!</string>
@@ -286,9 +287,9 @@
     <string name="context_public">Timeline pubblica</string>
     <string name="context_notification">Notifiche</string>
     <string name="context_conversation">Conversazioni</string>
-    <string name="filter_keyword_explanations">Il confronto sarà eseguito ignorando minuscole/maiuscole e i content warning di un toot</string>
+    <string name="filter_keyword_explanations">Il confronto sarà eseguito ignorando minuscole/maiuscole e i content warning di un messaggio</string>
     <string name="context_drop">Ignorare invece di nascondere</string>
-    <string name="context_drop_explanations">I toot filtrati scompariranno in modo irreversibile, anche se il filtro verrà successivamente rimosso</string>
+    <string name="context_drop_explanations">I messaggii filtrati scompariranno in modo irreversibile, anche se il filtro verrà successivamente rimosso</string>
     <string name="context_whole_word_explanations">Quando la parola chiave o la frase è solo alfanumerica, sarà applicato solo se corrisponde alll\'intera parola</string>
     <string name="context_whole_word">Parola intera</string>
     <string name="filter_context">Filtra contesti</string>
@@ -303,7 +304,7 @@
     <string name="channel_notif_fav">Un nuovo mi piace</string>
     <string name="channel_notif_mention">Una nuova menzione</string>
     <string name="channel_notif_poll">Sondaggio terminato</string>
-    <string name="channel_notif_backup">Backup dei toot</string>
+    <string name="channel_notif_backup">Backup dei messaggi</string>
     <string name="channel_notif_status">Nuovi post</string>
     <string name="channel_notif_media">Scarica i media</string>
     <string name="select_sound">Seleziona tono</string>
@@ -315,11 +316,11 @@
     <string name="peertube_instance">Istanza Peertube</string>
     <string name="set_display_emoji">Utilizza le Emoji One</string>
     <string name="information">Informazioni</string>
-    <string name="set_display_card">Mostra anteprime in tutti i toot</string>
+    <string name="set_display_card">Mostra anteprime in tutti i messaggi</string>
     <string name="account_id_clipbloard">L\'ID dell\'account è stato copiato negli appunti!</string>
     <string name="set_change_locale">Cambia lingua</string>
-    <string name="truncate_long_toots">Tronca toot lunghi</string>
-    <string name="set_truncate_toot">Tronca toot più lunghi di \'x\' linee. Zero significa disabilitato.</string>
+    <string name="truncate_long_toots">Tronca messaggi lunghi</string>
+    <string name="set_truncate_toot">Tronca messaggi più lunghi di x linee. Zero significa disabilitato.</string>
     <string name="display_toot_truncate">Mostra di più</string>
     <string name="hide_toot_truncate">Mostra meno</string>
     <string name="tags_already_stored">L\'etichetta esiste già!</string>
@@ -365,8 +366,8 @@
     <string name="category">Categoria</string>
     <string name="description">Descrizione</string>
     <string name="share">Condividi</string>
-    <string name="toots_server">Toot (Server)</string>
-    <string name="toots_client">Toot (Dispositivo)</string>
+    <string name="toots_server">Messaggi (Server)</string>
+    <string name="toots_client">Messaggi (Dispositivo)</string>
     <string name="settings_category_label_timelines">Timeline</string>
     <string name="settings_category_label_interface">Interfaccia</string>
     <string name="contact">Contatti</string>
@@ -436,17 +437,19 @@
     <string name="sign_up">Registrati</string>
     <string name="validation_needed">Questa istanza funziona con gli inviti. Il tuo account deve essere approvato manualmente da un amministratore prima di essere utilizzabile.</string>
     <string name="password_error">Le password non corrispondono!</string>
-    <string name="email_error">L\'indirizzo email non sembra essere valido!</string>
-    <string name="email_indicator">Ti sarà inviata una conferma via email</string>
+    <string name="email_error">L\'indirizzo e-mail non sembra essere valido!</string>
+    <string name="email_indicator">Ti sarà inviata una conferma via e-mail</string>
     <string name="password_indicator">Usa almeno 8 caratteri</string>
     <string name="password_too_short">La password deve contenere almeno 8 caratteri</string>
     <string name="username_error">Il nome utente può contenere solo lettere, numeri e trattini bassi</string>
     <string name="account_created">Account creato!</string>
-    <string name="account_created_message">        Il tuo account è stato creato!\n\n
-        Dovresti confermare la tua email entro le prossime 48 ore.\n\n
-        Ora puoi connetterti al tuo account scrivendo <b>%1$s</b> nel primo campo e premendo <b>Connetti</b>.\n\n
-        <b>Importante</b>: Se la tua istanza richiede l\'approvazione, riceverai una mail solo quando sarà approvato il tuo account!
-    </string>
+    <string name="account_created_message"> Il tuo account è stato creato!
+\n
+\n Dovresti confermare la tua e-mail entro le prossime 48 ore.
+\n
+\n Ora puoi connetterti al tuo account scrivendo <b>%1$s</b> nel primo campo e premendo <b>Connetti</b>.
+\n
+\n <b>Importante</b>: Se la tua istanza richiede l\'approvazione, riceverai un\'e-mail solo quando sarà approvato il tuo account! </string>
     <string name="save_draft">Salvare il messaggio in bozze?</string>
     <string name="administration">Amministrazione</string>
     <string name="reports">Segnalazioni</string>
@@ -476,7 +479,9 @@
     <string name="set_enable_crash_report">Abilita segnalazioni di crash</string>
     <string name="set_enable_crash_report_indication">Se abilitato, una segnalazione di crash sarà creata localmente e quindi sarai in grado di condividerla.</string>
     <string name="crash_title">Fedilab ha smesso di funzionare :-(</string>
-    <string name="crash_message">Puoi inviarmi via email il rapporto sul problema. Mi aiuterà a risolverlo :-)\n\nPuoi aggiungere ulteriori commenti. Grazie!</string>
+    <string name="crash_message">Puoi inviarmi via e-mail il rapporto sul problema. Mi aiuterà a risolverlo :-)
+\n
+\nPuoi aggiungere ulteriori commenti. Grazie!</string>
     <string name="visibility">Visibilità</string>
     <string name="set_disable_animated_emoji">Disabilita emoji animate personalizzate</string>
     <string name="report_account">Segnala account</string>
@@ -570,4 +575,15 @@
     <string name="no_distributors_found">Nessun distributore trovato!</string>
     <string name="no_distributors_explanation">Hai bisogno di un distributore per ricevere notifiche push.\nTroverai maggiori dettagli a %1$s.\n\nPuoi anche disabilitare le notifiche push nelle impostazioni per ignorare quel messaggio.</string>
     <string name="select_distributors">Seleziona un distributore</string>
+    <string name="messages_stored_in_drafts">Messaggi memorizzati nelle bozze</string>
+    <string name="messages_in_cache_for_home">Messaggi in cache per Inizio</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="messages_in_cache_for_other_timelines">Messaggi nella cache per altre cronologie</string>
+    <string name="fetch_more_messages">Recupera altri messaggi…</string>
+    <string name="replace_youtube_description">Usa un frontend alternativo per YouTube</string>
+    <string name="report_val1">Non mi piace</string>
+    <string name="toots_visibility_title">Visibilità predefinita dei messaggi:</string>
+    <string name="toast_bookmark">Il messaggio è stato aggiunto ai tuoi preferiti!</string>
+    <string name="toast_unbookmark">Il messaggio è stato rimosso dai tuoi preferiti!</string>
+    <string name="set_accounts_page">Numero di account per caricamento</string>
 </resources>
