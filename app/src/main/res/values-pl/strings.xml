@@ -15,7 +15,7 @@
     <string name="save_over">Pliki zapisane</string>
     <string name="download_from" formatted="false">Plik: %1$s</string>
     <string name="password">Hasło</string>
-    <string name="email">Email</string>
+    <string name="email">E-mail</string>
     <string name="accounts">Konta</string>
     <string name="toots">Wpisy</string>
     <string name="tags">Tagi</string>
@@ -56,7 +56,7 @@
     <string name="notifications">Powiadomienia</string>
     <string name="follow_request">Prośby o śledzenie</string>
     <string name="settings">Ustawienia</string>
-    <string name="send_email">Wyślij email</string>
+    <string name="send_email">Wyślij e-mail</string>
     <string name="scheduled_toots">Zaplanowane wpisy</string>
     <string name="disclaimer_full">Poniższe informacje mogą nie odzwierciedlać w pełni profilu użytkownika.</string>
     <string name="insert_emoji">Wstaw emoji</string>
@@ -488,7 +488,9 @@
     <string name="set_enable_crash_report">Włącz raportowanie błędów</string>
     <string name="set_enable_crash_report_indication">Jeśli włączone, raport o awarii zostanie utworzony lokalnie, a następnie będziesz mógł go udostępnić.</string>
     <string name="crash_title">Fedilab został zatrzymany :(</string>
-    <string name="crash_message">Możesz wysłać mi email z raportem o błędzie. To pomoże go naprawić :)\n\nMożesz dopisać coś więcej. Dziękuję!</string>
+    <string name="crash_message">Możesz wysłać mi e-mail z raportem o błędzie. To pomoże go naprawić :)
+\n
+\nMożesz dopisać coś więcej. Dziękuję!</string>
     <string name="visibility">Widoczność</string>
     <string name="set_disable_animated_emoji">Wyłącz niestandardowe animowane emotikony</string>
     <string name="report_account">Zgłoś konto</string>
@@ -650,7 +652,7 @@
     <string name="set_accounts_page">Liczba rachunków na ładunek</string>
     <string name="set_notifications_page">Liczba powiadomień na ładunek</string>
     <string name="report_1_block">Nie będziesz widzieć ich postów. Osoby te nie będą mogły widzieć Twoich postów ani Cię śledzić. Będą mogli powiedzieć, że zostali zablokowani.</string>
-    <string name="about_mastodon">\"Mastodon nie jest pojedynczą stroną internetową, jak Twitter czy Facebook, to sieć tysięcy społeczności obsługiwanych przez różne organizacje i osoby, które zapewniają płynne działanie mediów społecznościowych.\"</string>
+    <string name="about_mastodon">„Mastodon nie jest pojedynczą stroną internetową, jak Twitter czy Facebook, to sieć tysięcy społeczności obsługiwanych przez różne organizacje i osoby, które zapewniają płynne działanie mediów społecznościowych.”</string>
     <string name="customize_timelines">Dostosowywanie osi czasu</string>
     <string name="resolved">Rozwiązany</string>
     <string name="status">Stan</string>
