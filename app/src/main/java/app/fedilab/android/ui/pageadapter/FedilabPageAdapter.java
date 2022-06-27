@@ -85,8 +85,7 @@ public class FedilabPageAdapter extends FragmentStateAdapter {
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
                 bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
-                String instance = pinnedTimeline.remoteInstance.host;
-                bundle.putString(Helper.ARG_REMOTE_INSTANCE, instance);
+                bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
             }
 
         }

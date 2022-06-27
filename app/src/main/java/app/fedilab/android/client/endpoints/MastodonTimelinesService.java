@@ -21,12 +21,16 @@ import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Marker;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.misskey.MisskeyNote;
+import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -191,4 +195,33 @@ public interface MastodonTimelinesService {
             @Field("home[last_read_id]") String home_last_read_id,
             @Field("notifications[last_read_id]") String notifications_last_read_id
     );
+
+
+    @Headers({"Accept: application/json"})
+    @POST("api/notes")
+    Call<List<MisskeyNote>> getMisskey(@Body MisskeyNote.MisskeyParams params);
+
+
+    //Public timelines for Misskey
+    @FormUrlEncoded
+    @POST("api/notes")
+    Call<List<MisskeyNote>> getMisskey(
+            @Field("local") boolean local,
+            @Field("file") boolean file,
+            @Field("poll") boolean poll,
+            @Field("remote") boolean remote,
+            @Field("reply") boolean reply,
+            @Field("untilId") String max_id,
+            @Field("since_id") String since_id,
+            @Field("limit") Integer limit
+    );
+
+    @GET("api/v1/videos")
+    Call<PeertubeVideo> getPeertube(
+            @Query("start") String start,
+            @Query("filter") String filter,
+            @Query("sort") String sort,
+            @Query("count") int count
+    );
+
 }

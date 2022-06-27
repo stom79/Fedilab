@@ -213,19 +213,27 @@ public class MastodonHelper {
                 return;
             }
             String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
-            if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                Glide.with(view.getContext())
-                        .asDrawable()
-                        .load(targetedUrl)
-                        .thumbnail(0.1f)
-                        .placeholder(placeholder)
-                        .into(view);
+            if (targetedUrl != null) {
+                if (disableGif || (!targetedUrl.endsWith(".gif"))) {
+                    Glide.with(view.getContext())
+                            .asDrawable()
+                            .load(targetedUrl)
+                            .thumbnail(0.1f)
+                            .placeholder(placeholder)
+                            .into(view);
+                } else {
+                    Glide.with(view.getContext())
+                            .asGif()
+                            .load(targetedUrl)
+                            .thumbnail(0.1f)
+                            .placeholder(placeholder)
+                            .into(view);
+                }
             } else {
                 Glide.with(view.getContext())
-                        .asGif()
-                        .load(targetedUrl)
+                        .asDrawable()
+                        .load(placeholder)
                         .thumbnail(0.1f)
-                        .placeholder(placeholder)
                         .into(view);
             }
         }
