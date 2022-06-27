@@ -15,7 +15,7 @@
     <string name="save_over">Enregistrement terminé</string>
     <string name="download_from" formatted="false">Fichier : %1$s</string>
     <string name="password">Mot de passe</string>
-    <string name="email">Email</string>
+    <string name="email">Courriel</string>
     <string name="accounts">Comptes</string>
     <string name="toots">Messages</string>
     <string name="tags">Étiquettes</string>
@@ -56,18 +56,18 @@
     <string name="notifications">Notifications</string>
     <string name="follow_request">Demandes d’abonnements</string>
     <string name="settings">Paramètres</string>
-    <string name="send_email">Envoyer un Email</string>
+    <string name="send_email">Envoyer un courriel</string>
     <string name="scheduled_toots">Messages programmés</string>
     <string name="disclaimer_full">Les données ci-dessous peuvent ne pas refléter ce profil dans sa totalité.</string>
     <string name="insert_emoji">Insérer un émoji</string>
     <string name="no_emoji">L’application n’a pas encore collecté d’emojis personnalisés.</string>
     <string name="logout_account_confirmation">Voulez-vous vraiment déconnecter le compte @%1$s@%2$s \?</string>
     <!-- Status -->
-    <string name="no_status">Aucun pouet à afficher</string>
-    <string name="favourite_add">Ajouter ce message aux favoris \?</string>
-    <string name="favourite_remove">Supprimer ce message des favoris \?</string>
-    <string name="reblog_add">Partager ce message \?</string>
-    <string name="reblog_remove">Annuler le partage de ce message \?</string>
+    <string name="no_status">Aucun message à afficher</string>
+    <string name="favourite_add">Ajouter ce message aux favoris \?</string>
+    <string name="favourite_remove">Supprimer ce message des favoris \?</string>
+    <string name="reblog_add">Partager ce message \?</string>
+    <string name="reblog_remove">Annuler le partage de ce message \?</string>
     <string name="more_action_1">Ignorer</string>
     <string name="more_action_2">Bloquer</string>
     <string name="more_action_3">Signaler</string>
@@ -122,8 +122,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Une erreur s’est produite lors de la sélection du média !</string>
     <string name="toot_delete_media">Supprimer le média ?</string>
-    <string name="toot_error_no_content">Votre message est vide !</string>
-    <string name="toot_sent">Le message a été envoyé !</string>
+    <string name="toot_error_no_content">Votre message est vide !</string>
+    <string name="toot_sent">Le message a été envoyé !</string>
     <string name="toot_sensitive">Contenu sensible ?</string>
     <string name="no_draft">Aucun brouillon !</string>
     <string name="choose_accounts">Choisissez un compte</string>
@@ -149,9 +149,9 @@
     <string name="followers_cnt">Abonné·e·s \n %1$s</string>
     <string name="reject">Rejeter</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Aucun message programmé à afficher !</string>
-    <string name="remove_scheduled">Supprimer le message programmé \?</string>
-    <string name="toot_scheduled">Le message a été programmé !</string>
+    <string name="no_scheduled_toots">Aucun message programmé à afficher !</string>
+    <string name="remove_scheduled">Supprimer le message programmé \?</string>
+    <string name="toot_scheduled">Le message a été programmé !</string>
     <string name="toot_scheduled_date">La date doit être supérieure à l’heure actuelle !</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Le délai pour rendre muet doit être supérieur à une minute.</string>
@@ -177,10 +177,10 @@
     <string name="toast_unmute">Le compte n\'est plus masqué !</string>
     <string name="toast_follow">Le compte est suivi !</string>
     <string name="toast_unfollow">Le compte n\'est plus suivi !</string>
-    <string name="toast_reblog">Le message a été partagé !</string>
-    <string name="toast_unreblog">Le pouet a été supprimé des partages !</string>
-    <string name="toast_favourite">Le pouet a été ajouté aux favoris !</string>
-    <string name="toast_unfavourite">Le pouet a été supprimé des favoris !</string>
+    <string name="toast_reblog">Le message a été partagé !</string>
+    <string name="toast_unreblog">Le message a été supprimé des partages !</string>
+    <string name="toast_favourite">Le message a été ajouté aux favoris !</string>
+    <string name="toast_unfavourite">Le message a été supprimé des favoris !</string>
     <string name="toast_error">Oups ! Une erreur s’est produite !</string>
     <string name="toast_code_error">Une erreur s’est produite ! L’instance n’a retourné aucun code d\autorisation !</string>
     <string name="toast_error_instance">Le nom de l’instance ne semble pas être valide !</string>
@@ -287,7 +287,7 @@
     <string name="context_public">Fils publics</string>
     <string name="context_notification">Notifications</string>
     <string name="context_conversation">Discussions</string>
-    <string name="filter_keyword_explanations">Sera trouvé sans que la casse ou l’avertissement de contenu du pouet soit pris en compte</string>
+    <string name="filter_keyword_explanations">Sera trouvé sans que la casse ou l’avertissement de contenu du message soit pris en compte</string>
     <string name="context_drop">Supprimer plutôt que de cacher</string>
     <string name="context_drop_explanations">Les messages filtrés disparaîtront irrémédiablement même si le filtre est supprimé ultérieurement</string>
     <string name="context_whole_word_explanations">Lorsque le mot-clef ou la phrase-clef est uniquement alphanumérique, ça sera uniquement appliqué s’il correspond au mot entier</string>
@@ -439,19 +439,19 @@
     <string name="sign_up">S’inscrire</string>
     <string name="validation_needed">Cette instance fonctionne avec des invitations. Votre compte devra être approuvé manuellement par un·e administrateur·rice pour qu\'il devienne utilisable.</string>
     <string name="password_error">Les mots de passe ne sont pas identiques !</string>
-    <string name="email_error">L\'e-mail ne semble pas être valide !</string>
-    <string name="email_indicator">Vous recevrez un e-mail de confirmation</string>
+    <string name="email_error">L\'adresse ne semble pas être valide !</string>
+    <string name="email_indicator">Vous recevrez un courriel de confirmation</string>
     <string name="password_indicator">Utilisez au moins 8 caractères</string>
     <string name="password_too_short">Le mot de passe doit contenir au moins 8 caractères</string>
     <string name="username_error">Le nom d\'utilisateur·rice doit contenir uniquement des lettres, des chiffres et des caractères de soulignement</string>
     <string name="account_created">Compte créé !</string>
-    <string name="account_created_message"> Votre compte a été créé !
+    <string name="account_created_message"> Votre compte a été créé !
 \n
 \n Pensez à valider votre courriel dans les 48 prochaines heures.
 \n
 \n Vous pouvez maintenant connecter votre compte en écrivant <b>%1$s</b> dans le premier champ et appuyer sur <b>Se connecter</b>.
 \n
-\n <b>Important</b> : Si votre instance nécessite une validation, vous recevrez un courriel une fois qu’elle sera validée ! </string>
+\n <b>Important</b> : Si votre instance nécessite une validation, vous recevrez un courriel une fois qu’elle sera validée ! </string>
     <string name="save_draft">Sauvegarder le message dans les brouillons \?</string>
     <string name="administration">Administration</string>
     <string name="reports">Rapports</string>
@@ -481,7 +481,9 @@
     <string name="set_enable_crash_report">Activer les rapports de plantage</string>
     <string name="set_enable_crash_report_indication">Si activé, un rapport de plantage sera créé localement et vous pourrez le partager.</string>
     <string name="crash_title">Fedilab s’est arrêté :(</string>
-    <string name="crash_message">Vous pouvez m’envoyer le rapport d’erreur par mail. Cela aidera à corriger le problème :)\n\nVous pouvez y ajouter des informations supplémentaires. Merci !</string>
+    <string name="crash_message">Vous pouvez m’envoyer le rapport d’erreur par courriel. Cela aidera à corriger le problème :)
+\n
+\nVous pouvez y ajouter des informations supplémentaires. Merci !</string>
     <string name="visibility">Visibilité</string>
     <string name="set_disable_animated_emoji">Désactiver les émojis animés personnalisés</string>
     <string name="report_account">Signaler le compte</string>
@@ -582,14 +584,14 @@
     <string name="replace_twitter">Twitter</string>
     <string name="report_1_mute_title">Masquer %1$s</string>
     <string name="report_1_block_title">Bloquer %1$s</string>
-    <string name="report_3_title">Quelles sont les règles qui sont violées \?</string>
+    <string name="report_3_title">Quelles sont les règles qui sont violées \?</string>
     <string name="report_all_more">Sélectionnez tous les éléments qui s’appliquent</string>
-    <string name="report_more">Y a-t-il autre chose que vous pensez que nous devrions savoir \?</string>
+    <string name="report_more">Y a-t-il autre chose que vous pensez que nous devrions savoir \?</string>
     <string name="report_more_additional">Commentaires supplémentaires</string>
-    <string name="report_more_remote">Le compte provient d’un autre serveur. Envoyer une copie anonymisée du rapport là-bas aussi \?</string>
+    <string name="report_more_remote">Le compte provient d’un autre serveur. Envoyer une copie anonymisée du signalement là-bas aussi \?</string>
     <string name="report_more_forward">Transférer à %1$s</string>
     <string name="report_sent">Le signalement a été effectué !</string>
-    <string name="dont_have_an_account">Vous n’avez pas de compte \?</string>
+    <string name="dont_have_an_account">Vous n’avez pas de compte \?</string>
     <string name="join_the_fediverse">Rejoignez le Fédiverse</string>
     <string name="invite_join_the_fediverse">Salut ! Nous vous invitons à rejoindre le Fédiverse.</string>
     <string name="notif_display_mentions">Mentions</string>
@@ -628,7 +630,7 @@
     <string name="set_notifications_page">Nombre de notifications par chargement</string>
     <string name="not_valid_list_name">Le nom de la liste n’est pas valide !</string>
     <string name="no_account_in_list">Aucun compte trouvé pour cette liste !</string>
-    <string name="toast_unbookmark">Le pouet a été retiré de vos marque-pages !</string>
+    <string name="toast_unbookmark">Le message a été retiré de vos marque-pages !</string>
     <string name="replace_youtube_description">Utiliser une interface alternative pour YouTube</string>
     <string name="replace_twitter_description">Utiliser une interface alternative pour Twitter</string>
     <string name="replace_instagram">Instagram</string>
@@ -662,21 +664,21 @@
     <string name="report_title">Signalement de %1$s</string>
     <string name="report_indication_title_status">Dite-nous ce qui ne va pas avec cette publication</string>
     <string name="report_indication_title_status_more">Choisissez l\'option la plus adaptée</string>
-    <string name="report_val1">Je n\'aime pas cela</string>
-    <string name="report_val_more1">Ce n\'est pas quelque-chose que vous voulez voir</string>
+    <string name="report_val1">Je n\'aime pas ça</string>
+    <string name="report_val_more1">Ce n\'est pas quelque chose que vous voulez voir</string>
     <string name="report_val2">C\'est du spam</string>
-    <string name="report_val_more2">Liens malveillants, faux engagement, ou réponses répétitives</string>
-    <string name="report_val_more3">Vous savez que cela enfreint des règles spécifiques</string>
-    <string name="report_val4">C\'est quelque-chose d\'autre</string>
+    <string name="report_val_more2">Liens malveillants, faux engagement ou réponses répétitives</string>
+    <string name="report_val_more3">Vous savez qu\'elle enfreint des règles spécifiques</string>
+    <string name="report_val4">C\'est quelque chose d\'autre</string>
     <string name="report_val_more4">Ce problème ne rentre pas dans d\'autres catégories</string>
-    <string name="report_1_title">Vous ne voulez pas voir ceci \?</string>
-    <string name="report_1_title_more">Voici vos options pour contrôler ce que vous voyez sur Mastodon :</string>
+    <string name="report_1_title">Vous ne voulez pas voir ceci \?</string>
+    <string name="report_1_title_more">Voici vos options pour contrôler ce que vous voyez sur Mastodon :</string>
     <string name="report_1_unfollow_title">Se désabonner de %1$s</string>
     <string name="report_1_unfollow">Vous suivez ce compte. Pour ne plus voir ses messages dans votre fil principal, désabonnez-vous-en.</string>
     <string name="report_1_mute">Vous ne verrez pas ses messages. Iel peut toujours vous suivre et voir vos messages mais ne saura pas qu’iel a été mis·e en sourdine.</string>
     <string name="report_1_block">Vous ne verrez pas ses messages. Iel ne pourra pas voir vos messages ou vous suivre. Cette personne ne pourra pas voir qu’elle a été bloquée.</string>
-    <string name="report_2_title">Y a-t-il des messages qui étayent ce rapport \?</string>
-    <string name="about_mastodon">\"Mastodon n\'est pas un seul site comme Twitter ou Facebook, c\'est un réseau de milliers de communautés opérées par différentes organisations et individus qui fournissent une expérience de réseau social fluide.\"</string>
+    <string name="report_2_title">Y a-t-il des messages qui étayent ce signalement \?</string>
+    <string name="about_mastodon">« Mastodon n\'est pas un seul site comme Twitter ou Facebook, c\'est un réseau de milliers de communautés opérées par différentes organisations et individus qui fournissent une expérience de réseau social fluide. »</string>
     <string name="notif_display_follows">Abonnements</string>
     <string name="notif_display_updates_from_people">Nouvelles des gens</string>
     <string name="delete_notification_all_warning">Êtes-vous sûr·e de vouloir supprimer toutes les notification \? Cette action est irréversible.</string>
@@ -685,9 +687,9 @@
     <string name="notification_sounds">Sons des notifications</string>
     <string name="pref_theme_base_summary">Choisissez si la base du thème devrait être sombre ou clair</string>
     <string name="pref_contributor_summary">Choisir un thème fait par les contributeurs</string>
-    <string name="toast_bookmark">Le pouet a été ajouté à vos marque-pages !</string>
+    <string name="toast_bookmark">Le message a été ajouté à vos marque-pages !</string>
     <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
-    <string name="report_val3">Cela viole les règles du serveur</string>
+    <string name="report_val3">Elle viole les règles du serveur</string>
     <string name="display">Afficher</string>
     <string name="hide_content">Masquer le contenu &lt;</string>
     <string name="also_favourite_by">"Également préféré par : "</string>
@@ -719,4 +721,7 @@
     <string name="label_eraser_mode">Mode gomme</string>
     <string name="label_rectangle">Rectangle</string>
     <string name="msg_save_image">Souhaitez-vous quitter sans enregistrer l’image \?</string>
+    <string name="messages_in_cache_for_home">Messages dans le cache pour l’Accueil</string>
+    <string name="messages_in_cache_for_other_timelines">Messages dans le cache pour les fils</string>
+    <string name="label_oval">Ovale</string>
 </resources>
