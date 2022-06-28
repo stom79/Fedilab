@@ -150,21 +150,18 @@ public class TimelinesVM extends AndroidViewModel {
     /**
      * Public timeline for Misskey
      *
-     * @param maxId   Return results older than this id
-     * @param sinceId Return results newer than this id
+     * @param untilId Return results older than this id
      * @param limit   Maximum number of results to return. Defaults to 20.
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getMisskey(@NonNull String instance,
-                                         String maxId,
-                                         String sinceId,
+                                         String untilId,
                                          Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             MisskeyNote.MisskeyParams misskeyParams = new MisskeyNote.MisskeyParams();
-            misskeyParams.max_id = maxId;
-            misskeyParams.since_id = sinceId;
+            misskeyParams.untilId = untilId;
             misskeyParams.limit = limit;
             Call<List<MisskeyNote>> publicTlCall = mastodonTimelinesService.getMisskey(misskeyParams);
             Statuses statuses = new Statuses();
@@ -231,8 +228,9 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
                         statuses.pagination = new Pagination();
                         if (statusList.size() > 0) {
-                            statuses.pagination.min_id = statusList.get(0).id;
-                            statuses.pagination.max_id = statusList.get(statusList.size() - 1).id;
+                            //These values are not used.
+                            statuses.pagination.min_id = null;
+                            statuses.pagination.max_id = null;
                         }
                     }
                 } catch (Exception e) {

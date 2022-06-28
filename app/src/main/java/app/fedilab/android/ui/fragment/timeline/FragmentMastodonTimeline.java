@@ -649,16 +649,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }//MISSKEY TIMELINES
                         else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.MISSKEY) {
                             if (direction == null) {
-                                timelinesVM.getMisskey(remoteInstance, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                timelinesVM.getMisskey(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                             } else if (direction == DIRECTION.BOTTOM) {
-                                timelinesVM.getMisskey(remoteInstance, max_id, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                timelinesVM.getMisskey(remoteInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
-                                timelinesVM.getMisskey(remoteInstance, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
-                                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
+                                flagLoading = false;
                             } else if (direction == DIRECTION.REFRESH) {
-                                timelinesVM.getMisskey(remoteInstance, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                                timelinesVM.getMisskey(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
                                                 dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
@@ -674,7 +673,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 timelinesVM.getPeertube(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                             } else if (direction == DIRECTION.BOTTOM) {
-                                timelinesVM.getPeertube(remoteInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
+                                timelinesVM.getPeertube(remoteInstance, String.valueOf(statuses.size()), MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
                                 flagLoading = false;

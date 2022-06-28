@@ -141,10 +141,8 @@ public class MisskeyNote implements Serializable {
         public boolean remote = false;
         @SerializedName("reply")
         public boolean reply = false;
-        @SerializedName("max_id")
-        public String max_id;
-        @SerializedName("since_id")
-        public String since_id;
+        @SerializedName("untilId")
+        public String untilId;
         @SerializedName("limit")
         public int limit;
     }
