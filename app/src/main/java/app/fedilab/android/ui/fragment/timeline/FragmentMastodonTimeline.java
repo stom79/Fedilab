@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -204,7 +206,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
             pinnedTimeline = (PinnedTimeline) getArguments().getSerializable(Helper.ARG_REMOTE_INSTANCE);
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
-                remoteInstance = pinnedTimeline.remoteInstance.host;
+                if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                    remoteInstance = pinnedTimeline.remoteInstance.host;
+                } else {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                    remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                }
             }
 
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
@@ -642,7 +649,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
                         //NITTER TIMELINES
                         if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
-
+                            if (direction == null) {
+                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, null)
+                                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                            } else if (direction == DIRECTION.BOTTOM) {
+                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, max_id)
+                                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
+                            } else if (direction == DIRECTION.TOP) {
+                                flagLoading = false;
+                            } else if (direction == DIRECTION.REFRESH) {
+                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, null)
+                                        .observe(getViewLifecycleOwner(), statusesRefresh -> {
+                                            if (statusAdapter != null) {
+                                                dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                            } else {
+                                                initializeStatusesCommonView(statusesRefresh);
+                                            }
+                                        });
+                            }
                         } //GNU TIMELINES
                         else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.GNU) {
 

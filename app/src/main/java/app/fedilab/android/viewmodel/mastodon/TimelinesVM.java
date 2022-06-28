@@ -45,6 +45,7 @@ import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.misskey.MisskeyNote;
+import app.fedilab.android.client.entities.nitter.Nitter;
 import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
@@ -56,6 +57,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class TimelinesVM extends AndroidViewModel {
 
@@ -86,6 +88,17 @@ public class TimelinesVM extends AndroidViewModel {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonTimelinesService.class);
+    }
+
+    private MastodonTimelinesService initInstanceXMLOnly(String instance) {
+        Gson gson = new GsonBuilder().setDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance)
+                //.addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonTimelinesService.class);
@@ -146,6 +159,48 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
+
+    /**
+     * Public timeline for Nitter
+     *
+     * @param max_position Return results older than this id
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getNitter(@NonNull String instance,
+                                        String accountsStr,
+                                        String max_position) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(accountsStr, max_position);
+            Statuses statuses = new Statuses();
+            if (publicTlCall != null) {
+                try {
+                    Response<Nitter> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        Nitter rssResponse = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (rssResponse != null && rssResponse.channel != null && rssResponse.channel.mFeedItems != null) {
+                            for (Nitter.FeedItem feedItem : rssResponse.channel.mFeedItems) {
+                                Status status = Nitter.convert(getApplication(), instance, feedItem);
+                                statusList.add(status);
+                            }
+                        }
+                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
 
     /**
      * Public timeline for Misskey

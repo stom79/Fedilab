@@ -22,6 +22,8 @@ import app.fedilab.android.client.entities.api.Marker;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.misskey.MisskeyNote;
+import app.fedilab.android.client.entities.nitter.Nitter;
+import app.fedilab.android.client.entities.nitter.NitterAccount;
 import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -222,6 +224,17 @@ public interface MastodonTimelinesService {
             @Query("filter") String filter,
             @Query("sort") String sort,
             @Query("count") int count
+    );
+
+    @GET("{names}/rss")
+    Call<Nitter> getNitter(
+            @Path("names") String id,
+            @Query("max_position") String max_position
+    );
+
+    @GET("{account}/rss")
+    Call<NitterAccount> getNitterAccount(
+            @Path("account") String account
     );
 
     @GET("api/v1/videos/{id}")

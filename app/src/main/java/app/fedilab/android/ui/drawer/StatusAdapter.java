@@ -447,7 +447,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 attachment.peertubeId = matcherLink.group(3);
                 attachmentList.add(attachment);
                 statusToDeal.media_attachments = attachmentList;
-                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                //adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
             }
         }
 
