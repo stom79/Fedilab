@@ -224,4 +224,8 @@ public interface MastodonTimelinesService {
             @Query("count") int count
     );
 
+    @GET("api/v1/videos/{id}")
+    Call<PeertubeVideo.Video> getPeertubeVideo(
+            @Path("id") String id
+    );
 }

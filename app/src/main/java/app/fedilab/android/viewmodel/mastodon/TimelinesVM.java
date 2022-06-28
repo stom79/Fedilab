@@ -71,6 +71,7 @@ public class TimelinesVM extends AndroidViewModel {
     private MutableLiveData<List<StatusDraft>> statusDraftListMutableLiveData;
     private MutableLiveData<Status> statusMutableLiveData;
     private MutableLiveData<Statuses> statusesMutableLiveData;
+    private MutableLiveData<PeertubeVideo.Video> peertubeVideoMutableLiveData;
     private MutableLiveData<Conversations> conversationListMutableLiveData;
     private MutableLiveData<MastodonList> mastodonListMutableLiveData;
     private MutableLiveData<List<MastodonList>> mastodonListListMutableLiveData;
@@ -243,6 +244,34 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return statusesMutableLiveData;
+    }
+
+
+    /**
+     * Returns details for a peertube video
+     *
+     * @return {@link LiveData} containing a {@link PeertubeVideo.Video}
+     */
+    public LiveData<PeertubeVideo.Video> getPeertubeVideo(@NonNull String instance, String id) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
+        peertubeVideoMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<PeertubeVideo.Video> publicTlCall = mastodonTimelinesService.getPeertubeVideo(id);
+            PeertubeVideo.Video peertubeVideo = null;
+            try {
+                Response<PeertubeVideo.Video> videoResponse = publicTlCall.execute();
+                if (videoResponse.isSuccessful()) {
+                    peertubeVideo = videoResponse.body();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            PeertubeVideo.Video finalPeertubeVideo = peertubeVideo;
+            Runnable myRunnable = () -> peertubeVideoMutableLiveData.setValue(finalPeertubeVideo);
+            mainHandler.post(myRunnable);
+        }).start();
+        return peertubeVideoMutableLiveData;
     }
 
 

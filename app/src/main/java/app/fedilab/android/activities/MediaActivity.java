@@ -125,7 +125,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
 
         ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(MediaActivity.this);
         binding.mediaViewpager.setAdapter(mPagerAdapter);
-
+        binding.mediaViewpager.setSaveEnabled(false);
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
         binding.haulerView.setOnDragDismissedListener(dragDirection -> ActivityCompat.finishAfterTransition(MediaActivity.this));
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));

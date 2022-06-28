@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +52,7 @@ import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.FragmentSlideMediaBinding;
 import app.fedilab.android.helper.CacheDataSourceFactory;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import app.fedilab.android.webview.CustomWebview;
 import app.fedilab.android.webview.FedilabWebChromeClient;
 import app.fedilab.android.webview.FedilabWebViewClient;
@@ -198,32 +200,18 @@ public class FragmentMedia extends Fragment {
             case "video":
             case "audio":
             case "gifv":
-                binding.pbarInf.setIndeterminate(false);
-                binding.pbarInf.setScaleY(3f);
-                binding.mediaVideo.setVisibility(View.VISIBLE);
-                Uri uri = Uri.parse(url);
-
-                String userAgent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
-                int video_cache = sharedpreferences.getInt(getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
-                ProgressiveMediaSource videoSource;
-                if (video_cache == 0) {
-                    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(requireActivity(),
-                            Util.getUserAgent(requireActivity(), userAgent), null);
-                    videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
-                            .createMediaSource(uri);
+                if (attachment.peertubeId != null) {
+                    //It's a peertube video, we are fetching data
+                    TimelinesVM timelinesVM = new ViewModelProvider(requireActivity()).get(TimelinesVM.class);
+                    String finalType = type;
+                    timelinesVM.getPeertubeVideo(attachment.peertubeHost, attachment.peertubeId).observe(requireActivity(), video -> {
+                        if (video != null && video.files != null && video.files.size() > 0) {
+                            loadVideo(video.files.get(0).fileUrl, finalType);
+                        }
+                    });
                 } else {
-                    CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(requireActivity());
-                    videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
-                            .createMediaSource(uri);
+                    loadVideo(url, type);
                 }
-                player = new SimpleExoPlayer.Builder(requireActivity()).build();
-                if (type.equalsIgnoreCase("gifv"))
-                    player.setRepeatMode(Player.REPEAT_MODE_ONE);
-                binding.mediaVideo.setPlayer(player);
-                binding.loader.setVisibility(View.GONE);
-                binding.mediaPicture.setVisibility(View.GONE);
-                player.prepare(videoSource);
-                player.setPlayWhenReady(true);
                 break;
             case "web":
                 binding.loader.setVisibility(View.GONE);
@@ -259,6 +247,35 @@ public class FragmentMedia extends Fragment {
                 webview_video.loadUrl(attachment.url);
                 break;
         }
+    }
+
+    private void loadVideo(String url, String type) {
+        binding.pbarInf.setIndeterminate(false);
+        binding.pbarInf.setScaleY(3f);
+        binding.mediaVideo.setVisibility(View.VISIBLE);
+        Uri uri = Uri.parse(url);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        String userAgent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
+        int video_cache = sharedpreferences.getInt(getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+        ProgressiveMediaSource videoSource;
+        if (video_cache == 0) {
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(requireActivity(),
+                    Util.getUserAgent(requireActivity(), userAgent), null);
+            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(uri);
+        } else {
+            CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(requireActivity());
+            videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+                    .createMediaSource(uri);
+        }
+        player = new SimpleExoPlayer.Builder(requireActivity()).build();
+        if (type.equalsIgnoreCase("gifv"))
+            player.setRepeatMode(Player.REPEAT_MODE_ONE);
+        binding.mediaVideo.setPlayer(player);
+        binding.loader.setVisibility(View.GONE);
+        binding.mediaPicture.setVisibility(View.GONE);
+        player.prepare(videoSource);
+        player.setPlayWhenReady(true);
     }
 
     @Override

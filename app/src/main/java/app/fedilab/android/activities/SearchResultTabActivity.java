@@ -83,6 +83,7 @@ public class SearchResultTabActivity extends BaseActivity {
         binding.searchTabLayout.setTabIconTint(ThemeHelper.getColorStateList(SearchResultTabActivity.this));
         ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
         binding.searchViewpager.setAdapter(mPagerAdapter);
+        binding.searchViewpager.setSaveEnabled(false);
         binding.searchViewpager.setOffscreenPageLimit(3);
         new TabLayoutMediator(binding.searchTabLayout, binding.searchViewpager,
                 (tab, position) -> {

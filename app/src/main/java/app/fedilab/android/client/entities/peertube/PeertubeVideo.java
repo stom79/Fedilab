@@ -56,9 +56,11 @@ public class PeertubeVideo implements Serializable {
         status.account = account;
         List<Attachment> attachmentList = new ArrayList<>();
         Attachment attachment = new Attachment();
-        attachment.type = "video/mp4";
+        attachment.type = "video";
         attachment.url = "https://" + peertubeVideo.account.host + peertubeVideo.embedPath;
         attachment.preview_url = "https://" + peertubeVideo.account.host + peertubeVideo.thumbnailPath;
+        attachment.peertubeId = peertubeVideo.uuid;
+        attachment.peertubeHost = peertubeVideo.account.host;
         attachmentList.add(attachment);
         status.media_attachments = attachmentList;
         return status;
@@ -111,9 +113,31 @@ public class PeertubeVideo implements Serializable {
         public Date updatedAt;
         @SerializedName("uuid")
         public String uuid;
-
+        @SerializedName("files")
+        public List<File> files;
         @SerializedName("views")
         public int views;
+    }
+
+    public class File implements Serializable {
+        @SerializedName("fileDownloadUrl")
+        public String fileDownloadUrl;
+        @SerializedName("fileUrl")
+        public String fileUrl;
+        @SerializedName("fps")
+        public int fps;
+        @SerializedName("magnetUri")
+        public String magnetUri;
+        @SerializedName("metadataUrl")
+        public String metadataUrl;
+        @SerializedName("resolution")
+        public Item resolutions;
+        @SerializedName("size")
+        public long size;
+        @SerializedName("torrentDownloadUrl")
+        public String torrentDownloadUrl;
+        @SerializedName("torrentUrl")
+        public String torrentUrl;
     }
 
     public static class PeertubeAccount implements Serializable {

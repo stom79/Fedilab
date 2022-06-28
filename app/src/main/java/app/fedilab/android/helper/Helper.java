@@ -280,6 +280,7 @@ public class Helper {
     public static final Pattern libredditPattern = Pattern.compile("(www\\.|m\\.)?(reddit\\.com|preview\\.redd\\.it|i\\.redd\\.it|redd\\.it)/(((?!([\"'<])).)*)");
     public static final Pattern ouichesPattern = Pattern.compile("https?://ouich\\.es/tag/(\\w+)");
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    public static final Pattern peertubePattern = Pattern.compile("(https?://([\\da-z.-]+\\.[a-z.]{2,10}))/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})$");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([/\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
