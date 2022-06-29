@@ -184,11 +184,9 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = SpannableHelper.convertNitterStatus(getApplication().getApplicationContext(), statusList);
                         statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

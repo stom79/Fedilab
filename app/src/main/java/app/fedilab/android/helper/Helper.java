@@ -650,8 +650,9 @@ public class Helper {
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://"))
+            if (url != null && !url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
                 url = "http://" + url;
+            }
             intent.setData(Uri.parse(url));
             try {
                 context.startActivity(intent);

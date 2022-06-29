@@ -77,7 +77,7 @@ public class Nitter implements Serializable {
     public static Status convert(Context context, String instance, FeedItem feedItem) {
         Status status = new Status();
         status.id = feedItem.pubDate;
-        status.content = feedItem.title;
+        status.content = feedItem.description;
         status.text = feedItem.title;
         status.visibility = "public";
         status.created_at = Helper.stringToDateWithFormat(context, feedItem.pubDate, "EEE, dd MMM yyyy HH:mm:ss zzz");
@@ -103,8 +103,8 @@ public class Nitter implements Serializable {
             app.fedilab.android.client.entities.api.Account account = new app.fedilab.android.client.entities.api.Account();
             String[] names = nitterAccount.image.title.split("/");
             account.id = feedItem.guid;
-            account.acct = names[1];
-            account.username = names[1];
+            account.acct = names[1].replace("@", "");
+            account.username = names[1].replace("@", "");
             account.display_name = names[0];
             account.avatar = nitterAccount.image.url;
             account.avatar_static = nitterAccount.image.url;

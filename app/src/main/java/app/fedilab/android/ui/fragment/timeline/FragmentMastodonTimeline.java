@@ -144,6 +144,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String ident;
     private String instance, user_id;
     private ArrayList<String> idOfAddedStatuses;
+    private boolean canBeFederated;
 
     /**
      * Return the position of the status in the ArrayList
@@ -199,6 +200,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         timelineType = Timeline.TimeLineEnum.HOME;
         instance = MainActivity.currentInstance;
         user_id = MainActivity.currentUserID;
+        canBeFederated = true;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
             list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
@@ -211,6 +213,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                    canBeFederated = false;
                 }
             }
 
@@ -336,12 +339,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (min_id == null || (statuses.pagination.min_id != null && statuses.pagination.min_id.compareTo(min_id) > 0)) {
             min_id = statuses.pagination.min_id;
         }
-        statusAdapter = new StatusAdapter(this.statuses, timelineType, minified);
+        statusAdapter = new StatusAdapter(this.statuses, timelineType, minified, canBeFederated);
         statusAdapter.fetchMoreCallBack = this;
         if (statusReport != null) {
             scrollToTop();
         }
         mLayoutManager = new LinearLayoutManager(requireActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
 

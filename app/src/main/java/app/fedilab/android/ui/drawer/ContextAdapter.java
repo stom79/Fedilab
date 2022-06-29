@@ -72,7 +72,7 @@ public class ContextAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
         StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
-        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, Timeline.TimeLineEnum.UNKNOWN, false);
+        statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, Timeline.TimeLineEnum.UNKNOWN, false, true);
         //Hide/Show specific view
 
     }

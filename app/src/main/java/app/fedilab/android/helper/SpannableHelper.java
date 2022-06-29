@@ -1007,6 +1007,41 @@ public class SpannableHelper {
         return statuses;
     }
 
+    public static List<Status> convertNitterStatus(Context context, List<Status> statuses) {
+        if (statuses != null) {
+            for (Status status : statuses) {
+                convertNitterStatus(context, status);
+            }
+        }
+        return statuses;
+    }
+
+    public static Status convertNitterStatus(Context context, Status status) {
+        if (status != null) {
+            status.span_content = SpannableHelper.convertNitter(context, status.content);
+        }
+        return status;
+    }
+
+    /**
+     * Convert HTML content to text. Also, it handles click on link and transform emoji
+     * This needs to be run asynchronously
+     *
+     * @param context {@link Context}
+     * @param text    String - text to convert, it can be content, spoiler, poll items, etc.
+     * @return Spannable string
+     */
+    private static Spannable convertNitter(@NonNull Context context, String text) {
+        SpannableString initialContent;
+        if (text == null) {
+            return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+        else
+            initialContent = new SpannableString(Html.fromHtml(text));
+        return initialContent;
+    }
 
     public static List<Announcement> convertAnnouncement(Context context, List<Announcement> announcements) {
         if (announcements != null) {

@@ -141,11 +141,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final Timeline.TimeLineEnum timelineType;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
+    private final boolean canBeFederated;
 
-    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
+    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated) {
         this.statusList = statuses;
         this.timelineType = timelineType;
         this.minified = minified;
+        this.canBeFederated = canBeFederated;
     }
 
 
@@ -293,7 +295,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         List<Notification> notificationList,
                                         Status status,
                                         Timeline.TimeLineEnum timelineType,
-                                        boolean minified) {
+                                        boolean minified, boolean canBeFederated) {
         if (status == null) {
             return;
         }
@@ -469,7 +471,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.card.setVisibility(View.GONE);
         }
-        if (minified) {
+        if (minified || !canBeFederated) {
             holder.binding.actionButtons.setVisibility(View.GONE);
         } else {
             holder.binding.actionButtons.setVisibility(View.VISIBLE);
@@ -1298,7 +1300,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             return false;
         });
-        if (!minified) {
+        if (!minified && canBeFederated) {
             holder.binding.mainContainer.setOnClickListener(v -> {
                 holder.binding.statusContent.callOnClick();
             });
@@ -1335,6 +1337,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
+        } else if (!canBeFederated) {
+            holder.binding.mainContainer.setOnClickListener(v -> Helper.openBrowser(context, status.url));
+            holder.binding.statusContent.setOnClickListener(v -> Helper.openBrowser(context, status.url));
         }
 
 
@@ -1756,7 +1761,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified);
+            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified, canBeFederated);
             if (holder.timer != null) {
                 holder.timer.cancel();
                 holder.timer = null;

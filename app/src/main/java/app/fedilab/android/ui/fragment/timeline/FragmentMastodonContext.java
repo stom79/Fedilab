@@ -169,7 +169,7 @@ public class FragmentMastodonContext extends Fragment {
         this.statuses = new ArrayList<>();
         focusedStatus.isFocused = true;
         this.statuses.add(focusedStatus);
-        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false);
+        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false, true);
         binding.swipeContainer.setRefreshing(false);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
