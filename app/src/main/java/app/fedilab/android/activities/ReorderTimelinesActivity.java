@@ -19,6 +19,7 @@ import static app.fedilab.android.helper.PinnedTimelineHelper.sortMenuItem;
 import static app.fedilab.android.helper.PinnedTimelineHelper.sortPositionAsc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,8 +71,10 @@ import app.fedilab.android.viewmodel.mastodon.ReorderVM;
 import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -87,7 +91,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
     private ActivityReorderTabsBinding binding;
     private boolean changes;
     private boolean bottomChanges;
-
+    private boolean update;
     public void setChanges(boolean changes) {
         this.changes = changes;
     }
@@ -112,10 +116,12 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         bottomChanges = false;
         ReorderVM reorderVM = new ViewModelProvider(ReorderTimelinesActivity.this).get(ReorderVM.class);
         reorderVM.getPinned().observe(ReorderTimelinesActivity.this, _pinned -> {
+            update = true;
             this.pinned = _pinned;
             if (this.pinned == null) {
                 this.pinned = new Pinned();
                 this.pinned.pinnedTimelines = new ArrayList<>();
+                update = false;
             }
             sortPositionAsc(this.pinned.pinnedTimelines);
             reorderTabAdapter = new ReorderTabAdapter(this.pinned, ReorderTimelinesActivity.this, ReorderTimelinesActivity.this);
@@ -153,7 +159,6 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         } else if (item.getItemId() == R.id.action_add_timeline) {
             addInstance();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -168,11 +173,17 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this, Helper.dialogStyle());
         PopupSearchInstanceBinding popupSearchInstanceBinding = PopupSearchInstanceBinding.inflate(getLayoutInflater());
         dialogBuilder.setView(popupSearchInstanceBinding.getRoot());
+        TextWatcher textWatcher = autoComplete(popupSearchInstanceBinding);
+        popupSearchInstanceBinding.searchInstance.addTextChangedListener(textWatcher);
+
         popupSearchInstanceBinding.setAttachmentGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.twitter_accounts) {
                 popupSearchInstanceBinding.searchInstance.setHint(R.string.list_of_twitter_accounts);
+                popupSearchInstanceBinding.searchInstance.removeTextChangedListener(textWatcher);
             } else {
                 popupSearchInstanceBinding.searchInstance.setHint(R.string.instance);
+                popupSearchInstanceBinding.searchInstance.removeTextChangedListener(textWatcher);
+                popupSearchInstanceBinding.searchInstance.addTextChangedListener(textWatcher);
             }
         });
         popupSearchInstanceBinding.searchInstance.setFilters(new InputFilter[]{new InputFilter.LengthFilter(60)});
@@ -180,16 +191,24 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
             String instanceName = popupSearchInstanceBinding.searchInstance.getText().toString().trim().replace("@", "");
             new Thread(() -> {
                 String url = null;
-                if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_instance)
+                boolean getCall = true;
+                RequestBody formBody = new FormBody.Builder()
+                        .build();
+                if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_instance) {
                     url = "https://" + instanceName + "/api/v1/timelines/public?local=true";
-                else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance)
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                     url = "https://" + instanceName + "/api/v1/videos/";
-                else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {
                     url = "https://" + instanceName + "/api/v1/timelines/public";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.misskey_instance) {
                     url = "https://" + instanceName + "/api/notes/local-timeline";
+                    getCall = false;
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.gnu_instance) {
                     url = "https://" + instanceName + "/api/statuses/public_timeline.json";
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
+                    String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("\\s", "") + "/rss";
                 }
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
@@ -198,9 +217,16 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                         .readTimeout(10, TimeUnit.SECONDS).build();
                 Request request;
                 if (url != null) {
-                    request = new Request.Builder()
-                            .url(url)
-                            .build();
+                    if (getCall) {
+                        request = new Request.Builder()
+                                .url(url)
+                                .build();
+                    } else {
+                        request = new Request.Builder()
+                                .url(url)
+                                .post(formBody)
+                                .build();
+                    }
                     client.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -236,13 +262,26 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                                     pinnedTimeline.type = Timeline.TimeLineEnum.REMOTE;
                                     pinnedTimeline.position = pinned.pinnedTimelines.size();
                                     pinned.pinnedTimelines.add(pinnedTimeline);
-                                    try {
-                                        new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);
-                                        changes = true;
-                                        reorderTabAdapter.notifyItemInserted(pinned.pinnedTimelines.size());
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
+
+                                    if (update) {
+                                        try {
+                                            new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);
+                                        } catch (DBException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        try {
+                                            new Pinned(ReorderTimelinesActivity.this).insertPinned(pinned);
+                                        } catch (DBException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
+                                    reorderTabAdapter.notifyItemInserted(pinned.pinnedTimelines.size());
+                                    Bundle b = new Bundle();
+                                    b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                                    Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+                                    intentBD.putExtras(b);
+                                    LocalBroadcastManager.getInstance(ReorderTimelinesActivity.this).sendBroadcast(intentBD);
                                 });
                             } else {
                                 runOnUiThread(() -> Toasty.warning(ReorderTimelinesActivity.this, getString(R.string.toast_instance_unavailable), Toast.LENGTH_LONG).show());
@@ -267,7 +306,11 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
 
         popupSearchInstanceBinding.searchInstance.setOnItemClickListener((parent, view1, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
 
-        popupSearchInstanceBinding.searchInstance.addTextChangedListener(new TextWatcher() {
+
+    }
+
+    private TextWatcher autoComplete(PopupSearchInstanceBinding popupSearchInstanceBinding) {
+        return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -314,8 +357,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                     }
                 }
             }
-        });
-
+        };
     }
 
     @Override

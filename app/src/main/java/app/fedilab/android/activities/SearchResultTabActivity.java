@@ -30,9 +30,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,13 +75,35 @@ public class SearchResultTabActivity extends BaseActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         setTitle(search);
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.tags)));
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.accounts)));
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.toots)));
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.action_cache)));
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
         binding.searchTabLayout.setTabTextColors(ThemeHelper.getAttColor(SearchResultTabActivity.this, R.attr.mTextColor), ContextCompat.getColor(SearchResultTabActivity.this, R.color.cyanea_accent_dark_reference));
         binding.searchTabLayout.setTabIconTint(ThemeHelper.getColorStateList(SearchResultTabActivity.this));
-
+        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
+        binding.searchViewpager.setAdapter(mPagerAdapter);
+        binding.searchViewpager.setSaveEnabled(false);
+        binding.searchViewpager.setOffscreenPageLimit(3);
+        new TabLayoutMediator(binding.searchTabLayout, binding.searchViewpager,
+                (tab, position) -> {
+                    binding.searchViewpager.setCurrentItem(tab.getPosition(), true);
+                    switch (position) {
+                        case 0:
+                            tab.setText(getString(R.string.tags));
+                            break;
+                        case 1:
+                            tab.setText(getString(R.string.accounts));
+                            break;
+                        case 2:
+                            tab.setText(getString(R.string.toots));
+                            break;
+                        case 3:
+                            tab.setText(getString(R.string.action_cache));
+                            break;
+                    }
+                }
+        ).attach();
         binding.searchTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -95,19 +117,16 @@ public class SearchResultTabActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment;
-                if (binding.searchViewpager.getAdapter() != null) {
-                    fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("f" + binding.searchViewpager.getCurrentItem());
-                    if (fragment instanceof FragmentMastodonAccount) {
-                        FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
-                        fragmentMastodonAccount.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTimeline) {
-                        FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                        fragmentMastodonTimeline.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTag) {
-                        FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
-                        fragmentMastodonTag.scrollToTop();
-                    }
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.searchViewpager.getCurrentItem());
+                if (fragment instanceof FragmentMastodonAccount) {
+                    FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
+                    fragmentMastodonAccount.scrollToTop();
+                } else if (fragment instanceof FragmentMastodonTimeline) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.scrollToTop();
+                } else if (fragment instanceof FragmentMastodonTag) {
+                    FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
+                    fragmentMastodonTag.scrollToTop();
                 }
             }
         });
@@ -122,8 +141,6 @@ public class SearchResultTabActivity extends BaseActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -156,29 +173,7 @@ public class SearchResultTabActivity extends BaseActivity {
         });
 
 
-        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
-        binding.searchViewpager.setAdapter(mPagerAdapter);
 
-        binding.searchViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                binding.searchTabLayout.selectTab(binding.searchTabLayout.getTabAt(position));
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                TabLayout.Tab tab = binding.searchTabLayout.getTabAt(position);
-                if (tab != null)
-                    tab.select();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
-        });
         return true;
     }
 

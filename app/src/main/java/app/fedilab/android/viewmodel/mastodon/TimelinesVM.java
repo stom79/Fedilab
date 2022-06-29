@@ -27,6 +27,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +44,9 @@ import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.misskey.MisskeyNote;
+import app.fedilab.android.client.entities.nitter.Nitter;
+import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -53,6 +57,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class TimelinesVM extends AndroidViewModel {
 
@@ -68,6 +73,7 @@ public class TimelinesVM extends AndroidViewModel {
     private MutableLiveData<List<StatusDraft>> statusDraftListMutableLiveData;
     private MutableLiveData<Status> statusMutableLiveData;
     private MutableLiveData<Statuses> statusesMutableLiveData;
+    private MutableLiveData<PeertubeVideo.Video> peertubeVideoMutableLiveData;
     private MutableLiveData<Conversations> conversationListMutableLiveData;
     private MutableLiveData<MastodonList> mastodonListMutableLiveData;
     private MutableLiveData<List<MastodonList>> mastodonListListMutableLiveData;
@@ -77,6 +83,24 @@ public class TimelinesVM extends AndroidViewModel {
         super(application);
     }
 
+    private MastodonTimelinesService initInstanceOnly(String instance) {
+        Gson gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss").create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonTimelinesService.class);
+    }
+
+    private MastodonTimelinesService initInstanceXMLOnly(String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonTimelinesService.class);
+    }
 
     private MastodonTimelinesService init(String instance) {
         Gson gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss").create();
@@ -131,6 +155,172 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return statusesMutableLiveData;
+    }
+
+
+    /**
+     * Public timeline for Nitter
+     *
+     * @param max_position Return results older than this id
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getNitter(@NonNull String instance,
+                                        String accountsStr,
+                                        String max_position) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(accountsStr, max_position);
+            Statuses statuses = new Statuses();
+            if (publicTlCall != null) {
+                try {
+                    Response<Nitter> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        Nitter rssResponse = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (rssResponse != null && rssResponse.mFeedItems != null) {
+                            for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
+                                Status status = Nitter.convert(getApplication(), instance, feedItem);
+                                statusList.add(status);
+                            }
+                        }
+                        statuses.statuses = SpannableHelper.convertNitterStatus(getApplication().getApplicationContext(), statusList);
+                        statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
+    /**
+     * Public timeline for Misskey
+     *
+     * @param untilId Return results older than this id
+     * @param limit   Maximum number of results to return. Defaults to 20.
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getMisskey(@NonNull String instance,
+                                         String untilId,
+                                         Integer limit) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            MisskeyNote.MisskeyParams misskeyParams = new MisskeyNote.MisskeyParams();
+            misskeyParams.untilId = untilId;
+            misskeyParams.limit = limit;
+            Call<List<MisskeyNote>> publicTlCall = mastodonTimelinesService.getMisskey(misskeyParams);
+            Statuses statuses = new Statuses();
+            if (publicTlCall != null) {
+                try {
+                    Response<List<MisskeyNote>> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        List<MisskeyNote> misskeyNoteList = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (misskeyNoteList != null) {
+                            for (MisskeyNote misskeyNote : misskeyNoteList) {
+                                Status status = MisskeyNote.convert(misskeyNote);
+                                statusList.add(status);
+                            }
+                        }
+                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.pagination = new Pagination();
+                        if (statusList.size() > 0) {
+                            statuses.pagination.min_id = statusList.get(0).id;
+                            statuses.pagination.max_id = statusList.get(statusList.size() - 1).id;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
+    /**
+     * Public timeline for Peertube
+     *
+     * @param maxId Return results older than this id
+     * @param limit Maximum number of results to return. Defaults to 20.
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getPeertube(@NonNull String instance,
+                                          String maxId,
+                                          Integer limit) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<PeertubeVideo> publicTlCall = mastodonTimelinesService.getPeertube(maxId, "local", "-publishedAt", limit);
+            Statuses statuses = new Statuses();
+            if (publicTlCall != null) {
+                try {
+                    Response<PeertubeVideo> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        PeertubeVideo peertubeVideo = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (peertubeVideo != null) {
+                            for (PeertubeVideo.Video video : peertubeVideo.data) {
+                                Status status = PeertubeVideo.convert(video);
+                                statusList.add(status);
+                            }
+                        }
+                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.pagination = new Pagination();
+                        if (statusList.size() > 0) {
+                            //These values are not used.
+                            statuses.pagination.min_id = null;
+                            statuses.pagination.max_id = null;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
+
+    /**
+     * Returns details for a peertube video
+     *
+     * @return {@link LiveData} containing a {@link PeertubeVideo.Video}
+     */
+    public LiveData<PeertubeVideo.Video> getPeertubeVideo(@NonNull String instance, String id) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
+        peertubeVideoMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<PeertubeVideo.Video> publicTlCall = mastodonTimelinesService.getPeertubeVideo(id);
+            PeertubeVideo.Video peertubeVideo = null;
+            try {
+                Response<PeertubeVideo.Video> videoResponse = publicTlCall.execute();
+                if (videoResponse.isSuccessful()) {
+                    peertubeVideo = videoResponse.body();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            PeertubeVideo.Video finalPeertubeVideo = peertubeVideo;
+            Runnable myRunnable = () -> peertubeVideoMutableLiveData.setValue(finalPeertubeVideo);
+            mainHandler.post(myRunnable);
+        }).start();
+        return peertubeVideoMutableLiveData;
     }
 
 

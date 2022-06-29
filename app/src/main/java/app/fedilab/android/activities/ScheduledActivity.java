@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityScheduledBinding;
@@ -56,31 +56,31 @@ public class ScheduledActivity extends BaseActivity {
 
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         binding.title.setText(R.string.scheduled);
-        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.toots_server)));
-        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.toots_client)));
-        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.reblog)));
+        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab());
+        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab());
+        binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab());
 
         binding.scheduleViewpager.setAdapter(new FedilabScheduledPageAdapter(ScheduledActivity.this));
         binding.scheduleViewpager.setOffscreenPageLimit(3);
         binding.scheduleTablayout.setTabTextColors(ThemeHelper.getAttColor(ScheduledActivity.this, R.attr.mTextColor), ContextCompat.getColor(ScheduledActivity.this, R.color.cyanea_accent_dark_reference));
         binding.scheduleTablayout.setTabIconTint(ThemeHelper.getColorStateList(ScheduledActivity.this));
 
-        binding.scheduleTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.scheduleViewpager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        new TabLayoutMediator(binding.scheduleTablayout, binding.scheduleViewpager,
+                (tab, position) -> {
+                    binding.scheduleViewpager.setCurrentItem(tab.getPosition(), true);
+                    switch (position) {
+                        case 0:
+                            tab.setText(getString(R.string.toots_server));
+                            break;
+                        case 1:
+                            tab.setText(getString(R.string.toots_client));
+                            break;
+                        case 2:
+                            tab.setText(getString(R.string.reblog));
+                            break;
+                    }
+                }
+        ).attach();
     }
 
     @Override

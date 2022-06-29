@@ -44,4 +44,6 @@ public class Attachment implements Serializable {
     @SerializedName("local_path")
     public String local_path;
 
+    public String peertubeHost = null;
+    public String peertubeId = null;
 }

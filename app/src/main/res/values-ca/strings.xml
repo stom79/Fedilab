@@ -474,7 +474,9 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="set_enable_crash_report">Habilita els informes de fallida</string>
     <string name="set_enable_crash_report_indication">Quan està habilitat, es crea un informe local de fallida que després pots compartir.</string>
     <string name="crash_title">Malaslab s\'ha aturat :(</string>
-    <string name="crash_message">Pots enviar-me l\'informe de la fallada per email. Ajudarà a resoldre-ho :)\n\nPots afegir-hi contingut. Gràcies!</string>
+    <string name="crash_message">Pots enviar-me l\'informe de la fallada per correu electrònic. Ajudarà a resoldre-ho :)
+\n
+\nPots afegir-hi contingut. Gràcies!</string>
     <string name="visibility">Visibilitat</string>
     <string name="set_disable_animated_emoji">Deshabilita els emojis animats personalitzats</string>
     <string name="report_account">Denuncia el compte</string>

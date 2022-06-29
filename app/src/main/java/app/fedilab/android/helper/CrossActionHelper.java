@@ -83,7 +83,7 @@ public class CrossActionHelper {
                         AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
                         builderSingle.setTitle(context.getString(R.string.choose_accounts));
                         final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
-                        final BaseAccount[] accountArray = new Account[accounts.size()];
+                        final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
                         int i = 0;
                         for (BaseAccount account : accounts) {
                             accountArray[i] = account;

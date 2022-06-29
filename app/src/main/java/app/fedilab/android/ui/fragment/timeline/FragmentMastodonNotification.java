@@ -192,7 +192,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      */
     private void initializeNotificationView(final Notifications notifications) {
         flagLoading = false;
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -283,10 +283,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing) {
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
         new Thread(() -> {
-            if (binding == null) {
-                return;
-            }
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
             if (direction != FragmentMastodonTimeline.DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.notifications != null && quickLoad.notifications.size() > 0) {
                 Notifications notifications = new Notifications();
@@ -365,10 +365,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      * @param fetched_notifications Notifications
      */
     private synchronized void dealWithPagination(Notifications fetched_notifications, FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing) {
-        if (binding == null) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
-        int currentPosition = mLayoutManager.findFirstVisibleItemPosition();
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
@@ -376,10 +375,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
-            int inserted = updateNotificationListWith(direction, fetched_notifications.notifications, fetchingMissing);
-            if (fetchingMissing) {
-                //  binding.recyclerView.scrollToPosition(currentPosition + inserted);
-            }
+            updateNotificationListWith(direction, fetched_notifications.notifications, fetchingMissing);
             if (!fetchingMissing) {
                 if (fetched_notifications.pagination.max_id == null) {
                     flagLoading = true;
@@ -400,9 +396,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      *
      * @param notificationsReceived - List<Notification> Notifications received
      * @param fetchingMissing       - boolean if the call concerns fetching messages (ie: refresh of from fetch more button)
-     * @return int - Number of messages that have been inserted in the middle of the timeline (ie between other statuses)
      */
-    private int updateNotificationListWith(FragmentMastodonTimeline.DIRECTION direction, List<Notification> notificationsReceived, boolean fetchingMissing) {
+    private void updateNotificationListWith(FragmentMastodonTimeline.DIRECTION direction, List<Notification> notificationsReceived, boolean fetchingMissing) {
         int numberInserted = 0;
         int lastInsertedPosition = 0;
         int initialInsertedPosition = NOTIFICATION_PRESENT;
@@ -438,7 +433,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 notificationAdapter.notifyItemInserted(insertAt);
             }
         }
-        return numberInserted;
     }
 
     /**

@@ -744,4 +744,11 @@
     <string name="label_rectangle">Chữ nhật</string>
     <string name="label_line">Đường thẳng</string>
     <string name="label_eraser_mode">Chế độ Xóa</string>
+    <string name="delete_cache">Xóa cache</string>
+    <string name="messages_in_cache_for_home">Tút trong cache cho Bảng Tin</string>
+    <string name="messages_stored_in_drafts">Tút lưu trong nháp</string>
+    <string name="delete_cache_message">Bạn có chắc muốn xóa cache\? Nếu bạn có tút nháp đính kèm media, nó sẽ bị mất.</string>
+    <string name="messages_in_cache_for_other_timelines">Tút trong cache những Bảng Tin khác</string>
+    <string name="files_cache_size">Kích cỡ cache</string>
+    <string name="clear_cache">Xóa cache</string>
 </resources>

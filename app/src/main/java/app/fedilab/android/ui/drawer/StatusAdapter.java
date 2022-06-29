@@ -141,11 +141,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final Timeline.TimeLineEnum timelineType;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
+    private final boolean canBeFederated;
 
-    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified) {
+    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated) {
         this.statusList = statuses;
         this.timelineType = timelineType;
         this.minified = minified;
+        this.canBeFederated = canBeFederated;
     }
 
 
@@ -293,7 +295,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         List<Notification> notificationList,
                                         Status status,
                                         Timeline.TimeLineEnum timelineType,
-                                        boolean minified) {
+                                        boolean minified, boolean canBeFederated) {
         if (status == null) {
             return;
         }
@@ -433,6 +435,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             holder.binding.spoiler.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         }
+
+        //If the message contain a link to peertube and no media was added, we add it
+        if (statusToDeal.card != null && statusToDeal.card.url != null && (statusToDeal.media_attachments == null || statusToDeal.media_attachments.size() == 0)) {
+            Matcher matcherLink = Helper.peertubePattern.matcher(statusToDeal.card.url);
+            if (matcherLink.find()) { //Peertubee video
+                List<Attachment> attachmentList = new ArrayList<>();
+                Attachment attachment = new Attachment();
+                attachment.type = "video";
+                attachment.url = matcherLink.group(0);
+                attachment.preview_url = statusToDeal.card.image;
+                attachment.peertubeHost = matcherLink.group(2);
+                attachment.peertubeId = matcherLink.group(3);
+                attachmentList.add(attachment);
+                statusToDeal.media_attachments = attachmentList;
+                //adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+            }
+        }
+
         if (status.card != null && (display_card || status.isFocused)) {
             if (status.card.width > status.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
@@ -451,7 +471,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.card.setVisibility(View.GONE);
         }
-        if (minified) {
+        if (minified || !canBeFederated) {
             holder.binding.actionButtons.setVisibility(View.GONE);
         } else {
             holder.binding.actionButtons.setVisibility(View.VISIBLE);
@@ -1280,7 +1300,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             return false;
         });
-        if (!minified) {
+        if (!minified && canBeFederated) {
             holder.binding.mainContainer.setOnClickListener(v -> {
                 holder.binding.statusContent.callOnClick();
             });
@@ -1317,6 +1337,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             });
+        } else if (!canBeFederated) {
+            holder.binding.mainContainer.setOnClickListener(v -> Helper.openBrowser(context, status.url));
+            holder.binding.statusContent.setOnClickListener(v -> Helper.openBrowser(context, status.url));
         }
 
 
@@ -1738,7 +1761,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified);
+            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified, canBeFederated);
             if (holder.timer != null) {
                 holder.timer.cancel();
                 holder.timer = null;

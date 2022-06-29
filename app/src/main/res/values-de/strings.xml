@@ -17,15 +17,15 @@
     <string name="password">Passwort</string>
     <string name="email">E-Mail</string>
     <string name="accounts">Konten</string>
-    <string name="toots">Toots</string>
+    <string name="toots">Nachrichten</string>
     <string name="tags">Schlagwörter (tags)</string>
     <string name="save">Speichern</string>
     <string name="instance">Instanz</string>
     <string name="instance_example">Instanz: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Konto %1$s wird verwendet</string>
     <string name="add_account">Konto hinzufügen</string>
-    <string name="clipboard">Der Inhalt des Toots wurde in die Zwischenablage kopiert</string>
-    <string name="clipboard_url">Die URL des Toots wurde in die Zwischenablage kopiert</string>
+    <string name="clipboard">Der Inhalt der Nachricht wurde in die Zwischenablage kopiert</string>
+    <string name="clipboard_url">Die URL der Nachricht wurde in die Zwischenablage kopiert</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Alles löschen</string>
     <string name="schedule">Planen</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Folgeanfragen</string>
     <string name="settings">Einstellungen</string>
     <string name="send_email">E-Mail senden</string>
-    <string name="scheduled_toots">Geplante Toots</string>
+    <string name="scheduled_toots">Geplante Nachrichten</string>
     <string name="disclaimer_full">Die folgenden Informationen könnten das Profil des Nutzers unvollständig wiedergeben.</string>
     <string name="insert_emoji">Emoji einfügen</string>
     <string name="no_emoji">Die App verfügt derzeit nicht über benutzerdefinierte Emojis.</string>
     <string name="logout_account_confirmation">Sind Sie sicher, dass Sie @%1$s@%2$s abmelden möchten?</string>
     <!-- Status -->
-    <string name="no_status">Kein Toot zum Anzeigen</string>
-    <string name="favourite_add">Diesen Toot deinen Favoriten hinzufügen?</string>
-    <string name="favourite_remove">Diesen Toot aus Ihren Favoriten entfernen?</string>
-    <string name="reblog_add">Teile diesen Toot?</string>
-    <string name="reblog_remove">Geteilten Toot zurückziehen?</string>
+    <string name="no_status">Keine Nachrichten zum Anzeigen</string>
+    <string name="favourite_add">Diese Nachricht deinen Favoriten hinzufügen\?</string>
+    <string name="favourite_remove">Diese Nachricht aus Ihren Favoriten entfernen\?</string>
+    <string name="reblog_add">Diese Nachricht teilen\?</string>
+    <string name="reblog_remove">Geteilte Nachricht zurückziehen\?</string>
     <string name="more_action_1">Stummschalten</string>
     <string name="more_action_2">Sperren</string>
     <string name="more_action_3">Melden</string>
@@ -122,8 +122,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Ein Fehler während der Auswahl ist aufgetreten!</string>
     <string name="toot_delete_media">Diese Datei löschen?</string>
-    <string name="toot_error_no_content">Dein Toot ist leer!</string>
-    <string name="toot_sent">Der Toot wurde gesendet!</string>
+    <string name="toot_error_no_content">Deine Nachricht ist leer!</string>
+    <string name="toot_sent">Die Nachricht wurde gesendet!</string>
     <string name="toot_sensitive">Vertrauliche Inhalte?</string>
     <string name="no_draft">Keine Entwürfe vorhanden!</string>
     <string name="choose_accounts">Konto auswählen</string>
@@ -143,14 +143,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Keinen Nutzer gefunden</string>
     <string name="no_follow_request">Keine Anfragen zu Folgen</string>
-    <string name="status_cnt">Toots \n %1$s</string>
+    <string name="status_cnt">Nachrichten
+\n %1$s</string>
     <string name="following_cnt">Folgt \n %1$s</string>
     <string name="followers_cnt">Folgende \n %1$s</string>
     <string name="reject">Ablehnen</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Keine geplanten Toots vorhanden!</string>
-    <string name="remove_scheduled">Geplanten Toot löschen?</string>
-    <string name="toot_scheduled">Der Toot wurde geplant!</string>
+    <string name="no_scheduled_toots">Keine geplanten Nachrichten vorhanden!</string>
+    <string name="remove_scheduled">Geplante Nachricht löschen\?</string>
+    <string name="toot_scheduled">Die Nachricht wurde geplant!</string>
     <string name="toot_scheduled_date">Der geplante Termin muss nach dem aktuellen Zeitpunkt liegen!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Die Dauer für den Lautlosmodus sollte mehr als eine Minute betragen.</string>
@@ -176,10 +177,10 @@
     <string name="toast_unmute">Lautlosmodus für dieses Konto aufgehoben!</string>
     <string name="toast_follow">Du folgst dem Nutzer!</string>
     <string name="toast_unfollow">Du folgst dem Nutzer nicht mehr!</string>
-    <string name="toast_reblog">Der Toot wurde geteilt!</string>
-    <string name="toast_unreblog">Der Toot wird nicht länger geteilt!</string>
-    <string name="toast_favourite">Der Toot wurde deinen Favoriten hinzugefügt!</string>
-    <string name="toast_unfavourite">Der Toot wurde aus deinen Favoriten entfernt!</string>
+    <string name="toast_reblog">Die Nachricht wurde geteilt!</string>
+    <string name="toast_unreblog">Die Nachricht wird nicht länger geteilt!</string>
+    <string name="toast_favourite">Die Nachricht wurde deinen Favoriten hinzugefügt!</string>
+    <string name="toast_unfavourite">Die Nachricht wurde aus deinen Favoriten entfernt!</string>
     <string name="toast_error">Es ist ein Fehler aufgetreten!</string>
     <string name="toast_code_error">Ein Fehler ist aufgetreten! Die Instanz hat keinen Autorisierungscode gesendet!</string>
     <string name="toast_error_instance">Der Name der Instanz scheint ungültig zu sein!</string>
@@ -188,7 +189,7 @@
     <string name="nothing_to_do">Keine Aktion kann durchgeführt werden</string>
     <string name="toast_error_translate">Während der Übersetzung ist ein Fehler aufgetreten!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Anzahl der Toots pro Ladevorgang</string>
+    <string name="set_toots_page">Anzahl der Nachrichten pro Ladevorgang</string>
     <string name="set_disable_gif">GIF Avatare deaktivieren</string>
     <string name="set_notif_follow">mir jemand folgt</string>
     <string name="set_notif_follow_share">jemand meinen Beitrag teilt</string>
@@ -267,7 +268,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Passwort</string>
-    <string name="set_share_details">Toot Details beim Teilen hinzufügen</string>
+    <string name="set_share_details">Nachricht-Details beim Teilen hinzufügen</string>
     <string name="support_the_app_on_liberapay">Unterstütze die app auf Liberapay</string>
     <string name="alert_regex">Es gibt einen Fehler im regulären Ausdruck!</string>
     <string name="toast_instance_unavailable">Es wurden keine Zeitleisten in dieser Instanz gefunden!</string>
@@ -286,9 +287,9 @@
     <string name="context_public">Öffentliche Zeitleiste</string>
     <string name="context_notification">Benachrichtigungen</string>
     <string name="context_conversation">Unterhaltungen</string>
-    <string name="filter_keyword_explanations">Wird unabhängig vom umgebenen Text oder Inhaltswarnung eines Beitrags verglichen</string>
+    <string name="filter_keyword_explanations">Wird unabhängig vom umgebenen Text oder Inhaltswarnung einer Nachricht verglichen</string>
     <string name="context_drop">Entfernen anstatt zu verstecken</string>
-    <string name="context_drop_explanations">Gefilterte Beiträge werden unwiderruflich gefiltert, selbst wenn der Filter später entfernt wurde</string>
+    <string name="context_drop_explanations">Gefilterte Nachrichten werden unwiderruflich verschwinden, selbst wenn der Filter später entfernt wurde</string>
     <string name="context_whole_word_explanations">Wenn das Schlüsselwort oder -phrase nur Buchstaben und Zahlen enthält, wird es nur angewendet werden, wenn es dem ganzen Wort entspricht</string>
     <string name="context_whole_word">Ganzes Wort</string>
     <string name="filter_context">Kontext filtern</string>
@@ -303,7 +304,7 @@
     <string name="channel_notif_fav">Neuer Favorit</string>
     <string name="channel_notif_mention">Neue Erwähnung</string>
     <string name="channel_notif_poll">Umfrage beendet</string>
-    <string name="channel_notif_backup">Toots Sicherung</string>
+    <string name="channel_notif_backup">Nachrichten-Sicherung</string>
     <string name="channel_notif_status">Neue Beiträge</string>
     <string name="channel_notif_media">Medien Download</string>
     <string name="select_sound">Klingelton auswählen</string>
@@ -315,11 +316,11 @@
     <string name="peertube_instance">Peertube Instanz</string>
     <string name="set_display_emoji">Emoji One verwenden</string>
     <string name="information">Information</string>
-    <string name="set_display_card">Vorschau in allen Toots anzeigen</string>
+    <string name="set_display_card">Vorschau in allen Nachrichten anzeigen</string>
     <string name="account_id_clipbloard">Konto-ID wurde in die Zwischenablage kopiert!</string>
     <string name="set_change_locale">Sprache ändern</string>
-    <string name="truncate_long_toots">Lange Toots kürzen</string>
-    <string name="set_truncate_toot">Kürze Toots mit mehr als \'x\' Zeilen. Null bedeutet deaktiviert.</string>
+    <string name="truncate_long_toots">Lange Nachrichten kürzen</string>
+    <string name="set_truncate_toot">Kürze Nachrichten mit mehr als x Zeilen. Null bedeutet deaktiviert.</string>
     <string name="display_toot_truncate">Mehr anzeigen</string>
     <string name="hide_toot_truncate">Weniger anzeigen</string>
     <string name="tags_already_stored">Dieses Schlagwort existiert bereits!</string>
@@ -365,8 +366,8 @@
     <string name="category">Kategorie</string>
     <string name="description">Beschreibung</string>
     <string name="share">Teilen</string>
-    <string name="toots_server">Toots (Server)</string>
-    <string name="toots_client">Toots (Gerät)</string>
+    <string name="toots_server">Nachrichten (Server)</string>
+    <string name="toots_client">Nachrichten (Gerät)</string>
     <string name="settings_category_label_timelines">Zeitleisten</string>
     <string name="settings_category_label_interface">Benutzeroberfläche</string>
     <string name="contact">Kontakte</string>
@@ -388,7 +389,7 @@
     <string name="poll_finish_at">endet um %s</string>
     <string name="vote">Abstimmen</string>
     <string name="notif_poll">Eine Umfrage, in der du abgestimmt hast, ist beendet</string>
-    <string name="notif_poll_self">Eine Ihrer Umfragen ist beendet</string>
+    <string name="notif_poll_self">Eine Ihrer Umfragen wurde beendet</string>
     <string name="settings_category_notif_categories">Kategorien</string>
     <string name="move_timeline">Zeitleiste verschieben</string>
     <string name="hide_timeline">Zeitleiste ausblenden</string>
@@ -441,7 +442,7 @@
     <string name="password_indicator">Mindestens 8 Zeichen verwenden</string>
     <string name="password_too_short">Das Passwort muss mindestens 8 Zeichen lang sein</string>
     <string name="username_error">Der Benutzername darf nur Buchstaben, Ziffern und Unterstriche enthalten</string>
-    <string name="account_created">Account erstellt!</string>
+    <string name="account_created">Konto erstellt!</string>
     <string name="account_created_message"> Dein Konto wurde erfolgreich erstellt!
 \n
 \nDenke daran, deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.
@@ -533,7 +534,7 @@
     <string name="text_color_title">Textfarbe</string>
     <string name="text_color">Ändern Sie die Textfarbe in posts</string>
     <string name="pref_custom_theme">Verwenden Sie ein benutzerdefiniertes Design</string>
-    <string name="theming">Gestaltung</string>
+    <string name="theming">Farbschema</string>
     <string name="data_export_theme">Das Theme wurde exportiert</string>
     <string name="data_export_theme_success">Das Design wurde erfolgreich als CSV exportiert</string>
     <string name="import_theme">Theme importieren</string>
@@ -585,8 +586,8 @@
     <string name="stop_recording">Aufnahme anhalten</string>
     <string name="report_val1">Ich mag es nicht</string>
     <string name="report_val2">Es ist Spam</string>
-    <string name="toast_bookmark">Der Tröt wurde zu deinen Lesezeichen hinzugefügt!</string>
-    <string name="toast_unbookmark">Der Tröt wurde von deinen Lesezeichen entfernt!</string>
+    <string name="toast_bookmark">Die Nachricht wurde zu deinen Lesezeichen hinzugefügt!</string>
+    <string name="toast_unbookmark">Die Nachricht wurde von deinen Lesezeichen entfernt!</string>
     <string name="set_accounts_page">Anzahl der Konten pro Laden</string>
     <string name="category_music">Musik</string>
     <string name="cannot_be_empty">Dieses Feld kann nicht leer sein!</string>
@@ -613,12 +614,12 @@
     <string name="report_all_more">Wähle alle zutreffenden Punkte aus</string>
     <string name="report_3_title">Welche Regeln werden verletzt\?</string>
     <string name="report_2_title">Gibt es Beiträge, die diesen Bericht belegen\?</string>
-    <string name="dont_have_an_account">Noch kein Account vorhanden\?</string>
+    <string name="dont_have_an_account">Noch kein Konto vorhanden\?</string>
     <string name="report_sent">Bericht wurde gesendet!</string>
     <string name="report_more_forward">Weiterleiten an %1$s</string>
     <string name="join_the_fediverse">Komm ins Fediverse</string>
     <string name="notif_display_mentions">Erwähnungen</string>
-    <string name="about_mastodon">\"Mastodon ist nicht wie Twitter oder Facebook, es besteht aus einem Netzwerk von tausenden, durch unterschiedliche Organisationen und Einzelpersonen betriebene, Communities, die ein nahtloses Social Media Erlebnis bieten.\"</string>
+    <string name="about_mastodon">„Mastodon ist nicht wie Twitter oder Facebook, es besteht aus einem Netzwerk von tausenden, durch unterschiedliche Organisationen und Einzelpersonen betriebene, Gemeinschaften, die ein nahtloses Soziale-Medien-Erlebnis bieten.“</string>
     <string name="notif_display_favourites">Favoriten</string>
     <string name="save_changes">Änderungen speichern</string>
     <string name="locked">Gesperrt</string>
@@ -633,7 +634,7 @@
     <string name="scheduled">Geplant</string>
     <string name="profiled_updated">Profil wurde aktualisiert!</string>
     <string name="not_valid_list_name">Listenname ist nicht gültig!</string>
-    <string name="no_account_in_list">Keine Accounts für diese Liste gefunden!</string>
+    <string name="no_account_in_list">Keine Konten für diese Liste gefunden!</string>
     <string name="delete_field_confirm">Bist du sicher, dass du dieses Feld löschen willst\?</string>
     <string name="delete_field">Feld löschen</string>
     <string name="type_of_notifications">Art der Benachrichtigungen</string>
@@ -663,14 +664,14 @@
     <string name="report_indication_title_status">Sage uns, was es mit diesem Beitrag auf sich hat</string>
     <string name="report_1_mute_title">Stummschalten %1$s</string>
     <string name="report_1_block_title">Blockieren %1$s</string>
-    <string name="invite_join_the_fediverse">Hallo! Wir laden Dich ein, dem Fediverse beizutreten.</string>
-    <string name="set_bot_content">Bot-Account</string>
+    <string name="invite_join_the_fediverse">Hallo! Wir laden dich ein, dem Fediverse beizutreten.</string>
+    <string name="set_bot_content">Bot-Konto</string>
     <string name="interactions">Interaktionen</string>
     <string name="set_discoverable_content">Konto auffindbar</string>
     <string name="pref_custom_theme_new_summary">Erlaubt die Erstellung des eigenen Themas</string>
     <string name="pref_theme_base_summary">Wähle, ob die Basis des Themas dunkel oder hell sein soll</string>
     <string name="types_of_notifications_to_display">Arten der anzuzeigenden Benachrichtigungen</string>
-    <string name="toots_visibility_title">Standardmäßige Sichtbarkeit der Toots:</string>
+    <string name="toots_visibility_title">Standardmäßige Sichtbarkeit der Nachrichten:</string>
     <string name="set_notifications_page">Anzahl an Benachrichtigungen pro Ladezyklus</string>
     <string name="replace_instagram_description">Nutze eine alternative Benutzeroberfläche für Instagram</string>
     <string name="replace_instagram_host">Instagram Frontend Domain</string>
@@ -701,4 +702,22 @@
     <string name="filter">Filter</string>
     <string name="approve">Genehmigen</string>
     <string name="status">Status</string>
+    <string name="tap_here_to_refresh_poll">Hier tippen, um die Umfrage zu aktualisieren</string>
+    <string name="label_line">Linie</string>
+    <string name="label_rectangle">Eckig</string>
+    <string name="files_cache_size">Datei-Cache Größe</string>
+    <string name="fetch_more_messages">Mehr Nachrichten laden…</string>
+    <string name="messages_stored_in_drafts">Nachrichten in den Entwürfen gespeichert</string>
+    <string name="label_oval">Rund</string>
+    <string name="label_eraser_mode">Radier-Modus</string>
+    <string name="action_announcement_from_to">Ankündigung · %1$s - %2$s</string>
+    <string name="delete_cache">Cache leeren</string>
+    <string name="messages_in_cache_for_home">Nachrichten im Cache für Startseite</string>
+    <string name="messages_in_cache_for_other_timelines">Nachrichten im Cache für andere Timelines</string>
+    <string name="clear_cache">Cache leeren</string>
+    <string name="delete_cache_message">Sind Sie sich sicher, den Cache zu leeren\? Wenn Sie Entwürfe mit Bildern, etc haben, werden die angehängten Dateien gelöscht.</string>
+    <string name="msg_save_image">Möchten Sie ohne das Bild zu speichern verlassen\?</string>
+    <string name="label_shape">Form</string>
+    <string name="domain">Domain</string>
+    <string name="staff">Personal</string>
 </resources>

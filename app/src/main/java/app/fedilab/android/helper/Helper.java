@@ -280,6 +280,7 @@ public class Helper {
     public static final Pattern libredditPattern = Pattern.compile("(www\\.|m\\.)?(reddit\\.com|preview\\.redd\\.it|i\\.redd\\.it|redd\\.it)/(((?!([\"'<])).)*)");
     public static final Pattern ouichesPattern = Pattern.compile("https?://ouich\\.es/tag/(\\w+)");
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    public static final Pattern peertubePattern = Pattern.compile("(https?://([\\da-z.-]+\\.[a-z.]{2,10}))/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})$");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([/\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
@@ -589,6 +590,30 @@ public class Helper {
         return date;
     }
 
+    /**
+     * Convert String date from db to Date Object
+     *
+     * @param stringDate date to convert
+     * @return Date
+     */
+    public static Date stringToDateWithFormat(Context context, String stringDate, String format) {
+        if (stringDate == null)
+            return null;
+        Locale userLocale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            userLocale = context.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            userLocale = context.getResources().getConfiguration().locale;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, userLocale);
+        Date date = null;
+        try {
+            date = dateFormat.parse(stringDate);
+        } catch (java.text.ParseException ignored) {
+
+        }
+        return date;
+    }
 
     /**
      * Converts dp to pixel
@@ -625,8 +650,9 @@ public class Helper {
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://"))
+            if (url != null && !url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
                 url = "http://" + url;
+            }
             intent.setData(Uri.parse(url));
             try {
                 context.startActivity(intent);

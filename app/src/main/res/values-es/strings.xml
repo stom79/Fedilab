@@ -15,7 +15,7 @@
     <string name="save_over">Archivos multimedia guardados</string>
     <string name="download_from" formatted="false">Archivo: %1$s</string>
     <string name="password">Contraseña</string>
-    <string name="email">Correo Electrónico</string>
+    <string name="email">Correo electrónico</string>
     <string name="accounts">Cuentas</string>
     <string name="toots">Toots</string>
     <string name="tags">Etiquetas</string>

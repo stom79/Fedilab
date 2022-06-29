@@ -155,7 +155,7 @@ public class FragmentMastodonContext extends Fragment {
             focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
         }
         if (focusedStatus == null) {
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            getChildFragmentManager().beginTransaction().remove(this).commit();
         }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
@@ -169,7 +169,7 @@ public class FragmentMastodonContext extends Fragment {
         this.statuses = new ArrayList<>();
         focusedStatus.isFocused = true;
         this.statuses.add(focusedStatus);
-        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false);
+        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false, true);
         binding.swipeContainer.setRefreshing(false);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -225,6 +225,9 @@ public class FragmentMastodonContext extends Fragment {
 
         if (context == null) {
             Helper.sendToastMessage(requireActivity(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+            return;
+        }
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         if (pullToRefresh) {
