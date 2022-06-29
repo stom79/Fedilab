@@ -612,7 +612,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                 Helper.loadPP(binding.profilePicture, currentAccount);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
-                if (currentAccount.mastodon_account.display_name.isEmpty()) {
+                if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);

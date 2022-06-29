@@ -1032,17 +1032,26 @@ public class Helper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-            Glide.with(view.getContext())
-                    .asDrawable()
-                    .load(targetedUrl)
-                    .thumbnail(0.1f)
-                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                    .into(view);
+        if (targetedUrl != null) {
+            if (disableGif || (!targetedUrl.endsWith(".gif"))) {
+                Glide.with(view.getContext())
+                        .asDrawable()
+                        .load(targetedUrl)
+                        .thumbnail(0.1f)
+                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                        .into(view);
+            } else {
+                Glide.with(view.getContext())
+                        .asGif()
+                        .load(targetedUrl)
+                        .thumbnail(0.1f)
+                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                        .into(view);
+            }
         } else {
             Glide.with(view.getContext())
-                    .asGif()
-                    .load(targetedUrl)
+                    .asDrawable()
+                    .load(R.drawable.ic_person)
                     .thumbnail(0.1f)
                     .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
                     .into(view);
