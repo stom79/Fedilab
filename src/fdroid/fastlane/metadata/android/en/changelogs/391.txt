@@ -1,0 +1,5 @@
+New version of Fedilab with new feature.
+- You can now compose threads
+- See the whole thread when replying
+- Cache support
+- New design
