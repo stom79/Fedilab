@@ -590,6 +590,30 @@ public class Helper {
         return date;
     }
 
+    /**
+     * Convert String date from db to Date Object
+     *
+     * @param stringDate date to convert
+     * @return Date
+     */
+    public static Date stringToDateWithFormat(Context context, String stringDate, String format) {
+        if (stringDate == null)
+            return null;
+        Locale userLocale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            userLocale = context.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            userLocale = context.getResources().getConfiguration().locale;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, userLocale);
+        Date date = null;
+        try {
+            date = dateFormat.parse(stringDate);
+        } catch (java.text.ParseException ignored) {
+
+        }
+        return date;
+    }
 
     /**
      * Converts dp to pixel

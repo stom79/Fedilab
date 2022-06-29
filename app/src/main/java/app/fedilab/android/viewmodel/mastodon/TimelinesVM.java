@@ -94,10 +94,8 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     private MastodonTimelinesService initInstanceXMLOnly(String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance)
-                //.addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -180,8 +178,8 @@ public class TimelinesVM extends AndroidViewModel {
                     if (publicTlResponse.isSuccessful()) {
                         Nitter rssResponse = publicTlResponse.body();
                         List<Status> statusList = new ArrayList<>();
-                        if (rssResponse != null && rssResponse.channel != null && rssResponse.channel.mFeedItems != null) {
-                            for (Nitter.FeedItem feedItem : rssResponse.channel.mFeedItems) {
+                        if (rssResponse != null && rssResponse.mFeedItems != null) {
+                            for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
                                 Status status = Nitter.convert(getApplication(), instance, feedItem);
                                 statusList.add(status);
                             }

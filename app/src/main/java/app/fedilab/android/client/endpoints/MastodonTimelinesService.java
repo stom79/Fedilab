@@ -23,7 +23,6 @@ import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.misskey.MisskeyNote;
 import app.fedilab.android.client.entities.nitter.Nitter;
-import app.fedilab.android.client.entities.nitter.NitterAccount;
 import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -233,7 +232,7 @@ public interface MastodonTimelinesService {
     );
 
     @GET("{account}/rss")
-    Call<NitterAccount> getNitterAccount(
+    Call<Nitter> getNitterAccount(
             @Path("account") String account
     );
 
