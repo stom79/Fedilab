@@ -126,7 +126,9 @@ public class TimelineHelper {
                 }
             }
         }
-        statuses.removeAll(statusesToRemove);
+        if (statuses != null) {
+            statuses.removeAll(statusesToRemove);
+        }
         return statuses;
     }
 
