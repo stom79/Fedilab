@@ -33,7 +33,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.sqlite.Sqlite;
 
@@ -218,8 +217,8 @@ public class BottomMenu implements Serializable {
             return -1;
         }
         if (bottomMenu.user_id == null) {
-            bottomMenu.user_id = MainActivity.currentUserID;
-            bottomMenu.instance = MainActivity.currentInstance;
+            bottomMenu.user_id = BaseMainActivity.currentUserID;
+            bottomMenu.instance = BaseMainActivity.currentInstance;
         }
         boolean exists = bottomMenuExists(bottomMenu);
         long idReturned;
@@ -299,8 +298,8 @@ public class BottomMenu implements Serializable {
 
     public BottomMenu defaultBottomMenu() {
         BottomMenu bottomMenu = new BottomMenu();
-        bottomMenu.user_id = MainActivity.currentUserID;
-        bottomMenu.instance = MainActivity.currentInstance;
+        bottomMenu.user_id = BaseMainActivity.currentUserID;
+        bottomMenu.instance = BaseMainActivity.currentInstance;
         bottomMenu.bottom_menu = new ArrayList<>();
         MenuItem menuItemHome = new MenuItem();
         menuItemHome.position = 0;

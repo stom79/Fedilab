@@ -43,7 +43,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Marker;
@@ -236,7 +235,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null) {
-            ident = "@R@" + remoteInstance;
+            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                ident = "@R@" + pinnedTimeline.remoteInstance.host;
+            } else {
+                ident = "@R@" + remoteInstance;
+            }
         } else if (search != null) {
             ident = "@S@" + search;
         } else {

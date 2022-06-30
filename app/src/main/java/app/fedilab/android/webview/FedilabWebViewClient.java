@@ -15,6 +15,8 @@ package app.fedilab.android.webview;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.client.entities.app.DomainsBlock.trackingDomains;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -59,7 +61,7 @@ public class FedilabWebViewClient extends WebViewClient {
 
     @Override
     public WebResourceResponse shouldInterceptRequest(final WebView view, String url) {
-        if (WebviewActivity.trackingDomains != null) {
+        if (trackingDomains != null) {
             URI uri;
             try {
                 uri = new URI(url);
@@ -67,11 +69,11 @@ public class FedilabWebViewClient extends WebViewClient {
                 if (domain != null) {
                     domain = domain.startsWith("www.") ? domain.substring(4) : domain;
                 }
-                if (domain != null && WebviewActivity.trackingDomains.contains(domain)) {
+                if (domain != null && trackingDomains.contains(domain)) {
                     if (activity instanceof WebviewActivity) {
                         count++;
                         domains.add(url);
-                        // ((WebviewActivity) activity).setCount(activity, String.valueOf(count));
+                        ((WebviewActivity) activity).setCount(activity, String.valueOf(count));
                     }
                     ByteArrayInputStream nothing = new ByteArrayInputStream("".getBytes());
                     return new WebResourceResponse("text/plain", "utf-8", nothing);
@@ -86,11 +88,11 @@ public class FedilabWebViewClient extends WebViewClient {
                     if (domain != null) {
                         domain = domain.startsWith("www.") ? domain.substring(4) : domain;
                     }
-                    if (domain != null && WebviewActivity.trackingDomains.contains(domain)) {
+                    if (domain != null && trackingDomains.contains(domain)) {
                         if (activity instanceof WebviewActivity) {
                             count++;
                             domains.add(url);
-                            //         ((WebviewActivity) activity).setCount(activity, String.valueOf(count));
+                            ((WebviewActivity) activity).setCount(activity, String.valueOf(count));
                         }
                         ByteArrayInputStream nothing = new ByteArrayInputStream("".getBytes());
                         return new WebResourceResponse("text/plain", "utf-8", nothing);

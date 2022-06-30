@@ -79,11 +79,12 @@ public class Nitter implements Serializable {
         status.id = feedItem.pubDate;
         status.content = feedItem.description;
         status.text = feedItem.title;
+        status.content = status.content.replaceAll("<img [^>]*src=\"[^\"]+\"[^>]*>", "");
         status.visibility = "public";
         status.created_at = Helper.stringToDateWithFormat(context, feedItem.pubDate, "EEE, dd MMM yyyy HH:mm:ss zzz");
         status.uri = feedItem.guid;
         status.url = feedItem.link;
-        if (!accounts.containsValue(feedItem.creator)) {
+        if (!accounts.containsKey(feedItem.creator)) {
             MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(context, instance);
             Call<Nitter> accountCall = mastodonTimelinesService.getNitterAccount(feedItem.creator.replace("@", ""));
             if (accountCall != null) {

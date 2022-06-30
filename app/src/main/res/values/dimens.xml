@@ -9,7 +9,7 @@
     <dimen name="drawer_padding">2dp</dimen>
     <dimen name="layout_height_header">180dp</dimen>
 
-
+    <dimen name="badge_count_textsize">12sp</dimen>
     <dimen name="editor_size">35dp</dimen>
     <dimen name="top_tool_icon_width">50dp</dimen>
 </resources>

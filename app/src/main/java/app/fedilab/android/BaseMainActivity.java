@@ -90,7 +90,6 @@ import app.fedilab.android.activities.FollowRequestActivity;
 import app.fedilab.android.activities.InstanceActivity;
 import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MastodonListActivity;
 import app.fedilab.android.activities.PartnerShipActivity;
 import app.fedilab.android.activities.ProfileActivity;
@@ -109,6 +108,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
@@ -251,7 +251,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(PREF_USER_TOKEN, account.token);
                     editor.commit();
-                    Intent mainActivity = new Intent(this, MainActivity.class);
+                    Intent mainActivity = new Intent(this, BaseMainActivity.class);
                     mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
                     startActivity(mainActivity);
                     finish();
@@ -456,7 +456,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                 editor.commit();
                                                 //The user is now aut
                                                 //The user is now authenticated, it will be redirected to MainActivity
-                                                Intent mainActivity = new Intent(this, MainActivity.class);
+                                                Intent mainActivity = new Intent(this, BaseMainActivity.class);
                                                 startActivity(mainActivity);
                                                 finish();
                                                 headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
@@ -694,7 +694,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        if (emojis == null || !emojis.containsKey(MainActivity.currentInstance)) {
+        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance)) {
             new Thread(() -> {
                 try {
                     emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
@@ -703,6 +703,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
+        DomainsBlock.updateDomains(BaseMainActivity.this);
     }
 
 

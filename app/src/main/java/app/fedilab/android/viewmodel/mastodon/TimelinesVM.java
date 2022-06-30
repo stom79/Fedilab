@@ -171,6 +171,7 @@ public class TimelinesVM extends AndroidViewModel {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(accountsStr, max_position);
+
             Statuses statuses = new Statuses();
             if (publicTlCall != null) {
                 try {

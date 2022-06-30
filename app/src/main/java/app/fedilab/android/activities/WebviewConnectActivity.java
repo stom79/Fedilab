@@ -55,6 +55,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class WebviewConnectActivity extends BaseActivity {
@@ -214,18 +215,23 @@ public class WebviewConnectActivity extends BaseActivity {
                                 //API call to retrieve account information for the new token
                                 AccountsVM accountsVM = new ViewModelProvider(WebviewConnectActivity.this).get(AccountsVM.class);
                                 accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(WebviewConnectActivity.this, mastodonAccount -> {
-                                    account.mastodon_account = mastodonAccount;
-                                    account.user_id = mastodonAccount.id;
-                                    //We check if user have really moderator rights
-                                    if (requestedAdmin) {
-                                        AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
-                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
-                                            account.admin = adminAccount != null;
+                                    if (mastodonAccount != null) {
+                                        account.mastodon_account = mastodonAccount;
+                                        account.user_id = mastodonAccount.id;
+                                        //We check if user have really moderator rights
+                                        if (requestedAdmin) {
+                                            AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
+                                            adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
+                                                account.admin = adminAccount != null;
+                                                proceedLogin(WebviewConnectActivity.this, account);
+                                            });
+                                        } else {
                                             proceedLogin(WebviewConnectActivity.this, account);
-                                        });
+                                        }
                                     } else {
-                                        proceedLogin(WebviewConnectActivity.this, account);
+                                        Toasty.error(WebviewConnectActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                     }
+
                                 });
                             });
                     return true;

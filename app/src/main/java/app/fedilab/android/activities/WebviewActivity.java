@@ -14,17 +14,18 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,14 +40,13 @@ import androidx.core.content.ContextCompat;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityWebviewBinding;
+import app.fedilab.android.helper.CountDrawable;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.webview.CustomWebview;
 import app.fedilab.android.webview.FedilabWebChromeClient;
 import app.fedilab.android.webview.FedilabWebViewClient;
@@ -55,12 +55,13 @@ import es.dmoral.toasty.Toasty;
 
 public class WebviewActivity extends BaseActivity {
 
-    public static List<String> trackingDomains;
+
     private String url;
     private boolean peertubeLink;
     private CustomWebview webView;
     private FedilabWebViewClient FedilabWebViewClient;
     private ActivityWebviewBinding binding;
+    private Menu defaultMenu;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -133,24 +134,12 @@ public class WebviewActivity extends BaseActivity {
         });
         if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://"))
             url = "http://" + url;
-        if (trackingDomains == null) {
-            AsyncTask.execute(() -> {
-                SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                //    trackingDomains = new DomainBlockDAO(WebviewActivity.this, db).getAll();
-                if (trackingDomains == null)
-                    trackingDomains = new ArrayList<>();
-                // Get a handler that can be used to post to the main thread
-                Handler mainHandler = new Handler(getMainLooper());
-                Runnable myRunnable = () -> webView.loadUrl(url);
-                mainHandler.post(myRunnable);
+        webView.loadUrl(url);
 
-            });
-        } else
-            webView.loadUrl(url);
     }
 
 
-  /*  public void setCount(Context context, String count) {
+    public void setCount(Context context, String count) {
         if (defaultMenu != null && !peertubeLink) {
             MenuItem menuItem = defaultMenu.findItem(R.id.action_block);
             LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
@@ -169,17 +158,20 @@ public class WebviewActivity extends BaseActivity {
             icon.mutate();
             icon.setDrawableByLayerId(R.id.ic_block_count, badge);
         }
-    }*/
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
+        if (!peertubeLink)
+            setCount(WebviewActivity.this, "0");
+        defaultMenu = menu;
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.main_webview, menu);
+        defaultMenu = menu;
         if (peertubeLink) {
             menu.findItem(R.id.action_go).setVisible(false);
             menu.findItem(R.id.action_block).setVisible(false);

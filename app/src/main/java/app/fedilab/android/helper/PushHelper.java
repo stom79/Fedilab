@@ -86,10 +86,12 @@ public class PushHelper {
             case "REPEAT_NOTIFICATIONS":
                 new Thread(() -> {
                     List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
-                    for (BaseAccount account : accounts) {
-                        ((Activity) context).runOnUiThread(() -> {
-                            UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
-                        });
+                    if (accounts != null) {
+                        for (BaseAccount account : accounts) {
+                            ((Activity) context).runOnUiThread(() -> {
+                                UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
+                            });
+                        }
                     }
                 }).start();
                 new PeriodicWorkRequest.Builder(NotificationsWorker.class, 20, TimeUnit.MINUTES)
