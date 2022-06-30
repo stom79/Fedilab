@@ -22,8 +22,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.helper.Helper;
 
 public class FragmentComposeSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -42,7 +42,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         EditTextPreference SET_WATERMARK_TEXT = findPreference(getString(R.string.SET_WATERMARK_TEXT));
         if (SET_WATERMARK_TEXT != null) {
-            String val = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + MainActivity.currentUserID + MainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
+            String val = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             SET_WATERMARK_TEXT.setText(val);
         }
     }
@@ -51,7 +51,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equalsIgnoreCase(getString(R.string.SET_WATERMARK_TEXT))) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(getString(R.string.SET_WATERMARK_TEXT) + MainActivity.currentUserID + MainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
+            editor.putString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             editor.apply();
         }
     }

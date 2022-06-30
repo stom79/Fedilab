@@ -31,8 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerFollowBinding;
@@ -77,14 +77,14 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
         holderFollow.binding.title.setText(R.string.follow_request);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         holderFollow.binding.acceptButton.setOnClickListener(v -> {
-            accountsVM.acceptFollow(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+            accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                     .observe((LifecycleOwner) context, relationShip -> {
                         accountList.remove(position);
                         notifyItemRemoved(position);
                     });
         });
         holderFollow.binding.rejectButton.setOnClickListener(v -> {
-            accountsVM.rejectFollow(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+            accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                     .observe((LifecycleOwner) context, relationShip -> {
                         accountList.remove(position);
                         notifyItemRemoved(position);

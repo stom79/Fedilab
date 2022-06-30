@@ -35,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonSearchService;
 import app.fedilab.android.client.entities.api.Results;
 import app.fedilab.android.client.entities.api.Status;
@@ -265,7 +264,7 @@ public class CrossActionHelper {
      * Fetch and federate the remote status
      */
     public static void fetchRemoteStatus(@NonNull Context context, @NonNull BaseAccount ownerAccount, String url, Callback callback) {
-        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        MastodonSearchService mastodonSearchService = init(context, BaseMainActivity.currentInstance);
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, url, null, "statuses", false, true, false, 0, null, null, 1);
             Results results = null;
@@ -310,7 +309,7 @@ public class CrossActionHelper {
     public static void fetchRemoteAccount(@NonNull Context context, @NonNull BaseAccount ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Callback callback) {
 
 
-        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        MastodonSearchService mastodonSearchService = init(context, BaseMainActivity.currentInstance);
         String search;
         if (targetedAccount.acct.contains("@")) { //Not from same instance
             search = targetedAccount.acct;
@@ -361,9 +360,9 @@ public class CrossActionHelper {
     public static void fetchRemoteAccount(@NonNull Context context, String acct, Callback callback) {
 
 
-        MastodonSearchService mastodonSearchService = init(context, MainActivity.currentInstance);
+        MastodonSearchService mastodonSearchService = init(context, BaseMainActivity.currentInstance);
         new Thread(() -> {
-            Call<Results> resultsCall = mastodonSearchService.search(MainActivity.currentToken, acct, null, "accounts", false, true, false, 0, null, null, 1);
+            Call<Results> resultsCall = mastodonSearchService.search(BaseMainActivity.currentToken, acct, null, "accounts", false, true, false, 0, null, null, 1);
             Results results = null;
             if (resultsCall != null) {
                 try {

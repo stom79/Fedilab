@@ -43,7 +43,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.Pagination;
@@ -118,8 +117,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
 
         flagLoading = false;
-        instance = MainActivity.currentInstance;
-        user_id = MainActivity.currentUserID;
+        instance = BaseMainActivity.currentInstance;
+        user_id = BaseMainActivity.currentUserID;
         idOfAddedNotifications = new ArrayList<>();
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -287,7 +286,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             return;
         }
         new Thread(() -> {
-            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, notificationType);
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, notificationType);
             if (direction != FragmentMastodonTimeline.DIRECTION.REFRESH && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.notifications != null && quickLoad.notifications.size() > 0) {
                 Notifications notifications = new Notifications();
                 notifications.notifications = quickLoad.notifications;

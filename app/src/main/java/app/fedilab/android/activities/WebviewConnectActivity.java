@@ -46,6 +46,7 @@ import androidx.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.databinding.ActivityWebviewConnectBinding;
@@ -90,16 +91,16 @@ public class WebviewConnectActivity extends BaseActivity {
                 //update the database
                 new Account(activity).insertOrUpdate(account);
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                MainActivity.currentToken = account.token;
-                MainActivity.currentUserID = account.user_id;
-                MainActivity.api = Account.API.MASTODON;
+                BaseMainActivity.currentToken = account.token;
+                BaseMainActivity.currentUserID = account.user_id;
+                BaseMainActivity.api = Account.API.MASTODON;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_TOKEN, account.token);
                 editor.commit();
                 //The user is now authenticated, it will be redirected to MainActivity
                 Runnable myRunnable = () -> {
-                    Intent mainActivity = new Intent(activity, MainActivity.class);
+                    Intent mainActivity = new Intent(activity, BaseMainActivity.class);
                     activity.startActivity(mainActivity);
                     activity.finish();
                 };

@@ -96,7 +96,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
@@ -257,8 +256,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (!remote) {
             new Thread(() -> {
                 StatusCache statusCache = new StatusCache();
-                statusCache.instance = MainActivity.currentInstance;
-                statusCache.user_id = MainActivity.currentUserID;
+                statusCache.instance = BaseMainActivity.currentInstance;
+                statusCache.user_id = BaseMainActivity.currentUserID;
                 statusCache.status = statusToDeal;
                 statusCache.status_id = statusToDeal.id;
                 try {

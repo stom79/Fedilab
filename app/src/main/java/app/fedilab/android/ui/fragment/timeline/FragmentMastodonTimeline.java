@@ -197,8 +197,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
-        instance = MainActivity.currentInstance;
-        user_id = MainActivity.currentUserID;
+        instance = BaseMainActivity.currentInstance;
+        user_id = BaseMainActivity.currentUserID;
         canBeFederated = true;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
@@ -592,7 +592,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (binding == null || getActivity() == null || !isAdded()) {
                 return;
             }
-            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, timelineType, ident);
             if (!fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;

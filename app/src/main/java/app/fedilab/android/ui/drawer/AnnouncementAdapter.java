@@ -39,8 +39,8 @@ import com.vanniktech.emoji.one.EmojiOneProvider;
 
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.databinding.DrawerAnnouncementBinding;
@@ -133,9 +133,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                 }
                 announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
                 if (alreadyAdded) {
-                    announcementsVM.removeReaction(MainActivity.currentInstance, MainActivity.currentToken, announcement.id, emojiStr);
+                    announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
                 } else {
-                    announcementsVM.addReaction(MainActivity.currentInstance, MainActivity.currentToken, announcement.id, emojiStr);
+                    announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
                 }
             })
                     .build(holder.binding.fakeEdittext);
@@ -150,12 +150,12 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             builder.setTitle(R.string.insert_emoji);
             if (emojis != null && emojis.size() > 0) {
                 GridView gridView = new GridView(context);
-                gridView.setAdapter(new EmojiAdapter(emojis.get(MainActivity.currentInstance)));
+                gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                 gridView.setNumColumns(5);
                 gridView.setOnItemClickListener((parent, view, index, id) -> {
-                    String emojiStr = emojis.get(MainActivity.currentInstance).get(index).shortcode;
-                    String url = emojis.get(MainActivity.currentInstance).get(index).url;
-                    String static_url = emojis.get(MainActivity.currentInstance).get(index).static_url;
+                    String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
+                    String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
+                    String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                     boolean alreadyAdded = false;
                     for (Reaction reaction : announcement.reactions) {
                         if (reaction.name.compareTo(emojiStr) == 0) {
@@ -180,9 +180,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                     }
                     announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
                     if (alreadyAdded) {
-                        announcementsVM.removeReaction(MainActivity.currentInstance, MainActivity.currentToken, announcement.id, emojiStr);
+                        announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
                     } else {
-                        announcementsVM.addReaction(MainActivity.currentInstance, MainActivity.currentToken, announcement.id, emojiStr);
+                        announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
                     }
                     alertDialogEmoji.dismiss();
                 });

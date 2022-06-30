@@ -27,8 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.databinding.DrawerReactionBinding;
 import app.fedilab.android.helper.Helper;
@@ -81,10 +81,10 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
         AnnouncementsVM announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
         holder.binding.reactionContainer.setOnClickListener(v -> {
             if (reaction.me) {
-                announcementsVM.removeReaction(MainActivity.currentInstance, MainActivity.currentToken, announcementId, reaction.name);
+                announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
                 reaction.me = false;
             } else {
-                announcementsVM.addReaction(MainActivity.currentInstance, MainActivity.currentToken, announcementId, reaction.name);
+                announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
                 reaction.me = true;
             }
             notifyItemChanged(position);

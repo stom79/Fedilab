@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonStatusesService;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Poll;
@@ -132,7 +131,7 @@ public class PostMessageService extends IntentService {
             totalBitRead = 0;
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean watermark = sharedPreferences.getBoolean(context.getString(R.string.SET_WATERMARK), false);
-            String watermarkText = sharedPreferences.getString(context.getString(R.string.SET_WATERMARK_TEXT) + MainActivity.currentUserID + MainActivity.currentInstance, null);
+            String watermarkText = sharedPreferences.getString(context.getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
             for (int i = startingPosition; i < statuses.size(); i++) {
                 if (statuses.get(i).media_attachments != null && statuses.get(i).media_attachments.size() > 0) {
                     for (Attachment attachment : statuses.get(i).media_attachments) {
