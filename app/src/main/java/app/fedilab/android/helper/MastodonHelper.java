@@ -71,8 +71,8 @@ public class MastodonHelper {
     public static final String RESPONSE_TYPE = "response_type";
     public static final String SCOPE = "scope";
     public static final String REDIRECT_CONTENT_WEB = "fedilab://backtofedilab";
-    public static final String OAUTH_SCOPES = "read write follow push";
-    public static final String OAUTH_SCOPES_ADMIN = "read write follow push admin:read admin:write";
+    public static final String OAUTH_SCOPES = "read%20write%20follow%20push";
+    public static final String OAUTH_SCOPES_ADMIN = "read%20write%20follow%20push%20admin:read%20admin:write";
 
     public static final int ACCOUNTS_PER_CALL = 40;
     public static final int STATUSES_PER_CALL = 40;

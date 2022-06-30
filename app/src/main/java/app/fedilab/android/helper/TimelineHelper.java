@@ -32,7 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Notification;
@@ -53,7 +52,7 @@ public class TimelineHelper {
                 .proxy(Helper.getProxy(context))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
+                .baseUrl("https://" + BaseMainActivity.currentInstance + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -74,7 +73,7 @@ public class TimelineHelper {
         if (!BaseMainActivity.filterFetched) {
             MastodonAccountsService mastodonAccountsService = init(context);
             List<Filter> filterList;
-            Call<List<Filter>> getFiltersCall = mastodonAccountsService.getFilters(MainActivity.currentToken);
+            Call<List<Filter>> getFiltersCall = mastodonAccountsService.getFilters(BaseMainActivity.currentToken);
             if (getFiltersCall != null) {
                 try {
                     Response<List<Filter>> getFiltersResponse = getFiltersCall.execute();
@@ -90,7 +89,7 @@ public class TimelineHelper {
         }
 
         //If there are filters:
-        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0) {
+        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
             for (Filter filter : BaseMainActivity.mainFilters) {
                 if (filter.irreversible) { //Dealt by the server
                     continue;
@@ -126,7 +125,9 @@ public class TimelineHelper {
                 }
             }
         }
-        statuses.removeAll(statusesToRemove);
+        if (statuses != null) {
+            statuses.removeAll(statusesToRemove);
+        }
         return statuses;
     }
 

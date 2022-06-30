@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -81,7 +81,9 @@ public class Sqlite extends SQLiteOpenHelper {
     //Bottom menu
     public static final String TABLE_BOTTOM_MENU = "TABLE_BOTTOM_MENU";
     public static final String COL_BOTTOM_MENU = "BOTTOM_MENU";
-
+    //Tracking domains
+    public static final String TABLE_DOMAINS_TRACKING = "TABLE_DOMAINS_TRACKING";
+    public static final String COL_DOMAIN = "DOMAIN";
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -170,6 +172,10 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_BOTTOM_MENU + " TEXT NOT NULL)";
 
+    private static final String CREATE_DOMAINS_TRACKING = "CREATE TABLE IF NOT EXISTS " + TABLE_DOMAINS_TRACKING + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_DOMAIN + " TEXT NOT NULL)";
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -198,6 +204,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SCHEDULE_BOOST);
         db.execSQL(CREATE_TABLE_QUICK_LOAD);
         db.execSQL(CREATE_TABLE_BOTTOM_MENU);
+        db.execSQL(CREATE_DOMAINS_TRACKING);
     }
 
     @Override
@@ -214,6 +221,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_BOTTOM_MENU);
             case 3:
                 db.execSQL("ALTER TABLE " + TABLE_USER_ACCOUNT + " ADD COLUMN " + COL_ADMIN + " INTEGER NOT NULL DEFAULT 0");
+            case 4:
+                db.execSQL(CREATE_DOMAINS_TRACKING);
             default:
                 break;
         }

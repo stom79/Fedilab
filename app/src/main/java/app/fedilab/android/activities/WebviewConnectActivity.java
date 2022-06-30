@@ -46,6 +46,7 @@ import androidx.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.databinding.ActivityWebviewConnectBinding;
@@ -55,6 +56,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class WebviewConnectActivity extends BaseActivity {
@@ -89,9 +91,9 @@ public class WebviewConnectActivity extends BaseActivity {
                 //update the database
                 new Account(activity).insertOrUpdate(account);
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                MainActivity.currentToken = account.token;
-                MainActivity.currentUserID = account.user_id;
-                MainActivity.api = Account.API.MASTODON;
+                BaseMainActivity.currentToken = account.token;
+                BaseMainActivity.currentUserID = account.user_id;
+                BaseMainActivity.api = Account.API.MASTODON;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_TOKEN, account.token);
@@ -214,18 +216,23 @@ public class WebviewConnectActivity extends BaseActivity {
                                 //API call to retrieve account information for the new token
                                 AccountsVM accountsVM = new ViewModelProvider(WebviewConnectActivity.this).get(AccountsVM.class);
                                 accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(WebviewConnectActivity.this, mastodonAccount -> {
-                                    account.mastodon_account = mastodonAccount;
-                                    account.user_id = mastodonAccount.id;
-                                    //We check if user have really moderator rights
-                                    if (requestedAdmin) {
-                                        AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
-                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
-                                            account.admin = adminAccount != null;
+                                    if (mastodonAccount != null) {
+                                        account.mastodon_account = mastodonAccount;
+                                        account.user_id = mastodonAccount.id;
+                                        //We check if user have really moderator rights
+                                        if (requestedAdmin) {
+                                            AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
+                                            adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
+                                                account.admin = adminAccount != null;
+                                                proceedLogin(WebviewConnectActivity.this, account);
+                                            });
+                                        } else {
                                             proceedLogin(WebviewConnectActivity.this, account);
-                                        });
+                                        }
                                     } else {
-                                        proceedLogin(WebviewConnectActivity.this, account);
+                                        Toasty.error(WebviewConnectActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                     }
+
                                 });
                             });
                     return true;

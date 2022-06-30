@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.QuickLoad;
@@ -97,11 +98,11 @@ public class ContextActivity extends BaseActivity {
             mainHandler.post(myRunnable);
         }).start();
         StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
-        timelinesVM.getStatus(MainActivity.currentInstance, MainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
+        timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
             if (status != null) {
                 StatusCache statusCache = new StatusCache();
-                statusCache.instance = MainActivity.currentInstance;
-                statusCache.user_id = MainActivity.currentUserID;
+                statusCache.instance = BaseMainActivity.currentInstance;
+                statusCache.user_id = BaseMainActivity.currentUserID;
                 statusCache.status = status;
                 statusCache.status_id = status.id;
                 //Update cache

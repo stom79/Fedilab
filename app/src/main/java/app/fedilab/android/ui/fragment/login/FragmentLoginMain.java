@@ -258,28 +258,33 @@ public class FragmentLoginMain extends Fragment {
                 scopes,
                 Helper.WEBSITE_VALUE
         ).observe(requireActivity(), app -> {
-            client_idLogin = app.client_id;
-            client_secretLogin = app.client_secret;
-            String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, ((LoginActivity) requireActivity()).requestedAdmin());
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-            boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-            if (embedded_browser) {
-                Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
-                i.putExtra("login_url", redirectUrl);
-                i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
-                startActivity(i);
-                requireActivity().finish();
-            } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(redirectUrl));
-                try {
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                }
+            if (app != null) {
+                client_idLogin = app.client_id;
+                client_secretLogin = app.client_secret;
+                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, ((LoginActivity) requireActivity()).requestedAdmin());
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
+                if (embedded_browser) {
+                    Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
+                    i.putExtra("login_url", redirectUrl);
+                    i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
+                    startActivity(i);
+                    requireActivity().finish();
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse(redirectUrl));
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                    }
 
+                }
+            } else {
+                Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();
             }
+
         });
     }
 }

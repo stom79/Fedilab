@@ -171,6 +171,7 @@ public class TimelinesVM extends AndroidViewModel {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(accountsStr, max_position);
+
             Statuses statuses = new Statuses();
             if (publicTlCall != null) {
                 try {
@@ -451,8 +452,10 @@ public class TimelinesVM extends AndroidViewModel {
             Statuses statuses = null;
             try {
                 statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId, sinceId);
+
                 if (statuses != null) {
-                    statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statuses.statuses);
+                    List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
+                    statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;

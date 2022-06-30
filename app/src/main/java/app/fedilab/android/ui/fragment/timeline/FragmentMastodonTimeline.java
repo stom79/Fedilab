@@ -43,7 +43,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Marker;
@@ -198,8 +197,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
-        instance = MainActivity.currentInstance;
-        user_id = MainActivity.currentUserID;
+        instance = BaseMainActivity.currentInstance;
+        user_id = BaseMainActivity.currentUserID;
         canBeFederated = true;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
@@ -236,7 +235,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null) {
-            ident = "@R@" + remoteInstance;
+            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                ident = "@R@" + pinnedTimeline.remoteInstance.host;
+            } else {
+                ident = "@R@" + remoteInstance;
+            }
         } else if (search != null) {
             ident = "@S@" + search;
         } else {
@@ -589,13 +592,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (binding == null || getActivity() == null || !isAdded()) {
                 return;
             }
-            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(MainActivity.currentUserID, MainActivity.currentInstance, timelineType, ident);
+            QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, timelineType, ident);
             if (!fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
                 statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
                 statuses.pagination.min_id = quickLoad.statuses.get(0).id;
+
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> initializeStatusesCommonView(statuses, quickLoad.position);
                 mainHandler.post(myRunnable);

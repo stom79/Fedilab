@@ -31,6 +31,7 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Status;
@@ -92,12 +93,12 @@ public class PartnerShipActivity extends BaseActivity {
                     AccountsVM accountsVM = new ViewModelProvider(PartnerShipActivity.this).get(AccountsVM.class);
                     List<String> ids = new ArrayList<>();
                     ids.add(account.id);
-                    accountsVM.getRelationships(MainActivity.currentInstance, MainActivity.currentToken, ids)
+                    accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
                             .observe(PartnerShipActivity.this, relationShips -> {
                                 if (relationShips != null && relationShips.size() > 0) {
                                     if (!relationShips.get(0).following) {
                                         binding.accountFollow.setVisibility(View.VISIBLE);
-                                        binding.accountFollow.setOnClickListener(v -> accountsVM.follow(MainActivity.currentInstance, MainActivity.currentToken, account.id, true, false)
+                                        binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
                                                 .observe(PartnerShipActivity.this, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
                                     }
                                 }

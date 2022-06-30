@@ -225,12 +225,14 @@ public interface MastodonTimelinesService {
             @Query("count") int count
     );
 
+    @Headers({"Accept: text/html,application/xhtml+xml,application/xml"})
     @GET("{names}/rss")
     Call<Nitter> getNitter(
             @Path("names") String id,
             @Query("max_position") String max_position
     );
 
+    @Headers({"Accept: text/html,application/xhtml+xml,application/xml"})
     @GET("{account}/rss")
     Call<Nitter> getNitterAccount(
             @Path("account") String account

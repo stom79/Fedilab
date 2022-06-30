@@ -348,7 +348,7 @@ public class ProfileActivity extends BaseActivity {
             binding.accountMoved.setText(spannableString, TextView.BufferType.SPANNABLE);
             binding.accountMoved.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        if (account.acct.contains("@"))
+        if (account.acct != null && account.acct.contains("@"))
             binding.warningMessage.setVisibility(View.VISIBLE);
         else
             binding.warningMessage.setVisibility(View.GONE);

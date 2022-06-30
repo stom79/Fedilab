@@ -109,6 +109,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
@@ -612,7 +613,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                 Helper.loadPP(binding.profilePicture, currentAccount);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
-                if (currentAccount.mastodon_account.display_name.isEmpty()) {
+                if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
@@ -694,7 +695,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        if (emojis == null || !emojis.containsKey(MainActivity.currentInstance)) {
+        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance)) {
             new Thread(() -> {
                 try {
                     emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
@@ -703,6 +704,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
+        DomainsBlock.updateDomains(BaseMainActivity.this);
     }
 
 

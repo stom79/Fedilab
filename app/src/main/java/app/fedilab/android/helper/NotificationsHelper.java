@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonNotificationsService;
@@ -273,7 +274,7 @@ public class NotificationsHelper {
                     notifType = Helper.NotifType.POLL;
                     if (notif_poll) {
                         title = context.getString(R.string.channel_notif_poll);
-                        if (notification.account.id != null && notification.account.id.equals(MainActivity.currentUserID))
+                        if (notification.account.id != null && notification.account.id.equals(BaseMainActivity.currentUserID))
                             message = context.getString(R.string.notif_poll_self);
                         else
                             message = context.getString(R.string.notif_poll);

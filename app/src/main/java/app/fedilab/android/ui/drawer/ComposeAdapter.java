@@ -84,7 +84,6 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.EmojiInstance;
@@ -1233,10 +1232,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         builder.setTitle(R.string.insert_emoji);
         if (emojis != null && emojis.size() > 0) {
             GridView gridView = new GridView(context);
-            gridView.setAdapter(new EmojiAdapter(emojis.get(MainActivity.currentInstance)));
+            gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
             gridView.setNumColumns(5);
             gridView.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(MainActivity.currentInstance).get(position).shortcode + ": ");
+                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(BaseMainActivity.currentInstance).get(position).shortcode + ": ");
                 alertDialogEmoji.dismiss();
             });
             gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);

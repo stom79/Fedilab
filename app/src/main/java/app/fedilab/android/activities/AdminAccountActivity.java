@@ -171,14 +171,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.disableAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.enable(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.disabled = false;
                             binding.disableAction.setText(R.string.disable);
                             binding.disabled.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "disable ", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "disable ", null, null, null, null);
                 adminAccount.disabled = true;
                 binding.disableAction.setText(R.string.undisable);
                 binding.disabled.setText(R.string.yes);
@@ -187,14 +187,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.approveAction.setOnClickListener(v -> {
             if (adminAccount.approved) {
-                adminVM.reject(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.approved = false;
                             binding.approveAction.setText(R.string.approve);
                             binding.approved.setText(R.string.no);
                         });
             } else {
-                adminVM.approve(MainActivity.currentInstance, MainActivity.currentToken, account.id);
+                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id);
                 adminAccount.approved = true;
                 binding.approveAction.setText(R.string.reject);
                 binding.approved.setText(R.string.yes);
@@ -203,14 +203,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.silenceAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.unsilence(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.silenced = false;
                             binding.silenceAction.setText(R.string.silence);
                             binding.disabled.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "silence", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "silence", null, null, null, null);
                 adminAccount.silenced = true;
                 binding.disableAction.setText(R.string.unsilence);
                 binding.disabled.setText(R.string.yes);
@@ -219,14 +219,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.suspendAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.unsuspend(MainActivity.currentInstance, MainActivity.currentToken, account.id)
+                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.suspended = false;
                             binding.suspendAction.setText(R.string.suspend);
                             binding.suspended.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account.id, "suspend", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "suspend", null, null, null, null);
                 adminAccount.suspended = true;
                 binding.disableAction.setText(R.string.unsuspend);
                 binding.suspended.setText(R.string.yes);
