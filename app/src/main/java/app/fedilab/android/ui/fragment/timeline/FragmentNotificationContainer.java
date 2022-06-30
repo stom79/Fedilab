@@ -213,7 +213,26 @@ public class FragmentNotificationContainer extends Fragment {
 
         binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.viewpager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Fragment fragment = getParentFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+                if (fragment instanceof FragmentMastodonNotification) {
+                    FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+                    fragmentMastodonNotification.scrollToTop();
+                }
+            }
+        });
         new TabLayoutMediator(binding.tabLayout, binding.viewpager,
                 (tab, position) -> {
                     binding.viewpager.setCurrentItem(tab.getPosition(), true);
@@ -254,33 +273,14 @@ public class FragmentNotificationContainer extends Fragment {
 
                 }
         ).attach();
-        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.viewpager.setCurrentItem(tab.getPosition());
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonNotification) {
-                    FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
-                    fragmentMastodonNotification.scrollToTop();
-                }
-            }
-        });
         return binding.getRoot();
     }
 
 
     public void scrollToTop() {
         if (binding != null) {
-            Fragment fragment = getChildFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
+            Fragment fragment = getParentFragmentManager().findFragmentByTag("f" + binding.viewpager.getCurrentItem());
             if (fragment instanceof FragmentMastodonNotification) {
                 ((FragmentMastodonNotification) fragment).scrollToTop();
             }
