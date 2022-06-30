@@ -599,6 +599,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 statuses.pagination = new Pagination();
                 statuses.pagination.max_id = quickLoad.statuses.get(quickLoad.statuses.size() - 1).id;
                 statuses.pagination.min_id = quickLoad.statuses.get(0).id;
+
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> initializeStatusesCommonView(statuses, quickLoad.position);
                 mainHandler.post(myRunnable);

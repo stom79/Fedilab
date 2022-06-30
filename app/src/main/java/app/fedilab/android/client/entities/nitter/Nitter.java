@@ -76,7 +76,12 @@ public class Nitter implements Serializable {
 
     public static Status convert(Context context, String instance, FeedItem feedItem) {
         Status status = new Status();
-        status.id = feedItem.pubDate;
+        Matcher matcherLink = Helper.nitterIDPattern.matcher(feedItem.link);
+        if (matcherLink.find()) {
+            status.id = matcherLink.group(1);
+        } else {
+            status.id = feedItem.pubDate;
+        }
         status.content = feedItem.description;
         status.text = feedItem.title;
         status.content = status.content.replaceAll("<img [^>]*src=\"[^\"]+\"[^>]*>", "");
