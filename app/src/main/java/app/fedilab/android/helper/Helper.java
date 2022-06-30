@@ -124,6 +124,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.MainApplication;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.LoginActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.api.Attachment;
@@ -906,7 +907,7 @@ public class Helper {
             BaseMainActivity.currentToken = newAccount.token;
             BaseMainActivity.currentInstance = newAccount.instance;
             editor.commit();
-            Intent changeAccount = new Intent(activity, BaseMainActivity.class);
+            Intent changeAccount = new Intent(activity, MainActivity.class);
             changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(changeAccount);
         }

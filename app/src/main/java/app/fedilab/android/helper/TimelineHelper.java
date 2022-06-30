@@ -89,7 +89,7 @@ public class TimelineHelper {
         }
 
         //If there are filters:
-        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0) {
+        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
             for (Filter filter : BaseMainActivity.mainFilters) {
                 if (filter.irreversible) { //Dealt by the server
                     continue;

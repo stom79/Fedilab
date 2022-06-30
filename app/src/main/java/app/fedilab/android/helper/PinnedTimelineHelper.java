@@ -52,6 +52,7 @@ import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
+import app.fedilab.android.databinding.TabCustomViewBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
@@ -149,9 +150,13 @@ public class PinnedTimelineHelper {
         //Small hack to hide first tabs (they represent the item of the bottom menu)
         int toRemove = itemToRemoveInBottomMenu(activity);
         List<String> tabTitle = new ArrayList<>();
+        List<RemoteInstance.InstanceType> tabTypeRemote = new ArrayList<>();
+        List<Timeline.TimeLineEnum> tabType = new ArrayList<>();
         for (int i = 0; i < (BOTTOM_TIMELINE_COUNT - toRemove); i++) {
             activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
             tabTitle.add("");
+            tabType.add(Timeline.TimeLineEnum.HOME);
+            tabTypeRemote.add(RemoteInstance.InstanceType.MASTODON);
             ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
         }
         List<PinnedTimeline> pinnedTimelineVisibleList = new ArrayList<>();
@@ -166,9 +171,6 @@ public class PinnedTimelineHelper {
                         break;
                     case TAG:
                         name = pinnedTimeline.tagTimeline.name;
-                        if (!name.startsWith("#")) {
-                            name = "#" + name;
-                        }
                         break;
                     case REMOTE:
                         name = pinnedTimeline.remoteInstance.host;
@@ -177,8 +179,13 @@ public class PinnedTimelineHelper {
                 TextView tv = (TextView) LayoutInflater.from(activity).inflate(R.layout.custom_tab_instance, new LinearLayout(activity), false);
                 tv.setText(name);
                 tabTitle.add(name);
+                tabType.add(pinnedTimeline.type);
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
+                    tabTypeRemote.add(pinnedTimeline.remoteInstance.type);
+                } else {
+                    tabTypeRemote.add(null);
+                }
                 tab.setCustomView(tv);
-
                 activityMainBinding.tabLayout.addTab(tab);
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
@@ -225,7 +232,42 @@ public class PinnedTimelineHelper {
             }
         });
         new TabLayoutMediator(activityMainBinding.tabLayout, activityMainBinding.viewPager,
-                (tab, position) -> tab.setText(tabTitle.get(position))
+                (tab, position) -> {
+                    TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
+                    tabCustomViewBinding.title.setText(tabTitle.get(position));
+                    switch (tabType.get(position)) {
+                        case LIST:
+                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
+                            break;
+                        case TAG:
+                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
+                            break;
+                        case REMOTE:
+                            switch (tabTypeRemote.get(position)) {
+                                case PIXELFED:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.pixelfed);
+                                    break;
+                                case MASTODON:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
+                                    break;
+
+                                case MISSKEY:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
+                                    break;
+                                case NITTER:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
+                                    break;
+                                case GNU:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.ic_gnu_social);
+                                    break;
+                                case PEERTUBE:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
+                                    break;
+                            }
+                            break;
+                    }
+                    tab.setCustomView(tabCustomViewBinding.getRoot());
+                }
         ).attach();
 
         activityMainBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

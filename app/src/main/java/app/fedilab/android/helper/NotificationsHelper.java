@@ -49,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
@@ -283,7 +284,7 @@ public class NotificationsHelper {
             }
             if (message != null) {
                 //Some others notification
-                final Intent intent = new Intent(context, BaseMainActivity.class);
+                final Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
                 intent.putExtra(Helper.PREF_KEY_ID, account.user_id);

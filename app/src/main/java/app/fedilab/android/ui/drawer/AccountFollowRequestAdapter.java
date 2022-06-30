@@ -76,20 +76,16 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
         holderFollow.binding.acceptButton.setVisibility(View.VISIBLE);
         holderFollow.binding.title.setText(R.string.follow_request);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-        holderFollow.binding.acceptButton.setOnClickListener(v -> {
-            accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                    .observe((LifecycleOwner) context, relationShip -> {
-                        accountList.remove(position);
-                        notifyItemRemoved(position);
-                    });
-        });
-        holderFollow.binding.rejectButton.setOnClickListener(v -> {
-            accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                    .observe((LifecycleOwner) context, relationShip -> {
-                        accountList.remove(position);
-                        notifyItemRemoved(position);
-                    });
-        });
+        holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                .observe((LifecycleOwner) context, relationShip -> {
+                    accountList.remove(position);
+                    notifyItemRemoved(position);
+                }));
+        holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                .observe((LifecycleOwner) context, relationShip -> {
+                    accountList.remove(position);
+                    notifyItemRemoved(position);
+                }));
         holderFollow.binding.avatar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);
             Bundle b = new Bundle();

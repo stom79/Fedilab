@@ -90,6 +90,7 @@ import app.fedilab.android.activities.FollowRequestActivity;
 import app.fedilab.android.activities.InstanceActivity;
 import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MastodonListActivity;
 import app.fedilab.android.activities.PartnerShipActivity;
 import app.fedilab.android.activities.ProfileActivity;
@@ -251,7 +252,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(PREF_USER_TOKEN, account.token);
                     editor.commit();
-                    Intent mainActivity = new Intent(this, BaseMainActivity.class);
+                    Intent mainActivity = new Intent(this, MainActivity.class);
                     mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
                     startActivity(mainActivity);
                     finish();
@@ -456,7 +457,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                 editor.commit();
                                                 //The user is now aut
                                                 //The user is now authenticated, it will be redirected to MainActivity
-                                                Intent mainActivity = new Intent(this, BaseMainActivity.class);
+                                                Intent mainActivity = new Intent(this, MainActivity.class);
                                                 startActivity(mainActivity);
                                                 finish();
                                                 headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
