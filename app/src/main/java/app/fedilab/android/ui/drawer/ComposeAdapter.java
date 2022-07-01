@@ -1153,7 +1153,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     addAttachment(position, uris);
                 }
             });
-            holder.binding.content.setSelection(statusDraft.cursorPosition);
+            if (statusDraft.cursorPosition < holder.binding.content.length()) {
+                holder.binding.content.setSelection(statusDraft.cursorPosition);
+            }
             if (statusDraft.setCursorToEnd) {
                 statusDraft.setCursorToEnd = false;
                 holder.binding.content.setSelection(holder.binding.content.getText().length());

@@ -60,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
@@ -166,6 +168,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
+
         //Edit a scheduled status from server
         if (scheduledStatus != null) {
             statusDraft = new StatusDraft();
@@ -240,7 +243,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 if (statusDraft.statusReplyList != null) {
                     statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
                 }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     if (statusDraft.statusReplyList != null) {
                         statusList.addAll(statusDraft.statusReplyList);
@@ -255,13 +257,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     binding.recyclerView.setAdapter(composeAdapter);
                     binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
                 };
-                mainHandler.post(myRunnable);
+                myRunnable.run();
             }).start();
 
         } else if (statusReply != null) {
             new Thread(() -> {
                 statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     statusList.add(statusReply);
                     int statusCount = statusList.size();
@@ -314,7 +315,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
                             .observe(ComposeActivity.this, this::initializeContextView);
                 };
-                mainHandler.post(myRunnable);
+                myRunnable.run();
             }).start();
         } else {
             //Compose without replying
@@ -334,6 +335,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 .registerReceiver(imageReceiver,
                         new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                storeDraft(false);
+            }
+        }, 0, 10000);
     }
 
     @Override
