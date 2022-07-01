@@ -26,6 +26,9 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -134,9 +137,10 @@ public class PushNotifications {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(context.getApplicationContext()))
                 .build();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonNotificationsService.class);
