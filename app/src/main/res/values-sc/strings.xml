@@ -50,7 +50,7 @@
     <string name="translate">Tradui</string>
     <!--- Menu -->
     <string name="home_menu">Printzipale</string>
-    <string name="local_menu">Lìnia de tempus locale</string>
+    <string name="local_menu">Lìnia locale de tempus</string>
     <string name="muted_menu">Persones a sa muda</string>
     <string name="blocked_menu">Persones blocadas</string>
     <string name="notifications">Notìficas</string>
