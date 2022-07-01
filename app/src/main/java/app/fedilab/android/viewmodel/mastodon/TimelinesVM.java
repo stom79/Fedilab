@@ -84,10 +84,10 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     private MastodonTimelinesService initInstanceOnly(String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                // .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonTimelinesService.class);
@@ -103,7 +103,7 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     private MastodonTimelinesService init(String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(gson))

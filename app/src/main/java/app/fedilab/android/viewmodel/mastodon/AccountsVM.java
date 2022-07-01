@@ -95,7 +95,7 @@ public class AccountsVM extends AndroidViewModel {
     }
 
     private MastodonAccountsService init(String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("MMM dd, yyyy HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
