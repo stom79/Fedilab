@@ -243,6 +243,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 if (statusDraft.statusReplyList != null) {
                     statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
                 }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     if (statusDraft.statusReplyList != null) {
                         statusList.addAll(statusDraft.statusReplyList);
@@ -257,12 +258,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     binding.recyclerView.setAdapter(composeAdapter);
                     binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
                 };
-                myRunnable.run();
+                mainHandler.post(myRunnable);
             }).start();
 
         } else if (statusReply != null) {
             new Thread(() -> {
                 statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
+                Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     statusList.add(statusReply);
                     int statusCount = statusList.size();
@@ -315,7 +317,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
                             .observe(ComposeActivity.this, this::initializeContextView);
                 };
-                myRunnable.run();
+                mainHandler.post(myRunnable);
             }).start();
         } else {
             //Compose without replying
