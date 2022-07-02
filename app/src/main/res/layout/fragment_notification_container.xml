@@ -47,8 +47,8 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpagerNotificationContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

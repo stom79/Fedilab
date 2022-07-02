@@ -121,7 +121,6 @@ import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
-import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -883,13 +882,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      * Allow to scroll to top for bottom navigation items
      */
     private void scrollToTop() {
+
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
         if (fragment instanceof FragmentMastodonTimeline) {
             FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
             fragmentMastodonTimeline.scrollToTop();
-        } else if (fragment instanceof FragmentMastodonNotification) {
-            FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
-            fragmentMastodonNotification.scrollToTop();
         } else if (fragment instanceof FragmentMastodonConversation) {
             FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
             fragmentMastodonConversation.scrollToTop();

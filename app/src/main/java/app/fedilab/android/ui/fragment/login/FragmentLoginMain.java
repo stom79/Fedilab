@@ -252,7 +252,6 @@ public class FragmentLoginMain extends Fragment {
         }
         String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
-        String finalInstance = instance;
         appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
                 Helper.REDIRECT_CONTENT_WEB,
                 scopes,

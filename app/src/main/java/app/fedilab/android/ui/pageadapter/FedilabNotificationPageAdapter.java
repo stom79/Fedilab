@@ -14,35 +14,41 @@ package app.fedilab.android.ui.pageadapter;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 
-public class FedilabNotificationPageAdapter extends FragmentStateAdapter {
-
+public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
     private final boolean extended;
+    private Fragment mCurrentFragment;
 
-
-    public FedilabNotificationPageAdapter(FragmentActivity fa, boolean extended) {
-        super(fa);
+    public FedilabNotificationPageAdapter(FragmentManager fm, boolean extended) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.extended = extended;
     }
 
+    public Fragment getCurrentFragment() {
+        return mCurrentFragment;
+    }
+
     @Override
-    public int getItemCount() {
-        return extended ? 7 : 2;
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if (getCurrentFragment() != object) {
+            mCurrentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
     }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         FragmentMastodonNotification fragmentMastodonNotification = new FragmentMastodonNotification();
         if (!extended) {
@@ -83,5 +89,8 @@ public class FedilabNotificationPageAdapter extends FragmentStateAdapter {
         return fragmentMastodonNotification;
     }
 
-
+    @Override
+    public int getCount() {
+        return extended ? 7 : 2;
+    }
 }

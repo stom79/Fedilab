@@ -70,8 +70,8 @@ public class FragmentLoginRegisterMastodon extends Fragment {
         } else {
             binding.loginInstance.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
-                    nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString()).observe(requireActivity(), nodeInfo -> {
-                        if (nodeInfo != null && (nodeInfo.software.name.trim().toLowerCase().compareTo("mastodon") == 0 || nodeInfo.software.name.trim().toLowerCase().compareTo("pleroma") == 0)) {
+                    nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString().trim()).observe(requireActivity(), nodeInfo -> {
+                        if (nodeInfo != null) {
                             String tos = getString(R.string.tos);
                             String serverrules = getString(R.string.server_rules);
                             String content_agreement = getString(R.string.agreement_check,
