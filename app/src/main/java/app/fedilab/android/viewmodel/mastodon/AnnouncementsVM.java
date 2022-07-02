@@ -55,10 +55,10 @@ public class AnnouncementsVM extends AndroidViewModel {
     }
 
     private MastodonAnnouncementsService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonAnnouncementsService.class);

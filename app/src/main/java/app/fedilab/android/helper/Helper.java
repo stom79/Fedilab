@@ -90,6 +90,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.jaredrummler.cyanea.Cyanea;
 
 import org.conscrypt.Conscrypt;
@@ -107,6 +113,7 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.security.Security;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -116,6 +123,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1583,4 +1591,36 @@ public class Helper {
         void onAttachmentCopied(Attachment attachment);
     }
 
+
+    public static Gson getDateBuilder() {
+        SimpleDateFormat[] formats = new SimpleDateFormat[]{
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()),
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()),
+        };
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class, new TypeAdapter<Date>() {
+
+                    @Override
+                    public void write(JsonWriter out, Date value) {
+                    }
+
+                    @Override
+                    public Date read(JsonReader reader) throws IOException {
+                        if (reader.peek() == JsonToken.NULL) {
+                            reader.nextNull();
+                            return null;
+                        }
+                        String dateAsString = reader.nextString();
+                        for (SimpleDateFormat format : formats) {
+                            try {
+                                format.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                return format.parse(dateAsString);
+                            } catch (ParseException ignored) {
+                            }
+                        }
+                        return null;
+                    }
+                })
+                .create();
+    }
 }

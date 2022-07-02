@@ -59,10 +59,10 @@ public class OauthVM extends AndroidViewModel {
     }
 
     private MastodonAppsService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonAppsService.class);

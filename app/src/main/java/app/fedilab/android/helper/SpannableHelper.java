@@ -1067,6 +1067,9 @@ public class SpannableHelper {
             if (status.translationContent != null) {
                 status.span_translate = SpannableHelper.convert(context, status, status.translationContent);
             }
+            if (status.account == null) {
+                return status;
+            }
             status.account.span_display_name = SpannableHelper.convertA(context, status.account, status.account.display_name, true);
             if (status.poll != null) {
                 for (Poll.PollItem pollItem : status.poll.options) {

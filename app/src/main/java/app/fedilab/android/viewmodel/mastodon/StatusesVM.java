@@ -25,9 +25,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -90,10 +87,9 @@ public class StatusesVM extends AndroidViewModel {
     }
 
     private MastodonStatusesService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(getOkHttpClient())
                 .build();
         return retrofit.create(MastodonStatusesService.class);

@@ -31,9 +31,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,10 +87,9 @@ public class PostMessageService extends IntentService {
     }
 
     private static MastodonStatusesService init(Context context, @NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(getOkHttpClient(context))
                 .build();
         return retrofit.create(MastodonStatusesService.class);
