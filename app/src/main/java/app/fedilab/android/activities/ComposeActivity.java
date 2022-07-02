@@ -168,7 +168,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
-
         //Edit a scheduled status from server
         if (scheduledStatus != null) {
             statusDraft = new StatusDraft();
@@ -629,10 +628,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     WorkManager.getInstance(ComposeActivity.this).cancelWorkById(statusDraft.workerUuid);
                 }
             }
-            statusDraft.statusReplyList = statusReplies;
-            statusDraft.statusDraftList = statusDrafts;
-            statusDraft.instance = account.instance;
-            statusDraft.user_id = account.user_id;
+            if (statusReplies.size() > 0) {
+                statusDraft.statusReplyList = statusReplies;
+            }
+            if (statusDrafts.size() > 0) {
+                statusDraft.statusDraftList = statusDrafts;
+            }
+            if (statusDraft.instance == null) {
+                statusDraft.instance = account.instance;
+            }
+            if (statusDraft.user_id == null) {
+                statusDraft.user_id = account.user_id;
+            }
 
             if (!canBeSent(statusDraft)) {
                 return;
