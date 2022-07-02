@@ -94,7 +94,6 @@ public class SpannableHelper {
     private static Spannable convert(@NonNull Context context, @NonNull Status status, String text) {
         return convert(context, status, text, true);
     }
-
     /**
      * Convert HTML content to text. Also, it handles click on link and transform emoji
      * This needs to be run asynchronously
@@ -124,7 +123,7 @@ public class SpannableHelper {
                 text = text.replaceAll(Pattern.quote(matcherALink.group()), Matcher.quoteReplacement(url));
             }
         }
-        if (convertHtml) {
+        if(convertHtml) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
             else
@@ -1144,7 +1143,14 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-        initialContent = new SpannableString(text);
+        if (!limitedToDisplayName) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            else
+                initialContent = new SpannableString(Html.fromHtml(text));
+        } else {
+            initialContent = new SpannableString(text);
+        }
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         for (URLSpan span : urls)
