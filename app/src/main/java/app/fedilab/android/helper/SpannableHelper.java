@@ -90,16 +90,22 @@ public class SpannableHelper {
 
     public static final String CLICKABLE_SPAN = "CLICKABLE_SPAN";
 
+
+    private static Spannable convert(@NonNull Context context, @NonNull Status status, String text) {
+        return convert(context, status, text, true);
+    }
+
     /**
      * Convert HTML content to text. Also, it handles click on link and transform emoji
      * This needs to be run asynchronously
      *
-     * @param context {@link Context}
-     * @param status  {@link Status} - Status concerned by the spannable transformation
-     * @param text    String - text to convert, it can be content, spoiler, poll items, etc.
+     * @param context     {@link Context}
+     * @param status      {@link Status} - Status concerned by the spannable transformation
+     * @param text        String - text to convert, it can be content, spoiler, poll items, etc.
+     * @param convertHtml boolean - text need to be converted in html first
      * @return Spannable string
      */
-    private static Spannable convert(@NonNull Context context, @NonNull Status status, String text) {
+    private static Spannable convert(@NonNull Context context, @NonNull Status status, String text, boolean convertHtml) {
         SpannableString initialContent;
         if (text == null) {
             return null;
@@ -118,10 +124,14 @@ public class SpannableHelper {
                 text = text.replaceAll(Pattern.quote(matcherALink.group()), Matcher.quoteReplacement(url));
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        else
-            initialContent = new SpannableString(Html.fromHtml(text));
+        if (convertHtml) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            else
+                initialContent = new SpannableString(Html.fromHtml(text));
+        } else {
+            initialContent = new SpannableString(text);
+        }
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
@@ -1073,7 +1083,7 @@ public class SpannableHelper {
             status.account.span_display_name = SpannableHelper.convertA(context, status.account, status.account.display_name, true);
             if (status.poll != null) {
                 for (Poll.PollItem pollItem : status.poll.options) {
-                    pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title);
+                    pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title, false);
                 }
             }
             if (status.reblog != null) {
@@ -1085,7 +1095,7 @@ public class SpannableHelper {
                 status.reblog.account.span_display_name = SpannableHelper.convertA(context, status.reblog.account, status.reblog.account.display_name, true);
                 if (status.reblog.poll != null) {
                     for (Poll.PollItem pollItem : status.reblog.poll.options) {
-                        pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title);
+                        pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title, false);
                     }
                 }
             }
@@ -1134,11 +1144,7 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        else
-            initialContent = new SpannableString(Html.fromHtml(text));
-
+        initialContent = new SpannableString(text);
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         for (URLSpan span : urls)
