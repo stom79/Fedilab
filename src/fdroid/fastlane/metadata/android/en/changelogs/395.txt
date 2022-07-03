@@ -1,0 +1,2 @@
+- Fix some bugs
+- Allow to share with the app
