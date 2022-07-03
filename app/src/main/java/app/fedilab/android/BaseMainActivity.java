@@ -405,7 +405,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (imageUri != null) {
                     intent = new Intent(BaseMainActivity.this, ComposeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra(Helper.ARG_SHARE_URI, imageUri.toString());
+                    intent.putExtra(Helper.ARG_SHARE_URI, imageUri);
                     startActivity(intent);
                 } else {
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();

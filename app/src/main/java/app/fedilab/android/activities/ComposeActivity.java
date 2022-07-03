@@ -358,12 +358,19 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }, 0, 10000);
 
         if (sharedUriList != null && sharedUriList.size() > 0) {
-            List<Uri> uris = new ArrayList<>(sharedUriList);
-            composeAdapter.addAttachment(-1, uris);
+
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                List<Uri> uris = new ArrayList<>(sharedUriList);
+                composeAdapter.addAttachment(-1, uris);
+            }, 1000);
         } else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
-            List<Uri> uris = new ArrayList<>();
-            uris.add(sharedUri);
-            composeAdapter.addAttachment(-1, uris);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                List<Uri> uris = new ArrayList<>();
+                uris.add(sharedUri);
+                composeAdapter.addAttachment(-1, uris);
+            }, 1000);
         } else if (shareURL != null) {
             Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
                 @Override
