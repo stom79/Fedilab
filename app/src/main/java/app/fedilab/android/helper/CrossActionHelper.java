@@ -17,6 +17,7 @@ package app.fedilab.android.helper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.client.endpoints.MastodonSearchService;
 import app.fedilab.android.client.entities.api.Results;
@@ -397,6 +399,49 @@ public class CrossActionHelper {
             mainHandler.post(myRunnable);
 
         }).start();
+    }
+
+    public static void doCrossShare(final Context context, final Bundle bundle) {
+        List<BaseAccount> accounts;
+        try {
+            accounts = new Account(context).getAll();
+            List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
+            for (BaseAccount account : accounts) {
+                accountList.add(account.mastodon_account);
+            }
+            if (accounts.size() == 1) {
+                Intent intentToot = new Intent(context, ComposeActivity.class);
+                intentToot.putExtras(bundle);
+                context.startActivity(intentToot);
+                ((BaseActivity) context).finish();
+            } else {
+                AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                builderSingle.setTitle(context.getString(R.string.choose_accounts));
+                final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
+                final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
+                int i = 0;
+                for (BaseAccount account : accounts) {
+                    accountArray[i] = account;
+                    i++;
+                }
+                builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
+                    final BaseAccount account = accountArray[which];
+                    Intent intentToot = new Intent(context, ComposeActivity.class);
+                    bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                    intentToot.putExtras(bundle);
+                    context.startActivity(intentToot);
+                    ((BaseActivity) context).finish();
+                    dialog.dismiss();
+                });
+                builderSingle.show();
+            }
+
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

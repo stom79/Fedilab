@@ -28,11 +28,15 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,8 +76,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.AboutActivity;
@@ -115,6 +123,7 @@ import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
@@ -128,6 +137,11 @@ import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import app.fedilab.android.viewmodel.mastodon.TopBarVM;
 import es.dmoral.toasty.Toasty;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
@@ -234,6 +248,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private void mamageNewIntent(Intent intent) {
         if (intent == null)
             return;
+        String action = intent.getAction();
+        String type = intent.getType();
         Bundle extras = intent.getExtras();
         String userIdIntent, instanceIntent;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
@@ -269,6 +285,142 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }, 1000);
                 intent.removeExtra(Helper.INTENT_ACTION);
 
+            }
+        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                final String[] url = {null};
+                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                //SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                //boolean shouldRetrieveMetaData = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                if (sharedText != null) {
+                    /* Some apps don't send the URL as the first part of the EXTRA_TEXT,
+                        the BBC News app being one such, in this case find where the URL
+                        is and strip that out into sharedText.
+                     */
+                    Matcher matcher;
+                    matcher = Patterns.WEB_URL.matcher(sharedText);
+                    while (matcher.find()) {
+                        int matchStart = matcher.start(1);
+                        int matchEnd = matcher.end();
+                        if (matchStart < matchEnd && sharedText.length() >= matchEnd)
+                            url[0] = sharedText.substring(matchStart, matchEnd);
+                    }
+                    new Thread(() -> {
+                        if (url[0].startsWith("www."))
+                            url[0] = "http://" + url[0];
+                        Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
+                        String potentialUrl = null;
+                        while (matcherPattern.find()) {
+                            int matchStart = matcherPattern.start(1);
+                            int matchEnd = matcherPattern.end();
+                            if (matchStart < matchEnd && url[0].length() >= matchEnd)
+                                potentialUrl = url[0].substring(matchStart, matchEnd);
+                        }
+                        // If we actually have a URL then make use of it.
+                        if (potentialUrl != null && potentialUrl.length() > 0) {
+                            Pattern titlePattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:title[\"']\\s+content=[\"']([^>]*)[\"']");
+                            Pattern descriptionPattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:description[\"']\\s+content=[\"']([^>]*)[\"']");
+                            Pattern imagePattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:image[\"']\\s+content=[\"']([^>]*)[\"']");
+                            try {
+                                OkHttpClient client = new OkHttpClient.Builder()
+                                        .connectTimeout(10, TimeUnit.SECONDS)
+                                        .writeTimeout(10, TimeUnit.SECONDS)
+                                        .proxy(Helper.getProxy(getApplication().getApplicationContext()))
+                                        .readTimeout(10, TimeUnit.SECONDS).build();
+                                Request request = new Request.Builder()
+                                        .url(potentialUrl)
+                                        .build();
+                                client.newCall(request).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                        e.printStackTrace();
+                                        runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                    }
+
+                                    @Override
+                                    public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                                        if (response.isSuccessful()) {
+                                            try {
+                                                String data = response.body().string();
+                                                Matcher matcherTitle;
+                                                matcherTitle = titlePattern.matcher(data);
+                                                Matcher matcherDescription = descriptionPattern.matcher(data);
+                                                Matcher matcherImage = imagePattern.matcher(data);
+                                                String titleEncoded = null;
+                                                String descriptionEncoded = null;
+                                                while (matcherTitle.find())
+                                                    titleEncoded = matcherTitle.group(1);
+                                                while (matcherDescription.find())
+                                                    descriptionEncoded = matcherDescription.group(1);
+                                                String image = null;
+                                                while (matcherImage.find())
+                                                    image = matcherImage.group(1);
+                                                String title = null;
+                                                String description = null;
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                    if (titleEncoded != null)
+                                                        title = Html.fromHtml(titleEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                    if (descriptionEncoded != null)
+                                                        description = Html.fromHtml(descriptionEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                } else {
+                                                    if (titleEncoded != null)
+                                                        title = Html.fromHtml(titleEncoded).toString();
+                                                    if (descriptionEncoded != null)
+                                                        description = Html.fromHtml(descriptionEncoded).toString();
+                                                }
+                                                String finalImage = image;
+                                                String finalTitle = title;
+                                                String finalDescription = description;
+                                                runOnUiThread(() -> {
+
+
+                                                    Bundle b = new Bundle();
+                                                    b.putString(Helper.ARG_SHARE_URL, url[0]);
+                                                    b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                    b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
+                                                    b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
+                                                    b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
+                                                    b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
+                                                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                        }
+                                    }
+                                });
+                            } catch (IndexOutOfBoundsException e) {
+                                Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    }).start();
+
+                }
+            } else if (type.startsWith("image/") || type.startsWith("video/")) {
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    intent = new Intent(BaseMainActivity.this, ComposeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(Helper.ARG_SHARE_URI, imageUri.toString());
+                    startActivity(intent);
+                } else {
+                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/") || type.startsWith("video/")) {
+                ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if (imageList != null) {
+                    Bundle b = new Bundle();
+                    b.putParcelableArrayList(Helper.ARG_SHARE_URI_LIST, imageList);
+                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                } else {
+                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
             }
         }
 

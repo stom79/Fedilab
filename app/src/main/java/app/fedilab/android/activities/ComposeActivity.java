@@ -72,7 +72,6 @@ import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
@@ -84,6 +83,7 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
 import app.fedilab.android.services.PostMessageService;
 import app.fedilab.android.services.ThreadMessageService;
@@ -134,6 +134,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private app.fedilab.android.client.entities.api.Account accountMention;
     private String statusReplyId;
     private app.fedilab.android.client.entities.api.Account mentionBooster;
+    private ArrayList<Uri> sharedUriList = new ArrayList<>();
+    private Uri sharedUri;
+    private String sharedSubject, sharedContent, sharedTitle, sharedDescription, shareURL, sharedUrlMedia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +163,24 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             scheduledStatus = (ScheduledStatus) b.getSerializable(Helper.ARG_STATUS_SCHEDULED);
             statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
             statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
-            account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
+            account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
             instance = b.getString(Helper.ARG_INSTANCE, null);
             token = b.getString(Helper.ARG_TOKEN, null);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
             mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
+            //Shared elements
+            sharedUriList = b.getParcelableArrayList(Helper.ARG_SHARE_URI_LIST);
+            sharedUri = b.getParcelable(Helper.ARG_SHARE_URI);
+            sharedUrlMedia = b.getString(Helper.ARG_SHARE_URL_MEDIA);
+            sharedSubject = b.getString(Helper.ARG_SHARE_SUBJECT, null);
+            sharedContent = b.getString(Helper.ARG_SHARE_CONTENT, null);
+            sharedTitle = b.getString(Helper.ARG_SHARE_TITLE, null);
+            sharedDescription = b.getString(Helper.ARG_SHARE_DESCRIPTION, null);
+            shareURL = b.getString(Helper.ARG_SHARE_URL, null);
         }
+
+
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         //Edit a scheduled status from server
         if (scheduledStatus != null) {
@@ -342,6 +356,28 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 storeDraft(false);
             }
         }, 0, 10000);
+
+        if (sharedUriList != null && sharedUriList.size() > 0) {
+            List<Uri> uris = new ArrayList<>(sharedUriList);
+            composeAdapter.addAttachment(-1, uris);
+        } else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
+            List<Uri> uris = new ArrayList<>();
+            uris.add(sharedUri);
+            composeAdapter.addAttachment(-1, uris);
+        } else if (shareURL != null) {
+            Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
+                @Override
+                public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
+                    composeAdapter.addSharing(shareURL, sharedTitle, sharedDescription, sharedSubject, sharedContent, saveFilePath);
+                }
+
+                @Override
+                public void onUpdateProgress(int progress) {
+
+                }
+            });
+
+        }
     }
 
     @Override

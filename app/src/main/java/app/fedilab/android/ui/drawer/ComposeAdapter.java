@@ -74,9 +74,12 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.text.Normalizer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -388,6 +391,37 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             statusList.get(finalPosition).media_attachments.add(attachment);
             notifyItemChanged(finalPosition);
         });
+    }
+
+    /**
+     * Add a shared element
+     * If title and description are empty, it will use subject and content coming from the intent
+     *
+     * @param url         - String url that is shared
+     * @param title       - String title gather from the URL
+     * @param description - String description gathered from the URL
+     * @param subject     - String subject (title) comming from the shared elements
+     * @param content     - String content (description) coming from the shared elements
+     */
+    public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
+        int position = statusList.size() - 1;
+        statusList.get(position).text = title != null ? title : subject;
+        statusList.get(position).text += "\n\n";
+        statusList.get(position).text += description != null ? description : content;
+        statusList.get(position).text += "\n\n";
+        statusList.get(position).text += url;
+        Attachment attachment = new Attachment();
+        attachment.mimeType = "image/*";
+        String extension = "jpg";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_", Locale.getDefault());
+        attachment.local_path = saveFilePath;
+        Date now = new Date();
+        attachment.filename = formatter.format(now) + "." + extension;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        statusList.get(position).media_attachments.add(attachment);
+        notifyItemChanged(position);
     }
 
     //<------ Manage contact from compose activity

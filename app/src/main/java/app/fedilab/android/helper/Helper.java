@@ -107,10 +107,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Authenticator;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.URL;
 import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -131,6 +133,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.MainApplication;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.WebviewActivity;
@@ -139,6 +142,7 @@ import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
 import app.fedilab.android.watermark.androidwm.WatermarkBuilder;
@@ -206,6 +210,14 @@ public class Helper {
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
     public static final String ARG_STATUS_REPORT = "ARG_STATUS_REPORT";
     public static final String ARG_STATUS_MENTION = "ARG_STATUS_MENTION";
+    public static final String ARG_SHARE_URI = "ARG_SHARE_URI";
+    public static final String ARG_SHARE_URL_MEDIA = "ARG_SHARE_URL_MEDIA";
+    public static final String ARG_SHARE_URL = "ARG_SHARE_URL";
+    public static final String ARG_SHARE_URI_LIST = "ARG_SHARE_URI_LIST";
+    public static final String ARG_SHARE_TITLE = "ARG_SHARE_TITLE";
+    public static final String ARG_SHARE_SUBJECT = "ARG_SHARE_SUBJECT";
+    public static final String ARG_SHARE_DESCRIPTION = "ARG_SHARE_DESCRIPTION";
+    public static final String ARG_SHARE_CONTENT = "ARG_SHARE_CONTENT";
     public static final String ARG_FOLLOW_TYPE = "ARG_FOLLOW_TYPE";
     public static final String ARG_TYPE_OF_INFO = "ARG_TYPE_OF_INFO";
     public static final String ARG_TOKEN = "ARG_TOKEN";
@@ -1244,6 +1256,21 @@ public class Helper {
         }).start();
     }
 
+    public static void createAttachmentFromPAth(String path, OnAttachmentCopied callBack) {
+        new Thread(() -> {
+            Attachment attachment = new Attachment();
+            attachment.mimeType = "image/*";
+            String extension = "jpg";
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_" + counter, Locale.getDefault());
+            attachment.local_path = path;
+            Date now = new Date();
+            attachment.filename = formatter.format(now) + "." + extension;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
+            mainHandler.post(myRunnable);
+        }).start();
+    }
+
     /**
      * change color of a drawable
      *
@@ -1622,5 +1649,75 @@ public class Helper {
                     }
                 })
                 .create();
+    }
+
+
+    /***
+     * Download method which works for http and https connections
+     * @param downloadUrl String download url
+     * @param listener OnDownloadInterface, listener which manages progress
+     */
+    public static void download(Context context, final String downloadUrl, final OnDownloadInterface listener) {
+        new Thread(() -> {
+            URL url;
+            int CHUNK_SIZE = 4096;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean enable_proxy = sharedpreferences.getBoolean(context.getString(R.string.SET_PROXY_ENABLED), false);
+            Proxy proxy = null;
+            if (enable_proxy) {
+                proxy = getProxy(context);
+            }
+            try {
+                url = new URL(downloadUrl);
+                HttpURLConnection httpURLConnection;
+                if (proxy != null)
+                    httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
+                else
+                    httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                int responseCode = httpURLConnection.getResponseCode();
+
+                // always check HTTP response code first
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    String fileName = "";
+                    String disposition = httpURLConnection.getHeaderField("Content-Disposition");
+
+                    if (disposition != null) {
+                        // extracts file name from header field
+                        int index = disposition.indexOf("filename=");
+                        if (index > 0) {
+                            fileName = disposition.substring(index + 10,
+                                    disposition.length() - 1);
+                        }
+                    } else {
+                        // extracts file name from URL
+                        fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1);
+                    }
+                    fileName = FileNameCleaner.cleanFileName(fileName);
+                    // opens input stream from the HTTP connection
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    File saveDir = context.getCacheDir();
+                    final String saveFilePath = saveDir + File.separator + fileName;
+                    // opens an output stream to save into file
+                    FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+                    int bytesRead;
+                    byte[] buffer = new byte[CHUNK_SIZE];
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    outputStream.close();
+                    inputStream.close();
+                    ((ComposeActivity) context).runOnUiThread(() -> listener.onDownloaded(saveFilePath, downloadUrl, null));
+                } else {
+                    ((ComposeActivity) context).runOnUiThread(() -> listener.onDownloaded(null, downloadUrl, new Error()));
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                ((ComposeActivity) context).runOnUiThread(() -> listener.onDownloaded(null, downloadUrl, new Error()));
+            }
+
+        }).start();
     }
 }
