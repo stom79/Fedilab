@@ -43,7 +43,36 @@ public class Attachment implements Serializable {
     public long size;
     @SerializedName("local_path")
     public String local_path;
+    @SerializedName("meta")
+    public Meta meta;
 
     public String peertubeHost = null;
     public String peertubeId = null;
+
+    public static class Meta implements Serializable {
+        @SerializedName("focus")
+        public Focus focus;
+        @SerializedName("original")
+        public MediaData original;
+        @SerializedName("small")
+        public MediaData small;
+    }
+
+    public static class Focus implements Serializable {
+        @SerializedName("x")
+        public float x;
+        @SerializedName("y")
+        public float y;
+    }
+
+    public static class MediaData implements Serializable {
+        @SerializedName("width")
+        public int width;
+        @SerializedName("height")
+        public int height;
+        @SerializedName("size")
+        public String size;
+        @SerializedName("aspect")
+        public float aspect;
+    }
 }

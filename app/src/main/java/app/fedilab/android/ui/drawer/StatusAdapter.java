@@ -117,6 +117,7 @@ import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
+import app.fedilab.android.helper.GlideFocus;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.helper.MastodonHelper;
@@ -984,10 +985,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     layoutMediaBinding.playMusic.setVisibility(View.GONE);
                 }
+                float focusX = 0.f;
+                float focusY = 0.f;
+                if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
+                    focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
+                    focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
+                }
+
                 if (!mediaObfuscated(statusToDeal) || expand_media) {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                     Glide.with(layoutMediaBinding.media.getContext())
                             .load(statusToDeal.media_attachments.get(0).preview_url)
+                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                             .into(layoutMediaBinding.media);
                 } else {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
@@ -995,6 +1004,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             .load(statusToDeal.media_attachments.get(0).preview_url)
                             .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
                             // .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                             .into(layoutMediaBinding.media);
                 }
                 layoutMediaBinding.viewHide.setOnClickListener(v -> {
@@ -1009,6 +1019,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     RelativeLayout.LayoutParams lp;
+                    float focusX = 0.f;
+                    float focusY = 0.f;
+                    if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
+                        focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
+                        focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
+                    }
+
                     if (fullAttachement) {
                         lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -1032,12 +1049,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Glide.with(layoutMediaBinding.media.getContext())
                                 .load(attachment.preview_url)
                                 .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                                .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                                 .into(layoutMediaBinding.media);
                     } else {
                         layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
                         Glide.with(layoutMediaBinding.media.getContext())
                                 .load(attachment.preview_url)
                                 .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
+                                .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                                 //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
                                 .into(layoutMediaBinding.media);
                     }
