@@ -1073,7 +1073,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
             //Disable buttons to attach media if max has been reached
-            if (statusDraft.media_attachments != null && statusDraft.media_attachments.size() >= instanceInfo.configuration.statusesConf.max_media_attachments) {
+            if (statusDraft.media_attachments != null &&
+                    ((instanceInfo != null && statusDraft.media_attachments.size() >= instanceInfo.configuration.statusesConf.max_media_attachments) || (instanceInfo == null && statusDraft.media_attachments.size() >= 4))) {
                 holder.binding.buttonAttachImage.setEnabled(false);
                 holder.binding.buttonAttachVideo.setEnabled(false);
                 holder.binding.buttonAttachAudio.setEnabled(false);
