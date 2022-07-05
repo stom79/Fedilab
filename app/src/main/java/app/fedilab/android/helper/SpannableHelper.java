@@ -256,14 +256,15 @@ public class SpannableHelper {
                 content.setSpan(new LongClickableSpan() {
                     @Override
                     public void onLongClick(View view) {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        Context mContext = view.getContext();
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
                         PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.show();
 
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
                             builder.setMessage(url);
                             builder.setTitle(context.getString(R.string.display_full_link));
                             builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
@@ -720,14 +721,15 @@ public class SpannableHelper {
                 content.setSpan(new LongClickableSpan() {
                     @Override
                     public void onLongClick(View view) {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                        Context mContext = view.getContext();
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
                         PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.show();
 
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
                             builder.setMessage(url);
                             builder.setTitle(context.getString(R.string.display_full_link));
                             builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
