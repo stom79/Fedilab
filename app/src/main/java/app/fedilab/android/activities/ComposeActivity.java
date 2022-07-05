@@ -109,12 +109,17 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
             String imgpath = intent.getStringExtra("imgpath");
+            float focusX = intent.getFloatExtra("focusX", -2);
+            float focusY = intent.getFloatExtra("focusY", -2);
             if (imgpath != null) {
                 int position = 0;
                 for (Status status : statusList) {
                     if (status.media_attachments != null && status.media_attachments.size() > 0) {
                         for (Attachment attachment : status.media_attachments) {
                             if (attachment.local_path.equalsIgnoreCase(imgpath)) {
+                                if (focusX != -2) {
+                                    attachment.focus = focusX + "," + focusY;
+                                }
                                 composeAdapter.notifyItemChanged(position);
                                 break;
                             }

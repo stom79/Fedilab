@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityEditImageBinding;
+import app.fedilab.android.helper.CirclesDrawingView;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.imageeditor.base.BaseActivity;
 import app.fedilab.android.imageeditor.filters.FilterListener;
@@ -58,7 +60,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
     private final int STORE_REQUEST = 54;
-
     private final EditingToolsAdapter mEditingToolsAdapter = new EditingToolsAdapter(this);
     private final FilterViewAdapter mFilterViewAdapter = new FilterViewAdapter(this);
     private final ConstraintSet mConstraintSet = new ConstraintSet();
@@ -117,8 +118,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         binding.rvFilterView.setLayoutManager(llmFilters);
         binding.rvFilterView.setAdapter(mFilterViewAdapter);
 
-        //Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.roboto_medium);
-        //Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
         Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
 
         mPhotoEditor = new PhotoEditor.Builder(this, binding.photoEditorView)
@@ -246,6 +245,49 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         if (exit) {
                             Intent intentImage = new Intent(Helper.INTENT_SEND_MODIFIED_IMAGE);
                             intentImage.putExtra("imgpath", imagePath);
+                            CirclesDrawingView.CircleArea circleArea = binding.focusCircle.getTouchedCircle();
+                            if (circleArea != null) {
+                                //Dimension of the editor containing the image
+                                int pHeight = binding.photoEditorView.getHeight();
+                                int pWidth = binding.photoEditorView.getWidth();
+                                //Load the original image in a bitmap
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inJustDecodeBounds = true;
+                                BitmapFactory.decodeFile(new File(imagePath).getAbsolutePath(), options);
+                                //Get height and width of the original image
+                                int imageHeight = options.outHeight;
+                                int imageWidth = options.outWidth;
+
+                                //Evaluate the dimension of the image in the editor
+                                int imgHeightInEditor;
+                                int imgWidthInEditor;
+                                //If the original image has its height greater than width => heights are equals
+                                float focusX = -2, focusY = -2;
+                                if (imageHeight > imageWidth) {
+                                    imgHeightInEditor = pHeight;
+                                    float ratio = (float) pHeight / (float) imageHeight;
+                                    imgWidthInEditor = (int) (pWidth * ratio);
+                                } else { //Otherwise widths are equals
+                                    imgWidthInEditor = pWidth;
+                                    float ratio = (float) pWidth / (float) imageWidth;
+                                    imgHeightInEditor = (int) (pHeight * ratio);
+                                }
+                                focusY = (float) (circleArea.centerY * 2 - imgHeightInEditor / 2) / (float) imgHeightInEditor - 0.5f;
+                                focusX = (float) (circleArea.centerX * 2 - imgWidthInEditor / 2) / (float) imgWidthInEditor - 0.5f;
+                                if (focusX > 1) {
+                                    focusX = 1;
+                                } else if (focusX < -1) {
+                                    focusX = -1;
+                                }
+                                if (focusY > 1) {
+                                    focusY = 1;
+                                } else if (focusY < -1) {
+                                    focusY = -1;
+                                }
+                                intentImage.putExtra("focusX", focusX);
+                                intentImage.putExtra("focusY", focusY);
+                            }
+
                             LocalBroadcastManager.getInstance(EditImageActivity.this).sendBroadcast(intentImage);
                             finish();
                         }
@@ -376,6 +418,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
     @Override
     public void onToolSelected(ToolType toolType) {
+        binding.focusCircle.setVisibility(View.GONE);
         switch (toolType) {
             case SHAPE:
                 mPhotoEditor.setBrushDrawingMode(true);
@@ -413,6 +456,9 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             case CROP:
                 CropImage.activity(uri)
                         .start(this);
+                break;
+            case FOCUS:
+                binding.focusCircle.setVisibility(View.VISIBLE);
                 break;
         }
     }

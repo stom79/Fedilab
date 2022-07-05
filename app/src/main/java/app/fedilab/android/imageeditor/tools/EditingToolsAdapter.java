@@ -32,6 +32,7 @@ public class EditingToolsAdapter extends RecyclerView.Adapter<EditingToolsAdapte
         mToolList.add(new ToolModel("Eraser", R.drawable.ic_eraser, ToolType.ERASER));
         mToolList.add(new ToolModel("Filter", R.drawable.ic_photo_filter, ToolType.FILTER));
         mToolList.add(new ToolModel("Emoji", R.drawable.ic_insert_emoticon, ToolType.EMOJI));
+        mToolList.add(new ToolModel("Focus", R.drawable.ic_baseline_filter_center_focus_24, ToolType.FOCUS));
     }
 
     @NonNull
