@@ -17,15 +17,15 @@
     <string name="password">Пароль</string>
     <string name="email">Ел. пошта</string>
     <string name="accounts">Облікові записи</string>
-    <string name="toots">Передмухнуте</string>
+    <string name="toots">Повідомлення</string>
     <string name="tags">Мітки</string>
     <string name="save">Зберегти</string>
     <string name="instance">Екземпляр</string>
     <string name="instance_example">Екземпляр: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Тепер працює з обліковим записом %1$s</string>
     <string name="add_account">Додати обліковий запис</string>
-    <string name="clipboard">Вміст дмуху скопійований в буфер обміну</string>
-    <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
+    <string name="clipboard">Вміст повідомлення скопійований в буфер обміну</string>
+    <string name="clipboard_url">URL-адресу повідомлення скопійовано в буфер обміну</string>
     <string name="camera">Камера</string>
     <string name="delete_all">Видалити все</string>
     <string name="schedule">Запланувати</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Запити на підписку</string>
     <string name="settings">Налаштування</string>
     <string name="send_email">Надіслати ел. лист</string>
-    <string name="scheduled_toots">Заплановані дмухи</string>
+    <string name="scheduled_toots">Заплановані повідомлення</string>
     <string name="disclaimer_full">Наведена нижче інформація може відображати профіль користувача не повністю.</string>
     <string name="insert_emoji">Вставити смайли</string>
     <string name="no_emoji">Застосунок не збирає emojis на даний момент.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Немає повідомлень для відображення</string>
-    <string name="favourite_add">Додати цей дмух до обраного?</string>
-    <string name="favourite_remove">Видалити цей дмух з обраного?</string>
-    <string name="reblog_add">Передмухнути?</string>
-    <string name="reblog_remove">Зняти передмух?</string>
+    <string name="favourite_add">Додати це повідомлення до обраного\?</string>
+    <string name="favourite_remove">Видалити це повідомлення з обраного\?</string>
+    <string name="reblog_add">Підштовхнути це повідомлення\?</string>
+    <string name="reblog_remove">Не підштовхувати це повідомлення\?</string>
     <string name="more_action_1">Заглушити</string>
     <string name="more_action_2">Заблокувати</string>
     <string name="more_action_3">Повідомити про порушення</string>
@@ -130,8 +130,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Сталася помилка під час вибору медіа-файлу!</string>
     <string name="toot_delete_media">Видалити цей медіа-файл?</string>
-    <string name="toot_error_no_content">Ваш дмух пустий!</string>
-    <string name="toot_sent">Повідомлення було відправлено!</string>
+    <string name="toot_error_no_content">Ваше повідомлення порожнє!</string>
+    <string name="toot_sent">Повідомлення відправлено!</string>
     <string name="toot_sensitive">Чутливий вміст?</string>
     <string name="no_draft">Чернетки відсутні!</string>
     <string name="choose_accounts">Оберіть обліковий запис</string>
@@ -151,14 +151,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Немає облікових записів для відображення</string>
     <string name="no_follow_request">Запит на відмову від підписки</string>
-    <string name="status_cnt">Дмухи \n %1$s</string>
+    <string name="status_cnt">Повідомлення
+\n %1$s</string>
     <string name="following_cnt">Підписані на \n %1$s</string>
     <string name="followers_cnt">Стежать за вами \n %1$s</string>
     <string name="reject">Відхилити</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Немає запланованих дмухів для показу!</string>
-    <string name="remove_scheduled">Видалити запланований дмух?</string>
-    <string name="toot_scheduled">Дмух було заплановано!</string>
+    <string name="no_scheduled_toots">Немає запланованих повідомлень для показу!</string>
+    <string name="remove_scheduled">Видалити заплановане повідомлення\?</string>
+    <string name="toot_scheduled">Повідомлення заплановано!</string>
     <string name="toot_scheduled_date">Запланована дата має бути більшою за поточну годину!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Час для приглушення має бути більшим за одну хвилину.</string>
@@ -184,10 +185,10 @@
     <string name="toast_unmute">Обліковий запис більше не приглушено!</string>
     <string name="toast_follow">На обліковий запис підписалися!</string>
     <string name="toast_unfollow">Ви більше не підписані на обліковий запис!</string>
-    <string name="toast_reblog">Передмухнуто!</string>
-    <string name="toast_unreblog">Більше не передмухнуто!</string>
-    <string name="toast_favourite">Дмух додано до обраного!</string>
-    <string name="toast_unfavourite">Дмух видалено з обраного!</string>
+    <string name="toast_reblog">Повідомлення підштовхнуте!</string>
+    <string name="toast_unreblog">Повідомлення більше не підштовхнуте!</string>
+    <string name="toast_favourite">Повідомлення додано до обраного!</string>
+    <string name="toast_unfavourite">Повідомлення видалено з обраного!</string>
     <string name="toast_error">Вибачте, виникла помилка!</string>
     <string name="toast_code_error">Сталася помилка! Екземпляр не повернув код авторизації!</string>
     <string name="toast_error_instance">Домен екземпляру не валідний!</string>
@@ -196,7 +197,7 @@
     <string name="nothing_to_do">Ніяка дія не може відбутися</string>
     <string name="toast_error_translate">Виникла помилка під час перекладу!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Число дмухів за одиницю завантаження</string>
+    <string name="set_toots_page">Кількість повідомлень за одиницю завантаження</string>
     <string name="set_disable_gif">Вимкнути GIF аватари</string>
     <string name="set_notif_follow">Сповіщати, якщо хтось підписується</string>
     <string name="set_notif_follow_share">Сповіщати, якщо хтось передмухнув ваш статус</string>
@@ -275,7 +276,7 @@
     <string name="poxy_port">Порт</string>
     <string name="poxy_login">Логін</string>
     <string name="poxy_password">Пароль</string>
-    <string name="set_share_details">Додати деталі гудку при поділитися</string>
+    <string name="set_share_details">Додати деталі повідомлення при поширюванні</string>
     <string name="support_the_app_on_liberapay">Підтримати додаток на Liberapay</string>
     <string name="alert_regex">Помилка у регулярному виразі!</string>
     <string name="toast_instance_unavailable">No timelines was found on this instance!</string>
@@ -311,7 +312,7 @@
     <string name="channel_notif_fav">New Favourite</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup">Toots Backup</string>
+    <string name="channel_notif_backup">Запасне копіювання повідомлень</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Медіа завантаження</string>
     <string name="select_sound">Оберіть сигнал</string>
@@ -323,11 +324,11 @@
     <string name="peertube_instance">Peertube екземпляр</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
-    <string name="set_display_card">Display previews in all toots</string>
+    <string name="set_display_card">Відображати дрібнообрази в усіх повідомленнях</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
-    <string name="truncate_long_toots">Truncate long toots</string>
-    <string name="set_truncate_toot">Truncate toots over \'x\' lines. Zero means disabled.</string>
+    <string name="truncate_long_toots">Обтинати довгі повідомлення</string>
+    <string name="set_truncate_toot">Обтинати повідомлення більші, ніж \'x\' рядків. Нуль означає вимикання.</string>
     <string name="display_toot_truncate">Display more</string>
     <string name="hide_toot_truncate">Display less</string>
     <string name="tags_already_stored">The tag already exists!</string>
@@ -373,8 +374,8 @@
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="share">Share</string>
-    <string name="toots_server">Toots (Server)</string>
-    <string name="toots_client">Toots (Device)</string>
+    <string name="toots_server">Повідомлення (сервер)</string>
+    <string name="toots_client">Повідомлення (пристрій)</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
@@ -396,7 +397,7 @@
     <string name="poll_finish_at">end at %s</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
-    <string name="notif_poll_self">A poll you tooted has ended</string>
+    <string name="notif_poll_self">Опубліковане вами опитування закінчилося</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
@@ -531,7 +532,7 @@
     <string name="background_status">Background color of posts in timelines</string>
     <string name="reset_color">Reset colors</string>
     <string name="clik_reset">Tap here to reset all your custom colors</string>
-    <string name="reset">Reset</string>
+    <string name="reset">Скинути</string>
     <string name="icons_color_title">Icons</string>
     <string name="icons_color">Color of bottom icons in timelines</string>
     <string name="logo_of_the_instance">Logo of the instance</string>
