@@ -309,7 +309,7 @@ public class QuickLoad {
         QuickLoad localQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.LOCAL, null);
         QuickLoad publicQuickLoad = getSavedValue(account, Timeline.TimeLineEnum.PUBLIC, null);
 
-        if (homeQuickLoad != null && homeQuickLoad.statuses != null) {
+        if (homeQuickLoad != null && homeQuickLoad.statuses != null && newStatus != null) {
             for (int i = 0; i < homeQuickLoad.statuses.size(); i++) {
                 if (homeQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
                     homeQuickLoad.statuses.set(i, newStatus);
@@ -327,7 +327,7 @@ public class QuickLoad {
                 e.printStackTrace();
             }
         }
-        if (localQuickLoad != null && localQuickLoad.statuses != null) {
+        if (localQuickLoad != null && localQuickLoad.statuses != null && newStatus != null) {
             for (int i = 0; i < localQuickLoad.statuses.size(); i++) {
                 if (localQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
                     localQuickLoad.statuses.set(i, newStatus);
@@ -345,7 +345,7 @@ public class QuickLoad {
                 e.printStackTrace();
             }
         }
-        if (publicQuickLoad != null && publicQuickLoad.statuses != null) {
+        if (publicQuickLoad != null && publicQuickLoad.statuses != null && newStatus != null) {
             for (int i = 0; i < publicQuickLoad.statuses.size(); i++) {
                 if (publicQuickLoad.statuses.get(i).id.equals(newStatus.id)) {
                     publicQuickLoad.statuses.set(i, newStatus);
