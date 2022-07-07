@@ -285,25 +285,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         String[] mimetypes = new String[0];
         if (type == ComposeActivity.mediaType.PHOTO) {
-            if (instanceInfo.getMimeTypeImage() != null && instanceInfo.getMimeTypeImage().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeImage() != null && instanceInfo.getMimeTypeImage().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeImage().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"image/*"};
             }
         } else if (type == ComposeActivity.mediaType.VIDEO) {
-            if (instanceInfo.getMimeTypeVideo() != null && instanceInfo.getMimeTypeVideo().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeVideo() != null && instanceInfo.getMimeTypeVideo().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeVideo().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"video/*"};
             }
         } else if (type == ComposeActivity.mediaType.AUDIO) {
-            if (instanceInfo.getMimeTypeAudio() != null && instanceInfo.getMimeTypeAudio().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeAudio() != null && instanceInfo.getMimeTypeAudio().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeAudio().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"audio/mpeg", "audio/opus", "audio/flac", "audio/wav", "audio/ogg"};
             }
         } else if (type == ComposeActivity.mediaType.ALL) {
-            if (instanceInfo.getMimeTypeOther() != null && instanceInfo.getMimeTypeOther().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeOther() != null && instanceInfo.getMimeTypeOther().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeOther().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"*/*"};
@@ -706,7 +706,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void afterTextChanged(Editable s) {
                 int currentLength = MastodonHelper.countLength(holder);
                 //Copy/past
-                int max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+                int max_car;
+                if (instanceInfo != null) {
+                    max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+                } else {
+                    max_car = 500;
+                }
                 if (currentLength > max_car + 1) {
                     int from = max_car - holder.binding.contentSpoiler.getText().length();
                     int to = (currentLength - holder.binding.contentSpoiler.getText().length());
