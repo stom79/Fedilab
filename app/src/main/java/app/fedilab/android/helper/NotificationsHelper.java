@@ -317,7 +317,7 @@ public class NotificationsHelper {
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();
-                                    notify_user(context, Helper.NOTIFICATION_USER_NOTIF, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                    notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
                                             R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage);
                                 }
                                 return false;
@@ -332,7 +332,7 @@ public class NotificationsHelper {
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                    notify_user(context, Helper.NOTIFICATION_USER_NOTIF, account, intent, resource, finalNotifType, finalTitle, finalMessage);
+                                    notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
                                 }
                             }
 

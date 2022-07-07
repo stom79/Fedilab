@@ -117,6 +117,7 @@ import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1379,6 +1380,10 @@ public class Helper {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
+
+    private static final List<String> present = new ArrayList<>();
+    private static int notificationId = 1;
+
     /**
      * Sends notification with intent
      *
@@ -1389,7 +1394,7 @@ public class Helper {
      * @param message String message for the notification
      */
     @SuppressLint("UnspecifiedImmutableFlag")
-    public static void notify_user(Context context, int notificationId, BaseAccount account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
+    public static void notify_user(Context context, BaseAccount account, Intent intent, Bitmap icon, NotifType notifType, String title, String message) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         // prepare intent which is triggered if the user click on the notification
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
@@ -1440,14 +1445,11 @@ public class Helper {
                 channelTitle = context.getString(R.string.channel_notif_boost);
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notification).setTicker(message)
-                .setWhen(System.currentTimeMillis())
-                .setAutoCancel(true);
+                .setSmallIcon(R.drawable.ic_notification).setTicker(message);
         if (notifType == NotifType.MENTION) {
             if (message.length() > 500) {
                 message = message.substring(0, 499) + "…";
             }
-            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
         }
         notificationBuilder.setGroup(account.mastodon_account.acct + "@" + account.instance)
                 .setContentIntent(pIntent)
@@ -1515,19 +1517,28 @@ public class Helper {
         }
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setLargeIcon(icon);
-        notificationManager.notify(notificationId, notificationBuilder.build());
 
-        Notification summaryNotification =
-                new NotificationCompat.Builder(context, channelId)
-                        .setContentTitle(title)
-                        .setContentText(channelTitle)
-                        .setContentIntent(pIntent)
-                        .setLargeIcon(icon)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setGroup(account.mastodon_account.acct + "@" + account.instance)
-                        .setGroupSummary(true)
-                        .build();
-        notificationManager.notify(notificationId, summaryNotification);
+
+        Notification summaryNotification = null;
+
+        if (!present.contains(account.mastodon_account.acct + "@" + account.instance)) {
+            summaryNotification = new NotificationCompat.Builder(context, channelId)
+                    .setContentTitle(title)
+                    .setContentText(channelTitle)
+                    .setContentIntent(pIntent)
+                    .setLargeIcon(icon)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                    .setGroup(account.mastodon_account.acct + "@" + account.instance)
+                    .setGroupSummary(true)
+                    .build();
+            present.add(account.mastodon_account.acct + "@" + account.instance);
+        }
+
+        notificationManager.notify(notificationId++, notificationBuilder.build());
+        if (summaryNotification != null) {
+            notificationManager.notify(0, summaryNotification);
+        }
     }
 
     public static void transfertIfExist(Context context) {
