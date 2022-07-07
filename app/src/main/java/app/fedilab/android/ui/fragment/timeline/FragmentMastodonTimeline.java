@@ -453,9 +453,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 insertedPosition = insertStatus(statusReceived);
                 if (insertedPosition != STATUS_PRESENT && insertedPosition != STATUS_AT_THE_BOTTOM) {
                     numberInserted++;
+                    //Find the first position of insertion, the initial id is set to STATUS_PRESENT
                     if (initialInsertedPosition == STATUS_PRESENT) {
                         initialInsertedPosition = insertedPosition;
                     }
+                    //If next statuses have a lower id, there are inserted before (normally, that should not happen)
                     if (insertedPosition < initialInsertedPosition) {
                         initialInsertedPosition = lastInsertedPosition;
                     }
@@ -464,7 +466,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             lastInsertedPosition = initialInsertedPosition + numberInserted;
             //lastInsertedPosition contains the position of the last inserted status
             //If there were no overlap for top status
-            if (fetchingMissing && insertedPosition != STATUS_PRESENT && insertedPosition != STATUS_AT_THE_BOTTOM && this.statuses.size() > insertedPosition) {
+            if (fetchingMissing && insertedPosition != STATUS_PRESENT && insertedPosition != STATUS_AT_THE_BOTTOM && this.statuses.size() > insertedPosition && numberInserted == MastodonHelper.statusesPerCall(requireActivity())) {
                 Status statusFetchMore = new Status();
                 statusFetchMore.isFetchMore = true;
                 statusFetchMore.id = Helper.generateString();
@@ -485,7 +487,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     /**
-     * Insert a status if not yet in the timeline
+     * Insert a status if not yet in the timeline and returns its position of insertion
      *
      * @param statusReceived - Status coming from the api/db
      * @return int >= 0 |  STATUS_PRESENT = -1 | STATUS_AT_THE_BOTTOM = -2

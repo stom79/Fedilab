@@ -170,7 +170,7 @@ public class PinnedTimelineHelper {
                         name = pinnedTimeline.mastodonList.title;
                         break;
                     case TAG:
-                        name = pinnedTimeline.tagTimeline.name;
+                        name = pinnedTimeline.tagTimeline.name.replaceAll("#", "");
                         break;
                     case REMOTE:
                         name = pinnedTimeline.remoteInstance.host;
