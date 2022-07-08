@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -94,6 +93,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.ui.drawer.FieldAdapter;
 import app.fedilab.android.ui.drawer.IdentityProofsAdapter;
 import app.fedilab.android.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -357,43 +357,9 @@ public class ProfileActivity extends BaseActivity {
         //Fields for profile
         List<Field> fields = account.fields;
         if (fields != null && fields.size() > 0) {
-            for (int i = 0; i < fields.size(); i++) {
-                LinearLayout field;
-                TextView labelView;
-                TextView valueView;
-                switch (i) {
-                    case 1:
-                        field = binding.field1;
-                        labelView = binding.label1;
-                        valueView = binding.value1;
-                        break;
-                    case 2:
-                        field = binding.field2;
-                        labelView = binding.label2;
-                        valueView = binding.value2;
-                        break;
-                    case 3:
-                        field = binding.field3;
-                        labelView = binding.label3;
-                        valueView = binding.value3;
-                        break;
-                    default:
-                        field = binding.field4;
-                        labelView = binding.label4;
-                        valueView = binding.value4;
-                        break;
-                }
-
-                field.setVisibility(View.VISIBLE);
-                if (fields.get(i).verified_at != null) {
-                    valueView.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_baseline_verified_24), null);
-                    fields.get(i).value_span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.verified_text)), 0, fields.get(i).value_span.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-                valueView.setText(fields.get(i).value_span != null ? fields.get(i).value_span : fields.get(i).value, TextView.BufferType.SPANNABLE);
-                valueView.setMovementMethod(LinkMovementMethod.getInstance());
-                labelView.setText(fields.get(i).name);
-            }
-            binding.fieldsContainer.setVisibility(View.VISIBLE);
+            FieldAdapter fieldAdapter = new FieldAdapter(fields);
+            binding.fieldsContainer.setAdapter(fieldAdapter);
+            binding.fieldsContainer.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
         }
         if (account.span_display_name == null && account.display_name == null) {
             binding.accountDn.setText(account.username);

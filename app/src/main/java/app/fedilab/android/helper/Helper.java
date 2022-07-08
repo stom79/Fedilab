@@ -117,7 +117,6 @@ import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1381,7 +1380,6 @@ public class Helper {
     }
 
 
-    private static final List<String> present = new ArrayList<>();
     private static int notificationId = 1;
 
     /**
@@ -1519,26 +1517,19 @@ public class Helper {
         notificationBuilder.setLargeIcon(icon);
 
 
-        Notification summaryNotification = null;
-
-        if (!present.contains(account.mastodon_account.acct + "@" + account.instance)) {
-            summaryNotification = new NotificationCompat.Builder(context, channelId)
-                    .setContentTitle(title)
-                    .setContentText(channelTitle)
-                    .setContentIntent(pIntent)
-                    .setLargeIcon(icon)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setGroup(account.mastodon_account.acct + "@" + account.instance)
-                    .setGroupSummary(true)
-                    .build();
-            present.add(account.mastodon_account.acct + "@" + account.instance);
-        }
+        Notification summaryNotification = summaryNotification = new NotificationCompat.Builder(context, channelId)
+                .setContentTitle(title)
+                .setContentText(channelTitle)
+                .setContentIntent(pIntent)
+                .setLargeIcon(icon)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                .setGroup(account.mastodon_account.acct + "@" + account.instance)
+                .setGroupSummary(true)
+                .build();
 
         notificationManager.notify(notificationId++, notificationBuilder.build());
-        if (summaryNotification != null) {
-            notificationManager.notify(0, summaryNotification);
-        }
+        notificationManager.notify(0, summaryNotification);
     }
 
     public static void transfertIfExist(Context context) {

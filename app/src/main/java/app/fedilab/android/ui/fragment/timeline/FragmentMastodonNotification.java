@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,8 +181,16 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     @Override
     public void onResume() {
         super.onResume();
-        NotificationManager notificationManager = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(Helper.NOTIFICATION_USER_NOTIF);
+        NotificationManager mNotificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && BaseMainActivity.currentAccount != null && BaseMainActivity.currentAccount.mastodon_account != null) {
+            for (StatusBarNotification statusBarNotification : mNotificationManager.getActiveNotifications()) {
+                if ((BaseMainActivity.currentAccount.mastodon_account.acct + "@" + BaseMainActivity.currentAccount.instance).equals(statusBarNotification.getGroupKey())) {
+                    mNotificationManager.cancel(statusBarNotification.getId());
+                }
+            }
+        } else {
+            mNotificationManager.cancelAll();
+        }
     }
 
 
