@@ -88,7 +88,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
         }
     };
-    private String max_id, min_id, min_id_fetch_more;
+    private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
     private String instance, user_id;
     private ArrayList<String> idOfAddedNotifications;
@@ -316,8 +316,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
                                 .observe(getViewLifecycleOwner(), this::initializeNotificationView);
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
-                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
-                                .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, false));
+                        notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchingMissing ? max_id_fetch_more : max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
+                                .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing));
                     } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
                         notificationsVM.getNotifications(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()), excludeType, null)
                                 .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing));
@@ -510,7 +510,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
     @Override
-    public void onClick(String min_id, String id) {
+    public void onClickMin(String min_id, String id) {
         //Fetch more has been pressed
         min_id_fetch_more = min_id;
         Notification notification = null;
@@ -529,6 +529,25 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         route(FragmentMastodonTimeline.DIRECTION.TOP, true);
     }
 
+    @Override
+    public void onClickMax(String max_id, String id) {
+        //Fetch more has been pressed
+        max_id_fetch_more = max_id;
+        Notification notification = null;
+        int position = 0;
+        for (Notification currentNotification : this.notificationList) {
+            if (currentNotification.id.compareTo(id) == 0) {
+                notification = currentNotification;
+                break;
+            }
+            position++;
+        }
+        if (notification != null) {
+            this.notificationList.remove(position);
+            notificationAdapter.notifyItemRemoved(position);
+        }
+        route(FragmentMastodonTimeline.DIRECTION.BOTTOM, true);
+    }
 
     public enum NotificationTypeEnum {
         @SerializedName("ALL")

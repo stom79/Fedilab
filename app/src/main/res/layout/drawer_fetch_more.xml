@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fetch_more"
-    style="@style/MyOutlinedButton"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/fetch_more_container"
     android:layout_gravity="center"
-    android:layout_margin="6dp"
-    android:text="@string/fetch_more_messages" />
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fetch_more_min"
+        style="@style/MyOutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_arrow_circle_up_24"
+        android:text="@string/fetch_more_messages"
+        android:tint="?colorAccent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="@string/fetch_more_messages"
+        android:textColor="?colorAccent"
+        android:textSize="18sp" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/fetch_more_max"
+        style="@style/MyOutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_arrow_circle_down_24"
+        android:text="@string/fetch_more_messages"
+        android:tint="?colorAccent" />
+</androidx.appcompat.widget.LinearLayoutCompat>
