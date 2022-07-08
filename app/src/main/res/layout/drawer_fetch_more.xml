@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fetch_more_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/fetch_more_container"
     android:layout_gravity="center"
     android:orientation="horizontal"
-    android:padding="6dp">
+    android:paddingHorizontal="6dp">
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_min"
-        style="@style/MyOutlinedButton"
+        style="@style/Widget.App.Button.IconOnly.Outline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_circle_up_24"
-        android:text="@string/fetch_more_messages"
-        android:tint="?colorAccent" />
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="6dp"
+        android:contentDescription="@string/fetch_more_messages"
+        app:icon="@drawable/ic_fetch_more_arrow_upward"
+        app:iconPadding="0dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="6dp"
         android:layout_weight="1"
         android:text="@string/fetch_more_messages"
+        android:textAlignment="center"
         android:textColor="?colorAccent"
         android:textSize="18sp" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_max"
-        style="@style/MyOutlinedButton"
+        style="@style/Widget.App.Button.IconOnly.Outline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_circle_down_24"
-        android:text="@string/fetch_more_messages"
-        android:tint="?colorAccent" />
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/fetch_more_messages"
+        app:icon="@drawable/ic_fetch_more_arrow_downward"
+        app:iconPadding="0dp" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
