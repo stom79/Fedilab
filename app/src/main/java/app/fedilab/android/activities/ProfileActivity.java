@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -63,7 +62,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,6 +93,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.ui.drawer.FieldAdapter;
 import app.fedilab.android.ui.drawer.IdentityProofsAdapter;
 import app.fedilab.android.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -247,29 +247,27 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(ProfileActivity.this, account);
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account);
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
         binding.accountViewpager.setOffscreenPageLimit(3);
+        binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
+        binding.accountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.accountViewpager.setCurrentItem(tab.getPosition());
+            }
 
-        new TabLayoutMediator(binding.accountTabLayout, binding.accountViewpager,
-                (tab, position) -> {
-                    binding.accountViewpager.setCurrentItem(tab.getPosition(), true);
-                    switch (position) {
-                        case 0:
-                            tab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
-                            break;
-                        case 1:
-                            tab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
-                            break;
-                        case 2:
-                            tab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
-                            break;
-                    }
-                }
-        ).attach();
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
         binding.accountTabLayout.setTabTextColors(ThemeHelper.getAttColor(ProfileActivity.this, R.attr.mTextColor), ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_dark_reference));
         binding.accountTabLayout.setTabIconTint(ThemeHelper.getColorStateList(ProfileActivity.this));
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
@@ -357,43 +355,9 @@ public class ProfileActivity extends BaseActivity {
         //Fields for profile
         List<Field> fields = account.fields;
         if (fields != null && fields.size() > 0) {
-            for (int i = 0; i < fields.size(); i++) {
-                LinearLayout field;
-                TextView labelView;
-                TextView valueView;
-                switch (i) {
-                    case 1:
-                        field = binding.field1;
-                        labelView = binding.label1;
-                        valueView = binding.value1;
-                        break;
-                    case 2:
-                        field = binding.field2;
-                        labelView = binding.label2;
-                        valueView = binding.value2;
-                        break;
-                    case 3:
-                        field = binding.field3;
-                        labelView = binding.label3;
-                        valueView = binding.value3;
-                        break;
-                    default:
-                        field = binding.field4;
-                        labelView = binding.label4;
-                        valueView = binding.value4;
-                        break;
-                }
-
-                field.setVisibility(View.VISIBLE);
-                if (fields.get(i).verified_at != null) {
-                    valueView.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_baseline_verified_24), null);
-                    fields.get(i).value_span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.verified_text)), 0, fields.get(i).value_span.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-                valueView.setText(fields.get(i).value_span != null ? fields.get(i).value_span : fields.get(i).value, TextView.BufferType.SPANNABLE);
-                valueView.setMovementMethod(LinkMovementMethod.getInstance());
-                labelView.setText(fields.get(i).name);
-            }
-            binding.fieldsContainer.setVisibility(View.VISIBLE);
+            FieldAdapter fieldAdapter = new FieldAdapter(fields);
+            binding.fieldsContainer.setAdapter(fieldAdapter);
+            binding.fieldsContainer.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
         }
         if (account.span_display_name == null && account.display_name == null) {
             binding.accountDn.setText(account.username);

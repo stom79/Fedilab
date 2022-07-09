@@ -33,15 +33,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -94,6 +97,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     private float startX;
     private float startY;
     private ActivityMediaPagerBinding binding;
+    private FragmentMedia mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +127,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
 
         setTitle("");
 
-        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(MediaActivity.this);
+        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         binding.mediaViewpager.setAdapter(mPagerAdapter);
         binding.mediaViewpager.setSaveEnabled(false);
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
@@ -135,15 +139,14 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
             binding.mediaDescription.setText(description);
 
         }
-        binding.mediaViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        binding.mediaViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
             }
 
-            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
                 String description = attachments.get(position).description;
                 if (handler != null) {
                     handler.removeCallbacksAndMessages(null);
@@ -153,12 +156,8 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                     binding.mediaDescription.setText(description);
                 }
             }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
         });
+
 
         setFullscreen(true);
         Display display = getWindowManager().getDefaultDisplay();
@@ -358,18 +357,22 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
+    public FragmentMedia getCurrentFragment() {
+        return mCurrentFragment;
+    }
+
     /**
      * Media Pager
      */
-    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-
-        ScreenSlidePagerAdapter(FragmentActivity fa) {
-            super(fa);
+    @SuppressWarnings("deprecation")
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-        @NonNull
+        @NotNull
         @Override
-        public Fragment createFragment(int position) {
+        public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
             FragmentMedia mediaSliderFragment = new FragmentMedia();
             bundle.putInt(Helper.ARG_MEDIA_POSITION, position);
@@ -379,7 +382,15 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         }
 
         @Override
-        public int getItemCount() {
+        public void setPrimaryItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((FragmentMedia) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        @Override
+        public int getCount() {
             return attachments.size();
         }
     }

@@ -2,7 +2,7 @@
 <paths>
     <external-path
         name="my_images"
-        path="Android/data/fr.gouv.etalab.mastodon.test/files/Pictures" />
+        path="Android/data/fr.gouv.etalab.mastodon/files/Pictures" />
 
     <cache-path
         name="*"

@@ -571,7 +571,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             Uri uri = Uri.parse("file://" + fullPath);
             intentOpen.setDataAndType(uri, "text/csv");
             String title = getString(R.string.data_export_theme);
-            Helper.notify_user(getActivity(), Helper.NOTIFICATION_THEMING, currentAccount, intentOpen, BitmapFactory.decodeResource(requireActivity().getResources(),
+            Helper.notify_user(getActivity(), currentAccount, intentOpen, BitmapFactory.decodeResource(requireActivity().getResources(),
                     R.mipmap.ic_launcher), Helper.NotifType.BACKUP, title, message);
         } catch (Exception e) {
             e.printStackTrace();

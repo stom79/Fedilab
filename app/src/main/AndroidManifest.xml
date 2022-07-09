@@ -118,6 +118,11 @@
             android:theme="@style/AppThemeBar"
             android:label="@string/search" />
         <activity
+            android:name=".activities.TrendsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/trending"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".activities.ReorderTimelinesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/reorder_timelines"

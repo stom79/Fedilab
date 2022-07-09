@@ -14,8 +14,6 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +30,6 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
-import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AnnouncementAdapter;
 import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
@@ -43,7 +40,6 @@ public class FragmentMastodonAnnouncement extends Fragment {
 
     private FragmentPaginationBinding binding;
     private AnnouncementsVM announcementsVM;
-    private AnnouncementAdapter announcementAdapter;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,13 +59,6 @@ public class FragmentMastodonAnnouncement extends Fragment {
         announcementsVM.getAnnouncements(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null)
                 .observe(getViewLifecycleOwner(), this::initializeAnnouncementView);
         return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        NotificationManager notificationManager = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(Helper.NOTIFICATION_USER_NOTIF);
     }
 
     /**
@@ -92,7 +81,7 @@ public class FragmentMastodonAnnouncement extends Fragment {
         }
 
 
-        announcementAdapter = new AnnouncementAdapter(announcements);
+        AnnouncementAdapter announcementAdapter = new AnnouncementAdapter(announcements);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(announcementAdapter);

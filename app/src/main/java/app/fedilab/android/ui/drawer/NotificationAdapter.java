@@ -143,13 +143,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         } else if (viewHolder.getItemViewType() == NOTIFICATION_FETCH_MORE) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
-            holder.bindingFetchMore.fetchMore.setEnabled(!notification.isFetchMoreHidden);
-            holder.bindingFetchMore.fetchMore.setOnClickListener(v -> {
+            holder.bindingFetchMore.fetchMoreContainer.setEnabled(!notification.isFetchMoreHidden);
+            holder.bindingFetchMore.fetchMoreMin.setOnClickListener(v -> {
                 if (position + 1 < notificationList.size()) {
                     //We hide the button
                     notification.isFetchMoreHidden = true;
                     notifyItemChanged(position);
-                    fetchMoreCallBack.onClick(notificationList.get(position + 1).id, notification.id);
+                    fetchMoreCallBack.onClickMin(notificationList.get(position + 1).id, notification.id);
+                }
+            });
+            holder.bindingFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                if (position - 1 >= 0) {
+                    //We hide the button
+                    notification.isFetchMoreHidden = true;
+                    notifyItemChanged(position);
+                    fetchMoreCallBack.onClickMax(notificationList.get(position - 1).id, notification.id);
                 }
             });
         } else {
@@ -264,7 +272,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public interface FetchMoreCallBack {
-        void onClick(String min_id, String fetchmoreId);
+        void onClickMin(String min_id, String fetchmoreId);
+
+        void onClickMax(String max_id, String fetchmoreId);
     }
 
     static class ViewHolderFollow extends RecyclerView.ViewHolder {

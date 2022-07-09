@@ -15,11 +15,12 @@ package app.fedilab.android.ui.pageadapter;
  * see <http://www.gnu.org/licenses>. */
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.helper.Helper;
@@ -27,21 +28,31 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentProfileTimeline;
 
-public class FedilabProfileTLPageAdapter extends FragmentStateAdapter {
-
+public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     private final Account account;
+    private Fragment mCurrentFragment;
 
-    public FedilabProfileTLPageAdapter(FragmentActivity fa, Account account) {
-        super(fa);
+    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.account = account;
     }
 
+    public Fragment getCurrentFragment() {
+        return mCurrentFragment;
+    }
+
+    @Override
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if (getCurrentFragment() != object) {
+            mCurrentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
+    }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         switch (position) {
-
             case 0:
                 FragmentProfileTimeline fragmentProfileTimeline = new FragmentProfileTimeline();
                 Bundle bundle = new Bundle();
@@ -63,10 +74,9 @@ public class FedilabProfileTLPageAdapter extends FragmentStateAdapter {
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return 3;
     }
-
     public enum follow_type {
         FOLLOWING,
         FOLLOWERS

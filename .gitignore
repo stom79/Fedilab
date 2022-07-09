@@ -10,3 +10,5 @@
 local.properties
 /cropper/build/
 /build/
+/app/fdroid/release/
+/app/playstore/release/

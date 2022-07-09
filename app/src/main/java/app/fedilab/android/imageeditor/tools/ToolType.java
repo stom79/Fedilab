@@ -13,5 +13,6 @@ public enum ToolType {
     FILTER,
     EMOJI,
     STICKER,
-    CROP
+    CROP,
+    FOCUS
 }

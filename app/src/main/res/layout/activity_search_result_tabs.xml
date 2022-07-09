@@ -30,15 +30,9 @@
         app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
         app:tabMode="scrollable" />
 
-    <app.fedilab.android.helper.NestedScrollableHost
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/search_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/search_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </app.fedilab.android.helper.NestedScrollableHost>
-    >
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>

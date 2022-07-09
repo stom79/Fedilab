@@ -36,6 +36,12 @@
             android:visible="true" />
 
         <item
+            android:id="@+id/nav_trends"
+            android:icon="@drawable/ic_baseline_trending_up_24"
+            android:title="@string/trending"
+            android:visible="true" />
+
+        <item
             android:id="@+id/nav_scheduled"
             android:icon="@drawable/ic_baseline_schedule_24"
             android:title="@string/scheduled" />

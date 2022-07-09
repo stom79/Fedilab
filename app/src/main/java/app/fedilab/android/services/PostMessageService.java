@@ -294,7 +294,8 @@ public class PostMessageService extends IntentService {
     }
 
     private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
-        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, attachment.description, null);
+
+        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, attachment.description, attachment.focus);
 
         if (attachmentCall != null) {
             try {

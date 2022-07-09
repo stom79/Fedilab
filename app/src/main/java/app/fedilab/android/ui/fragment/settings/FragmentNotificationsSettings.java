@@ -179,7 +179,13 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
                 PushHelper.startStreaming(requireActivity());
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LED_COLOUR_VAL)) == 0) {
-                sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), Integer.parseInt(key)).apply();
+                try {
+                    int value = Integer.parseInt(key);
+                    sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), value).apply();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

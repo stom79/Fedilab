@@ -370,6 +370,10 @@ public class Timeline {
         LIST("LIST"),
         @SerializedName("REMOTE")
         REMOTE("REMOTE"),
+        @SerializedName("TREND_TAG")
+        TREND_TAG("TREND_TAG"),
+        @SerializedName("TREND_MESSAGE")
+        TREND_MESSAGE("TREND_MESSAGE"),
         @SerializedName("ACCOUNT_TIMELINE")
         ACCOUNT_TIMELINE("ACCOUNT_TIMELINE"),
         @SerializedName("MUTED_TIMELINE")

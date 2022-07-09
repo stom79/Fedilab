@@ -16,19 +16,23 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/search_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?backgroundColorLight"
         app:tabGravity="fill"
-        app:tabMaxWidth="0dp" />
+        app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
+        app:tabMode="fixed" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/trends_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>

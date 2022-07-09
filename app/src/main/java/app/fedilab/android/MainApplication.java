@@ -75,7 +75,7 @@ public class MainApplication extends MultiDexApplication {
         super.attachBaseContext(base);
         MultiDex.install(MainApplication.this);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
-        boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), true);
+        boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), false);
         if (send_crash_reports) {
             ACRA.init(this, new CoreConfigurationBuilder()
                     //core configuration:
