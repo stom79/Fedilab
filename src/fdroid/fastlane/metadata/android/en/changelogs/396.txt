@@ -1,0 +1,13 @@
+Added:
+- Allow to set a focus point on previews (media editor)
+- Respect the focus point with previews
+- Pagination with the fetch more button support reading up or down
+- Add trends
+
+Fixed:
+- Only last push notification is displayed (not grouped)
+- Bad behavior with the right/left scroll
+- Fix long profiles not fully displayed
+- Issues with some polls
+- Some crashes
+- Some bad behaviors
