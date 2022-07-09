@@ -27,7 +27,7 @@
         app:title="@string/embedded_browser" />
 
     <SwitchPreferenceCompat
-        app:defaultValue="true"
+        app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_SEND_CRASH_REPORTS"
         app:singleLineTitle="false"
