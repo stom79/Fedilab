@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -28,11 +29,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,35 +77,12 @@ public class SearchResultTabActivity extends BaseActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         setTitle(search);
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab());
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.tags)));
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.accounts)));
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.toots)));
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.action_cache)));
         binding.searchTabLayout.setTabTextColors(ThemeHelper.getAttColor(SearchResultTabActivity.this, R.attr.mTextColor), ContextCompat.getColor(SearchResultTabActivity.this, R.color.cyanea_accent_dark_reference));
         binding.searchTabLayout.setTabIconTint(ThemeHelper.getColorStateList(SearchResultTabActivity.this));
-        ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
-        binding.searchViewpager.setAdapter(mPagerAdapter);
-        binding.searchViewpager.setSaveEnabled(false);
-        binding.searchViewpager.setOffscreenPageLimit(3);
-        new TabLayoutMediator(binding.searchTabLayout, binding.searchViewpager,
-                (tab, position) -> {
-                    binding.searchViewpager.setCurrentItem(tab.getPosition(), true);
-                    switch (position) {
-                        case 0:
-                            tab.setText(getString(R.string.tags));
-                            break;
-                        case 1:
-                            tab.setText(getString(R.string.accounts));
-                            break;
-                        case 2:
-                            tab.setText(getString(R.string.toots));
-                            break;
-                        case 3:
-                            tab.setText(getString(R.string.action_cache));
-                            break;
-                    }
-                }
-        ).attach();
         binding.searchTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -112,21 +91,22 @@ public class SearchResultTabActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.searchViewpager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonAccount) {
-                    FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
-                    fragmentMastodonAccount.scrollToTop();
-                } else if (fragment instanceof FragmentMastodonTimeline) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                    fragmentMastodonTimeline.scrollToTop();
-                } else if (fragment instanceof FragmentMastodonTag) {
-                    FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
-                    fragmentMastodonTag.scrollToTop();
+                Fragment fragment;
+                if (binding.searchViewpager.getAdapter() != null) {
+                    fragment = (Fragment) binding.searchViewpager.getAdapter().instantiateItem(binding.searchViewpager, tab.getPosition());
+                    if (fragment instanceof FragmentMastodonAccount) {
+                        FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
+                        fragmentMastodonAccount.scrollToTop();
+                    } else if (fragment instanceof FragmentMastodonTimeline) {
+                        FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        fragmentMastodonTimeline.scrollToTop();
+                    } else if (fragment instanceof FragmentMastodonTag) {
+                        FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
+                        fragmentMastodonTag.scrollToTop();
+                    }
                 }
             }
         });
@@ -149,7 +129,7 @@ public class SearchResultTabActivity extends BaseActivity {
                 imm.hideSoftInputFromWindow(binding.searchTabLayout.getWindowToken(), 0);
                 query = query.replaceAll("^#+", "");
                 search = query.trim();
-                ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(SearchResultTabActivity.this);
+                ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
                 binding.searchViewpager.setAdapter(mPagerAdapter);
                 searchView.clearFocus();
                 setTitle(search);
@@ -172,7 +152,24 @@ public class SearchResultTabActivity extends BaseActivity {
             searchView.setIconified(false);
         });
 
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        binding.searchViewpager.setAdapter(mPagerAdapter);
+        binding.searchViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                TabLayout.Tab tab = binding.searchTabLayout.getTabAt(position);
+                if (tab != null)
+                    tab.select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
         return true;
     }
@@ -193,16 +190,15 @@ public class SearchResultTabActivity extends BaseActivity {
     /**
      * Pager adapter for the 4 fragments
      */
-    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-
-        ScreenSlidePagerAdapter(FragmentActivity fa) {
-            super(fa);
+    @SuppressWarnings("deprecation")
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
-
-        @NonNull
+        @NotNull
         @Override
-        public Fragment createFragment(int position) {
+        public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
             switch (position) {
                 case 0:
@@ -229,7 +225,11 @@ public class SearchResultTabActivity extends BaseActivity {
         }
 
         @Override
-        public int getItemCount() {
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        }
+
+        @Override
+        public int getCount() {
             return 4;
         }
     }

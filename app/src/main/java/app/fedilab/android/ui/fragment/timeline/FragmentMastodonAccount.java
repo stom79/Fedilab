@@ -45,6 +45,7 @@ import app.fedilab.android.ui.drawer.AccountAdapter;
 import app.fedilab.android.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class FragmentMastodonAccount extends Fragment {
@@ -116,11 +117,15 @@ public class FragmentMastodonAccount extends Fragment {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
                     .observe(getViewLifecycleOwner(), results -> {
-                        Accounts accounts = new Accounts();
-                        Pagination pagination = new Pagination();
-                        accounts.accounts = results.accounts;
-                        accounts.pagination = pagination;
-                        initializeAccountCommonView(accounts);
+                        if (results != null) {
+                            Accounts accounts = new Accounts();
+                            Pagination pagination = new Pagination();
+                            accounts.accounts = results.accounts;
+                            accounts.pagination = pagination;
+                            initializeAccountCommonView(accounts);
+                        } else {
+                            Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                        }
                     });
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE) {
             if (firstLoad) {

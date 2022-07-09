@@ -62,7 +62,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -247,29 +247,27 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(ProfileActivity.this, account);
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab());
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account);
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
         binding.accountViewpager.setOffscreenPageLimit(3);
+        binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
+        binding.accountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.accountViewpager.setCurrentItem(tab.getPosition());
+            }
 
-        new TabLayoutMediator(binding.accountTabLayout, binding.accountViewpager,
-                (tab, position) -> {
-                    binding.accountViewpager.setCurrentItem(tab.getPosition(), true);
-                    switch (position) {
-                        case 0:
-                            tab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
-                            break;
-                        case 1:
-                            tab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
-                            break;
-                        case 2:
-                            tab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
-                            break;
-                    }
-                }
-        ).attach();
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
         binding.accountTabLayout.setTabTextColors(ThemeHelper.getAttColor(ProfileActivity.this, R.attr.mTextColor), ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_dark_reference));
         binding.accountTabLayout.setTabIconTint(ThemeHelper.getColorStateList(ProfileActivity.this));
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);

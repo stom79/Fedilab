@@ -900,10 +900,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             itemFilter.setTitle(show_filtered);
         }
         popup.setOnDismissListener(menu1 -> {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
-            if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                fragmentMastodonTimeline.refreshAllAdapters();
+            if (binding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.refreshAllAdapters();
+                }
             }
         });
         String finalShow_filtered = show_filtered;
@@ -990,13 +992,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
     public void refreshFragment() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
-        if (fragment instanceof FragmentNotificationContainer) {
-            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-            fragTransaction.detach(fragment).commit();
-            FragmentTransaction fragTransaction2 = getSupportFragmentManager().beginTransaction();
-            fragTransaction2.attach(fragment);
-            fragTransaction2.commit();
+        if (binding.viewPager.getAdapter() != null) {
+            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            if (fragment instanceof FragmentNotificationContainer) {
+                FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                fragTransaction.detach(fragment).commit();
+                FragmentTransaction fragTransaction2 = getSupportFragmentManager().beginTransaction();
+                fragTransaction2.attach(fragment);
+                fragTransaction2.commit();
+            }
         }
     }
 
@@ -1035,16 +1039,18 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      */
     private void scrollToTop() {
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + binding.viewPager.getCurrentItem());
-        if (fragment instanceof FragmentMastodonTimeline) {
-            FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-            fragmentMastodonTimeline.scrollToTop();
-        } else if (fragment instanceof FragmentMastodonConversation) {
-            FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
-            fragmentMastodonConversation.scrollToTop();
-        } else if (fragment instanceof FragmentNotificationContainer) {
-            FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
-            fragmentNotificationContainer.scrollToTop();
+        if (binding.viewPager.getAdapter() != null) {
+            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            if (fragment instanceof FragmentMastodonTimeline) {
+                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                fragmentMastodonTimeline.scrollToTop();
+            } else if (fragment instanceof FragmentMastodonConversation) {
+                FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
+                fragmentMastodonConversation.scrollToTop();
+            } else if (fragment instanceof FragmentNotificationContainer) {
+                FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
+                fragmentNotificationContainer.scrollToTop();
+            }
         }
     }
 

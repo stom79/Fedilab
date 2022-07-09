@@ -75,19 +75,14 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <app.fedilab.android.helper.NestedScrollableHost
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="?attr/actionBarSize"
-                app:defaultNavHost="true" />
-        </app.fedilab.android.helper.NestedScrollableHost>
+            android:layout_marginBottom="?attr/actionBarSize"
+            app:defaultNavHost="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

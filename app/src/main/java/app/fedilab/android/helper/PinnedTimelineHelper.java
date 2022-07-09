@@ -26,16 +26,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,18 +147,11 @@ public class PinnedTimelineHelper {
         activityMainBinding.tabLayout.removeAllTabs();
         //Small hack to hide first tabs (they represent the item of the bottom menu)
         int toRemove = itemToRemoveInBottomMenu(activity);
-        List<String> tabTitle = new ArrayList<>();
-        List<RemoteInstance.InstanceType> tabTypeRemote = new ArrayList<>();
-        List<Timeline.TimeLineEnum> tabType = new ArrayList<>();
         for (int i = 0; i < (BOTTOM_TIMELINE_COUNT - toRemove); i++) {
             activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
-            tabTitle.add("");
-            tabType.add(Timeline.TimeLineEnum.HOME);
-            tabTypeRemote.add(RemoteInstance.InstanceType.MASTODON);
             ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
         }
         List<PinnedTimeline> pinnedTimelineVisibleList = new ArrayList<>();
-
         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
             if (pinnedTimeline.displayed) {
                 TabLayout.Tab tab = activityMainBinding.tabLayout.newTab();
@@ -176,16 +167,40 @@ public class PinnedTimelineHelper {
                         name = pinnedTimeline.remoteInstance.host;
                         break;
                 }
-                TextView tv = (TextView) LayoutInflater.from(activity).inflate(R.layout.custom_tab_instance, new LinearLayout(activity), false);
-                tv.setText(name);
-                tabTitle.add(name);
-                tabType.add(pinnedTimeline.type);
-                if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
-                    tabTypeRemote.add(pinnedTimeline.remoteInstance.type);
-                } else {
-                    tabTypeRemote.add(null);
+                TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
+                tabCustomViewBinding.title.setText(name);
+                switch (pinnedTimeline.type) {
+                    case LIST:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
+                        break;
+                    case TAG:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
+                        break;
+                    case REMOTE:
+                        switch (pinnedTimeline.remoteInstance.type) {
+                            case PIXELFED:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.pixelfed);
+                                break;
+                            case MASTODON:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
+                                break;
+
+                            case MISSKEY:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
+                                break;
+                            case NITTER:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
+                                break;
+                            case GNU:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.ic_gnu_social);
+                                break;
+                            case PEERTUBE:
+                                tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
+                                break;
+                        }
+                        break;
                 }
-                tab.setCustomView(tv);
+                tab.setCustomView(tabCustomViewBinding.getRoot());
                 activityMainBinding.tabLayout.addTab(tab);
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
@@ -211,13 +226,18 @@ public class PinnedTimelineHelper {
                 return true;
             });
         }
+
         activityMainBinding.viewPager.setAdapter(null);
+        activityMainBinding.viewPager.clearOnPageChangeListeners();
         activityMainBinding.tabLayout.clearOnTabSelectedListeners();
-
-        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity, pinned, bottomMenu);
+        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
         activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
+        activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
+        activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
-        activityMainBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 if (position < BOTTOM_TIMELINE_COUNT - toRemove) {
@@ -230,49 +250,17 @@ public class PinnedTimelineHelper {
                     activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
                 }
             }
-        });
-        new TabLayoutMediator(activityMainBinding.tabLayout, activityMainBinding.viewPager,
-                (tab, position) -> {
-                    TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
-                    tabCustomViewBinding.title.setText(tabTitle.get(position));
-                    switch (tabType.get(position)) {
-                        case LIST:
-                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
-                            break;
-                        case TAG:
-                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
-                            break;
-                        case REMOTE:
-                            switch (tabTypeRemote.get(position)) {
-                                case PIXELFED:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.pixelfed);
-                                    break;
-                                case MASTODON:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
-                                    break;
 
-                                case MISSKEY:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
-                                    break;
-                                case NITTER:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
-                                    break;
-                                case GNU:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.ic_gnu_social);
-                                    break;
-                                case PEERTUBE:
-                                    tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
-                                    break;
-                            }
-                            break;
-                    }
-                    tab.setCustomView(tabCustomViewBinding.getRoot());
-                }
-        ).attach();
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
 
         activityMainBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                activityMainBinding.viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -281,7 +269,7 @@ public class PinnedTimelineHelper {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
+                Fragment fragment = fedilabPageAdapter.getCurrentFragment();
                 if (fragment instanceof FragmentMastodonTimeline) {
                     ((FragmentMastodonTimeline) fragment).scrollToTop();
                 } else if (fragment instanceof FragmentMastodonConversation) {
@@ -353,19 +341,19 @@ public class PinnedTimelineHelper {
         itemShowNSFW.setChecked(showNSFW[0]);
         popup.setOnDismissListener(menu1 -> {
             if (changes[0]) {
-                FragmentMastodonTimeline fragmentMastodonTimeline;
-                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                    FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
-                    fragTransaction.detach(fragmentMastodonTimeline).commit();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-                    bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
-                    fragmentMastodonTimeline.setArguments(bundle);
-                    FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                    fragTransaction2.attach(fragmentMastodonTimeline);
-                    fragTransaction2.commit();
+                if (activityMainBinding.viewPager.getAdapter() != null) {
+                    Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
+                        FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
+                        fragTransaction.detach(fragmentMastodonTimeline).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+                        bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
+                        fragmentMastodonTimeline.setArguments(bundle);
+                        FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                        fragTransaction2.attach(fragmentMastodonTimeline);
+                        fragTransaction2.commit();
+                    }
                 }
             }
         });
@@ -568,9 +556,11 @@ public class PinnedTimelineHelper {
             });
             changes[0] = true;
             FragmentMastodonTimeline fragmentMastodonTimeline = null;
-            Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-            if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+            if (activityMainBinding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                }
             }
             if (fragmentMastodonTimeline == null)
                 return false;
@@ -613,10 +603,12 @@ public class PinnedTimelineHelper {
                 MenuItem item = popup.getMenu().add(0, 0, Menu.NONE, title);
                 item.setOnMenuItemClickListener(item1 -> {
                     FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                    Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                        fragmentMastodonTimeline.refreshAllAdapters();
+                    if (activityMainBinding.viewPager.getAdapter() != null) {
+                        Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                            fragmentMastodonTimeline.refreshAllAdapters();
+                        }
                     }
                     FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
                     if (fragmentMastodonTimeline == null)
@@ -694,10 +686,12 @@ public class PinnedTimelineHelper {
         popup.setOnDismissListener(menu -> {
             if (changes[0]) {
                 FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag("f" + activityMainBinding.viewPager.getCurrentItem());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                    fragmentMastodonTimeline.refreshAllAdapters();
+                if (activityMainBinding.viewPager.getAdapter() != null) {
+                    Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        fragmentMastodonTimeline.refreshAllAdapters();
+                    }
                 }
                 FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
                 if (fragmentMastodonTimeline == null)
