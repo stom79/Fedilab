@@ -1191,6 +1191,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     j++;
                 }
             } else {
+                if (statusToDeal.poll.voters_count == 0 && statusToDeal.poll.votes_count > 0) {
+                    statusToDeal.poll.voters_count = statusToDeal.poll.votes_count;
+                }
                 holder.binding.poll.rated.setVisibility(View.GONE);
                 holder.binding.poll.submitVote.setVisibility(View.VISIBLE);
                 if (statusToDeal.poll.multiple) {
