@@ -38,6 +38,7 @@ import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
@@ -75,6 +76,8 @@ public class TimelinesVM extends AndroidViewModel {
     private MutableLiveData<MastodonList> mastodonListMutableLiveData;
     private MutableLiveData<List<MastodonList>> mastodonListListMutableLiveData;
     private MutableLiveData<Marker> markerMutableLiveData;
+    private MutableLiveData<List<Status>> statusListMutableLiveData;
+    private MutableLiveData<List<Tag>> tagListMutableLiveData;
 
     public TimelinesVM(@NonNull Application application) {
         super(application);
@@ -105,6 +108,56 @@ public class TimelinesVM extends AndroidViewModel {
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonTimelinesService.class);
+    }
+
+    public LiveData<List<Status>> getStatusTrends(String token, @NonNull String instance) {
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        statusListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<List<Status>> publicTlCall = mastodonTimelinesService.getStatusTrends(token);
+            List<Status> statusList = null;
+            if (publicTlCall != null) {
+                try {
+                    Response<List<Status>> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        statusList = publicTlResponse.body();
+                        statusList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<Status> finalStatusList = statusList;
+            Runnable myRunnable = () -> statusListMutableLiveData.setValue(finalStatusList);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusListMutableLiveData;
+    }
+
+
+    public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance) {
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        tagListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<List<Tag>> publicTlCall = mastodonTimelinesService.getTagTrends(token);
+            List<Tag> tagList = null;
+            if (publicTlCall != null) {
+                try {
+                    Response<List<Tag>> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        tagList = publicTlResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<Tag> finalTagList = tagList;
+            Runnable myRunnable = () -> tagListMutableLiveData.setValue(finalTagList);
+            mainHandler.post(myRunnable);
+        }).start();
+        return tagListMutableLiveData;
     }
 
     /**

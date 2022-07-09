@@ -31,12 +31,14 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Tag;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.TagAdapter;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
+import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
 
 public class FragmentMastodonTag extends Fragment {
@@ -45,11 +47,13 @@ public class FragmentMastodonTag extends Fragment {
     private FragmentPaginationBinding binding;
     private TagAdapter tagAdapter;
     private String search;
+    private Timeline.TimeLineEnum timelineType;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if (getArguments() != null) {
             search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
+            timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
         }
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
@@ -74,13 +78,19 @@ public class FragmentMastodonTag extends Fragment {
      * Router for timelines
      */
     private void router() {
-        if (search != null) {
+        if (search != null && timelineType == null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonTag.this).get(SearchVM.class);
             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "hashtags", false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
                     .observe(getViewLifecycleOwner(), results -> {
                         if (results != null && results.hashtags != null) {
                             initializeTagCommonView(results.hashtags);
                         }
+                    });
+        } else if (timelineType == Timeline.TimeLineEnum.TREND_TAG) {
+            TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonTag.this).get(TimelinesVM.class);
+            timelinesVM.getTagsTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
+                    .observe(getViewLifecycleOwner(), tags -> {
+                        initializeTagCommonView(tags);
                     });
         }
     }

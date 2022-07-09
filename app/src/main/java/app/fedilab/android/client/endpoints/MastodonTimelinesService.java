@@ -21,6 +21,7 @@ import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Marker;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.misskey.MisskeyNote;
 import app.fedilab.android.client.entities.nitter.Nitter;
 import app.fedilab.android.client.entities.peertube.PeertubeVideo;
@@ -51,6 +52,14 @@ public interface MastodonTimelinesService {
             @Query("min_id") String min_id,
             @Query("limit") Integer limit
     );
+
+
+    @GET("trends/statuses")
+    Call<List<Status>> getStatusTrends(@Header("Authorization") String token);
+
+
+    @GET("trends/tags")
+    Call<List<Tag>> getTagTrends(@Header("Authorization") String token);
 
     //Public Tags timelines
     @GET("timelines/tag/{hashtag}")

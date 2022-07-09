@@ -286,11 +286,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
-        binding.swipeContainer.setOnRefreshListener(() -> {
-            binding.swipeContainer.setRefreshing(true);
-            flagLoading = false;
-            route(DIRECTION.REFRESH, true);
-        });
+        if (searchCache == null && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
+            binding.swipeContainer.setOnRefreshListener(() -> {
+                binding.swipeContainer.setRefreshing(true);
+                flagLoading = false;
+                route(DIRECTION.REFRESH, true);
+            });
+        }
 
         if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
             binding.noAction.setVisibility(View.VISIBLE);
@@ -356,7 +358,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.recyclerView.scrollToPosition(position);
         }
 
-        if (searchCache == null) {
+        if (searchCache == null && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -848,6 +850,19 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                         } else {
                             flagLoading = false;
+                        }
+                    } else if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE) {
+                        if (direction == null) {
+                            timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
+                                    .observe(getViewLifecycleOwner(), statusesTrends -> {
+                                        Statuses statuses = new Statuses();
+                                        statuses.statuses = new ArrayList<>();
+                                        if (statusesTrends != null) {
+                                            statuses.statuses.addAll(statusesTrends);
+                                        }
+                                        statuses.pagination = new Pagination();
+                                        initializeStatusesCommonView(statuses);
+                                    });
                         }
                     }
                 };
