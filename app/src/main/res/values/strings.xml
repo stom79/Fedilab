@@ -779,6 +779,7 @@
     <string name="SET_FEATURED_TAG_ACTION" translatable="false">SET_FEATURED_TAG_ACTION</string>
     <string name="SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL" translatable="false">SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL</string>
 
+    <string name="SET_TRANSLATE_VALUES_RESET" translatable="false">SET_TRANSLATE_VALUES_RESET</string>
     <string-array name="SET_TRANSLATE_ENTRIES" translatable="false">
         <item>en</item>
         <item>fr</item>
@@ -978,6 +979,7 @@
     <string name="files_cache_size">File cache size</string>
     <string name="clear_cache">Clear cache</string>
     <string name="delete_cache_message">Are you sure you want to delete cache? If you have drafts with media, the attached media will be lost.</string>
+    <string name="default_system_language">Use the default system language</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

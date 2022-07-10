@@ -11,4 +11,10 @@
         app:summary="@string/set_push_notifications"
         app:title="@string/set_change_locale"
         app:useSimpleSummaryProvider="true" />
+
+    <Preference
+        android:key="@string/SET_TRANSLATE_VALUES_RESET"
+        android:summary="@string/default_system_language"
+        android:title="@string/reset"
+        app:iconSpaceReserved="false" />
 </PreferenceScreen>

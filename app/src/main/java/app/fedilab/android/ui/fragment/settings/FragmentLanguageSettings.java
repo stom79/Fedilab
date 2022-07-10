@@ -14,11 +14,14 @@ package app.fedilab.android.ui.fragment.settings;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
@@ -31,16 +34,28 @@ public class FragmentLanguageSettings extends PreferenceFragmentCompat implement
         createPref();
     }
 
+    @SuppressLint("ApplySharedPref")
     private void createPref() {
         ListPreference SET_DEFAULT_LOCALE_NEW = findPreference(getString(R.string.SET_DEFAULT_LOCALE_NEW));
         if (SET_DEFAULT_LOCALE_NEW != null) {
             SET_DEFAULT_LOCALE_NEW.getContext().setTheme(Helper.dialogStyle());
         }
+
+        Preference SET_TRANSLATE_VALUES_RESET = findPreference(getString(R.string.SET_TRANSLATE_VALUES_RESET));
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        if (SET_TRANSLATE_VALUES_RESET != null) {
+            SET_TRANSLATE_VALUES_RESET.setOnPreferenceClickListener(preference -> {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(getString(R.string.SET_DEFAULT_LOCALE_NEW), null);
+                editor.commit();
+                return true;
+            });
+        }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.compareToIgnoreCase(getString(R.string.SET_DEFAULT_LOCALE_NEW)) == 0) {
+        if (key.compareToIgnoreCase(getString(R.string.SET_DEFAULT_LOCALE_NEW)) == 0 || key.compareToIgnoreCase(getString(R.string.SET_TRANSLATE_VALUES_RESET)) == 0) {
             requireActivity().recreate();
             Helper.recreateMainActivity(requireActivity());
         }
