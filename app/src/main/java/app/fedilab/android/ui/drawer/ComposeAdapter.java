@@ -664,6 +664,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return statusList.size();
     }
 
+    private List<Emoji> emojisList = new ArrayList<>();
     /**
      * Initialize text watcher for content writing
      * It will allow to complete autocomplete edit text while starting words with @, #, : etc.
@@ -672,7 +673,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @return {@link TextWatcher}
      */
     public TextWatcher initializeTextWatcher(ComposeAdapter.ComposeViewHolder holder) {
-        final List<Emoji>[] emojis = new List[]{null};
         String pattern = "(.|\\s)*(@[\\w_-]+@[a-z0-9.\\-]+|@[\\w_-]+)";
         final Pattern mentionPattern = Pattern.compile(pattern);
 
@@ -958,13 +958,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Thread(() -> {
                         List<Emoji> emojisToDisplay = new ArrayList<>();
                         try {
-                            if (emojis[0] == null) {
-                                emojis[0] = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
+                            if (emojisList == null || emojisList.size() == 0) {
+                                emojisList = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
                             }
-                            if (emojis[0] == null) {
+                            if (emojis == null) {
                                 return;
                             }
-                            for (Emoji emoji : emojis[0]) {
+                            for (Emoji emoji : emojisList) {
                                 if (shortcode != null && emoji.shortcode.contains(shortcode)) {
                                     emojisToDisplay.add(emoji);
                                     if (emojisToDisplay.size() >= 10) {
@@ -983,7 +983,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 if (searchA.length > 0) {
                                     final String search = searchA[searchA.length - 1];
                                     holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
-                                        String shortcodeSelected = emojis[0].get(position).shortcode;
+                                        String shortcodeSelected = emojisToDisplay.get(position).shortcode;
                                         String deltaSearch = "";
                                         int searchLength = searchDeep;
                                         if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position
