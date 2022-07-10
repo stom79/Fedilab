@@ -316,9 +316,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
-        boolean display_video_preview = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_VIDEO_PREVIEWS), true);
-        boolean isModerator = sharedpreferences.getBoolean(Helper.PREF_IS_MODERATOR, false);
-        boolean isAdmin = sharedpreferences.getBoolean(Helper.PREF_IS_ADMINISTRATOR, false);
+        // boolean display_video_preview = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_VIDEO_PREVIEWS), true);
+        //    boolean isModerator = sharedpreferences.getBoolean(Helper.PREF_IS_MODERATOR, false);
+        //   boolean isAdmin = sharedpreferences.getBoolean(Helper.PREF_IS_ADMINISTRATOR, false);
         int theme_icons_color = -1;
         int theme_statuses_color = -1;
         int theme_boost_header_color = -1;
@@ -525,9 +525,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 if (results.statuses != null && results.statuses.size() > 0) {
                                     Status fetchedStatus = statusList.get(0);
                                     statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
-                                            .observe((LifecycleOwner) context, _status -> {
-                                                manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, remote);
-                                            });
+                                            .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, true));
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                 }
@@ -535,16 +533,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     if (statusToDeal.bookmarked) {
                         statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNBOOKMARK_ACTION, statusToDeal, _status, remote);
-                                });
+                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNBOOKMARK_ACTION, statusToDeal, _status, false));
                     } else {
                         ((SparkButton) v).playAnimation();
                         statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                .observe((LifecycleOwner) context, _status -> {
-                                    manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, remote);
-
-                                });
+                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, false));
                     }
                 }
             });
@@ -633,9 +626,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (results.statuses != null && results.statuses.size() > 0) {
                                             Status fetchedStatus = results.statuses.get(0);
                                             statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
-                                                    .observe((LifecycleOwner) context, _status -> {
-                                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, remote);
-                                                    });
+                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
                                         } else {
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                         }
@@ -643,15 +634,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             if (statusToDeal.reblogged) {
                                 statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                        .observe((LifecycleOwner) context, _status -> {
-                                            manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, remote);
-                                        });
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
                             } else {
                                 ((SparkButton) v).playAnimation();
                                 statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
-                                        .observe((LifecycleOwner) context, _status -> {
-                                            manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, remote);
-                                        });
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
                             }
                         }
                         dialog.dismiss();
@@ -667,9 +654,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (results.statuses != null && results.statuses.size() > 0) {
                                         Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
-                                                .observe((LifecycleOwner) context, _status -> {
-                                                    manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, remote);
-                                                });
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
                                     } else {
                                         Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                     }
@@ -677,15 +662,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         if (statusToDeal.reblogged) {
                             statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                    .observe((LifecycleOwner) context, _status -> {
-                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, remote);
-                                    });
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
                         } else {
                             ((SparkButton) v).playAnimation();
                             statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
-                                    .observe((LifecycleOwner) context, _status -> {
-                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, remote);
-                                    });
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
                         }
                     }
                 }
@@ -715,9 +696,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (results.statuses != null && results.statuses.size() > 0) {
                                             Status fetchedStatus = results.statuses.get(0);
                                             statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
-                                                    .observe((LifecycleOwner) context, _status -> {
-                                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, remote);
-                                                    });
+                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, true));
                                         } else {
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                         }
@@ -725,15 +704,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             if (status.favourited) {
                                 statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                        .observe((LifecycleOwner) context, _status -> {
-                                            manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, remote);
-                                        });
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, false));
                             } else {
                                 ((SparkButton) v).playAnimation();
                                 statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                        .observe((LifecycleOwner) context, _status -> {
-                                            manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, remote);
-                                        });
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, false));
                             }
                         }
                         dialog.dismiss();
@@ -749,9 +724,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (results.statuses != null && results.statuses.size() > 0) {
                                         Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
-                                                .observe((LifecycleOwner) context, _status -> {
-                                                    manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, remote);
-                                                });
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, true));
                                     } else {
                                         Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                     }
@@ -759,15 +732,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         if (statusToDeal.favourited) {
                             statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                    .observe((LifecycleOwner) context, _status -> {
-                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, remote);
-                                    });
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, false));
                         } else {
                             ((SparkButton) v).playAnimation();
                             statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                    .observe((LifecycleOwner) context, _status -> {
-                                        manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, remote);
-                                    });
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, statusList, notificationList, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, false));
                         }
                     }
                 }
@@ -1351,9 +1320,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return false;
         });
         if (!minified && canBeFederated) {
-            holder.binding.mainContainer.setOnClickListener(v -> {
-                holder.binding.statusContent.callOnClick();
-            });
+            holder.binding.mainContainer.setOnClickListener(v -> holder.binding.statusContent.callOnClick());
             holder.binding.statusContent.setOnClickListener(v -> {
                 if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
                     if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
@@ -1475,11 +1442,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.show();
                 } else if (itemId == R.id.action_schedule_boost) {
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
-                } else if (itemId == R.id.action_admin) {
-                   /* Intent intent = new Intent(context, AccountReportActivity.class);
+                } /*else if (itemId == R.id.action_admin) {
+                    Intent intent = new Intent(context, AccountReportActivity.class);
                     intent.putExtra(Helper.ARG_ACCOUNT, statusToDeal.account);
-                    context.startActivity(intent);*/
-                } else if (itemId == R.id.action_open_browser) {
+                    context.startActivity(intent);
+                } */ else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
                 } else if (itemId == R.id.action_remove) {
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
