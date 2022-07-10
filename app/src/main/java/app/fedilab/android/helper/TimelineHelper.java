@@ -107,6 +107,18 @@ public class TimelineHelper {
                                 Matcher m = p.matcher(content);
                                 if (m.find()) {
                                     statusesToRemove.add(status);
+                                    continue;
+                                }
+                                if (status.spoiler_text != null) {
+                                    String spoilerText;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                        spoilerText = Html.fromHtml(status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    else
+                                        spoilerText = Html.fromHtml(status.spoiler_text).toString();
+                                    Matcher ms = p.matcher(spoilerText);
+                                    if (ms.find()) {
+                                        statusesToRemove.add(status);
+                                    }
                                 }
                             }
                         } else {
@@ -118,6 +130,18 @@ public class TimelineHelper {
                                     content = Html.fromHtml(status.content).toString();
                                 if (content.contains(filter.phrase)) {
                                     statusesToRemove.add(status);
+                                    continue;
+                                }
+
+                                if (status.spoiler_text != null) {
+                                    String spoilerText;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                        spoilerText = Html.fromHtml(status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    else
+                                        spoilerText = Html.fromHtml(status.spoiler_text).toString();
+                                    if (spoilerText.contains(filter.phrase)) {
+                                        statusesToRemove.add(status);
+                                    }
                                 }
                             }
                         }
