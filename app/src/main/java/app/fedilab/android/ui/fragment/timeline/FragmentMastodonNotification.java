@@ -456,25 +456,28 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         int position = 0;
         //We loop through messages already in the timeline
-        for (Notification notificationsAlreadyPresent : this.notificationList) {
-            //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
-            //Pinned messages are ignored because their date can be older
-            if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
+        if (this.notificationList != null) {
+            notificationAdapter.notifyItemRangeChanged(0, this.notificationList.size());
+            for (Notification notificationsAlreadyPresent : this.notificationList) {
+                //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
+                //Pinned messages are ignored because their date can be older
+                if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
+                    //We add the status to a list of id - thus we know it is already in the timeline
+                    idOfAddedNotifications.add(notificationReceived.id);
+                    this.notificationList.add(position, notificationReceived);
+                    notificationAdapter.notifyItemInserted(position);
+                    break;
+                }
+                position++;
+            }
+            //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+            if (position == this.notificationList.size()) {
                 //We add the status to a list of id - thus we know it is already in the timeline
                 idOfAddedNotifications.add(notificationReceived.id);
                 this.notificationList.add(position, notificationReceived);
                 notificationAdapter.notifyItemInserted(position);
-                break;
+                return NOTIFICATION__AT_THE_BOTTOM;
             }
-            position++;
-        }
-        //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
-        if (position == this.notificationList.size()) {
-            //We add the status to a list of id - thus we know it is already in the timeline
-            idOfAddedNotifications.add(notificationReceived.id);
-            this.notificationList.add(position, notificationReceived);
-            notificationAdapter.notifyItemInserted(position);
-            return NOTIFICATION__AT_THE_BOTTOM;
         }
         return position;
     }

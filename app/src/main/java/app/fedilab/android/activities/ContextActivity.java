@@ -82,7 +82,7 @@ public class ContextActivity extends BaseActivity {
         focusedStatus = null; // or other values
         if (b != null)
             focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
-        if (focusedStatus == null && currentAccount == null || currentAccount.mastodon_account == null) {
+        if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
             finish();
             return;
         }

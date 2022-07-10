@@ -499,27 +499,31 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             return STATUS_PRESENT;
         }
         int position = 0;
-        //We loop through messages already in the timeline
-        for (Status statusAlreadyPresent : this.statuses) {
-            //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
-            //Pinned messages are ignored because their date can be older
-            if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
+        if (this.statuses != null) {
+            statusAdapter.notifyItemRangeChanged(0, this.statuses.size());
+            //We loop through messages already in the timeline
+            for (Status statusAlreadyPresent : this.statuses) {
+                //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
+                //Pinned messages are ignored because their date can be older
+                if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
+                    //We add the status to a list of id - thus we know it is already in the timeline
+                    idOfAddedStatuses.add(statusReceived.id);
+                    this.statuses.add(position, statusReceived);
+                    statusAdapter.notifyItemInserted(position);
+                    break;
+                }
+                position++;
+            }
+            //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+            if (position == this.statuses.size()) {
                 //We add the status to a list of id - thus we know it is already in the timeline
                 idOfAddedStatuses.add(statusReceived.id);
                 this.statuses.add(position, statusReceived);
                 statusAdapter.notifyItemInserted(position);
-                break;
+                return STATUS_AT_THE_BOTTOM;
             }
-            position++;
         }
-        //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
-        if (position == this.statuses.size()) {
-            //We add the status to a list of id - thus we know it is already in the timeline
-            idOfAddedStatuses.add(statusReceived.id);
-            this.statuses.add(position, statusReceived);
-            statusAdapter.notifyItemInserted(position);
-            return STATUS_AT_THE_BOTTOM;
-        }
+
         return position;
     }
 
