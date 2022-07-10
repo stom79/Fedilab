@@ -156,15 +156,6 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (currentFragment != null) {
-            currentFragment.onDestroy();
-        }
-        binding = null;
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

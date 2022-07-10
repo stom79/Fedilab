@@ -122,7 +122,7 @@ public class FragmentMedia extends Fragment {
 
         binding.mediaPicture.setVisibility(View.VISIBLE);
         binding.mediaPicture.setTransitionName(attachment.url);
-        if (Helper.isValidContextForGlide(requireActivity())) {
+        if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
             Glide.with(requireActivity())
                     .asBitmap()
                     .dontTransform()
@@ -142,7 +142,7 @@ public class FragmentMedia extends Fragment {
                                     binding.mediaPicture.setVisibility(View.VISIBLE);
                                     binding.pbarInf.setIndeterminate(true);
                                     binding.loader.setVisibility(View.VISIBLE);
-                                    if (Helper.isValidContextForGlide(requireActivity())) {
+                                    if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
                                         Glide.with(requireActivity())
                                                 .asBitmap()
                                                 .dontTransform()
@@ -312,7 +312,6 @@ public class FragmentMedia extends Fragment {
             timer.cancel();
             timer = null;
         }
-        binding = null;
     }
 
     @Override

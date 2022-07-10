@@ -205,12 +205,6 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        binding.lvStatus.setAdapter(null);
-        binding = null;
-    }
 
     @Override
     public void onAllDeleted() {
