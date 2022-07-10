@@ -471,6 +471,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.card.setVisibility(View.GONE);
         }
+        if (!canBeFederated) {
+            holder.binding.actionShareContainer.setVisibility(View.VISIBLE);
+            holder.binding.actionShare.setOnClickListener(v -> {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                String url;
+                if (statusToDeal.uri.startsWith("http"))
+                    url = status.uri;
+                else
+                    url = status.url;
+                String extra_text;
+                if (share_details) {
+                    extra_text = statusToDeal.account.acct;
+                    if (extra_text.split("@").length == 1)
+                        extra_text = "@" + extra_text + "@" + BaseMainActivity.currentInstance;
+                    else
+                        extra_text = "@" + extra_text;
+                    extra_text += " \uD83D\uDD17 " + url + "\r\n-\n";
+                    extra_text += statusToDeal.text;
+                } else {
+                    extra_text = url;
+                }
+                sendIntent.putExtra(Intent.EXTRA_TEXT, extra_text);
+                sendIntent.setType("text/plain");
+                context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
+            });
+        } else {
+            holder.binding.actionShareContainer.setVisibility(View.GONE);
+        }
         if (minified || !canBeFederated) {
             holder.binding.actionButtons.setVisibility(View.GONE);
         } else {

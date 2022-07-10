@@ -493,6 +493,27 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/action_share_container"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="end"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_share"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/ic_baseline_share_24" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/action_buttons"
             android:layout_width="match_parent"
             android:layout_height="28dp"

@@ -105,8 +105,8 @@ public class Nitter implements Serializable {
             }
         }
         Nitter nitterAccount = accounts.get(feedItem.creator);
+        app.fedilab.android.client.entities.api.Account account = new app.fedilab.android.client.entities.api.Account();
         if (nitterAccount != null) {
-            app.fedilab.android.client.entities.api.Account account = new app.fedilab.android.client.entities.api.Account();
             String[] names = nitterAccount.image.title.split("/");
             account.id = feedItem.guid;
             account.acct = names[1].replace("@", "");
@@ -115,6 +115,15 @@ public class Nitter implements Serializable {
             account.avatar = nitterAccount.image.url;
             account.avatar_static = nitterAccount.image.url;
             account.url = nitterAccount.image.link;
+            status.account = account;
+        } else {
+            account.id = feedItem.guid;
+            account.acct = feedItem.creator.replace("@", "");
+            account.username = feedItem.creator.replace("@", "");
+            account.display_name = feedItem.creator.replace("@", "");
+            account.avatar = "";
+            account.avatar_static = "";
+            account.url = feedItem.link;
             status.account = account;
         }
 
