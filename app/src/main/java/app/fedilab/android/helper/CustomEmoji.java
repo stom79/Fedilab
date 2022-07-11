@@ -8,6 +8,7 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.style.ReplacementSpan;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.github.penfeizhou.animation.apng.APNGDrawable;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -34,30 +34,32 @@ public class CustomEmoji extends ReplacementSpan {
     private final View view;
     private final float scale;
     private Drawable imageDrawable;
+    private final WeakReference<View> viewWeakReference;
 
 
     CustomEmoji(WeakReference<View> viewWeakReference) {
         Context mContext = viewWeakReference.get().getContext();
+        this.viewWeakReference = viewWeakReference;
         view = viewWeakReference.get();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.0f);
     }
 
-    public static void displayEmoji(List<Emoji> emojis, Spannable spannableString, WeakReference<View> viewWeakReference) {
-        View view = viewWeakReference.get();
+    public static void displayEmoji(List<Emoji> emojis, Spannable spannableString, View view) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
         boolean animate = !sharedpreferences.getBoolean(view.getContext().getString(R.string.SET_DISABLE_GIF), false);
         for (Emoji emoji : emojis) {
             Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                     .matcher(spannableString);
             while (matcher.find()) {
-                CustomEmoji customEmoji = new CustomEmoji(viewWeakReference);
+                CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                 spannableString.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
                 Glide.with(view)
                         .asDrawable()
                         .load(animate ? emoji.url : emoji.static_url)
                         .into(customEmoji.getTarget(animate));
             }
+
         }
     }
 
@@ -93,29 +95,38 @@ public class CustomEmoji extends ReplacementSpan {
         return new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                Log.v(Helper.TAG, "resource: " + resource);
+                Log.v(Helper.TAG, "instanceof: " + (resource instanceof Animatable));
+                View view = viewWeakReference.get();
                 if (animate && resource instanceof Animatable) {
                     Drawable.Callback callback = resource.getCallback();
                     resource.setCallback(new Drawable.Callback() {
                         @Override
                         public void invalidateDrawable(@NonNull Drawable drawable) {
-                            callback.invalidateDrawable(drawable);
+                            if (callback != null) {
+                                callback.invalidateDrawable(drawable);
+                            }
                             view.invalidate();
                         }
 
                         @Override
                         public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                            callback.scheduleDrawable(drawable, runnable, l);
+                            if (callback != null) {
+                                callback.scheduleDrawable(drawable, runnable, l);
+                            }
                         }
 
                         @Override
                         public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                            callback.unscheduleDrawable(drawable, runnable);
+                            if (callback != null) {
+                                callback.unscheduleDrawable(drawable, runnable);
+                            }
                         }
                     });
-                    ((APNGDrawable) resource).start();
-                    imageDrawable = resource;
-                    view.invalidate();
+                    ((Animatable) resource).start();
                 }
+                imageDrawable = resource;
+                view.invalidate();
             }
 
             @Override

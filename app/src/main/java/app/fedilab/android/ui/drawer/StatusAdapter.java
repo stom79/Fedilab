@@ -82,13 +82,10 @@ import com.github.stom79.mytransl.translate.Params;
 import com.github.stom79.mytransl.translate.Translate;
 import com.varunest.sparkbutton.SparkButton;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -372,9 +369,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
 
-
         if (statusToDeal.emojis != null && statusToDeal.emojis.size() > 0) {
-            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, new WeakReference<>(holder.binding.statusContent));
+            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent);
         }
 
         if (status.pinned) {
@@ -930,6 +926,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
         }
+
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         //--- MEDIA ATTACHMENT ---
         if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
@@ -1660,6 +1657,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingReport.checkbox.setChecked(status.isChecked);
             holder.bindingReport.checkbox.setOnClickListener(v -> status.isChecked = !status.isChecked);
         }
+
     }
 
     private static boolean mediaObfuscated(Status status) {
@@ -1786,22 +1784,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified, canBeFederated);
-            if (holder.timer != null) {
-                holder.timer.cancel();
-                holder.timer = null;
-            }
-            if (status.emojis != null && status.emojis.size() > 0) {
-                holder.timer = new Timer();
-                holder.timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> holder.binding.statusContent.invalidate();
-                        mainHandler.post(myRunnable);
-
-                    }
-                }, 100, 100);
-            }
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
@@ -1867,9 +1849,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        if (holder instanceof StatusViewHolder && ((StatusViewHolder) holder).timer != null) {
-            ((StatusViewHolder) holder).timer.cancel();
-        }
     }
 
     public interface FetchMoreCallBack {
@@ -1885,7 +1864,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerFetchMoreBinding bindingFetchMore;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
-        Timer timer;
 
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
