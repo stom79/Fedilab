@@ -369,9 +369,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
 
-        if (statusToDeal.emojis != null && statusToDeal.emojis.size() > 0) {
-            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent);
-        }
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
@@ -881,7 +878,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
         }
         //--- MAIN CONTENT ---
-        holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+        if (statusToDeal.emojis != null && statusToDeal.emojis.size() > 0) {
+            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent);
+            holder.binding.statusContent.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+                }
+            }, 100);
+        } else {
+            holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+        }
+
+
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);

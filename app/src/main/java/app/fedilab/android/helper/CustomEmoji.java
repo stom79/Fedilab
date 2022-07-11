@@ -8,7 +8,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -31,7 +30,6 @@ import app.fedilab.android.client.entities.api.Emoji;
 public class CustomEmoji extends ReplacementSpan {
 
 
-    private final View view;
     private final float scale;
     private Drawable imageDrawable;
     private final WeakReference<View> viewWeakReference;
@@ -40,21 +38,20 @@ public class CustomEmoji extends ReplacementSpan {
     CustomEmoji(WeakReference<View> viewWeakReference) {
         Context mContext = viewWeakReference.get().getContext();
         this.viewWeakReference = viewWeakReference;
-        view = viewWeakReference.get();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.0f);
     }
 
     public static void displayEmoji(List<Emoji> emojis, Spannable spannableString, View view) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-        boolean animate = !sharedpreferences.getBoolean(view.getContext().getString(R.string.SET_DISABLE_GIF), false);
+        boolean animate = !sharedpreferences.getBoolean(view.getContext().getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         for (Emoji emoji : emojis) {
             Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                     .matcher(spannableString);
             while (matcher.find()) {
                 CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                 spannableString.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                Glide.with(view)
+                Glide.with(view.getContext())
                         .asDrawable()
                         .load(animate ? emoji.url : emoji.static_url)
                         .into(customEmoji.getTarget(animate));
@@ -95,8 +92,6 @@ public class CustomEmoji extends ReplacementSpan {
         return new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                Log.v(Helper.TAG, "resource: " + resource);
-                Log.v(Helper.TAG, "instanceof: " + (resource instanceof Animatable));
                 View view = viewWeakReference.get();
                 if (animate && resource instanceof Animatable) {
                     Drawable.Callback callback = resource.getCallback();
