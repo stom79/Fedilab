@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.github.penfeizhou.animation.apng.APNGDrawable;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -62,7 +63,6 @@ public class CustomEmoji extends ReplacementSpan {
 
     @Override
     public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fontMetricsInt) {
-        Log.v(Helper.TAG, "fontMetricsInt: " + fontMetricsInt);
         if (fontMetricsInt != null) {
             Paint.FontMetrics fontMetrics = paint.getFontMetrics();
             fontMetricsInt.top = (int) fontMetrics.top;
@@ -75,18 +75,15 @@ public class CustomEmoji extends ReplacementSpan {
 
     @Override
     public void draw(@NonNull Canvas canvas, CharSequence charSequence, int start, int end, float x, int top, int y, int bottom, @NonNull Paint paint) {
-        
+
         if (imageDrawable != null) {
             canvas.save();
             int emojiSize = (int) (paint.getTextSize() * scale);
             Drawable drawable = imageDrawable;
             drawable.setBounds(0, 0, emojiSize, emojiSize);
             int transY = bottom - drawable.getBounds().bottom;
-            Log.v(Helper.TAG, "transY: " + transY);
             transY -= paint.getFontMetrics().descent / 2;
-            Log.v(Helper.TAG, "transY: " + transY);
             canvas.translate(x, (float) transY);
-            Log.v(Helper.TAG, "x: " + x);
             drawable.draw(canvas);
             canvas.restore();
         }
@@ -96,7 +93,7 @@ public class CustomEmoji extends ReplacementSpan {
         return new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                if (animate) {
+                if (animate && resource instanceof Animatable) {
                     Drawable.Callback callback = resource.getCallback();
                     resource.setCallback(new Drawable.Callback() {
                         @Override
@@ -115,10 +112,10 @@ public class CustomEmoji extends ReplacementSpan {
                             callback.unscheduleDrawable(drawable, runnable);
                         }
                     });
+                    ((APNGDrawable) resource).start();
+                    imageDrawable = resource;
+                    view.invalidate();
                 }
-                Log.v(Helper.TAG, "imageDrawable2: " + imageDrawable);
-                imageDrawable = resource;
-                view.invalidate();
             }
 
             @Override
