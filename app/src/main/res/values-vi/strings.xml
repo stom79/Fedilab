@@ -754,4 +754,5 @@
     <string name="messages_in_cache_for_other_timelines">Bộ nhớ đệm tút những Bảng Tin khác</string>
     <string name="files_cache_size">Dung lượng cho phép</string>
     <string name="clear_cache">Xóa bộ nhớ đệm</string>
+    <string name="default_system_language">Dùng ngôn ngữ hệ thống</string>
 </resources>
