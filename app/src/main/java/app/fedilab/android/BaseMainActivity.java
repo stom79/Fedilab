@@ -1064,11 +1064,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public void redrawPinned(List<MastodonList> mastodonLists) {
         int currentItem = binding.viewPager.getCurrentItem();
         new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
