@@ -17,7 +17,6 @@ package app.fedilab.android.helper;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.USER_AGENT;
-import static app.fedilab.android.helper.Helper.convertDpToPixel;
 import static app.fedilab.android.helper.Helper.urlPattern;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
 
@@ -25,8 +24,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +35,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -47,16 +43,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.preference.PreferenceManager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
-import com.github.penfeizhou.animation.apng.APNGDrawable;
-import com.github.penfeizhou.animation.apng.decode.APNGParser;
-import com.github.penfeizhou.animation.gif.GifDrawable;
-import com.github.penfeizhou.animation.gif.decode.GifParser;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,7 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,7 +64,6 @@ import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Attachment;
-import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.Poll;
@@ -95,7 +80,7 @@ public class SpannableHelper {
         return convert(context, status, text, true);
     }
     /**
-     * Convert HTML content to text. Also, it handles click on link and transform emoji
+     * Convert HTML content to text. Also, it handles click on link
      * This needs to be run asynchronously
      *
      * @param context     {@link Context}
@@ -136,77 +121,6 @@ public class SpannableHelper {
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         for (URLSpan span : urls) {
             content.removeSpan(span);
-        }
-
-        //--- EMOJI ----
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
-        List<Emoji> emojiList = status.reblog != null ? status.reblog.emojis : status.emojis;
-        //Will convert emoji if asked
-        if (emojiList != null && emojiList.size() > 0) {
-            for (Emoji emoji : emojiList) {
-                if (Helper.isValidContextForGlide(context)) {
-                    FutureTarget<File> futureTarget = Glide.with(context)
-                            .asFile()
-                            .load(disableGif ? emoji.static_url : emoji.url)
-                            .submit();
-                    try {
-                        File file = futureTarget.get();
-                        final String targetedEmoji = ":" + emoji.shortcode + ":";
-                        if (content.toString().contains(targetedEmoji)) {
-                            //emojis can be used several times so we have to loop
-                            for (int startPosition = -1; (startPosition = content.toString().indexOf(targetedEmoji, startPosition + 1)) != -1; startPosition++) {
-                                final int endPosition = startPosition + targetedEmoji.length();
-                                if (endPosition <= content.toString().length() && endPosition >= startPosition) {
-                                    ImageSpan imageSpan;
-                                    if (APNGParser.isAPNG(file.getAbsolutePath())) {
-                                        APNGDrawable apngDrawable = APNGDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            apngDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            apngDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(apngDrawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else if (GifParser.isGif(file.getAbsolutePath())) {
-                                        GifDrawable gifDrawable = GifDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            gifDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            gifDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(gifDrawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else {
-                                        Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
-                                        try {
-                                            drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            drawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(drawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
 
         //--- URLs ----
@@ -565,7 +479,7 @@ public class SpannableHelper {
 
 
     /**
-     * Convert HTML content to text. Also, it handles click on link and transform emoji
+     * Convert HTML content to text. Also, it handles click on link
      * This needs to be run asynchronously
      *
      * @param context      {@link Context}
@@ -601,77 +515,6 @@ public class SpannableHelper {
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         for (URLSpan span : urls) {
             content.removeSpan(span);
-        }
-
-        //--- EMOJI ----
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
-        List<Emoji> emojiList = announcement.emojis;
-        //Will convert emoji if asked
-        if (emojiList != null && emojiList.size() > 0) {
-            for (Emoji emoji : emojiList) {
-                if (Helper.isValidContextForGlide(context)) {
-                    FutureTarget<File> futureTarget = Glide.with(context)
-                            .asFile()
-                            .load(disableGif ? emoji.static_url : emoji.url)
-                            .submit();
-                    try {
-                        File file = futureTarget.get();
-                        final String targetedEmoji = ":" + emoji.shortcode + ":";
-                        if (content.toString().contains(targetedEmoji)) {
-                            //emojis can be used several times so we have to loop
-                            for (int startPosition = -1; (startPosition = content.toString().indexOf(targetedEmoji, startPosition + 1)) != -1; startPosition++) {
-                                final int endPosition = startPosition + targetedEmoji.length();
-                                if (endPosition <= content.toString().length() && endPosition >= startPosition) {
-                                    ImageSpan imageSpan;
-                                    if (APNGParser.isAPNG(file.getAbsolutePath())) {
-                                        APNGDrawable apngDrawable = APNGDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            apngDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            apngDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(apngDrawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else if (GifParser.isGif(file.getAbsolutePath())) {
-                                        GifDrawable gifDrawable = GifDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            gifDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            gifDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(gifDrawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else {
-                                        Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
-                                        try {
-                                            drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            drawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(drawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
 
         //--- URLs ----
@@ -1035,7 +878,7 @@ public class SpannableHelper {
     }
 
     /**
-     * Convert HTML content to text. Also, it handles click on link and transform emoji
+     * Convert HTML content to text. Also, it handles click on link
      * This needs to be run asynchronously
      *
      * @param context {@link Context}
@@ -1132,7 +975,7 @@ public class SpannableHelper {
 
 
     /**
-     * Convert HTML content to text. Also, it handles click on link and transform emoji
+     * Convert HTML content to text. Also, it handles click on link
      * This needs to be run asynchronously
      *
      * @param context {@link Context}
@@ -1157,75 +1000,6 @@ public class SpannableHelper {
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         for (URLSpan span : urls)
             content.removeSpan(span);
-        //--- EMOJI ----
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
-        //Will convert emoji if asked
-        if (account.emojis != null && account.emojis.size() > 0) {
-            for (Emoji emoji : account.emojis) {
-                if (Helper.isValidContextForGlide(context)) {
-                    FutureTarget<File> futureTarget = Glide.with(context)
-                            .asFile()
-                            .load(disableGif ? emoji.static_url : emoji.url)
-                            .submit();
-                    try {
-                        File file = futureTarget.get();
-                        final String targetedEmoji = ":" + emoji.shortcode + ":";
-                        if (content.toString().contains(targetedEmoji)) {
-                            //emojis can be used several times so we have to loop
-                            for (int startPosition = -1; (startPosition = content.toString().indexOf(targetedEmoji, startPosition + 1)) != -1; startPosition++) {
-                                final int endPosition = startPosition + targetedEmoji.length();
-                                if (endPosition <= content.toString().length() && endPosition >= startPosition) {
-                                    ImageSpan imageSpan;
-                                    if (APNGParser.isAPNG(file.getAbsolutePath())) {
-                                        APNGDrawable apngDrawable = APNGDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            apngDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            apngDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(apngDrawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else if (GifParser.isGif(file.getAbsolutePath())) {
-                                        GifDrawable gifDrawable = GifDrawable.fromFile(file.getAbsolutePath());
-                                        try {
-                                            gifDrawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            gifDrawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(gifDrawable);
-                                            content.setSpan(
-                                                    imageSpan, startPosition,
-                                                    endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                        } catch (Exception ignored) {
-                                        }
-                                    } else {
-                                        try {
-                                            Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
-                                            drawable.setBounds(0, 0, (int) convertDpToPixel(20, context), (int) convertDpToPixel(20, context));
-                                            drawable.setVisible(true, true);
-                                            imageSpan = new ImageSpan(drawable);
-                                            if (endPosition <= content.length()) {
-                                                content.setSpan(
-                                                        imageSpan, startPosition,
-                                                        endPosition, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                            }
-                                        } catch (Exception ignored) {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        if (limitedToDisplayName) {
-            return content;
-        }
         //--- URLs ----
         Matcher matcherALink = Patterns.WEB_URL.matcher(content);
 

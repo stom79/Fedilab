@@ -99,8 +99,7 @@ dependencies {
     implementation project(path: ':cropper')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.penfeizhou.android.animation:apng:2.22.0'
-    implementation 'com.github.penfeizhou.android.animation:gif:2.22.0'
+    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.22.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'

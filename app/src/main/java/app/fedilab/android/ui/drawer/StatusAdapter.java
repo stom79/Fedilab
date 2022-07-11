@@ -82,6 +82,7 @@ import com.github.stom79.mytransl.translate.Params;
 import com.github.stom79.mytransl.translate.Translate;
 import com.varunest.sparkbutton.SparkButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -117,6 +118,7 @@ import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
+import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.GlideFocus;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
@@ -253,6 +255,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         statusToDeal.bookmarked = statusReturned.bookmarked;
         statusToDeal.reblogs_count = statusReturned.reblogs_count;
         statusToDeal.favourites_count = statusReturned.favourites_count;
+
         //Update status in cache if not a remote instance
         if (!remote) {
             new Thread(() -> {
@@ -369,6 +372,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
 
+
+        if (statusToDeal.emojis != null && statusToDeal.emojis.size() > 0) {
+            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, new WeakReference<>(holder.binding.statusContent));
+        }
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
