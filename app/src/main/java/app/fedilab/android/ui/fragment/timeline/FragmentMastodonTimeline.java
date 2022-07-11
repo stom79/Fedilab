@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -186,11 +185,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (binding != null) {
             binding.recyclerView.scrollToPosition(0);
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

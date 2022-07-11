@@ -14,15 +14,17 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -238,6 +240,20 @@ public class FragmentNotificationContainer extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        NotificationManager mNotificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && BaseMainActivity.currentAccount != null && BaseMainActivity.currentAccount.mastodon_account != null) {
+            for (StatusBarNotification statusBarNotification : mNotificationManager.getActiveNotifications()) {
+                if (statusBarNotification.getGroupKey().contains(BaseMainActivity.currentAccount.mastodon_account.acct + "@" + BaseMainActivity.currentAccount.instance)) {
+                    mNotificationManager.cancel(statusBarNotification.getId());
+                }
+            }
+        } else {
+            mNotificationManager.cancelAll();
+        }
+    }
 
     public void scrollToTop() {
         if (binding != null) {
@@ -251,11 +267,5 @@ public class FragmentNotificationContainer extends Fragment {
         }
     }
 
-    @SuppressLint("ApplySharedPref")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
 
 }

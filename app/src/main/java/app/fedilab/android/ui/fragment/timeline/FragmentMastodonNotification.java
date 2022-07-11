@@ -14,17 +14,14 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,22 +172,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         route(null, false);
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        NotificationManager mNotificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && BaseMainActivity.currentAccount != null && BaseMainActivity.currentAccount.mastodon_account != null) {
-            for (StatusBarNotification statusBarNotification : mNotificationManager.getActiveNotifications()) {
-                if ((BaseMainActivity.currentAccount.mastodon_account.acct + "@" + BaseMainActivity.currentAccount.instance).equals(statusBarNotification.getGroupKey())) {
-                    mNotificationManager.cancel(statusBarNotification.getId());
-                }
-            }
-        } else {
-            mNotificationManager.cancelAll();
-        }
     }
 
 

@@ -55,7 +55,7 @@ public class MisskeyNote implements Serializable {
     @SerializedName("emojis")
     public List<MisskeyEmoji> emojis;
 
-    public static Status convert(MisskeyNote misskeyNote) {
+    public static Status convert(MisskeyNote misskeyNote, String instance) {
         Status status = new Status();
         status.id = misskeyNote.id;
         status.in_reply_to_id = misskeyNote.replyId;
@@ -64,7 +64,10 @@ public class MisskeyNote implements Serializable {
         status.spoiler_text = misskeyNote.cw;
         status.visibility = misskeyNote.visibility;
         status.created_at = misskeyNote.createdAt;
-        status.uri = misskeyNote.uri;
+        if (misskeyNote.url == null) {
+            misskeyNote.url = "https://" + instance + "/notes/" + misskeyNote.id;
+        }
+        status.uri = misskeyNote.uri != null ? misskeyNote.uri : misskeyNote.url;
         status.url = misskeyNote.url;
 
         Account account = new Account();

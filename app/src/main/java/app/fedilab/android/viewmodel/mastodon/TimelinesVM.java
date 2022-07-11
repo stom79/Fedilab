@@ -274,7 +274,7 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = new ArrayList<>();
                         if (misskeyNoteList != null) {
                             for (MisskeyNote misskeyNote : misskeyNoteList) {
-                                Status status = MisskeyNote.convert(misskeyNote);
+                                Status status = MisskeyNote.convert(misskeyNote, instance);
                                 statusList.add(status);
                             }
                         }
