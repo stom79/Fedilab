@@ -786,7 +786,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getEmoji(currentInstance);
                 //Retrieve instance info
                 new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getInstance(currentInstance)
-                        .observe(BaseMainActivity.this, instance -> instanceInfo = instance.info);
+                        .observe(BaseMainActivity.this, instance -> {
+                            instanceInfo = instance.info;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(getString(R.string.INSTANCE_INFO) + MainActivity.currentInstance, Instance.serialize(instanceInfo));
+                            editor.apply();
+                        });
                 //Retrieve filters
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getFilters(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);

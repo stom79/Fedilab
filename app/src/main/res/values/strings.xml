@@ -895,7 +895,7 @@
     <string name="SET_ACCOUNTS_PER_CALL" translatable="false">SET_ACCOUNTS_PER_CALL</string>
     <string name="SET_STATUSES_PER_CALL" translatable="false">SET_STATUSES_PER_CALL</string>
     <string name="SET_NOTIFICATIONS_PER_CALL" translatable="false">SET_NOTIFICATIONS_PER_CALL</string>
-
+    <string name="INSTANCE_INFO" translatable="false">INSTANCE_INFO</string>
     <string name="SET_INVIDIOUS" translatable="false">SET_INVIDIOUS</string>
     <string name="SET_INVIDIOUS_HOST" translatable="false">SET_INVIDIOUS_HOST</string>
     <string name="DEFAULT_INVIDIOUS_HOST" translatable="false">invidious.snopyta.org</string>

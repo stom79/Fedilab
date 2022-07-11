@@ -26,6 +26,7 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -48,6 +49,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -69,6 +71,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.EmojiInstance;
+import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
@@ -234,6 +237,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }).start();
         }
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+        if (MainActivity.instanceInfo == null) {
+            String instanceInfo = sharedpreferences.getString(getString(R.string.INSTANCE_INFO) + instance, null);
+            if (instanceInfo != null) {
+                MainActivity.instanceInfo = Instance.restore(instanceInfo);
+            }
+        }
+
         StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
         //Empty compose
         List<Status> statusDraftList = new ArrayList<>();

@@ -1,5 +1,6 @@
 package app.fedilab.android.client.entities.api;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -111,6 +112,25 @@ public class Instance implements Serializable {
             }
         }
         return mimeTypes;
+    }
+
+
+    public static String serialize(Instance instance) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(instance);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Instance restore(String serialized) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serialized, Instance.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static class Configuration implements Serializable {
