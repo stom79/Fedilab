@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -213,14 +215,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             } else {
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
-                String title = "";
+                Spannable title = new SpannableString("");
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
                 if (getItemViewType(position) == TYPE_FAVOURITE) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
+                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite)));
                 } else if (getItemViewType(position) == TYPE_REBLOG) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
+                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog)));
                 } else if (getItemViewType(position) == TYPE_POLL) {
-                    title = context.getString(R.string.notif_poll);
+                    title = new SpannableString(context.getString(R.string.notif_poll));
                 }
                 if (notification.relatedNotifications != null && notification.relatedNotifications.size() > 0) {
                     if (notification.type.equals("favourite")) {
@@ -269,7 +271,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // start the new activity
                     context.startActivity(intent, options.toBundle());
                 });
-                CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderStatus.binding.displayName, notification.id, id -> {
+                CustomEmoji.displayEmoji(context, notification.account.emojis, title, holderStatus.binding.displayName, notification.id, id -> {
                     if (!notification.account.emojiFetched) {
                         notification.account.emojiFetched = true;
                         holderStatus.binding.displayName.post(() -> notifyItemChanged(position));

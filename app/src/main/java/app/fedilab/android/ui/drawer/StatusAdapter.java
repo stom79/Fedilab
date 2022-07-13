@@ -572,7 +572,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(intent, options.toBundle());
                 }
             });
-            holder.binding.statusBoosterAvatar.setOnClickListener(v -> {
+            holder.binding.statusBoosterInfo.setOnClickListener(v -> {
                 if (remote) {
                     Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
