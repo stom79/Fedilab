@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -89,6 +90,7 @@ import app.fedilab.android.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.databinding.ActivityProfileBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
+import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
@@ -362,7 +364,9 @@ public class ProfileActivity extends BaseActivity {
         if (account.span_display_name == null && account.display_name == null) {
             binding.accountDn.setText(account.username);
         } else {
-            binding.accountDn.setText(account.span_display_name != null ? account.span_display_name : account.display_name, TextView.BufferType.SPANNABLE);
+            Spannable textAccount = account.span_display_name != null ? account.span_display_name : new SpannableString(account.display_name);
+            CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textAccount, binding.accountDn, null, null);
+            binding.accountDn.setText(textAccount, TextView.BufferType.SPANNABLE);
         }
 
         binding.accountUn.setText(String.format("@%s", account.acct));
@@ -377,12 +381,13 @@ public class ProfileActivity extends BaseActivity {
             clipboard.setPrimaryClip(clip);
             return false;
         });
-
+        Spannable textNote;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            binding.accountNote.setText(account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note, Html.FROM_HTML_MODE_COMPACT)), TextView.BufferType.SPANNABLE);
+            textNote = account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note, Html.FROM_HTML_MODE_COMPACT));
         else
-            binding.accountNote.setText(account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note)), TextView.BufferType.SPANNABLE);
-
+            textNote = account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note));
+        CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textNote, binding.accountNote, null, null);
+        binding.accountNote.setText(textNote, TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
         MastodonHelper.loadPPMastodon(binding.accountPp, account);

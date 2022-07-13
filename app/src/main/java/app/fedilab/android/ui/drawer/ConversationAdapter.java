@@ -49,6 +49,7 @@ import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.DrawerConversationBinding;
 import app.fedilab.android.databinding.ThumbnailBinding;
+import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 
@@ -137,6 +138,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notifyItemChanged(position);
             });
             holder.binding.spoiler.setVisibility(View.VISIBLE);
+            CustomEmoji.displayEmoji(context, conversation.last_status.emojis, conversation.last_status.span_spoiler_text, holder.binding.spoiler, conversation.last_status.id, id -> {
+                if (!conversation.last_status.emojiFetched) {
+                    conversation.last_status.emojiFetched = true;
+                    holder.binding.spoiler.post(() -> notifyItemChanged(position));
+                }
+            });
             holder.binding.spoiler.setText(conversation.last_status.span_spoiler_text, TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
@@ -144,6 +151,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.binding.spoiler.setText(null);
         }
         //--- MAIN CONTENT ---
+        CustomEmoji.displayEmoji(context, conversation.last_status.emojis, conversation.last_status.span_content, holder.binding.statusContent, conversation.last_status.id, id -> {
+            if (!conversation.last_status.emojiFetched) {
+                conversation.last_status.emojiFetched = true;
+                holder.binding.statusContent.post(() -> notifyItemChanged(position));
+            }
+        });
         holder.binding.statusContent.setText(conversation.last_status.span_content, TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));

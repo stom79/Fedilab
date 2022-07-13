@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
@@ -42,6 +43,7 @@ import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
+import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -120,7 +122,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
-            holderFollow.binding.displayName.setText(notification.account.display_name);
+            CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderFollow.binding.displayName, notification.id, id -> {
+                if (!notification.account.emojiFetched) {
+                    notification.account.emojiFetched = true;
+                    holderFollow.binding.displayName.post(() -> notifyItemChanged(position));
+                }
+            });
+            holderFollow.binding.displayName.setText(notification.account.span_display_name, TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
                 holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
@@ -188,7 +196,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else if (getItemViewType(position) == TYPE_STATUS) {
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
                 }
-                holderStatus.bindingNotification.status.displayName.setText(title);
+                CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderStatus.binding.displayName, notification.id, id -> {
+                    if (!notification.account.emojiFetched) {
+                        notification.account.emojiFetched = true;
+                        holderStatus.binding.displayName.post(() -> notifyItemChanged(position));
+                    }
+                });
+                holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
                 if (notification.status != null && notification.status.visibility.equalsIgnoreCase("direct")) {
@@ -255,7 +269,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // start the new activity
                     context.startActivity(intent, options.toBundle());
                 });
-                holderStatus.bindingNotification.status.displayName.setText(title);
+                CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderStatus.binding.displayName, notification.id, id -> {
+                    if (!notification.account.emojiFetched) {
+                        notification.account.emojiFetched = true;
+                        holderStatus.binding.displayName.post(() -> notifyItemChanged(position));
+                    }
+                });
+                holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }

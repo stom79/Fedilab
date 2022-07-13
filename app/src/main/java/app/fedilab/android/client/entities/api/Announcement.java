@@ -51,4 +51,5 @@ public class Announcement {
 
     //Some extra spannable element - They will be filled automatically when fetching the status
     public transient Spannable span_content;
+    public boolean emojiFetched = false;
 }

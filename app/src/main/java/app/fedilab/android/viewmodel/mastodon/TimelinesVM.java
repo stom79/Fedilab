@@ -232,7 +232,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        statuses.statuses = SpannableHelper.convertNitterStatus(getApplication().getApplicationContext(), statusList);
+                        statuses.statuses = SpannableHelper.convertNitterStatus(statusList);
                         String max_id = publicTlResponse.headers().get("min-id");
                         statuses.pagination = new Pagination();
                         statuses.pagination.max_id = max_id;

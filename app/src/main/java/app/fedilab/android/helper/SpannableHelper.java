@@ -861,31 +861,29 @@ public class SpannableHelper {
         return statuses;
     }
 
-    public static List<Status> convertNitterStatus(Context context, List<Status> statuses) {
+    public static List<Status> convertNitterStatus(List<Status> statuses) {
         if (statuses != null) {
             for (Status status : statuses) {
-                convertNitterStatus(context, status);
+                convertNitterStatus(status);
             }
         }
         return statuses;
     }
 
-    public static Status convertNitterStatus(Context context, Status status) {
+    public static void convertNitterStatus(Status status) {
         if (status != null) {
-            status.span_content = SpannableHelper.convertNitter(context, status.content);
+            status.span_content = SpannableHelper.convertNitter(status.content);
         }
-        return status;
     }
 
     /**
      * Convert HTML content to text. Also, it handles click on link
      * This needs to be run asynchronously
      *
-     * @param context {@link Context}
-     * @param text    String - text to convert, it can be content, spoiler, poll items, etc.
+     * @param text String - text to convert, it can be content, spoiler, poll items, etc.
      * @return Spannable string
      */
-    private static Spannable convertNitter(@NonNull Context context, String text) {
+    private static Spannable convertNitter(String text) {
         SpannableString initialContent;
         if (text == null) {
             return null;
@@ -924,7 +922,7 @@ public class SpannableHelper {
             if (status.account == null) {
                 return status;
             }
-            status.account.span_display_name = SpannableHelper.convertA(context, status.account, status.account.display_name, true);
+            status.account.span_display_name = SpannableHelper.convertA(context, status.account.display_name, true);
             if (status.poll != null) {
                 for (Poll.PollItem pollItem : status.poll.options) {
                     pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title, false);
@@ -936,7 +934,7 @@ public class SpannableHelper {
                     status.reblog.span_translate = SpannableHelper.convert(context, status, status.reblog.translationContent);
                 }
                 status.reblog.span_spoiler_text = SpannableHelper.convert(context, status, status.reblog.spoiler_text);
-                status.reblog.account.span_display_name = SpannableHelper.convertA(context, status.reblog.account, status.reblog.account.display_name, true);
+                status.reblog.account.span_display_name = SpannableHelper.convertA(context, status.reblog.account.display_name, true);
                 if (status.reblog.poll != null) {
                     for (Poll.PollItem pollItem : status.reblog.poll.options) {
                         pollItem.span_title = SpannableHelper.convert(context, status, pollItem.title, false);
@@ -959,12 +957,12 @@ public class SpannableHelper {
 
     public static Account convertAccount(Context context, Account account) {
         if (account != null) {
-            account.span_display_name = SpannableHelper.convertA(context, account, account.display_name, true);
-            account.span_note = SpannableHelper.convertA(context, account, account.note, false);
+            account.span_display_name = SpannableHelper.convertA(context, account.display_name, true);
+            account.span_note = SpannableHelper.convertA(context, account.note, false);
             if (account.fields != null && account.fields.size() > 0) {
                 List<Field> fields = new ArrayList<>();
                 for (Field field : account.fields) {
-                    field.value_span = SpannableHelper.convertA(context, account, field.value, false);
+                    field.value_span = SpannableHelper.convertA(context, field.value, false);
                     fields.add(field);
                 }
                 account.fields = fields;
@@ -979,11 +977,10 @@ public class SpannableHelper {
      * This needs to be run asynchronously
      *
      * @param context {@link Context}
-     * @param account {@link Account} - Account concerned by the spannable transformation
      * @param text    String - text to convert, it can be display name or bio
      * @return Spannable string
      */
-    private static Spannable convertA(@NonNull Context context, @NonNull Account account, String text, boolean limitedToDisplayName) {
+    private static Spannable convertA(@NonNull Context context, String text, boolean limitedToDisplayName) {
         SpannableString initialContent;
         if (text == null) {
             return null;

@@ -78,7 +78,7 @@ public class Account implements Serializable {
     public transient Spannable span_display_name;
     public transient Spannable span_note;
     public transient RelationShip relationShip;
-    public boolean emojiFetched = false;
+    public transient boolean emojiFetched = false;
 
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")

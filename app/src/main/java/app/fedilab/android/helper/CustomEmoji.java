@@ -16,6 +16,7 @@ package app.fedilab.android.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
@@ -28,7 +29,6 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.github.penfeizhou.animation.apng.APNGDrawable;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -54,13 +54,16 @@ public class CustomEmoji {
                                 @Override
                                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     super.onLoadFailed(errorDrawable);
-                                    if (finalCount == emojis.size()) {
+                                    if (finalCount == emojis.size() && listener != null) {
                                         listener.allEmojisfound(id);
                                     }
                                 }
 
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                    if (content == null) {
+                                        return;
+                                    }
                                     Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                                             .matcher(content);
                                     while (matcher.find()) {
@@ -72,7 +75,7 @@ public class CustomEmoji {
                                                 imageSpan, matcher.start(),
                                                 matcher.end(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                                     }
-                                    if (animate && resource instanceof APNGDrawable) {
+                                    if (animate && resource instanceof Animatable) {
                                         Drawable.Callback callback = resource.getCallback();
                                         resource.setCallback(new Drawable.Callback() {
                                             @Override
@@ -97,10 +100,10 @@ public class CustomEmoji {
                                                 }
                                             }
                                         });
-                                        ((APNGDrawable) resource).start();
+                                        ((Animatable) resource).start();
 
                                     }
-                                    if (finalCount == emojis.size()) {
+                                    if (finalCount == emojis.size() && listener != null) {
                                         listener.allEmojisfound(id);
                                     }
                                 }

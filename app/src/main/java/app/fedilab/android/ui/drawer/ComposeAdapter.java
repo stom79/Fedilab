@@ -103,6 +103,7 @@ import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
 import app.fedilab.android.databinding.PopupMediaDescriptionBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -1035,12 +1036,23 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
+            CustomEmoji.displayEmoji(context, status.emojis, status.span_content, holder.binding.statusContent, status.id, id -> {
+                if (!status.emojiFetched) {
+                    status.emojiFetched = true;
+                    holder.binding.statusContent.post(() -> notifyItemChanged(position));
+                }
+            });
             holder.binding.statusContent.setText(status.span_content, TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
+            CustomEmoji.displayEmoji(context, status.account.emojis, status.account.span_display_name, holder.binding.displayName, status.id, id -> {
+                if (!status.account.emojiFetched) {
+                    status.account.emojiFetched = true;
+                    holder.binding.statusContent.post(() -> notifyItemChanged(position));
+                }
+            });
             holder.binding.displayName.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
             holder.binding.username.setText(String.format("@%s", status.account.acct));
             if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
-
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(status.span_spoiler_text, TextView.BufferType.SPANNABLE);
             } else {

@@ -268,86 +268,74 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         }
                     });
         } else if (statusDraft != null) {//Restore a draft with all messages
-            new Thread(() -> {
-                if (statusDraft.statusReplyList != null) {
-                    statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
-                }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    if (statusDraft.statusReplyList != null) {
-                        statusList.addAll(statusDraft.statusReplyList);
-                        binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
-                    }
-                    int statusCount = statusList.size();
-                    statusList.addAll(statusDraft.statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-                    composeAdapter.manageDrafts = this;
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-                    binding.recyclerView.setLayoutManager(mLayoutManager);
-                    binding.recyclerView.setAdapter(composeAdapter);
-                    binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
-                };
-                mainHandler.post(myRunnable);
-            }).start();
+            if (statusDraft.statusReplyList != null) {
+                statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
+            }
+            if (statusDraft.statusReplyList != null) {
+                statusList.addAll(statusDraft.statusReplyList);
+                binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
+            }
+            int statusCount = statusList.size();
+            statusList.addAll(statusDraft.statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
 
         } else if (statusReply != null) {
-            new Thread(() -> {
-                statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    statusList.add(statusReply);
-                    int statusCount = statusList.size();
-                    statusDraftList.get(0).in_reply_to_id = statusReply.id;
-                    //We change order for mentions
-                    //At first place the account that has been mentioned if it's not our
-                    statusDraftList.get(0).mentions = new ArrayList<>();
-                    if (!statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                        Mention mention = new Mention();
-                        mention.acct = "@" + statusReply.account.acct;
-                        mention.url = statusReply.account.url;
-                        mention.username = statusReply.account.username;
-                        statusDraftList.get(0).mentions.add(mention);
-                    }
+            statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
+            statusList.add(statusReply);
+            int statusCount = statusList.size();
+            statusDraftList.get(0).in_reply_to_id = statusReply.id;
+            //We change order for mentions
+            //At first place the account that has been mentioned if it's not our
+            statusDraftList.get(0).mentions = new ArrayList<>();
+            if (!statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                Mention mention = new Mention();
+                mention.acct = "@" + statusReply.account.acct;
+                mention.url = statusReply.account.url;
+                mention.username = statusReply.account.username;
+                statusDraftList.get(0).mentions.add(mention);
+            }
 
-                    //There are other mentions to
-                    if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
-                        for (Mention mentionTmp : statusReply.mentions) {
-                            if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                                statusDraftList.get(0).mentions.add(mentionTmp);
-                            }
-                        }
+            //There are other mentions to
+            if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
+                for (Mention mentionTmp : statusReply.mentions) {
+                    if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                        statusDraftList.get(0).mentions.add(mentionTmp);
                     }
-                    if (mentionBooster != null) {
-                        Mention mention = new Mention();
-                        mention.acct = mentionBooster.acct;
-                        mention.url = mentionBooster.url;
-                        mention.username = mentionBooster.username;
-                        boolean present = false;
-                        for (Mention mentionTmp : statusDraftList.get(0).mentions) {
-                            if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
-                                present = true;
-                                break;
-                            }
-                        }
-                        if (!present) {
-                            statusDraftList.get(0).mentions.add(mention);
-                        }
+                }
+            }
+            if (mentionBooster != null) {
+                Mention mention = new Mention();
+                mention.acct = mentionBooster.acct;
+                mention.url = mentionBooster.url;
+                mention.username = mentionBooster.username;
+                boolean present = false;
+                for (Mention mentionTmp : statusDraftList.get(0).mentions) {
+                    if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
+                        present = true;
+                        break;
                     }
-                    if (statusReply.spoiler_text != null) {
-                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-                    }
-                    //StatusDraftList at this point should only have one element
-                    statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-                    composeAdapter.manageDrafts = this;
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-                    binding.recyclerView.setLayoutManager(mLayoutManager);
-                    binding.recyclerView.setAdapter(composeAdapter);
-                    statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
-                            .observe(ComposeActivity.this, this::initializeContextView);
-                };
-                mainHandler.post(myRunnable);
-            }).start();
+                }
+                if (!present) {
+                    statusDraftList.get(0).mentions.add(mention);
+                }
+            }
+            if (statusReply.spoiler_text != null) {
+                statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+            }
+            //StatusDraftList at this point should only have one element
+            statusList.addAll(statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
+                    .observe(ComposeActivity.this, this::initializeContextView);
         } else {
             //Compose without replying
             statusList.addAll(statusDraftList);
@@ -359,7 +347,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             if (statusMention != null) {
                 composeAdapter.loadMentions(statusMention);
             }
-
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
         LocalBroadcastManager.getInstance(this)
