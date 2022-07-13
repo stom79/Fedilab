@@ -150,8 +150,6 @@ public class ProfileActivity extends BaseActivity {
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
         }
-
-
         postponeEnterTransition();
 
         //Remove title
@@ -365,7 +363,9 @@ public class ProfileActivity extends BaseActivity {
             binding.accountDn.setText(account.username);
         } else {
             Spannable textAccount = account.span_display_name != null ? account.span_display_name : new SpannableString(account.display_name);
-            CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textAccount, binding.accountDn, null, null);
+            CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textAccount, binding.accountDn, null, id -> {
+                binding.accountDn.invalidate();
+            });
             binding.accountDn.setText(textAccount, TextView.BufferType.SPANNABLE);
         }
 
@@ -386,7 +386,7 @@ public class ProfileActivity extends BaseActivity {
             textNote = account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note, Html.FROM_HTML_MODE_COMPACT));
         else
             textNote = account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note));
-        CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textNote, binding.accountNote, null, null);
+        CustomEmoji.displayEmoji(ProfileActivity.this, account.emojis, textNote, binding.accountNote, null, id -> binding.accountNote.invalidate());
         binding.accountNote.setText(textNote, TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 

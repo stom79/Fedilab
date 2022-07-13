@@ -124,6 +124,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
+            if (notification.account.span_display_name == null && notification.account.display_name != null) {
+                notification.account.span_display_name = new SpannableString(notification.account.display_name);
+            } else {
+                notification.account.span_display_name = new SpannableString(notification.account.username);
+            }
             CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderFollow.binding.displayName, notification.id, id -> {
                 if (!notification.account.emojiFetched) {
                     notification.account.emojiFetched = true;

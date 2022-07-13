@@ -123,6 +123,102 @@ public class SpannableHelper {
             content.removeSpan(span);
         }
 
+        // --- For all patterns defined in Helper class ---
+        for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
+            Helper.PatternType patternType = entry.getKey();
+            Pattern pattern = entry.getValue();
+            Matcher matcher = pattern.matcher(content);
+            while (matcher.find()) {
+                int matchStart = matcher.start();
+                int matchEnd = matcher.end();
+                String word = content.toString().substring(matchStart, matchEnd);
+                if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
+                    URLSpan[] span = content.getSpans(matchStart, matchEnd, URLSpan.class);
+                    content.removeSpan(span);
+                    content.setSpan(new ClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            switch (patternType) {
+                                case TAG:
+                                    Intent intent = new Intent(context, HashTagActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
+                                    intent.putExtras(b);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                    break;
+                                case GROUP:
+                                    break;
+                                case MENTION:
+                                    intent = new Intent(context, ProfileActivity.class);
+                                    b = new Bundle();
+                                    Mention targetedMention = null;
+                                    HashMap<String, Integer> countUsername = new HashMap<>();
+
+                                    for (Mention mention : status.mentions) {
+                                        Integer count = countUsername.get(mention.username);
+                                        if (count == null) {
+                                            count = 0;
+                                        }
+                                        if (countUsername.containsKey(mention.username)) {
+                                            countUsername.put(mention.username, count + 1);
+                                        } else {
+                                            countUsername.put(mention.username, 1);
+                                        }
+                                    }
+                                    for (Mention mention : status.mentions) {
+                                        Integer count = countUsername.get(mention.username);
+                                        if (count == null) {
+                                            count = 0;
+                                        }
+                                        if (word.trim().compareToIgnoreCase("@" + mention.username) == 0 && count == 1) {
+                                            targetedMention = mention;
+                                            break;
+                                        }
+                                    }
+                                    if (targetedMention != null) {
+                                        b.putString(Helper.ARG_USER_ID, targetedMention.id);
+                                    } else {
+                                        b.putString(Helper.ARG_MENTION, word.trim());
+                                    }
+
+                                    intent.putExtras(b);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                    break;
+                                case MENTION_LONG:
+                                    intent = new Intent(context, ProfileActivity.class);
+                                    b = new Bundle();
+                                    targetedMention = null;
+                                    for (Mention mention : status.mentions) {
+                                        if (word.trim().substring(1).compareToIgnoreCase("@" + mention.acct) == 0) {
+                                            targetedMention = mention;
+                                            break;
+                                        }
+                                    }
+                                    if (targetedMention != null) {
+                                        b.putString(Helper.ARG_USER_ID, targetedMention.id);
+                                    } else {
+                                        b.putString(Helper.ARG_MENTION, word.trim());
+                                    }
+                                    intent.putExtras(b);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                            ds.setColor(linkColor);
+                        }
+                    }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
         //--- URLs ----
         Matcher matcherLink = Patterns.WEB_URL.matcher(content);
         int offSetTruncate = 0;
@@ -165,6 +261,7 @@ public class SpannableHelper {
                     offSetTruncate += (newURL.length() - urlText.length());
                 }
             }
+
 
             if (matchEnd <= content.length() && matchEnd >= matchStart) {
                 content.setSpan(new LongClickableSpan() {
@@ -300,46 +397,7 @@ public class SpannableHelper {
                     @Override
                     public void onClick(@NonNull View textView) {
                         textView.setTag(CLICKABLE_SPAN);
-                        Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                        Matcher matcherLink = link.matcher(url);
-                        if (matcherLink.find() && !url.contains("medium.com")) {
-                            if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                                CrossActionHelper.fetchRemoteStatus(context, currentAccount, url, new CrossActionHelper.Callback() {
-                                    @Override
-                                    public void federatedStatus(Status status) {
-                                        Intent intent = new Intent(context, ContextActivity.class);
-                                        intent.putExtra(Helper.ARG_STATUS, status);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-                                    }
-
-                                    @Override
-                                    public void federatedAccount(Account account) {
-
-                                    }
-                                });
-                            } else {//It's an account
-                                CrossActionHelper.fetchRemoteAccount(context, currentAccount, status.account, new CrossActionHelper.Callback() {
-                                    @Override
-                                    public void federatedStatus(Status status) {
-
-                                    }
-
-                                    @Override
-                                    public void federatedAccount(Account account) {
-                                        Intent intent = new Intent(context, ProfileActivity.class);
-                                        Bundle b = new Bundle();
-                                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                        intent.putExtras(b);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-                                    }
-                                });
-                            }
-                        } else {
-                            Helper.openBrowser(context, newURL);
-                        }
-
+                        Helper.openBrowser(context, newURL);
                     }
 
                     @Override
@@ -352,102 +410,7 @@ public class SpannableHelper {
             }
         }
 
-        // --- For all patterns defined in Helper class ---
-        for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
-            Helper.PatternType patternType = entry.getKey();
-            Pattern pattern = entry.getValue();
-            Matcher matcher = pattern.matcher(content);
-            while (matcher.find()) {
 
-                int matchStart = matcher.start();
-                int matchEnd = matcher.end();
-                String word = content.toString().substring(matchStart, matchEnd);
-                if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
-                    URLSpan[] span = content.getSpans(matchStart, matchEnd, URLSpan.class);
-                    content.removeSpan(span);
-
-                    content.setSpan(new ClickableSpan() {
-                        @Override
-                        public void onClick(@NonNull View textView) {
-                            textView.setTag(CLICKABLE_SPAN);
-                            switch (patternType) {
-                                case TAG:
-                                    Intent intent = new Intent(context, HashTagActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    context.startActivity(intent);
-                                    break;
-                                case GROUP:
-                                    break;
-                                case MENTION:
-                                    intent = new Intent(context, ProfileActivity.class);
-                                    b = new Bundle();
-                                    Mention targetedMention = null;
-                                    HashMap<String, Integer> countUsername = new HashMap<>();
-                                    for (Mention mention : status.mentions) {
-                                        Integer count = countUsername.get(mention.username);
-                                        if (count == null) {
-                                            count = 0;
-                                        }
-                                        if (countUsername.containsKey(mention.username)) {
-                                            countUsername.put(mention.username, count + 1);
-                                        } else {
-                                            countUsername.put(mention.username, 1);
-                                        }
-                                    }
-                                    for (Mention mention : status.mentions) {
-                                        Integer count = countUsername.get(mention.username);
-                                        if (count == null) {
-                                            count = 0;
-                                        }
-                                        if (word.trim().compareToIgnoreCase("@" + mention.username) == 0 && count == 1) {
-                                            targetedMention = mention;
-                                            break;
-                                        }
-                                    }
-                                    if (targetedMention != null) {
-                                        b.putString(Helper.ARG_USER_ID, targetedMention.id);
-                                    } else {
-                                        b.putString(Helper.ARG_MENTION, word.trim());
-                                    }
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    context.startActivity(intent);
-                                    break;
-                                case MENTION_LONG:
-                                    intent = new Intent(context, ProfileActivity.class);
-                                    b = new Bundle();
-                                    targetedMention = null;
-                                    for (Mention mention : status.mentions) {
-                                        if (word.trim().substring(1).compareToIgnoreCase("@" + mention.acct) == 0) {
-                                            targetedMention = mention;
-                                            break;
-                                        }
-                                    }
-                                    if (targetedMention != null) {
-                                        b.putString(Helper.ARG_USER_ID, targetedMention.id);
-                                    } else {
-                                        b.putString(Helper.ARG_MENTION, word.trim());
-                                    }
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    context.startActivity(intent);
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void updateDrawState(@NonNull TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
-                        }
-                    }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
 
         Matcher matcher = Helper.ouichesPattern.matcher(content);
         while (matcher.find()) {
@@ -803,6 +766,7 @@ public class SpannableHelper {
                                             break;
                                         }
                                     }
+
                                     if (targetedMention != null) {
                                         b.putString(Helper.ARG_USER_ID, targetedMention.id);
                                     } else {
