@@ -878,19 +878,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
         }
         //--- MAIN CONTENT ---
-        if (statusToDeal.emojis != null && statusToDeal.emojis.size() > 0) {
-            CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent);
-            holder.binding.statusContent.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+
+        CustomEmoji.displayEmoji(context, statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent, status.id, id -> {
+            if (!status.emojiFetched) {
+                status.emojiFetched = true;
+                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
+                    return;
                 }
-            }, 100);
-        } else {
-            holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
-        }
-
-
+                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
+            }
+        });
+        //  CustomEmoji.displayEmoji(statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent, null, null);
+        holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
@@ -1725,6 +1724,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (notificationList != null) {
             for (Notification notification : notificationList) {
                 if (notification.status != null && notification.status.id.compareTo(status.id) == 0) {
+                    break;
+                }
+                position++;
+            }
+        }
+        return position;
+    }
+
+    /**
+     * Will manage the current position of the element in the adapter. Action is async, and position might have changed
+     *
+     * @param notificationList List<Notification> - Not null when calling from notification adapter
+     * @param statusList       ist<Status> statusList - Not null when calling from status adapter
+     * @param id               String - Current status
+     * @return int - position in real time
+     */
+    public static int getPositionAsync(List<Notification> notificationList, List<Status> statusList, String id) {
+        int position = 0;
+        if (statusList != null) {
+            for (Status _status : statusList) {
+                if (id != null && ((_status.id != null && _status.id.compareTo(id) == 0) || (_status.reblog != null && _status.reblog.id != null && _status.reblog.id.compareTo(id) == 0))) {
+                    break;
+                }
+                position++;
+            }
+        } else if (notificationList != null) {
+            for (Notification notification : notificationList) {
+                if (notification.status != null && notification.status.id.compareTo(id) == 0) {
                     break;
                 }
                 position++;

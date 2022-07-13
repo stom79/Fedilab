@@ -461,7 +461,9 @@ public class StatusesVM extends AndroidViewModel {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Accounts accountsPagination = new Accounts();
             accountsPagination.accounts = accounts;
-            accountsPagination.pagination = MastodonHelper.getPagination(headers);
+            if (headers != null) {
+                accountsPagination.pagination = MastodonHelper.getPagination(headers);
+            }
             Runnable myRunnable = () -> accountsMutableLiveData.setValue(accountsPagination);
             mainHandler.post(myRunnable);
         }).start();
