@@ -119,7 +119,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -352,9 +352,9 @@ public class Helper {
     public static int counter = 1;
 
     static {
-        Map<PatternType, Pattern> aMap = new HashMap<>();
-        aMap.put(PatternType.MENTION, mentionPattern);
+        LinkedHashMap<PatternType, Pattern> aMap = new LinkedHashMap<>();
         aMap.put(PatternType.MENTION_LONG, mentionLongPattern);
+        aMap.put(PatternType.MENTION, mentionPattern);
         aMap.put(PatternType.TAG, hashtagPattern);
         aMap.put(PatternType.GROUP, groupPattern);
         patternHashMap = Collections.unmodifiableMap(aMap);
