@@ -1060,7 +1060,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             .load(statusToDeal.media_attachments.get(0).preview_url)
                             .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
                             // .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                             .into(layoutMediaBinding.media);
                 }
                 layoutMediaBinding.viewHide.setOnClickListener(v -> {
@@ -1112,7 +1111,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Glide.with(layoutMediaBinding.media.getContext())
                                 .load(attachment.preview_url)
                                 .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
-                                .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
                                 //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
                                 .into(layoutMediaBinding.media);
                     }
