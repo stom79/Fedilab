@@ -103,7 +103,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     public static final int REQUEST_AUDIO_PERMISSION_RESULT = 1653;
     public static final int PICK_MEDIA = 5700;
     public static final int TAKE_PHOTO = 5600;
-
+    private final Timer timer = new Timer();
     private List<Status> statusList;
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
@@ -353,12 +353,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 .registerReceiver(imageReceiver,
                         new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                storeDraft(false);
-            }
-        }, 0, 10000);
+        if (timer != null) {
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    storeDraft(false);
+                }
+            }, 0, 10000);
+        }
 
         if (sharedUriList != null && sharedUriList.size() > 0) {
 
@@ -393,6 +395,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (timer != null) {
+            timer.cancel();
+        }
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(imageReceiver);
     }
@@ -665,6 +670,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else {
                     statusReplies.add(status);
                 }
+
             }
             if (statusDraft == null) {
                 statusDraft = new StatusDraft(ComposeActivity.this);
@@ -675,10 +681,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }
             if (statusReplies.size() > 0) {
-                statusDraft.statusReplyList = statusReplies;
+                statusDraft.statusReplyList = new ArrayList<>();
+                statusDraft.statusReplyList.addAll(statusReplies);
             }
             if (statusDrafts.size() > 0) {
-                statusDraft.statusDraftList = statusDrafts;
+                statusDraft.statusDraftList = new ArrayList<>();
+                statusDraft.statusDraftList.addAll(statusDrafts);
             }
             if (statusDraft.instance == null) {
                 statusDraft.instance = account.instance;

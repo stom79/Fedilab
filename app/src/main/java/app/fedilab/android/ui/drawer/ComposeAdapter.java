@@ -456,13 +456,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             List<Attachment> attachmentList = statusList.get(position).media_attachments;
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
-                if (currentAccount.mastodon_account.source != null) {
-                    holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
-                    statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
-                } else {
-                    statusList.get(position).sensitive = false;
+                if (!statusList.get(position).sensitive) {
+                    if (currentAccount.mastodon_account.source != null) {
+                        holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
+                        statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
+                    } else {
+                        statusList.get(position).sensitive = false;
+                    }
                 }
-                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
+
+                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    statusList.get(position).sensitive = isChecked;
+                });
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
