@@ -45,8 +45,8 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/profile_picture"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            tools:src="@tools:sample/avatars"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            tools:src="@tools:sample/avatars" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/change_account"

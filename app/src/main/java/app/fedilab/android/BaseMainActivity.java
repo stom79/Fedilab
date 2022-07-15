@@ -772,7 +772,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
-                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount);
+                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount, false);
                 MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
