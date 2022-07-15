@@ -197,13 +197,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
-                String title = "";
+                Spannable title = new SpannableString("");
                 if (getItemViewType(position) == TYPE_MENTION) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
+                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention)));
                 } else if (getItemViewType(position) == TYPE_STATUS) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
+                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status)));
                 }
-                CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderStatus.binding.displayName, notification.id, id -> {
+                CustomEmoji.displayEmoji(context, notification.account.emojis, title, holderStatus.binding.displayName, notification.id, id -> {
                     if (!notification.account.emojiFetched) {
                         notification.account.emojiFetched = true;
                         holderStatus.binding.displayName.post(() -> notifyItemChanged(position));
