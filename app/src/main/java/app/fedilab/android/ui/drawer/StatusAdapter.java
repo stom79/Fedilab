@@ -35,8 +35,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -1628,12 +1626,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (translate.getTranslatedContent() != null) {
                                 statusToDeal.translationShown = true;
                                 statusToDeal.translationContent = translate.getTranslatedContent();
-                                new Thread(() -> {
-                                    SpannableHelper.convertStatus(context.getApplicationContext(), statusToDeal);
-                                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                                    Runnable myRunnable = () -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
-                                    mainHandler.post(myRunnable);
-                                }).start();
+                                SpannableHelper.convertStatus(context.getApplicationContext(), statusToDeal);
+                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                             } else {
                                 Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                             }

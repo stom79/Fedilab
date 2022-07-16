@@ -21,8 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,26 +96,20 @@ public class FragmentMastodonContext extends Fragment {
                     }
                 } else if (statusPosted != null && statusAdapter != null) {
                     if (requireActivity() instanceof ContextActivity) {
-                        new Thread(() -> {
-                            Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
-                            Handler mainHandler = new Handler(Looper.getMainLooper());
-                            Runnable myRunnable = () -> {
-                                int i = 0;
-                                for (Status status : statuses) {
-                                    if (status.id.equals(convertStatus.in_reply_to_id)) {
-                                        statuses.add((i + 1), convertStatus);
-                                        statusAdapter.notifyItemInserted((i + 1));
-                                        if (requireActivity() instanceof ContextActivity) {
-                                            //Redraw decorations
-                                            statusAdapter.notifyItemRangeChanged(0, statuses.size());
-                                        }
-                                        break;
-                                    }
-                                    i++;
+                        Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
+                        int i = 0;
+                        for (Status status : statuses) {
+                            if (status.id.equals(convertStatus.in_reply_to_id)) {
+                                statuses.add((i + 1), convertStatus);
+                                statusAdapter.notifyItemInserted((i + 1));
+                                if (requireActivity() instanceof ContextActivity) {
+                                    //Redraw decorations
+                                    statusAdapter.notifyItemRangeChanged(0, statuses.size());
                                 }
-                            };
-                            mainHandler.post(myRunnable);
-                        }).start();
+                                break;
+                            }
+                            i++;
+                        }
                     }
                 }
             }

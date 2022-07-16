@@ -88,15 +88,9 @@ public class ContextActivity extends BaseActivity {
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         Bundle bundle = new Bundle();
-        new Thread(() -> {
-            focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> {
-                bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
-                currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, null);
-            };
-            mainHandler.post(myRunnable);
-        }).start();
+        focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
+        bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
+        currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, null);
         StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
         timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
             if (status != null) {

@@ -118,15 +118,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         statusAdapter.notifyItemRemoved(position);
                     }
                 } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
-                    new Thread(() -> {
-                        Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> {
-                            statuses.add(0, convertStatus);
-                            statusAdapter.notifyItemInserted(0);
-                        };
-                        mainHandler.post(myRunnable);
-                    }).start();
+                    Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
+                    statuses.add(0, convertStatus);
+                    statusAdapter.notifyItemInserted(0);
                 }
             }
         }
