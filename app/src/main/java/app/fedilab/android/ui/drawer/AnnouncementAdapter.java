@@ -37,6 +37,7 @@ import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -44,7 +45,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.databinding.DrawerAnnouncementBinding;
-import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
 
@@ -88,13 +88,10 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         } else {
             holder.binding.reactionsView.setAdapter(null);
         }
-        CustomEmoji.displayEmoji(context, announcement.emojis, announcement.span_content, holder.binding.content, announcement.id, id -> {
-            if (!announcement.emojiFetched) {
-                announcement.emojiFetched = true;
-                holder.binding.content.post(() -> notifyItemChanged(position));
-            }
-        });
-        holder.binding.content.setText(announcement.span_content, TextView.BufferType.SPANNABLE);
+        holder.binding.content.setText(
+                announcement.getSpanContent(context,
+                        new WeakReference<>(holder.binding.content)),
+                TextView.BufferType.SPANNABLE);
         if (announcement.starts_at != null) {
             String dateIni;
             String dateEnd;

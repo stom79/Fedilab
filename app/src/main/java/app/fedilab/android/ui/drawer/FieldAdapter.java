@@ -16,9 +16,7 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.Context;
-import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,9 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.databinding.DrawerFieldBinding;
 
@@ -38,6 +38,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHol
 
     private final List<Field> fields;
     private Context context;
+    private Account account;
 
     public FieldAdapter(List<Field> fields) {
         this.fields = fields;
@@ -66,9 +67,11 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHol
         Field field = fields.get(position);
         if (field.verified_at != null) {
             holder.binding.value.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context, R.drawable.ic_baseline_verified_24), null);
-            field.value_span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.verified_text)), 0, field.value_span.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        holder.binding.value.setText(field.value_span != null ? field.value_span : field.value, TextView.BufferType.SPANNABLE);
+        holder.binding.value.setText(
+                field.getValueSpan(context, account,
+                        new WeakReference<>(holder.binding.value)),
+                TextView.BufferType.SPANNABLE);
         holder.binding.value.setMovementMethod(LinkMovementMethod.getInstance());
         holder.binding.label.setText(field.name);
     }

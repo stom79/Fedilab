@@ -25,8 +25,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +36,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -46,13 +43,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -73,6 +67,7 @@ import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.HashTagActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.Mention;
@@ -85,7 +80,7 @@ public class SpannableHelper {
     public static final String CLICKABLE_SPAN = "CLICKABLE_SPAN";
 
     public static Spannable convert(Context context, String text,
-                                    Status status, Account account,
+                                    Status status, Account account, Announcement announcement,
                                     boolean convertHtml,
                                     WeakReference<View> viewWeakReference) {
 
@@ -138,62 +133,16 @@ public class SpannableHelper {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             for (Emoji emoji : emojiList) {
-                Glide.with(context)
-                        .asDrawable()
-                        .load(animate ? emoji.url : emoji.static_url)
-                        .into(
-                                new CustomTarget<Drawable>() {
-
-                                    @Override
-                                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                        Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                                                .matcher(content);
-                                        while (matcher.find()) {
-                                            ImageSpan imageSpan;
-                                            resource.setBounds(0, 0, (int) Helper.convertDpToPixel(20, context), (int) Helper.convertDpToPixel(20, context));
-                                            resource.setVisible(true, true);
-                                            imageSpan = new ImageSpan(resource);
-                                            content.setSpan(
-                                                    imageSpan, matcher.start(),
-                                                    matcher.end(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                                        }
-                                        if (animate && resource instanceof Animatable) {
-                                            Drawable.Callback callback = resource.getCallback();
-                                            resource.setCallback(new Drawable.Callback() {
-                                                @Override
-                                                public void invalidateDrawable(@NonNull Drawable drawable) {
-                                                    if (callback != null) {
-                                                        callback.invalidateDrawable(drawable);
-                                                    }
-                                                    view.invalidate();
-                                                }
-
-                                                @Override
-                                                public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                                                    if (callback != null) {
-                                                        callback.scheduleDrawable(drawable, runnable, l);
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                                                    if (callback != null) {
-                                                        callback.unscheduleDrawable(drawable, runnable);
-                                                    }
-                                                }
-                                            });
-                                            ((Animatable) resource).start();
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                    }
-                                }
-                        );
+                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
+                        .matcher(content);
+                while (matcher.find()) {
+                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    Glide.with(view)
+                            .asDrawable()
+                            .load(animate ? emoji.url : emoji.static_url)
+                            .into(customEmoji.getTarget(animate));
+                }
             }
         }
         return trimSpannable(new SpannableStringBuilder(content));

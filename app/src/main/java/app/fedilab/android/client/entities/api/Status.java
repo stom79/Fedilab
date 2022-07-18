@@ -109,7 +109,7 @@ public class Status implements Serializable, Cloneable {
     //Some extra spannable element - They will be filled automatically when fetching the status
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, content, this, null, true, viewWeakReference);
+        return SpannableHelper.convert(context, content, this, null, null, true, viewWeakReference);
     }
 
 
@@ -118,11 +118,11 @@ public class Status implements Serializable, Cloneable {
     }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, spoiler_text, this, null, true, viewWeakReference);
+        return SpannableHelper.convert(context, spoiler_text, this, null, null, true, viewWeakReference);
     }
 
     public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, translationContent, this, null, true, viewWeakReference);
+        return SpannableHelper.convert(context, translationContent, this, null, null, true, viewWeakReference);
     }
 
     @NonNull

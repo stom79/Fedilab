@@ -14,12 +14,21 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.Date;
+
+import app.fedilab.android.R;
+import app.fedilab.android.helper.SpannableHelper;
 
 public class Field implements Serializable {
     @SerializedName("name")
@@ -30,7 +39,19 @@ public class Field implements Serializable {
     public Date verified_at;
 
     //Some extra spannable element - They will be filled automatically when fetching the account
-    public transient Spannable value_span;
+    private ForegroundColorSpan value_span;
+
+    public synchronized Spannable getValueSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
+
+        if (verified_at != null && value != null) {
+            value_span = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.verified_text));
+        }
+        Spannable spannable = SpannableHelper.convert(context, value, null, account, null, true, viewWeakReference);
+        if (value_span != null && spannable != null) {
+            spannable.setSpan(value_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannable;
+    }
 
     public static class FieldParams implements Serializable {
         @SerializedName("name")

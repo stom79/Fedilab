@@ -83,12 +83,12 @@ public class Account implements Serializable {
         if (display_name == null) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, true, viewWeakReference);
+        return SpannableHelper.convert(context, display_name, null, this, null, true, viewWeakReference);
     }
 
 
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, true, viewWeakReference);
+        return SpannableHelper.convert(context, note, null, this, null, true, viewWeakReference);
     }
 
     public transient RelationShip relationShip;
