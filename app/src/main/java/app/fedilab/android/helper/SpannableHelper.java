@@ -37,7 +37,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,7 +113,6 @@ public class SpannableHelper {
                 }
                 if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
                     urlDetails.put(url, urlText);
-                    Log.v(Helper.TAG, "PUT: " + urlText + " -> " + url);
                 }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)

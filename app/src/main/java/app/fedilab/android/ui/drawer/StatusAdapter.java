@@ -40,6 +40,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -395,6 +396,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.statusBoostIcon, theme_text_header_2_line);
             Helper.changeDrawableColor(context, holder.binding.statusPinned, theme_text_header_2_line);
         }
+        Log.v(Helper.TAG, "theme_statuses_color: " + theme_statuses_color);
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
