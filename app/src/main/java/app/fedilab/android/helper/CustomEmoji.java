@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,6 @@ import app.fedilab.android.R;
 
 
 public class CustomEmoji extends ReplacementSpan {
-    private final View view;
     private final float scale;
     private final WeakReference<View> viewWeakReference;
     private Drawable imageDrawable;
@@ -33,7 +31,6 @@ public class CustomEmoji extends ReplacementSpan {
     CustomEmoji(WeakReference<View> viewWeakReference) {
         Context mContext = viewWeakReference.get().getContext();
         this.viewWeakReference = viewWeakReference;
-        view = viewWeakReference.get();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.0f);
     }
@@ -69,8 +66,6 @@ public class CustomEmoji extends ReplacementSpan {
         return new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                Log.v(Helper.TAG, "resource: " + resource);
-                Log.v(Helper.TAG, "instanceof: " + (resource instanceof Animatable));
                 View view = viewWeakReference.get();
                 if (animate && resource instanceof Animatable) {
                     Drawable.Callback callback = resource.getCallback();

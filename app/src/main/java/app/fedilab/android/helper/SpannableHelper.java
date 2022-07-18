@@ -37,6 +37,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,7 @@ public class SpannableHelper {
                                     boolean convertHtml,
                                     WeakReference<View> viewWeakReference) {
 
+
         SpannableString initialContent;
         if (text == null) {
             return null;
@@ -97,6 +99,8 @@ public class SpannableHelper {
             emojiList = status.emojis;
         } else if (account != null) {
             emojiList = account.emojis;
+        } else if (announcement != null) {
+            emojiList = announcement.emojis;
         }
         HashMap<String, String> urlDetails = new HashMap<>();
         if (convertHtml) {
@@ -110,6 +114,7 @@ public class SpannableHelper {
                 }
                 if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
                     urlDetails.put(url, urlText);
+                    Log.v(Helper.TAG, "PUT: " + urlText + " -> " + url);
                 }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -162,10 +167,20 @@ public class SpannableHelper {
             if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                 continue;
             }
-            final String url = content.toString().substring(matchStart, matchEnd);
-            if (!url.startsWith("http")) {
-                continue;
+            String url_temp = content.toString().substring(matchStart, matchEnd).replace("…", "");
+            if (urlDetails.containsValue(url_temp + "…")) {
+                String originalURL = Helper.getKeyByValue(urlDetails, url_temp + "…");
+                if (originalURL != null) {
+                    content.replace(matchStart, matchEnd, originalURL);
+                    offSetTruncate += (originalURL.length() - (url_temp.length() + 1));
+                    matchEnd = matchStart + originalURL.length();
+                    url_temp = originalURL;
+                }
             }
+            final String url = url_temp;
+           /* if (!url.startsWith("http")) {
+                continue;
+            }*/
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
@@ -173,10 +188,12 @@ public class SpannableHelper {
                 offSetTruncate += (newURL.length() - url.length());
                 matchEnd = matchStart + newURL.length();
                 //The transformed URL was in the list of URLs having a different names
+
                 if (urlDetails.containsKey(url)) {
                     urlDetails.put(newURL, urlDetails.get(url));
                 }
             }
+
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
             String urlText = newURL;
