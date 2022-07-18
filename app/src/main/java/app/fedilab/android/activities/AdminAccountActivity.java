@@ -308,8 +308,7 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.accountDn.setText(
                 account.getSpanDisplayName(AdminAccountActivity.this,
-                        new WeakReference<>(binding.accountDn),
-                        id -> binding.accountDn.invalidate()),
+                        new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {

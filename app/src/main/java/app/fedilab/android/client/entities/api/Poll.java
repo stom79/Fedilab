@@ -58,16 +58,10 @@ public class Poll implements Serializable {
         @SerializedName("votes_count")
         public int votes_count;
 
-        //Some extra spannable element - They will be filled automatically when fetching the poll
-        public transient Spannable span_title;
-        public transient boolean emojiTitleFetched = false;
+        public Spannable span_title;
 
-        public Spannable getSpanTitle(Context context, Status status, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-            if (span_title != null) {
-                return span_title;
-            }
-            span_title = SpannableHelper.convert(context, title, status, null, true, viewWeakReference, !emojiTitleFetched ? callback : null);
-            emojiTitleFetched = true;
+        public Spannable getSpanTitle(Context context, Status status, WeakReference<View> viewWeakReference) {
+            span_title = SpannableHelper.convert(context, title, status, null, true, viewWeakReference);
             return span_title;
         }
     }

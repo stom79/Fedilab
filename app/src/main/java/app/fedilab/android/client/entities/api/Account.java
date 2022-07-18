@@ -79,32 +79,16 @@ public class Account implements Serializable {
     @SerializedName("moved")
     public Account moved;
 
-    public transient boolean emojiDisplayNameFetched = false;
-    public transient boolean emojiNoteFetched = false;
-    //Some extra spannable element - They will be filled automatically when fetching the account
-    private transient Spannable span_display_name;
-    private transient Spannable span_note;
-
-    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-        if (span_display_name != null) {
-            return span_display_name;
-        }
+    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
         if (display_name == null) {
             display_name = username;
         }
-        span_display_name = SpannableHelper.convert(context, display_name, null, this, true, viewWeakReference, !emojiDisplayNameFetched ? callback : null);
-        emojiDisplayNameFetched = true;
-        return span_display_name;
+        return SpannableHelper.convert(context, display_name, null, this, true, viewWeakReference);
     }
 
 
-    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-        if (span_note != null) {
-            return span_note;
-        }
-        span_note = SpannableHelper.convert(context, note, null, this, true, viewWeakReference, !emojiNoteFetched ? callback : null);
-        emojiNoteFetched = true;
-        return span_note;
+    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, note, null, this, true, viewWeakReference);
     }
 
     public transient RelationShip relationShip;

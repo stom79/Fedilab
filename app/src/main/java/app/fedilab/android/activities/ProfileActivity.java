@@ -350,8 +350,7 @@ public class ProfileActivity extends BaseActivity {
 
         binding.accountDn.setText(
                 account.getSpanDisplayName(ProfileActivity.this,
-                        new WeakReference<>(binding.accountDn),
-                        id -> binding.accountDn.invalidate()),
+                        new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
 
         binding.accountUn.setText(String.format("@%s", account.acct));
@@ -368,8 +367,7 @@ public class ProfileActivity extends BaseActivity {
         });
         binding.accountNote.setText(
                 account.getSpanNote(ProfileActivity.this,
-                        new WeakReference<>(binding.accountNote),
-                        id -> binding.accountNote.invalidate()),
+                        new WeakReference<>(binding.accountNote)),
                 TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 

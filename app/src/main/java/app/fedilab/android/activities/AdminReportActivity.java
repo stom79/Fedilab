@@ -325,8 +325,7 @@ public class AdminReportActivity extends BaseActivity {
 
         binding.accountDn.setText(
                 account.getSpanDisplayName(AdminReportActivity.this,
-                        new WeakReference<>(binding.accountDn),
-                        id -> binding.accountDn.invalidate()),
+                        new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {

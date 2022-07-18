@@ -40,7 +40,6 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +87,7 @@ public class SpannableHelper {
     public static Spannable convert(Context context, String text,
                                     Status status, Account account,
                                     boolean convertHtml,
-                                    WeakReference<View> viewWeakReference,
-                                    EmojiCallback listener) {
+                                    WeakReference<View> viewWeakReference) {
 
         SpannableString initialContent;
         if (text == null) {
@@ -97,16 +95,13 @@ public class SpannableHelper {
         }
         SpannableStringBuilder content;
         View view = viewWeakReference.get();
-        String id = null;
         List<Mention> mentionList = null;
         List<Emoji> emojiList = null;
         if (status != null) {
             mentionList = status.mentions;
             emojiList = status.emojis;
-            id = status.id;
         } else if (account != null) {
             emojiList = account.emojis;
-            id = account.id;
         }
         HashMap<String, String> urlDetails = new HashMap<>();
         if (convertHtml) {
@@ -142,24 +137,12 @@ public class SpannableHelper {
         if (emojiList != null && emojiList.size() > 0) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-            int count = 1;
             for (Emoji emoji : emojiList) {
-                int finalCount = count;
-                List<Emoji> finalEmojiList = emojiList;
-                String finalId = id;
-                List<Emoji> finalEmojiList1 = emojiList;
                 Glide.with(context)
                         .asDrawable()
                         .load(animate ? emoji.url : emoji.static_url)
                         .into(
                                 new CustomTarget<Drawable>() {
-                                    @Override
-                                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                        super.onLoadFailed(errorDrawable);
-                                        if (finalCount == finalEmojiList.size() && listener != null) {
-                                            listener.transformationDone(finalId);
-                                        }
-                                    }
 
                                     @Override
                                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -202,11 +185,7 @@ public class SpannableHelper {
                                             ((Animatable) resource).start();
 
                                         }
-                                        Log.v(Helper.TAG, ">: " + emoji.shortcode + " --> " + listener + " - " + finalCount + " <> " + finalEmojiList1.size());
-                                        if (finalCount == finalEmojiList.size() && listener != null) {
-                                            Log.v(Helper.TAG, "OK FOR: " + emoji.shortcode + " --> " + finalId);
-                                            listener.transformationDone(finalId);
-                                        }
+
                                     }
 
                                     @Override
@@ -215,7 +194,6 @@ public class SpannableHelper {
                                     }
                                 }
                         );
-                count++;
             }
         }
         return trimSpannable(new SpannableStringBuilder(content));
@@ -676,10 +654,5 @@ public class SpannableHelper {
                         Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return spannableString;
-    }
-
-
-    public interface EmojiCallback {
-        void transformationDone(String id);
     }
 }

@@ -81,8 +81,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         MastodonHelper.loadPPMastodon(holder.binding.avatar, account);
         holder.binding.displayName.setText(
                 account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.displayName),
-                        id -> notifyItemChanged(position)),
+                        new WeakReference<>(holder.binding.displayName)),
                 TextView.BufferType.SPANNABLE);
         holder.binding.username.setText(String.format("@%s", account.acct));
 

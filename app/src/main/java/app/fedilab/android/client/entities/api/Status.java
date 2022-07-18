@@ -93,9 +93,6 @@ public class Status implements Serializable, Cloneable {
 
     public Attachment art_attachment;
 
-    public transient boolean emojiContentFetched = false;
-    public transient boolean emojiSpoilerFetched = false;
-    public transient boolean emojiTranslateFetched = false;
     public boolean isExpended = false;
     public boolean isTruncated = true;
     public boolean isFetchMore = false;
@@ -110,44 +107,22 @@ public class Status implements Serializable, Cloneable {
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
     //Some extra spannable element - They will be filled automatically when fetching the status
-    private transient Spannable span_content;
-    private transient Spannable span_spoiler_text;
-    private transient Spannable span_translate;
 
-    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-        if (span_content != null) {
-            return span_content;
-        }
-        span_content = SpannableHelper.convert(context, content, this, null, true, viewWeakReference, !emojiContentFetched ? callback : null);
-        emojiContentFetched = true;
-        return span_content;
+    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, content, this, null, true, viewWeakReference);
     }
 
 
     public Spannable getSpanContentNitter() {
-        if (span_content != null) {
-            return span_content;
-        }
-        span_content = SpannableHelper.convertNitter(content);
-        return span_content;
+        return SpannableHelper.convertNitter(content);
     }
 
-    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-        if (span_spoiler_text != null) {
-            return span_spoiler_text;
-        }
-        span_spoiler_text = SpannableHelper.convert(context, spoiler_text, this, null, true, viewWeakReference, !emojiSpoilerFetched ? callback : null);
-        emojiSpoilerFetched = true;
-        return span_spoiler_text;
+    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, spoiler_text, this, null, true, viewWeakReference);
     }
 
-    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, SpannableHelper.EmojiCallback callback) {
-        if (span_translate != null) {
-            return span_translate;
-        }
-        span_translate = SpannableHelper.convert(context, translationContent, this, null, true, viewWeakReference, !emojiTranslateFetched ? callback : null);
-        emojiTranslateFetched = true;
-        return span_translate;
+    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, translationContent, this, null, true, viewWeakReference);
     }
 
     @NonNull

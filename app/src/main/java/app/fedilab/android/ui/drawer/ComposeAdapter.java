@@ -1043,22 +1043,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
-                            new WeakReference<>(holder.binding.statusContent),
-                            id -> notifyItemChanged(position)),
+                            new WeakReference<>(holder.binding.statusContent)),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
             holder.binding.displayName.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.binding.displayName),
-                            id -> notifyItemChanged(position)),
+                            new WeakReference<>(holder.binding.displayName)),
                     TextView.BufferType.SPANNABLE);
             holder.binding.username.setText(String.format("@%s", status.account.acct));
             if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         status.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler),
-                                id -> notifyItemChanged(position)),
+                                new WeakReference<>(holder.binding.spoiler)),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.spoiler.setVisibility(View.GONE);

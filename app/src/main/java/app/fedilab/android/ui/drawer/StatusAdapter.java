@@ -40,7 +40,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -747,8 +746,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.displayName.setText(
                 statusToDeal.account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.displayName),
-                        id -> holder.binding.displayName.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                        new WeakReference<>(holder.binding.displayName)),
                 TextView.BufferType.SPANNABLE);
         if (theme_text_header_1_line != -1) {
             holder.binding.displayName.setTextColor(theme_text_header_1_line);
@@ -816,8 +814,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler),
-                                id -> holder.binding.spoiler.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                new WeakReference<>(holder.binding.spoiler)),
                         TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
                 statusToDeal.isMediaDisplayed = true;
@@ -832,8 +829,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler),
-                                id -> holder.binding.spoiler.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                new WeakReference<>(holder.binding.spoiler)),
                         TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
@@ -853,8 +849,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             holder.binding.statusBoosterDisplayName.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.binding.statusBoosterDisplayName),
-                            id -> holder.binding.statusBoosterDisplayName.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                            new WeakReference<>(holder.binding.statusBoosterDisplayName)),
                     TextView.BufferType.SPANNABLE);
 
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
@@ -890,12 +885,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context,
-                        new WeakReference<>(holder.binding.statusContent),
-                        id -> holder.binding.statusContent.post(() -> {
-                            Log.v(Helper.TAG, "notifiy: " + id);
-                            Log.v(Helper.TAG, "position: " + getPositionAsync(notificationList, statusList, id));
-                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id));
-                        })),
+                        new WeakReference<>(holder.binding.statusContent)),
                 TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
@@ -929,8 +919,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.statusContentTranslated.setText(
                     statusToDeal.getSpanTranslate(context,
-                            new WeakReference<>(holder.binding.statusContentTranslated),
-                            id -> holder.binding.statusContentTranslated.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                            new WeakReference<>(holder.binding.statusContentTranslated)),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
@@ -1195,8 +1184,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
-                                    new WeakReference<>(pollItemBinding.pollItemText),
-                                    id -> pollItemBinding.pollItemText.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                    new WeakReference<>(pollItemBinding.pollItemText)),
                             TextView.BufferType.SPANNABLE);
                     pollItemBinding.pollItemValue.setProgress((int) value);
                     if (pollItem.votes_count == greaterValue) {
@@ -1227,8 +1215,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         cb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         cb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
-                                        new WeakReference<>(cb),
-                                        id -> cb.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                        new WeakReference<>(cb)),
                                 TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
                     }
@@ -1242,8 +1229,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         rb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         rb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
-                                        new WeakReference<>(rb),
-                                        id -> rb.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                        new WeakReference<>(rb)),
                                 TextView.BufferType.SPANNABLE);
 
                         holder.binding.poll.singleChoiceRadioGroup.addView(rb);
@@ -1846,8 +1832,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .into(holder.bindingArt.artMedia);
             holder.bindingArt.artAcct.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.bindingArt.artAcct),
-                            id -> holder.bindingArt.artAcct.post(() -> notifyItemChanged(getPositionAsync(null, statusList, id)))),
+                            new WeakReference<>(holder.bindingArt.artAcct)),
                     TextView.BufferType.SPANNABLE);
             holder.bindingArt.artUsername.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
             holder.bindingArt.artPp.setOnClickListener(v -> {

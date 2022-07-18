@@ -144,8 +144,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
             holderFollow.binding.displayName.setText(
                     notification.account.getSpanDisplayName(context,
-                            new WeakReference<>(holderFollow.binding.displayName),
-                            id -> notifyItemChanged(getPositionAsync(notificationList, id))),
+                            new WeakReference<>(holderFollow.binding.displayName)),
                     TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
@@ -217,8 +216,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.account.display_name = title;
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayName(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName),
-                                id -> holderStatus.bindingNotification.status.displayName.post(() -> notifyItemChanged(getPositionAsync(notificationList, id)))),
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName)),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
@@ -289,8 +287,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.account.display_name = title;
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayName(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName),
-                                id -> holderStatus.bindingNotification.status.displayName.post(() -> notifyItemChanged(getPositionAsync(notificationList, id)))),
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName)),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
