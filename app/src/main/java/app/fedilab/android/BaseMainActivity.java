@@ -537,7 +537,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
                 new Thread(() -> {
                     try {
-                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getAll();
+                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getCrossAccounts();
                         Handler mainHandler = new Handler(Looper.getMainLooper());
                         Runnable myRunnable = () -> {
                             binding.navView.getMenu().clear();
