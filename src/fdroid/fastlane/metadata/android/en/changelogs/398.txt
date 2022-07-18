@@ -1,0 +1,6 @@
+- Keep improving the scroll behaviour
+- Scroll to top (tab reselection) will fetch new messages and then scroll to top
+- Remove focus point for fit media preview
+- Fix cannot share with one account
+- Fix black theme
+- Fix some button colors

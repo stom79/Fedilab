@@ -174,9 +174,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     public void scrollToTop() {
-        if (binding != null) {
-            binding.recyclerView.scrollToPosition(0);
-        }
+        binding.swipeContainer.setRefreshing(true);
+        flagLoading = false;
+        route(DIRECTION.SCROLL_TOP, true);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -423,6 +423,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (direction == DIRECTION.BOTTOM) {
             flagLoading = true;
         }
+        if (direction == DIRECTION.SCROLL_TOP) {
+            binding.recyclerView.scrollToPosition(0);
+        }
     }
 
     /**
@@ -459,7 +462,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 statusFetchMore.isFetchMore = true;
                 statusFetchMore.id = Helper.generateString();
                 int insertAt;
-                if (direction == DIRECTION.REFRESH || direction == DIRECTION.BOTTOM) {
+                if (direction == DIRECTION.REFRESH || direction == DIRECTION.BOTTOM || direction == DIRECTION.SCROLL_TOP) {
                     insertAt = lastInsertedPosition;
                 } else {
                     insertAt = initialInsertedPosition;
@@ -617,11 +620,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else if (direction == DIRECTION.TOP) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
-                        } else if (direction == DIRECTION.REFRESH) {
+                        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                         if (statusAdapter != null) {
-                                            dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                            dealWithPagination(statusesRefresh, direction, true);
                                         } else {
                                             initializeStatusesCommonView(statusesRefresh);
                                         }
@@ -637,11 +640,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else if (direction == DIRECTION.TOP) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
-                        } else if (direction == DIRECTION.REFRESH) {
+                        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                             timelinesVM.getPublic(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, false, true, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                         if (statusAdapter != null) {
-                                            dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                            dealWithPagination(statusesRefresh, direction, true);
                                         } else {
                                             initializeStatusesCommonView(statusesRefresh);
                                         }
@@ -659,11 +662,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
                                 flagLoading = false;
-                            } else if (direction == DIRECTION.REFRESH) {
+                            } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                                 timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, null)
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
-                                                dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                                dealWithPagination(statusesRefresh, direction, true);
                                             } else {
                                                 initializeStatusesCommonView(statusesRefresh);
                                             }
@@ -682,11 +685,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
                                 flagLoading = false;
-                            } else if (direction == DIRECTION.REFRESH) {
+                            } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                                 timelinesVM.getMisskey(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
-                                                dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                                dealWithPagination(statusesRefresh, direction, true);
                                             } else {
                                                 initializeStatusesCommonView(statusesRefresh);
                                             }
@@ -703,11 +706,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
                                 flagLoading = false;
-                            } else if (direction == DIRECTION.REFRESH) {
+                            } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                                 timelinesVM.getPeertube(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
-                                                dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                                dealWithPagination(statusesRefresh, direction, true);
                                             } else {
                                                 initializeStatusesCommonView(statusesRefresh);
                                             }
@@ -723,11 +726,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             } else if (direction == DIRECTION.TOP) {
                                 timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
-                            } else if (direction == DIRECTION.REFRESH) {
+                            } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                                 timelinesVM.getPublic(null, remoteInstance, true, false, false, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
-                                                dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                                dealWithPagination(statusesRefresh, direction, true);
                                             } else {
                                                 initializeStatusesCommonView(statusesRefresh);
                                             }
@@ -744,11 +747,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else if (direction == DIRECTION.TOP) {
                             timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
-                        } else if (direction == DIRECTION.REFRESH) {
+                        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                             timelinesVM.getList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, list_id, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                         if (statusAdapter != null) {
-                                            dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                            dealWithPagination(statusesRefresh, direction, true);
                                         } else {
                                             initializeStatusesCommonView(statusesRefresh);
                                         }
@@ -768,11 +771,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else if (direction == DIRECTION.TOP) {
                             timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, fetchingMissing ? min_id_fetch_more : min_id, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.TOP, fetchingMissing));
-                        } else if (direction == DIRECTION.REFRESH) {
+                        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                             timelinesVM.getHashTag(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, tagTimeline.name, false, tagTimeline.isART, tagTimeline.all, tagTimeline.any, tagTimeline.none, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                         if (statusAdapter != null) {
-                                            dealWithPagination(statusesRefresh, DIRECTION.REFRESH, true);
+                                            dealWithPagination(statusesRefresh, direction, true);
                                         } else {
                                             initializeStatusesCommonView(statusesRefresh);
                                         }
@@ -954,11 +957,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, true));
             }
 
-        } else if (direction == DIRECTION.REFRESH) {
+        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
             timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                     .observe(getViewLifecycleOwner(), statusRefresh -> {
                                 if (statusAdapter != null) {
-                                    dealWithPagination(statusRefresh, DIRECTION.REFRESH, true);
+                                    dealWithPagination(statusRefresh, direction, true);
                                 } else {
                                     initializeStatusesCommonView(statusRefresh);
                                 }
@@ -1019,6 +1022,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public enum DIRECTION {
         TOP,
         BOTTOM,
-        REFRESH
+        REFRESH,
+        SCROLL_TOP
     }
 }
