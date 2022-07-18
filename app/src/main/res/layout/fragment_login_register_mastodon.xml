@@ -151,6 +151,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup"
+        style="@style/MyButtonColored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />
