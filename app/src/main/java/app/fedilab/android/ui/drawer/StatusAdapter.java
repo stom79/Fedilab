@@ -69,6 +69,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -1004,10 +1005,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 if (!mediaObfuscated(statusToDeal) || expand_media) {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
-                    Glide.with(layoutMediaBinding.media.getContext())
+                    RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
                             .load(statusToDeal.media_attachments.get(0).preview_url)
-                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
-                            .into(layoutMediaBinding.media);
+                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                    if (!fullAttachement) {
+                        requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                    }
+                    requestBuilder.into(layoutMediaBinding.media);
                 } else {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
                     Glide.with(layoutMediaBinding.media.getContext())
@@ -1055,11 +1059,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     lp.setMargins(0, 0, (int) Helper.convertDpToPixel(5, context), 0);
                     if (!mediaObfuscated(statusToDeal) || expand_media) {
                         layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
-                        Glide.with(layoutMediaBinding.media.getContext())
+                        RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
                                 .load(attachment.preview_url)
-                                .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                                .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)))
-                                .into(layoutMediaBinding.media);
+                                .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))));
+                        if (!fullAttachement) {
+                            requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                        }
+                        requestBuilder.into(layoutMediaBinding.media);
                     } else {
                         layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
                         Glide.with(layoutMediaBinding.media.getContext())
