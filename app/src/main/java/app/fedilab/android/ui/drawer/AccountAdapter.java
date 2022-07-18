@@ -37,6 +37,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountBinding;
-import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -225,21 +225,17 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
         }
-        CustomEmoji.displayEmoji(context, account.emojis, account.span_display_name, accountViewHolder.binding.displayName, account.id, id -> {
-            if (!account.emojiFetched) {
-                account.emojiFetched = true;
-                accountViewHolder.binding.displayName.post(() -> adapter.notifyItemChanged(position));
-            }
-        });
-        accountViewHolder.binding.displayName.setText(account.span_display_name, TextView.BufferType.SPANNABLE);
+        accountViewHolder.binding.displayName.setText(
+                account.getSpanDisplayName(context,
+                        new WeakReference<>(accountViewHolder.binding.displayName),
+                        id -> adapter.notifyItemChanged(position)),
+                TextView.BufferType.SPANNABLE);
         accountViewHolder.binding.username.setText(String.format("@%s", account.acct));
-        CustomEmoji.displayEmoji(context, account.emojis, account.span_note, accountViewHolder.binding.bio, account.id, id -> {
-            if (!account.emojiFetched) {
-                account.emojiFetched = true;
-                accountViewHolder.binding.bio.post(() -> adapter.notifyItemChanged(position));
-            }
-        });
-        accountViewHolder.binding.bio.setText(account.span_note, TextView.BufferType.SPANNABLE);
+        accountViewHolder.binding.bio.setText(
+                account.getSpanNote(context,
+                        new WeakReference<>(accountViewHolder.binding.bio),
+                        id -> adapter.notifyItemChanged(position)),
+                TextView.BufferType.SPANNABLE);
     }
 
     public int getCount() {

@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -49,7 +50,6 @@ import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.DrawerConversationBinding;
 import app.fedilab.android.databinding.ThumbnailBinding;
-import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 
@@ -138,26 +138,22 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notifyItemChanged(position);
             });
             holder.binding.spoiler.setVisibility(View.VISIBLE);
-            CustomEmoji.displayEmoji(context, conversation.last_status.emojis, conversation.last_status.span_spoiler_text, holder.binding.spoiler, conversation.last_status.id, id -> {
-                if (!conversation.last_status.emojiFetched) {
-                    conversation.last_status.emojiFetched = true;
-                    holder.binding.spoiler.post(() -> notifyItemChanged(position));
-                }
-            });
-            holder.binding.spoiler.setText(conversation.last_status.span_spoiler_text, TextView.BufferType.SPANNABLE);
+            holder.binding.spoiler.setText(
+                    conversation.last_status.getSpanSpoiler(context,
+                            new WeakReference<>(holder.binding.spoiler),
+                            id -> notifyItemChanged(position)),
+                    TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
             holder.binding.spoilerExpand.setVisibility(View.GONE);
             holder.binding.spoiler.setText(null);
         }
         //--- MAIN CONTENT ---
-        CustomEmoji.displayEmoji(context, conversation.last_status.emojis, conversation.last_status.span_content, holder.binding.statusContent, conversation.last_status.id, id -> {
-            if (!conversation.last_status.emojiFetched) {
-                conversation.last_status.emojiFetched = true;
-                holder.binding.statusContent.post(() -> notifyItemChanged(position));
-            }
-        });
-        holder.binding.statusContent.setText(conversation.last_status.span_content, TextView.BufferType.SPANNABLE);
+        holder.binding.statusContent.setText(
+                conversation.last_status.getSpanContent(context,
+                        new WeakReference<>(holder.binding.statusContent),
+                        id -> notifyItemChanged(position)),
+                TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
 

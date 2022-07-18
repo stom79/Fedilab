@@ -43,7 +43,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
@@ -96,11 +95,10 @@ public class FragmentMastodonContext extends Fragment {
                     }
                 } else if (statusPosted != null && statusAdapter != null) {
                     if (requireActivity() instanceof ContextActivity) {
-                        Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
                         int i = 0;
                         for (Status status : statuses) {
-                            if (status.id.equals(convertStatus.in_reply_to_id)) {
-                                statuses.add((i + 1), convertStatus);
+                            if (status.id.equals(statusPosted.in_reply_to_id)) {
+                                statuses.add((i + 1), statusPosted);
                                 statusAdapter.notifyItemInserted((i + 1));
                                 if (requireActivity() instanceof ContextActivity) {
                                     //Redraw decorations

@@ -43,7 +43,6 @@ import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
@@ -88,7 +87,6 @@ public class ContextActivity extends BaseActivity {
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         Bundle bundle = new Bundle();
-        focusedStatus = SpannableHelper.convertStatus(getApplication().getApplicationContext(), focusedStatus);
         bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
         currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, null);
         StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);

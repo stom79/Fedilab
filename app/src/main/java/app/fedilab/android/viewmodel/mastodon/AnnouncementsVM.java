@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import app.fedilab.android.client.endpoints.MastodonAnnouncementsService;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.SpannableHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -83,7 +82,6 @@ public class AnnouncementsVM extends AndroidViewModel {
                     Response<List<Announcement>> getAnnouncementsResponse = getAnnouncementsCall.execute();
                     if (getAnnouncementsResponse.isSuccessful()) {
                         announcementList = getAnnouncementsResponse.body();
-                        SpannableHelper.convertAnnouncement(getApplication(), announcementList);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

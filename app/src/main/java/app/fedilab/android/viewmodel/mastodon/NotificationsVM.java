@@ -35,7 +35,6 @@ import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.PushSubscription;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.TimelineHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -103,15 +102,6 @@ public class NotificationsVM extends AndroidViewModel {
                     if (notificationsResponse.isSuccessful()) {
                         List<Notification> notFilteredNotifications = notificationsResponse.body();
                         notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFilteredNotifications);
-                        if (notifications.notifications != null) {
-                            for (Notification notification : notifications.notifications) {
-                                if (notification != null) {
-                                    if (notification.status != null) {
-                                        notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
-                                    }
-                                }
-                            }
-                        }
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }
                 } catch (Exception e) {
@@ -147,9 +137,6 @@ public class NotificationsVM extends AndroidViewModel {
                     Response<Notification> notificationResponse = notificationCall.execute();
                     if (notificationResponse.isSuccessful()) {
                         notification = notificationResponse.body();
-                        if (notification != null) {
-                            notification.status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), notification.status);
-                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

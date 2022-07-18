@@ -21,8 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,7 +44,6 @@ import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
-import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -118,24 +116,37 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    /**
+     * Will manage the current position of the element in the adapter. Action is async, and position might have changed
+     *
+     * @param notificationList List<Notification> - Not null when calling from notification adapter
+     * @param id               String - Current status
+     * @return int - position in real time
+     */
+    public static int getPositionAsync(List<Notification> notificationList, String id) {
+        int position = 0;
+        if (notificationList != null) {
+            for (Notification notification : notificationList) {
+                if (notification.status != null && notification.status.id.compareTo(id) == 0) {
+                    break;
+                }
+                position++;
+            }
+        }
+        return position;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Notification notification = notificationList.get(position);
         if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
-            if (notification.account.span_display_name == null && notification.account.display_name != null) {
-                notification.account.span_display_name = new SpannableString(notification.account.display_name);
-            } else {
-                notification.account.span_display_name = new SpannableString(notification.account.username);
-            }
-            CustomEmoji.displayEmoji(context, notification.account.emojis, notification.account.span_display_name, holderFollow.binding.displayName, notification.id, id -> {
-                if (!notification.account.emojiFetched) {
-                    notification.account.emojiFetched = true;
-                    holderFollow.binding.displayName.post(() -> notifyItemChanged(position));
-                }
-            });
-            holderFollow.binding.displayName.setText(notification.account.span_display_name, TextView.BufferType.SPANNABLE);
+            holderFollow.binding.displayName.setText(
+                    notification.account.getSpanDisplayName(context,
+                            new WeakReference<>(holderFollow.binding.displayName),
+                            id -> notifyItemChanged(getPositionAsync(notificationList, id))),
+                    TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
                 holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
@@ -197,19 +208,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
-                Spannable title = new SpannableString("");
+                String title = "";
                 if (getItemViewType(position) == TYPE_MENTION) {
-                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention)));
+                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
                 } else if (getItemViewType(position) == TYPE_STATUS) {
-                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status)));
+                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
                 }
-                CustomEmoji.displayEmoji(context, notification.account.emojis, title, holderStatus.binding.displayName, notification.id, id -> {
-                    if (!notification.account.emojiFetched) {
-                        notification.account.emojiFetched = true;
-                        holderStatus.binding.displayName.post(() -> notifyItemChanged(position));
-                    }
-                });
-                holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
+                notification.account.display_name = title;
+                holderStatus.bindingNotification.status.displayName.setText(
+                        notification.account.getSpanDisplayName(context,
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName),
+                                id -> holderStatus.bindingNotification.status.displayName.post(() -> notifyItemChanged(getPositionAsync(notificationList, id)))),
+                        TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
                 if (notification.status != null && notification.status.visibility.equalsIgnoreCase("direct")) {
@@ -220,14 +230,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             } else {
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
-                Spannable title = new SpannableString("");
+                String title = "";
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
                 if (getItemViewType(position) == TYPE_FAVOURITE) {
-                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite)));
+                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
                 } else if (getItemViewType(position) == TYPE_REBLOG) {
-                    title = new SpannableString(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog)));
+                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                 } else if (getItemViewType(position) == TYPE_POLL) {
-                    title = new SpannableString(context.getString(R.string.notif_poll));
+                    title = context.getString(R.string.notif_poll);
                 }
                 if (notification.relatedNotifications != null && notification.relatedNotifications.size() > 0) {
                     if (notification.type.equals("favourite")) {
@@ -276,18 +286,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // start the new activity
                     context.startActivity(intent, options.toBundle());
                 });
-                CustomEmoji.displayEmoji(context, notification.account.emojis, title, holderStatus.binding.displayName, notification.id, id -> {
-                    if (!notification.account.emojiFetched) {
-                        notification.account.emojiFetched = true;
-                        holderStatus.binding.displayName.post(() -> notifyItemChanged(position));
-                    }
-                });
+                notification.account.display_name = title;
+                holderStatus.bindingNotification.status.displayName.setText(
+                        notification.account.getSpanDisplayName(context,
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName),
+                                id -> holderStatus.bindingNotification.status.displayName.post(() -> notifyItemChanged(getPositionAsync(notificationList, id)))),
+                        TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
         }
     }
+
 
     public long getItemId(int position) {
         return position;

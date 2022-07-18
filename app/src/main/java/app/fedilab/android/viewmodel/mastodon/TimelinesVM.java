@@ -48,7 +48,6 @@ import app.fedilab.android.client.entities.peertube.PeertubeVideo;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.TimelineHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -121,7 +120,7 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> publicTlResponse = publicTlCall.execute();
                     if (publicTlResponse.isSuccessful()) {
                         statusList = publicTlResponse.body();
-                        statusList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusList);
+                        statusList = statusList;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -190,8 +189,7 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> publicTlResponse = publicTlCall.execute();
                     if (publicTlResponse.isSuccessful()) {
                         List<Status> notFilteredStatuses = publicTlResponse.body();
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
                     }
                 } catch (Exception e) {
@@ -232,7 +230,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        statuses.statuses = SpannableHelper.convertNitterStatus(statusList);
+                        statuses.statuses = statusList;
                         String max_id = publicTlResponse.headers().get("min-id");
                         statuses.pagination = new Pagination();
                         statuses.pagination.max_id = max_id;
@@ -278,8 +276,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.pagination = new Pagination();
                         if (statusList.size() > 0) {
                             statuses.pagination.min_id = statusList.get(0).id;
@@ -325,8 +322,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.pagination = new Pagination();
                         if (statusList.size() > 0) {
                             //These values are not used.
@@ -407,8 +403,7 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> hashTagTlResponse = hashTagTlCall.execute();
                     if (hashTagTlResponse.isSuccessful()) {
                         List<Status> notFilteredStatuses = hashTagTlResponse.body();
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
                         statuses.pagination = MastodonHelper.getPagination(hashTagTlResponse.headers());
                     }
                 } catch (Exception e) {
@@ -450,8 +445,7 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> homeTlResponse = homeTlCall.execute();
                     if (homeTlResponse.isSuccessful()) {
                         List<Status> notFilteredStatuses = homeTlResponse.body();
-                        List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.HOME);
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.HOME);
                         statuses.pagination = MastodonHelper.getPagination(homeTlResponse.headers());
                         if (!fetchingMissing) {
                             for (Status status : statuses.statuses) {
@@ -503,8 +497,7 @@ public class TimelinesVM extends AndroidViewModel {
                 statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId, sinceId);
 
                 if (statuses != null) {
-                    List<Status> filteredStatuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
-                    statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), filteredStatuses);
+                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
@@ -571,7 +564,7 @@ public class TimelinesVM extends AndroidViewModel {
                 try {
                     Response<List<Status>> listTlResponse = listTlCall.execute();
                     if (listTlResponse.isSuccessful()) {
-                        statuses.statuses = SpannableHelper.convertStatus(getApplication().getApplicationContext(), listTlResponse.body());
+                        statuses.statuses = listTlResponse.body();
                         statuses.pagination = MastodonHelper.getPagination(listTlResponse.headers());
                     }
                 } catch (Exception e) {
@@ -607,11 +600,6 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Conversation>> conversationsResponse = conversationsCall.execute();
                     if (conversationsResponse.isSuccessful()) {
                         conversations.conversations = conversationsResponse.body();
-                        if (conversations.conversations != null) {
-                            for (Conversation conversation : conversations.conversations) {
-                                conversation.last_status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), conversation.last_status);
-                            }
-                        }
                         conversations.pagination = MastodonHelper.getPagination(conversationsResponse.headers());
                     }
                 } catch (Exception e) {

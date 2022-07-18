@@ -36,11 +36,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -80,6 +80,7 @@ import com.github.stom79.mytransl.translate.Params;
 import com.github.stom79.mytransl.translate.Translate;
 import com.varunest.sparkbutton.SparkButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -113,7 +114,6 @@ import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
-import app.fedilab.android.helper.CustomEmoji;
 import app.fedilab.android.helper.GlideFocus;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
@@ -744,21 +744,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         //--- ACCOUNT INFO ---
         MastodonHelper.loadPPMastodon(holder.binding.avatar, statusToDeal.account);
-        Spannable span_display_name = statusToDeal.account.span_display_name;
-        if (span_display_name == null || span_display_name.toString().trim().length() == 0) {
-            span_display_name = new SpannableString(statusToDeal.account.username);
-        }
 
-        CustomEmoji.displayEmoji(context, statusToDeal.account.emojis, span_display_name, holder.binding.displayName, status.id, id -> {
-            if (!statusToDeal.account.emojiFetched) {
-                statusToDeal.account.emojiFetched = true;
-                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                    return;
-                }
-                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-            }
-        });
-        holder.binding.displayName.setText(span_display_name, TextView.BufferType.SPANNABLE);
+        holder.binding.displayName.setText(
+                statusToDeal.account.getSpanDisplayName(context,
+                        new WeakReference<>(holder.binding.displayName),
+                        id -> holder.binding.displayName.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                TextView.BufferType.SPANNABLE);
         if (theme_text_header_1_line != -1) {
             holder.binding.displayName.setTextColor(theme_text_header_1_line);
         }
@@ -823,16 +814,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (expand_cw || expand) {
                 holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
-                CustomEmoji.displayEmoji(context, statusToDeal.emojis, statusToDeal.span_spoiler_text, holder.binding.spoiler, status.id, id -> {
-                    if (!statusToDeal.emojiFetched) {
-                        statusToDeal.emojiFetched = true;
-                        if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                            return;
-                        }
-                        holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                    }
-                });
-                holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
+                holder.binding.spoiler.setText(
+                        statusToDeal.getSpanSpoiler(context,
+                                new WeakReference<>(holder.binding.spoiler),
+                                id -> holder.binding.spoiler.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                        TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
                 statusToDeal.isMediaDisplayed = true;
             } else {
@@ -843,16 +829,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
-                CustomEmoji.displayEmoji(context, statusToDeal.emojis, statusToDeal.span_spoiler_text, holder.binding.spoiler, status.id, id -> {
-                    if (!statusToDeal.emojiFetched) {
-                        statusToDeal.emojiFetched = true;
-                        if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                            return;
-                        }
-                        holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                    }
-                });
-                holder.binding.spoiler.setText(statusToDeal.span_spoiler_text, TextView.BufferType.SPANNABLE);
+
+                holder.binding.spoiler.setText(
+                        statusToDeal.getSpanSpoiler(context,
+                                new WeakReference<>(holder.binding.spoiler),
+                                id -> holder.binding.spoiler.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                        TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
                 holder.binding.spoilerExpand.setText(context.getString(R.string.hide_content));
@@ -868,20 +850,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- BOOSTER INFO ---
         if (status.reblog != null) {
             MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
-            Spannable span_display_name_boost = status.account.span_display_name;
-            if (span_display_name_boost == null || span_display_name_boost.toString().trim().length() == 0) {
-                span_display_name_boost = new SpannableString(status.account.username);
-            }
-            CustomEmoji.displayEmoji(context, statusToDeal.account.emojis, span_display_name_boost, holder.binding.statusBoosterDisplayName, status.id, id -> {
-                if (!statusToDeal.account.emojiFetched) {
-                    statusToDeal.account.emojiFetched = true;
-                    if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                        return;
-                    }
-                    holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                }
-            });
-            holder.binding.statusBoosterDisplayName.setText(span_display_name_boost, TextView.BufferType.SPANNABLE);
+
+            holder.binding.statusBoosterDisplayName.setText(
+                    status.account.getSpanDisplayName(context,
+                            new WeakReference<>(holder.binding.statusBoosterDisplayName),
+                            id -> holder.binding.statusBoosterDisplayName.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                    TextView.BufferType.SPANNABLE);
+
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
             holder.binding.boosterDivider.setVisibility(View.VISIBLE);
             if (theme_text_header_1_line != -1) {
@@ -913,18 +888,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
         }
         //--- MAIN CONTENT ---
-
-        CustomEmoji.displayEmoji(context, statusToDeal.emojis, statusToDeal.span_content, holder.binding.statusContent, status.id, id -> {
-            if (!status.emojiFetched) {
-                status.emojiFetched = true;
-                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                    return;
-                }
-                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-            }
-        });
-
-        holder.binding.statusContent.setText(statusToDeal.span_content, TextView.BufferType.SPANNABLE);
+        holder.binding.statusContent.setText(
+                statusToDeal.getSpanContent(context,
+                        new WeakReference<>(holder.binding.statusContent),
+                        id -> holder.binding.statusContent.post(() -> {
+                            Log.v(Helper.TAG, "notifiy: " + id);
+                            Log.v(Helper.TAG, "position: " + getPositionAsync(notificationList, statusList, id));
+                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id));
+                        })),
+                TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
@@ -955,16 +927,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (statusToDeal.translationContent != null) {
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
-            CustomEmoji.displayEmoji(context, statusToDeal.emojis, statusToDeal.span_translate, holder.binding.statusContentTranslated, status.id, id -> {
-                if (!statusToDeal.emojiFetched) {
-                    statusToDeal.emojiFetched = true;
-                    if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                        return;
-                    }
-                    holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                }
-            });
-            holder.binding.statusContentTranslated.setText(statusToDeal.span_translate, TextView.BufferType.SPANNABLE);
+            holder.binding.statusContentTranslated.setText(
+                    statusToDeal.getSpanTranslate(context,
+                            new WeakReference<>(holder.binding.statusContentTranslated),
+                            id -> holder.binding.statusContentTranslated.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                    TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
         }
@@ -1226,16 +1193,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         pollItemBinding.pollItemPercent.setTextColor(theme_text_color);
                         pollItemBinding.pollItemText.setTextColor(theme_text_color);
                     }
-                    CustomEmoji.displayEmoji(context, statusToDeal.emojis, pollItem.span_title, pollItemBinding.pollItemText, status.id, id -> {
-                        if (!statusToDeal.emojiFetched) {
-                            statusToDeal.emojiFetched = true;
-                            if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                                return;
-                            }
-                            holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                        }
-                    });
-                    pollItemBinding.pollItemText.setText(pollItem.span_title, TextView.BufferType.SPANNABLE);
+                    pollItemBinding.pollItemText.setText(
+                            pollItem.getSpanTitle(context, statusToDeal,
+                                    new WeakReference<>(pollItemBinding.pollItemText),
+                                    id -> pollItemBinding.pollItemText.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                            TextView.BufferType.SPANNABLE);
                     pollItemBinding.pollItemValue.setProgress((int) value);
                     if (pollItem.votes_count == greaterValue) {
                         pollItemBinding.pollItemPercent.setTypeface(null, Typeface.BOLD);
@@ -1263,16 +1225,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         CheckBox cb = new CheckBox(context);
                         cb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
-                        CustomEmoji.displayEmoji(context, statusToDeal.emojis, pollOption.span_title, cb, status.id, id -> {
-                            if (!statusToDeal.emojiFetched) {
-                                statusToDeal.emojiFetched = true;
-                                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                                    return;
-                                }
-                                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                            }
-                        });
-                        cb.setText(pollOption.span_title, TextView.BufferType.SPANNABLE);
+                        cb.setText(
+                                pollOption.getSpanTitle(context, statusToDeal,
+                                        new WeakReference<>(cb),
+                                        id -> cb.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
                     }
                     holder.binding.poll.multipleChoice.setVisibility(View.VISIBLE);
@@ -1283,25 +1240,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         RadioButton rb = new RadioButton(context);
                         rb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
-                        CustomEmoji.displayEmoji(context, statusToDeal.account.emojis, pollOption.span_title, rb, status.id, id -> {
-                            if (!statusToDeal.account.emojiFetched) {
-                                statusToDeal.account.emojiFetched = true;
-                                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                                    return;
-                                }
-                                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                            }
-                        });
-                        CustomEmoji.displayEmoji(context, statusToDeal.emojis, pollOption.span_title, rb, status.id, id -> {
-                            if (!statusToDeal.emojiFetched) {
-                                statusToDeal.emojiFetched = true;
-                                if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                                    return;
-                                }
-                                holder.binding.statusContent.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)));
-                            }
-                        });
-                        rb.setText(pollOption.span_title, TextView.BufferType.SPANNABLE);
+                        rb.setText(
+                                pollOption.getSpanTitle(context, statusToDeal,
+                                        new WeakReference<>(rb),
+                                        id -> rb.post(() -> adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, id)))),
+                                TextView.BufferType.SPANNABLE);
+
                         holder.binding.poll.singleChoiceRadioGroup.addView(rb);
                     }
                     holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.VISIBLE);
@@ -1626,7 +1570,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (translate.getTranslatedContent() != null) {
                                 statusToDeal.translationShown = true;
                                 statusToDeal.translationContent = translate.getTranslatedContent();
-                                SpannableHelper.convertStatus(context.getApplicationContext(), statusToDeal);
                                 adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
                             } else {
                                 Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
@@ -1901,16 +1844,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .load(status.art_attachment.preview_url)
                     .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
                     .into(holder.bindingArt.artMedia);
-            CustomEmoji.displayEmoji(context, status.emojis, status.account.span_display_name, holder.bindingArt.artAcct, status.id, id -> {
-                if (!status.emojiFetched) {
-                    status.emojiFetched = true;
-                    if (timelineType == Timeline.TimeLineEnum.UNKNOWN) {
-                        return;
-                    }
-                    notifyItemChanged(getPositionAsync(null, statusList, id));
-                }
-            });
-            holder.bindingArt.artAcct.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
+            holder.bindingArt.artAcct.setText(
+                    status.account.getSpanDisplayName(context,
+                            new WeakReference<>(holder.bindingArt.artAcct),
+                            id -> holder.bindingArt.artAcct.post(() -> notifyItemChanged(getPositionAsync(null, statusList, id)))),
+                    TextView.BufferType.SPANNABLE);
             holder.bindingArt.artUsername.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
             holder.bindingArt.artPp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);

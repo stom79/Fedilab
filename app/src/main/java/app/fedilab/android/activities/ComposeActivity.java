@@ -84,7 +84,6 @@ import app.fedilab.android.helper.DividerDecorationSimple;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
@@ -269,9 +268,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     });
         } else if (statusDraft != null) {//Restore a draft with all messages
             if (statusDraft.statusReplyList != null) {
-                statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
-            }
-            if (statusDraft.statusReplyList != null) {
                 statusList.addAll(statusDraft.statusReplyList);
                 binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
             }
@@ -285,7 +281,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
 
         } else if (statusReply != null) {
-            statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
             statusList.add(statusReply);
             int statusCount = statusList.size();
             statusDraftList.get(0).in_reply_to_id = statusReply.id;

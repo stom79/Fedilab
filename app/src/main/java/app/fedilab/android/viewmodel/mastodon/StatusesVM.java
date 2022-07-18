@@ -47,7 +47,6 @@ import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.TimelineHelper;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
@@ -279,7 +278,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -356,13 +355,7 @@ public class StatusesVM extends AndroidViewModel {
                         context = contextResponse.body();
                         if (context != null) {
                             TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.descendants, TimelineHelper.FilterTimeLineType.CONTEXT);
-                            for (Status status : context.descendants) {
-                                SpannableHelper.convertStatus(getApplication().getApplicationContext(), status);
-                            }
                             TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.ancestors, TimelineHelper.FilterTimeLineType.CONTEXT);
-                            for (Status status : context.ancestors) {
-                                SpannableHelper.convertStatus(getApplication().getApplicationContext(), status);
-                            }
                         }
 
                     }
@@ -406,7 +399,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<List<Account>> accountsResponse = accountsCall.execute();
                     if (accountsResponse.isSuccessful()) {
-                        accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountsResponse.body());
+                        accounts = accountsResponse.body();
                     }
                     headers = accountsResponse.headers();
                 } catch (Exception e) {
@@ -451,7 +444,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<List<Account>> accountsResponse = accountsCall.execute();
                     if (accountsResponse.isSuccessful()) {
-                        accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), accountsResponse.body());
+                        accounts = accountsResponse.body();
                     }
                     headers = accountsResponse.headers();
                 } catch (Exception e) {
@@ -489,7 +482,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -533,7 +526,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -579,7 +572,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -623,7 +616,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -667,7 +660,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -711,7 +704,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -755,7 +748,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -799,7 +792,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -843,7 +836,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();
@@ -887,7 +880,7 @@ public class StatusesVM extends AndroidViewModel {
                 try {
                     Response<Status> statusResponse = statusCall.execute();
                     if (statusResponse.isSuccessful()) {
-                        status = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusResponse.body());
+                        status = statusResponse.body();
                     } else {
                         if (statusResponse.errorBody() != null) {
                             errorMessage = statusResponse.errorBody().string();

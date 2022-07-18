@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,11 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         account = getItem(position);
         AccountListViewHolder holder = (AccountListViewHolder) viewHolder;
         MastodonHelper.loadPPMastodon(holder.binding.avatar, account);
-        holder.binding.displayName.setText(account.span_display_name, TextView.BufferType.SPANNABLE);
+        holder.binding.displayName.setText(
+                account.getSpanDisplayName(context,
+                        new WeakReference<>(holder.binding.displayName),
+                        id -> notifyItemChanged(position)),
+                TextView.BufferType.SPANNABLE);
         holder.binding.username.setText(String.format("@%s", account.acct));
 
         if (searchList != null) {

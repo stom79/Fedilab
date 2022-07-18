@@ -29,7 +29,6 @@ import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonNotification;
 
@@ -576,7 +575,6 @@ public class QuickLoad {
         }
         quickLoad.position = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_POSITION));
         //TimelineHelper.filterStatus(_mContext, quickLoad.statuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-        quickLoad.statuses = SpannableHelper.convertStatus(_mContext, quickLoad.statuses);
         return quickLoad;
     }
 

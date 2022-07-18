@@ -56,7 +56,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -118,8 +117,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         statusAdapter.notifyItemRemoved(position);
                     }
                 } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
-                    Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
-                    statuses.add(0, convertStatus);
+                    statuses.add(0, statusPosted);
                     statusAdapter.notifyItemInserted(0);
                 }
             }
