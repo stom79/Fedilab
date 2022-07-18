@@ -53,6 +53,7 @@ public class SearchResultTabActivity extends BaseActivity {
 
     private String search;
     private ActivitySearchResultTabsBinding binding;
+    private TabLayout.Tab initial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class SearchResultTabActivity extends BaseActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         setTitle(search);
-        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.tags)));
+        initial = binding.searchTabLayout.newTab();
+        binding.searchTabLayout.addTab(initial.setText(getString(R.string.tags)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.accounts)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.toots)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.action_cache)));
@@ -125,7 +127,6 @@ public class SearchResultTabActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                assert imm != null;
                 imm.hideSoftInputFromWindow(binding.searchTabLayout.getWindowToken(), 0);
                 query = query.replaceAll("^#+", "");
                 search = query.trim();
@@ -134,6 +135,7 @@ public class SearchResultTabActivity extends BaseActivity {
                 searchView.clearFocus();
                 setTitle(search);
                 searchView.setIconified(true);
+                binding.searchTabLayout.selectTab(initial);
                 return false;
             }
 
