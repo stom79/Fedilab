@@ -60,6 +60,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_POLL = 5;
     private final int TYPE_STATUS = 6;
     private final int NOTIFICATION_FETCH_MORE = 7;
+    private final int TYPE_REACTION = 8;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
@@ -96,6 +97,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return TYPE_POLL;
             case "status":
                 return TYPE_STATUS;
+            case "pleroma:emoji_reaction":
+                return TYPE_REACTION;
         }
         return super.getItemViewType(position);
     }
@@ -197,6 +200,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
             } else if (getItemViewType(position) == TYPE_REBLOG) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
+            } else if (getItemViewType(position) == TYPE_REACTION) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
             } else if (getItemViewType(position) == TYPE_POLL) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
             }
@@ -205,13 +210,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notificationList, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
-            if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS) {
+            if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
                 if (getItemViewType(position) == TYPE_MENTION) {
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
                 } else if (getItemViewType(position) == TYPE_STATUS) {
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
+                } else if (getItemViewType(position) == TYPE_REACTION) {
+                    if (notification.emoji == null) {
+                        notification.emoji = "";
+                    }
+                    title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
+                    MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
                 }
                 notification.account.display_name = title;
                 holderStatus.bindingNotification.status.displayName.setText(
