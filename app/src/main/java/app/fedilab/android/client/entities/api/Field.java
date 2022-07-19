@@ -39,7 +39,7 @@ public class Field implements Serializable {
     public Date verified_at;
 
     //Some extra spannable element - They will be filled automatically when fetching the account
-    private ForegroundColorSpan value_span;
+    private transient ForegroundColorSpan value_span;
 
     public synchronized Spannable getValueSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
 

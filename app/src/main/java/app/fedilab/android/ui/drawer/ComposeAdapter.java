@@ -1038,6 +1038,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+
+        int theme_statuses_color = -1;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
+            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
+        }
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
@@ -1061,6 +1067,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setVisibility(View.GONE);
                 holder.binding.spoiler.setText(null);
             }
+            if (theme_statuses_color != -1) {
+                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+            } else {
+                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+            }
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
 
@@ -1072,7 +1083,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
-
+            if (theme_statuses_color != -1) {
+                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+            } else {
+                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+            }
             holder.binding.buttonAttach.setOnClickListener(v -> {
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {

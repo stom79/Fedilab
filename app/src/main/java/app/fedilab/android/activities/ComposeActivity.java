@@ -287,7 +287,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //We change order for mentions
             //At first place the account that has been mentioned if it's not our
             statusDraftList.get(0).mentions = new ArrayList<>();
-            if (!statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+            if (statusReply.account.acct != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                 Mention mention = new Mention();
                 mention.acct = "@" + statusReply.account.acct;
                 mention.url = statusReply.account.url;
@@ -298,7 +298,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //There are other mentions to
             if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                 for (Mention mentionTmp : statusReply.mentions) {
-                    if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                         statusDraftList.get(0).mentions.add(mentionTmp);
                     }
                 }
