@@ -397,7 +397,8 @@ public class TimelinesVM extends AndroidViewModel {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             Statuses statuses = new Statuses();
-            Call<List<Status>> hashTagTlCall = mastodonTimelinesService.getHashTag(token, hashtag, local, onlyMedia, all, any, none, maxId, sinceId, minId, limit);
+            String hashtagTrim = hashtag.replaceAll("\\#", "");
+            Call<List<Status>> hashTagTlCall = mastodonTimelinesService.getHashTag(token, hashtagTrim, local, onlyMedia, all, any, none, maxId, sinceId, minId, limit);
             if (hashTagTlCall != null) {
                 try {
                     Response<List<Status>> hashTagTlResponse = hashTagTlCall.execute();
