@@ -80,7 +80,7 @@ public class Account implements Serializable {
     public Account moved;
 
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
-        if (display_name == null) {
+        if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
         return SpannableHelper.convert(context, display_name, null, this, null, true, viewWeakReference);

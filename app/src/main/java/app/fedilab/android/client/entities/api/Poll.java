@@ -58,7 +58,7 @@ public class Poll implements Serializable {
         @SerializedName("votes_count")
         public int votes_count;
 
-        public Spannable span_title;
+        public transient Spannable span_title;
 
         public Spannable getSpanTitle(Context context, Status status, WeakReference<View> viewWeakReference) {
             span_title = SpannableHelper.convert(context, title, status, null, null, true, viewWeakReference);

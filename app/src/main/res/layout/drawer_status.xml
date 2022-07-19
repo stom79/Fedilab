@@ -19,7 +19,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
-    android:backgroundTint="@color/cyanea_primary_dark_reference"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
@@ -35,7 +34,6 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical">
-
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp" />
