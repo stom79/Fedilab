@@ -89,6 +89,8 @@ public class Status implements Serializable, Cloneable {
     public Card card;
     @SerializedName("poll")
     public Poll poll;
+    @SerializedName("pleroma")
+    public Pleroma pleroma;
 
 
     public Attachment art_attachment;

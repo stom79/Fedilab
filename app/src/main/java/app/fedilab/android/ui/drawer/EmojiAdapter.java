@@ -42,7 +42,7 @@ public class EmojiAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return emojiList.size();
+        return emojiList == null ? 0 : emojiList.size();
     }
 
     public Emoji getItem(int position) {

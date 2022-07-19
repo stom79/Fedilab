@@ -1,5 +1,5 @@
 package app.fedilab.android.client.entities.api;
-/* Copyright 2021 Thomas Schneider
+/* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -17,16 +17,9 @@ package app.fedilab.android.client.entities.api;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Reaction implements Serializable {
-    @SerializedName("name")
-    public String name;
-    @SerializedName("count")
-    public int count;
-    @SerializedName("me")
-    public boolean me;
-    @SerializedName("url")
-    public String url;
-    @SerializedName("static_url")
-    public String static_url;
+public class Pleroma implements Serializable {
+    @SerializedName("emoji_reactions")
+    public List<Reaction> emoji_reactions;
 }

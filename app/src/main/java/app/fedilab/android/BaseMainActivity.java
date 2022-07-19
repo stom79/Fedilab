@@ -855,7 +855,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance)) {
+        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {
                     emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));

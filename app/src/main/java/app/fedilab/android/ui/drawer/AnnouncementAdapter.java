@@ -76,17 +76,18 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         return new AnnouncementHolder(itemBinding);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull AnnouncementHolder holder, int position) {
         Announcement announcement = announcements.get(position);
         if (announcement.reactions != null && announcement.reactions.size() > 0) {
             ReactionAdapter reactionAdapter = new ReactionAdapter(announcement.id, announcement.reactions);
-            holder.binding.reactionsView.setAdapter(reactionAdapter);
+            holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-            holder.binding.reactionsView.setLayoutManager(layoutManager);
+            holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
         } else {
-            holder.binding.reactionsView.setAdapter(null);
+            holder.binding.layoutReactions.reactionsView.setAdapter(null);
         }
         holder.binding.content.setText(
                 announcement.getSpanContent(context,
@@ -108,11 +109,11 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         } else {
             holder.binding.dates.setVisibility(View.GONE);
         }
-        holder.binding.statusEmoji.setOnClickListener(v -> {
+        holder.binding.layoutReactions.statusEmoji.setOnClickListener(v -> {
             EmojiManager.install(new EmojiOneProvider());
-            final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
+            final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.layoutReactions.statusEmoji).setOnEmojiPopupDismissListener(() -> {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(holder.binding.layoutReactions.statusEmoji.getWindowToken(), 0);
             }).setOnEmojiClickListener((emoji, imageView) -> {
                 String emojiStr = imageView.getUnicode();
                 boolean alreadyAdded = false;
@@ -142,10 +143,10 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                     announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
                 }
             })
-                    .build(holder.binding.fakeEdittext);
+                    .build(holder.binding.layoutReactions.fakeEdittext);
             emojiPopup.toggle();
         });
-        holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
+        holder.binding.layoutReactions.statusAddCustomEmoji.setOnClickListener(v -> {
             final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
             int paddingPixel = 15;
             float density = context.getResources().getDisplayMetrics().density;

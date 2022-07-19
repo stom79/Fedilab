@@ -15,6 +15,8 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.regex_home;
 import static app.fedilab.android.BaseMainActivity.regex_local;
 import static app.fedilab.android.BaseMainActivity.regex_public;
@@ -46,7 +48,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -66,6 +70,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -78,6 +83,9 @@ import com.github.stom79.mytransl.client.HttpsConnectionException;
 import com.github.stom79.mytransl.client.Results;
 import com.github.stom79.mytransl.translate.Params;
 import com.github.stom79.mytransl.translate.Translate;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.one.EmojiOneProvider;
 import com.varunest.sparkbutton.SparkButton;
 
 import java.lang.ref.WeakReference;
@@ -93,6 +101,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
@@ -100,7 +109,9 @@ import app.fedilab.android.activities.StatusInfoActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Poll;
+import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -124,6 +135,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.viewmodel.pleroma.ActionsVM;
 import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -312,6 +324,116 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
+
+        if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
+            holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
+            if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
+                ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions);
+                holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
+                LinearLayoutManager layoutManager
+                        = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
+            } else {
+                holder.binding.layoutReactions.reactionsView.setAdapter(null);
+            }
+            holder.binding.layoutReactions.statusEmoji.setOnClickListener(v -> {
+                EmojiManager.install(new EmojiOneProvider());
+                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.layoutReactions.statusEmoji).setOnEmojiPopupDismissListener(() -> {
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(holder.binding.layoutReactions.statusEmoji.getWindowToken(), 0);
+                }).setOnEmojiClickListener((emoji, imageView) -> {
+                    String emojiStr = imageView.getUnicode();
+                    boolean alreadyAdded = false;
+                    for (Reaction reaction : status.pleroma.emoji_reactions) {
+                        if (reaction.name.compareTo(emojiStr) == 0) {
+                            alreadyAdded = true;
+                            reaction.count = (reaction.count - 1);
+                            if (reaction.count == 0) {
+                                status.pleroma.emoji_reactions.remove(reaction);
+                            }
+                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                            break;
+                        }
+                    }
+                    if (!alreadyAdded) {
+                        Reaction reaction = new Reaction();
+                        reaction.me = true;
+                        reaction.count = 1;
+                        reaction.name = emojiStr;
+                        status.pleroma.emoji_reactions.add(0, reaction);
+                        adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                    }
+                    ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+                    if (alreadyAdded) {
+                        actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                    } else {
+                        actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                    }
+                })
+                        .build(holder.binding.layoutReactions.fakeEdittext);
+                emojiPopup.toggle();
+            });
+            holder.binding.layoutReactions.statusAddCustomEmoji.setOnClickListener(v -> {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                int paddingPixel = 15;
+                float density = context.getResources().getDisplayMetrics().density;
+                int paddingDp = (int) (paddingPixel * density);
+                builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builder.setTitle(R.string.insert_emoji);
+                AlertDialog alertDialogEmoji = null;
+                if (emojis != null && emojis.size() > 0 && emojis.get(BaseMainActivity.currentInstance) != null) {
+                    GridView gridView = new GridView(context);
+                    gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
+                    gridView.setNumColumns(5);
+                    AlertDialog finalAlertDialogEmoji = alertDialogEmoji;
+                    gridView.setOnItemClickListener((parent, view, index, id) -> {
+                        String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
+                        String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
+                        String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
+                        boolean alreadyAdded = false;
+                        for (Reaction reaction : status.pleroma.emoji_reactions) {
+                            if (reaction.name.compareTo(emojiStr) == 0) {
+                                alreadyAdded = true;
+                                reaction.count = (reaction.count - 1);
+                                if (reaction.count == 0) {
+                                    status.pleroma.emoji_reactions.remove(reaction);
+                                }
+                                adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                                break;
+                            }
+                        }
+                        if (!alreadyAdded) {
+                            Reaction reaction = new Reaction();
+                            reaction.me = true;
+                            reaction.count = 1;
+                            reaction.name = emojiStr;
+                            reaction.url = url;
+                            reaction.static_url = static_url;
+                            status.pleroma.emoji_reactions.add(0, reaction);
+                            adapter.notifyItemChanged(getPositionAsync(notificationList, statusList, statusToDeal));
+                        }
+                        ActionsVM actionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+                        if (alreadyAdded) {
+                            actionsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                        } else {
+                            actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                        }
+                        if (finalAlertDialogEmoji != null) {
+                            finalAlertDialogEmoji.dismiss();
+                        }
+                    });
+                    gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
+                    builder.setView(gridView);
+                } else {
+                    TextView textView = new TextView(context);
+                    textView.setText(context.getString(R.string.no_emoji));
+                    textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
+                    builder.setView(textView);
+                }
+                alertDialogEmoji = builder.show();
+            });
+        }
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
         // boolean display_video_preview = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_VIDEO_PREVIEWS), true);

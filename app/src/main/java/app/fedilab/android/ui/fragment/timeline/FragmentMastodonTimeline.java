@@ -174,9 +174,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     public void scrollToTop() {
-        binding.swipeContainer.setRefreshing(true);
-        flagLoading = false;
-        route(DIRECTION.SCROLL_TOP, true);
+        if (binding != null) {
+            binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
+            route(DIRECTION.SCROLL_TOP, true);
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

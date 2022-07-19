@@ -601,6 +601,12 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <include
+            android:id="@+id/layout_reactions"
+            layout="@layout/layout_reactions"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </com.google.android.material.card.MaterialCardView>
