@@ -19,12 +19,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/cardview_container"
     android:layout_marginHorizontal="12dp"
-    android:backgroundTint="?backgroundColorLight"
     android:layout_marginTop="12dp"
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

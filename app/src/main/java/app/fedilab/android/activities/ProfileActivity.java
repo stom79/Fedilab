@@ -27,11 +27,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -64,6 +60,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.tabs.TabLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -148,8 +145,6 @@ public class ProfileActivity extends BaseActivity {
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
         }
-
-
         postponeEnterTransition();
 
         //Remove title
@@ -165,14 +160,7 @@ public class ProfileActivity extends BaseActivity {
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
         if (account != null) {
-            new Thread(() -> {
-                account = SpannableHelper.convertAccount(ProfileActivity.this, account);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> initializeView(account);
-                mainHandler.post(myRunnable);
-
-            }).start();
-
+            initializeView(account);
         } else if (account_id != null) {
             accountsVM.getAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account_id).observe(ProfileActivity.this, fetchedAccount -> {
                 account = fetchedAccount;
@@ -359,11 +347,11 @@ public class ProfileActivity extends BaseActivity {
             binding.fieldsContainer.setAdapter(fieldAdapter);
             binding.fieldsContainer.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
         }
-        if (account.span_display_name == null && account.display_name == null) {
-            binding.accountDn.setText(account.username);
-        } else {
-            binding.accountDn.setText(account.span_display_name != null ? account.span_display_name : account.display_name, TextView.BufferType.SPANNABLE);
-        }
+
+        binding.accountDn.setText(
+                account.getSpanDisplayName(ProfileActivity.this,
+                        new WeakReference<>(binding.accountDn)),
+                TextView.BufferType.SPANNABLE);
 
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {
@@ -377,12 +365,10 @@ public class ProfileActivity extends BaseActivity {
             clipboard.setPrimaryClip(clip);
             return false;
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            binding.accountNote.setText(account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note, Html.FROM_HTML_MODE_COMPACT)), TextView.BufferType.SPANNABLE);
-        else
-            binding.accountNote.setText(account.span_note != null ? account.span_note : new SpannableString(Html.fromHtml(account.note)), TextView.BufferType.SPANNABLE);
-
+        binding.accountNote.setText(
+                account.getSpanNote(ProfileActivity.this,
+                        new WeakReference<>(binding.accountNote)),
+                TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
         MastodonHelper.loadPPMastodon(binding.accountPp, account);

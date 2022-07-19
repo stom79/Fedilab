@@ -149,7 +149,7 @@ public class CrossActionHelper {
                         }
                     });
         } else if (targetedStatus != null) {
-            searchVM.search(ownerAccount.instance, ownerAccount.token, targetedStatus.url, null, "statuses", false, true, false, 0, null, null, 1)
+            searchVM.search(ownerAccount.instance, ownerAccount.token, targetedStatus.uri, null, "statuses", false, true, false, 0, null, null, 1)
                     .observe((LifecycleOwner) context, results -> {
                         if (results.statuses != null && results.statuses.size() > 0) {
                             Status status = results.statuses.get(0);
@@ -278,8 +278,6 @@ public class CrossActionHelper {
                         if (results != null) {
                             if (results.statuses == null) {
                                 results.statuses = new ArrayList<>();
-                            } else {
-                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
                             }
                             if (results.accounts == null) {
                                 results.accounts = new ArrayList<>();
@@ -308,15 +306,15 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
-    public static void fetchRemoteAccount(@NonNull Context context, @NonNull BaseAccount ownerAccount, app.fedilab.android.client.entities.api.Account targetedAccount, Callback callback) {
+    public static void fetchRemoteAccount(@NonNull Context context, @NonNull BaseAccount ownerAccount, String targetedAcct, Callback callback) {
 
 
         MastodonSearchService mastodonSearchService = init(context, BaseMainActivity.currentInstance);
         String search;
-        if (targetedAccount.acct.contains("@")) { //Not from same instance
-            search = targetedAccount.acct;
+        if (targetedAcct.contains("@")) { //Not from same instance
+            search = targetedAcct;
         } else {
-            search = targetedAccount.acct + "@" + BaseMainActivity.currentInstance;
+            search = targetedAcct + "@" + BaseMainActivity.currentInstance;
         }
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, search, null, "accounts", false, true, false, 0, null, null, 1);
@@ -329,8 +327,6 @@ public class CrossActionHelper {
                         if (results != null) {
                             if (results.statuses == null) {
                                 results.statuses = new ArrayList<>();
-                            } else {
-                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
                             }
                             if (results.accounts == null) {
                                 results.accounts = new ArrayList<>();
@@ -374,8 +370,6 @@ public class CrossActionHelper {
                         if (results != null) {
                             if (results.statuses == null) {
                                 results.statuses = new ArrayList<>();
-                            } else {
-                                results.statuses = SpannableHelper.convertStatus(context, results.statuses);
                             }
                             if (results.accounts == null) {
                                 results.accounts = new ArrayList<>();

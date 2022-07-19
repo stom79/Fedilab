@@ -295,7 +295,7 @@ public class Account extends BaseAccount implements Serializable {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, null, null, null, null, null, null);
-            return cursorToListUser(c);
+            return cursorToListUserWithOwner(c);
         } catch (Exception e) {
             return null;
         }

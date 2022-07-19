@@ -115,11 +115,6 @@ public class NotificationsHelper {
                             if (notifications.notifications.size() > 0) {
                                 since_ids.put(slug, notifications.notifications.get(0).id);
                             }
-                            for (Notification notification : notifications.notifications) {
-                                if (notification != null && notification.status != null) {
-                                    notification.status = SpannableHelper.convertStatus(context.getApplicationContext(), notification.status);
-                                }
-                            }
                         }
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }

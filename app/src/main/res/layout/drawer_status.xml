@@ -24,7 +24,7 @@
     android:layout_marginTop="@dimen/card_margin"
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -34,6 +34,9 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical">
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/status_booster_info"
@@ -77,10 +80,6 @@
                 tools:text="@tools:sample/full_names" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/booster_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/header_container"
@@ -151,12 +150,19 @@
                             android:maxLines="1"
                             tools:text="@tools:sample/full_names" />
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/visibility_small"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:src="@drawable/ic_baseline_public_24" />
+
                         <TextView
                             android:id="@+id/date_short"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="10dp" />
+                            tools:text="2m" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -196,9 +202,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/spoiler"
@@ -493,6 +496,27 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/action_share_container"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="end"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_share"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/ic_baseline_share_24" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/action_buttons"
             android:layout_width="match_parent"
             android:layout_height="28dp"
@@ -576,6 +600,12 @@
                 app:srcCompat="@drawable/ic_more_horiz" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include
+            android:id="@+id/layout_reactions"
+            layout="@layout/layout_reactions"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

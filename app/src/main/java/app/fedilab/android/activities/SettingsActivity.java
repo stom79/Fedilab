@@ -16,6 +16,7 @@ package app.fedilab.android.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -62,6 +63,7 @@ public class SettingsActivity extends BaseActivity {
         }
         canGoBack = false;
 
+        binding.setAccount.setOnClickListener(v -> displaySettings(SettingsEnum.ACCOUNT));
         binding.setTimelines.setOnClickListener(v -> displaySettings(SettingsEnum.TIMELINES));
         binding.setNotifications.setOnClickListener(v -> displaySettings(SettingsEnum.NOTIFICATIONS));
         binding.setInterface.setOnClickListener(v -> displaySettings(SettingsEnum.INTERFACE));
@@ -79,61 +81,66 @@ public class SettingsActivity extends BaseActivity {
 
     public void displaySettings(SettingsEnum settingsEnum) {
 
-        ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            String category = "";
-            switch (settingsEnum) {
-                case TIMELINES:
-                    FragmentTimelinesSettings fragmentTimelinesSettings = new FragmentTimelinesSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentTimelinesSettings);
-                    currentFragment = fragmentTimelinesSettings;
-                    category = getString(R.string.settings_category_label_timelines);
-                    break;
-                case NOTIFICATIONS:
-                    FragmentNotificationsSettings fragmentNotificationsSettings = new FragmentNotificationsSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentNotificationsSettings);
-                    currentFragment = fragmentNotificationsSettings;
-                    category = getString(R.string.notifications);
-                    break;
-                case INTERFACE:
-                    FragmentInterfaceSettings fragmentInterfaceSettings = new FragmentInterfaceSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentInterfaceSettings);
-                    currentFragment = fragmentInterfaceSettings;
-                    category = getString(R.string.settings_category_label_interface);
-                    break;
-                case COMPOSE:
-                    FragmentComposeSettings fragmentComposeSettings = new FragmentComposeSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentComposeSettings);
-                    currentFragment = fragmentComposeSettings;
-                    category = getString(R.string.compose);
-                    break;
-                case PRIVACY:
-                    FragmentPrivacySettings fragmentPrivacySettings = new FragmentPrivacySettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentPrivacySettings);
-                    currentFragment = fragmentPrivacySettings;
-                    category = getString(R.string.action_privacy);
-                    break;
-                case THEMING:
-                    FragmentThemingSettings fragmentThemingSettings = new FragmentThemingSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentThemingSettings);
-                    currentFragment = fragmentThemingSettings;
-                    category = getString(R.string.theming);
-                    break;
-                case LANGUAGE:
-                    FragmentLanguageSettings fragmentLanguageSettings = new FragmentLanguageSettings();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentLanguageSettings);
-                    currentFragment = fragmentLanguageSettings;
-                    category = getString(R.string.languages);
-                    break;
+        if (settingsEnum == SettingsEnum.ACCOUNT) {
+            Intent intent = new Intent(SettingsActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        } else {
+            ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction =
+                        fragmentManager.beginTransaction();
+                String category = "";
+                switch (settingsEnum) {
+                    case TIMELINES:
+                        FragmentTimelinesSettings fragmentTimelinesSettings = new FragmentTimelinesSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentTimelinesSettings);
+                        currentFragment = fragmentTimelinesSettings;
+                        category = getString(R.string.settings_category_label_timelines);
+                        break;
+                    case NOTIFICATIONS:
+                        FragmentNotificationsSettings fragmentNotificationsSettings = new FragmentNotificationsSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentNotificationsSettings);
+                        currentFragment = fragmentNotificationsSettings;
+                        category = getString(R.string.notifications);
+                        break;
+                    case INTERFACE:
+                        FragmentInterfaceSettings fragmentInterfaceSettings = new FragmentInterfaceSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentInterfaceSettings);
+                        currentFragment = fragmentInterfaceSettings;
+                        category = getString(R.string.settings_category_label_interface);
+                        break;
+                    case COMPOSE:
+                        FragmentComposeSettings fragmentComposeSettings = new FragmentComposeSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentComposeSettings);
+                        currentFragment = fragmentComposeSettings;
+                        category = getString(R.string.compose);
+                        break;
+                    case PRIVACY:
+                        FragmentPrivacySettings fragmentPrivacySettings = new FragmentPrivacySettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentPrivacySettings);
+                        currentFragment = fragmentPrivacySettings;
+                        category = getString(R.string.action_privacy);
+                        break;
+                    case THEMING:
+                        FragmentThemingSettings fragmentThemingSettings = new FragmentThemingSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentThemingSettings);
+                        currentFragment = fragmentThemingSettings;
+                        category = getString(R.string.theming);
+                        break;
+                    case LANGUAGE:
+                        FragmentLanguageSettings fragmentLanguageSettings = new FragmentLanguageSettings();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentLanguageSettings);
+                        currentFragment = fragmentLanguageSettings;
+                        category = getString(R.string.languages);
+                        break;
 
-            }
-            String title = String.format(Locale.getDefault(), "%s - %s", getString(R.string.settings), category);
-            setTitle(title);
-            canGoBack = true;
-            fragmentTransaction.commit();
-        });
+                }
+                String title = String.format(Locale.getDefault(), "%s - %s", getString(R.string.settings), category);
+                setTitle(title);
+                canGoBack = true;
+                fragmentTransaction.commit();
+            });
+        }
     }
 
 
@@ -156,15 +163,6 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (currentFragment != null) {
-            currentFragment.onDestroy();
-        }
-        binding = null;
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,6 +175,8 @@ public class SettingsActivity extends BaseActivity {
 
 
     public enum SettingsEnum {
+        @SerializedName("ACCOUNT")
+        ACCOUNT("ACCOUNT"),
         @SerializedName("TIMELINES")
         TIMELINES("TIMELINES"),
         @SerializedName("NOTIFICATIONS")

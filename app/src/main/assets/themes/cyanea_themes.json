@@ -8,7 +8,7 @@
     "accent": "#FF2b90d9",
     "accent_dark": "#FF1b80c9",
     "accent_light": "#FF772b90d9",
-    "background": "#FF121212",
+    "background": "#FF272727",
     "background_dark": "#FF282c37",
     "background_light": "#FF282c37",
     "should_tint_statusbar": true,

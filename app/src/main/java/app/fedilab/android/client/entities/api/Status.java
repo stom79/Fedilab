@@ -14,15 +14,20 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.text.Spannable;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
+
+import app.fedilab.android.helper.SpannableHelper;
 
 public class Status implements Serializable, Cloneable {
 
@@ -84,14 +89,12 @@ public class Status implements Serializable, Cloneable {
     public Card card;
     @SerializedName("poll")
     public Poll poll;
+    @SerializedName("pleroma")
+    public Pleroma pleroma;
 
 
     public Attachment art_attachment;
 
-    //Some extra spannable element - They will be filled automatically when fetching the status
-    public transient Spannable span_content;
-    public transient Spannable span_spoiler_text;
-    public transient Spannable span_translate;
     public boolean isExpended = false;
     public boolean isTruncated = true;
     public boolean isFetchMore = false;
@@ -105,6 +108,24 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
+    //Some extra spannable element - They will be filled automatically when fetching the status
+
+    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, content, this, null, null, true, viewWeakReference);
+    }
+
+
+    public Spannable getSpanContentNitter() {
+        return SpannableHelper.convertNitter(content);
+    }
+
+    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, spoiler_text, this, null, null, true, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, translationContent, this, null, null, true, viewWeakReference);
+    }
 
     @NonNull
     public Object clone() throws CloneNotSupportedException {

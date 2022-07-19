@@ -26,6 +26,7 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -48,6 +49,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -69,10 +71,12 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.EmojiInstance;
+import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.Languages;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
 import app.fedilab.android.databinding.PopupContactBinding;
@@ -81,7 +85,6 @@ import app.fedilab.android.helper.DividerDecorationSimple;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
@@ -100,7 +103,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     public static final int REQUEST_AUDIO_PERMISSION_RESULT = 1653;
     public static final int PICK_MEDIA = 5700;
     public static final int TAKE_PHOTO = 5600;
-
+    private final Timer timer = new Timer();
     private List<Status> statusList;
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
@@ -234,6 +237,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }).start();
         }
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+        if (MainActivity.instanceInfo == null) {
+            String instanceInfo = sharedpreferences.getString(getString(R.string.INSTANCE_INFO) + instance, null);
+            if (instanceInfo != null) {
+                MainActivity.instanceInfo = Instance.restore(instanceInfo);
+            }
+        }
+
         StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
         //Empty compose
         List<Status> statusDraftList = new ArrayList<>();
@@ -257,86 +268,70 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         }
                     });
         } else if (statusDraft != null) {//Restore a draft with all messages
-            new Thread(() -> {
-                if (statusDraft.statusReplyList != null) {
-                    statusDraft.statusReplyList = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusDraft.statusReplyList);
-                }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    if (statusDraft.statusReplyList != null) {
-                        statusList.addAll(statusDraft.statusReplyList);
-                        binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
-                    }
-                    int statusCount = statusList.size();
-                    statusList.addAll(statusDraft.statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-                    composeAdapter.manageDrafts = this;
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-                    binding.recyclerView.setLayoutManager(mLayoutManager);
-                    binding.recyclerView.setAdapter(composeAdapter);
-                    binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
-                };
-                mainHandler.post(myRunnable);
-            }).start();
+            if (statusDraft.statusReplyList != null) {
+                statusList.addAll(statusDraft.statusReplyList);
+                binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
+            }
+            int statusCount = statusList.size();
+            statusList.addAll(statusDraft.statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
 
         } else if (statusReply != null) {
-            new Thread(() -> {
-                statusReply = SpannableHelper.convertStatus(getApplication().getApplicationContext(), statusReply);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    statusList.add(statusReply);
-                    int statusCount = statusList.size();
-                    statusDraftList.get(0).in_reply_to_id = statusReply.id;
-                    //We change order for mentions
-                    //At first place the account that has been mentioned if it's not our
-                    statusDraftList.get(0).mentions = new ArrayList<>();
-                    if (!statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                        Mention mention = new Mention();
-                        mention.acct = "@" + statusReply.account.acct;
-                        mention.url = statusReply.account.url;
-                        mention.username = statusReply.account.username;
-                        statusDraftList.get(0).mentions.add(mention);
-                    }
+            statusList.add(statusReply);
+            int statusCount = statusList.size();
+            statusDraftList.get(0).in_reply_to_id = statusReply.id;
+            //We change order for mentions
+            //At first place the account that has been mentioned if it's not our
+            statusDraftList.get(0).mentions = new ArrayList<>();
+            if (statusReply.account.acct != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                Mention mention = new Mention();
+                mention.acct = "@" + statusReply.account.acct;
+                mention.url = statusReply.account.url;
+                mention.username = statusReply.account.username;
+                statusDraftList.get(0).mentions.add(mention);
+            }
 
-                    //There are other mentions to
-                    if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
-                        for (Mention mentionTmp : statusReply.mentions) {
-                            if (!mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                                statusDraftList.get(0).mentions.add(mentionTmp);
-                            }
-                        }
+            //There are other mentions to
+            if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
+                for (Mention mentionTmp : statusReply.mentions) {
+                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                        statusDraftList.get(0).mentions.add(mentionTmp);
                     }
-                    if (mentionBooster != null) {
-                        Mention mention = new Mention();
-                        mention.acct = mentionBooster.acct;
-                        mention.url = mentionBooster.url;
-                        mention.username = mentionBooster.username;
-                        boolean present = false;
-                        for (Mention mentionTmp : statusDraftList.get(0).mentions) {
-                            if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
-                                present = true;
-                                break;
-                            }
-                        }
-                        if (!present) {
-                            statusDraftList.get(0).mentions.add(mention);
-                        }
+                }
+            }
+            if (mentionBooster != null) {
+                Mention mention = new Mention();
+                mention.acct = mentionBooster.acct;
+                mention.url = mentionBooster.url;
+                mention.username = mentionBooster.username;
+                boolean present = false;
+                for (Mention mentionTmp : statusDraftList.get(0).mentions) {
+                    if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
+                        present = true;
+                        break;
                     }
-                    if (statusReply.spoiler_text != null) {
-                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-                    }
-                    //StatusDraftList at this point should only have one element
-                    statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-                    composeAdapter.manageDrafts = this;
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-                    binding.recyclerView.setLayoutManager(mLayoutManager);
-                    binding.recyclerView.setAdapter(composeAdapter);
-                    statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
-                            .observe(ComposeActivity.this, this::initializeContextView);
-                };
-                mainHandler.post(myRunnable);
-            }).start();
+                }
+                if (!present) {
+                    statusDraftList.get(0).mentions.add(mention);
+                }
+            }
+            if (statusReply.spoiler_text != null) {
+                statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+            }
+            //StatusDraftList at this point should only have one element
+            statusList.addAll(statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
+                    .observe(ComposeActivity.this, this::initializeContextView);
         } else {
             //Compose without replying
             statusList.addAll(statusDraftList);
@@ -348,19 +343,20 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             if (statusMention != null) {
                 composeAdapter.loadMentions(statusMention);
             }
-
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(imageReceiver,
                         new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                storeDraft(false);
-            }
-        }, 0, 10000);
+        if (timer != null) {
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    storeDraft(false);
+                }
+            }, 0, 10000);
+        }
 
         if (sharedUriList != null && sharedUriList.size() > 0) {
 
@@ -395,6 +391,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (timer != null) {
+            timer.cancel();
+        }
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(imageReceiver);
     }
@@ -579,6 +578,46 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             } else {
                 Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
             }
+        } else if (item.getItemId() == R.id.action_language) {
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+            List<Languages.Language> languages = Languages.get(ComposeActivity.this);
+            String[] codesArr = new String[0];
+            String[] languagesArr = new String[0];
+
+            String currentCode = sharedpreferences.getString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+            int selection = 0;
+
+            if (languages != null) {
+                codesArr = new String[languages.size()];
+                languagesArr = new String[languages.size()];
+                int i = 0;
+                for (Languages.Language language : languages) {
+                    codesArr[i] = language.code;
+                    languagesArr[i] = language.language;
+                    if (currentCode != null && currentCode.equalsIgnoreCase(language.code)) {
+                        selection = i;
+                    }
+                    i++;
+                }
+            }
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            AlertDialog.Builder builder = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
+            builder.setTitle(getString(R.string.message_language));
+
+            builder.setSingleChoiceItems(languagesArr, selection, null);
+            String[] finalCodesArr = codesArr;
+            builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                editor.putString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
+                editor.apply();
+                dialog.dismiss();
+            });
+            builder.setNegativeButton(R.string.reset, (dialog, which) -> {
+                editor.putString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+                editor.apply();
+                dialog.dismiss();
+            });
+            builder.create().show();
         }
         return true;
     }
@@ -667,6 +706,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else {
                     statusReplies.add(status);
                 }
+
             }
             if (statusDraft == null) {
                 statusDraft = new StatusDraft(ComposeActivity.this);
@@ -677,10 +717,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }
             if (statusReplies.size() > 0) {
-                statusDraft.statusReplyList = statusReplies;
+                statusDraft.statusReplyList = new ArrayList<>();
+                statusDraft.statusReplyList.addAll(statusReplies);
             }
             if (statusDrafts.size() > 0) {
-                statusDraft.statusDraftList = statusDrafts;
+                statusDraft.statusDraftList = new ArrayList<>();
+                statusDraft.statusDraftList.addAll(statusDrafts);
             }
             if (statusDraft.instance == null) {
                 statusDraft.instance = account.instance;
@@ -750,6 +792,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                     intent.putExtra(Helper.ARG_INSTANCE, instance);
                     intent.putExtra(Helper.ARG_TOKEN, token);
+                    intent.putExtra(Helper.ARG_USER_ID, account.user_id);
                     intent.putExtra(Helper.ARG_SCHEDULED_DATE, scheduledDate);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(intent);
@@ -757,7 +800,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         startService(intent);
                     }
                 } else {
-                    new ThreadMessageService(ComposeActivity.this, instance, token, statusDraft, scheduledDate);
+                    new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate);
                 }
                 finish();
             }

@@ -294,7 +294,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
 
     @Override
     public void onDestroy() {
-        binding = null;
         unregisterReceiver(onDownloadComplete);
         super.onDestroy();
     }

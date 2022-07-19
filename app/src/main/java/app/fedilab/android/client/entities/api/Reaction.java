@@ -16,7 +16,9 @@ package app.fedilab.android.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Reaction {
+import java.io.Serializable;
+
+public class Reaction implements Serializable {
     @SerializedName("name")
     public String name;
     @SerializedName("count")

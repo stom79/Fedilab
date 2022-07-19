@@ -23,16 +23,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonAnnouncementsService;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.SpannableHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -55,7 +51,6 @@ public class AnnouncementsVM extends AndroidViewModel {
     }
 
     private MastodonAnnouncementsService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
@@ -83,7 +78,6 @@ public class AnnouncementsVM extends AndroidViewModel {
                     Response<List<Announcement>> getAnnouncementsResponse = getAnnouncementsCall.execute();
                     if (getAnnouncementsResponse.isSuccessful()) {
                         announcementList = getAnnouncementsResponse.body();
-                        SpannableHelper.convertAnnouncement(getApplication(), announcementList);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

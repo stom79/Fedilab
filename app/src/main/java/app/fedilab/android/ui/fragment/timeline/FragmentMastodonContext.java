@@ -21,8 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +43,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
@@ -98,26 +95,19 @@ public class FragmentMastodonContext extends Fragment {
                     }
                 } else if (statusPosted != null && statusAdapter != null) {
                     if (requireActivity() instanceof ContextActivity) {
-                        new Thread(() -> {
-                            Status convertStatus = SpannableHelper.convertStatus(context, statusPosted);
-                            Handler mainHandler = new Handler(Looper.getMainLooper());
-                            Runnable myRunnable = () -> {
-                                int i = 0;
-                                for (Status status : statuses) {
-                                    if (status.id.equals(convertStatus.in_reply_to_id)) {
-                                        statuses.add((i + 1), convertStatus);
-                                        statusAdapter.notifyItemInserted((i + 1));
-                                        if (requireActivity() instanceof ContextActivity) {
-                                            //Redraw decorations
-                                            statusAdapter.notifyItemRangeChanged(0, statuses.size());
-                                        }
-                                        break;
-                                    }
-                                    i++;
+                        int i = 0;
+                        for (Status status : statuses) {
+                            if (status.id.equals(statusPosted.in_reply_to_id)) {
+                                statuses.add((i + 1), statusPosted);
+                                statusAdapter.notifyItemInserted((i + 1));
+                                if (requireActivity() instanceof ContextActivity) {
+                                    //Redraw decorations
+                                    statusAdapter.notifyItemRangeChanged(0, statuses.size());
                                 }
-                            };
-                            mainHandler.post(myRunnable);
-                        }).start();
+                                break;
+                            }
+                            i++;
+                        }
                     }
                 }
             }

@@ -29,6 +29,8 @@ public class Notification {
     public String type;
     @SerializedName("created_at")
     public Date created_at;
+    @SerializedName("emoji")
+    public String emoji;
     @SerializedName("account")
     public Account account;
     @SerializedName("status")

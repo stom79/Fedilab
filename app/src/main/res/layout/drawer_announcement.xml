@@ -59,64 +59,9 @@
             tools:maxLines="10"
             tools:text="@tools:sample/lorem/random" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/status_reactions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reactions_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/status_add_custom_emoji"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:contentDescription="@string/add_reaction"
-                android:src="@drawable/ic_baseline_emoji_emotions_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/iconColor" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/status_emoji"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:contentDescription="@string/add_reaction"
-                android:src="@drawable/ic_baseline_add_reaction_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/iconColor" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <app.fedilab.android.helper.FedilabAutoCompleteTextView
-                    android:id="@+id/fake_edittext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:inputType="text" />
-            </LinearLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <include
+            android:id="@+id/layout_reactions"
+            layout="@layout/layout_reactions" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

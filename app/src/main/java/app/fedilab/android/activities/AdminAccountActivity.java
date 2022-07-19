@@ -22,8 +22,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -46,6 +44,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -105,14 +104,7 @@ public class AdminAccountActivity extends BaseActivity {
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         if (account != null) {
-            new Thread(() -> {
-                account = SpannableHelper.convertAccount(AdminAccountActivity.this, account);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> initializeView(account);
-                mainHandler.post(myRunnable);
-
-            }).start();
-
+            initializeView(account);
         } else {
             Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
             finish();
@@ -314,7 +306,10 @@ public class AdminAccountActivity extends BaseActivity {
         }
 
 
-        binding.accountDn.setText(account.span_display_name != null ? account.span_display_name : account.display_name, TextView.BufferType.SPANNABLE);
+        binding.accountDn.setText(
+                account.getSpanDisplayName(AdminAccountActivity.this,
+                        new WeakReference<>(binding.accountDn)),
+                TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);

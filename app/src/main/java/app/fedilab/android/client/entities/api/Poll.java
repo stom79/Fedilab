@@ -14,13 +14,18 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.text.Spannable;
+import android.view.View;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
+
+import app.fedilab.android.helper.SpannableHelper;
 
 public class Poll implements Serializable {
 
@@ -53,7 +58,11 @@ public class Poll implements Serializable {
         @SerializedName("votes_count")
         public int votes_count;
 
-        //Some extra spannable element - They will be filled automatically when fetching the poll
         public transient Spannable span_title;
+
+        public Spannable getSpanTitle(Context context, Status status, WeakReference<View> viewWeakReference) {
+            span_title = SpannableHelper.convert(context, title, status, null, null, true, viewWeakReference);
+            return span_title;
+        }
     }
 }

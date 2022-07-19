@@ -14,14 +14,19 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.text.Spannable;
+import android.view.View;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import app.fedilab.android.helper.SpannableHelper;
 
 public class Account implements Serializable {
 
@@ -74,10 +79,20 @@ public class Account implements Serializable {
     @SerializedName("moved")
     public Account moved;
 
-    //Some extra spannable element - They will be filled automatically when fetching the account
-    public transient Spannable span_display_name;
-    public transient Spannable span_note;
+    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
+        if (display_name == null || display_name.isEmpty()) {
+            display_name = username;
+        }
+        return SpannableHelper.convert(context, display_name, null, this, null, true, viewWeakReference);
+    }
+
+
+    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, note, null, this, null, true, viewWeakReference);
+    }
+
     public transient RelationShip relationShip;
+
 
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")

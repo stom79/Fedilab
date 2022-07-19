@@ -37,6 +37,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
@@ -224,9 +225,15 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
         }
-        accountViewHolder.binding.displayName.setText(account.span_display_name, TextView.BufferType.SPANNABLE);
+        accountViewHolder.binding.displayName.setText(
+                account.getSpanDisplayName(context,
+                        new WeakReference<>(accountViewHolder.binding.displayName)),
+                TextView.BufferType.SPANNABLE);
         accountViewHolder.binding.username.setText(String.format("@%s", account.acct));
-        accountViewHolder.binding.bio.setText(account.span_note, TextView.BufferType.SPANNABLE);
+        accountViewHolder.binding.bio.setText(
+                account.getSpanNote(context,
+                        new WeakReference<>(accountViewHolder.binding.bio)),
+                TextView.BufferType.SPANNABLE);
     }
 
     public int getCount() {

@@ -537,7 +537,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
                 new Thread(() -> {
                     try {
-                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getAll();
+                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getCrossAccounts();
                         Handler mainHandler = new Handler(Looper.getMainLooper());
                         Runnable myRunnable = () -> {
                             binding.navView.getMenu().clear();
@@ -772,7 +772,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
-                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount);
+                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount, false);
                 MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
@@ -786,7 +786,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getEmoji(currentInstance);
                 //Retrieve instance info
                 new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getInstance(currentInstance)
-                        .observe(BaseMainActivity.this, instance -> instanceInfo = instance.info);
+                        .observe(BaseMainActivity.this, instance -> {
+                            instanceInfo = instance.info;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(getString(R.string.INSTANCE_INFO) + MainActivity.currentInstance, Instance.serialize(instanceInfo));
+                            editor.apply();
+                        });
                 //Retrieve filters
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getFilters(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);
@@ -850,7 +855,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance)) {
+        if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {
                     emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
@@ -1058,11 +1063,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     public void redrawPinned(List<MastodonList> mastodonLists) {
         int currentItem = binding.viewPager.getCurrentItem();

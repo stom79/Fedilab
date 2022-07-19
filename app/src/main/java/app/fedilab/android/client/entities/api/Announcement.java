@@ -14,12 +14,17 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.content.Context;
 import android.text.Spannable;
+import android.view.View;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
+
+import app.fedilab.android.helper.SpannableHelper;
 
 public class Announcement {
     @SerializedName("id")
@@ -49,6 +54,9 @@ public class Announcement {
     @SerializedName("reactions")
     public List<Reaction> reactions;
 
-    //Some extra spannable element - They will be filled automatically when fetching the status
-    public transient Spannable span_content;
+
+    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, content, null, null, this, true, viewWeakReference);
+    }
+
 }

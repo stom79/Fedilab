@@ -87,8 +87,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -119,7 +121,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -352,9 +354,9 @@ public class Helper {
     public static int counter = 1;
 
     static {
-        Map<PatternType, Pattern> aMap = new HashMap<>();
-        aMap.put(PatternType.MENTION, mentionPattern);
+        LinkedHashMap<PatternType, Pattern> aMap = new LinkedHashMap<>();
         aMap.put(PatternType.MENTION_LONG, mentionLongPattern);
+        aMap.put(PatternType.MENTION, mentionPattern);
         aMap.put(PatternType.TAG, hashtagPattern);
         aMap.put(PatternType.GROUP, groupPattern);
         patternHashMap = Collections.unmodifiableMap(aMap);
@@ -1043,6 +1045,7 @@ public class Helper {
 
     }
 
+
     /**
      * Load a profile picture for the account
      *
@@ -1050,25 +1053,39 @@ public class Helper {
      * @param account - {@link Account}
      */
     public static void loadPP(ImageView view, BaseAccount account) {
+        loadPP(view, account, false);
+    }
+
+    /**
+     * Load a profile picture for the account
+     *
+     * @param view    ImageView - the view where the image will be loaded
+     * @param account - {@link Account}
+     */
+    public static void loadPP(ImageView view, BaseAccount account, boolean crop) {
         Context context = view.getContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
         if (targetedUrl != null) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                Glide.with(view.getContext())
+                RequestBuilder<Drawable> requestBuilder = Glide.with(view.getContext())
                         .asDrawable()
                         .load(targetedUrl)
-                        .thumbnail(0.1f)
-                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                        .into(view);
+                        .thumbnail(0.1f);
+                if (crop) {
+                    requestBuilder = requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)));
+                }
+                requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             } else {
-                Glide.with(view.getContext())
+                RequestBuilder<GifDrawable> requestBuilder = Glide.with(view.getContext())
                         .asGif()
                         .load(targetedUrl)
-                        .thumbnail(0.1f)
-                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                        .into(view);
+                        .thumbnail(0.1f);
+                if (crop) {
+                    requestBuilder = requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)));
+                }
+                requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             }
         } else {
             Glide.with(view.getContext())
@@ -1721,5 +1738,14 @@ public class Helper {
             }
 
         }).start();
+    }
+
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

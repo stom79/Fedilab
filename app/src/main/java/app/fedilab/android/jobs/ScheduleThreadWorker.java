@@ -74,6 +74,7 @@ public class ScheduleThreadWorker extends Worker {
         Data outputData;
         String instance = getInputData().getString(Helper.ARG_INSTANCE);
         String token = getInputData().getString(Helper.ARG_TOKEN);
+        String userId = getInputData().getString(Helper.ARG_USER_ID);
         String statusDraftId = getInputData().getString(Helper.ARG_STATUS_DRAFT_ID);
         StatusDraft statusDraft;
         try {
@@ -82,6 +83,7 @@ public class ScheduleThreadWorker extends Worker {
             intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
             intent.putExtra(Helper.ARG_INSTANCE, instance);
             intent.putExtra(Helper.ARG_TOKEN, token);
+            intent.putExtra(Helper.ARG_USER_ID, userId);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 getApplicationContext().startForegroundService(intent);
             } else {

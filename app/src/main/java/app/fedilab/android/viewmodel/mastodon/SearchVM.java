@@ -36,7 +36,6 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.SpannableHelper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -112,13 +111,9 @@ public class SearchVM extends AndroidViewModel {
                         if (results != null) {
                             if (results.statuses == null) {
                                 results.statuses = new ArrayList<>();
-                            } else {
-                                results.statuses = SpannableHelper.convertStatus(getApplication(), results.statuses);
                             }
                             if (results.accounts == null) {
                                 results.accounts = new ArrayList<>();
-                            } else {
-                                results.accounts = SpannableHelper.convertAccounts(getApplication().getApplicationContext(), results.accounts);
                             }
                             if (results.hashtags == null) {
                                 results.hashtags = new ArrayList<>();
@@ -144,7 +139,6 @@ public class SearchVM extends AndroidViewModel {
             try {
                 results.statuses = new ArrayList<>();
                 List<Status> statuses = new StatusCache(getApplication()).searchStatus(StatusCache.CacheEnum.HOME, instance, userId, q);
-                statuses = SpannableHelper.convertStatus(getApplication(), statuses);
                 results.statuses.addAll(statuses);
             } catch (DBException e) {
                 e.printStackTrace();

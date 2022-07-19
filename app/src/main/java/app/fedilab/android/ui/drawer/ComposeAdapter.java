@@ -73,6 +73,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -455,13 +456,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             List<Attachment> attachmentList = statusList.get(position).media_attachments;
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
-                if (currentAccount.mastodon_account.source != null) {
-                    holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
-                    statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
-                } else {
-                    statusList.get(position).sensitive = false;
+                if (!statusList.get(position).sensitive) {
+                    if (currentAccount.mastodon_account.source != null) {
+                        holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
+                        statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
+                    } else {
+                        statusList.get(position).sensitive = false;
+                    }
                 }
-                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
+
+                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    statusList.get(position).sensitive = isChecked;
+                });
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
@@ -664,6 +670,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return statusList.size();
     }
 
+    private List<Emoji> emojisList = new ArrayList<>();
     /**
      * Initialize text watcher for content writing
      * It will allow to complete autocomplete edit text while starting words with @, #, : etc.
@@ -672,7 +679,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @return {@link TextWatcher}
      */
     public TextWatcher initializeTextWatcher(ComposeAdapter.ComposeViewHolder holder) {
-        final List<Emoji>[] emojis = new List[]{null};
         String pattern = "(.|\\s)*(@[\\w_-]+@[a-z0-9.\\-]+|@[\\w_-]+)";
         final Pattern mentionPattern = Pattern.compile(pattern);
 
@@ -958,13 +964,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Thread(() -> {
                         List<Emoji> emojisToDisplay = new ArrayList<>();
                         try {
-                            if (emojis[0] == null) {
-                                emojis[0] = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
+                            if (emojisList == null || emojisList.size() == 0) {
+                                emojisList = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
                             }
-                            if (emojis[0] == null) {
+                            if (emojis == null) {
                                 return;
                             }
-                            for (Emoji emoji : emojis[0]) {
+                            for (Emoji emoji : emojisList) {
                                 if (shortcode != null && emoji.shortcode.contains(shortcode)) {
                                     emojisToDisplay.add(emoji);
                                     if (emojisToDisplay.size() >= 10) {
@@ -983,7 +989,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 if (searchA.length > 0) {
                                     final String search = searchA[searchA.length - 1];
                                     holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
-                                        String shortcodeSelected = emojis[0].get(position).shortcode;
+                                        String shortcodeSelected = emojisToDisplay.get(position).shortcode;
                                         String deltaSearch = "";
                                         int searchLength = searchDeep;
                                         if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position
@@ -1032,20 +1038,39 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+
+        int theme_statuses_color = -1;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
+            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
+        }
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
-            holder.binding.statusContent.setText(status.span_content, TextView.BufferType.SPANNABLE);
+            holder.binding.statusContent.setText(
+                    status.getSpanContent(context,
+                            new WeakReference<>(holder.binding.statusContent)),
+                    TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
-            holder.binding.displayName.setText(status.account.span_display_name, TextView.BufferType.SPANNABLE);
+            holder.binding.displayName.setText(
+                    status.account.getSpanDisplayName(context,
+                            new WeakReference<>(holder.binding.displayName)),
+                    TextView.BufferType.SPANNABLE);
             holder.binding.username.setText(String.format("@%s", status.account.acct));
             if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
-
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
-                holder.binding.spoiler.setText(status.span_spoiler_text, TextView.BufferType.SPANNABLE);
+                holder.binding.spoiler.setText(
+                        status.getSpanSpoiler(context,
+                                new WeakReference<>(holder.binding.spoiler)),
+                        TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.spoiler.setVisibility(View.GONE);
                 holder.binding.spoiler.setText(null);
+            }
+            if (theme_statuses_color != -1) {
+                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+            } else {
+                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
             }
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
@@ -1058,7 +1083,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
-
+            if (theme_statuses_color != -1) {
+                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+            } else {
+                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+            }
             holder.binding.buttonAttach.setOnClickListener(v -> {
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {

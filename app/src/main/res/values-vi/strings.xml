@@ -16,7 +16,7 @@
     <string name="download_from" formatted="false">Tập tin: %1$s</string>
     <string name="password">Mật khẩu</string>
     <string name="email">Email</string>
-    <string name="accounts">Tài khoản</string>
+    <string name="accounts">Người</string>
     <string name="toots">Tút</string>
     <string name="tags">Tag</string>
     <string name="save">Lưu</string>
@@ -63,7 +63,7 @@
     <string name="no_emoji">Ứng dụng không thể thu thập emoji tùy chỉnh vào thời điểm này.</string>
     <string name="logout_account_confirmation">Bạn có chắc muốn đăng xuất @%1$s@%2$s\?</string>
     <!-- Status -->
-    <string name="no_status">Không có tút nào</string>
+    <string name="no_status">Chưa có</string>
     <string name="favourite_add">Thêm tút này vào mục yêu thích của bạn\?</string>
     <string name="favourite_remove">Xóa tút này khỏi mục yêu thích của bạn\?</string>
     <string name="reblog_add">Đăng lại tút này\?</string>
@@ -75,7 +75,7 @@
     <string name="more_action_5">Sao chép</string>
     <string name="more_action_6">Chia sẻ</string>
     <string name="more_action_7">Nhắc đến</string>
-    <string name="more_action_8">Thời gian ẩn</string>
+    <string name="more_action_8">Ẩn có thời hạn</string>
     <string name="more_action_9">Xóa &amp; viết lại</string>
     <string-array name="more_action_confirm">
         <item>Ẩn tài khoản này?</item>
@@ -143,11 +143,14 @@
     <string name="about_thekinrar">Tìm máy chủ:</string>
     <!-- Conversation -->
     <!-- Accounts -->
-    <string name="no_accounts">Không có tài khoản nào</string>
+    <string name="no_accounts">Không có người nào</string>
     <string name="no_follow_request">Không có yêu cầu theo dõi</string>
-    <string name="status_cnt">%1$s tút</string>
-    <string name="following_cnt">%1$s Đang theo dõi</string>
-    <string name="followers_cnt">%1$s Người theo dõi</string>
+    <string name="status_cnt">Tút
+\n %1$s</string>
+    <string name="following_cnt">Đang theo dõi
+\n %1$s</string>
+    <string name="followers_cnt">Người theo dõi
+\n %1$s</string>
     <string name="reject">Từ chối</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Không có tút đã lên lịch!</string>
@@ -198,10 +201,10 @@
     <string name="set_notif_follow_share">Khi ai đó đăng lại tút của tôi</string>
     <string name="set_notif_follow_add">Khi ai đó thích tút của tôi</string>
     <string name="set_notif_follow_mention">Khi ai đó nhắc tới tôi</string>
-    <string name="set_notif_follow_poll">Nhắc khi một cuộc bình chọn kết thúc</string>
-    <string name="set_notif_status">Nhắc khi có tút mới</string>
-    <string name="set_share_validation">Hiện xác nhận trước khi đăng lại tút</string>
-    <string name="set_share_validation_fav">Hiện xác nhận trước khi thích tút</string>
+    <string name="set_notif_follow_poll">Khi cuộc bình chọn kết thúc</string>
+    <string name="set_notif_status">Khi có tút mới</string>
+    <string name="set_share_validation">Hiện xác nhận trước khi đăng lại</string>
+    <string name="set_share_validation_fav">Hiện xác nhận trước khi thích</string>
     <string name="set_notify">Thông báo?</string>
     <string name="set_notif_silent">Tắt thông báo</string>
     <string name="set_nsfw_timeout">Thời gian chờ của NSFW (giây, 0 = tắt)</string>
@@ -237,7 +240,7 @@
     <string name="action_unmute">Bỏ ẩn</string>
     <string name="request_sent">Đã gửi yêu cầu</string>
     <string name="followed_by">Theo dõi bạn</string>
-    <string name="set_capitalize">Viết hoa chữ đầu khi trả lời</string>
+    <string name="set_capitalize">Tự động xuống dòng khi trả lời</string>
     <string name="set_resize_picture">Giảm kích cỡ hình ảnh</string>
     <string name="set_resize_video">Giảm kích thước video</string>
     <!-- Quick settings for notifications -->
@@ -273,7 +276,7 @@
     <string name="action_lists_add_to">Thêm vào danh sách</string>
     <string name="action_lists_delete">Xoá danh sách</string>
     <string name="action_lists_title_placeholder">Tên danh sách mới</string>
-    <string name="action_lists_add_user">Đã thêm tài khoản vào danh sách!</string>
+    <string name="action_lists_add_user">Đã thêm người này vào danh sách!</string>
     <string name="action_lists_empty">Bạn chưa có danh sách nào!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s đã chuyển sang %2$s</string>
@@ -325,7 +328,7 @@
     <string name="channel_notif_status">Tút mới</string>
     <string name="channel_notif_media">Tải media</string>
     <string name="select_sound">Chọn âm thanh</string>
-    <string name="set_enable_time_slot">Hiện thời gian đăng</string>
+    <string name="set_enable_time_slot">Thời gian thông báo</string>
     <string name="block_domain_confirm_message">Bạn có chắc bỏ chặn %s\?
 \n
 \nBạn sẽ không thấy bất kỳ nội dung nào từ máy chủ này trong bảng tin và thông báo của bạn. Những người theo dõi bạn từ máy chủ này cũng sẽ bị xóa.</string>
@@ -405,9 +408,9 @@
     <string name="poll_choice_s">Lựa chọn %d</string>
     <string name="poll_invalid_choices">Bạn cần cho ít nhất 2 lựa chọn!</string>
     <string name="done">Xong</string>
-    <string name="poll_finish_at">kết thúc lúc %s</string>
+    <string name="poll_finish_at">kết thúc %s</string>
     <string name="vote">Bình chọn</string>
-    <string name="notif_poll">Cuộc bình chọn có bạn tham gia đã kết thúc</string>
+    <string name="notif_poll">Cuộc bình chọn bạn đã tham gia kết thúc</string>
     <string name="notif_poll_self">Cuộc bình chọn của bạn đã kết thúc</string>
     <string name="settings_category_notif_categories">Loại</string>
     <string name="move_timeline">Chuyển bảng tin</string>
@@ -490,7 +493,7 @@
     <string name="voice_message">Ghi âm</string>
     <string name="set_enable_time_slot_indication">Ứng dụng sẽ gửi thông báo vào thời điểm chỉ định. Bạn có thể đảo ngược (tức là: im lặng) thời điểm này bằng con quay bên phải.</string>
     <string name="set_fit_preview_indication">Không cắt ảnh xem trước</string>
-    <string name="set_capitalize_indication">Tự động chèn dấu ngắt dòng sau phần đề cập để viết hoa chữ cái đầu tiên</string>
+    <string name="set_capitalize_indication">Tự động xuống dòng và viết hoa chữ đầu tiên sau khi nhắc đến ai đó.</string>
     <string name="settings_title_custom_sharing_indication">Chia sẻ tút với nguồn cấp dữ liệu RSS</string>
     <string name="compose">Soạn thảo</string>
     <string name="select">Chọn</string>
@@ -502,8 +505,8 @@
 \n
 \nBạn có thể thêm nội dung. Cảm ơn bạn!</string>
     <string name="visibility">Mức độ hiển thị</string>
-    <string name="set_disable_animated_emoji">Tắt emoji dạng GIF</string>
-    <string name="report_account">Báo cáo tài khoản</string>
+    <string name="set_disable_animated_emoji">Tắt emoji GIF</string>
+    <string name="report_account">Báo cáo người này</string>
     <plurals name="number_of_voters">
         <item quantity="other">%d bình chọn</item>
     </plurals>
@@ -527,10 +530,10 @@
     <string name="poll_duplicated_entry">Có lựa chọn trùng lặp!</string>
     <string name="set_clear_cache_exit">Xóa bộ nhớ đệm khi thoát</string>
     <string name="set_clear_cache_exit_indication">Bộ nhớ đệm (media, tút, dữ liệu từ trình duyệt tích hợp) sẽ tự động bị xóa khi thoát ứng dụng.</string>
-    <string name="unfollow_confirm">Bạn có muốn ngưng theo dõi tài khoản này\?</string>
-    <string name="set_unfollow_validation">Yêu cầu xác nhận trước khi hủy theo dõi ai đó</string>
+    <string name="unfollow_confirm">Bạn có muốn ngưng theo dõi người này\?</string>
+    <string name="set_unfollow_validation">Yêu cầu xác nhận trước khi ngưng theo dõi ai đó.</string>
     <string name="replace_medium">Thay thế liên kết từ Medium</string>
-    <string name="replace_medium_description">Thay thế liên kết từ medium.com với một giao diện mã nguồn mở, chú trọng bảo mật.</string>
+    <string name="replace_medium_description">Dùng một frontend thay thế cho Medium</string>
     <string name="replace_medium_host">Mặc định: scribe.rip</string>
     <string name="set_push_notifications">Sử dụng hệ thống thông báo đẩy để nhận thông báo trong thời gian thực.</string>
     <string name="action_add_notes">Thêm ghi chú</string>
@@ -615,10 +618,10 @@
     <string name="not_valid_list_name">Tên danh sách không hợp lệ!</string>
     <string name="no_account_in_list">Không có người dùng nào trong danh sách này!</string>
     <string name="scheduled">Đã lên lịch</string>
-    <string name="notifications_are">Trong khoảng thời gian</string>
+    <string name="notifications_are">Trong khoảng thời gian này</string>
     <string name="pref_theme_base">Theme gốc</string>
     <string name="pref_theme_base_summary">Chọn theme gốc là tối hay sáng</string>
-    <string name="customize_timelines">Tùy chỉnh bảng tin</string>
+    <string name="customize_timelines">Tùy chỉnh</string>
     <string name="pref_contributor">Theme của cộng đồng</string>
     <string name="pref_contributor_summary">Chọn một theme được tạo bởi cộng đồng</string>
     <string name="display">Hiển thị</string>
@@ -644,7 +647,7 @@
     <string name="toots_visibility_title">Kiểu tút mặc định:</string>
     <string name="toast_bookmark">Đã thêm tút vào mục yêu thích!</string>
     <string name="toast_unbookmark">Đã xóa tút khỏi mục yêu thích!</string>
-    <string name="set_accounts_page">Số lượng tài khoản mỗi lần tải</string>
+    <string name="set_accounts_page">Số lượng người dùng mỗi lần tải</string>
     <string name="set_notifications_page">Số lượng thông báo mỗi lần tải</string>
     <string name="category_music">Âm nhạc</string>
     <string name="cannot_be_empty">Không thể để trống mục này!</string>
@@ -665,7 +668,7 @@
     <string name="instance_not_valid">Địa chỉ máy chủ không hợp lệ!</string>
     <string name="boosted_by">Đăng lại bởi</string>
     <string name="favourited_by">Thích bởi</string>
-    <string name="followers_only">Hạn chế</string>
+    <string name="followers_only">Riêng tư</string>
     <string name="other">Khác</string>
     <string name="eg_sensitive_content">Vd: Nội Dung Nhạy Cảm</string>
     <string name="add_status">Thêm trạng thái</string>
@@ -688,11 +691,11 @@
     <string name="report_val2">Đây là spam</string>
     <string name="report_val_more2">Liên kết độc hại, giả tương tác hoặc trả lời lặp đi lặp lại</string>
     <string name="report_val3">Vi phạm quy tắc máy chủ</string>
-    <string name="report_1_unfollow">Bạn đang theo dõi tài khoản này. Để không nhìn thấy tút của họ trong bảng tin nữa, hãy ngưng theo dõi họ.</string>
+    <string name="report_1_unfollow">Bạn đang theo dõi người này. Để không nhìn thấy tút của họ trong bảng tin nữa, hãy ngưng theo dõi họ.</string>
     <string name="report_1_mute_title">Ẩn %1$s</string>
     <string name="report_1_mute">Bạn sẽ không thấy tút của họ. Họ vẫn có thể theo dõi bạn và thấy tút của bạn nhưng không biết rằng họ bị ẩn.</string>
     <string name="report_1_block_title">Chặn %1$s</string>
-    <string name="report_more_remote">Tài khoản này từ một máy chủ khác. Gửi luôn cho kiểm duyệt viên máy chủ đó\?</string>
+    <string name="report_more_remote">Người này từ một máy chủ khác. Gửi luôn cho kiểm duyệt viên máy chủ đó\?</string>
     <string name="report_more_forward">Chuyển tiếp %1$s</string>
     <string name="report_sent">Đã gửi báo cáo!</string>
     <string name="report_1_block">Bạn sẽ không thấy tút của họ. Họ sẽ không thể xem tút của bạn hoặc theo dõi bạn. Họ sẽ biếtrằng họ bị chặn.</string>
@@ -704,7 +707,7 @@
     <string name="notif_display_poll_results">Kết quả bình chọn</string>
     <string name="notif_display_updates_from_people">Cập nhật từ mọi người</string>
     <string name="notif_display_follows">Theo dõi</string>
-    <string name="mark_all_as_read">Đánh dấu tất cả là đã đọc</string>
+    <string name="mark_all_as_read">Đánh dấu đã đọc xong</string>
     <string name="display_all_categories">Hiện toàn bộ</string>
     <string name="delete_notification_all_warning">Bạn có chắc muốn xóa tất cả thông báo\? Không thể khôi phục lại.</string>
     <string name="about_mastodon">\"Mastodon không phải là một trang web duy nhất như Twitter hoặc Facebook, đó là một mạng lưới hàng ngàn cộng đồng được điều hành bởi các tổ chức và cá nhân khác nhau cung cấp trải nghiệm truyền thông xã hội liền mạch.\"</string>
@@ -730,7 +733,7 @@
     <string name="most_recent">Gần đây nhất</string>
     <string name="filter">Bộ lọc</string>
     <string name="domain">Tên miền</string>
-    <string name="origin_report">Nguồn gốc tài khoản bị báo cáo</string>
+    <string name="origin_report">Máy chủ người bị báo cáo</string>
     <string name="status">Trạng thái</string>
     <string name="resolved">Đã xử lý</string>
     <string name="approved">Đã duyệt</string>
@@ -745,10 +748,11 @@
     <string name="label_line">Đường thẳng</string>
     <string name="label_eraser_mode">Chế độ Xóa</string>
     <string name="delete_cache">Xóa cache</string>
-    <string name="messages_in_cache_for_home">Tút trong cache cho Bảng Tin</string>
-    <string name="messages_stored_in_drafts">Tút lưu trong nháp</string>
-    <string name="delete_cache_message">Bạn có chắc muốn xóa cache\? Nếu bạn có tút nháp đính kèm media, nó sẽ bị mất.</string>
-    <string name="messages_in_cache_for_other_timelines">Tút trong cache những Bảng Tin khác</string>
-    <string name="files_cache_size">Kích cỡ cache</string>
-    <string name="clear_cache">Xóa cache</string>
+    <string name="messages_in_cache_for_home">Bộ nhớ đệm tút Bảng Tin</string>
+    <string name="messages_stored_in_drafts">Tút nháp</string>
+    <string name="delete_cache_message">Bạn có chắc muốn xóa bộ nhớ đệm\? Nếu bạn có tút nháp đính kèm media, nó sẽ bị mất.</string>
+    <string name="messages_in_cache_for_other_timelines">Bộ nhớ đệm tút những Bảng Tin khác</string>
+    <string name="files_cache_size">Dung lượng cho phép</string>
+    <string name="clear_cache">Xóa bộ nhớ đệm</string>
+    <string name="default_system_language">Dùng ngôn ngữ hệ thống</string>
 </resources>

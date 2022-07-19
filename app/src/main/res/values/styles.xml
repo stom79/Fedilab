@@ -187,7 +187,7 @@
         <item name="iconTint">@color/cyanea_accent_dark_reference</item>
         <item name="strokeColor">@color/cyanea_accent_dark_reference</item>
         <item name="rippleColor">@color/cyanea_accent_dark_reference</item>
-        <item name="android:backgroundTint">@color/cyanea_accent_dark_reference</item>
+        <item name="backgroundTint">@color/cyanea_accent_dark_reference</item>
     </style>
 
     <style name="MyOutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">

@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -137,14 +138,20 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notifyItemChanged(position);
             });
             holder.binding.spoiler.setVisibility(View.VISIBLE);
-            holder.binding.spoiler.setText(conversation.last_status.span_spoiler_text, TextView.BufferType.SPANNABLE);
+            holder.binding.spoiler.setText(
+                    conversation.last_status.getSpanSpoiler(context,
+                            new WeakReference<>(holder.binding.spoiler)),
+                    TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
             holder.binding.spoilerExpand.setVisibility(View.GONE);
             holder.binding.spoiler.setText(null);
         }
         //--- MAIN CONTENT ---
-        holder.binding.statusContent.setText(conversation.last_status.span_content, TextView.BufferType.SPANNABLE);
+        holder.binding.statusContent.setText(
+                conversation.last_status.getSpanContent(context,
+                        new WeakReference<>(holder.binding.statusContent)),
+                TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
 

@@ -16,26 +16,16 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.github.penfeizhou.animation.apng.APNGDrawable;
-import com.github.penfeizhou.animation.apng.decode.APNGParser;
-import com.github.penfeizhou.animation.gif.GifDrawable;
-import com.github.penfeizhou.animation.gif.decode.GifParser;
 
-import java.io.File;
 import java.util.List;
 
 import app.fedilab.android.R;
@@ -52,7 +42,7 @@ public class EmojiAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return emojiList.size();
+        return emojiList == null ? 0 : emojiList.size();
     }
 
     public Emoji getItem(int position) {
@@ -76,28 +66,8 @@ public class EmojiAdapter extends BaseAdapter {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(holder.view.getContext());
         boolean disableAnimatedEmoji = sharedpreferences.getBoolean(parent.getContext().getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         Glide.with(holder.binding.imgCustomEmoji.getContext())
-                .asFile()
                 .load(!disableAnimatedEmoji ? emoji.url : emoji.static_url)
-                .into(new CustomTarget<File>() {
-                    @Override
-                    public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
-                        if (APNGParser.isAPNG(resource.getAbsolutePath())) {
-                            APNGDrawable apngDrawable = APNGDrawable.fromFile(resource.getAbsolutePath());
-                            holder.binding.imgCustomEmoji.setImageDrawable(apngDrawable);
-                        } else if (GifParser.isGif(resource.getAbsolutePath())) {
-                            GifDrawable gifDrawable = GifDrawable.fromFile(resource.getAbsolutePath());
-                            holder.binding.imgCustomEmoji.setImageDrawable(gifDrawable);
-                        } else {
-                            Drawable drawable = Drawable.createFromPath(resource.getAbsolutePath());
-                            holder.binding.imgCustomEmoji.setImageDrawable(drawable);
-                        }
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+                .into(holder.binding.imgCustomEmoji);
 
         return holder.view;
     }
