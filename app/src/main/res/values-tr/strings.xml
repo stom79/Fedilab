@@ -727,4 +727,5 @@
     <string name="messages_in_cache_for_other_timelines">Diğer zaman çizelgeleri için önbellekteki mesajlar</string>
     <string name="messages_stored_in_drafts">Taslaklarda saklanan mesajlar</string>
     <string name="default_system_language">Öntanımlı sistem dilini kullan</string>
+    <string name="message_language">Mesajlar için dil</string>
 </resources>
