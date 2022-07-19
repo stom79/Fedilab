@@ -770,7 +770,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (statusToDeal.account.bot) {
-            holder.binding.botIcon.setVisibility(View.VISIBLE);
         } else {
             holder.binding.botIcon.setVisibility(View.GONE);
         }
@@ -780,6 +779,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.replyIcon.setVisibility(View.GONE);
         }
 
+        int ressource = R.drawable.ic_baseline_public_24;
+        switch (status.visibility) {
+            case "unlisted":
+                ressource = R.drawable.ic_baseline_lock_open_24;
+                break;
+            case "private":
+                ressource = R.drawable.ic_baseline_lock_24;
+                break;
+            case "direct":
+                ressource = R.drawable.ic_baseline_mail_24;
+                break;
+        }
         if (status.isFocused) {
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
             holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));
@@ -787,23 +798,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.time.setText(Helper.longDateToString(status.created_at));
             holder.binding.time.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setVisibility(View.GONE);
-            int ressource = R.drawable.ic_baseline_public_24;
-            switch (status.visibility) {
-                case "unlisted":
-                    ressource = R.drawable.ic_baseline_lock_open_24;
-                    break;
-                case "private":
-                    ressource = R.drawable.ic_baseline_lock_24;
-                    break;
-                case "direct":
-                    ressource = R.drawable.ic_baseline_mail_24;
-                    break;
-            }
             holder.binding.visibility.setImageResource(ressource);
             holder.binding.dateShort.setVisibility(View.GONE);
+            holder.binding.visibilitySmall.setVisibility(View.GONE);
         } else {
+            holder.binding.visibilitySmall.setImageResource(ressource);
             holder.binding.statusInfo.setVisibility(View.GONE);
             holder.binding.dateShort.setVisibility(View.VISIBLE);
+            holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
             holder.binding.time.setVisibility(View.GONE);
             Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, status.created_at);
@@ -856,7 +858,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     TextView.BufferType.SPANNABLE);
 
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
-            holder.binding.boosterDivider.setVisibility(View.VISIBLE);
             if (theme_text_header_1_line != -1) {
                 holder.binding.statusBoosterDisplayName.setTextColor(theme_text_header_1_line);
             }
@@ -866,7 +867,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         } else {
             holder.binding.statusBoosterInfo.setVisibility(View.GONE);
-            holder.binding.boosterDivider.setVisibility(View.GONE);
         }
         //--- BOOST VISIBILITY ---
         switch (statusToDeal.visibility) {
