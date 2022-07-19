@@ -202,9 +202,10 @@ public class PostMessageService extends IntentService {
                 if (error) {
                     return;
                 }
+                String language = sharedPreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + dataPost.userId + dataPost.instance, null);
                 if (dataPost.scheduledDate == null) {
                     statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language);
+                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
                     try {
                         Response<Status> statusResponse = statusCall.execute();
                         if (statusResponse.isSuccessful()) {
@@ -339,11 +340,13 @@ public class PostMessageService extends IntentService {
         StatusDraft statusDraft = null;
         String token = null, instance = null;
         String scheduledDate = null;
+        String userId = null;
         if (intent != null && intent.getExtras() != null) {
             Bundle b = intent.getExtras();
             statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
             token = b.getString(Helper.ARG_TOKEN);
             instance = b.getString(Helper.ARG_INSTANCE);
+            userId = b.getString(Helper.ARG_USER_ID);
             scheduledDate = b.getString(Helper.ARG_SCHEDULED_DATE);
         }
         //Should not be null, but a simple security
@@ -356,6 +359,7 @@ public class PostMessageService extends IntentService {
         DataPost dataPost = new DataPost();
         dataPost.instance = instance;
         dataPost.token = token;
+        dataPost.userId = userId;
         dataPost.statusDraft = statusDraft;
         dataPost.scheduledDate = scheduledDate;
         dataPost.notificationBuilder = notificationBuilder;
@@ -367,6 +371,7 @@ public class PostMessageService extends IntentService {
     static class DataPost {
         String instance;
         String token;
+        String userId;
         StatusDraft statusDraft;
         int messageToSend;
         int messageSent;

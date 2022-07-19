@@ -76,6 +76,7 @@ import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.Languages;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
 import app.fedilab.android.databinding.PopupContactBinding;
@@ -577,6 +578,46 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             } else {
                 Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
             }
+        } else if (item.getItemId() == R.id.action_language) {
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+            List<Languages.Language> languages = Languages.get(ComposeActivity.this);
+            String[] codesArr = new String[0];
+            String[] languagesArr = new String[0];
+
+            String currentCode = sharedpreferences.getString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+            int selection = 0;
+
+            if (languages != null) {
+                codesArr = new String[languages.size()];
+                languagesArr = new String[languages.size()];
+                int i = 0;
+                for (Languages.Language language : languages) {
+                    codesArr[i] = language.code;
+                    languagesArr[i] = language.language;
+                    if (currentCode != null && currentCode.equalsIgnoreCase(language.code)) {
+                        selection = i;
+                    }
+                    i++;
+                }
+            }
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            AlertDialog.Builder builder = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
+            builder.setTitle(getString(R.string.message_language));
+
+            builder.setSingleChoiceItems(languagesArr, selection, null);
+            String[] finalCodesArr = codesArr;
+            builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                editor.putString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
+                editor.apply();
+                dialog.dismiss();
+            });
+            builder.setNegativeButton(R.string.reset, (dialog, which) -> {
+                editor.putString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+                editor.apply();
+                dialog.dismiss();
+            });
+            builder.create().show();
         }
         return true;
     }
@@ -751,6 +792,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                     intent.putExtra(Helper.ARG_INSTANCE, instance);
                     intent.putExtra(Helper.ARG_TOKEN, token);
+                    intent.putExtra(Helper.ARG_USER_ID, account.user_id);
                     intent.putExtra(Helper.ARG_SCHEDULED_DATE, scheduledDate);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(intent);
@@ -758,7 +800,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         startService(intent);
                     }
                 } else {
-                    new ThreadMessageService(ComposeActivity.this, instance, token, statusDraft, scheduledDate);
+                    new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate);
                 }
                 finish();
             }

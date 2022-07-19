@@ -22,9 +22,10 @@ import app.fedilab.android.client.entities.app.StatusDraft;
 
 public class ThreadMessageService {
 
-    public ThreadMessageService(Context context, String instance, String token, StatusDraft statusDraft, String scheduledDate) {
+    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate) {
         PostMessageService.DataPost dataPost = new PostMessageService.DataPost();
         dataPost.instance = instance;
+        dataPost.userId = userId;
         dataPost.token = token;
         dataPost.scheduledDate = scheduledDate;
         dataPost.statusDraft = statusDraft;

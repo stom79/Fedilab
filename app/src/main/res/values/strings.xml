@@ -864,6 +864,7 @@
     <string name="SET_TIME_FROM" translatable="false">SET_TIME_FROM</string>
     <string name="SET_TIME_TO" translatable="false">SET_TIME_TO</string>
     <string name="SET_MED_DESC_TIMEOUT" translatable="false">SET_MED_DESC_TIMEOUT</string>
+    <string name="SET_COMPOSE_LANGUAGE" translatable="false">SET_COMPOSE_LANGUAGE</string>
 
 
     <string name="SET_NOTIF_FOLLOW" translatable="false">SET_NOTIF_FOLLOW</string>
@@ -980,6 +981,7 @@
     <string name="clear_cache">Clear cache</string>
     <string name="delete_cache_message">Are you sure you want to delete cache? If you have drafts with media, the attached media will be lost.</string>
     <string name="default_system_language">Use the default system language</string>
+    <string name="message_language">Language for messages</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
