@@ -16,7 +16,7 @@
 
 [WIKI](https://fedilab.app/wiki/home/)
 
-[Release notes](https://framagit.org/tom79/fedilab/tags)
+[Release notes](https://codeberg.org/tom79/Fedilab/tags)
 
 Lead developer: [toot.fedilab.app/@apps](https://toot.fedilab.app/@apps)
 
