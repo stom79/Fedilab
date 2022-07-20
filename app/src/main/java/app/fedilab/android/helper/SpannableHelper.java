@@ -54,6 +54,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -89,6 +90,17 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
+        Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
+        Matcher matcherImg = imgPattern.matcher(text);
+        HashMap<String, String> imagesToReplace = new LinkedHashMap<>();
+        int inc = 0;
+        while (matcherImg.find()) {
+            String replacement = "[FEDI_IMG_" + inc + "]";
+            imagesToReplace.put(replacement, matcherImg.group(1));
+            inc++;
+            text = text.replaceAll(Pattern.quote(matcherImg.group()), replacement);
+        }
+
         SpannableStringBuilder content;
         View view = viewWeakReference.get();
         List<Mention> mentionList = null;
@@ -147,6 +159,24 @@ public class SpannableHelper {
                             .into(customEmoji.getTarget(animate));
                 }
             }
+        }
+
+        if (imagesToReplace.size() > 0) {
+            for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
+                String key = entry.getKey();
+                String url = entry.getValue();
+                Matcher matcher = Pattern.compile(key, Pattern.LITERAL)
+                        .matcher(content);
+                while (matcher.find()) {
+                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    Glide.with(view)
+                            .asDrawable()
+                            .load(url)
+                            .into(customEmoji.getTarget(true));
+                }
+            }
+
         }
         return trimSpannable(new SpannableStringBuilder(content));
     }

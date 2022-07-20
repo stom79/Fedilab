@@ -17,6 +17,7 @@ package app.fedilab.android.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,10 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -89,6 +94,7 @@ public class InstanceActivity extends BaseActivity {
             if (instanceInfo == null || instanceInfo.info == null || instanceInfo.info.description == null) {
                 binding.maxCharContainer.setVisibility(View.VISIBLE);
                 binding.instanceContainer.setVisibility(View.GONE);
+                binding.instanceContact.setVisibility(View.GONE);
                 int val = sharedpreferences.getInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
                 if (val != -1) {
                     binding.maxChar.setText(String.valueOf(val));
@@ -110,9 +116,20 @@ public class InstanceActivity extends BaseActivity {
                     binding.instanceContact.hide();
                 }
                 Glide.with(InstanceActivity.this)
-                        .asBitmap()
+                        .asDrawable()
                         .load(instance.thumbnail)
-                        .into(binding.backGroundImage);
+                        .into(new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                binding.background.setAlpha(0.2f);
+                                binding.background.setBackground(resource);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        });
 
                 binding.instanceContact.setOnClickListener(v -> {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", instance.email, null));
