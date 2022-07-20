@@ -75,7 +75,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
@@ -1131,8 +1130,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!mediaObfuscated(statusToDeal) || expand_media) {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                     RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                            .load(statusToDeal.media_attachments.get(0).preview_url)
-                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                            .load(statusToDeal.media_attachments.get(0).preview_url);
                     if (!fullAttachement) {
                         requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                     }
@@ -1185,8 +1183,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (!mediaObfuscated(statusToDeal) || expand_media) {
                         layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                         RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                                .load(attachment.preview_url)
-                                .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))));
+                                .load(attachment.preview_url);
                         if (!fullAttachement) {
                             requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                         }
