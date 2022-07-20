@@ -128,6 +128,7 @@ import app.fedilab.android.helper.GlideFocus;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
@@ -323,6 +324,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
+        boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
 
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
             holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
@@ -1120,6 +1122,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     layoutMediaBinding.playMusic.setVisibility(View.GONE);
                 }
+                String finalUrl;
+                if (statusToDeal.media_attachments.get(0).url == null) {
+                    finalUrl = statusToDeal.media_attachments.get(0).remote_url;
+                } else {
+                    finalUrl = statusToDeal.media_attachments.get(0).url;
+                }
+                layoutMediaBinding.media.setOnLongClickListener(v -> {
+                    if (long_press_media) {
+                        MediaHelper.manageMove(context, finalUrl, false);
+                    }
+                    return true;
+                });
+
                 float focusX = 0.f;
                 float focusY = 0.f;
                 if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
@@ -1162,6 +1177,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
                     }
 
+                    String finalUrl;
+                    if (attachment.url == null) {
+                        finalUrl = attachment.remote_url;
+                    } else {
+                        finalUrl = attachment.url;
+                    }
+                    layoutMediaBinding.media.setOnLongClickListener(v -> {
+                        if (long_press_media) {
+                            MediaHelper.manageMove(context, finalUrl, false);
+                        }
+                        return true;
+                    });
                     if (fullAttachement) {
                         lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);

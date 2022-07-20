@@ -848,7 +848,7 @@
     </string-array>
 
 
-    <string name="SET_LONG_PRESS_MEDIA" translatable="false">SET_LONG_PRESS_MEDIA</string>
+    <string name="SET_LONG_PRESS_STORE_MEDIA" translatable="false">SET_LONG_PRESS_STORE_MEDIA</string>
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_DISPLAY_ADMIN_STATUSES" translatable="false">SET_DISPLAY_ADMIN_STATUSES</string>
     <string name="SET_LED_COLOUR_VAL" translatable="false">SET_LED_COLOUR_VAL</string>
