@@ -16,10 +16,11 @@
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/fab_margin"
@@ -28,25 +29,31 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:alpha="0.2">
 
             <ImageView
                 android:id="@+id/back_ground_image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/logo_of_the_instance"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/backgrounds/scenic" />
         </RelativeLayout>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_height="wrap_content"
             android:id="@+id/instance_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
             <!-- Instance title -->
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/instance_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +62,7 @@
                 android:textSize="20sp" />
 
             <!-- Instance description -->
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/instance_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +71,7 @@
                 android:gravity="center_horizontal"
                 android:textSize="16sp" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -72,7 +79,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <!-- Instance version -->
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/instance_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,7 +87,7 @@
                     android:textSize="14sp"
                     android:textStyle="italic" />
                 <!-- Instance URI -->
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/instance_uri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,7 +95,7 @@
                     android:gravity="center_horizontal"
                     android:textSize="14sp"
                     android:textStyle="italic" />
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/instance_contact"
@@ -99,13 +106,45 @@
                 android:contentDescription="@string/contact_instance_admin"
                 android:src="@drawable/ic_baseline_mail_outline_24"
                 app:backgroundTint="@color/cyanea_accent_dark_reference" />
-        </LinearLayout>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/max_char_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/instance_container"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_your_max_char_count"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/max_char"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:hint="500"
+                android:inputType="number"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <!-- Main Loader -->
         <RelativeLayout
             android:id="@+id/loader"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <ProgressBar
@@ -115,6 +154,10 @@
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/max_char_container"
             android:id="@+id/close"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
@@ -127,5 +170,5 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp" />
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

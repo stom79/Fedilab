@@ -516,6 +516,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_cache) {
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_about_instance) {
+                Intent intent = new Intent(BaseMainActivity.this, InstanceActivity.class);
+                startActivity(intent);
             }
             binding.drawerLayout.close();
             return false;
@@ -676,10 +679,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
                     AlertDialog alert = alt_bld.create();
                     alert.show();
-                    return true;
-                } else if (itemId == R.id.action_about_instance) {
-                    Intent intent = new Intent(BaseMainActivity.this, InstanceActivity.class);
-                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.action_proxy) {
                     Intent intent = new Intent(BaseMainActivity.this, ProxyActivity.class);

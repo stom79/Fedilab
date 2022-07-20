@@ -15,6 +15,8 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.instanceInfo;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -51,6 +53,7 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.RelationShip;
@@ -499,4 +502,19 @@ public class MastodonHelper {
         void onTimedMute(RelationShip relationShip);
     }
 
+    public static int getInstanceMaxChars(Context context) {
+        int max_car;
+        if (instanceInfo != null) {
+            max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+        } else {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
+            if (val != -1) {
+                return val;
+            } else {
+                max_car = 500;
+            }
+        }
+        return max_car;
+    }
 }

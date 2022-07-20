@@ -712,12 +712,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void afterTextChanged(Editable s) {
                 int currentLength = MastodonHelper.countLength(holder);
                 //Copy/past
-                int max_car;
-                if (instanceInfo != null) {
-                    max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
-                } else {
-                    max_car = 500;
-                }
+                int max_car = MastodonHelper.getInstanceMaxChars(context);
                 if (currentLength > max_car + 1) {
                     int from = max_car - holder.binding.contentSpoiler.getText().length();
                     int to = (currentLength - holder.binding.contentSpoiler.getText().length());
@@ -1246,7 +1241,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (instanceInfo == null) {
                 return;
             }
-            int max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+            int max_car = MastodonHelper.getInstanceMaxChars(context);
             holder.binding.characterProgress.setMax(max_car);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
                 private int cPosition;

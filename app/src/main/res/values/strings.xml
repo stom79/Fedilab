@@ -922,6 +922,9 @@
     <string name="REPLACE_WIKIPEDIA_HOST" translatable="false">REPLACE_WIKIPEDIA_HOST</string>
     <string name="DEFAULT_REPLACE_WIKIPEDIA_HOST" translatable="false">wikiless.org</string>
     <string name="LAST_NOTIFICATION_ID" translatable="false">LAST_NOTIFICATION_ID</string>
+    <string name="SET_MAX_INSTANCE_CHAR" translatable="false">SET_MAX_INSTANCE_CHAR</string>
+
+
     <string name="type_of_notifications">Type of notifications</string>
     <string name="type_of_notifications_title">Chose the type of notifications</string>
     <string name="notification_sounds">Notification sounds</string>
@@ -982,6 +985,10 @@
     <string name="delete_cache_message">Are you sure you want to delete cache? If you have drafts with media, the attached media will be lost.</string>
     <string name="default_system_language">Use the default system language</string>
     <string name="message_language">Language for messages</string>
+    <string name="my_instance">My instance</string>
+    <string name="my_app">My app</string>
+    <string name="my_account">My account</string>
+    <string name="set_your_max_char_count">Set your max char count</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
