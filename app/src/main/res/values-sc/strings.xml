@@ -721,4 +721,5 @@
     <string name="delete_cache_message">Ses seguru de bòlere isboidare sa memòria temporànea\? Si tenes abbotzos cun cuntenutos multimediales as a pèrdere sos cuntenutos alligados.</string>
     <string name="clear_cache">Isbòida sa memòria temporànea</string>
     <string name="default_system_language">Imprea sa limba predefinida de sistema</string>
+    <string name="message_language">Limba pro sos messàgios</string>
 </resources>
