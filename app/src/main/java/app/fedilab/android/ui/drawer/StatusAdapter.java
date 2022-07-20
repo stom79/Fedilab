@@ -345,6 +345,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }).setOnEmojiClickListener((emoji, imageView) -> {
                     String emojiStr = imageView.getUnicode();
                     boolean alreadyAdded = false;
+                    if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
+                        return;
+                    }
                     for (Reaction reaction : status.pleroma.emoji_reactions) {
                         if (reaction.name.compareTo(emojiStr) == 0) {
                             alreadyAdded = true;
@@ -387,12 +390,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     GridView gridView = new GridView(context);
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                     gridView.setNumColumns(5);
-                    AlertDialog finalAlertDialogEmoji = alertDialogEmoji;
                     gridView.setOnItemClickListener((parent, view, index, id) -> {
                         String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                         boolean alreadyAdded = false;
+                        if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
+                            return;
+                        }
                         for (Reaction reaction : status.pleroma.emoji_reactions) {
                             if (reaction.name.compareTo(emojiStr) == 0) {
                                 alreadyAdded = true;
@@ -420,9 +425,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
                         }
-                        if (finalAlertDialogEmoji != null) {
-                            finalAlertDialogEmoji.dismiss();
-                        }
                     });
                     gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
                     builder.setView(gridView);
@@ -432,7 +434,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
                     builder.setView(textView);
                 }
-                alertDialogEmoji = builder.show();
+                builder.show();
             });
         }
 
@@ -893,7 +895,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.username.setCompoundDrawables(null, null, null, null);
         }
 
+
         if (statusToDeal.account.bot) {
+            holder.binding.botIcon.setVisibility(View.VISIBLE);
         } else {
             holder.binding.botIcon.setVisibility(View.GONE);
         }
