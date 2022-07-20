@@ -224,10 +224,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
                     MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
                 }
-                notification.account.display_name = title;
                 holderStatus.bindingNotification.status.displayName.setText(
-                        notification.account.getSpanDisplayName(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName)),
+                        notification.account.getSpanDisplayNameTitle(context,
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
@@ -295,10 +294,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     // start the new activity
                     context.startActivity(intent, options.toBundle());
                 });
-                notification.account.display_name = title;
+
                 holderStatus.bindingNotification.status.displayName.setText(
-                        notification.account.getSpanDisplayName(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName)),
+                        notification.account.getSpanDisplayNameTitle(context,
+                                new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));

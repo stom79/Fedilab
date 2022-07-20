@@ -83,7 +83,11 @@ public class Account implements Serializable {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, true, viewWeakReference);
+        return SpannableHelper.convert(context, display_name, null, this, null, false, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
+        return SpannableHelper.convert(context, title, null, this, null, false, viewWeakReference);
     }
 
 
