@@ -74,6 +74,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -81,10 +82,12 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -95,6 +98,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -115,10 +119,12 @@ import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -133,19 +139,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.MainApplication;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.ReleaseNote;
+import app.fedilab.android.databinding.PopupReleaseNotesBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.sqlite.Sqlite;
+import app.fedilab.android.ui.drawer.ReleaseNoteAdapter;
+import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
 import app.fedilab.android.watermark.androidwm.WatermarkBuilder;
 import app.fedilab.android.watermark.androidwm.bean.WatermarkText;
@@ -1749,4 +1762,111 @@ public class Helper {
         return null;
     }
 
+
+    public static void displayReleaseNotesIfNeeded(Activity activity, boolean forced) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        int lastReleaseNoteRead = sharedpreferences.getInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), 0);
+        int versionCode = BuildConfig.VERSION_CODE;
+        if (lastReleaseNoteRead != versionCode || forced) {
+            try {
+                InputStream is = activity.getAssets().open("release_notes/notes.json");
+                int size;
+                size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String json = new String(buffer, StandardCharsets.UTF_8);
+                Gson gson = new Gson();
+                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
+                dialogBuilderOptin.setView(binding.getRoot());
+                try {
+                    List<ReleaseNote.Note> releaseNotes = gson.fromJson(json, new TypeToken<List<ReleaseNote.Note>>() {
+                    }.getType());
+                    if (releaseNotes != null && releaseNotes.size() > 0) {
+                        ReleaseNoteAdapter adapter = new ReleaseNoteAdapter(releaseNotes);
+                        binding.releasenotes.setAdapter(adapter);
+                        binding.releasenotes.setLayoutManager(new LinearLayoutManager(activity));
+                    }
+                } catch (Exception ignored) {
+                }
+                if (BuildConfig.DONATIONS) {
+                    binding.aboutSupport.setVisibility(View.VISIBLE);
+                    binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
+                } else {
+                    binding.aboutSupport.setVisibility(View.GONE);
+                    binding.aboutSupportPaypal.setVisibility(View.GONE);
+                }
+                binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(activity));
+                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+                binding.aboutSupport.setOnClickListener(v -> {
+                    Intent intentLiberapay = new Intent(Intent.ACTION_VIEW);
+                    intentLiberapay.setData(Uri.parse("https://liberapay.com/tom79"));
+                    try {
+                        activity.startActivity(intentLiberapay);
+                    } catch (Exception e) {
+                        Helper.openBrowser(activity, "https://liberapay.com/tom79");
+                    }
+                });
+                binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
+                CrossActionHelper.fetchRemoteAccount(activity, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+
+                    }
+
+                    @Override
+                    public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                        if (account != null && account.username.equalsIgnoreCase("apps")) {
+
+                            MastodonHelper.loadPPMastodon(binding.accountPp, account);
+                            binding.accountDn.setText(account.display_name);
+                            binding.accountUn.setText(account.acct);
+                            binding.accountPp.setOnClickListener(v -> {
+                                Intent intent = new Intent(activity, ProfileActivity.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                intent.putExtras(b);
+                                ActivityOptionsCompat options = ActivityOptionsCompat
+                                        .makeSceneTransitionAnimation(activity, binding.accountPp, activity.getString(R.string.activity_porfile_pp));
+                                activity.startActivity(intent, options.toBundle());
+                            });
+
+                            AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);
+                            List<String> ids = new ArrayList<>();
+                            ids.add(account.id);
+                            accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
+                                    .observe((LifecycleOwner) activity, relationShips -> {
+                                        if (relationShips != null && relationShips.size() > 0) {
+                                            if (!relationShips.get(0).following) {
+                                                binding.acccountContainer.setVisibility(View.VISIBLE);
+                                                binding.accountFollow.setVisibility(View.VISIBLE);
+                                                binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                                                        .observe((LifecycleOwner) activity, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+                dialogBuilderOptin.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+                try {
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        if (!activity.isFinishing()) {
+                            dialogBuilderOptin.show();
+                        }
+                    }, 1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), versionCode);
+            editor.apply();
+        }
+    }
 }

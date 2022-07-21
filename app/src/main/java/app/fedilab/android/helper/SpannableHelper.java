@@ -144,9 +144,9 @@ public class SpannableHelper {
         } else {
             content = new SpannableStringBuilder(text);
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         if (emojiList != null && emojiList.size() > 0) {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             for (Emoji emoji : emojiList) {
                 Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                         .matcher(content);
@@ -173,7 +173,7 @@ public class SpannableHelper {
                     Glide.with(view)
                             .asDrawable()
                             .load(url)
-                            .into(customEmoji.getTarget(true));
+                            .into(customEmoji.getTarget(animate));
                 }
             }
 

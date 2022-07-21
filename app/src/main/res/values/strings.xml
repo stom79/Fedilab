@@ -923,6 +923,7 @@
     <string name="DEFAULT_REPLACE_WIKIPEDIA_HOST" translatable="false">wikiless.org</string>
     <string name="LAST_NOTIFICATION_ID" translatable="false">LAST_NOTIFICATION_ID</string>
     <string name="SET_MAX_INSTANCE_CHAR" translatable="false">SET_MAX_INSTANCE_CHAR</string>
+    <string name="SET_POPUP_RELEASE_NOTES" translatable="false">SET_POPUP_RELEASE_NOTES</string>
 
 
     <string name="type_of_notifications">Type of notifications</string>
@@ -989,6 +990,7 @@
     <string name="my_app">My app</string>
     <string name="my_account">My account</string>
     <string name="set_your_max_char_count">Set your max char count</string>
+    <string name="release_notes">Release notes</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

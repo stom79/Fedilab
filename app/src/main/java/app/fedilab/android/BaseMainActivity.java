@@ -18,6 +18,7 @@ import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.helper.CacheHelper.deleteDir;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.helper.Helper.displayReleaseNotesIfNeeded;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -504,6 +505,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_about) {
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_release_notes) {
+                displayReleaseNotesIfNeeded(BaseMainActivity.this, true);
             } else if (id == R.id.nav_partnership) {
                 Intent intent = new Intent(this, PartnerShipActivity.class);
                 startActivity(intent);
@@ -523,6 +526,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             binding.drawerLayout.close();
             return false;
         });
+
+
         headerMainBinding.instanceInfo.setOnClickListener(v -> startActivity(new Intent(BaseMainActivity.this, InstanceHealthActivity.class)));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
@@ -758,6 +763,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
                 currentInstance = currentAccount.instance;
                 currentUserID = currentAccount.user_id;
+
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
                 show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
                 regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
@@ -798,6 +804,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
                             currentAccount.mastodon_account = mastodonAccount;
+                            displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
                             new Thread(() -> {
                                 try {
                                     //Update account in db
