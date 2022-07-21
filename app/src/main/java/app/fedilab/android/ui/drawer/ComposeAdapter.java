@@ -15,6 +15,7 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
@@ -45,6 +46,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -71,6 +73,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.one.EmojiOneProvider;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -1072,6 +1077,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
+
+            boolean displayEmoji = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_EMOJI), false);
+            if (displayEmoji) {
+                holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
+                holder.binding.buttonEmojiOne.setOnClickListener(v -> {
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
+                    EmojiManager.install(new EmojiOneProvider());
+                    final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    }).build(holder.binding.content);
+                    emojiPopup.toggle();
+                });
+            } else {
+                holder.binding.buttonEmojiOne.setVisibility(View.GONE);
+            }
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);
