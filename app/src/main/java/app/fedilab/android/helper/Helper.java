@@ -1474,11 +1474,11 @@ public class Helper {
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_notification).setTicker(message);
-        if (notifType == NotifType.MENTION) {
+      /*  if (notifType == NotifType.MENTION) {
             if (message.length() > 500) {
                 message = message.substring(0, 499) + "…";
             }
-        }
+        }*/
         notificationBuilder.setGroup(account.mastodon_account.acct + "@" + account.instance)
                 .setContentIntent(pIntent)
                 .setContentText(message);

@@ -92,8 +92,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
                         statuses.get(position).reblog = receivedStatus.reblog;
+                        statuses.get(position).reblogged = receivedStatus.reblogged;
                         statuses.get(position).favourited = receivedStatus.favourited;
                         statuses.get(position).bookmarked = receivedStatus.bookmarked;
+                        statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                        statuses.get(position).favourites_count = receivedStatus.favourites_count;
                         statusAdapter.notifyItemChanged(position);
                     }
                 } else if (delete_statuses_for_user != null && statusAdapter != null) {

@@ -76,8 +76,11 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     if (position >= 0) {
                         if (notificationList.get(position).status != null) {
                             notificationList.get(position).status.reblog = receivedStatus.reblog;
+                            notificationList.get(position).status.reblogged = receivedStatus.reblogged;
                             notificationList.get(position).status.favourited = receivedStatus.favourited;
                             notificationList.get(position).status.bookmarked = receivedStatus.bookmarked;
+                            notificationList.get(position).status.favourites_count = receivedStatus.favourites_count;
+                            notificationList.get(position).status.reblogs_count = receivedStatus.reblogs_count;
                             notificationAdapter.notifyItemChanged(position);
                         }
                     }
