@@ -1,0 +1,9 @@
+Added:
+- Allow to define the max chars count when not detected (In about the instance)
+- Add emoji one picker when composing (must be enabled in settings)
+- Add release notes with the ability to translate them
+
+Fixed:
+- Friendica custom emojis not displayed
+- Long press to store media
+- Some bug fixes

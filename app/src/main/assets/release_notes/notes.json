@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.0.10",
+    "code": "400",
+    "note": "Added:\n- Allow to define the max chars count when not detected (In about the instance)\n- Add emoji one picker when composing (must be enabled in settings)\n- Add release notes with the ability to translate them\n\nFixed:\n- Friendica custom emojis not displayed\n- Long press to store media\n- Some bug fixes"
+  },
+  {
     "version": "3.0.9",
     "code": "399",
     "note": "Added:\n- Set compose language (from compose menu -> three vertical dots)\n- Add reactions support for Pleroma\n- Add privacy indicator at the top right\n\nChanged\n- Improve the scrolling behaviour\n- Scroll to top (tab reselection) will fetch new messages and then scroll to top\n\nFixed:\n- Empty tag timelines\n- Remove focus point for fit media preview\n- Fix cannot share with one account\n- Fix black theme\n- Theme cannot be selected\n- Fix some button colors"
