@@ -722,4 +722,8 @@
     <string name="clear_cache">Isbòida sa memòria temporànea</string>
     <string name="default_system_language">Imprea sa limba predefinida de sistema</string>
     <string name="message_language">Limba pro sos messàgios</string>
+    <string name="my_instance">S\'istàntzia mea</string>
+    <string name="my_app">S\'aplicatzione mea</string>
+    <string name="set_your_max_char_count">Imposta su nùmeru màssimu de caràteres tuo</string>
+    <string name="my_account">Su contu meu</string>
 </resources>
