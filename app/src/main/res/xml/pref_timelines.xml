@@ -43,7 +43,7 @@
         app:iconSpaceReserved="false"
         android:defaultValue="false"
         app:singleLineTitle="false"
-        app:key="@string/SET_LONG_PRESS_MEDIA"
+        app:key="@string/SET_LONG_PRESS_STORE_MEDIA"
         app:title="@string/set_long_press_media" />
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"

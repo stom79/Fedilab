@@ -53,14 +53,12 @@ public class ContextActivity extends BaseActivity {
     public static boolean displayCW;
     public static Resources.Theme theme;
     Fragment currentFragment;
-    private Status focusedStatus;
-    private ActivityConversationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ThemeHelper.applyTheme(this);
-        binding = ActivityConversationBinding.inflate(getLayoutInflater());
+        app.fedilab.android.databinding.ActivityConversationBinding binding = ActivityConversationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -78,7 +76,7 @@ public class ContextActivity extends BaseActivity {
         Bundle b = getIntent().getExtras();
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ContextActivity.this);
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
-        focusedStatus = null; // or other values
+        Status focusedStatus = null; // or other values
         if (b != null)
             focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
         if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {

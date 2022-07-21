@@ -727,4 +727,9 @@
     <string name="messages_in_cache_for_other_timelines">Diğer zaman çizelgeleri için önbellekteki mesajlar</string>
     <string name="messages_stored_in_drafts">Taslaklarda saklanan mesajlar</string>
     <string name="default_system_language">Öntanımlı sistem dilini kullan</string>
+    <string name="message_language">Mesajlar için dil</string>
+    <string name="my_instance">Sunucum</string>
+    <string name="my_app">Uygulamam</string>
+    <string name="my_account">Hesabım</string>
+    <string name="set_your_max_char_count">Azami karakter sayınızı ayarlayın</string>
 </resources>

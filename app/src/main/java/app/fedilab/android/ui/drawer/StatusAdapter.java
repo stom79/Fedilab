@@ -75,7 +75,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
@@ -129,6 +128,7 @@ import app.fedilab.android.helper.GlideFocus;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
@@ -324,6 +324,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
+        boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
 
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
             holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
@@ -344,6 +345,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }).setOnEmojiClickListener((emoji, imageView) -> {
                     String emojiStr = imageView.getUnicode();
                     boolean alreadyAdded = false;
+                    if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
+                        return;
+                    }
                     for (Reaction reaction : status.pleroma.emoji_reactions) {
                         if (reaction.name.compareTo(emojiStr) == 0) {
                             alreadyAdded = true;
@@ -386,12 +390,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     GridView gridView = new GridView(context);
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                     gridView.setNumColumns(5);
-                    AlertDialog finalAlertDialogEmoji = alertDialogEmoji;
                     gridView.setOnItemClickListener((parent, view, index, id) -> {
                         String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                         boolean alreadyAdded = false;
+                        if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
+                            return;
+                        }
                         for (Reaction reaction : status.pleroma.emoji_reactions) {
                             if (reaction.name.compareTo(emojiStr) == 0) {
                                 alreadyAdded = true;
@@ -419,9 +425,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
                         }
-                        if (finalAlertDialogEmoji != null) {
-                            finalAlertDialogEmoji.dismiss();
-                        }
                     });
                     gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
                     builder.setView(gridView);
@@ -431,7 +434,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
                     builder.setView(textView);
                 }
-                alertDialogEmoji = builder.show();
+                builder.show();
             });
         }
 
@@ -892,7 +895,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.username.setCompoundDrawables(null, null, null, null);
         }
 
+
         if (statusToDeal.account.bot) {
+            holder.binding.botIcon.setVisibility(View.VISIBLE);
         } else {
             holder.binding.botIcon.setVisibility(View.GONE);
         }
@@ -1121,6 +1126,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     layoutMediaBinding.playMusic.setVisibility(View.GONE);
                 }
+                String finalUrl;
+                if (statusToDeal.media_attachments.get(0).url == null) {
+                    finalUrl = statusToDeal.media_attachments.get(0).remote_url;
+                } else {
+                    finalUrl = statusToDeal.media_attachments.get(0).url;
+                }
+                layoutMediaBinding.media.setOnLongClickListener(v -> {
+                    if (long_press_media) {
+                        MediaHelper.manageMove(context, finalUrl, false);
+                    }
+                    return true;
+                });
+
                 float focusX = 0.f;
                 float focusY = 0.f;
                 if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
@@ -1131,8 +1149,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!mediaObfuscated(statusToDeal) || expand_media) {
                     layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                     RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                            .load(statusToDeal.media_attachments.get(0).preview_url)
-                            .apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                            .load(statusToDeal.media_attachments.get(0).preview_url);
                     if (!fullAttachement) {
                         requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                     }
@@ -1164,6 +1181,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
                     }
 
+                    String finalUrl;
+                    if (attachment.url == null) {
+                        finalUrl = attachment.remote_url;
+                    } else {
+                        finalUrl = attachment.url;
+                    }
+                    layoutMediaBinding.media.setOnLongClickListener(v -> {
+                        if (long_press_media) {
+                            MediaHelper.manageMove(context, finalUrl, false);
+                        }
+                        return true;
+                    });
                     if (fullAttachement) {
                         lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -1185,8 +1214,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (!mediaObfuscated(statusToDeal) || expand_media) {
                         layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                         RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                                .load(attachment.preview_url)
-                                .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))));
+                                .load(attachment.preview_url);
                         if (!fullAttachement) {
                             requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                         }

@@ -1,0 +1,52 @@
+[
+  {
+    "version": "3.0.10",
+    "code": "400",
+    "note": "Added:\n- Allow to define the max chars count when not detected (In about the instance)\n- Add emoji one picker when composing (must be enabled in settings)\n- Add release notes with the ability to translate them\n\nFixed:\n- Friendica custom emojis not displayed\n- Long press to store media\n- Some bug fixes"
+  },
+  {
+    "version": "3.0.9",
+    "code": "399",
+    "note": "Added:\n- Set compose language (from compose menu -> three vertical dots)\n- Add reactions support for Pleroma\n- Add privacy indicator at the top right\n\nChanged\n- Improve the scrolling behaviour\n- Scroll to top (tab reselection) will fetch new messages and then scroll to top\n\nFixed:\n- Empty tag timelines\n- Remove focus point for fit media preview\n- Fix cannot share with one account\n- Fix black theme\n- Theme cannot be selected\n- Fix some button colors"
+  },
+  {
+    "version": "3.0.8",
+    "code": "398",
+    "note": "- Keep improving the scroll behaviour\n- Scroll to top (tab reselection) will fetch new messages and then scroll to top\n- Remove focus point for fit media preview\n- Fix cannot share with one account\n- Fix black theme\n- Fix some button colors"
+  },
+  {
+    "version": "3.0.7",
+    "code": "397",
+    "note": "- Fix some bugs reported."
+  },
+  {
+    "version": "3.0.6",
+    "code": "396",
+    "note": "Added:\n- Allow to set a focus point on previews (media editor)\n- Respect the focus point with previews\n- Pagination with the fetch more button support reading up or down\n- Add trends\n\nFixed:\n- Only last push notification is displayed (not grouped)\n- Bad behavior with the right/left scroll\n- Fix long profiles not fully displayed\n- Issues with some polls\n- Some crashes\n- Some bad behaviors"
+  },
+  {
+    "version": "3.0.5",
+    "code": "395",
+    "note": "- Fix some bugs\n- Allow to share with the app"
+  },
+  {
+    "version": "3.0.4",
+    "code": "394",
+    "note": "- Fix crashes for some Pleroma instances"
+  },
+  {
+    "version": "3.0.2",
+    "code": "393",
+    "note": "- Some bug fixes\n- Improve pinned timelines"
+  },
+  {
+    "version": "3.0.1",
+    "code": "391",
+    "note": "Some quick fixes"
+  },
+  {
+    "version": "3.0.0",
+    "code": "390",
+    "note": "New version of Fedilab with new feature.\n- You can now compose threads\n- See the whole thread when replying\n- Cache support\n- New design"
+  }
+]

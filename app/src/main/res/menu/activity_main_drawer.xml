@@ -3,74 +3,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group>
+        <item
+            android:id="@+id/nav_main_com"
+            android:title="@string/my_account">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_drafts"
+                        android:icon="@drawable/ic_baseline_drafts_24"
+                        android:title="@string/drafts" />
+                    <item
+                        android:id="@+id/nav_interactions"
+                        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+                        android:title="@string/interactions" />
+                    <item
+                        android:id="@+id/nav_filter"
+                        android:icon="@drawable/ic_baseline_filter_list_24"
+                        android:title="@string/filters" />
+                    <item
+                        android:id="@+id/nav_list"
+                        android:icon="@drawable/ic_baseline_view_list_24"
+                        android:title="@string/action_lists" />
+                    <item
+                        android:id="@+id/nav_follow_requests"
+                        android:icon="@drawable/ic_baseline_group_add_24"
+                        android:title="@string/follow_request"
+                        android:visible="false" />
+                    <item
+                        android:id="@+id/nav_administration"
+                        android:icon="@drawable/ic_baseline_admin_panel_settings_24"
+                        android:title="@string/administration"
+                        android:visible="false" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_instance"
+            android:title="@string/my_instance">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_announcements"
+                        android:icon="@drawable/ic_baseline_message_24"
+                        android:title="@string/action_announcements"
+                        android:visible="true" />
 
-        <item
-            android:id="@+id/nav_drafts"
-            android:icon="@drawable/ic_baseline_drafts_24"
-            android:title="@string/drafts" />
-        <item
-            android:id="@+id/nav_reorder"
-            android:icon="@drawable/ic_baseline_reorder_24"
-            android:title="@string/reorder_timelines" />
+                    <item
+                        android:id="@+id/nav_trends"
+                        android:icon="@drawable/ic_baseline_trending_up_24"
+                        android:title="@string/trending"
+                        android:visible="true" />
 
-        <item
-            android:id="@+id/nav_interactions"
-            android:icon="@drawable/ic_baseline_supervised_user_circle_24"
-            android:title="@string/interactions" />
+                    <item
+                        android:id="@+id/nav_about_instance"
+                        android:icon="@drawable/ic_info_outline_white_24dp"
+                        android:title="@string/action_about_instance"
+                        android:visible="true" />
 
+                </group>
+            </menu>
+        </item>
         <item
-            android:id="@+id/nav_filter"
-            android:icon="@drawable/ic_baseline_filter_list_24"
-            android:title="@string/filters" />
+            android:id="@+id/nav_app"
+            android:title="@string/my_app">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_reorder"
+                        android:icon="@drawable/ic_baseline_reorder_24"
+                        android:title="@string/reorder_timelines" />
+                    <item
+                        android:id="@+id/nav_scheduled"
+                        android:icon="@drawable/ic_baseline_schedule_24"
+                        android:title="@string/scheduled" />
+                    <item
+                        android:id="@+id/nav_settings"
+                        android:icon="@drawable/ic_baseline_settings_24"
+                        android:title="@string/settings" />
+                    <item
+                        android:id="@+id/nav_cache"
+                        android:icon="@drawable/ic_baseline_cached_24"
+                        android:title="@string/action_cache" />
+                    <item
+                        android:id="@+id/nav_about"
+                        android:icon="@drawable/ic_baseline_info_24"
+                        android:title="@string/action_about" />
+                    <item
+                        android:id="@+id/nav_release_notes"
+                        android:icon="@drawable/ic_baseline_notes_24"
+                        android:title="@string/release_notes" />
+                    <item
+                        android:id="@+id/nav_partnership"
+                        android:icon="@drawable/ic_baseline_account_circle_24"
+                        android:title="@string/action_partnership" />
+                </group>
+            </menu>
+        </item>
 
-        <item
-            android:id="@+id/nav_list"
-            android:icon="@drawable/ic_baseline_view_list_24"
-            android:title="@string/action_lists" />
-
-        <item
-            android:id="@+id/nav_announcements"
-            android:icon="@drawable/ic_baseline_message_24"
-            android:title="@string/action_announcements"
-            android:visible="true" />
-
-        <item
-            android:id="@+id/nav_trends"
-            android:icon="@drawable/ic_baseline_trending_up_24"
-            android:title="@string/trending"
-            android:visible="true" />
-
-        <item
-            android:id="@+id/nav_scheduled"
-            android:icon="@drawable/ic_baseline_schedule_24"
-            android:title="@string/scheduled" />
-        <item
-            android:id="@+id/nav_follow_requests"
-            android:icon="@drawable/ic_baseline_group_add_24"
-            android:title="@string/follow_request"
-            android:visible="false" />
-        <item
-            android:id="@+id/nav_administration"
-            android:icon="@drawable/ic_baseline_admin_panel_settings_24"
-            android:title="@string/administration"
-            android:visible="false" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_baseline_settings_24"
-            android:title="@string/settings" />
-        <item
-            android:id="@+id/nav_cache"
-            android:icon="@drawable/ic_baseline_cached_24"
-            android:title="@string/action_cache" />
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_baseline_info_24"
-            android:title="@string/action_about" />
-
-        <item
-            android:id="@+id/nav_partnership"
-            android:icon="@drawable/ic_baseline_account_circle_24"
-            android:title="@string/action_partnership" />
     </group>
 </menu>
