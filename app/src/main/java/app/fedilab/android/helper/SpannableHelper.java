@@ -306,6 +306,7 @@ public class SpannableHelper {
                                         httpsURLConnection.setRequestProperty("http.keepAlive", "false");
                                         httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                                         httpsURLConnection.setRequestMethod("HEAD");
+                                        httpsURLConnection.setInstanceFollowRedirects(false);
                                         if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
                                             Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
                                             for (Map.Entry<String, List<String>> entry : map.entrySet()) {
