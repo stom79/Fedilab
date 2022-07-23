@@ -142,6 +142,9 @@ public class FragmentMedia extends Fragment {
                                     binding.mediaPicture.setVisibility(View.VISIBLE);
                                     binding.pbarInf.setIndeterminate(true);
                                     binding.loader.setVisibility(View.VISIBLE);
+                                    if (binding == null || !isAdded() || getActivity() == null) {
+                                        return;
+                                    }
                                     if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
                                         Glide.with(requireActivity())
                                                 .asBitmap()
@@ -250,6 +253,9 @@ public class FragmentMedia extends Fragment {
     }
 
     private void loadVideo(String url, String type) {
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
         binding.pbarInf.setIndeterminate(false);
         binding.pbarInf.setScaleY(3f);
         binding.mediaVideo.setVisibility(View.VISIBLE);

@@ -1985,10 +1985,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
-            Glide.with(holder.bindingArt.artMedia.getContext())
-                    .load(status.art_attachment.preview_url)
-                    .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                    .into(holder.bindingArt.artMedia);
+            if (status.art_attachment != null) {
+                Glide.with(holder.bindingArt.artMedia.getContext())
+                        .load(status.art_attachment.preview_url)
+                        .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                        .into(holder.bindingArt.artMedia);
+            }
             holder.bindingArt.artAcct.setText(
                     status.account.getSpanDisplayName(context,
                             new WeakReference<>(holder.bindingArt.artAcct)),
