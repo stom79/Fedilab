@@ -579,20 +579,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-        if (status.card != null && (display_card || status.isFocused)) {
-            if (status.card.width > status.card.height) {
+        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+            if (statusToDeal.card.width > statusToDeal.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
-                Glide.with(context).load(status.card.image).into(holder.binding.cardImageHorizontal);
+                Glide.with(context).load(statusToDeal.card.image).into(holder.binding.cardImageHorizontal);
             } else {
                 holder.binding.cardImageHorizontal.setVisibility(View.GONE);
                 holder.binding.cardImageVertical.setVisibility(View.VISIBLE);
-                Glide.with(context).load(status.card.image).into(holder.binding.cardImageVertical);
+                Glide.with(context).load(statusToDeal.card.image).into(holder.binding.cardImageVertical);
             }
-            holder.binding.cardTitle.setText(status.card.title);
-            holder.binding.cardDescription.setText(status.card.description);
-            holder.binding.cardUrl.setText(Helper.transformURL(context, status.card.url));
-            holder.binding.card.setOnClickListener(v -> Helper.openBrowser(context, Helper.transformURL(context, status.card.url)));
+            holder.binding.cardTitle.setText(statusToDeal.card.title);
+            holder.binding.cardDescription.setText(statusToDeal.card.description);
+            holder.binding.cardUrl.setText(Helper.transformURL(context, statusToDeal.card.url));
+            holder.binding.card.setOnClickListener(v -> Helper.openBrowser(context, Helper.transformURL(context, statusToDeal.card.url)));
             holder.binding.card.setVisibility(View.VISIBLE);
         } else {
             holder.binding.card.setVisibility(View.GONE);
