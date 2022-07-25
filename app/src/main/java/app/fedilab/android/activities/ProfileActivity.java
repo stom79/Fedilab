@@ -393,8 +393,6 @@ public class ProfileActivity extends BaseActivity {
         });
 
 
-
-
         binding.accountFollow.setOnClickListener(v -> {
             if (doAction == action.NOTHING) {
                 Toasty.info(ProfileActivity.this, getString(R.string.nothing_to_do), Toast.LENGTH_LONG).show();
@@ -441,7 +439,7 @@ public class ProfileActivity extends BaseActivity {
                         });
             }
         });
-        binding.accountNotification.setOnLongClickListener(v -> {
+        binding.accountFollow.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(ProfileActivity.this, CrossActionHelper.TypeOfCrossAction.FOLLOW_ACTION, account, null);
             return false;
         });
