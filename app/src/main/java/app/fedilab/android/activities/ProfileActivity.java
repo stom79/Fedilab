@@ -393,16 +393,7 @@ public class ProfileActivity extends BaseActivity {
         });
 
 
-        binding.accountNotification.setOnClickListener(v -> {
-            if (relationship != null && relationship.followed_by) {
-                relationship.notifying = !relationship.notifying;
-                accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, relationship.showing_reblogs, relationship.notifying)
-                        .observe(ProfileActivity.this, relationShip -> {
-                            this.relationship = relationShip;
-                            updateAccount();
-                        });
-            }
-        });
+
 
         binding.accountFollow.setOnClickListener(v -> {
             if (doAction == action.NOTHING) {
@@ -570,6 +561,16 @@ public class ProfileActivity extends BaseActivity {
             } else {
                 binding.accountNotification.setImageResource(R.drawable.ic_baseline_notifications_off_24);
             }
+            binding.accountNotification.setOnClickListener(v -> {
+                if (relationship != null && relationship.following) {
+                    relationship.notifying = !relationship.notifying;
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, relationship.showing_reblogs, relationship.notifying)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                }
+            });
             //Account note
             if (relationship.note == null || relationship.note.trim().isEmpty()) {
                 binding.personalNote.setText(R.string.note_for_account);
