@@ -411,22 +411,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
         int position = statusList.size() - 1;
-        statusList.get(position).text = title != null ? title : subject;
-        statusList.get(position).text += "\n\n";
+        if (title != null || subject != null) {
+            statusList.get(position).text = title != null ? title : subject;
+            statusList.get(position).text += "\n\n";
+        } else {
+            statusList.get(position).text = "";
+        }
         statusList.get(position).text += description != null ? description : content;
         statusList.get(position).text += "\n\n";
-        statusList.get(position).text += url;
-        Attachment attachment = new Attachment();
-        attachment.mimeType = "image/*";
-        String extension = "jpg";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_", Locale.getDefault());
-        attachment.local_path = saveFilePath;
-        Date now = new Date();
-        attachment.filename = formatter.format(now) + "." + extension;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
+        if (url != null) {
+            statusList.get(position).text += url;
         }
-        statusList.get(position).media_attachments.add(attachment);
+        if (saveFilePath != null) {
+            Attachment attachment = new Attachment();
+            attachment.mimeType = "image/*";
+            String extension = "jpg";
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_", Locale.getDefault());
+            attachment.local_path = saveFilePath;
+            Date now = new Date();
+            attachment.filename = formatter.format(now) + "." + extension;
+            if (statusList.get(position).media_attachments == null) {
+                statusList.get(position).media_attachments = new ArrayList<>();
+            }
+            statusList.get(position).media_attachments.add(attachment);
+        }
         notifyItemChanged(position);
     }
 
