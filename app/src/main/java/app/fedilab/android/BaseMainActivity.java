@@ -308,7 +308,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         if (matchStart < matchEnd && sharedText.length() >= matchEnd)
                             url[0] = sharedText.substring(matchStart, matchEnd);
                     }
-                    if (url[0] != null) {
+                    if (url[0] != null && url[0].length() == sharedText.length()) {
                         new Thread(() -> {
                             if (url[0].startsWith("www."))
                                 url[0] = "http://" + url[0];
