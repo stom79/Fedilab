@@ -119,25 +119,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    /**
-     * Will manage the current position of the element in the adapter. Action is async, and position might have changed
-     *
-     * @param notificationList List<Notification> - Not null when calling from notification adapter
-     * @param id               String - Current status
-     * @return int - position in real time
-     */
-    public static int getPositionAsync(List<Notification> notificationList, String id) {
-        int position = 0;
-        if (notificationList != null) {
-            for (Notification notification : notificationList) {
-                if (notification.status != null && notification.status.id.compareTo(id) == 0) {
-                    break;
-                }
-                position++;
-            }
-        }
-        return position;
-    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
