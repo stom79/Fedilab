@@ -1,0 +1,11 @@
+Changed:
+- Composing messages is no longer forced to max chars
+
+Fixed:
+- Cross-account follow
+- Cannot subscribe to notifications for an account
+- Issues when sharing
+- Wrong profile for emoji reactions in notifications
+- Issue with cards
+- Crashes with tabs
+- Tabs cannot be renamed
