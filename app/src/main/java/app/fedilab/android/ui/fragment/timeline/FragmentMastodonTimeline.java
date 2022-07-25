@@ -136,7 +136,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private PinnedTimeline pinnedTimeline;
     private String ident;
     private String instance, user_id;
-    private ArrayList<String> idOfAddedStatuses;
+
     private boolean canBeFederated;
 
     /**
@@ -217,7 +217,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
-        idOfAddedStatuses = new ArrayList<>();
         if (tagTimeline != null) {
             ident = "@T@" + tagTimeline.name;
             if (tagTimeline.isART) {
@@ -309,9 +308,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (mediaStatuses.size() > 0) {
                 statuses.statuses = mediaStatuses;
             }
-        }
-        for (Status status : statuses.statuses) {
-            idOfAddedStatuses.add(status.id);
         }
         flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
@@ -489,11 +485,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @return int >= 0 |  STATUS_PRESENT = -1 | STATUS_AT_THE_BOTTOM = -2
      */
     private int insertStatus(Status statusReceived) {
-        if (idOfAddedStatuses.contains(statusReceived.id)) {
-            return STATUS_PRESENT;
-        }
         int position = 0;
         if (this.statuses != null) {
+            if (this.statuses.contains(statusReceived)) {
+                return STATUS_PRESENT;
+            }
             statusAdapter.notifyItemRangeChanged(0, this.statuses.size());
             //We loop through messages already in the timeline
             for (Status statusAlreadyPresent : this.statuses) {
@@ -501,7 +497,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 //Pinned messages are ignored because their date can be older
                 if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
                     //We add the status to a list of id - thus we know it is already in the timeline
-                    idOfAddedStatuses.add(statusReceived.id);
                     this.statuses.add(position, statusReceived);
                     statusAdapter.notifyItemInserted(position);
                     break;
@@ -511,7 +506,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
             if (position == this.statuses.size()) {
                 //We add the status to a list of id - thus we know it is already in the timeline
-                idOfAddedStatuses.add(statusReceived.id);
                 this.statuses.add(position, statusReceived);
                 statusAdapter.notifyItemInserted(position);
                 return STATUS_AT_THE_BOTTOM;

@@ -19,6 +19,7 @@ import android.text.Spannable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -92,6 +93,14 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("pleroma")
     public Pleroma pleroma;
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Status) {
+            same = this.id.equals(((Status) obj).id);
+        }
+        return same;
+    }
 
     public Attachment art_attachment;
 
