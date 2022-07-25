@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -152,6 +153,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int charCount = MastodonHelper.countLength(composeViewHolder);
         composeViewHolder.binding.characterCount.setText(String.valueOf(charCount));
         composeViewHolder.binding.characterProgress.setProgress(charCount);
+
     }
 
     public static StatusDraft prepareDraft(List<Status> statusList, ComposeAdapter composeAdapter, String instance, String user_id) {
@@ -196,7 +198,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (statusDraft.mentions != null && (statusDraft.text == null || statusDraft.text.length() == 0) && statusDraft.mentions.size() > 0) {
             //Retrieves mentioned accounts + OP and adds them at the beginin of the toot
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            Mention inReplyToUser = null;
+            Mention inReplyToUser;
             inReplyToUser = statusDraft.mentions.get(0);
             if (statusDraft.text == null) {
                 statusDraft.text = "";
@@ -481,9 +483,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
 
-                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    statusList.get(position).sensitive = isChecked;
-                });
+                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
@@ -658,8 +658,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void buttonState(ComposeViewHolder holder) {
         if (BaseMainActivity.software == null || BaseMainActivity.software.toUpperCase().compareTo("MASTODON") == 0) {
-            if (holder.getAdapterPosition() > 0) {
-                Status statusDraft = statusList.get(holder.getAdapterPosition());
+            if (holder.getBindingAdapterPosition() > 0) {
+                Status statusDraft = statusList.get(holder.getBindingAdapterPosition());
                 if (statusDraft.poll == null) {
                     holder.binding.buttonAttachImage.setEnabled(true);
                     holder.binding.buttonAttachVideo.setEnabled(true);
@@ -729,7 +729,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 int currentLength = MastodonHelper.countLength(holder);
                 //Copy/past
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
-                if (currentLength > max_car + 1) {
+                if (currentLength > max_car) {
+                    holder.binding.characterCount.setTextColor(Color.RED);
+                } else {
+                    holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
+                }
+                /*if (currentLength > max_car + 1) {
                     int from = max_car - holder.binding.contentSpoiler.getText().length();
                     int to = (currentLength - holder.binding.contentSpoiler.getText().length());
                     if (to <= s.length()) {
@@ -739,13 +744,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (cPosition + 1 <= s.length()) {
                         holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
                     }
-                }
-                statusList.get(holder.getAdapterPosition()).text = s.toString();
+                }*/
+                statusList.get(holder.getBindingAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {
                     buttonVisibility(holder);
                 }
                 //Update cursor position
-                statusList.get(holder.getAdapterPosition()).cursorPosition = holder.binding.content.getSelectionStart();
+                statusList.get(holder.getBindingAdapterPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 if (autocomplete) {
                     holder.binding.content.removeTextChangedListener(this);
                     Thread thread = new Thread() {
@@ -1300,7 +1305,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         buttonVisibility(holder);
                         holder.binding.contentSpoiler.setText(s.delete(cPosition, cPosition + 1));
                     }
-                    statusList.get(holder.getAdapterPosition()).spoiler_text = s.toString();
+                    statusList.get(holder.getBindingAdapterPosition()).spoiler_text = s.toString();
                     if (s.toString().trim().length() < 2) {
                         buttonVisibility(holder);
                     }
