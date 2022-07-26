@@ -49,6 +49,7 @@ public class Attachment implements Serializable {
     public String peertubeHost = null;
     public String peertubeId = null;
     public String focus = null;
+    public String translation = null;
 
     public static class Meta implements Serializable {
         @SerializedName("focus")

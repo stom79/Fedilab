@@ -40,7 +40,7 @@
 
             <TextView
                 android:id="@+id/media_description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="70dp"
@@ -52,8 +52,38 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/translate"
                 app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/media_description_translated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="70dp"
+            android:background="#AA000000"
+            android:gravity="center"
+            android:padding="12dp"
+            android:textColor="#ffffffff"
+            android:textIsSelectable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/translate"
+            style="@style/Widget.App.Button.IconOnly.Outline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:contentDescription="@string/translate"
+            app:icon="@drawable/ic_baseline_translate_24"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/media_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/media_description" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </app.futured.hauler.HaulerView>
