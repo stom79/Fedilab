@@ -412,6 +412,7 @@ public class Helper {
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setDatabaseEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
