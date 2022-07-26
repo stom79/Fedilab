@@ -755,4 +755,10 @@
     <string name="files_cache_size">Dung lượng cho phép</string>
     <string name="clear_cache">Xóa bộ nhớ đệm</string>
     <string name="default_system_language">Dùng ngôn ngữ hệ thống</string>
+    <string name="my_account">Tài khoản của tôi</string>
+    <string name="set_your_max_char_count">Đặt số ký tự tối đa</string>
+    <string name="release_notes">Phiên bản</string>
+    <string name="message_language">Ngôn ngữ cho tút</string>
+    <string name="my_instance">Máy chủ của tôi</string>
+    <string name="my_app">App của tôi</string>
 </resources>
