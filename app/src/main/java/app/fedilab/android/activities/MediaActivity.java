@@ -239,12 +239,17 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                         }
                     });
                 });
-                if (attachments.get(position).translation != null) {
-                    binding.mediaDescription.setVisibility(View.GONE);
-                    binding.mediaDescriptionTranslated.setText(attachments.get(position).translation);
-                    binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
+                if (!fullscreen) {
+                    if (attachments.get(position).translation != null) {
+                        binding.mediaDescription.setVisibility(View.GONE);
+                        binding.mediaDescriptionTranslated.setText(attachments.get(position).translation);
+                        binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.mediaDescription.setVisibility(View.VISIBLE);
+                        binding.mediaDescriptionTranslated.setVisibility(View.GONE);
+                    }
                 } else {
-                    binding.mediaDescription.setVisibility(View.VISIBLE);
+                    binding.mediaDescription.setVisibility(View.GONE);
                     binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                 }
             }
@@ -362,7 +367,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                         handler = new Handler();
                         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
                             binding.mediaDescription.setText(description);
-                            if (attachments.get(mediaPosition - 1).translation != null) {
+                            if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
                                 binding.mediaDescription.setVisibility(View.GONE);
                                 binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
                                 binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
@@ -372,6 +377,8 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                             }
                         } else {
                             binding.translate.setVisibility(View.GONE);
+                            binding.mediaDescriptionTranslated.setVisibility(View.GONE);
+                            binding.mediaDescription.setVisibility(View.GONE);
                         }
                     } else {
                         binding.translate.setVisibility(View.GONE);
