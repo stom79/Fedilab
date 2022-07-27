@@ -302,13 +302,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                      */
                     Matcher matcher;
                     matcher = Patterns.WEB_URL.matcher(sharedText);
+                    int count = 0;
                     while (matcher.find()) {
                         int matchStart = matcher.start(1);
                         int matchEnd = matcher.end();
-                        if (matchStart < matchEnd && sharedText.length() >= matchEnd)
+                        if (matchStart < matchEnd && sharedText.length() >= matchEnd) {
                             url[0] = sharedText.substring(matchStart, matchEnd);
+                            count++;
+                        }
                     }
-                    if (url[0] != null && url[0].length() == sharedText.length()) {
+                    if (url[0] != null && count == 1) {
                         new Thread(() -> {
                             if (url[0].startsWith("www."))
                                 url[0] = "http://" + url[0];
