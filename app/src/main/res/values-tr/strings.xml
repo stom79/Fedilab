@@ -733,4 +733,5 @@
     <string name="my_account">Hesabım</string>
     <string name="set_your_max_char_count">Azami karakter sayınızı ayarlayın</string>
     <string name="release_notes">Sürüm notları</string>
+    <string name="toast_token">Uygulama belirteç alamadı</string>
 </resources>
