@@ -104,17 +104,21 @@ public class FragmentLoginMain extends Fragment {
                         InstanceSocialVM instanceSocialVM = new ViewModelProvider(FragmentLoginMain.this).get(InstanceSocialVM.class);
                         instanceSocialVM.getInstances(query).observe(requireActivity(), instanceSocialList -> {
                             binding.loginInstance.setAdapter(null);
-                            String[] instances = new String[instanceSocialList.instances.size()];
-                            int j = 0;
-                            for (InstanceSocial.Instance instance : instanceSocialList.instances) {
-                                instances[j] = instance.name;
-                                j++;
+                            if (instanceSocialList.instances.isEmpty()) {
+                                binding.loginInstance.dismissDropDown();
+                            } else {
+                                String[] instances = new String[instanceSocialList.instances.size()];
+                                int j = 0;
+                                for (InstanceSocial.Instance instance : instanceSocialList.instances) {
+                                    instances[j] = instance.name;
+                                    j++;
+                                }
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
+                                        android.R.layout.simple_list_item_1, instances);
+                                binding.loginInstance.setAdapter(adapter);
+                                if (binding.loginInstance.hasFocus() && !requireActivity().isFinishing())
+                                    binding.loginInstance.showDropDown();
                             }
-                            ArrayAdapter<String> adapter =
-                                    new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, instances);
-                            binding.loginInstance.setAdapter(adapter);
-                            if (binding.loginInstance.hasFocus() && !requireActivity().isFinishing())
-                                binding.loginInstance.showDropDown();
                             if (oldSearch != null && oldSearch.equals(binding.loginInstance.getText().toString())) {
                                 binding.loginInstance.dismissDropDown();
                             }
