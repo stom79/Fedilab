@@ -479,7 +479,9 @@ public class ProfileActivity extends BaseActivity {
      * This methode is called to update the view once an action has been performed
      */
     private void updateAccount() {
-
+        if (currentAccount == null || account == null) {
+            return;
+        }
         //The value for account is from same server so id can be used
         if (account.id.equals(currentAccount.user_id)) {
             binding.accountFollow.setVisibility(View.GONE);

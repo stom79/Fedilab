@@ -991,6 +991,7 @@
     <string name="my_account">My account</string>
     <string name="set_your_max_char_count">Set your max char count</string>
     <string name="release_notes">Release notes</string>
+    <string name="toast_token">The app failed to get a token</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

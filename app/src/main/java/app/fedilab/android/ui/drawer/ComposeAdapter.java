@@ -1298,13 +1298,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void afterTextChanged(Editable s) {
                     int currentLength = MastodonHelper.countLength(holder);
-                    if (currentLength > max_car + 1) {
+                    int max_car = MastodonHelper.getInstanceMaxChars(context);
+                    if (currentLength > max_car) {
+                        holder.binding.characterCount.setTextColor(Color.RED);
+                    } else {
+                        holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
+                    }
+                    /*if (currentLength > max_car + 1) {
                         holder.binding.contentSpoiler.setText(s.delete(max_car - holder.binding.content.getText().length(), (currentLength - holder.binding.content.getText().length())));
                         buttonVisibility(holder);
                     } else if (currentLength > max_car) {
                         buttonVisibility(holder);
                         holder.binding.contentSpoiler.setText(s.delete(cPosition, cPosition + 1));
-                    }
+                    }*/
                     statusList.get(holder.getBindingAdapterPosition()).spoiler_text = s.toString();
                     if (s.toString().trim().length() < 2) {
                         buttonVisibility(holder);

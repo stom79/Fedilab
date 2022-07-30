@@ -137,7 +137,7 @@ public class FragmentMastodonConversation extends Fragment {
             }
         });
         binding.swipeContainer.setOnRefreshListener(() -> {
-            if (this.conversations.size() > 0) {
+            if (this.conversations != null && this.conversations.size() > 0) {
                 binding.swipeContainer.setRefreshing(true);
                 max_id = null;
                 flagLoading = false;

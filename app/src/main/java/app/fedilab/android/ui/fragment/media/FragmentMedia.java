@@ -37,12 +37,12 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 
 import java.util.Timer;
 
@@ -61,7 +61,7 @@ import app.fedilab.android.webview.FedilabWebViewClient;
 public class FragmentMedia extends Fragment {
 
 
-    private SimpleExoPlayer player;
+    private ExoPlayer player;
     private Timer timer;
     private String url;
     private boolean canSwipe;
@@ -261,26 +261,26 @@ public class FragmentMedia extends Fragment {
         binding.mediaVideo.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse(url);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        String userAgent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
         int video_cache = sharedpreferences.getInt(getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
         ProgressiveMediaSource videoSource;
+        MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
         if (video_cache == 0) {
-            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(requireActivity(),
-                    Util.getUserAgent(requireActivity(), userAgent), null);
+            DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(requireActivity());
             videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(uri);
+                    .createMediaSource(mediaItem);
         } else {
             CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(requireActivity());
             videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
-                    .createMediaSource(uri);
+                    .createMediaSource(mediaItem);
         }
-        player = new SimpleExoPlayer.Builder(requireActivity()).build();
+        player = new ExoPlayer.Builder(requireActivity()).build();
         if (type.equalsIgnoreCase("gifv"))
             player.setRepeatMode(Player.REPEAT_MODE_ONE);
         binding.mediaVideo.setPlayer(player);
         binding.loader.setVisibility(View.GONE);
         binding.mediaPicture.setVisibility(View.GONE);
-        player.prepare(videoSource);
+        player.setMediaSource(videoSource);
+        player.prepare();
         player.setPlayWhenReady(true);
     }
 

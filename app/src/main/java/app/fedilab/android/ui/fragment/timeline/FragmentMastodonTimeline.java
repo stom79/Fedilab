@@ -61,6 +61,7 @@ import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
@@ -809,19 +810,27 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
                                 .observe(getViewLifecycleOwner(), results -> {
-                                    Statuses statuses = new Statuses();
-                                    statuses.statuses = results.statuses;
-                                    statuses.pagination = new Pagination();
-                                    initializeStatusesCommonView(statuses);
+                                    if (results != null) {
+                                        Statuses statuses = new Statuses();
+                                        statuses.statuses = results.statuses;
+                                        statuses.pagination = new Pagination();
+                                        initializeStatusesCommonView(statuses);
+                                    } else {
+                                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                    }
                                 });
                     } else if (searchCache != null) {
                         SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
                         searchVM.searchCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, searchCache.trim())
                                 .observe(getViewLifecycleOwner(), results -> {
-                                    Statuses statuses = new Statuses();
-                                    statuses.statuses = results.statuses;
-                                    statuses.pagination = new Pagination();
-                                    initializeStatusesCommonView(statuses);
+                                    if (results != null) {
+                                        Statuses statuses = new Statuses();
+                                        statuses.statuses = results.statuses;
+                                        statuses.pagination = new Pagination();
+                                        initializeStatusesCommonView(statuses);
+                                    } else {
+                                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                    }
                                 });
                     } else if (timelineType == Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
                         if (direction == null) {
