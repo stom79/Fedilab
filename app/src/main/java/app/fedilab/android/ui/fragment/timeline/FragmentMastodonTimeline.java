@@ -941,8 +941,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                 }
             } else {
-                timelinesVM.getHomeCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, max_id_fetch_more, null, null)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, true));
+                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, max_id_fetch_more, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                        .observe(getViewLifecycleOwner(), statusesBottom -> {
+                            dealWithPagination(statusesBottom, DIRECTION.BOTTOM, true);
+                        });
             }
         } else if (direction == DIRECTION.TOP) {
             if (!fetchingMissing) {
