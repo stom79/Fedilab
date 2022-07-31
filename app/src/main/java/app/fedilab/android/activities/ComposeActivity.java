@@ -386,7 +386,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             });
 
         } else {
-            composeAdapter.addSharing(null, null, sharedDescription, null, sharedContent, null);
+            if (composeAdapter != null) {
+                composeAdapter.addSharing(null, null, sharedDescription, null, sharedContent, null);
+            }
         }
     }
 
