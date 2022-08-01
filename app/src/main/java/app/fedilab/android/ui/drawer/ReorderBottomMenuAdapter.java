@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
@@ -161,7 +160,7 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
      * Simple example of a view holder that implements {@link ItemTouchHelperViewHolder} and has a
      * "handle" view that initiates a drag event when touched.
      */
-    public class ReorderViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    public static class ReorderViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         DrawerReorderBinding binding;
 
@@ -172,12 +171,10 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.mastodonC3));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(0);
         }
     }
 }

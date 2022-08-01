@@ -24,7 +24,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
-        android:backgroundTint="?backgroundColorLight"
+        android:background="@color/cyanea_primary_dark_reference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
@@ -32,7 +32,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?backgroundColorLight"
+            android:background="@color/cyanea_primary_dark_reference"
             app:contentScrim="?colorPrimaryDark"
             android:fitsSystemWindows="true"
             app:expandedTitleGravity="top"
@@ -344,7 +344,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:backgroundTint="?colorPrimaryDark"
+                android:background="@color/cyanea_primary_dark_reference"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:layout_collapseMode="pin">
 
@@ -372,7 +372,7 @@
             android:id="@+id/account_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?backgroundColorLight"
+            android:background="@color/cyanea_primary_dark_reference"
             app:tabGravity="fill"
             app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>
