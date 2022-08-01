@@ -311,7 +311,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             count++;
                         }
                     }
-                    if (url[0] != null && count == 1) {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                    boolean fetchSharedMedia = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                    boolean fetchShareContent = sharedpreferences.getBoolean(getString(R.string.SET_SHARE_DETAILS), true);
+                    if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
                         new Thread(() -> {
                             if (url[0].startsWith("www."))
                                 url[0] = "http://" + url[0];
@@ -355,13 +358,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     Matcher matcherImage = imagePattern.matcher(data);
                                                     String titleEncoded = null;
                                                     String descriptionEncoded = null;
-                                                    while (matcherTitle.find())
-                                                        titleEncoded = matcherTitle.group(1);
-                                                    while (matcherDescription.find())
-                                                        descriptionEncoded = matcherDescription.group(1);
+                                                    if (fetchShareContent) {
+                                                        while (matcherTitle.find())
+                                                            titleEncoded = matcherTitle.group(1);
+                                                        while (matcherDescription.find())
+                                                            descriptionEncoded = matcherDescription.group(1);
+                                                    }
                                                     String image = null;
-                                                    while (matcherImage.find())
-                                                        image = matcherImage.group(1);
+                                                    if (fetchSharedMedia) {
+                                                        while (matcherImage.find())
+                                                            image = matcherImage.group(1);
+                                                    }
                                                     String title = null;
                                                     String description = null;
                                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -379,8 +386,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     String finalTitle = title;
                                                     String finalDescription = description;
                                                     runOnUiThread(() -> {
-
-
                                                         Bundle b = new Bundle();
                                                         b.putString(Helper.ARG_SHARE_URL, url[0]);
                                                         b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
