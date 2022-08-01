@@ -4,41 +4,46 @@
     android:id="@+id/fetch_more_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingHorizontal="6dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fetch_more_min"
-        style="@style/Widget.App.Button.IconOnly.Outline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="6dp"
-        android:layout_marginTop="6dp"
-        android:contentDescription="@string/fetch_more_messages"
-        app:icon="@drawable/ic_fetch_more_arrow_upward"
-        app:iconPadding="0dp" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="6dp"
-        android:layout_weight="1"
-        android:text="@string/fetch_more_messages"
-        android:textAlignment="center"
-        android:textColor="?colorAccent"
-        android:textSize="18sp" />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_max"
         style="@style/Widget.App.Button.IconOnly.Outline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
         android:contentDescription="@string/fetch_more_messages"
         app:icon="@drawable/ic_fetch_more_arrow_downward"
-        app:iconPadding="0dp" />
+        app:iconPadding="0dp"
+        app:iconTint="?android:textColorPrimary"
+        app:strokeColor="?android:textColorPrimary" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="24dp"
+        android:text="@string/fetch_more_messages"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textSize="18sp"
+        app:textAllCaps="false" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fetch_more_min"
+        style="@style/Widget.App.Button.IconOnly.Outline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/fetch_more_messages"
+        app:icon="@drawable/ic_fetch_more_arrow_upward"
+        app:iconPadding="0dp"
+        app:iconTint="?android:textColorPrimary"
+        app:strokeColor="?android:textColorPrimary" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
