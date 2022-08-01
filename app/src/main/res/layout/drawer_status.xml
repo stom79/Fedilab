@@ -517,6 +517,12 @@
                 app:srcCompat="@drawable/ic_baseline_share_24" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <include
+            android:id="@+id/layout_reactions"
+            layout="@layout/layout_reactions"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/action_buttons"
             android:layout_width="match_parent"
@@ -595,21 +601,23 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_add_custom_emoji"
                 android:layout_width="28dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_height="28dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_emoji_emotions_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_emoji_emotions_24" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_emoji"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_marginStart="6dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_add_reaction_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_add_reaction_24" />
 
             <View
                 android:layout_width="0dp"
@@ -626,11 +634,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include
-            android:id="@+id/layout_reactions"
-            layout="@layout/layout_reactions"
-            android:visibility="gone"
-            tools:visibility="visible" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

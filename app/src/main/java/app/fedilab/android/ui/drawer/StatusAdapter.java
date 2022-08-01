@@ -325,14 +325,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
 
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
-            holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
+                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
             } else {
+                holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
             holder.binding.statusEmoji.setOnClickListener(v -> {
@@ -455,9 +456,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
 
         }
-
+        if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
+            holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
+            holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+        }
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_repeat, theme_icons_color);
