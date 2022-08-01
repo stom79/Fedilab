@@ -27,13 +27,14 @@
     app:cardElevation="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:id="@+id/main_container"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical">
+
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp" />
@@ -585,6 +586,30 @@
                 app:sparkbutton_inActiveImage="@drawable/ic_baseline_bookmark_border_24"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/status_add_custom_emoji"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@string/add_reaction"
+                android:padding="3dp"
+                android:src="@drawable/ic_baseline_emoji_emotions_24"
+                app:tint="?attr/iconColor" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/status_emoji"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="6dp"
+                android:contentDescription="@string/add_reaction"
+                android:padding="3dp"
+                android:src="@drawable/ic_baseline_add_reaction_24"
+                app:tint="?attr/iconColor" />
 
             <View
                 android:layout_width="0dp"

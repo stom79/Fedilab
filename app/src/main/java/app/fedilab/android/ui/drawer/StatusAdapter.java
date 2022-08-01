@@ -335,11 +335,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
-            holder.binding.layoutReactions.statusEmoji.setOnClickListener(v -> {
+            holder.binding.statusEmoji.setOnClickListener(v -> {
                 EmojiManager.install(new EmojiOneProvider());
-                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.layoutReactions.statusEmoji).setOnEmojiPopupDismissListener(() -> {
+                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(holder.binding.layoutReactions.statusEmoji.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
                 }).setOnEmojiClickListener((emoji, imageView) -> {
                     String emojiStr = imageView.getUnicode();
                     boolean alreadyAdded = false;
@@ -375,7 +375,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .build(holder.binding.layoutReactions.fakeEdittext);
                 emojiPopup.toggle();
             });
-            holder.binding.layoutReactions.statusAddCustomEmoji.setOnClickListener(v -> {
+            holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
                 int paddingPixel = 15;
