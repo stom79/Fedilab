@@ -1,0 +1,14 @@
+Added:
+- New theme: Dark Elephant from S1m
+- Error messages from server side when posting fails
+
+Changed:
+- Fetch more buttons more visible
+
+Fixed:
+- Issue when fetching missing messages
+- Some issues with themes
+- Too much lost space with reaction (Pleroma)
+- Delete and redraft crashes
+- Crash when playing a video
+- Other crash fixes
