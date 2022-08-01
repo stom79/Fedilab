@@ -200,6 +200,13 @@ public class PostMessageService extends IntentService {
                 }
                 Call<Status> statusCall;
                 if (error) {
+                    Bundle b = new Bundle();
+                    b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                    Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
+                    b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
+                    b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                    intentBD.putExtras(b);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
                     return;
                 }
                 String language = sharedPreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + dataPost.userId + dataPost.instance, null);
@@ -226,7 +233,7 @@ public class PostMessageService extends IntentService {
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
-                                if (!error && i >= dataPost.statusDraft.statusDraftList.size()) {
+                                if (i >= dataPost.statusDraft.statusDraftList.size()) {
                                     try {
                                         new StatusDraft(context).removeDraft(dataPost.statusDraft);
                                     } catch (DBException e) {
@@ -237,10 +244,26 @@ public class PostMessageService extends IntentService {
                                     }
                                 }
                             }
+                        } else if (statusResponse.errorBody() != null) {
+                            Bundle b = new Bundle();
+                            b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                            Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
+                            b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                            b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, statusResponse.errorBody().string());
+                            intentBD.putExtras(b);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+                            return;
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        error = true;
+                        Bundle b = new Bundle();
+                        b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                        b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                        Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
+                        b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
+                        intentBD.putExtras(b);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+                        return;
                     }
                 } else {
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
@@ -260,7 +283,7 @@ public class PostMessageService extends IntentService {
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
-                                if (!error && i >= dataPost.statusDraft.statusDraftList.size()) {
+                                if (i >= dataPost.statusDraft.statusDraftList.size()) {
                                     try {
                                         new StatusDraft(context).removeDraft(dataPost.statusDraft);
                                     } catch (DBException e) {

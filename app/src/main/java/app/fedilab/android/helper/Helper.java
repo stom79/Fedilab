@@ -198,9 +198,11 @@ public class Helper {
     public static final String RECEIVE_REDRAW_BOTTOM = "RECEIVE_REDRAW_BOTTOM";
 
     public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
+    public static final String RECEIVE_ERROR_MESSAGE = "RECEIVE_ERROR_MESSAGE";
 
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";
     public static final String RECEIVE_NEW_MESSAGE = "RECEIVE_NEW_MESSAGE";
+    public static final String RECEIVE_COMPOSE_ERROR_MESSAGE = "RECEIVE_COMPOSE_ERROR_MESSAGE";
     public static final String RECEIVE_MASTODON_LIST = "RECEIVE_MASTODON_LIST";
     public static final String RECEIVE_REDRAW_PROFILE = "RECEIVE_REDRAW_PROFILE";
 
@@ -291,6 +293,7 @@ public class Helper {
     public static final int OPEN_NOTIFICATION = 2;
     public static final String INTENT_TARGETED_ACCOUNT = "INTENT_TARGETED_ACCOUNT";
     public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
+    public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";
     public static final String TEMP_MEDIA_DIRECTORY = "TEMP_MEDIA_DIRECTORY";
 
 

@@ -992,6 +992,8 @@
     <string name="set_your_max_char_count">Set your max char count</string>
     <string name="release_notes">Release notes</string>
     <string name="toast_token">The app failed to get a token</string>
+    <string name="media_cannot_be_uploaded">Media cannot be uploaded!</string>
+    <string name="open_draft">Open draft</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -122,6 +123,7 @@ import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
@@ -163,6 +165,33 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private ActivityMainBinding binding;
     private Pinned pinned;
     private BottomMenu bottomMenu;
+    private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (b.getBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, false)) {
+                    String errorMessage = b.getString(Helper.RECEIVE_ERROR_MESSAGE);
+                    StatusDraft statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
+                    Snackbar snackbar = Snackbar.make(binding.getRoot(), errorMessage, 5000);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setMaxLines(5);
+                    snackbar
+                            .setAction(getString(R.string.open_draft), view -> {
+                                Intent intentCompose = new Intent(context, ComposeActivity.class);
+                                intentCompose.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                context.startActivity(intentCompose);
+                            })
+                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
+                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
+                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
+                            .show();
+                }
+            }
+        }
+    };
+
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -877,6 +906,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+        LocalBroadcastManager.getInstance(BaseMainActivity.this)
+                .registerReceiver(broadcast_error_message,
+                        new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE));
         if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {
@@ -1038,6 +1070,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(BaseMainActivity.this).unregisterReceiver(broadcast_data);
+        LocalBroadcastManager.getInstance(BaseMainActivity.this)
+                .unregisterReceiver(broadcast_error_message);
         if (networkStateReceiver != null) {
             try {
                 unregisterReceiver(networkStateReceiver);

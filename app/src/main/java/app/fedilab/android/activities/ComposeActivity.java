@@ -108,6 +108,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
+
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -133,6 +134,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
     };
+
     private ActivityPaginationBinding binding;
     private BaseAccount account;
     private String instance, token;
@@ -400,6 +402,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(imageReceiver);
+
     }
 
     @Override
