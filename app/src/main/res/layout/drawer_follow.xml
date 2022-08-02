@@ -19,8 +19,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/cyanea_primary_dark_reference"
     android:layout_margin="6dp"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
