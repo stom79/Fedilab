@@ -1,6 +1,7 @@
 Added:
 - New theme: Dark Elephant from S1m
 - Error messages from server side when posting fails
+- Allow to set the fetch time for delayed notifications
 
 Changed:
 - Fetch more buttons more visible

@@ -7,7 +7,7 @@
   {
     "version": "3.0.11",
     "code": "401",
-    "note": "Changed:\n- Composing messages is no longer forced to max chars\n\nFixed:\n- Cross-account follow\n- Cannot subscribe to notifications for an account\n- Issues when sharing\n- Wrong profile for emoji reactions in notifications\n- Issue with cards\n- Crashes with tabs\n- Tabs cannot be renamed"
+    "note": "Added:\n- New theme: Dark Elephant from S1m\n- Error messages from server side when posting fails\n- Allow to set the fetch time for delayed notifications\n\nChanged:\n- Fetch more buttons more visible\n\nFixed:\n- Issue when fetching missing messages\n- Some issues with themes\n- Too much lost space with reaction (Pleroma)\n- Delete and redraft crashes\n- Crash when playing a video\n- Other crash fixes"
   },
   {
     "version": "3.0.10",

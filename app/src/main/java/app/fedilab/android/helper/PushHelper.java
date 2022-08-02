@@ -91,9 +91,7 @@ public class PushHelper {
                 new Thread(() -> {
                     List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
                     for (BaseAccount account : accounts) {
-                        ((Activity) context).runOnUiThread(() -> {
-                            UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
-                        });
+                        ((Activity) context).runOnUiThread(() -> UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance));
                     }
                 }).start();
                 break;
@@ -106,9 +104,7 @@ public class PushHelper {
             List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
             if (accounts != null) {
                 for (BaseAccount account : accounts) {
-                    ((Activity) context).runOnUiThread(() -> {
-                        UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
-                    });
+                    ((Activity) context).runOnUiThread(() -> UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance));
                 }
             }
         }).start();
