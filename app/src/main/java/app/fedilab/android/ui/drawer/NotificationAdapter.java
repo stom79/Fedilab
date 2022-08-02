@@ -204,7 +204,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                     title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
                     MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
-                    holderStatus.bindingNotification.status.avatar.setOnClickListener(v -> {
+                    holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle b = new Bundle();
                         b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
