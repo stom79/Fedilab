@@ -153,15 +153,16 @@ public class FragmentMastodonAccount extends Fragment {
         }
         accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
                 .observe(getViewLifecycleOwner(), relationShips -> {
-
-                    for (RelationShip relationShip : relationShips) {
-                        for (Account account : accounts) {
-                            if (account.id.compareToIgnoreCase(relationShip.id) == 0) {
-                                account.relationShip = relationShip;
+                    if (relationShips != null) {
+                        for (RelationShip relationShip : relationShips) {
+                            for (Account account : accounts) {
+                                if (account.id.compareToIgnoreCase(relationShip.id) == 0) {
+                                    account.relationShip = relationShip;
+                                }
                             }
                         }
+                        accountAdapter.notifyItemRangeChanged(position, accounts.size());
                     }
-                    accountAdapter.notifyItemRangeChanged(position, accounts.size());
                 });
     }
 
