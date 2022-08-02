@@ -92,7 +92,21 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             if (notification_time_slot != null) {
                 preferenceScreen.removePreference(notification_time_slot);
             }
+            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference("SET_NOTIFICATION_DELAY_VALUE");
+            if (SET_NOTIFICATION_DELAY_VALUE != null) {
+                preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
+            }
             return;
+        } else if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[1])) {
+            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference(getString(R.string.SET_NOTIFICATION_DELAY_VALUE));
+            if (SET_NOTIFICATION_DELAY_VALUE != null) {
+                SET_NOTIFICATION_DELAY_VALUE.getContext().setTheme(Helper.dialogStyle());
+            }
+        } else {
+            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference("SET_NOTIFICATION_DELAY_VALUE");
+            if (SET_NOTIFICATION_DELAY_VALUE != null) {
+                preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
+            }
         }
 
         Preference button_mention = findPreference("button_mention");
@@ -177,6 +191,10 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             if (key.compareToIgnoreCase(getString(R.string.SET_NOTIFICATION_TYPE)) == 0) {
                 createPref();
                 PushHelper.startStreaming(requireActivity());
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_NOTIFICATION_DELAY_VALUE)) == 0) {
+                createPref();
+                PushHelper.setRepeat(requireActivity());
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LED_COLOUR_VAL)) == 0) {
                 try {

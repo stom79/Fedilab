@@ -84,19 +84,7 @@ public class PushHelper {
                 WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_NOTIFICATION);
                 break;
             case "REPEAT_NOTIFICATIONS":
-                new Thread(() -> {
-                    List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
-                    if (accounts != null) {
-                        for (BaseAccount account : accounts) {
-                            ((Activity) context).runOnUiThread(() -> {
-                                UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
-                            });
-                        }
-                    }
-                }).start();
-                new PeriodicWorkRequest.Builder(NotificationsWorker.class, 20, TimeUnit.MINUTES)
-                        .addTag(Helper.WORKER_REFRESH_NOTIFICATION)
-                        .build();
+                setRepeat(context);
                 break;
             case "NO_NOTIFICATIONS":
                 WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_NOTIFICATION);
@@ -110,6 +98,25 @@ public class PushHelper {
                 }).start();
                 break;
         }
+    }
+
+    public static void setRepeat(Context context) {
+        WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_NOTIFICATION);
+        new Thread(() -> {
+            List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
+            if (accounts != null) {
+                for (BaseAccount account : accounts) {
+                    ((Activity) context).runOnUiThread(() -> {
+                        UnifiedPush.unregisterApp(context, account.user_id + "@" + account.instance);
+                    });
+                }
+            }
+        }).start();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String value = prefs.getString(context.getString(R.string.SET_NOTIFICATION_DELAY_VALUE), "15");
+        new PeriodicWorkRequest.Builder(NotificationsWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
+                .addTag(Helper.WORKER_REFRESH_NOTIFICATION)
+                .build();
     }
 
 

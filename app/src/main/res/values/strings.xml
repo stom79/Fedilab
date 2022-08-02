@@ -738,12 +738,20 @@
     <string name="no_account_in_list">No accounts found for this list!</string>
     <string name="scheduled">Scheduled</string>
 
-    <string-array name="set_notification_type_value" >
+    <string-array name="set_notification_type_value">
         <item>Push notifications</item>
         <item>Fetch at fixed times</item>
         <item>No notifications</item>
     </string-array>
 
+    <string-array name="set_notification_delay_values">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+    </string-array>
 
     <string name="SET_COOKIES" translatable="false">SET_COOKIES</string>
     <string name="SET_PROXY_ENABLED" translatable="false">SET_PROXY_ENABLED</string>
@@ -758,10 +766,20 @@
     <string name="SET_CUSTOM_USER_AGENT" translatable="false">SET_CUSTOM_USER_AGENT</string>
     <string name="SET_NSFW_TIMEOUT" translatable="false">SET_NSFW_TIMEOUT</string>
     <string name="SET_NOTIFICATION_TYPE" translatable="false">SET_NOTIFICATION_TYPE</string>
+    <string name="SET_NOTIFICATION_DELAY_VALUE" translatable="false">SET_NOTIFICATION_DELAY_VALUE</string>
+
     <string-array name="SET_NOTIFICATION_TYPE_VALUE" translatable="false">
         <item>PUSH_NOTIFICATIONS</item>
         <item>REPEAT_NOTIFICATIONS</item>
         <item>NO_NOTIFICATIONS</item>
+    </string-array>
+    <string-array name="SET_NOTIFICATION_DELAYS_VALUES" translatable="false">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>360</item>
+        <item>720</item>
     </string-array>
     <string name="SET_PICTURE_COMPRESSED" translatable="false">SET_PICTURE_COMPRESSED</string>
     <string name="SET_VIDEO_COMPRESSED" translatable="false">SET_VIDEO_COMPRESSED</string>
@@ -994,6 +1012,9 @@
     <string name="toast_token">The app failed to get a token</string>
     <string name="media_cannot_be_uploaded">Media cannot be uploaded!</string>
     <string name="open_draft">Open draft</string>
+    <string name="set_push_notifications_delay">Set the delay between each new fetch</string>
+    <string name="refresh_every">Fetch notifications every:</string>
+    <string name="type_of_notifications_delay_title">Notifications fetch time</string>
 
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->

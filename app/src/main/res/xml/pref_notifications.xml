@@ -15,6 +15,17 @@
             app:dialogTitle="@string/type_of_notifications"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="15"
+            app:dialogTitle="@string/refresh_every"
+            app:entries="@array/set_notification_delay_values"
+            app:entryValues="@array/SET_NOTIFICATION_DELAYS_VALUES"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIFICATION_DELAY_VALUE"
+            app:summary="@string/set_push_notifications_delay"
+            app:title="@string/type_of_notifications_delay_title"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 
