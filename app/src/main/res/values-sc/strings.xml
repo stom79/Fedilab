@@ -727,4 +727,10 @@
     <string name="set_your_max_char_count">Imposta su nùmeru màssimu de caràteres tuo</string>
     <string name="my_account">Su contu meu</string>
     <string name="release_notes">Notas de sa versione</string>
+    <string name="toast_token">S\'aplicatzione no est resèssida a otènnere unu getone</string>
+    <string name="set_push_notifications_delay">Imposta su tempus intre unu recùperu e s\'àteru</string>
+    <string name="media_cannot_be_uploaded">No at fatu a carrigare s\'elementu multimediale!</string>
+    <string name="type_of_notifications_delay_title">Tempus de recùperu de is notìficas</string>
+    <string name="open_draft">Aberi abbotzu</string>
+    <string name="refresh_every">Recùpera is notìficas cada:</string>
 </resources>
