@@ -762,4 +762,9 @@
     <string name="my_instance">Máy chủ của tôi</string>
     <string name="my_app">App của tôi</string>
     <string name="toast_token">Ứng dụng lấy token thất bại</string>
+    <string name="media_cannot_be_uploaded">Không thể tải lên media!</string>
+    <string name="open_draft">Mở bản nháp</string>
+    <string name="set_push_notifications_delay">Chọn thời gian chờ giữa lần nạp tút</string>
+    <string name="refresh_every">Nạp thông báo mỗi:</string>
+    <string name="type_of_notifications_delay_title">Thời gian nạp thông báo</string>
 </resources>
