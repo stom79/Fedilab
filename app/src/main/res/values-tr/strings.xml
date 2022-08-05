@@ -736,4 +736,7 @@
     <string name="toast_token">Uygulama belirteç alamadı</string>
     <string name="media_cannot_be_uploaded">Medya karşıya yüklenemiyor!</string>
     <string name="open_draft">Taslağı aç</string>
+    <string name="set_push_notifications_delay">Her yeni getirme arasındaki gecikmeyi ayarla</string>
+    <string name="refresh_every">Bildirimlerin alınma sıklığı:</string>
+    <string name="type_of_notifications_delay_title">Bildirimlerin alınma zamanı</string>
 </resources>
