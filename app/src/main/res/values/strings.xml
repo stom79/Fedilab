@@ -1418,4 +1418,14 @@
         <item>u+1f4cd</item>
         <item>u+1f6a9</item>
     </string-array>
+
+    <string name="pref_category_key_account" translatable="false">pref_category_account</string>
+    <string name="pref_category_key_timeline" translatable="false">pref_category_timeline</string>
+    <string name="pref_category_key_notifications" translatable="false">pref_category_notifications</string>
+    <string name="pref_category_key_interface" translatable="false">pref_category_interface</string>
+    <string name="pref_category_key_compose" translatable="false">pref_category_compose</string>
+    <string name="pref_category_key_privacy" translatable="false">pref_category_privacy</string>
+    <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
+    <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
+    <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
 </resources>

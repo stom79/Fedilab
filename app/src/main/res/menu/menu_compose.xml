@@ -13,7 +13,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_language"
-        android:icon="@drawable/ic_baseline_language_24"
+        android:icon="@drawable/ic_language"
         android:title="@string/languages"
         app:showAsAction="ifRoom" />
     <item

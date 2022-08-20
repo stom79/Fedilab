@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/account"
+        app:icon="@drawable/ic_baseline_account_circle_24"
+        app:key="@string/pref_category_key_account" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/settings_category_label_timelines"
+        app:icon="@drawable/ic_timeline"
+        app:key="@string/pref_category_key_timeline" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/notifications"
+        app:icon="@drawable/ic_baseline_notifications_24"
+        app:key="@string/pref_category_key_notifications" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/settings_category_label_interface"
+        app:icon="@drawable/ic_style"
+        app:key="@string/pref_category_key_interface" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/compose"
+        app:icon="@drawable/ic_baseline_edit_24"
+        app:key="@string/pref_category_key_compose" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/action_privacy"
+        app:icon="@drawable/ic_shield"
+        app:key="@string/pref_category_key_privacy" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/theming"
+        app:icon="@drawable/ic_theming"
+        app:key="@string/pref_category_key_theming" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/administration"
+        app:icon="@drawable/ic_admin"
+        app:key="@string/pref_category_key_administration" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/languages"
+        app:icon="@drawable/ic_language"
+        app:key="@string/pref_category_key_languages" />
+
+</androidx.preference.PreferenceScreen>

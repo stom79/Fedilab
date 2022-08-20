@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_settings"
+    app:startDestination="@id/FragmentSettingsCategories">
+
+    <fragment
+        android:id="@+id/FragmentSettingsCategories"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentSettingsCategories"
+        android:label="@string/settings">
+
+        <action
+            android:id="@+id/categories_to_account"
+            app:destination="@id/EditProfileActivity"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_timelines"
+            app:destination="@id/FragmentTimelinesSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_notifications"
+            app:destination="@id/FragmentNotificationsSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_interface"
+            app:destination="@id/FragmentInterfaceSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_compose"
+            app:destination="@id/FragmentComposeSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_privacy"
+            app:destination="@id/FragmentPrivacySettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_theming"
+            app:destination="@id/FragmentThemingSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_language"
+            app:destination="@id/FragmentLanguageSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragmentTimelinesSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentTimelinesSettings"
+        android:label="@string/settings_category_label_timelines" />
+
+    <fragment
+        android:id="@+id/FragmentNotificationsSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentNotificationsSettings"
+        android:label="@string/notifications" />
+
+    <fragment
+        android:id="@+id/FragmentInterfaceSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentInterfaceSettings"
+        android:label="@string/settings_category_label_interface" />
+
+    <fragment
+        android:id="@+id/FragmentComposeSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentComposeSettings"
+        android:label="@string/compose" />
+
+    <fragment
+        android:id="@+id/FragmentPrivacySettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentPrivacySettings"
+        android:label="@string/action_privacy" />
+
+    <fragment
+        android:id="@+id/FragmentThemingSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentThemingSettings"
+        android:label="@string/theming" />
+
+    <fragment
+        android:id="@+id/FragmentLanguageSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentLanguageSettings"
+        android:label="@string/languages" />
+
+    <activity
+        android:id="@+id/EditProfileActivity"
+        android:name="app.fedilab.android.activities.EditProfileActivity" />
+
+</navigation>
