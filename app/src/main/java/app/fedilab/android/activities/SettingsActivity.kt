@@ -15,6 +15,7 @@ package app.fedilab.android.activities
  * see <http://www.gnu.org/licenses>. */
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -35,9 +36,7 @@ class SettingsActivity : BaseActivity() {
         setContentView(binding.root)
 
         val navController = findNavController(R.id.fragment_container)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        appBarConfiguration = AppBarConfiguration.Builder().build()
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -47,5 +46,11 @@ class SettingsActivity : BaseActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val navController = findNavController(R.id.fragment_container)
+        if (item.itemId == android.R.id.home && navController.currentDestination?.id == R.id.FragmentSettingsCategories) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
