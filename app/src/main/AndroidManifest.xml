@@ -55,6 +55,7 @@
         <activity
             android:exported="true"
             android:name=".activities.LoginActivity"
+            android:noHistory="true"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
@@ -75,37 +76,47 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.DraftActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".imageeditor.EditImageActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.ComposeActivity"
+            android:noHistory="true"
             android:configChanges="orientation|screenSize"
             android:label="@string/compose" />
         <activity
             android:name=".activities.StatusInfoActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.FollowRequestActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.WebviewActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.ProfileActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
             android:name=".activities.AdminAccountActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
             android:name=".activities.ScheduledActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/scheduled" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:noHistory="true"
             android:theme="@style/Base.Theme.AppCompat" />
 
         <service
@@ -114,102 +125,123 @@
 
         <activity
             android:name=".activities.SearchResultTabActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppThemeBar"
             android:label="@string/search" />
         <activity
             android:name=".activities.TrendsActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/trending"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.ReorderTimelinesActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/reorder_timelines"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.AboutActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
 
         <activity
             android:name=".activities.PartnerShipActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.ActionActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/interactions"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.AdminActionActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/administration"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.MastodonListActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_lists"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.SettingsActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/settings"
             android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.InstanceActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about_instance"
             android:theme="@style/DialogDark" />
         <activity
             android:name=".activities.InstanceProfileActivity"
+            android:noHistory="true"
             android:excludeFromRecents="true"
             android:theme="@style/DialogDark" />
         <activity
             android:name=".activities.ProxyActivity"
+            android:noHistory="true"
             android:excludeFromRecents="true"
             android:theme="@style/DialogDark" />
         <activity
             android:name=".activities.HashTagActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.AnnouncementActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.MediaActivity"
+            android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/TransparentDark" />
 
         <activity
             android:name=".activities.InstanceHealthActivity"
+            android:noHistory="true"
             android:excludeFromRecents="true"
             android:theme="@style/DialogDark" />
 
         <activity
             android:name=".activities.ReportActivity"
+            android:noHistory="true"
             android:theme="@style/AppThemeBarDark"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CustomSharingActivity"
+            android:noHistory="true"
             android:label="@string/settings_title_custom_sharing"
             android:windowSoftInputMode="stateVisible"
             android:theme="@style/AppThemeBarDark" />
         <activity
             android:name=".activities.FilterActivity"
+            android:noHistory="true"
             android:label="@string/filters"
             android:theme="@style/AppThemeBarDark"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.EditProfileActivity"
+            android:noHistory="true"
             android:label="@string/edit_profile"
             android:theme="@style/AppThemeBarDark"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CacheActivity"
+            android:noHistory="true"
             android:label="@string/action_cache"
             android:theme="@style/AppThemeBarDark" />
 
