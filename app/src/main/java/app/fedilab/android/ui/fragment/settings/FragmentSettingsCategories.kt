@@ -14,14 +14,22 @@ package app.fedilab.android.ui.fragment.settings
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import app.fedilab.android.BaseMainActivity.currentAccount
 import app.fedilab.android.R
+import app.fedilab.android.helper.SettingsStorage
+
 
 class FragmentSettingsCategories : PreferenceFragmentCompat() {
+
+    private val REQUEST_CODE = 5412
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.pref_categories, rootKey)
@@ -61,6 +69,25 @@ class FragmentSettingsCategories : PreferenceFragmentCompat() {
             false
         }
 
+        findPreference<Preference>(getString(R.string.pref_export_settings))?.setOnPreferenceClickListener {
+            val permissionLauncher = registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+            ) { isGranted ->
+                if (isGranted) {
+                    SettingsStorage.saveSharedPreferencesToFile(context)
+                } else {
+                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE)
+                }
+            }
+            permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            false
+        }
+
+        findPreference<Preference>(getString(R.string.pref_import_settings))?.setOnPreferenceClickListener {
+
+            false
+        }
+
         val adminPreference = findPreference<Preference>(getString(R.string.pref_category_key_administration))
         adminPreference?.isVisible = currentAccount.admin
         adminPreference?.setOnPreferenceClickListener { false }
@@ -68,6 +95,18 @@ class FragmentSettingsCategories : PreferenceFragmentCompat() {
         findPreference<Preference>(getString(R.string.pref_category_key_languages))?.setOnPreferenceClickListener {
             findNavController().navigate(FragmentSettingsCategoriesDirections.categoriesToLanguage())
             false
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_CODE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                SettingsStorage.saveSharedPreferencesToFile(context)
+            } else {
+                Toast.makeText(context, getString(R.string.permission_missing), Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
         }
     }
 }

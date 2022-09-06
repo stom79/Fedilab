@@ -67,4 +67,19 @@
         app:icon="@drawable/ic_language"
         app:key="@string/pref_category_key_languages" />
 
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/export_settings"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
+        app:key="@string/pref_export_settings" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/import_settings"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_up_24"
+        app:key="@string/pref_import_settings" />
+
 </androidx.preference.PreferenceScreen>

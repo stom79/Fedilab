@@ -36,6 +36,8 @@ class SettingsActivity : BaseActivity() {
 
         val navController = findNavController(R.id.fragment_container)
         appBarConfiguration = AppBarConfiguration(navController.graph)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 

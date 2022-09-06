@@ -616,6 +616,7 @@
     <string name="pref_custom_theme">Use a custom theme</string>
     <string name="theming">Theming</string>
     <string name="data_export_theme">The theme was exported</string>
+    <string name="data_export_settings">The settings were exported</string>
     <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
     <string name="import_theme">Import a theme</string>
     <string name="import_theme_title">Tap here to import a theme from a previous export</string>
@@ -1428,4 +1429,10 @@
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
+    <string name="pref_export_settings" translatable="false">pref_export_settings</string>
+    <string name="pref_import_settings" translatable="false">pref_import_settings</string>
+
+    <string name="export_settings">Export settings</string>
+    <string name="import_settings">Import settings</string>
+    <string name="permission_missing">Permission not granted!</string>
 </resources>
