@@ -618,6 +618,8 @@
     <string name="data_export_theme">The theme was exported</string>
     <string name="data_export_settings">The settings were exported</string>
     <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
+    <string name="data_export_settings_success">Settings have been successfully exported</string>
+    <string name="data_import_settings_success">Settings have been successfully imported</string>
     <string name="import_theme">Import a theme</string>
     <string name="import_theme_title">Tap here to import a theme from a previous export</string>
     <string name="export_theme">Export the theme</string>
@@ -1435,4 +1437,5 @@
     <string name="export_settings">Export settings</string>
     <string name="import_settings">Import settings</string>
     <string name="permission_missing">Permission not granted!</string>
+    <string name="load_settings">Load exported settings</string>
 </resources>

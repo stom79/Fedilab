@@ -15,6 +15,8 @@ package app.fedilab.android.ui.fragment.settings
  * see <http://www.gnu.org/licenses>. */
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -25,17 +27,21 @@ import androidx.preference.PreferenceFragmentCompat
 import app.fedilab.android.BaseMainActivity.currentAccount
 import app.fedilab.android.R
 import app.fedilab.android.helper.SettingsStorage
+import es.dmoral.toasty.Toasty
 
 
 class FragmentSettingsCategories : PreferenceFragmentCompat() {
 
     private val REQUEST_CODE = 5412
+    private val PICKUP_FILE = 452
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.pref_categories, rootKey)
 
         findPreference<Preference>(getString(R.string.pref_category_key_account))?.setOnPreferenceClickListener {
+
             findNavController().navigate(FragmentSettingsCategoriesDirections.categoriesToAccount())
+
             false
         }
 
@@ -68,23 +74,31 @@ class FragmentSettingsCategories : PreferenceFragmentCompat() {
             findNavController().navigate(FragmentSettingsCategoriesDirections.categoriesToTheming())
             false
         }
-
-        findPreference<Preference>(getString(R.string.pref_export_settings))?.setOnPreferenceClickListener {
-            val permissionLauncher = registerForActivityResult(
-                    ActivityResultContracts.RequestPermission()
-            ) { isGranted ->
-                if (isGranted) {
-                    SettingsStorage.saveSharedPreferencesToFile(context)
-                } else {
-                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE)
-                }
+        @Suppress("DEPRECATION") val permissionLauncher = registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                SettingsStorage.saveSharedPreferencesToFile(context)
+            } else {
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE)
             }
+        }
+        findPreference<Preference>(getString(R.string.pref_export_settings))?.setOnPreferenceClickListener {
             permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             false
         }
 
         findPreference<Preference>(getString(R.string.pref_import_settings))?.setOnPreferenceClickListener {
+            val openFileIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            openFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
+            openFileIntent.type = "text/plain"
+            val mimeTypes = arrayOf("text/plain")
+            openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 
+            startActivityForResult(
+                    Intent.createChooser(
+                            openFileIntent,
+                            getString(R.string.load_settings)), PICKUP_FILE)
             false
         }
 
@@ -95,6 +109,18 @@ class FragmentSettingsCategories : PreferenceFragmentCompat() {
         findPreference<Preference>(getString(R.string.pref_category_key_languages))?.setOnPreferenceClickListener {
             findNavController().navigate(FragmentSettingsCategoriesDirections.categoriesToLanguage())
             false
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == PICKUP_FILE) {
+            val result = SettingsStorage.loadSharedPreferencesFromFile(context, data?.data)
+            if (result) {
+                activity?.let { Toasty.success(it, getString(R.string.data_import_settings_success), Toasty.LENGTH_LONG).show() }
+            } else {
+                activity?.let { Toasty.error(it, getString(R.string.toast_error), Toasty.LENGTH_LONG).show() }
+            }
         }
     }
 

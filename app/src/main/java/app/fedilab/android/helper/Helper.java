@@ -1483,7 +1483,7 @@ public class Helper {
                 message = message.substring(0, 499) + "…";
             }
         }*/
-        notificationBuilder.setGroup(account.mastodon_account.acct + "@" + account.instance)
+        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.acct : "" + "@" + account.instance)
                 .setContentIntent(pIntent)
                 .setContentText(message);
         int ledColour = Color.BLUE;
@@ -1558,7 +1558,7 @@ public class Helper {
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setGroup(account.mastodon_account.acct + "@" + account.instance)
+                .setGroup(account.mastodon_account != null ? account.mastodon_account.acct : "" + "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
 

@@ -27,7 +27,6 @@ import android.os.Environment;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,7 +54,7 @@ public class SettingsStorage {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             output.writeObject(sharedpreferences.getAll());
             res = true;
-            String message = context.getString(R.string.data_export_theme_success);
+            String message = context.getString(R.string.data_export_settings_success);
             Intent intentOpen = new Intent();
             intentOpen.setAction(android.content.Intent.ACTION_VIEW);
             Uri uri = Uri.parse("file://" + fullPath);
@@ -80,11 +79,11 @@ public class SettingsStorage {
 
     @SuppressLint("ApplySharedPref")
     @SuppressWarnings({"unchecked", "UnnecessaryUnboxing"})
-    public static boolean loadSharedPreferencesFromFile(Context context, File src) {
+    public static boolean loadSharedPreferencesFromFile(Context context, Uri srcUri) {
         boolean res = false;
         ObjectInputStream input = null;
         try {
-            input = new ObjectInputStream(new FileInputStream(src));
+            input = new ObjectInputStream(context.getContentResolver().openInputStream(srcUri));
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor prefEdit = sharedpreferences.edit();
             prefEdit.clear();

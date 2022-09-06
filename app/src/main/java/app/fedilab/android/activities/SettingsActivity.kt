@@ -41,8 +41,11 @@ class SettingsActivity : BaseActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragment_container)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }
