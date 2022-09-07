@@ -1203,7 +1203,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         lp = new RelativeLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
-                    if (attachment.type != null && attachment.type.equalsIgnoreCase("video")) {
+                    if (attachment.type != null && (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("gifv"))) {
                         layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
                     } else {
                         layoutMediaBinding.playVideo.setVisibility(View.GONE);
