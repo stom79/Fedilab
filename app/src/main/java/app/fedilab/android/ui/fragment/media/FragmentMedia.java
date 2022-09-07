@@ -210,6 +210,8 @@ public class FragmentMedia extends Fragment {
                     timelinesVM.getPeertubeVideo(attachment.peertubeHost, attachment.peertubeId).observe(requireActivity(), video -> {
                         if (video != null && video.files != null && video.files.size() > 0) {
                             loadVideo(video.files.get(0).fileUrl, finalType);
+                        } else if (video != null && video.streamingPlaylists != null && video.streamingPlaylists.size() > 0 && video.streamingPlaylists.get(0).files.size() > 0) {
+                            loadVideo(video.streamingPlaylists.get(0).files.get(0).fileUrl, finalType);
                         }
                     });
                 } else {

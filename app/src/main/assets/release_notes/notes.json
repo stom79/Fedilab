@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.1.1",
+    "code": "403",
+    "note": "Added:\n- Export Settings\n\nFixed:\n- Respect the default visibility account when replying\n- Discriminate gif from images\n- App crashes when opening external instance timeline\n- Remove button in thread composer crashes the app\n- Back button opens a lot of old activities before closing the app\n- Problems with sharing"
+  },
+  {
     "version": "3.1.0",
     "code": "402",
     "note": "Added:\n- New theme: Dark Elephant from S1m\n- Error messages from server side when posting fails\n\nChanged:\n- Fetch more buttons more visible\n\nFixed:\n- Issue when fetching missing messages\n- Some issues with themes\n- Too much lost space with reaction (Pleroma)\n- Delete and redraft crashes\n- Crash when playing a video\n- Other crash fixes"

@@ -117,6 +117,21 @@ public class PeertubeVideo implements Serializable {
         public List<File> files;
         @SerializedName("views")
         public int views;
+        @SerializedName("streamingPlaylists")
+        public List<StreamingPlaylist> streamingPlaylists;
+    }
+
+    public class StreamingPlaylist implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("type")
+        public int type;
+        @SerializedName("playlistUrl")
+        public String playlistUrl;
+        @SerializedName("segmentsSha256Url")
+        public String segmentsSha256Url;
+        @SerializedName("files")
+        public List<File> files;
     }
 
     public class File implements Serializable {

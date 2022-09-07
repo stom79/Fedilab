@@ -1119,7 +1119,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     // start the new activity
                     context.startActivity(mediaIntent, options.toBundle());
                 });
-                if (statusToDeal.media_attachments.get(0).type != null && statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("video")) {
+                if (statusToDeal.media_attachments.get(0).type != null && (statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("video") || statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("gifv"))) {
                     layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
                 } else {
                     layoutMediaBinding.playVideo.setVisibility(View.GONE);
