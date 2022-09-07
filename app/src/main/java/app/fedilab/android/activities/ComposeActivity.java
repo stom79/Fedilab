@@ -108,6 +108,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
+    private static int composeID;
 
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
@@ -156,6 +157,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
+        //Fake id given to drafts
+        composeID = 1;
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -668,9 +671,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
     }
 
+
     @Override
     public void onItemDraftAdded(int position) {
         Status status = new Status();
+        composeID++;
+        status.id = String.valueOf(composeID);
         status.mentions = statusList.get(position).mentions;
         status.visibility = statusList.get(position).visibility;
         status.spoiler_text = statusList.get(position).spoiler_text;
