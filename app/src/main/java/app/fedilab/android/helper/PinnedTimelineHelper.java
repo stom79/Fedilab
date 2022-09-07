@@ -577,9 +577,7 @@ public class PinnedTimelineHelper {
             }
             fragTransaction1.detach(fragmentMastodonTimeline).commit();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned);
-            bundle.putString("instanceType", remoteInstance.type.getValue());
-            bundle.putString("timelineId", remoteInstance.id);
+            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(offSetPosition));
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
             fragmentMastodonTimeline.setArguments(bundle);
             FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
@@ -623,10 +621,7 @@ public class PinnedTimelineHelper {
                     currentFilter[0] = remoteInstance.filteredWith;
                     fragTransaction1.detach(fragmentMastodonTimeline).commit();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned);
-                    bundle.putString("instanceType", remoteInstance.type.getValue());
-                    bundle.putString("timelineId", remoteInstance.id);
-                    bundle.putString("currentfilter", remoteInstance.filteredWith);
+                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(offSetPosition));
                     bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                     fragmentMastodonTimeline.setArguments(bundle);
                     FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
@@ -698,12 +693,7 @@ public class PinnedTimelineHelper {
                     return;
                 fragTransaction1.detach(fragmentMastodonTimeline).commit();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned);
-                bundle.putString("instanceType", remoteInstance.type.getValue());
-                bundle.putString("timelineId", remoteInstance.id);
-                if (currentFilter[0] != null) {
-                    bundle.putString("currentfilter", remoteInstance.filteredWith);
-                }
+                bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(offSetPosition));
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
                 fragmentMastodonTimeline.setArguments(bundle);
                 FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
