@@ -416,15 +416,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (description == null && content == null) {
             return;
         }
-        if (title != null || subject != null) {
-            statusList.get(position).text = title != null ? title : subject;
+        boolean addUrl = true;
+        if (url != null && content != null && content.trim().length() > url.trim().length()) {
+            statusList.get(position).text = content;
             statusList.get(position).text += "\n\n";
+            addUrl = false;
         } else {
-            statusList.get(position).text = "";
+            if (title != null || subject != null) {
+                statusList.get(position).text = title != null ? title : subject;
+                statusList.get(position).text += "\n\n";
+            } else {
+                statusList.get(position).text = "";
+            }
         }
         statusList.get(position).text += description != null ? description : content;
-        statusList.get(position).text += "\n\n";
-        if (url != null) {
+        if (url != null && addUrl) {
+            statusList.get(position).text += "\n\n";
             statusList.get(position).text += url;
         }
         if (saveFilePath != null) {
