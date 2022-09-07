@@ -1075,11 +1075,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             new WeakReference<>(holder.binding.statusContent)),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
-            holder.binding.displayName.setText(
-                    status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.binding.displayName)),
-                    TextView.BufferType.SPANNABLE);
-            holder.binding.username.setText(String.format("@%s", status.account.acct));
+            if (status.account != null) {
+                holder.binding.displayName.setText(
+                        status.account.getSpanDisplayName(context,
+                                new WeakReference<>(holder.binding.displayName)),
+                        TextView.BufferType.SPANNABLE);
+                holder.binding.username.setText(String.format("@%s", status.account.acct));
+            }
+
             if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
