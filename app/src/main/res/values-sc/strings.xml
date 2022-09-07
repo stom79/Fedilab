@@ -733,4 +733,11 @@
     <string name="type_of_notifications_delay_title">Tempus de recùperu de is notìficas</string>
     <string name="open_draft">Aberi abbotzu</string>
     <string name="refresh_every">Recùpera is notìficas cada:</string>
+    <string name="data_export_settings">Is cunfiguratziones sunt istadas esportadas</string>
+    <string name="export_settings">Esporta is cunfiguratziones</string>
+    <string name="import_settings">Importa is cunfiguratziones</string>
+    <string name="permission_missing">Permissu non frunidu!</string>
+    <string name="load_settings">Càrriga is cunfiguratziones esportadas</string>
+    <string name="data_export_settings_success">Is cunfiguratziones sunt istadas esportadas sena problemas</string>
+    <string name="data_import_settings_success">Is cunfiguratziones sunt istadas importadas sena problemas</string>
 </resources>
