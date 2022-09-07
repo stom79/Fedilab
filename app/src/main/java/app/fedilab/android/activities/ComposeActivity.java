@@ -149,252 +149,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Uri sharedUri;
     private String sharedSubject, sharedContent, sharedTitle, sharedDescription, shareURL, sharedUrlMedia;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
-        binding = ActivityPaginationBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        //Fake id given to drafts
-        composeID = 1;
-        //Remove title
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+    private static int visibilityToNumber(String visibility) {
+        switch (visibility) {
+            case "public":
+                return 3;
+            case "unlisted":
+                return 2;
+            case "private":
+                return 1;
+            case "direct":
+                return 0;
         }
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        statusList = new ArrayList<>();
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
-            statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
-            scheduledStatus = (ScheduledStatus) b.getSerializable(Helper.ARG_STATUS_SCHEDULED);
-            statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
-            statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
-            account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            instance = b.getString(Helper.ARG_INSTANCE, null);
-            token = b.getString(Helper.ARG_TOKEN, null);
-            visibility = b.getString(Helper.ARG_VISIBILITY, null);
-            mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
-            accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
-            //Shared elements
-            sharedUriList = b.getParcelableArrayList(Helper.ARG_SHARE_URI_LIST);
-            sharedUri = b.getParcelable(Helper.ARG_SHARE_URI);
-            sharedUrlMedia = b.getString(Helper.ARG_SHARE_URL_MEDIA);
-            sharedSubject = b.getString(Helper.ARG_SHARE_SUBJECT, null);
-            sharedContent = b.getString(Helper.ARG_SHARE_CONTENT, null);
-            sharedTitle = b.getString(Helper.ARG_SHARE_TITLE, null);
-            sharedDescription = b.getString(Helper.ARG_SHARE_DESCRIPTION, null);
-            shareURL = b.getString(Helper.ARG_SHARE_URL, null);
-        }
-
-
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
-        //Edit a scheduled status from server
-        if (scheduledStatus != null) {
-            statusDraft = new StatusDraft();
-            List<Status> statuses = new ArrayList<>();
-            Status status = new Status();
-            status.text = scheduledStatus.params.text;
-            status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
-            status.poll = scheduledStatus.params.poll;
-
-            if (scheduledStatus.params.media_ids != null && scheduledStatus.params.media_ids.size() > 0) {
-                status.media_attachments = new ArrayList<>();
-                new Thread(() -> {
-                    StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
-                    for (String attachmentId : scheduledStatus.params.media_ids) {
-                        statusesVM.getAttachment(instance, token, attachmentId)
-                                .observe(ComposeActivity.this, attachment -> status.media_attachments.add(attachment));
-                    }
-                }).start();
-            }
-            status.sensitive = scheduledStatus.params.sensitive;
-            status.spoiler_text = scheduledStatus.params.spoiler_text;
-            status.visibility = scheduledStatus.params.visibility;
-            statusDraft.statusDraftList = statuses;
-        }
-        if (account == null) {
-            account = currentAccount;
-        }
-        if (account == null) {
-            Toasty.error(ComposeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-        if (instance == null) {
-            instance = account.instance;
-        }
-        if (token == null) {
-            token = account.token;
-        }
-        if (emojis == null || !emojis.containsKey(currentInstance)) {
-            new Thread(() -> {
-                try {
-                    emojis.put(currentInstance, new EmojiInstance(ComposeActivity.this).getEmojiList(currentInstance));
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
-        if (MainActivity.instanceInfo == null) {
-            String instanceInfo = sharedpreferences.getString(getString(R.string.INSTANCE_INFO) + instance, null);
-            if (instanceInfo != null) {
-                MainActivity.instanceInfo = Instance.restore(instanceInfo);
-            }
-        }
-
-        StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
-        //Empty compose
-        List<Status> statusDraftList = new ArrayList<>();
-        Status status = new Status();
-        statusDraftList.add(status);
-
-        if (statusReplyId != null && statusDraft != null) {//Delete and redraft
-            statusesVM.getStatus(currentInstance, BaseMainActivity.currentToken, statusReplyId)
-                    .observe(ComposeActivity.this, status1 -> {
-                        if (status1 != null) {
-                            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReplyId)
-                                    .observe(ComposeActivity.this, statusContext -> {
-                                        if (statusContext != null) {
-                                            initializeContextRedraftView(statusContext, status1);
-                                        } else {
-                                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                                        }
-                                    });
-                        } else {
-                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                        }
-                    });
-        } else if (statusDraft != null) {//Restore a draft with all messages
-            if (statusDraft.statusReplyList != null) {
-                statusList.addAll(statusDraft.statusReplyList);
-                binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
-            }
-            int statusCount = statusList.size();
-            statusList.addAll(statusDraft.statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-            composeAdapter.manageDrafts = this;
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-            binding.recyclerView.setLayoutManager(mLayoutManager);
-            binding.recyclerView.setAdapter(composeAdapter);
-            binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
-
-        } else if (statusReply != null) {
-            statusList.add(statusReply);
-            int statusCount = statusList.size();
-            statusDraftList.get(0).in_reply_to_id = statusReply.id;
-            //We change order for mentions
-            //At first place the account that has been mentioned if it's not our
-            statusDraftList.get(0).mentions = new ArrayList<>();
-            if (statusReply.account.acct != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                Mention mention = new Mention();
-                mention.acct = "@" + statusReply.account.acct;
-                mention.url = statusReply.account.url;
-                mention.username = statusReply.account.username;
-                statusDraftList.get(0).mentions.add(mention);
-            }
-
-            //There are other mentions to
-            if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
-                for (Mention mentionTmp : statusReply.mentions) {
-                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                        statusDraftList.get(0).mentions.add(mentionTmp);
-                    }
-                }
-            }
-            if (mentionBooster != null) {
-                Mention mention = new Mention();
-                mention.acct = mentionBooster.acct;
-                mention.url = mentionBooster.url;
-                mention.username = mentionBooster.username;
-                boolean present = false;
-                for (Mention mentionTmp : statusDraftList.get(0).mentions) {
-                    if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
-                        present = true;
-                        break;
-                    }
-                }
-                if (!present) {
-                    statusDraftList.get(0).mentions.add(mention);
-                }
-            }
-            if (statusReply.spoiler_text != null) {
-                statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-            }
-            //StatusDraftList at this point should only have one element
-            statusList.addAll(statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
-            composeAdapter.manageDrafts = this;
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-            binding.recyclerView.setLayoutManager(mLayoutManager);
-            binding.recyclerView.setAdapter(composeAdapter);
-            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
-                    .observe(ComposeActivity.this, this::initializeContextView);
-        } else {
-            //Compose without replying
-            statusList.addAll(statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
-            composeAdapter.manageDrafts = this;
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
-            binding.recyclerView.setLayoutManager(mLayoutManager);
-            binding.recyclerView.setAdapter(composeAdapter);
-            if (statusMention != null) {
-                composeAdapter.loadMentions(statusMention);
-            }
-        }
-        MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(imageReceiver,
-                        new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
-
-        if (timer != null) {
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    storeDraft(false);
-                }
-            }, 0, 10000);
-        }
-
-        if (sharedUriList != null && sharedUriList.size() > 0) {
-
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                List<Uri> uris = new ArrayList<>(sharedUriList);
-                composeAdapter.addAttachment(-1, uris);
-            }, 1000);
-        } else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                List<Uri> uris = new ArrayList<>();
-                uris.add(sharedUri);
-                composeAdapter.addAttachment(-1, uris);
-            }, 1000);
-        } else if (shareURL != null) {
-            Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
-                @Override
-                public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
-                    composeAdapter.addSharing(shareURL, sharedTitle, sharedDescription, sharedSubject, sharedContent, saveFilePath);
-                }
-
-                @Override
-                public void onUpdateProgress(int progress) {
-
-                }
-            });
-
-        } else {
-            if (composeAdapter != null) {
-                composeAdapter.addSharing(null, null, sharedDescription, null, sharedContent, null);
-            }
-        }
+        return 3;
     }
 
     @Override
@@ -671,6 +437,285 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
     }
 
+    private static String visibilityToString(int visibility) {
+        switch (visibility) {
+            case 3:
+                return "public";
+            case 2:
+                return "unlisted";
+            case 1:
+                return "private";
+            case 0:
+                return "direct";
+        }
+        return "public";
+    }
+
+    public static String getVisibility(String defaultVisibility) {
+        int tootVisibility = visibilityToNumber(defaultVisibility);
+        if (currentAccount != null) {
+            int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
+            if (tootVisibility > userVisibility) {
+                return visibilityToString(userVisibility);
+            } else {
+                return visibilityToString(tootVisibility);
+            }
+        }
+        return defaultVisibility;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ThemeHelper.applyTheme(this);
+        binding = ActivityPaginationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //Fake id given to drafts
+        composeID = 1;
+        //Remove title
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        statusList = new ArrayList<>();
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
+            statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
+            scheduledStatus = (ScheduledStatus) b.getSerializable(Helper.ARG_STATUS_SCHEDULED);
+            statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
+            statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
+            account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
+            instance = b.getString(Helper.ARG_INSTANCE, null);
+            token = b.getString(Helper.ARG_TOKEN, null);
+            visibility = b.getString(Helper.ARG_VISIBILITY, null);
+            if (visibility == null && statusReply != null) {
+                visibility = getVisibility(statusReply.visibility);
+            } else if (visibility == null && currentAccount != null) {
+                visibility = currentAccount.mastodon_account.source.privacy;
+            }
+            mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
+            accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
+            //Shared elements
+            sharedUriList = b.getParcelableArrayList(Helper.ARG_SHARE_URI_LIST);
+            sharedUri = b.getParcelable(Helper.ARG_SHARE_URI);
+            sharedUrlMedia = b.getString(Helper.ARG_SHARE_URL_MEDIA);
+            sharedSubject = b.getString(Helper.ARG_SHARE_SUBJECT, null);
+            sharedContent = b.getString(Helper.ARG_SHARE_CONTENT, null);
+            sharedTitle = b.getString(Helper.ARG_SHARE_TITLE, null);
+            sharedDescription = b.getString(Helper.ARG_SHARE_DESCRIPTION, null);
+            shareURL = b.getString(Helper.ARG_SHARE_URL, null);
+        }
+
+
+        binding.toolbar.setPopupTheme(Helper.popupStyle());
+        //Edit a scheduled status from server
+        if (scheduledStatus != null) {
+            statusDraft = new StatusDraft();
+            List<Status> statuses = new ArrayList<>();
+            Status status = new Status();
+            status.text = scheduledStatus.params.text;
+            status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
+            status.poll = scheduledStatus.params.poll;
+
+            if (scheduledStatus.params.media_ids != null && scheduledStatus.params.media_ids.size() > 0) {
+                status.media_attachments = new ArrayList<>();
+                new Thread(() -> {
+                    StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
+                    for (String attachmentId : scheduledStatus.params.media_ids) {
+                        statusesVM.getAttachment(instance, token, attachmentId)
+                                .observe(ComposeActivity.this, attachment -> status.media_attachments.add(attachment));
+                    }
+                }).start();
+            }
+            status.sensitive = scheduledStatus.params.sensitive;
+            status.spoiler_text = scheduledStatus.params.spoiler_text;
+            status.visibility = scheduledStatus.params.visibility;
+            statusDraft.statusDraftList = statuses;
+        }
+        if (account == null) {
+            account = currentAccount;
+        }
+        if (account == null) {
+            Toasty.error(ComposeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        if (instance == null) {
+            instance = account.instance;
+        }
+        if (token == null) {
+            token = account.token;
+        }
+        if (emojis == null || !emojis.containsKey(currentInstance)) {
+            new Thread(() -> {
+                try {
+                    emojis.put(currentInstance, new EmojiInstance(ComposeActivity.this).getEmojiList(currentInstance));
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+        if (MainActivity.instanceInfo == null) {
+            String instanceInfo = sharedpreferences.getString(getString(R.string.INSTANCE_INFO) + instance, null);
+            if (instanceInfo != null) {
+                MainActivity.instanceInfo = Instance.restore(instanceInfo);
+            }
+        }
+
+        StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
+        //Empty compose
+        List<Status> statusDraftList = new ArrayList<>();
+        Status status = new Status();
+        statusDraftList.add(status);
+
+        if (statusReplyId != null && statusDraft != null) {//Delete and redraft
+            statusesVM.getStatus(currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                    .observe(ComposeActivity.this, status1 -> {
+                        if (status1 != null) {
+                            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReplyId)
+                                    .observe(ComposeActivity.this, statusContext -> {
+                                        if (statusContext != null) {
+                                            initializeContextRedraftView(statusContext, status1);
+                                        } else {
+                                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                                        }
+                                    });
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
+                    });
+        } else if (statusDraft != null) {//Restore a draft with all messages
+            if (statusDraft.statusReplyList != null) {
+                statusList.addAll(statusDraft.statusReplyList);
+                binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
+            }
+            int statusCount = statusList.size();
+            statusList.addAll(statusDraft.statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
+
+        } else if (statusReply != null) {
+            statusList.add(statusReply);
+            int statusCount = statusList.size();
+            statusDraftList.get(0).in_reply_to_id = statusReply.id;
+            //We change order for mentions
+            //At first place the account that has been mentioned if it's not our
+            statusDraftList.get(0).mentions = new ArrayList<>();
+            if (statusReply.account.acct != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                Mention mention = new Mention();
+                mention.acct = "@" + statusReply.account.acct;
+                mention.url = statusReply.account.url;
+                mention.username = statusReply.account.username;
+                statusDraftList.get(0).mentions.add(mention);
+            }
+
+            //There are other mentions to
+            if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
+                for (Mention mentionTmp : statusReply.mentions) {
+                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                        statusDraftList.get(0).mentions.add(mentionTmp);
+                    }
+                }
+            }
+            if (mentionBooster != null) {
+                Mention mention = new Mention();
+                mention.acct = mentionBooster.acct;
+                mention.url = mentionBooster.url;
+                mention.username = mentionBooster.username;
+                boolean present = false;
+                for (Mention mentionTmp : statusDraftList.get(0).mentions) {
+                    if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
+                        present = true;
+                        break;
+                    }
+                }
+                if (!present) {
+                    statusDraftList.get(0).mentions.add(mention);
+                }
+            }
+            if (statusReply.spoiler_text != null) {
+                statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+            }
+            //StatusDraftList at this point should only have one element
+            statusList.addAll(statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
+                    .observe(ComposeActivity.this, this::initializeContextView);
+        } else {
+            //Compose without replying
+            statusList.addAll(statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
+            composeAdapter.manageDrafts = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
+            if (statusMention != null) {
+                composeAdapter.loadMentions(statusMention);
+            }
+        }
+        MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(imageReceiver,
+                        new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
+
+        if (timer != null) {
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    storeDraft(false);
+                }
+            }, 0, 10000);
+        }
+
+        if (sharedUriList != null && sharedUriList.size() > 0) {
+
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                List<Uri> uris = new ArrayList<>(sharedUriList);
+                composeAdapter.addAttachment(-1, uris);
+            }, 1000);
+        } else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                List<Uri> uris = new ArrayList<>();
+                uris.add(sharedUri);
+                composeAdapter.addAttachment(-1, uris);
+            }, 1000);
+        } else if (shareURL != null) {
+            Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
+                @Override
+                public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
+                    composeAdapter.addSharing(shareURL, sharedTitle, sharedDescription, sharedSubject, sharedContent, saveFilePath);
+                }
+
+                @Override
+                public void onUpdateProgress(int progress) {
+
+                }
+            });
+
+        } else {
+            if (composeAdapter != null) {
+                composeAdapter.addSharing(null, null, sharedDescription, null, sharedContent, null);
+            }
+        }
+    }
 
     @Override
     public void onItemDraftAdded(int position) {
@@ -678,7 +723,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         composeID++;
         status.id = String.valueOf(composeID);
         status.mentions = statusList.get(position).mentions;
-        status.visibility = statusList.get(position).visibility;
+        status.visibility = getVisibility(statusList.get(position).visibility);
         status.spoiler_text = statusList.get(position).spoiler_text;
         status.sensitive = statusList.get(position).sensitive;
         statusList.add(status);
