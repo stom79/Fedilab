@@ -1079,7 +1079,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                 RelativeLayout.LayoutParams lp;
                 if (fullAttachement) {
-                    lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
                     layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 } else {
                     lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
@@ -1197,7 +1197,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         return true;
                     });
                     if (fullAttachement) {
-                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     } else {
                         lp = new RelativeLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));

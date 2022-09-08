@@ -34,6 +34,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -65,6 +67,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.databinding.PopupRecordBinding;
 import es.dmoral.toasty.Toasty;
@@ -396,5 +399,21 @@ public class MediaHelper {
         void scheduledAt(String scheduledDate);
     }
 
-
+    /**
+     * Returns the max height of a list of media
+     *
+     * @param attachmentList - List<Attachment>
+     * @return int - The max height
+     */
+    public static int returnMaxHeightForPreviews(Context context, List<Attachment> attachmentList) {
+        int maxHeight = RelativeLayout.LayoutParams.WRAP_CONTENT;
+        if (attachmentList != null && attachmentList.size() > 0) {
+            for (Attachment attachment : attachmentList) {
+                if (attachment.meta != null && attachment.meta.small != null && attachment.meta.small.height > maxHeight) {
+                    maxHeight = (int) Helper.convertDpToPixel(attachment.meta.small.height, context);
+                }
+            }
+        }
+        return maxHeight;
+    }
 }
