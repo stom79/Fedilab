@@ -453,7 +453,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     public static String getVisibility(String defaultVisibility) {
         int tootVisibility = visibilityToNumber(defaultVisibility);
-        if (currentAccount != null) {
+        if (currentAccount != null && currentAccount.mastodon_account.source != null) {
             int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
             if (tootVisibility > userVisibility) {
                 return visibilityToString(userVisibility);
@@ -497,7 +497,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
             if (visibility == null && statusReply != null) {
                 visibility = getVisibility(statusReply.visibility);
-            } else if (visibility == null && currentAccount != null) {
+            } else if (visibility == null && currentAccount != null && currentAccount.mastodon_account.source != null) {
                 visibility = currentAccount.mastodon_account.source.privacy;
             }
             mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
