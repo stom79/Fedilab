@@ -739,4 +739,11 @@
     <string name="set_push_notifications_delay">Her yeni getirme arasındaki gecikmeyi ayarla</string>
     <string name="refresh_every">Bildirimlerin alınma sıklığı:</string>
     <string name="type_of_notifications_delay_title">Bildirimlerin alınma zamanı</string>
+    <string name="data_import_settings_success">Ayarlar başarıyla içe aktarıldı</string>
+    <string name="load_settings">Dışa aktarılan ayarları yükle</string>
+    <string name="data_export_settings">Ayarlar dışa aktarıldı</string>
+    <string name="data_export_settings_success">Ayarlar başarıyla dışa aktarıldı</string>
+    <string name="permission_missing">İzin verilmedi!</string>
+    <string name="export_settings">Ayarları dışa aktar</string>
+    <string name="import_settings">Ayarları içe aktar</string>
 </resources>
