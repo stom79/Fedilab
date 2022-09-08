@@ -746,4 +746,5 @@
     <string name="permission_missing">İzin verilmedi!</string>
     <string name="export_settings">Ayarları dışa aktar</string>
     <string name="import_settings">Ayarları içe aktar</string>
+    <string name="push_distributors">Anlık bildirim dağıtıcısı</string>
 </resources>
