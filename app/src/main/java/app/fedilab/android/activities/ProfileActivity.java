@@ -665,7 +665,7 @@ public class ProfileActivity extends BaseActivity {
         int itemId = item.getItemId();
         String[] splitAcct = account.acct.split("@");
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
-        AlertDialog.Builder builderInner;
+        AlertDialog.Builder builderInner = null;
         final boolean isOwner = account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
         final String[] stringArrayConf;
         if (isOwner) {
@@ -882,15 +882,21 @@ public class ProfileActivity extends BaseActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_mute) {
-            if (relationship.muting) {
-                builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-                builderInner.setTitle(stringArrayConf[4]);
-                doActionAccount = action.UNMUTE;
+
+            if (relationship != null) {
+                if (relationship.muting) {
+                    builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                    builderInner.setTitle(stringArrayConf[4]);
+                    doActionAccount = action.UNMUTE;
+                } else {
+                    builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                    builderInner.setTitle(stringArrayConf[0]);
+                    doActionAccount = action.MUTE;
+                }
             } else {
-                builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-                builderInner.setTitle(stringArrayConf[0]);
-                doActionAccount = action.MUTE;
+                doActionAccount = action.NOTHING;
             }
+
         } else if (itemId == R.id.action_report) {
             builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
             builderInner.setTitle(R.string.report_account);
@@ -913,12 +919,16 @@ public class ProfileActivity extends BaseActivity {
             return true;
         } else if (itemId == R.id.action_block) {
             builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-            if (relationship.blocking) {
-                builderInner.setTitle(stringArrayConf[5]);
-                doActionAccount = action.UNBLOCK;
+            if (relationship != null) {
+                if (relationship.blocking) {
+                    builderInner.setTitle(stringArrayConf[5]);
+                    doActionAccount = action.UNBLOCK;
+                } else {
+                    builderInner.setTitle(stringArrayConf[1]);
+                    doActionAccount = action.BLOCK;
+                }
             } else {
-                builderInner.setTitle(stringArrayConf[1]);
-                doActionAccount = action.BLOCK;
+                doActionAccount = action.NOTHING;
             }
         } else if (itemId == R.id.action_block_instance) {
             builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
@@ -928,50 +938,52 @@ public class ProfileActivity extends BaseActivity {
         } else {
             return true;
         }
-        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-            String target;
-            if (item.getItemId() == R.id.action_block_instance) {
-                target = account.acct.split("@")[1];
-            } else {
-                target = account.id;
-            }
-            switch (doActionAccount) {
-                case MUTE:
-                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                    break;
-                case UNMUTE:
-                    accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                    break;
-                case BLOCK:
-                    accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                    break;
-                case UNBLOCK:
-                    accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                    break;
-                case BLOCK_DOMAIN:
-                    accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target);
-                    break;
-            }
-            dialog.dismiss();
-        });
-        builderInner.show();
+        if (doAction != action.NOTHING && builderInner != null) {
+            builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
+                String target;
+                if (item.getItemId() == R.id.action_block_instance) {
+                    target = account.acct.split("@")[1];
+                } else {
+                    target = account.id;
+                }
+                switch (doActionAccount) {
+                    case MUTE:
+                        accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        break;
+                    case UNMUTE:
+                        accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        break;
+                    case BLOCK:
+                        accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        break;
+                    case UNBLOCK:
+                        accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        break;
+                    case BLOCK_DOMAIN:
+                        accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target);
+                        break;
+                }
+                dialog.dismiss();
+            });
+            builderInner.show();
+        }
         return true;
     }
 
