@@ -164,6 +164,8 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             pinned.pinnedTimelines.get(j).position = j;
         }
         notifyItemMoved(fromPosition, toPosition);
+        notifyItemChanged(fromPosition);
+        notifyItemChanged(toPosition);
         try {
             new Pinned(context).updatePinned(pinned);
             ((ReorderTimelinesActivity) context).setChanges(true);
