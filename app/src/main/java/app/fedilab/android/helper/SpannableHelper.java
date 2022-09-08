@@ -120,7 +120,7 @@ public class SpannableHelper {
             while (matcherALink.find()) {
                 String urlText = matcherALink.group(3);
                 String url = matcherALink.group(2);
-                if (urlText != null) {
+                if (urlText != null && urlText.startsWith(">")) {
                     urlText = urlText.substring(1);
                 }
                 if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
@@ -184,6 +184,7 @@ public class SpannableHelper {
     private static void linkify(Context context, SpannableStringBuilder content, HashMap<String, String> urlDetails) {
         //--- URLs ----
         Matcher matcherLink = Patterns.WEB_URL.matcher(content);
+
         int offSetTruncate = 0;
         while (matcherLink.find()) {
             int matchStart = matcherLink.start() - offSetTruncate;
@@ -195,17 +196,9 @@ public class SpannableHelper {
             if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                 continue;
             }
-            String url_temp = content.toString().substring(matchStart, matchEnd).replace("…", "");
-            if (urlDetails.containsValue(url_temp + "…")) {
-                String originalURL = Helper.getKeyByValue(urlDetails, url_temp + "…");
-                if (originalURL != null) {
-                    content.replace(matchStart, matchEnd, originalURL);
-                    offSetTruncate += (originalURL.length() - (url_temp.length() + 1));
-                    matchEnd = matchStart + originalURL.length();
-                    url_temp = originalURL;
-                }
-            }
-            final String url = url_temp;
+
+
+            final String url = content.toString().substring(matchStart, matchEnd);
            /* if (!url.startsWith("http")) {
                 continue;
             }*/
@@ -231,14 +224,14 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
-            } else if (urlDetails.containsKey(urlText) && urlDetails.get(urlText) != null) {
+            } /*else if (urlDetails.containsKey(urlText) && urlDetails.get(urlText) != null) {
                 urlText = urlDetails.get(urlText);
                 if (urlText != null) {
                     content.replace(matchStart, matchEnd, urlText);
                     matchEnd = matchStart + urlText.length();
                     offSetTruncate += (newURL.length() - urlText.length());
                 }
-            }
+            }*/
 
 
             if (matchEnd <= content.length() && matchEnd >= matchStart) {
@@ -251,10 +244,14 @@ public class SpannableHelper {
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.show();
-
+                        String finalURl = url;
+                        if (urlDetails.containsValue(url)) {
+                            finalURl = Helper.getKeyByValue(urlDetails, url);
+                        }
+                        String finalURl1 = finalURl;
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
-                            builder.setMessage(url);
+                            builder.setMessage(finalURl1);
                             builder.setTitle(context.getString(R.string.display_full_link));
                             builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
                                     .show();
@@ -263,7 +260,7 @@ public class SpannableHelper {
                         popupLinksBinding.shareLink.setOnClickListener(v -> {
                             Intent sendIntent = new Intent(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, finalURl1);
                             sendIntent.setType("text/plain");
                             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             Intent intentChooser = Intent.createChooser(sendIntent, context.getString(R.string.share_with));
@@ -274,7 +271,7 @@ public class SpannableHelper {
 
                         popupLinksBinding.openOtherApp.setOnClickListener(v -> {
                             Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse(url));
+                            intent.setData(Uri.parse(finalURl1));
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             try {
                                 context.startActivity(intent);
@@ -286,7 +283,7 @@ public class SpannableHelper {
 
                         popupLinksBinding.copyLink.setOnClickListener(v -> {
                             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, url);
+                            ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, finalURl1);
                             if (clipboard != null) {
                                 clipboard.setPrimaryClip(clip);
                                 Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
@@ -297,7 +294,7 @@ public class SpannableHelper {
                         popupLinksBinding.checkRedirect.setOnClickListener(v -> {
                             try {
 
-                                URL finalUrlCheck = new URL(url);
+                                URL finalUrlCheck = new URL(finalURl1);
                                 new Thread(() -> {
                                     try {
                                         String redirect = null;
@@ -319,7 +316,7 @@ public class SpannableHelper {
                                             }
                                         }
                                         httpsURLConnection.getInputStream().close();
-                                        if (redirect != null && redirect.compareTo(url) != 0) {
+                                        if (redirect != null && redirect.compareTo(finalURl1) != 0) {
                                             URL redirectURL = new URL(redirect);
                                             String host = redirectURL.getHost();
                                             String protocol = redirectURL.getProtocol();
@@ -332,7 +329,7 @@ public class SpannableHelper {
                                         Runnable myRunnable = () -> {
                                             AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
                                             if (finalRedirect != null) {
-                                                builder1.setMessage(context.getString(R.string.redirect_detected, url, finalRedirect));
+                                                builder1.setMessage(context.getString(R.string.redirect_detected, finalURl1, finalRedirect));
                                                 builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
                                                     ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                                     ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
@@ -345,7 +342,7 @@ public class SpannableHelper {
                                                 builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
                                                     Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
                                                     sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
-                                                    sendIntent1.putExtra(Intent.EXTRA_TEXT, url);
+                                                    sendIntent1.putExtra(Intent.EXTRA_TEXT, finalURl1);
                                                     sendIntent1.setType("text/plain");
                                                     context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
                                                     dialog.dismiss();
@@ -375,12 +372,20 @@ public class SpannableHelper {
 
                     @Override
                     public void onClick(@NonNull View textView) {
+                        String finalURl = newURL;
+                        String finalURl2 = url;
+                        if (urlDetails.containsValue(newURL + "…")) {
+                            finalURl = Helper.getKeyByValue(urlDetails, newURL + "…");
+                        }
+                        if (urlDetails.containsValue(url + "…")) {
+                            finalURl2 = Helper.getKeyByValue(urlDetails, url + "…");
+                        }
                         textView.setTag(CLICKABLE_SPAN);
                         Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                        Matcher matcherLink = link.matcher(url);
-                        if (matcherLink.find() && !url.contains("medium.com")) {
+                        Matcher matcherLink = link.matcher(finalURl2);
+                        if (matcherLink.find() && !finalURl2.contains("medium.com")) {
                             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                                CrossActionHelper.fetchRemoteStatus(context, currentAccount, url, new CrossActionHelper.Callback() {
+                                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalURl2, new CrossActionHelper.Callback() {
                                     @Override
                                     public void federatedStatus(Status status) {
                                         Intent intent = new Intent(context, ContextActivity.class);
@@ -411,7 +416,7 @@ public class SpannableHelper {
                                 });
                             }
                         } else {
-                            Helper.openBrowser(context, newURL);
+                            Helper.openBrowser(context, finalURl);
                         }
 
                     }
