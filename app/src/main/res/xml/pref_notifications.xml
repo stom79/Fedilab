@@ -26,6 +26,13 @@
             app:summary="@string/set_push_notifications_delay"
             app:title="@string/type_of_notifications_delay_title"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:dialogTitle="@string/select_distributors"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_PUSH_DISTRIBUTOR"
+            app:title="@string/push_distributors"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 

@@ -770,6 +770,7 @@
     <string name="SET_NSFW_TIMEOUT" translatable="false">SET_NSFW_TIMEOUT</string>
     <string name="SET_NOTIFICATION_TYPE" translatable="false">SET_NOTIFICATION_TYPE</string>
     <string name="SET_NOTIFICATION_DELAY_VALUE" translatable="false">SET_NOTIFICATION_DELAY_VALUE</string>
+    <string name="SET_PUSH_DISTRIBUTOR" translatable="false">SET_PUSH_DISTRIBUTOR</string>
 
     <string-array name="SET_NOTIFICATION_TYPE_VALUE" translatable="false">
         <item>PUSH_NOTIFICATIONS</item>
@@ -1438,4 +1439,5 @@
     <string name="import_settings">Import settings</string>
     <string name="permission_missing">Permission not granted!</string>
     <string name="load_settings">Load exported settings</string>
+    <string name="push_distributors">Push distributor</string>
 </resources>

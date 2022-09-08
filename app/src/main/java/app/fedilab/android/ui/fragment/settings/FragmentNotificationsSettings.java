@@ -30,6 +30,11 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
+import org.unifiedpush.android.connector.UnifiedPush;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.PushHelper;
@@ -96,16 +101,32 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             if (SET_NOTIFICATION_DELAY_VALUE != null) {
                 preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
             }
+            ListPreference SET_PUSH_DISTRIBUTOR = findPreference("SET_PUSH_DISTRIBUTOR");
+            if (SET_PUSH_DISTRIBUTOR != null) {
+                preferenceScreen.removePreferenceRecursively("SET_PUSH_DISTRIBUTOR");
+            }
             return;
         } else if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[1])) {
             ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference(getString(R.string.SET_NOTIFICATION_DELAY_VALUE));
             if (SET_NOTIFICATION_DELAY_VALUE != null) {
                 SET_NOTIFICATION_DELAY_VALUE.getContext().setTheme(Helper.dialogStyle());
             }
+            ListPreference SET_PUSH_DISTRIBUTOR = findPreference("SET_PUSH_DISTRIBUTOR");
+            if (SET_PUSH_DISTRIBUTOR != null) {
+                preferenceScreen.removePreferenceRecursively("SET_PUSH_DISTRIBUTOR");
+            }
         } else {
             ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference("SET_NOTIFICATION_DELAY_VALUE");
             if (SET_NOTIFICATION_DELAY_VALUE != null) {
                 preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
+            }
+            ListPreference SET_PUSH_DISTRIBUTOR = findPreference(getString(R.string.SET_PUSH_DISTRIBUTOR));
+            if (SET_PUSH_DISTRIBUTOR != null) {
+                SET_PUSH_DISTRIBUTOR.getContext().setTheme(Helper.dialogStyle());
+                List<String> distributors = UnifiedPush.getDistributors(requireActivity(), new ArrayList<>());
+                SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getDistributor(requireActivity()));
+                SET_PUSH_DISTRIBUTOR.setEntries(distributors.toArray(new String[0]));
+                SET_PUSH_DISTRIBUTOR.setEntryValues(distributors.toArray(new String[0]));
             }
         }
 
@@ -198,12 +219,17 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LED_COLOUR_VAL)) == 0) {
                 try {
-                    int value = Integer.parseInt(key);
+                    int value = sharedPreferences.getInt(key, 0);
                     sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), value).apply();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
 
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_PUSH_DISTRIBUTOR)) == 0) {
+                String distributor = sharedPreferences.getString(key, "");
+                UnifiedPush.saveDistributor(requireActivity(), distributor);
+                PushHelper.startStreaming(requireActivity());
             }
         }
     }
