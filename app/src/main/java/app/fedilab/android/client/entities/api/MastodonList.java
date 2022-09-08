@@ -26,4 +26,6 @@ public class MastodonList implements Serializable {
     public String title;
     @SerializedName("replies_policy")
     public String replies_policy;
+    @SerializedName("position")
+    public int position;
 }

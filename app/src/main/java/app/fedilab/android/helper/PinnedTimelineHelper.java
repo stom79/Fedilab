@@ -64,6 +64,11 @@ public class PinnedTimelineHelper {
         Collections.sort(pinnedTimelineList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
     }
 
+    public static void sortListPositionAsc(List<MastodonList> mastodonLists) {
+        //noinspection ComparatorCombinators
+        Collections.sort(mastodonLists, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
+    }
+
     public static void sortMenuItem(List<BottomMenu.MenuItem> menuItemList) {
         //noinspection ComparatorCombinators
         Collections.sort(menuItemList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));

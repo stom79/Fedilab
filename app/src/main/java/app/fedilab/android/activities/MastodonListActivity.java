@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.PinnedTimelineHelper.sortListPositionAsc;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.MastodonList;
+import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityListBinding;
 import app.fedilab.android.databinding.PopupAddListBinding;
@@ -53,6 +56,7 @@ import app.fedilab.android.ui.drawer.AccountListAdapter;
 import app.fedilab.android.ui.drawer.MastodonListAdapter;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.viewmodel.mastodon.ReorderVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
@@ -91,16 +95,33 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
         timelinesVM = new ViewModelProvider(MastodonListActivity.this).get(TimelinesVM.class);
         timelinesVM.getLists(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(MastodonListActivity.this, mastodonLists -> {
-                    if (mastodonLists != null && mastodonLists.size() > 0) {
-                        mastodonListList = new ArrayList<>(mastodonLists);
-                        mastodonListAdapter = new MastodonListAdapter(mastodonListList);
-                        mastodonListAdapter.actionOnList = this;
-                        binding.notContent.setVisibility(View.GONE);
-                        binding.recyclerView.setAdapter(mastodonListAdapter);
-                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
-                    } else {
-                        binding.notContent.setVisibility(View.VISIBLE);
-                    }
+                    ReorderVM reorderVM = new ViewModelProvider(MastodonListActivity.this).get(ReorderVM.class);
+                    reorderVM.getPinned().observe(MastodonListActivity.this, pinned -> {
+                        if (mastodonLists != null && mastodonLists.size() > 0) {
+                            mastodonListList = new ArrayList<>(mastodonLists);
+                            if (pinned != null) {
+                                if (pinned.pinnedTimelines != null && pinned.pinnedTimelines.size() > 0) {
+                                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                                        if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
+                                            for (MastodonList mastodonList : mastodonLists) {
+                                                if (mastodonList.id.equalsIgnoreCase(pinnedTimeline.mastodonList.id)) {
+                                                    mastodonList.position = pinnedTimeline.position;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            sortListPositionAsc(mastodonListList);
+                            mastodonListAdapter = new MastodonListAdapter(mastodonListList);
+                            mastodonListAdapter.actionOnList = this;
+                            binding.notContent.setVisibility(View.GONE);
+                            binding.recyclerView.setAdapter(mastodonListAdapter);
+                            binding.recyclerView.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
+                        } else {
+                            binding.notContent.setVisibility(View.VISIBLE);
+                        }
+                    });
                 });
     }
 
