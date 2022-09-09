@@ -1,0 +1,20 @@
+Added:
+- Export Settings
+- Propagate manual reordering of lists in timeline to "Lists" submenu
+- Allow to change the push distributor in settings
+
+Changed:
+- Improve fit preview images
+- Improve notifications
+- Profile media displayed in a grid
+
+Fixed:
+- Some Peertube videos not working
+- Respect the default visibility account when replying
+- Discriminate gif from images
+- App crashes when opening external instance timeline
+- Remove button in thread composer crashes the app
+- Back button opens a lot of old activities before closing the app
+- Problems with sharing
+- Reorder Lists with UI issue on change the visibility
+- Link is not shown correctly in posts from Friendica
