@@ -198,9 +198,6 @@ public class SpannableHelper {
 
 
             final String url = content.toString().substring(matchStart, matchEnd);
-           /* if (!url.startsWith("http")) {
-                continue;
-            }*/
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
@@ -316,7 +313,7 @@ public class SpannableHelper {
                                             }
                                         }
                                         httpsURLConnection.getInputStream().close();
-                                        if (redirect != null && redirect.compareTo(finalURl1) != 0) {
+                                        if (redirect != null && finalURl1 != null && redirect.compareTo(finalURl1) != 0) {
                                             URL redirectURL = new URL(redirect);
                                             String host = redirectURL.getHost();
                                             String protocol = redirectURL.getProtocol();
@@ -384,8 +381,11 @@ public class SpannableHelper {
                         }
                         textView.setTag(CLICKABLE_SPAN);
                         Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                        Matcher matcherLink = link.matcher(finalURl2);
-                        if (matcherLink.find() && !finalURl2.contains("medium.com")) {
+                        Matcher matcherLink = null;
+                        if (finalURl2 != null) {
+                            matcherLink = link.matcher(finalURl2);
+                        }
+                        if (finalURl2 != null && matcherLink.find() && !finalURl2.contains("medium.com")) {
                             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
                                 CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalURl2, new CrossActionHelper.Callback() {
                                     @Override

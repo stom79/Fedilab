@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.ui.fragment.media.FragmentMediaProfile;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 
 public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
@@ -73,12 +74,10 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 2:
-                fragmentProfileTimeline = new FragmentMastodonTimeline();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+                FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
-                bundle.putBoolean(Helper.ARG_SHOW_MEDIA_ONY, true);
-                fragmentProfileTimeline.setArguments(bundle);
-                return fragmentProfileTimeline;
+                fragmentMediaProfile.setArguments(bundle);
+                return fragmentMediaProfile;
             default:
                 return new FragmentMastodonTimeline();
         }
