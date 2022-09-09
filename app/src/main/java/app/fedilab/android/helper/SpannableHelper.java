@@ -37,7 +37,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -183,7 +182,7 @@ public class SpannableHelper {
 
     private static void linkify(Context context, SpannableStringBuilder content, HashMap<String, String> urlDetails) {
         //--- URLs ----
-        Matcher matcherLink = Patterns.WEB_URL.matcher(content);
+        Matcher matcherLink = urlPattern.matcher(content);
 
         int offSetTruncate = 0;
         while (matcherLink.find()) {
@@ -245,8 +244,9 @@ public class SpannableHelper {
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.show();
                         String finalURl = url;
-                        if (urlDetails.containsValue(url)) {
-                            finalURl = Helper.getKeyByValue(urlDetails, url);
+                        String uniqueUrl = url.endsWith("…") ? url : url + "…";
+                        if (urlDetails.containsValue(uniqueUrl)) {
+                            finalURl = Helper.getKeyByValue(urlDetails, uniqueUrl);
                         }
                         String finalURl1 = finalURl;
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
@@ -374,11 +374,13 @@ public class SpannableHelper {
                     public void onClick(@NonNull View textView) {
                         String finalURl = newURL;
                         String finalURl2 = url;
-                        if (urlDetails.containsValue(newURL + "…")) {
-                            finalURl = Helper.getKeyByValue(urlDetails, newURL + "…");
+                        String uniqueNewURL = newURL.endsWith("…") ? newURL : newURL + "…";
+                        if (urlDetails.containsValue(uniqueNewURL)) {
+                            finalURl = Helper.getKeyByValue(urlDetails, uniqueNewURL);
                         }
-                        if (urlDetails.containsValue(url + "…")) {
-                            finalURl2 = Helper.getKeyByValue(urlDetails, url + "…");
+                        String uniqueUrl = url.endsWith("…") ? url : url + "…";
+                        if (urlDetails.containsValue(uniqueUrl)) {
+                            finalURl2 = Helper.getKeyByValue(urlDetails, uniqueUrl);
                         }
                         textView.setTag(CLICKABLE_SPAN);
                         Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
