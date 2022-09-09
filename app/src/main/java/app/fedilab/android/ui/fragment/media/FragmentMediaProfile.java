@@ -49,6 +49,7 @@ public class FragmentMediaProfile extends Fragment {
     private boolean flagLoading;
     private List<Status> mediaStatuses;
     private String max_id;
+    private ImageAdapter imageAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class FragmentMediaProfile extends Fragment {
      * @param statuses {@link Statuses}
      */
     private void initializeStatusesCommonView(final Statuses statuses) {
+
         flagLoading = false;
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
@@ -100,7 +102,7 @@ public class FragmentMediaProfile extends Fragment {
                 }
             }
         }
-        ImageAdapter imageAdapter = new ImageAdapter(mediaStatuses);
+        imageAdapter = new ImageAdapter(mediaStatuses);
 
         flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
@@ -126,6 +128,7 @@ public class FragmentMediaProfile extends Fragment {
                 if (dy > 0) {
                     int visibleItemCount = gvLayout.getChildCount();
                     int totalItemCount = gvLayout.getItemCount();
+
                     if (firstVisibleItem + visibleItemCount == totalItemCount) {
                         if (!flagLoading) {
                             flagLoading = true;
@@ -169,7 +172,9 @@ public class FragmentMediaProfile extends Fragment {
                     }
                 }
             }
+            int position = this.mediaStatuses.size();
             this.mediaStatuses.addAll(mediaStatusesNew);
+            imageAdapter.notifyItemRangeChanged(position, mediaStatusesNew.size());
             if (fetched_statuses.pagination.max_id == null) {
                 flagLoading = true;
             } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
