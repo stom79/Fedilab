@@ -740,4 +740,5 @@
     <string name="load_settings">Càrriga is cunfiguratziones esportadas</string>
     <string name="data_export_settings_success">Is cunfiguratziones sunt istadas esportadas sena problemas</string>
     <string name="data_import_settings_success">Is cunfiguratziones sunt istadas importadas sena problemas</string>
+    <string name="push_distributors">Intregadore de notìficas push</string>
 </resources>

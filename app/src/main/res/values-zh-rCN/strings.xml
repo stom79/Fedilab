@@ -66,8 +66,8 @@
     <string name="no_status">没有嘟文可以显示</string>
     <string name="favourite_add">添加此嘟文到您的收藏夹中？</string>
     <string name="favourite_remove">从您的收藏夹中移除此嘟文？</string>
-    <string name="reblog_add">转嘟这条嘟文吗？</string>
-    <string name="reblog_remove">取消转嘟这条嘟文吗？</string>
+    <string name="reblog_add">转发这条嘟文吗？</string>
+    <string name="reblog_remove">取消转发这条嘟文吗？</string>
     <string name="more_action_1">静音</string>
     <string name="more_action_2">屏蔽</string>
     <string name="more_action_3">举报</string>
@@ -139,7 +139,8 @@
     <!-- Accounts -->
     <string name="no_accounts">没有帐户可以显示</string>
     <string name="no_follow_request">无关注请求</string>
-    <string name="status_cnt">嘟文\n%1$s</string>
+    <string name="status_cnt">嘟文
+\n%1$s</string>
     <string name="following_cnt">关注\n%1$s</string>
     <string name="followers_cnt">粉丝\n%1$s</string>
     <string name="reject">拒绝</string>
@@ -172,8 +173,8 @@
     <string name="toast_unmute">该帐号不再被静音！</string>
     <string name="toast_follow">已关注此帐号！</string>
     <string name="toast_unfollow">已取消关注此帐号！</string>
-    <string name="toast_reblog">该嘟文已被转嘟！</string>
-    <string name="toast_unreblog">该嘟文已不再被转嘟！</string>
+    <string name="toast_reblog">该嘟文已被转发！</string>
+    <string name="toast_unreblog">该嘟文已不再被转发！</string>
     <string name="toast_favourite">该嘟文已添加到您的收藏夹！</string>
     <string name="toast_unfavourite">该嘟文已从您的收藏夹中移除！</string>
     <string name="toast_error">哎呀！发生错误！</string>
@@ -243,7 +244,7 @@
     <string name="v_direct">私信</string>
     <!-- PRIVACY -->
     <string name="filter_regex">按正则表达式进行筛选</string>
-    <string name="search">搜索​​​​</string>
+    <string name="search">搜素</string>
     <string name="delete">删除</string>
     <!-- About lists -->
     <string name="action_lists">列表</string>
@@ -284,7 +285,7 @@
     <string name="context_conversation">对话</string>
     <string name="filter_keyword_explanations">匹配将忽略嘟文的文本大小写或内容警告</string>
     <string name="context_drop">丢弃而不是隐藏</string>
-    <string name="context_drop_explanations">筛选的嘟文将永久消失，即使后来移除筛选器</string>
+    <string name="context_drop_explanations">筛选的嘟文将永久消失，即使之后移除筛选器</string>
     <string name="context_whole_word_explanations">如果关键词或短语只为字母数字时，将只在词语完全匹配时才会应用</string>
     <string name="context_whole_word">完全匹配词语</string>
     <string name="filter_context">筛选内容</string>
@@ -304,18 +305,20 @@
     <string name="channel_notif_media">媒体下载</string>
     <string name="select_sound">选择铃声</string>
     <string name="set_enable_time_slot">启用时间段</string>
-    <string name="block_domain_confirm_message">您确定要屏蔽 %s 吗？</string>
+    <string name="block_domain_confirm_message">您确定要屏蔽 %s 吗？
+\n
+\n您将不会在任何公共时间轴或通知中看到来自该域的任何内容。来自该域的关注者将被删除。</string>
     <string name="block_domain">屏蔽域名</string>
     <string name="toast_block_domain">该域名已被屏蔽</string>
     <string name="retrieve_remote_status">正在获取远程状态</string>
     <string name="peertube_instance">Peertube 实例</string>
     <string name="set_display_emoji">使用 Emoji One</string>
     <string name="information">信息</string>
-    <string name="set_display_card">显示所有嘟文中的预览</string>
+    <string name="set_display_card">显示所有嘟文预览</string>
     <string name="account_id_clipbloard">帐号 ID 已复制到剪贴板！</string>
     <string name="set_change_locale">更改语言</string>
     <string name="truncate_long_toots">截断长嘟文</string>
-    <string name="set_truncate_toot">截断超过“x”行的嘟文。零代表禁用。</string>
+    <string name="set_truncate_toot">截断超过“x”行的嘟文。0 代表禁用。</string>
     <string name="display_toot_truncate">显示更多</string>
     <string name="hide_toot_truncate">收起</string>
     <string name="tags_already_stored">该标签已经存在！</string>
@@ -384,7 +387,7 @@
     <string name="poll_finish_at">在 %s 结束</string>
     <string name="vote">投票</string>
     <string name="notif_poll">一个你参加过的投票已经结束</string>
-    <string name="notif_poll_self">您所嘟出的一个投票已经结束</string>
+    <string name="notif_poll_self">您发布的一个投票已经结束</string>
     <string name="settings_category_notif_categories">类别</string>
     <string name="move_timeline">移动时间线</string>
     <string name="hide_timeline">隐藏时间线</string>
@@ -413,7 +416,7 @@
     <string name="unmute_conversation">取消静音对话</string>
     <string name="toast_unmute_conversation">对话不再被静音！</string>
     <string name="toast_mute_conversation">对话是静音的</string>
-    <string name="category_general">常规​​​​​</string>
+    <string name="category_general">常规</string>
     <string name="category_regional">区域</string>
     <string name="category_art">艺术</string>
     <string name="category_activism">活动</string>
@@ -498,7 +501,7 @@
     <string name="unfollow_confirm">你确定要取消关注此帐号吗？</string>
     <string name="set_unfollow_validation">取消关注前显示确认对话框</string>
     <string name="replace_medium">替换 Medium 链接</string>
-    <string name="replace_medium_description">用专注于隐私的开源替代前端替换 medium.com 链接。</string>
+    <string name="replace_medium_description">用专注于隐私的开源替代前端替换 medium.com 链接</string>
     <string name="replace_medium_host">默认: scribe.rip</string>
     <string name="set_push_notifications">使用推送通知系统实时获取通知。</string>
     <string name="action_add_notes">添加注释</string>
@@ -560,7 +563,7 @@
     <string name="no_announcements">无通告！</string>
     <string name="add_reaction">添加回应</string>
     <string name="set_video_cache">以 MB 计算的视频缓存量，零表示无缓存。</string>
-    <string name="set_watermark">水印：</string>
+    <string name="set_watermark">水印</string>
     <string name="set_watermark_indication">自动在图片底部添加一个水印。可以为每个帐户定制文本。</string>
     <string name="no_distributors_found">没有找到分发商！</string>
     <string name="no_distributors_explanation">要接收推送通知你需要一个分发商。\n你将在%1$s找到更多详情。\n\n你也可以在设置中禁用推送通知，以忽略该消息。</string>
