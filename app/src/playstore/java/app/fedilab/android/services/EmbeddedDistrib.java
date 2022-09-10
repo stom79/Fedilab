@@ -11,6 +11,6 @@ import org.unifiedpush.android.embedded_fcm_distributor.EmbeddedDistributorRecei
 public class EmbeddedDistrib extends EmbeddedDistributorReceiver {
     @Override
     public @NotNull String getEndpoint(@Nullable Context context, @NotNull String token, @NotNull String instance) {
-        return "https://gotify.fedilab.app/FCM?token=" + token + "&instance=" + instance;
+        return "https://gotify.fedilab.app/FCM?v2&token=" + token + "&instance=" + instance;
     }
 }
