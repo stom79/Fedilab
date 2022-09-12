@@ -113,7 +113,11 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             int pinnedPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove); //Real position has an offset.
             PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
-            if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
+            if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
+                return new FragmentNotificationContainer();
+            } else if (pinnedTimeline.type == Timeline.TimeLineEnum.DIRECT) {
+                return new FragmentMastodonConversation();
+            } else if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                 bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
                 bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
