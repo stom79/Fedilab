@@ -116,8 +116,9 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         if (singleBar) {
-            binding.titleTop.setVisibility(View.GONE);
+            binding.titleBottom.setVisibility(View.GONE);
             binding.lvReorderBottom.setVisibility(View.GONE);
+            binding.titleTop.setVisibility(View.GONE);
         }
         changes = false;
         bottomChanges = false;

@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -98,13 +99,21 @@ public class PinnedTimelineHelper {
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) activityMainBinding.viewPager.getLayoutParams();
         //Hiding/Showing bottom menu depending of settings
         if (singleBar) {
             activityMainBinding.bottomNavView.setVisibility(View.GONE);
+            params.setMargins(0, 0, 0, 0);
         } else {
+            TypedValue tv = new TypedValue();
             activityMainBinding.bottomNavView.setVisibility(View.VISIBLE);
+            if (activity.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+                int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
+                params.setMargins(0, 0, 0, actionBarHeight);
+            }
         }
-
+        activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
 
         if (!singleBar) {

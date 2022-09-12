@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="?actionBarSize"></androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_marginBottom="?actionBarSize" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <com.google.android.material.navigation.NavigationView
