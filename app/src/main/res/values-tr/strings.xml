@@ -747,4 +747,8 @@
     <string name="export_settings">Ayarları dışa aktar</string>
     <string name="import_settings">Ayarları içe aktar</string>
     <string name="push_distributors">Anlık bildirim dağıtıcısı</string>
+    <string name="set_timelines_in_a_list_title">Listedeki zaman çizelgeleri</string>
+    <string name="set_single_topbar">Etkinleştirildiğinde, uygulamada zaman çizelgeleri için yalnızca tek bir çubuk olacaktır</string>
+    <string name="set_single_topbar_title">Tek eylem çubuğu</string>
+    <string name="set_timelines_in_a_list">Etkinleştirildiğinde, sabitlenen tüm zaman çizelgeleri bir açılır menüde görüntülenecektir</string>
 </resources>
