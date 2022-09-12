@@ -1119,6 +1119,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.binding.buttonEmojiOne.setVisibility(View.GONE);
             }
+            holder.binding.visibilityPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+            holder.binding.attachmentChoicesPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);
@@ -1428,6 +1430,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
         });
+
 
         ArrayAdapter<CharSequence> pollduration = ArrayAdapter.createFromResource(context,
                 R.array.poll_duration, android.R.layout.simple_spinner_dropdown_item);

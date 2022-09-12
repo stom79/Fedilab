@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.2.1",
+    "code": "406",
+    "note": "Added:\n- Settings to set all timelines at the top\n- Settings to display timelines in a list\n\nFixed:\n- Visibility issue when replying\n- Some theme issues when composing"
+  },
+  {
     "version": "3.2.0",
     "code": "405",
     "note": "Added:\n- Export Settings\n- Propagate manual reordering of lists in timeline to \"Lists\" submenu\n- Allow to change the push distributor in settings\n\nChanged:\n- Improve fit preview images\n- Improve notifications\n- Profile media displayed in a grid\n\nFixed:\n- Some Peertube videos not working\n- Respect the default visibility account when replying\n- Discriminate gif from images\n- App crashes when opening external instance timeline\n- Remove button in thread composer crashes the app\n- Back button opens a lot of old activities before closing the app\n- Problems with sharing\n- Reorder Lists with UI issue on change the visibility\n- Link is not shown correctly in posts from Friendica"

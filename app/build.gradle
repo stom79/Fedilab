@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 31
-        versionCode 405
-        versionName "3.2.0"
+        versionCode 406
+        versionName "3.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
