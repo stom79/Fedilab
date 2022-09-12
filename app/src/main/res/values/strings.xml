@@ -872,6 +872,8 @@
 
     <string name="SET_LONG_PRESS_STORE_MEDIA" translatable="false">SET_LONG_PRESS_STORE_MEDIA</string>
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
+    <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
+    <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_DISPLAY_ADMIN_STATUSES" translatable="false">SET_DISPLAY_ADMIN_STATUSES</string>
     <string name="SET_LED_COLOUR_VAL" translatable="false">SET_LED_COLOUR_VAL</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
@@ -1440,4 +1442,8 @@
     <string name="permission_missing">Permission not granted!</string>
     <string name="load_settings">Load exported settings</string>
     <string name="push_distributors">Push distributor</string>
+    <string name="set_single_topbar_title">Single action bar</string>
+    <string name="set_single_topbar">When enabled, the app will only have a single bar for timelines</string>
+    <string name="set_timelines_in_a_list_title">Timelines in a list</string>
+    <string name="set_timelines_in_a_list">When enabled, all pinned timelines will be displayed in a drop-down menu</string>
 </resources>
