@@ -125,7 +125,7 @@ public class PinnedTimelineHelper {
         activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
 
-        if (!singleBar) {
+        if (singleBar) {
             boolean createDefaultAtTop = true;
             for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                 if (pinnedTimeline.type == Timeline.TimeLineEnum.HOME) {
