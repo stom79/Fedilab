@@ -1179,7 +1179,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 pickupMedia(ComposeActivity.mediaType.ALL, position);
             });
             //Used for DM
-            if (visibility != null) {
+            if (visibility != null && statusDraft.visibility == null) {
                 statusDraft.visibility = visibility;
             }
             if (statusDraft.visibility == null) {
