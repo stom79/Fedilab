@@ -15,9 +15,16 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
+import static app.fedilab.android.BaseMainActivity.show_boosts;
+import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,11 +33,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -39,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -55,6 +65,7 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.pageadapter.FedilabPageAdapter;
+import es.dmoral.toasty.Toasty;
 
 public class PinnedTimelineHelper {
 
@@ -78,13 +89,66 @@ public class PinnedTimelineHelper {
         //Values must be initialized if there is no records in db
         if (pinned == null) {
             pinned = new Pinned();
-            pinned.user_id = BaseMainActivity.currentUserID;
-            pinned.instance = BaseMainActivity.currentInstance;
+            pinned.user_id = currentUserID;
+            pinned.instance = currentInstance;
         }
         if (pinned.pinnedTimelines == null) {
             pinned.pinnedTimelines = new ArrayList<>();
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        //Hiding/Showing bottom menu depending of settings
+        if (singleBar) {
+            activityMainBinding.bottomNavView.setVisibility(View.GONE);
+        } else {
+            activityMainBinding.bottomNavView.setVisibility(View.VISIBLE);
+        }
+
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
+
+        if (!singleBar) {
+            boolean createDefaultAtTop = true;
+            for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.HOME) {
+                    createDefaultAtTop = false;
+                    break;
+                }
+            }
+            //Default item in top doesn't exist yet, we have to create them, it should be done once
+            if (createDefaultAtTop) {
+                //We shift all position
+                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                    pinnedTimeline.position += BOTTOM_TIMELINE_COUNT;
+                }
+                PinnedTimeline pinnedTimelineHome = new PinnedTimeline();
+                pinnedTimelineHome.type = Timeline.TimeLineEnum.HOME;
+                pinnedTimelineHome.position = 0;
+                pinned.pinnedTimelines.add(pinnedTimelineHome);
+                PinnedTimeline pinnedTimelineLocal = new PinnedTimeline();
+                pinnedTimelineLocal.type = Timeline.TimeLineEnum.LOCAL;
+                pinnedTimelineLocal.position = 1;
+                pinned.pinnedTimelines.add(pinnedTimelineLocal);
+                PinnedTimeline pinnedTimelinePublic = new PinnedTimeline();
+                pinnedTimelinePublic.type = Timeline.TimeLineEnum.PUBLIC;
+                pinnedTimelinePublic.position = 2;
+                pinned.pinnedTimelines.add(pinnedTimelinePublic);
+                PinnedTimeline pinnedTimelineNotifications = new PinnedTimeline();
+                pinnedTimelineNotifications.type = Timeline.TimeLineEnum.NOTIFICATION;
+                pinnedTimelineNotifications.position = 3;
+                pinned.pinnedTimelines.add(pinnedTimelineNotifications);
+                PinnedTimeline pinnedTimelineConversations = new PinnedTimeline();
+                pinnedTimelineConversations.type = Timeline.TimeLineEnum.DIRECT;
+                pinnedTimelineConversations.position = 4;
+                pinned.pinnedTimelines.add(pinnedTimelineConversations);
+
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
         sortPositionAsc(pinnedTimelines);
         //Check if changes occurred, if mastodonLists is null it does need, because it is the first call to draw pinned
         boolean needRedraw = mastodonLists == null;
@@ -150,14 +214,28 @@ public class PinnedTimelineHelper {
         }
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
-        //Small hack to hide first tabs (they represent the item of the bottom menu)
-        int toRemove = itemToRemoveInBottomMenu(activity);
-        for (int i = 0; i < (BOTTOM_TIMELINE_COUNT - toRemove); i++) {
-            activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
-            ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
+        int toRemove = BOTTOM_TIMELINE_COUNT;
+        if (!singleBar) {
+            //Small hack to hide first tabs (they represent the item of the bottom menu)
+            toRemove = itemToRemoveInBottomMenu(activity);
+            for (int i = 0; i < (BOTTOM_TIMELINE_COUNT - toRemove); i++) {
+                activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
+                ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
+            }
         }
         List<PinnedTimeline> pinnedTimelineVisibleList = new ArrayList<>();
         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+            //Default timelines are not added if we are not in the single bar mode
+            if (!singleBar) {
+                switch (pinnedTimeline.type) {
+                    case HOME:
+                    case LOCAL:
+                    case PUBLIC:
+                    case NOTIFICATION:
+                    case DIRECT:
+                        continue;
+                }
+            }
             if (pinnedTimeline.displayed) {
                 TabLayout.Tab tab = activityMainBinding.tabLayout.newTab();
                 String name = "";
@@ -204,6 +282,21 @@ public class PinnedTimelineHelper {
                                 break;
                         }
                         break;
+                    case HOME:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_home_24);
+                        break;
+                    case LOCAL:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
+                        break;
+                    case PUBLIC:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_public_24);
+                        break;
+                    case NOTIFICATION:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
+                        break;
+                    case DIRECT:
+                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                        break;
                 }
                 tab.setCustomView(tabCustomViewBinding.getRoot());
                 activityMainBinding.tabLayout.addTab(tab);
@@ -212,12 +305,14 @@ public class PinnedTimelineHelper {
         }
 
         LinearLayout tabStrip = (LinearLayout) activityMainBinding.tabLayout.getChildAt(0);
+        int finalToRemove = toRemove;
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
             // Set LongClick listener to each Tab
             int finalI = i;
             Pinned finalPinned = pinned;
+
             tabStrip.getChildAt(i).setOnLongClickListener(v -> {
-                switch (pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - toRemove)).type) {
+                switch (pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove)).type) {
                     case LIST:
 
                         break;
@@ -226,6 +321,11 @@ public class PinnedTimelineHelper {
                         break;
                     case REMOTE:
                         instanceClick(activity, finalPinned, v, activityMainBinding, finalI);
+                        break;
+                    case HOME:
+                    case LOCAL:
+                    case PUBLIC:
+                        defaultClick(activity, pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove)).type, v, activityMainBinding, finalI);
                         break;
                 }
                 return true;
@@ -238,28 +338,30 @@ public class PinnedTimelineHelper {
         FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
         activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
         activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
-        activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position < BOTTOM_TIMELINE_COUNT - toRemove) {
-                    activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
-                } else {
-                    activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
-                    for (int i = 0; i < activityMainBinding.bottomNavView.getMenu().size(); i++) {
-                        activityMainBinding.bottomNavView.getMenu().getItem(i).setChecked(false);
-                    }
-                    activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
+        if (!singleBar) {
+            activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 }
-            }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+                @Override
+                public void onPageSelected(int position) {
+                    if (position < BOTTOM_TIMELINE_COUNT - finalToRemove) {
+                        activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                    } else {
+                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
+                        for (int i = 0; i < activityMainBinding.bottomNavView.getMenu().size(); i++) {
+                            activityMainBinding.bottomNavView.getMenu().getItem(i).setChecked(false);
+                        }
+                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+        }
 
 
         activityMainBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -285,6 +387,136 @@ public class PinnedTimelineHelper {
 
     }
 
+    /**
+     * Manage long clicks on default timelines
+     *
+     * @param activity - BaseMainActivity activity
+     * @param view     - View
+     * @param position - int position of the tab
+     */
+    public static void defaultClick(BaseMainActivity activity, Timeline.TimeLineEnum timeLineEnum, View view, ActivityMainBinding activityMainBinding, int position) {
+        boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME;
+        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        popup.getMenuInflater()
+                .inflate(R.menu.option_filter_toots, popup.getMenu());
+        Menu menu = popup.getMenu();
+        final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+        final MenuItem itemFilter = menu.findItem(R.id.action_filter);
+        if (!showExtendedFilter) {
+            itemShowBoosts.setVisible(false);
+            itemShowReplies.setVisible(false);
+        } else {
+            itemShowBoosts.setVisible(true);
+            itemShowReplies.setVisible(true);
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        String show_filtered = null;
+        if (timeLineEnum == Timeline.TimeLineEnum.HOME) {
+            show_filtered = sharedpreferences.getString(activity.getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
+        } else if (timeLineEnum == Timeline.TimeLineEnum.LOCAL) {
+            show_filtered = sharedpreferences.getString(activity.getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
+        } else if (timeLineEnum == Timeline.TimeLineEnum.PUBLIC) {
+            show_filtered = sharedpreferences.getString(activity.getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
+        }
+
+        itemShowBoosts.setChecked(show_boosts);
+        itemShowReplies.setChecked(show_replies);
+        if (show_filtered != null && show_filtered.length() > 0) {
+            itemFilter.setTitle(show_filtered);
+        }
+        popup.setOnDismissListener(menu1 -> {
+            if (activityMainBinding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.refreshAllAdapters();
+                }
+            }
+        });
+        String finalShow_filtered = show_filtered;
+        popup.setOnMenuItemClickListener(item -> {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            item.setActionView(new View(activity));
+            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    return false;
+                }
+            });
+            final SharedPreferences.Editor editor = sharedpreferences.edit();
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_show_boosts) {
+                show_boosts = !show_boosts;
+                editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+                itemShowBoosts.setChecked(show_boosts);
+                editor.apply();
+            } else if (itemId == R.id.action_show_replies) {
+                show_replies = !show_replies;
+                editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+                itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_filter) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                LayoutInflater inflater = activity.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
+                dialogBuilder.setView(dialogView);
+                final EditText editText = dialogView.findViewById(R.id.filter_regex);
+                Toast alertRegex = Toasty.warning(activity, activity.getString(R.string.alert_regex), Toast.LENGTH_LONG);
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
+                        } catch (Exception e) {
+                            if (!alertRegex.getView().isShown()) {
+                                alertRegex.show();
+                            }
+                        }
+
+                    }
+                });
+                if (finalShow_filtered != null) {
+                    editText.setText(finalShow_filtered);
+                    editText.setSelection(editText.getText().toString().length());
+                }
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    itemFilter.setTitle(editText.getText().toString().trim());
+                    if (position == 0) {
+                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        BaseMainActivity.regex_home = editText.getText().toString().trim();
+                    } else if (position == 1) {
+                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        BaseMainActivity.regex_local = editText.getText().toString().trim();
+                    } else if (position == 2) {
+                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
+                        BaseMainActivity.regex_public = editText.getText().toString().trim();
+                    }
+                    editor.apply();
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
+
+
     public static int itemToRemoveInBottomMenu(BaseMainActivity activity) {
         //Small hack to hide first tabs (they represent the item of the bottom menu)
         BottomMenu bottomMenuDb;
@@ -307,6 +539,7 @@ public class PinnedTimelineHelper {
         }
         return toRemove;
     }
+
 
     /**
      * Manage long clicks on Tag timelines

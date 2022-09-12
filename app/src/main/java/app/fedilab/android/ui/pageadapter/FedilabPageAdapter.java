@@ -15,6 +15,7 @@ package app.fedilab.android.ui.pageadapter;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -22,8 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -47,7 +50,14 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.pinned = pinned;
         this.bottomMenu = bottomMenu;
-        toRemove = PinnedTimelineHelper.itemToRemoveInBottomMenu(activity);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (!singleBar) {
+            toRemove = PinnedTimelineHelper.itemToRemoveInBottomMenu(activity);
+        } else {
+            toRemove = BOTTOM_TIMELINE_COUNT;
+        }
+
     }
 
     public Fragment getCurrentFragment() {

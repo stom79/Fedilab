@@ -1122,14 +1122,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     public void redrawPinned(List<MastodonList> mastodonLists) {
         int currentItem = binding.viewPager.getCurrentItem();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-        boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-        //Hiding/Showing bottom menu depending of settings
-        if (singleBar) {
-            binding.bottomNavView.setVisibility(View.GONE);
-        } else {
-            binding.bottomNavView.setVisibility(View.VISIBLE);
-        }
         new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
                 .observe(this, pinned -> {
                     this.pinned = pinned;

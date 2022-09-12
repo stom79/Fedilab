@@ -17,6 +17,7 @@ package app.fedilab.android.viewmodel.mastodon;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -24,14 +25,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import app.fedilab.android.R;
 import app.fedilab.android.client.endpoints.MastodonSearchService;
 import app.fedilab.android.client.entities.api.Results;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
+import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import okhttp3.OkHttpClient;
@@ -71,6 +77,29 @@ public class ReorderVM extends AndroidViewModel {
             Pinned pinned = null;
             try {
                 pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(currentAccount);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplication().getApplicationContext());
+                boolean singleBar = sharedpreferences.getBoolean(getApplication().getApplicationContext().getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+                List<PinnedTimeline> pinnedTimelinesToRemove = new ArrayList<>();
+                if (!singleBar) {
+                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.HOME) {
+                            pinnedTimelinesToRemove.add(pinnedTimeline);
+                        }
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.LOCAL) {
+                            pinnedTimelinesToRemove.add(pinnedTimeline);
+                        }
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.PUBLIC) {
+                            pinnedTimelinesToRemove.add(pinnedTimeline);
+                        }
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
+                            pinnedTimelinesToRemove.add(pinnedTimeline);
+                        }
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.DIRECT) {
+                            pinnedTimelinesToRemove.add(pinnedTimeline);
+                        }
+                    }
+                    pinned.pinnedTimelines.removeAll(pinnedTimelinesToRemove);
+                }
             } catch (DBException e) {
                 e.printStackTrace();
             }

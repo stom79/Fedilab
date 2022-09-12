@@ -28,6 +28,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -112,6 +113,12 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
+        boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (singleBar) {
+            binding.titleTop.setVisibility(View.GONE);
+            binding.lvReorderBottom.setVisibility(View.GONE);
+        }
         changes = false;
         bottomChanges = false;
         ReorderVM reorderVM = new ViewModelProvider(ReorderTimelinesActivity.this).get(ReorderVM.class);
