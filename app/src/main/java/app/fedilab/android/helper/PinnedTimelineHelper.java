@@ -21,6 +21,7 @@ import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -45,10 +46,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
@@ -99,6 +102,12 @@ public class PinnedTimelineHelper {
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        boolean timeInList = sharedpreferences.getBoolean(activity.getString(R.string.SET_TIMELINES_IN_A_LIST), false);
+        if (timeInList) {
+            activityMainBinding.moreTimelines.setVisibility(View.VISIBLE);
+        } else {
+            activityMainBinding.moreTimelines.setVisibility(View.GONE);
+        }
 
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) activityMainBinding.viewPager.getLayoutParams();
         //Hiding/Showing bottom menu depending of settings
@@ -320,13 +329,76 @@ public class PinnedTimelineHelper {
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
+
+
+        Pinned finalPinned = pinned;
+        activityMainBinding.moreTimelines.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), v);
+            try {
+                @SuppressLint("PrivateApi")
+                Method method = popup.getMenu().getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+                method.setAccessible(true);
+                method.invoke(popup.getMenu(), true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int i = 0;
+            for (PinnedTimeline pinnedTimeline : finalPinned.pinnedTimelines) {
+                MenuItem item = null;
+                switch (pinnedTimeline.type) {
+                    case LIST:
+                        item = popup.getMenu().add(0, 0, Menu.NONE, pinnedTimeline.mastodonList.title);
+                        item.setIcon(R.drawable.ic_tl_list);
+                        break;
+                    case TAG:
+                        String name = (pinnedTimeline.tagTimeline.displayName != null && pinnedTimeline.tagTimeline.displayName.length() > 0) ? pinnedTimeline.tagTimeline.displayName : pinnedTimeline.tagTimeline.name;
+                        item = popup.getMenu().add(0, 0, Menu.NONE, name);
+                        item.setIcon(R.drawable.ic_tl_tag);
+                        break;
+                    case REMOTE:
+                        item = popup.getMenu().add(0, 0, Menu.NONE, pinnedTimeline.remoteInstance.host);
+                        switch (pinnedTimeline.remoteInstance.type) {
+                            case MASTODON:
+                                item.setIcon(R.drawable.mastodon_icon_item);
+                                break;
+                            case PEERTUBE:
+                                item.setIcon(R.drawable.peertube_icon);
+                                break;
+                            case GNU:
+                                item.setIcon(R.drawable.ic_gnu_social);
+                                break;
+                            case MISSKEY:
+                                item.setIcon(R.drawable.misskey);
+                                break;
+                            case PIXELFED:
+                                item.setIcon(R.drawable.pixelfed);
+                                break;
+                            case NITTER:
+                                item.setIcon(R.drawable.nitter);
+                                break;
+                        }
+                        break;
+                }
+                if (item != null) {
+                    int finalI = i;
+                    item.setOnMenuItemClickListener(item1 -> {
+                        if (finalI < activityMainBinding.tabLayout.getTabCount() && activityMainBinding.tabLayout.getTabAt(finalI) != null) {
+                            Objects.requireNonNull(activityMainBinding.tabLayout.getTabAt(finalI)).select();
+                        }
+                        return false;
+                    });
+                }
+                i++;
+            }
+            popup.show();
+        });
+
+
         LinearLayout tabStrip = (LinearLayout) activityMainBinding.tabLayout.getChildAt(0);
         int finalToRemove = toRemove;
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
             // Set LongClick listener to each Tab
             int finalI = i;
-            Pinned finalPinned = pinned;
-
             tabStrip.getChildAt(i).setOnLongClickListener(v -> {
                 switch (pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove)).type) {
                     case LIST:
