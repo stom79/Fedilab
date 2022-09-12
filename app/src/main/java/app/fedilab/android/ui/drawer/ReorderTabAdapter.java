@@ -110,6 +110,26 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_view_list_24);
                 holder.binding.text.setText(pinned.pinnedTimelines.get(position).mastodonList.title);
                 break;
+            case HOME:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_home_24);
+                holder.binding.text.setText(R.string.home_menu);
+                break;
+            case LOCAL:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
+                holder.binding.text.setText(R.string.local_menu);
+                break;
+            case PUBLIC:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_public_24);
+                holder.binding.text.setText(R.string.v_public);
+                break;
+            case NOTIFICATION:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
+                holder.binding.text.setText(R.string.notifications);
+                break;
+            case DIRECT:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                holder.binding.text.setText(R.string.v_direct);
+                break;
         }
 
 

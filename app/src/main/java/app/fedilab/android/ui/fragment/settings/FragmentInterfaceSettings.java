@@ -63,6 +63,12 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 editor.putFloat(getString(R.string.SET_FONT_SCALE), scale);
                 recreate = true;
             }
+            if (key.compareToIgnoreCase(getString(R.string.SET_USE_SINGLE_TOPBAR)) == 0) {
+                recreate = true;
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_TIMELINES_IN_A_LIST)) == 0) {
+                recreate = true;
+            }
             editor.apply();
         }
     }

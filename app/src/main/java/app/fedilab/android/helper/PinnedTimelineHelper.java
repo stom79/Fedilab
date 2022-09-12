@@ -60,6 +60,7 @@ import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
+import app.fedilab.android.databinding.TabCustomDefaultViewBinding;
 import app.fedilab.android.databinding.TabCustomViewBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
@@ -250,60 +251,66 @@ public class PinnedTimelineHelper {
                         name = pinnedTimeline.remoteInstance.host;
                         break;
                 }
-                TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
-                tabCustomViewBinding.title.setText(name);
-                switch (pinnedTimeline.type) {
-                    case LIST:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
-                        break;
-                    case TAG:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
-                        break;
-                    case REMOTE:
-                        switch (pinnedTimeline.remoteInstance.type) {
-                            case PIXELFED:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.pixelfed);
-                                break;
-                            case MASTODON:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
-                                break;
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST || pinnedTimeline.type == Timeline.TimeLineEnum.TAG || pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
+                    TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
+                    tabCustomViewBinding.title.setText(name);
+                    switch (pinnedTimeline.type) {
+                        case LIST:
+                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
+                            break;
+                        case TAG:
+                            tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
+                            break;
+                        case REMOTE:
+                            switch (pinnedTimeline.remoteInstance.type) {
+                                case PIXELFED:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.pixelfed);
+                                    break;
+                                case MASTODON:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
+                                    break;
 
-                            case MISSKEY:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
-                                break;
-                            case NITTER:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
-                                break;
-                            case GNU:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.ic_gnu_social);
-                                break;
-                            case PEERTUBE:
-                                tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
-                                break;
-                        }
-                        break;
-                    case HOME:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_home_24);
-                        break;
-                    case LOCAL:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
-                        break;
-                    case PUBLIC:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_public_24);
-                        break;
-                    case NOTIFICATION:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
-                        break;
-                    case DIRECT:
-                        tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
-                        break;
+                                case MISSKEY:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
+                                    break;
+                                case NITTER:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
+                                    break;
+                                case GNU:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.ic_gnu_social);
+                                    break;
+                                case PEERTUBE:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
+                                    break;
+                            }
+                            break;
+                    }
+                    tab.setCustomView(tabCustomViewBinding.getRoot());
+                } else {
+                    TabCustomDefaultViewBinding tabCustomDefaultViewBinding = TabCustomDefaultViewBinding.inflate(activity.getLayoutInflater());
+                    switch (pinnedTimeline.type) {
+                        case HOME:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_home_24);
+                            break;
+                        case LOCAL:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
+                            break;
+                        case PUBLIC:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_public_24);
+                            break;
+                        case NOTIFICATION:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
+                            break;
+                        case DIRECT:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                            break;
+                    }
+                    tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
-                tab.setCustomView(tabCustomViewBinding.getRoot());
                 activityMainBinding.tabLayout.addTab(tab);
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
-
         LinearLayout tabStrip = (LinearLayout) activityMainBinding.tabLayout.getChildAt(0);
         int finalToRemove = toRemove;
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
