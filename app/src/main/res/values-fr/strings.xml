@@ -662,7 +662,7 @@
     <string name="show_content">Afficher le contenu &gt;</string>
     <string name="stop_recording">Arrêter l\'enregistrement</string>
     <string name="report_title">Signalement de %1$s</string>
-    <string name="report_indication_title_status">Dite-nous ce qui ne va pas avec cette publication</string>
+    <string name="report_indication_title_status">Dites-nous ce qui ne va pas avec cette publication</string>
     <string name="report_indication_title_status_more">Choisissez l\'option la plus adaptée</string>
     <string name="report_val1">Je n\'aime pas ça</string>
     <string name="report_val_more1">Ce n\'est pas quelque chose que vous voulez voir</string>
@@ -724,4 +724,18 @@
     <string name="messages_in_cache_for_home">Messages dans le cache pour l’Accueil</string>
     <string name="messages_in_cache_for_other_timelines">Messages dans le cache pour les fils</string>
     <string name="label_oval">Ovale</string>
+    <string name="set_single_topbar">Lorsqu’elle est activée, l’application n’aura qu’une seule barre pour les fils</string>
+    <string name="default_system_language">Utiliser la langue par défaut du système</string>
+    <string name="toast_token">L’application n’a pas réussi à obtenir un jeton</string>
+    <string name="refresh_every">Récupérer les notifications toutes les :</string>
+    <string name="type_of_notifications_delay_title">Délai de récupération des notifications</string>
+    <string name="data_export_settings">Les paramètres ont été exportés</string>
+    <string name="data_export_settings_success">Les paramètres ont été exportés avec succès</string>
+    <string name="data_import_settings_success">Les paramètres ont été importés avec succès</string>
+    <string name="my_account">Mon compte</string>
+    <string name="open_draft">Ouvrir le brouillon</string>
+    <string name="permission_missing">Permission non accordée !</string>
+    <string name="message_language">Langue des messages</string>
+    <string name="my_instance">Mon instance</string>
+    <string name="my_app">Mon application</string>
 </resources>

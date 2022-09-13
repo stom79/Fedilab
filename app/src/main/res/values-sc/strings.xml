@@ -741,4 +741,8 @@
     <string name="data_export_settings_success">Is cunfiguratziones sunt istadas esportadas sena problemas</string>
     <string name="data_import_settings_success">Is cunfiguratziones sunt istadas importadas sena problemas</string>
     <string name="push_distributors">Intregadore de notìficas push</string>
+    <string name="set_single_topbar">Cando est abilitada s\'aplicatzione at a tènnere isceti una barra sìngula pro is lìnias de tempus</string>
+    <string name="set_single_topbar_title">Istanga sìngula de atzione</string>
+    <string name="set_timelines_in_a_list_title">Lìnias de tempus in una lista</string>
+    <string name="set_timelines_in_a_list">Candoest abilitada totu is lìnias de tempus apicadas ant a èssere ammustradas in unu menù a calada</string>
 </resources>
