@@ -1,0 +1,9 @@
+Added:
+- Settings to set all timelines at the top (default disabled)
+- Settings to display timelines in a list (default disabled)
+- Display counters for fav/reblog in timelines (default disabled)
+
+Fixed:
+- Visibility issue when replying
+- Some theme issues when composing
+- Some crashes
