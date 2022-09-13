@@ -35,7 +35,7 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("id")
     public String id;
     @SerializedName("created_at")
-    public Date created_at;
+    public Date created_at = new Date();
     @SerializedName("in_reply_to_id")
     public String in_reply_to_id;
     @SerializedName("in_reply_to_account_id")

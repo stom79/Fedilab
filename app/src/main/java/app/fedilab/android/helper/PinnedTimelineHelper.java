@@ -51,7 +51,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
@@ -332,6 +331,7 @@ public class PinnedTimelineHelper {
 
 
         Pinned finalPinned = pinned;
+        int finalToRemove1 = toRemove;
         activityMainBinding.moreTimelines.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), v);
             try {
@@ -343,6 +343,7 @@ public class PinnedTimelineHelper {
                 e.printStackTrace();
             }
             int i = 0;
+            int j = 0;
             for (PinnedTimeline pinnedTimeline : finalPinned.pinnedTimelines) {
                 MenuItem item = null;
                 switch (pinnedTimeline.type) {
@@ -380,13 +381,22 @@ public class PinnedTimelineHelper {
                         break;
                 }
                 if (item != null) {
-                    int finalI = i;
+                    int finalI;
+                    if (singleBar) {
+                        finalI = i;
+                    } else {
+                        finalI = BOTTOM_TIMELINE_COUNT - finalToRemove1 + j;
+                    }
                     item.setOnMenuItemClickListener(item1 -> {
                         if (finalI < activityMainBinding.tabLayout.getTabCount() && activityMainBinding.tabLayout.getTabAt(finalI) != null) {
-                            Objects.requireNonNull(activityMainBinding.tabLayout.getTabAt(finalI)).select();
+                            TabLayout.Tab tab = activityMainBinding.tabLayout.getTabAt(finalI);
+                            if (tab != null) {
+                                tab.select();
+                            }
                         }
                         return false;
                     });
+                    j++;
                 }
                 i++;
             }

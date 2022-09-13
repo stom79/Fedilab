@@ -124,6 +124,7 @@ import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.exception.DBException;
@@ -308,11 +309,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
                 final Handler handler = new Handler();
                 handler.postDelayed(() -> {
-                    int position = BottomMenu.getPosition(bottomMenu, R.id.nav_notifications);
-                    if (position > 0) {
-                        binding.bottomNavView.getMenu().getItem(position).setChecked(true);
-                        binding.viewPager.setCurrentItem(position);
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                    boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+                    if (!singleBar) {
+                        int position = BottomMenu.getPosition(bottomMenu, R.id.nav_notifications);
+                        if (position > 0) {
+                            binding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                            binding.viewPager.setCurrentItem(position);
+                        }
+                    } else {
+                        int position = 0;
+                        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                            if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
+                                binding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                                binding.viewPager.setCurrentItem(position);
+                                break;
+                            }
+                            position++;
+                        }
                     }
+
                 }, 1000);
                 intent.removeExtra(Helper.INTENT_ACTION);
 
