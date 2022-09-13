@@ -630,10 +630,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                         item.setIcon(R.drawable.ic_person);
                                         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
                                         String url = !disableGif ? account.mastodon_account.avatar : account.mastodon_account.avatar_static;
-                                        if (url.startsWith("/")) {
+                                        if (url != null && url.startsWith("/")) {
                                             url = "https://" + account.instance + account.mastodon_account.avatar;
                                         }
-                                        if (!this.isDestroyed() && !this.isFinishing()) {
+                                        if (!this.isDestroyed() && !this.isFinishing() && url != null) {
                                             if (url.contains(".gif")) {
                                                 Glide.with(BaseMainActivity.this)
                                                         .asGif()

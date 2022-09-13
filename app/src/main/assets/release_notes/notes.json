@@ -1,8 +1,8 @@
 [
   {
-    "version": "3.2.1",
-    "code": "406",
-    "note": "Added:\n- Settings to set all timelines at the top\n- Settings to display timelines in a list\n\nFixed:\n- Visibility issue when replying\n- Some theme issues when composing"
+    "version": "3.3.0",
+    "code": "407",
+    "note": "Added:\n- Settings to set all timelines at the top (default disabled)\n- Settings to display timelines in a list (default disabled)\n- Display counters for fav/reblog in timelines (default disabled)\n\nFixed:\n- Visibility issue when replying\n- Some theme issues when composing\n- Some crashes"
   },
   {
     "version": "3.2.0",
