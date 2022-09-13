@@ -323,6 +323,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
         boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
+        boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
 
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
@@ -934,12 +935,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.visibilitySmall.setVisibility(View.GONE);
         } else {
             holder.binding.visibilitySmall.setImageResource(ressource);
-            holder.binding.statusInfo.setVisibility(View.GONE);
-            holder.binding.dateShort.setVisibility(View.VISIBLE);
-            holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
-            holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
-            holder.binding.time.setVisibility(View.GONE);
-            Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, status.created_at);
+            if (displayCounters) {
+                holder.binding.statusInfo.setVisibility(View.VISIBLE);
+                holder.binding.dateShort.setVisibility(View.GONE);
+                holder.binding.visibilitySmall.setVisibility(View.GONE);
+                holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
+                holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
+                holder.binding.time.setText(Helper.longDateToString(statusToDeal.created_at));
+                holder.binding.time.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusInfo.setVisibility(View.GONE);
+                holder.binding.dateShort.setVisibility(View.VISIBLE);
+                holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
+                holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                holder.binding.time.setVisibility(View.GONE);
+                Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at);
+            }
         }
 
         //---- SPOILER TEXT -----

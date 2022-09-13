@@ -905,6 +905,7 @@
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
+    <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_EXPAND_CW" translatable="false">SET_EXPAND_CW</string>
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
@@ -1446,4 +1447,5 @@
     <string name="set_single_topbar">When enabled, the app will only have a single bar for timelines</string>
     <string name="set_timelines_in_a_list_title">Timelines in a list</string>
     <string name="set_timelines_in_a_list">When enabled, all pinned timelines will be displayed in a drop-down menu</string>
+    <string name="set_display_counter">Display counters for messages</string>
 </resources>

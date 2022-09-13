@@ -31,6 +31,12 @@
         app:singleLineTitle="false"
         app:key="@string/SET_NOTIF_VALIDATION_FAV"
         app:title="@string/set_share_validation_fav" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_COUNTER_FAV_BOOST"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_counter" />
     <SeekBarPreference
         app:iconSpaceReserved="false"
         app:showSeekBarValue="true"
