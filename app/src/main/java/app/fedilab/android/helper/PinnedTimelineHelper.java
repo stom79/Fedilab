@@ -242,6 +242,7 @@ public class PinnedTimelineHelper {
             }
         }
         List<PinnedTimeline> pinnedTimelineVisibleList = new ArrayList<>();
+        List<PinnedTimeline> pinnedToRemove = new ArrayList<>();
         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
             //Default timelines are not added if we are not in the single bar mode
             if (!singleBar) {
@@ -251,6 +252,7 @@ public class PinnedTimelineHelper {
                     case PUBLIC:
                     case NOTIFICATION:
                     case DIRECT:
+                        pinnedToRemove.add(pinnedTimeline);
                         continue;
                 }
             }
@@ -328,7 +330,7 @@ public class PinnedTimelineHelper {
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
-
+        pinned.pinnedTimelines.removeAll(pinnedToRemove);
 
         Pinned finalPinned = pinned;
         int finalToRemove1 = toRemove;
