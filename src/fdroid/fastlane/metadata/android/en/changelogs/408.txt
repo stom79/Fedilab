@@ -1,0 +1,5 @@
+- Improve speed for Nitter instances
+- Allow to edit Nitter accounts with a long press on tabs
+- Fix pagination issue with pinned timelines
+- Fix some crashes
+- Fix visibility when displaying counters
