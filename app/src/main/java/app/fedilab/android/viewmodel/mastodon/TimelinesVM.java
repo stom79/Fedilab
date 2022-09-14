@@ -214,13 +214,16 @@ public class TimelinesVM extends AndroidViewModel {
                                         String accountsStr,
                                         String max_position) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
+        accountsStr = accountsStr.replaceAll("\\s", ",");
         statusesMutableLiveData = new MutableLiveData<>();
+        String finalAccountsStr = accountsStr;
         new Thread(() -> {
-            Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(accountsStr, max_position);
+            Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(finalAccountsStr, max_position);
             Statuses statuses = new Statuses();
             if (publicTlCall != null) {
                 try {
                     Response<Nitter> publicTlResponse = publicTlCall.execute();
+
                     if (publicTlResponse.isSuccessful()) {
                         Nitter rssResponse = publicTlResponse.body();
                         List<Status> statusList = new ArrayList<>();

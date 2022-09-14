@@ -538,6 +538,9 @@ public class Helper {
      * @return String
      */
     public static String dateDiff(Context context, Date date) {
+        if (date == null) {
+            date = new Date();
+        }
         Date now = new Date();
         long diff = now.getTime() - date.getTime();
         long seconds = diff / 1000;

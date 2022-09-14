@@ -412,7 +412,8 @@ public class PinnedTimelineHelper {
             // Set LongClick listener to each Tab
             int finalI = i;
             tabStrip.getChildAt(i).setOnLongClickListener(v -> {
-                switch (pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove)).type) {
+                int position = finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove);
+                switch (pinnedTimelineVisibleList.get(position).type) {
                     case LIST:
 
                         break;
@@ -420,12 +421,16 @@ public class PinnedTimelineHelper {
                         tagClick(activity, finalPinned, v, activityMainBinding, finalI);
                         break;
                     case REMOTE:
-                        instanceClick(activity, finalPinned, v, activityMainBinding, finalI);
+                        if (pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                            instanceClick(activity, finalPinned, v, activityMainBinding, finalI);
+                        } else {
+                            nitterClick(activity, finalPinned, activityMainBinding, finalI);
+                        }
                         break;
                     case HOME:
                     case LOCAL:
                     case PUBLIC:
-                        defaultClick(activity, pinnedTimelineVisibleList.get(finalI - (BOTTOM_TIMELINE_COUNT - finalToRemove)).type, v, activityMainBinding, finalI);
+                        defaultClick(activity, pinnedTimelineVisibleList.get(position).type, v, activityMainBinding, finalI);
                         break;
                 }
                 return true;
@@ -1042,4 +1047,62 @@ public class PinnedTimelineHelper {
 
         popup.show();
     }
+
+    /**
+     * Manage long clicks on Nitter instances
+     *
+     * @param activity - BaseMainActivity activity
+     * @param pinned   - {@link Pinned}
+     * @param position - int position of the tab
+     */
+    public static void nitterClick(BaseMainActivity activity, Pinned pinned, ActivityMainBinding activityMainBinding, int position) {
+
+        int toRemove = itemToRemoveInBottomMenu(activity);
+        int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
+        RemoteInstance remoteInstance = pinned.pinnedTimelines.get(offSetPosition).remoteInstance;
+        if (remoteInstance == null)
+            return;
+        String accounts = remoteInstance.host;
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
+        dialogBuilder.setView(dialogView);
+        final EditText editText = dialogView.findViewById(R.id.filter_any);
+        editText.setHint(R.string.list_of_twitter_accounts);
+        if (accounts != null) {
+            editText.setText(accounts);
+            editText.setSelection(editText.getText().toString().length());
+        }
+        dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+            pinned.pinnedTimelines.get(offSetPosition).remoteInstance.host = editText.getText().toString().trim();
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            FragmentMastodonTimeline fragmentMastodonTimeline = null;
+            if (activityMainBinding.viewPager.getAdapter() != null) {
+                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    fragmentMastodonTimeline.refreshAllAdapters();
+                }
+            }
+            FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
+            if (fragmentMastodonTimeline == null)
+                return;
+            fragTransaction1.detach(fragmentMastodonTimeline).commit();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(offSetPosition));
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
+            fragmentMastodonTimeline.setArguments(bundle);
+            FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+            fragTransaction2.attach(fragmentMastodonTimeline);
+            fragTransaction2.commit();
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+
 }
