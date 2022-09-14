@@ -588,6 +588,9 @@ public class Helper {
      * @return String
      */
     public static String longDateToString(Date date) {
+        if (date == null) {
+            date = new Date();
+        }
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault());
         return df.format(date);
     }

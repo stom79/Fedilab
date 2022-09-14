@@ -106,7 +106,6 @@ import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
 import app.fedilab.android.activities.StatusInfoActivity;
 import app.fedilab.android.client.entities.api.Attachment;
-import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.client.entities.api.Status;
@@ -289,7 +288,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param holder           StatusViewHolder
      * @param adapter          RecyclerView.Adapter<RecyclerView.ViewHolder> - General adapter that can be for {@link StatusAdapter} or {@link NotificationAdapter}
      * @param statusList       List<Status>
-     * @param notificationList List<Notification>
      * @param timelineType     Timeline.TimeLineEnum timelineTypeTimeline.TimeLineEnum
      * @param status           {@link Status}
      */
@@ -300,7 +298,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         StatusViewHolder holder,
                                         RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
                                         List<Status> statusList,
-                                        List<Notification> notificationList,
                                         Status status,
                                         Timeline.TimeLineEnum timelineType,
                                         boolean minified, boolean canBeFederated) {
@@ -935,7 +932,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.visibilitySmall.setVisibility(View.GONE);
         } else {
             holder.binding.visibilitySmall.setImageResource(ressource);
-            if (displayCounters) {
+            if (displayCounters && canBeFederated) {
                 holder.binding.statusInfo.setVisibility(View.VISIBLE);
                 holder.binding.dateShort.setVisibility(View.GONE);
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
@@ -1940,7 +1937,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holder, this, statusList, null, status, timelineType, minified, canBeFederated);
+            statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated);
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);

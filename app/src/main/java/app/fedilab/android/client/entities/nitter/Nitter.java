@@ -115,7 +115,6 @@ public class Nitter implements Serializable {
             account.avatar = nitterAccount.image.url;
             account.avatar_static = nitterAccount.image.url;
             account.url = nitterAccount.image.link;
-            status.account = account;
         } else {
             account.id = feedItem.guid;
             account.acct = feedItem.creator.replace("@", "");
@@ -124,8 +123,8 @@ public class Nitter implements Serializable {
             account.avatar = "";
             account.avatar_static = "";
             account.url = feedItem.link;
-            status.account = account;
         }
+        status.account = account;
 
         if (feedItem.description != null) {
             Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");

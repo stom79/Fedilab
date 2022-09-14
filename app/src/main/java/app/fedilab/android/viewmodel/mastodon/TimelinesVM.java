@@ -226,8 +226,10 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = new ArrayList<>();
                         if (rssResponse != null && rssResponse.mFeedItems != null) {
                             for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
-                                Status status = Nitter.convert(getApplication(), instance, feedItem);
-                                statusList.add(status);
+                                if (feedItem.title.startsWith("RT by")) {
+                                    Status status = Nitter.convert(getApplication(), instance, feedItem);
+                                    statusList.add(status);
+                                }
                             }
                         }
                         statuses.statuses = statusList;
