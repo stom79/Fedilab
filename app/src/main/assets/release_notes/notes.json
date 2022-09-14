@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.3.1",
+    "code": "408",
+    "note": "- Improve speed for Nitter instances\n- Allow to edit Nitter accounts with a long press on tabs\n- Fix pagination issue with pinned timelines\n- Fix some crashes\n- Fix visibility when displaying counters"
+  },
+  {
     "version": "3.3.0",
     "code": "407",
     "note": "Added:\n- Settings to set all timelines at the top (default disabled)\n- Settings to display timelines in a list (default disabled)\n- Display counters for fav/reblog in timelines (default disabled)\n\nFixed:\n- Visibility issue when replying\n- Some theme issues when composing\n- Some crashes"
