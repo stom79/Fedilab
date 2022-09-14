@@ -745,4 +745,5 @@
     <string name="set_single_topbar_title">Istanga sìngula de atzione</string>
     <string name="set_timelines_in_a_list_title">Lìnias de tempus in una lista</string>
     <string name="set_timelines_in_a_list">Candoest abilitada totu is lìnias de tempus apicadas ant a èssere ammustradas in unu menù a calada</string>
+    <string name="set_display_counter">Ammustra is contadores de messàgios</string>
 </resources>
