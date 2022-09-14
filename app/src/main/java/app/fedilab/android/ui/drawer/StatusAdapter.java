@@ -942,6 +942,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
                 holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
                 holder.binding.time.setText(Helper.longDateToString(statusToDeal.created_at));
+                holder.binding.visibility.setImageResource(ressource);
                 holder.binding.time.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.statusInfo.setVisibility(View.GONE);
@@ -954,7 +955,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         //---- SPOILER TEXT -----
-
         if (statusToDeal.spoiler_text != null && !statusToDeal.spoiler_text.trim().isEmpty()) {
             if (expand_cw || expand) {
                 holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
