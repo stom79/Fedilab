@@ -589,8 +589,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (binding == null || getActivity() == null || !isAdded()) {
                 return;
             }
+            boolean nitterInstance = timelineType == Timeline.TimeLineEnum.REMOTE && pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER;
             QuickLoad quickLoad = new QuickLoad(requireActivity()).getSavedValue(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, timelineType, ident);
-            if (!fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
+            if (!nitterInstance && !fetchingMissing && !binding.swipeContainer.isRefreshing() && direction == null && quickLoad != null && quickLoad.statuses != null && quickLoad.statuses.size() > 0) {
                 Statuses statuses = new Statuses();
                 statuses.statuses = quickLoad.statuses;
                 statuses.pagination = new Pagination();
@@ -655,15 +656,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         //NITTER TIMELINES
                         if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
                             if (direction == null) {
-                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, null)
+                                timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
                                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                             } else if (direction == DIRECTION.BOTTOM) {
-                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, max_id)
+                                timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, max_id)
                                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                             } else if (direction == DIRECTION.TOP) {
                                 flagLoading = false;
                             } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-                                timelinesVM.getNitter(remoteInstance, pinnedTimeline.remoteInstance.host, null)
+                                timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
                                         .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                             if (statusAdapter != null) {
                                                 dealWithPagination(statusesRefresh, direction, true);

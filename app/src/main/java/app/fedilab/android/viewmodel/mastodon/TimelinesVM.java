@@ -16,6 +16,8 @@ package app.fedilab.android.viewmodel.mastodon;
 
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -23,12 +25,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.R;
 import app.fedilab.android.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Conversation;
@@ -210,9 +214,13 @@ public class TimelinesVM extends AndroidViewModel {
      * @param max_position Return results older than this id
      * @return {@link LiveData} containing a {@link Statuses}
      */
-    public LiveData<Statuses> getNitter(@NonNull String instance,
-                                        String accountsStr,
-                                        String max_position) {
+    public LiveData<Statuses> getNitter(
+            String accountsStr,
+            String max_position) {
+        Context context = getApplication().getApplicationContext();
+        SharedPreferences sharedpreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
         MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
         accountsStr = accountsStr.replaceAll("\\s", ",");
         statusesMutableLiveData = new MutableLiveData<>();
@@ -229,7 +237,7 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = new ArrayList<>();
                         if (rssResponse != null && rssResponse.mFeedItems != null) {
                             for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
-                                if (feedItem.title.startsWith("RT by")) {
+                                if (!feedItem.title.startsWith("RT by")) {
                                     Status status = Nitter.convert(getApplication(), instance, feedItem);
                                     statusList.add(status);
                                 }
