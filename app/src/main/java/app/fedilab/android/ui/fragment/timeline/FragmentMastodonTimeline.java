@@ -906,11 +906,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else {
                             max_id = null;
                         }
-                        timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                        timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                                 .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                     });
                 } else {
-                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 }
 
@@ -932,7 +932,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 if (statusesBottomCache != null && statusesBottomCache.statuses != null && statusesBottomCache.statuses.size() > 0) {
                                     dealWithPagination(statusesBottomCache, DIRECTION.BOTTOM, false);
                                 } else { // If not, we fetch remotely
-                                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, false, max_id, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                                 }
                             });
@@ -942,7 +942,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                 }
             } else {
-                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, max_id_fetch_more, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, true, max_id_fetch_more, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, true));
             }
         } else if (direction == DIRECTION.TOP) {
@@ -953,7 +953,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 if (statusesTopCache != null && statusesTopCache.statuses != null && statusesTopCache.statuses.size() > 0) {
                                     dealWithPagination(statusesTopCache, DIRECTION.TOP, false);
                                 } else {
-                                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
+                                    timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, false, null, null, min_id, MastodonHelper.statusesPerCall(requireActivity()), false)
                                             .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false));
                                 }
                             });
@@ -962,12 +962,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false));
                 }
             } else {
-                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, null, null, min_id_fetch_more, MastodonHelper.statusesPerCall(requireActivity()), false)
+                timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, true, null, null, min_id_fetch_more, MastodonHelper.statusesPerCall(requireActivity()), false)
                         .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, true));
             }
 
         } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-            timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, true, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
+            timelinesVM.getHome(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, BaseMainActivity.currentUserID, true, null, null, null, MastodonHelper.statusesPerCall(requireActivity()), false)
                     .observe(getViewLifecycleOwner(), statusRefresh -> {
                                 if (statusAdapter != null) {
                                     dealWithPagination(statusRefresh, direction, true);

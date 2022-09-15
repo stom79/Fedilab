@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.client.entities.api.Account;
@@ -443,6 +442,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getHome(@NonNull String instance, String token,
+                                      String userId,
                                       boolean fetchingMissing,
                                       String maxId,
                                       String sinceId,
@@ -466,7 +466,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
                                 statusCache.instance = instance;
-                                statusCache.user_id = BaseMainActivity.currentUserID;
+                                statusCache.user_id = userId;
                                 statusCache.status = status;
                                 statusCache.type = StatusCache.CacheEnum.HOME;
                                 statusCache.status_id = status.id;
