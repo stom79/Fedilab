@@ -26,7 +26,9 @@
         android:id="@+id/releasenotes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_weight="1" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -36,7 +38,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/about_support"
         tools:visibility="visible">
 

@@ -1,0 +1,5 @@
+- Fix an issue with cache and home timeline
+- Nitter timelines use the custom instance from settings
+- Fix Nitter issues (only RT)
+- No longer accepts invalid certificate for onion URLs(Google)
+- Fix some crashes

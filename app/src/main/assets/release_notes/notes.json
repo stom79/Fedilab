@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.3.2",
+    "code": "409",
+    "note": "- Fix an issue with cache and home timeline\n- Nitter timelines use the custom instance from settings\n- Fix Nitter issues (only RT)\n- No longer accepts invalid certificate for onion URLs(Google)\n- Fix some crashes"
+  },
+  {
     "version": "3.3.1",
     "code": "408",
     "note": "- Improve speed for Nitter instances\n- Allow to edit Nitter accounts with a long press on tabs\n- Fix pagination issue with pinned timelines\n- Fix some crashes\n- Fix visibility when displaying counters"
