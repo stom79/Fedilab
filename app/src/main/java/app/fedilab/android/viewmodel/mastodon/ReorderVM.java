@@ -80,7 +80,7 @@ public class ReorderVM extends AndroidViewModel {
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplication().getApplicationContext());
                 boolean singleBar = sharedpreferences.getBoolean(getApplication().getApplicationContext().getString(R.string.SET_USE_SINGLE_TOPBAR), false);
                 List<PinnedTimeline> pinnedTimelinesToRemove = new ArrayList<>();
-                if (!singleBar && pinned != null) {
+                if (!singleBar && pinned != null && pinned.pinnedTimelines != null) {
                     for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                         if (pinnedTimeline.type == Timeline.TimeLineEnum.HOME) {
                             pinnedTimelinesToRemove.add(pinnedTimeline);
