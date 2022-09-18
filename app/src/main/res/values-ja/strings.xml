@@ -17,15 +17,15 @@
     <string name="password">パスワード</string>
     <string name="email">メールアドレス</string>
     <string name="accounts">アカウント</string>
-    <string name="toots">トゥート</string>
+    <string name="toots">投稿</string>
     <string name="tags">タグ</string>
     <string name="save">保存</string>
     <string name="instance">インスタンス</string>
     <string name="instance_example">インスタンス：mastodon.social</string>
     <string name="toast_account_changed" formatted="false">アカウント %1$s に切り替えました</string>
     <string name="add_account">アカウントを追加</string>
-    <string name="clipboard">トゥートの内容をクリップボードにコピーしました</string>
-    <string name="clipboard_url">トゥートのURLをクリップボードにコピーしました</string>
+    <string name="clipboard">投稿の内容をクリップボードにコピーしました</string>
+    <string name="clipboard_url">投稿のURLをクリップボードにコピーしました</string>
     <string name="camera">カメラ</string>
     <string name="delete_all">すべて削除</string>
     <string name="schedule">予約</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">フォローリクエスト</string>
     <string name="settings">設定</string>
     <string name="send_email">メールを送信</string>
-    <string name="scheduled_toots">トゥート予約</string>
+    <string name="scheduled_toots">投稿予約</string>
     <string name="disclaimer_full">以下の情報は、ユーザーのプロフィールが完全には反映されていない場合があります。</string>
     <string name="insert_emoji">絵文字を挿入</string>
     <string name="no_emoji">アプリはしばらくの間カスタム絵文字を収集していません。</string>
     <string name="logout_account_confirmation">\@%1$s@%2$sからログアウトしますか？</string>
     <!-- Status -->
-    <string name="no_status">トゥートがありません</string>
-    <string name="favourite_add">このトゥートをお気に入りに追加しますか？</string>
-    <string name="favourite_remove">このトゥートをお気に入りから削除しますか？</string>
-    <string name="reblog_add">このトゥートをブーストしますか？</string>
-    <string name="reblog_remove">このトゥートのブーストを取り消しますか？</string>
+    <string name="no_status">投稿がありません</string>
+    <string name="favourite_add">この投稿をお気に入りに追加しますか？</string>
+    <string name="favourite_remove">この投稿をお気に入りから削除しますか？</string>
+    <string name="reblog_add">この投稿をブーストしますか？</string>
+    <string name="reblog_remove">この投稿のブーストを取り消しますか？</string>
     <string name="more_action_1">ミュート</string>
     <string name="more_action_2">ブロック</string>
     <string name="more_action_3">報告</string>
@@ -118,8 +118,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">メディアの選択中にエラーが発生しました。</string>
     <string name="toot_delete_media">このメディアを削除しますか？</string>
-    <string name="toot_error_no_content">トゥートが空です！</string>
-    <string name="toot_sent">トゥートを送信しました</string>
+    <string name="toot_error_no_content">メッセージが入力されていません！</string>
+    <string name="toot_sent">投稿しました！</string>
     <string name="toot_sensitive">メディアを閲覧注意にする</string>
     <string name="no_draft">下書きはありません！</string>
     <string name="choose_accounts">アカウントを選択</string>
@@ -139,14 +139,15 @@
     <!-- Accounts -->
     <string name="no_accounts">アカウントがありません</string>
     <string name="no_follow_request">フォローリクエストはありません</string>
-    <string name="status_cnt">トゥート \n %1$s</string>
+    <string name="status_cnt">投稿
+\n %1$s</string>
     <string name="following_cnt">フォロー中 \n %1$s</string>
     <string name="followers_cnt">フォロワー\n %1$s</string>
     <string name="reject">拒否</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">予約したトゥートはありません！</string>
-    <string name="remove_scheduled">トゥートの予約を削除しますか？</string>
-    <string name="toot_scheduled">トゥートを予約しました！</string>
+    <string name="no_scheduled_toots">投稿予約はありません！</string>
+    <string name="remove_scheduled">投稿予約を削除しますか？</string>
+    <string name="toot_scheduled">投稿を予約しました！</string>
     <string name="toot_scheduled_date">予約日時は現在の時間より後である必要があります！</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">ミュートする時間（1分超）です。</string>
@@ -172,10 +173,10 @@
     <string name="toast_unmute">このアカウントのミュートを解除しました！</string>
     <string name="toast_follow">アカウントをフォローしました！</string>
     <string name="toast_unfollow">アカウントのフォローを解除しました！</string>
-    <string name="toast_reblog">トゥートをブーストしました！</string>
-    <string name="toast_unreblog">トゥートのブーストを取り消しました！</string>
-    <string name="toast_favourite">トゥートをお気に入りに追加しました</string>
-    <string name="toast_unfavourite">トゥートをお気に入りから削除しました！</string>
+    <string name="toast_reblog">投稿をブーストしました！</string>
+    <string name="toast_unreblog">投稿のブーストを取り消しました！</string>
+    <string name="toast_favourite">投稿をお気に入りに追加しました！</string>
+    <string name="toast_unfavourite">投稿をお気に入りから削除しました！</string>
     <string name="toast_error">エラーが発生しました！</string>
     <string name="toast_code_error">エラーが発生しました！ インスタンスは認証コードを返しませんでした！</string>
     <string name="toast_error_instance">インスタンスのドメインが有効ではないようです！</string>
@@ -184,7 +185,7 @@
     <string name="nothing_to_do">何もすることはできません</string>
     <string name="toast_error_translate">翻訳中にエラーが発生しました！</string>
     <!-- Settings -->
-    <string name="set_toots_page">一回あたりに読み込むトゥートの数</string>
+    <string name="set_toots_page">一回あたりに読み込む投稿数</string>
     <string name="set_disable_gif">GIFアバターを無効にする</string>
     <string name="set_notif_follow">フォローされたときに通知</string>
     <string name="set_notif_follow_share">トゥートがブーストされたときに通知する</string>
@@ -263,7 +264,7 @@
     <string name="poxy_port">ポート</string>
     <string name="poxy_login">ログイン</string>
     <string name="poxy_password">パスワード</string>
-    <string name="set_share_details">共有時にトゥートの詳細を付加する</string>
+    <string name="set_share_details">共有時に投稿の詳細を付加する</string>
     <string name="support_the_app_on_liberapay">Liberapayでアプリを支援</string>
     <string name="alert_regex">正規表現に誤りがあります！</string>
     <string name="toast_instance_unavailable">このインスタンスにタイムラインが見つかりませんでした！</string>
@@ -282,9 +283,9 @@
     <string name="context_public">公開タイムライン</string>
     <string name="context_notification">通知</string>
     <string name="context_conversation">会話</string>
-    <string name="filter_keyword_explanations">テキストの大文字/小文字や、トゥートの閲覧注意に関係なくマッチングされます</string>
+    <string name="filter_keyword_explanations">テキストの大文字/小文字や、投稿の閲覧注意に関係なくマッチングされます</string>
     <string name="context_drop">非表示ではなく除外</string>
-    <string name="context_drop_explanations">フィルターが後で削除されても、除外されたトゥートは元に戻せなくなります</string>
+    <string name="context_drop_explanations">フィルターが後で削除されても、除外された投稿は元に戻せなくなります</string>
     <string name="context_whole_word_explanations">キーワードまたはフレーズが英数字のみの場合、単語全体と一致する場合のみ適用されるようになります</string>
     <string name="context_whole_word">単語全体</string>
     <string name="filter_context">フィルター対象</string>
@@ -299,7 +300,7 @@
     <string name="channel_notif_fav">新しいお気に入り</string>
     <string name="channel_notif_mention">新しいメンション</string>
     <string name="channel_notif_poll">投票終了</string>
-    <string name="channel_notif_backup">トゥート バックアップ</string>
+    <string name="channel_notif_backup">投稿のバックアップ</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">メディアのダウンロード</string>
     <string name="select_sound">音の選択</string>
@@ -311,11 +312,11 @@
     <string name="peertube_instance">Peertubeインスタンス</string>
     <string name="set_display_emoji">Emoji Oneを使用する</string>
     <string name="information">情報</string>
-    <string name="set_display_card">全てのトゥートでプレビューを表示する</string>
+    <string name="set_display_card">全ての投稿でプレビューを表示する</string>
     <string name="account_id_clipbloard">アカウントIDをクリップボードにコピーしました！</string>
     <string name="set_change_locale">言語の変更</string>
-    <string name="truncate_long_toots">長いトゥートを折りたたむ</string>
-    <string name="set_truncate_toot">\'x\'行以上のトゥートを切り捨てます。0は無効です。</string>
+    <string name="truncate_long_toots">長い投稿を折りたたむ</string>
+    <string name="set_truncate_toot">\'x\'行以上の投稿を折りたたみます。0で無効です。</string>
     <string name="display_toot_truncate">もっと見る</string>
     <string name="hide_toot_truncate">非表示</string>
     <string name="tags_already_stored">入力したタグはすでに存在します！</string>
@@ -361,8 +362,8 @@
     <string name="category">カテゴリ</string>
     <string name="description">説明</string>
     <string name="share">共有</string>
-    <string name="toots_server">トゥート(サーバー)</string>
-    <string name="toots_client">トゥート(端末)</string>
+    <string name="toots_server">投稿(サーバー)</string>
+    <string name="toots_client">投稿(端末)</string>
     <string name="settings_category_label_timelines">タイムライン</string>
     <string name="settings_category_label_interface">インターフェイス</string>
     <string name="contact">連絡先</string>
@@ -384,7 +385,7 @@
     <string name="poll_finish_at">%sで締め切り</string>
     <string name="vote">投票</string>
     <string name="notif_poll">投票したアンケートが締め切られました</string>
-    <string name="notif_poll_self">トゥートしたアンケートが締め切られました</string>
+    <string name="notif_poll_self">投稿したアンケートが終了しました</string>
     <string name="settings_category_notif_categories">カテゴリ</string>
     <string name="move_timeline">タイムラインの移動</string>
     <string name="hide_timeline">タイムラインを非表示にする</string>
@@ -565,7 +566,7 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
-    <string name="hide_content">コンテンツを非常時にする &lt;</string>
+    <string name="hide_content">コンテンツを非表示にする &lt;</string>
     <string name="stop_recording">レコーディングを停止</string>
     <string name="report_title">%1$sを報告しています</string>
     <string name="report_indication_title_status">この投稿で何が起こっているのか教えてください</string>
@@ -648,9 +649,9 @@
     <string name="pref_contributor">第三者によるテーマ</string>
     <string name="select_a_theme">テーマを選択</string>
     <string name="pref_contributor_summary">第三者により作成されたテーマのピックアップ</string>
-    <string name="toots_visibility_title">デフォルトのトゥートの公開範囲:</string>
-    <string name="toast_bookmark">トゥートがブックマークに追加されました！</string>
-    <string name="toast_unbookmark">トゥートがブックマークから削除されました！</string>
+    <string name="toots_visibility_title">デフォルトの投稿公開範囲:</string>
+    <string name="toast_bookmark">投稿をブックマークに追加しました！</string>
+    <string name="toast_unbookmark">投稿をブックマークから削除しました！</string>
     <string name="set_accounts_page">1回あたりに読み込むアカウントの数</string>
     <string name="cannot_be_empty">この欄は空欄にできません！</string>
     <string name="replace_youtube">YouTube</string>
@@ -711,4 +712,31 @@
     <string name="location">場所</string>
     <string name="staff">スタッフ</string>
     <string name="label_shape">形</string>
+    <string name="media_cannot_be_uploaded">メディアのアップロードに失敗しました！</string>
+    <string name="my_instance">マイサーバー</string>
+    <string name="set_single_topbar_title">シングルアクションバー</string>
+    <string name="set_single_topbar">有効にすると、タイムラインのバーが1つだけになります</string>
+    <string name="set_timelines_in_a_list_title">リストタイムライン</string>
+    <string name="set_timelines_in_a_list">有効にすると、全てのピン留めされたタイムラインがドロップダウンメニューに表示されるようになります</string>
+    <string name="set_display_counter">投稿の数を表示する</string>
+    <string name="delete_cache_message">本当にキャッシュを削除しますか？メディアを添付した下書きがある場合、添付したメディアは失われます。</string>
+    <string name="default_system_language">システムデフォルトの言語を使用する</string>
+    <string name="message_language">投稿の言語</string>
+    <string name="release_notes">更新履歴</string>
+    <string name="toast_token">トークンの取得に失敗しました</string>
+    <string name="open_draft">下書きを開く</string>
+    <string name="my_account">マイアカウント</string>
+    <string name="set_your_max_char_count">最大文字数を設定する</string>
+    <string name="data_export_settings_success">設定をエクスポートしました</string>
+    <string name="data_export_settings">設定をエクスポートしました</string>
+    <string name="data_import_settings_success">設定をインポートしました</string>
+    <string name="set_push_notifications_delay">新しい投稿を読み込む間隔を設定する</string>
+    <string name="refresh_every">通知を次の時間ごとに取得する:</string>
+    <string name="type_of_notifications_delay_title">通知取得間隔</string>
+    <string name="export_settings">エクスポート設定</string>
+    <string name="import_settings">インポート設定</string>
+    <string name="permission_missing">権限が許可されていません！</string>
+    <string name="load_settings">エクスポートされた設定を読み込む</string>
+    <string name="push_distributors">プッシュ通知のプロバイダー</string>
+    <string name="my_app">マイアプリ</string>
 </resources>
