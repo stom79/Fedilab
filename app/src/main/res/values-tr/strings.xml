@@ -751,4 +751,5 @@
     <string name="set_single_topbar">Etkinleştirildiğinde, uygulamada zaman çizelgeleri için yalnızca tek bir çubuk olacaktır</string>
     <string name="set_single_topbar_title">Tek eylem çubuğu</string>
     <string name="set_timelines_in_a_list">Etkinleştirildiğinde, sabitlenen tüm zaman çizelgeleri bir açılır menüde görüntülenecektir</string>
+    <string name="set_display_counter">Mesajlar için sayaçları göster</string>
 </resources>
