@@ -339,7 +339,7 @@ public interface MastodonAccountsService {
             @Field("context[]") List<String> context,
             @Field("irreversible") boolean irreversible,
             @Field("whole_word") boolean whole_word,
-            @Field("expires_in") long expires_in
+            @Field("expires_in") String expires_in
     );
 
     //Edit a filter
@@ -352,7 +352,7 @@ public interface MastodonAccountsService {
             @Field("context[]") List<String> context,
             @Field("irreversible") boolean irreversible,
             @Field("whole_word") boolean whole_word,
-            @Field("expires_in") long expires_in
+            @Field("expires_in") String expires_in
     );
 
     //Remove a filter

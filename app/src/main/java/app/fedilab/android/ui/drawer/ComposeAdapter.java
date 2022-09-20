@@ -56,7 +56,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -560,7 +559,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 .asBitmap()
                                 .load(attachmentPath)
                                 .into(new CustomTarget<Bitmap>() {
-                                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                                     @Override
                                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                         popupMediaDescriptionBinding.mediaPicture.setImageBitmap(resource);

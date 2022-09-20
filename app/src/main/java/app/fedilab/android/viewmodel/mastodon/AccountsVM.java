@@ -1164,7 +1164,7 @@ public class AccountsVM extends AndroidViewModel {
         MastodonAccountsService mastodonAccountsService = init(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> addFilterCall = mastodonAccountsService.addFilter(token, phrase, filterContext, irreversible, wholeWord, expiresIn);
+            Call<Filter> addFilterCall = mastodonAccountsService.addFilter(token, phrase, filterContext, irreversible, wholeWord, expiresIn == -1 ? "" : String.valueOf(expiresIn));
             if (addFilterCall != null) {
                 try {
                     Response<Filter> addFiltersResponse = addFilterCall.execute();
@@ -1199,7 +1199,7 @@ public class AccountsVM extends AndroidViewModel {
         MastodonAccountsService mastodonAccountsService = init(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> editFilterCall = mastodonAccountsService.editFilter(token, id, phrase, filterContext, irreversible, wholeWord, expiresIn);
+            Call<Filter> editFilterCall = mastodonAccountsService.editFilter(token, id, phrase, filterContext, irreversible, wholeWord, expiresIn == -1 ? "" : String.valueOf(expiresIn));
             if (editFilterCall != null) {
                 try {
                     Response<Filter> editFiltersResponse = editFilterCall.execute();

@@ -78,18 +78,21 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                         expire[0] = -1;
                         break;
                     case 1:
-                        expire[0] = 3600;
+                        expire[0] = 1800;
                         break;
                     case 2:
-                        expire[0] = 21600;
+                        expire[0] = 3600;
                         break;
                     case 3:
-                        expire[0] = 43200;
+                        expire[0] = 21600;
                         break;
                     case 4:
-                        expire[0] = 86400;
+                        expire[0] = 43200;
                         break;
                     case 5:
+                        expire[0] = 86400;
+                        break;
+                    case 6:
                         expire[0] = 604800;
                         break;
                 }
@@ -99,6 +102,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
             public void onNothingSelected(AdapterView<?> parent1) {
             }
         });
+
         if (filter != null) {
             popupAddFilterBinding.addPhrase.setText(filter.phrase);
             if (filter.context != null)
