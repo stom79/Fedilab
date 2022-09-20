@@ -482,7 +482,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
                 if (!statusList.get(position).sensitive) {
-                    if (currentAccount.mastodon_account.source != null) {
+                    if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
                         holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
                         statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
                     } else {

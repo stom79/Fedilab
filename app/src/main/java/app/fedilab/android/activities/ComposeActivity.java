@@ -453,7 +453,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     public static String getVisibility(String defaultVisibility) {
         int tootVisibility = visibilityToNumber(defaultVisibility);
-        if (currentAccount != null && currentAccount.mastodon_account.source != null) {
+        if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
             int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
             if (tootVisibility > userVisibility) {
                 return visibilityToString(userVisibility);
