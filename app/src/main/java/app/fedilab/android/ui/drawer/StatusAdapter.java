@@ -224,42 +224,64 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                      Status statusReturned,
                                      boolean remote) {
         if (statusReturned == null) {
-            Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-            return;
-        }
-        boolean isOK = true;
-        switch (typeOfAction) {
-            case BOOKMARK_ACTION:
-                isOK = statusReturned.bookmarked;
-                break;
-            case REBLOG_ACTION:
-                isOK = statusReturned.reblogged;
-                break;
-            case FAVOURITE_ACTION:
-                isOK = statusReturned.favourited;
-                break;
-            case UNBOOKMARK_ACTION:
-                isOK = !statusReturned.bookmarked;
-                break;
-            case UNREBLOG_ACTION:
-                isOK = !statusReturned.reblogged;
-                break;
-            case UNFAVOURITE_ACTION:
-                isOK = !statusReturned.favourited;
-                break;
-        }
+            switch (typeOfAction) {
+                case BOOKMARK_ACTION:
+                    statusToDeal.bookmarked = true;
+                    break;
+                case REBLOG_ACTION:
+                    statusToDeal.reblogged = true;
+                    statusToDeal.reblogs_count++;
+                    break;
+                case FAVOURITE_ACTION:
+                    statusToDeal.favourited = true;
+                    statusToDeal.favourites_count++;
+                    break;
+                case UNBOOKMARK_ACTION:
+                    statusToDeal.bookmarked = false;
+                    break;
+                case UNREBLOG_ACTION:
+                    statusToDeal.reblogged = false;
+                    statusToDeal.reblogs_count--;
+                    break;
+                case UNFAVOURITE_ACTION:
+                    statusToDeal.favourited = false;
+                    statusToDeal.favourites_count--;
+                    break;
+            }
+        } else {
+            boolean isOK = true;
+            switch (typeOfAction) {
+                case BOOKMARK_ACTION:
+                    isOK = statusReturned.bookmarked;
+                    break;
+                case REBLOG_ACTION:
+                    isOK = statusReturned.reblogged;
+                    break;
+                case FAVOURITE_ACTION:
+                    isOK = statusReturned.favourited;
+                    break;
+                case UNBOOKMARK_ACTION:
+                    isOK = !statusReturned.bookmarked;
+                    break;
+                case UNREBLOG_ACTION:
+                    isOK = !statusReturned.reblogged;
+                    break;
+                case UNFAVOURITE_ACTION:
+                    isOK = !statusReturned.favourited;
+                    break;
+            }
+            if (!isOK) {
+                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                return;
+            }
+            //Update elements
+            statusToDeal.favourited = statusReturned.favourited;
+            statusToDeal.reblogged = statusReturned.reblogged;
+            statusToDeal.bookmarked = statusReturned.bookmarked;
+            statusToDeal.reblogs_count = statusReturned.reblogs_count;
+            statusToDeal.favourites_count = statusReturned.favourites_count;
 
-        if (!isOK) {
-            Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-            return;
         }
-        //Update elements
-        statusToDeal.favourited = statusReturned.favourited;
-        statusToDeal.reblogged = statusReturned.reblogged;
-        statusToDeal.bookmarked = statusReturned.bookmarked;
-        statusToDeal.reblogs_count = statusReturned.reblogs_count;
-        statusToDeal.favourites_count = statusReturned.favourites_count;
-
         //Update status in cache if not a remote instance
         if (!remote) {
             new Thread(() -> {
