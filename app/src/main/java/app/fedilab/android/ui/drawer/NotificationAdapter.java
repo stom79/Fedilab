@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +37,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Notification;
@@ -46,6 +48,7 @@ import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 
@@ -140,6 +143,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderFollow.binding.acceptButton.setVisibility(View.GONE);
                 holderFollow.binding.title.setText(R.string.follow);
             }
+            AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
+            holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                    .observe((LifecycleOwner) context, relationShip -> {
+                        notificationList.remove(position);
+                        notifyItemRemoved(position);
+                    }));
+            holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                    .observe((LifecycleOwner) context, relationShip -> {
+                        notificationList.remove(position);
+                        notifyItemRemoved(position);
+                    }));
             holderFollow.binding.avatar.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle b = new Bundle();
