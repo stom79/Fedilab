@@ -14,16 +14,18 @@ package app.fedilab.android.services;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.services.PostMessageService.publishMessage;
+
+import static app.fedilab.android.jobs.ComposeWorker.publishMessage;
 
 import android.content.Context;
 
 import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.jobs.ComposeWorker;
 
 public class ThreadMessageService {
 
     public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate) {
-        PostMessageService.DataPost dataPost = new PostMessageService.DataPost();
+        ComposeWorker.DataPost dataPost = new ComposeWorker.DataPost();
         dataPost.instance = instance;
         dataPost.userId = userId;
         dataPost.token = token;

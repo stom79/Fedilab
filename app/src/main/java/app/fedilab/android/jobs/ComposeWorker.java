@@ -1,5 +1,5 @@
-package app.fedilab.android.services;
-/* Copyright 2021 Thomas Schneider
+package app.fedilab.android.jobs;
+/* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -14,10 +14,13 @@ package app.fedilab.android.services;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,10 +29,17 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
+import androidx.work.Data;
+import androidx.work.ForegroundInfo;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,25 +67,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PostMessageService extends IntentService {
+public class ComposeWorker extends Worker {
 
     private static final int NOTIFICATION_INT_CHANNEL_ID = 1;
     public static String CHANNEL_ID = "post_messages";
-
+    private final NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder;
-    private NotificationManager notificationManager;
 
-    /**
-     * @param name - String
-     * @deprecated
-     */
-    public PostMessageService(String name) {
-        super(name);
-    }
-
-    @SuppressWarnings("unused")
-    public PostMessageService() {
-        super("PostMessageService");
+    public ComposeWorker(
+            @NonNull Context context,
+            @NonNull WorkerParameters parameters) {
+        super(context, parameters);
+        notificationManager = (NotificationManager)
+                context.getSystemService(NOTIFICATION_SERVICE);
     }
 
     private static OkHttpClient getOkHttpClient(Context context) {
@@ -95,7 +99,7 @@ public class PostMessageService extends IntentService {
         return retrofit.create(MastodonStatusesService.class);
     }
 
-    static void publishMessage(Context context, DataPost dataPost) {
+    public static void publishMessage(Context context, DataPost dataPost) {
         long totalMediaSize;
         long totalBitRead;
         MastodonStatusesService mastodonStatusesService = init(context, dataPost.instance);
@@ -337,41 +341,33 @@ public class PostMessageService extends IntentService {
         return null;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Post messages";
-            String channelDescription = "Post messages in background";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
-            notifChannel.setDescription(channelDescription);
-            notificationManager.createNotificationChannel(notifChannel);
-
+    public static String serialize(StatusDraft statusDraft) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(statusDraft);
+        } catch (Exception e) {
+            return null;
         }
-        notificationBuilder = new NotificationCompat.Builder(getBaseContext(), CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
-                .setContentTitle(getString(R.string.post_message))
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_DEFAULT);
-        startForeground(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
     }
 
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        StatusDraft statusDraft = null;
-        String token = null, instance = null;
-        String scheduledDate = null;
-        String userId = null;
-        if (intent != null && intent.getExtras() != null) {
-            Bundle b = intent.getExtras();
-            statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
-            token = b.getString(Helper.ARG_TOKEN);
-            instance = b.getString(Helper.ARG_INSTANCE);
-            userId = b.getString(Helper.ARG_USER_ID);
-            scheduledDate = b.getString(Helper.ARG_SCHEDULED_DATE);
+    public static StatusDraft restore(String serialized) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serialized, StatusDraft.class);
+        } catch (Exception e) {
+            return null;
         }
+    }
+
+    @NonNull
+    @Override
+    public Result doWork() {
+        Data inputData = getInputData();
+        StatusDraft statusDraft = restore(inputData.getString(Helper.ARG_STATUS_DRAFT));
+        String token = inputData.getString(Helper.ARG_TOKEN);
+        String instance = inputData.getString(Helper.ARG_INSTANCE);
+        String userId = inputData.getString(Helper.ARG_USER_ID);
+        String scheduledDate = inputData.getString(Helper.ARG_SCHEDULED_DATE);
         //Should not be null, but a simple security
         if (token == null) {
             token = BaseMainActivity.currentToken;
@@ -387,21 +383,54 @@ public class PostMessageService extends IntentService {
         dataPost.scheduledDate = scheduledDate;
         dataPost.notificationBuilder = notificationBuilder;
         dataPost.notificationManager = notificationManager;
-        publishMessage(PostMessageService.this, dataPost);
-        notificationManager.cancel(NOTIFICATION_INT_CHANNEL_ID);
+        // Mark the Worker as important
+        setForegroundAsync(createForegroundInfo());
+        publishMessage(getApplicationContext(), dataPost);
+        return Result.success();
     }
 
-    static class DataPost {
-        String instance;
-        String token;
-        String userId;
-        StatusDraft statusDraft;
-        int messageToSend;
-        int messageSent;
-        NotificationCompat.Builder notificationBuilder;
-        String scheduledDate;
-        NotificationManager notificationManager;
-        IntentService service;
+    @NonNull
+    private ForegroundInfo createForegroundInfo() {
+        // Build a notification using bytesRead and contentLength
+
+        Context context = getApplicationContext();
+        // This PendingIntent can be used to cancel the worker
+        PendingIntent intent = WorkManager.getInstance(context)
+                .createCancelPendingIntent(getId());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel();
+        }
+        notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle(context.getString(R.string.post_message))
+                .setOngoing(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_DEFAULT);
+
+        return new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void createChannel() {
+        String channelName = "Post messages";
+        String channelDescription = "Post messages in background";
+        NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+        notifChannel.setDescription(channelDescription);
+        notificationManager.createNotificationChannel(notifChannel);
+    }
+
+    public static class DataPost {
+        public String instance;
+        public String token;
+        public String userId;
+        public StatusDraft statusDraft;
+        public int messageToSend;
+        public int messageSent;
+        public NotificationCompat.Builder notificationBuilder;
+        public String scheduledDate;
+        public NotificationManager notificationManager;
+        public IntentService service;
+    }
 }

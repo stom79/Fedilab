@@ -53,6 +53,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.OutOfQuotaPolicy;
 import androidx.work.WorkManager;
 
 import java.io.File;
@@ -87,8 +88,8 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
+import app.fedilab.android.jobs.ComposeWorker;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
-import app.fedilab.android.services.PostMessageService;
 import app.fedilab.android.services.ThreadMessageService;
 import app.fedilab.android.ui.drawer.AccountsReplyAdapter;
 import app.fedilab.android.ui.drawer.ComposeAdapter;
@@ -846,17 +847,17 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     mediaCount += status.media_attachments != null ? status.media_attachments.size() : 0;
                 }
                 if (mediaCount > 0) {
-                    Intent intent = new Intent(ComposeActivity.this, PostMessageService.class);
-                    intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                    intent.putExtra(Helper.ARG_INSTANCE, instance);
-                    intent.putExtra(Helper.ARG_TOKEN, token);
-                    intent.putExtra(Helper.ARG_USER_ID, account.user_id);
-                    intent.putExtra(Helper.ARG_SCHEDULED_DATE, scheduledDate);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(intent);
-                    } else {
-                        startService(intent);
-                    }
+                    Data inputData = new Data.Builder()
+                            .putString(Helper.ARG_STATUS_DRAFT, ComposeWorker.serialize(statusDraft))
+                            .putString(Helper.ARG_INSTANCE, instance)
+                            .putString(Helper.ARG_TOKEN, token)
+                            .putString(Helper.ARG_USER_ID, account.user_id)
+                            .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
+                    OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ComposeWorker.class)
+                            .setInputData(inputData)
+                            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                            .build();
+                    WorkManager.getInstance(ComposeActivity.this).enqueue(request);
                 } else {
                     new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate);
                 }
