@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 6;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -111,6 +111,7 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_USER_ID + " TEXT NOT NULL, " + COL_INSTANCE + " TEXT NOT NULL, "
             + COL_TYPE + " TEXT NOT NULL, "
+            + COL_SLUG + " TEXT, "
             + COL_STATUS_ID + " TEXT NOT NULL, "
             + COL_STATUS + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL,"
@@ -202,7 +203,6 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_STATUS_DRAFT);
         db.execSQL(CREATE_TABLE_PINNED_TIMELINES);
         db.execSQL(CREATE_TABLE_SCHEDULE_BOOST);
-        db.execSQL(CREATE_TABLE_QUICK_LOAD);
         db.execSQL(CREATE_TABLE_BOTTOM_MENU);
         db.execSQL(CREATE_DOMAINS_TRACKING);
     }
@@ -223,6 +223,10 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE " + TABLE_USER_ACCOUNT + " ADD COLUMN " + COL_ADMIN + " INTEGER NOT NULL DEFAULT 0");
             case 4:
                 db.execSQL(CREATE_DOMAINS_TRACKING);
+            case 5:
+                db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_SLUG + " TEXT");
+                db.execSQL("DELETE FROM " + TABLE_STATUS_CACHE);
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUICK_LOAD);
             default:
                 break;
         }

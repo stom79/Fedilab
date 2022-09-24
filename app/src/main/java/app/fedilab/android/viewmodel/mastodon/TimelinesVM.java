@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Conversation;
@@ -45,6 +47,7 @@ import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.client.entities.misskey.MisskeyNote;
 import app.fedilab.android.client.entities.nitter.Nitter;
 import app.fedilab.android.client.entities.peertube.PeertubeVideo;
@@ -52,6 +55,7 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.TimelineHelper;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -160,50 +164,6 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return tagListMutableLiveData;
-    }
-
-    /**
-     * Public timeline
-     *
-     * @param local     Show only local statuses? Defaults to false.
-     * @param remote    Show only remote statuses? Defaults to false.
-     * @param onlyMedia Show only statuses with media attached? Defaults to false.
-     * @param maxId     Return results older than this id
-     * @param sinceId   Return results newer than this id
-     * @param minId     Return results immediately newer than this id
-     * @param limit     Maximum number of results to return. Defaults to 20.
-     * @return {@link LiveData} containing a {@link Statuses}
-     */
-    public LiveData<Statuses> getPublic(String token, @NonNull String instance,
-                                        Boolean local,
-                                        Boolean remote,
-                                        Boolean onlyMedia,
-                                        String maxId,
-                                        String sinceId,
-                                        String minId,
-                                        Integer limit) {
-        MastodonTimelinesService mastodonTimelinesService = init(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
-        new Thread(() -> {
-            Call<List<Status>> publicTlCall = mastodonTimelinesService.getPublic(token, local, remote, onlyMedia, maxId, sinceId, minId, limit);
-            Statuses statuses = new Statuses();
-            if (publicTlCall != null) {
-                try {
-                    Response<List<Status>> publicTlResponse = publicTlCall.execute();
-                    if (publicTlResponse.isSuccessful()) {
-                        List<Status> notFilteredStatuses = publicTlResponse.body();
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.pagination = MastodonHelper.getPagination(publicTlResponse.headers());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
-            mainHandler.post(myRunnable);
-        }).start();
-        return statusesMutableLiveData;
     }
 
 
@@ -382,96 +342,65 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
 
-    /**
-     * View public statuses containing the given hashtag.
-     *
-     * @param hashtag   Content of a #hashtag, not including # symbol.
-     * @param local     If true, return only local statuses. Defaults to false.
-     * @param onlyMedia If true, return only statuses with media attachments. Defaults to false.
-     * @param maxId     Return results older than this ID.
-     * @param sinceId   Return results newer than this ID.
-     * @param minId     Return results immediately newer than this ID.
-     * @param limit     Maximum number of results to return. Defaults to 20.
-     * @return {@link LiveData} containing a {@link Statuses}
-     */
-    public LiveData<Statuses> getHashTag(String token, @NonNull String instance,
-                                         @NonNull String hashtag,
-                                         boolean local,
-                                         boolean onlyMedia,
-                                         List<String> all,
-                                         List<String> any,
-                                         List<String> none,
-                                         String maxId,
-                                         String sinceId,
-                                         String minId,
-                                         int limit) {
+    public LiveData<Statuses> getTimeline(TimelineParams timelineParams) {
+
         statusesMutableLiveData = new MutableLiveData<>();
-        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
             Statuses statuses = new Statuses();
-            String hashtagTrim = hashtag.replaceAll("\\#", "");
-            Call<List<Status>> hashTagTlCall = mastodonTimelinesService.getHashTag(token, hashtagTrim, local, onlyMedia, all, any, none, maxId, sinceId, minId, limit);
-            if (hashTagTlCall != null) {
-                try {
-                    Response<List<Status>> hashTagTlResponse = hashTagTlCall.execute();
-                    if (hashTagTlResponse.isSuccessful()) {
-                        List<Status> notFilteredStatuses = hashTagTlResponse.body();
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.PUBLIC);
-                        statuses.pagination = MastodonHelper.getPagination(hashTagTlResponse.headers());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            Call<List<Status>> timelineCall = null;
+            switch (timelineParams.type) {
+                case HOME:
+                    timelineCall = mastodonTimelinesService.getHome(timelineParams.token, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit, timelineParams.local);
+                    break;
+                case LOCAL:
+                    timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, true, false, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    break;
+                case PUBLIC:
+                    timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, false, true, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    break;
+                case TAG:
+                    timelineCall = mastodonTimelinesService.getHashTag(timelineParams.token, timelineParams.hashtagTrim, timelineParams.local, timelineParams.onlyMedia, timelineParams.all, timelineParams.any, timelineParams.none, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    break;
+                case LIST:
+                    timelineCall = mastodonTimelinesService.getList(timelineParams.token, timelineParams.listId, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    break;
             }
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
-            mainHandler.post(myRunnable);
-        }).start();
-
-        return statusesMutableLiveData;
-    }
-
-    /**
-     * View statuses from followed users.
-     *
-     * @param maxId   Return results older than id
-     * @param sinceId Return results newer than id
-     * @param minId   Return results immediately newer than id
-     * @param limit   Maximum number of results to return. Defaults to 20.
-     * @param local   Return only local statuses?
-     * @return {@link LiveData} containing a {@link Statuses}
-     */
-    public LiveData<Statuses> getHome(@NonNull String instance, String token,
-                                      String userId,
-                                      boolean fetchingMissing,
-                                      String maxId,
-                                      String sinceId,
-                                      String minId,
-                                      int limit,
-                                      boolean local) {
-        statusesMutableLiveData = new MutableLiveData<>();
-        MastodonTimelinesService mastodonTimelinesService = init(instance);
-        new Thread(() -> {
-            Statuses statuses = new Statuses();
-            Call<List<Status>> homeTlCall = mastodonTimelinesService.getHome(token, maxId, sinceId, minId, limit, local);
-            if (homeTlCall != null) {
+            if (timelineCall != null) {
                 try {
-                    Response<List<Status>> homeTlResponse = homeTlCall.execute();
-                    if (homeTlResponse.isSuccessful()) {
-                        List<Status> notFilteredStatuses = homeTlResponse.body();
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), notFilteredStatuses, TimelineHelper.FilterTimeLineType.HOME);
-                        statuses.pagination = MastodonHelper.getPagination(homeTlResponse.headers());
-                        if (!fetchingMissing) {
+                    Response<List<Status>> timelineResponse = timelineCall.execute();
+                    if (timelineResponse.isSuccessful()) {
+                        List<Status> statusList = timelineResponse.body();
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
+                        if (statusList != null && statusList.size() > 0) {
+                            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+                                Status newestStatus = new StatusCache(getApplication().getApplicationContext()).getNewestStatus(timelineParams.slug, timelineParams.instance, timelineParams.userId);
+                                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                                if (newestStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(newestStatus.id) > 0) {
+                                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                                }
+                            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                                Status topStatus = new StatusCache(getApplication().getApplicationContext()).getTopFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
+                                if (topStatus != null && statusList.get(0).id.compareToIgnoreCase(topStatus.id) < 0) {
+                                    statusList.get(0).isFetchMore = true;
+                                }
+                            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                                Status bottomStatus = new StatusCache(getApplication().getApplicationContext()).getBottomFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
+                                if (bottomStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(bottomStatus.id) > 0) {
+                                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                                }
+                            }
                             for (Status status : statuses.statuses) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
-                                statusCache.instance = instance;
-                                statusCache.user_id = userId;
+                                statusCache.instance = timelineParams.instance;
+                                statusCache.user_id = timelineParams.userId;
                                 statusCache.status = status;
-                                statusCache.type = StatusCache.CacheEnum.HOME;
+                                statusCache.type = timelineParams.type;
                                 statusCache.status_id = status.id;
                                 try {
-                                    statusCacheDAO.insertOrUpdate(statusCache);
+                                    statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -486,32 +415,18 @@ public class TimelinesVM extends AndroidViewModel {
             Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
             mainHandler.post(myRunnable);
         }).start();
-
         return statusesMutableLiveData;
     }
 
-    /**
-     * Get home status from cache
-     *
-     * @param instance String - instance
-     * @param user_id  String - user id
-     * @param maxId    String - max id
-     * @param minId    String - min id
-     * @return LiveData<Statuses>
-     */
-    public LiveData<Statuses> getHomeCache(@NonNull String instance, String user_id,
-                                           String maxId,
-                                           String minId,
-                                           String sinceId) {
+    public LiveData<Statuses> getTimelineCache(TimelineParams timelineParams) {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Statuses statuses = null;
             try {
-                statuses = statusCacheDAO.geStatuses(StatusCache.CacheEnum.HOME, instance, user_id, maxId, minId, sinceId);
-
+                statuses = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (statuses != null) {
-                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
+                    TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
@@ -527,6 +442,42 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return statusesMutableLiveData;
+    }
+
+    public static class TimelineParams {
+
+        public FragmentMastodonTimeline.DIRECTION direction;
+        public String instance;
+        public String token;
+        public Timeline.TimeLineEnum type;
+        public String slug;
+        public String userId;
+        public Boolean remote;
+        public Boolean onlyMedia;
+        public String hashtagTrim;
+        public List<String> all;
+        public List<String> any;
+        public List<String> none;
+        public String listId;
+        public Boolean fetchingMissing;
+        public String maxId;
+        public String sinceId;
+        public String minId;
+        public int limit = 40;
+        public Boolean local;
+
+        public TimelineParams(@NonNull Timeline.TimeLineEnum type, @Nullable FragmentMastodonTimeline.DIRECTION direction, @Nullable String ident) {
+            if (type != Timeline.TimeLineEnum.REMOTE) {
+                instance = MainActivity.currentInstance;
+                token = MainActivity.currentToken;
+                userId = MainActivity.currentUserID;
+            }
+            String key = type.getValue();
+            if (ident != null) {
+                key += "|" + ident;
+            }
+            slug = key;
+        }
     }
 
 
@@ -553,45 +504,6 @@ public class TimelinesVM extends AndroidViewModel {
         return statusDraftListMutableLiveData;
     }
 
-    /**
-     * View statuses in the given list timeline.
-     *
-     * @param listId  Local ID of the list in the database.
-     * @param maxId   Return results older than this ID.
-     * @param sinceId Return results newer than this ID.
-     * @param minId   Return results immediately newer than this ID.
-     * @param limit   Maximum number of results to return. Defaults to 20.Return results older than this ID.
-     * @return {@link LiveData} containing a {@link Statuses}
-     */
-    public LiveData<Statuses> getList(@NonNull String instance, String token,
-                                      @NonNull String listId,
-                                      String maxId,
-                                      String sinceId,
-                                      String minId,
-                                      int limit) {
-        statusesMutableLiveData = new MutableLiveData<>();
-        MastodonTimelinesService mastodonTimelinesService = init(instance);
-        new Thread(() -> {
-            Statuses statuses = new Statuses();
-            Call<List<Status>> listTlCall = mastodonTimelinesService.getList(token, listId, maxId, sinceId, minId, limit);
-            if (listTlCall != null) {
-                try {
-                    Response<List<Status>> listTlResponse = listTlCall.execute();
-                    if (listTlResponse.isSuccessful()) {
-                        statuses.statuses = listTlResponse.body();
-                        statuses.pagination = MastodonHelper.getPagination(listTlResponse.headers());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
-            mainHandler.post(myRunnable);
-        }).start();
-
-        return statusesMutableLiveData;
-    }
 
     /**
      * Show conversations

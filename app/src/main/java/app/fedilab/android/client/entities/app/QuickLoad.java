@@ -76,8 +76,8 @@ public class QuickLoad {
      * @param timeLineType - Timeline.TimeLineEnum
      * @return boolean
      */
-    private static boolean cannotBeStored(Timeline.TimeLineEnum timeLineType) {
-        return timeLineType != Timeline.TimeLineEnum.HOME && timeLineType != Timeline.TimeLineEnum.LOCAL && timeLineType != Timeline.TimeLineEnum.PUBLIC && timeLineType != Timeline.TimeLineEnum.REMOTE && timeLineType != Timeline.TimeLineEnum.LIST && timeLineType != Timeline.TimeLineEnum.TAG;
+    public static boolean cannotBeStored(Timeline.TimeLineEnum timeLineType) {
+        return timeLineType != Timeline.TimeLineEnum.LOCAL && timeLineType != Timeline.TimeLineEnum.PUBLIC && timeLineType != Timeline.TimeLineEnum.REMOTE && timeLineType != Timeline.TimeLineEnum.LIST && timeLineType != Timeline.TimeLineEnum.TAG;
     }
 
     /**

@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
@@ -44,8 +45,10 @@ public class StatusCache {
     public String user_id;
     @SerializedName("instance")
     public String instance;
+    @SerializedName("slug")
+    public String slug;
     @SerializedName("type")
-    public CacheEnum type;
+    public Timeline.TimeLineEnum type;
     @SerializedName("status_id")
     public String status_id;
     @SerializedName("status")
@@ -104,16 +107,17 @@ public class StatusCache {
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long insertOrUpdate(StatusCache statusCache) throws DBException {
+    public long insertOrUpdate(StatusCache statusCache, String slug) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
+        statusCache.slug = slug;
         boolean exists = statusExist(statusCache);
         long idReturned;
         if (exists) {
             idReturned = updateStatus(statusCache);
         } else {
-            idReturned = insertStatus(statusCache);
+            idReturned = insertStatus(statusCache, slug);
         }
         return idReturned;
     }
@@ -156,20 +160,41 @@ public class StatusCache {
     }
 
     /**
+     * Check if a status exists in db
+     *
+     * @param status Status {@link Status}
+     * @return boolean - StatusCache exists
+     * @throws DBException Exception
+     */
+    public boolean statusExist(Status status) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
+                + " where " + Sqlite.COL_STATUS_ID + " = '" + status.id + "'"
+                + " AND " + Sqlite.COL_INSTANCE + " = '" + MainActivity.currentInstance + "'"
+                + " AND " + Sqlite.COL_USER_ID + "= '" + MainActivity.currentUserID + "'", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return (count > 0);
+    }
+
+    /**
      * Insert a status in db
      *
      * @param statusCache {@link StatusCache}
      * @return long - db id
      * @throws DBException exception with database
      */
-    private long insertStatus(StatusCache statusCache) throws DBException {
+    private long insertStatus(StatusCache statusCache, String slug) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         ContentValues values = new ContentValues();
         values.put(Sqlite.COL_USER_ID, statusCache.user_id);
         values.put(Sqlite.COL_INSTANCE, statusCache.instance);
-        values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
+        values.put(Sqlite.COL_SLUG, statusCache.slug);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
         values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
@@ -195,9 +220,6 @@ public class StatusCache {
         }
         ContentValues values = new ContentValues();
         values.put(Sqlite.COL_USER_ID, statusCache.user_id);
-        if (statusCache.type != null) {
-            values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
-        }
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
         values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
@@ -274,10 +296,63 @@ public class StatusCache {
         }
     }
 
+
+    /**
+     * Get newest status for a timeline
+     *
+     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
+     * @param instance String - instance
+     * @param user_id  String - us
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Status getNewestStatus(String slug, String instance, String user_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "1");
+            Statuses statuses = createStatusReply(cursorToListOfStatuses(c));
+            if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                return statuses.statuses.get(0);
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Get oldest status for a timeline
+     *
+     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
+     * @param instance String - instance
+     * @param user_id  String - us
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Status getOldestStatus(String slug, String instance, String user_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " ASC", "1");
+            Statuses statuses = createStatusReply(cursorToListOfStatuses(c));
+            if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                return statuses.statuses.get(0);
+            } else return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * Get paginated statuses from db
      *
-     * @param type     CacheEnum - not used yet but will allow to extend cache to other timelines
+     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
      * @param instance String - instance
      * @param user_id  String - us
      * @param max_id   String - status having max id
@@ -285,12 +360,12 @@ public class StatusCache {
      * @return Statuses
      * @throws DBException - throws a db exception
      */
-    public Statuses geStatuses(CacheEnum type, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+    public Statuses geStatuses(String slug, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         String order = " DESC";
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "'";
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "'";
@@ -310,16 +385,70 @@ public class StatusCache {
         }
     }
 
+    /**
+     * Get statuses from db
+     *
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Status getTopFetchMore(String slug, String instance, String user_id, String status_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND "
+                + Sqlite.COL_USER_ID + "= '" + user_id + "' AND "
+                + Sqlite.COL_SLUG + "= '" + slug + "' AND "
+                + Sqlite.COL_STATUS_ID + " > '" + status_id + "'";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " ASC", "1");
+            if (c != null && c.getCount() > 0) {
+                return convertCursorToStatus(c);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
-     * @param type     CacheEnum - not used yet but will allow to extend cache to other timelines
+     * Get statuses from db
+     *
+     * @param statusCache StatusCache - status in cache to compare
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Status getBottomFetchMore(String slug, String instance, String user_id, String status_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND "
+                + Sqlite.COL_USER_ID + "= '" + user_id + "' AND "
+                + Sqlite.COL_SLUG + "= '" + slug + "' AND "
+                + Sqlite.COL_STATUS_ID + " < '" + status_id + "'";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "1");
+            if (c != null && c.getCount() > 0) {
+                return convertCursorToStatus(c);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
      * @param instance String - instance
      * @param user_id  String - us
      * @param search   String search
      * @return - List<Status>
      * @throws DBException exception
      */
-    public List<Status> searchStatus(CacheEnum type, String instance, String user_id, String search) throws DBException {
+    public List<Status> searchStatus(String slug, String instance, String user_id, String search) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -341,6 +470,22 @@ public class StatusCache {
             return null;
         }
         return reply;
+    }
+
+    public enum order {
+        @SerializedName("ASC")
+        ASC("ASC"),
+        @SerializedName("DESC")
+        DESC("DESC");
+        private final String value;
+
+        order(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 
@@ -412,17 +557,4 @@ public class StatusCache {
         return restoreStatusFromString(serializedStatus);
     }
 
-    public enum CacheEnum {
-        @SerializedName("HOME")
-        HOME("HOME");
-        private final String value;
-
-        CacheEnum(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
 }
