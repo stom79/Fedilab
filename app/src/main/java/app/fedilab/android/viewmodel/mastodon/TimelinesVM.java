@@ -466,12 +466,14 @@ public class TimelinesVM extends AndroidViewModel {
         public int limit = 40;
         public Boolean local;
 
-        public TimelineParams(@NonNull Timeline.TimeLineEnum type, @Nullable FragmentMastodonTimeline.DIRECTION direction, @Nullable String ident) {
+        public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
             if (type != Timeline.TimeLineEnum.REMOTE) {
                 instance = MainActivity.currentInstance;
                 token = MainActivity.currentToken;
                 userId = MainActivity.currentUserID;
             }
+            type = timeLineEnum;
+            direction = timelineDirection;
             String key = type.getValue();
             if (ident != null) {
                 key += "|" + ident;

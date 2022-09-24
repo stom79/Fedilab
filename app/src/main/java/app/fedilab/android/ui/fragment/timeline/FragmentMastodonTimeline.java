@@ -581,7 +581,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     /**
-     * Router for timelines
+     * Router for common timelines that can have the same treatments
+     * - HOME / LOCAL / PUBLIC / LIST / TAG
      *
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
@@ -619,6 +620,58 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineParams.hashtagTrim = tagTimeline.name;
                 break;
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
+        if (useCache) {
+            getCachedStatus(direction, fetchingMissing, timelineParams);
+        } else {
+            getLiveStatus(direction, fetchingMissing, timelineParams);
+        }
+
+    }
+
+    private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
+        if (direction == null) {
+            timelinesVM.getTimelineCache(timelineParams)
+                    .observe(getViewLifecycleOwner(), statusesCached -> {
+                        if (statusesCached == null || statusesCached.statuses == null || statusesCached.statuses.size() == 0) {
+                            getLiveStatus(null, fetchingMissing, timelineParams);
+                        } else {
+                            initializeStatusesCommonView(statusesCached);
+                        }
+                    });
+        } else if (direction == DIRECTION.BOTTOM) {
+            timelinesVM.getTimelineCache(timelineParams)
+                    .observe(getViewLifecycleOwner(), statusesCachedBottom -> {
+                        if (statusesCachedBottom == null || statusesCachedBottom.statuses == null || statusesCachedBottom.statuses.size() == 0) {
+                            getLiveStatus(DIRECTION.BOTTOM, fetchingMissing, timelineParams);
+                        } else {
+                            dealWithPagination(statusesCachedBottom, DIRECTION.BOTTOM, fetchingMissing);
+                        }
+                    });
+        } else if (direction == DIRECTION.TOP) {
+            timelinesVM.getTimelineCache(timelineParams)
+                    .observe(getViewLifecycleOwner(), statusesCachedTop -> {
+                        if (statusesCachedTop == null || statusesCachedTop.statuses == null || statusesCachedTop.statuses.size() == 0) {
+                            getLiveStatus(DIRECTION.TOP, fetchingMissing, timelineParams);
+                        } else {
+                            dealWithPagination(statusesCachedTop, DIRECTION.TOP, fetchingMissing);
+                        }
+
+                    });
+        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+            timelinesVM.getTimelineCache(timelineParams)
+                    .observe(getViewLifecycleOwner(), statusesRefresh -> {
+                        if (statusAdapter != null) {
+                            dealWithPagination(statusesRefresh, direction, true);
+                        } else {
+                            initializeStatusesCommonView(statusesRefresh);
+                        }
+                    });
+        }
+    }
+
+    private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
         if (direction == null) {
             timelinesVM.getTimeline(timelineParams)
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);

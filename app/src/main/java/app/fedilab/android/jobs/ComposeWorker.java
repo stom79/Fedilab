@@ -363,7 +363,15 @@ public class ComposeWorker extends Worker {
     @Override
     public Result doWork() {
         Data inputData = getInputData();
-        StatusDraft statusDraft = restore(inputData.getString(Helper.ARG_STATUS_DRAFT));
+        String statusDraftId = inputData.getString(Helper.ARG_STATUS_DRAFT_ID);
+        StatusDraft statusDraft = null;
+        if (statusDraftId != null) {
+            try {
+                statusDraft = new StatusDraft(getApplicationContext()).geStatusDraft(statusDraftId);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
         String token = inputData.getString(Helper.ARG_TOKEN);
         String instance = inputData.getString(Helper.ARG_INSTANCE);
         String userId = inputData.getString(Helper.ARG_USER_ID);

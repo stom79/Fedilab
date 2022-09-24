@@ -66,15 +66,15 @@ public interface MastodonTimelinesService {
     Call<List<Status>> getHashTag(
             @Header("Authorization") String token,
             @Path("hashtag") String hashtag,
-            @Query("local") boolean local,
-            @Query("only_media") boolean only_media,
+            @Query("local") Boolean local,
+            @Query("only_media") Boolean only_media,
             @Query("all[]") List<String> all,
             @Query("any[]") List<String> any,
             @Query("none[]") List<String> none,
             @Query("max_id") String max_id,
             @Query("since_id") String since_id,
             @Query("min_id") String min_id,
-            @Query("limit") int limit
+            @Query("limit") Integer limit
     );
 
     //Home timeline
@@ -84,8 +84,8 @@ public interface MastodonTimelinesService {
             @Query("max_id") String max_id,
             @Query("since_id") String since_id,
             @Query("min_id") String min_id,
-            @Query("limit") int limit,
-            @Query("local") boolean local
+            @Query("limit") Integer limit,
+            @Query("local") Boolean local
     );
 
     //List timeline
@@ -96,7 +96,7 @@ public interface MastodonTimelinesService {
             @Query("max_id") String max_id,
             @Query("since_id") String since_id,
             @Query("min_id") String min_id,
-            @Query("limit") int limit
+            @Query("limit") Integer limit
     );
 
     //get conversations

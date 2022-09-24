@@ -932,6 +932,7 @@
     <string name="SET_NITTER" translatable="false">SET_NITTER</string>
     <string name="SET_NITTER_HOST" translatable="false">SET_NITTER_HOST</string>
     <string name="DEFAULT_NITTER_HOST" translatable="false">nitter.net</string>
+    <string name="SET_USE_CACHE" translatable="false">SET_USE_CACHE</string>
 
     <string name="SET_BIBLIOGRAM" translatable="false">SET_BIBLIOGRAM</string>
     <string name="SET_BIBLIOGRAM_HOST" translatable="false">SET_BIBLIOGRAM_HOST</string>

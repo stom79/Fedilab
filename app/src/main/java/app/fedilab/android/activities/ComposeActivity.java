@@ -843,7 +843,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
                 if (mediaCount > 0) {
                     Data inputData = new Data.Builder()
-                            .putString(Helper.ARG_STATUS_DRAFT, ComposeWorker.serialize(statusDraft))
+                            .putString(Helper.ARG_STATUS_DRAFT_ID, String.valueOf(statusDraft.id))
                             .putString(Helper.ARG_INSTANCE, instance)
                             .putString(Helper.ARG_TOKEN, token)
                             .putString(Helper.ARG_USER_ID, account.user_id)

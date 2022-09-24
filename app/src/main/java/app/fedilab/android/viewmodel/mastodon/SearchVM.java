@@ -138,7 +138,7 @@ public class SearchVM extends AndroidViewModel {
             Results results = new Results();
             try {
                 results.statuses = new ArrayList<>();
-                List<Status> statuses = new StatusCache(getApplication()).searchStatus(StatusCache.CacheEnum.HOME, instance, userId, q);
+                List<Status> statuses = new StatusCache(getApplication()).searchStatus(instance, userId, q);
                 results.statuses.addAll(statuses);
             } catch (DBException e) {
                 e.printStackTrace();

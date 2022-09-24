@@ -441,14 +441,13 @@ public class StatusCache {
     }
 
     /**
-     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
      * @param instance String - instance
      * @param user_id  String - us
      * @param search   String search
      * @return - List<Status>
      * @throws DBException exception
      */
-    public List<Status> searchStatus(String slug, String instance, String user_id, String search) throws DBException {
+    public List<Status> searchStatus(String instance, String user_id, String search) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
