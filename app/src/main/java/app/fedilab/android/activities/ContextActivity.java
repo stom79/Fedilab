@@ -37,7 +37,6 @@ import androidx.preference.PreferenceManager;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.exception.DBException;
@@ -99,7 +98,6 @@ public class ContextActivity extends BaseActivity {
                 new Thread(() -> {
                     try {
                         new StatusCache(getApplication()).updateIfExists(statusCache);
-                        new QuickLoad(getApplication().getApplicationContext()).updateStatus(currentAccount, status);
                         Handler mainHandler = new Handler(Looper.getMainLooper());
                         //Update UI
                         Runnable myRunnable = () -> sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);

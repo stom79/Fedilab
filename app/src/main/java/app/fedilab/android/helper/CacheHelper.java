@@ -25,7 +25,6 @@ import java.util.Objects;
 
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.CacheAccount;
-import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
@@ -46,11 +45,6 @@ public class CacheHelper {
             List<Integer> count = new ArrayList<>();
             try {
                 count.add(new StatusCache(context).count(account));
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            try {
-                count.add(new QuickLoad(context).count(account));
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -122,13 +116,6 @@ public class CacheHelper {
                 if (cacheAccount.clear_home) {
                     try {
                         new StatusCache(context).deleteForAccount(cacheAccount.account);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (cacheAccount.clear_other) {
-                    try {
-                        new QuickLoad(context).deleteForAccount(cacheAccount.account);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }

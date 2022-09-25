@@ -42,7 +42,6 @@ import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.ScheduledStatuses;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.BaseAccount;
-import app.fedilab.android.client.entities.app.QuickLoad;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
@@ -320,7 +319,6 @@ public class StatusesVM extends AndroidViewModel {
             try {
                 BaseAccount account = new app.fedilab.android.client.entities.app.Account(getApplication().getApplicationContext()).getAccountByToken(token);
                 new StatusCache(getApplication().getApplicationContext()).deleteStatus(id, account.instance);
-                new QuickLoad(getApplication().getApplicationContext()).deleteStatus(account, id);
             } catch (DBException e) {
                 e.printStackTrace();
             }
