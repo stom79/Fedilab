@@ -163,6 +163,33 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         return 3;
     }
 
+    private static String visibilityToString(int visibility) {
+        switch (visibility) {
+            case 3:
+                return "public";
+            case 2:
+                return "unlisted";
+            case 1:
+                return "private";
+            case 0:
+                return "direct";
+        }
+        return "public";
+    }
+
+    public static String getVisibility(String defaultVisibility) {
+        int tootVisibility = visibilityToNumber(defaultVisibility);
+        if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
+            int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
+            if (tootVisibility > userVisibility) {
+                return visibilityToString(userVisibility);
+            } else {
+                return visibilityToString(tootVisibility);
+            }
+        }
+        return defaultVisibility;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -227,7 +254,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
     }
 
-
     /**
      * Intialize the common view for the context
      *
@@ -253,14 +279,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_compose, menu);
         return true;
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -398,7 +422,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         return true;
     }
 
-
     private void onRetrieveContact(PopupContactBinding binding, List<app.fedilab.android.client.entities.api.Account> accounts) {
         binding.loader.setVisibility(View.GONE);
         if (accounts == null) {
@@ -413,7 +436,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding.lvAccountsSearch.setAdapter(contactAdapter);
         binding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(ComposeActivity.this));
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -435,33 +457,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             uris.add(photoFileUri);
             composeAdapter.addAttachment(-1, uris);
         }
-    }
-
-    private static String visibilityToString(int visibility) {
-        switch (visibility) {
-            case 3:
-                return "public";
-            case 2:
-                return "unlisted";
-            case 1:
-                return "private";
-            case 0:
-                return "direct";
-        }
-        return "public";
-    }
-
-    public static String getVisibility(String defaultVisibility) {
-        int tootVisibility = visibilityToNumber(defaultVisibility);
-        if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-            int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
-            if (tootVisibility > userVisibility) {
-                return visibilityToString(userVisibility);
-            } else {
-                return visibilityToString(tootVisibility);
-            }
-        }
-        return defaultVisibility;
     }
 
     @Override

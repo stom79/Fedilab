@@ -309,16 +309,16 @@ public class EditProfileActivity extends BaseActivity {
             return true;
         } else if (item.getItemId() == R.id.action_save) {
             accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
-                    binding.discoverable.isChecked(),
-                    binding.bot.isChecked(),
-                    binding.displayName.getText().toString().trim(),
-                    binding.bio.getText().toString(),
-                    binding.locked.isChecked(),
-                    getPrivacy(),
-                    binding.sensitive.isChecked(),
-                    null,
-                    getFields()
-            )
+                            binding.discoverable.isChecked(),
+                            binding.bot.isChecked(),
+                            binding.displayName.getText().toString().trim(),
+                            binding.bio.getText().toString(),
+                            binding.locked.isChecked(),
+                            getPrivacy(),
+                            binding.sensitive.isChecked(),
+                            null,
+                            getFields()
+                    )
                     .observe(EditProfileActivity.this, account -> {
                         if (account != null) {
                             currentAccount.mastodon_account = account;

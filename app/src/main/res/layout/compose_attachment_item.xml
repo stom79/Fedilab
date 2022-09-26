@@ -80,10 +80,10 @@
             android:textColor="@color/no_description"
             app:icon="@drawable/ic_baseline_warning_24"
             app:iconGravity="end"
-            app:strokeColor="@color/no_description"
             app:layout_constraintEnd_toStartOf="@id/button_order_down"
             app:layout_constraintStart_toEndOf="@id/button_order_up"
-            app:layout_constraintTop_toBottomOf="@id/preview" />
+            app:layout_constraintTop_toBottomOf="@id/preview"
+            app:strokeColor="@color/no_description" />
 
 
         <androidx.appcompat.widget.AppCompatImageButton

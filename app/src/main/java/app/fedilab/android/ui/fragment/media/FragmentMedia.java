@@ -127,77 +127,77 @@ public class FragmentMedia extends Fragment {
                     .asBitmap()
                     .dontTransform()
                     .load(preview_url).into(
-                    new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
-                            binding.mediaPicture.setImageBitmap(resource);
-                            scheduleStartPostponedTransition(binding.mediaPicture);
-                            if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
-                                final Handler handler = new Handler();
-                                handler.postDelayed(() -> {
-                                    if (binding == null) {
-                                        return;
+                            new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
+                                    binding.mediaPicture.setImageBitmap(resource);
+                                    scheduleStartPostponedTransition(binding.mediaPicture);
+                                    if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
+                                        final Handler handler = new Handler();
+                                        handler.postDelayed(() -> {
+                                            if (binding == null) {
+                                                return;
+                                            }
+                                            binding.pbarInf.setScaleY(1f);
+                                            binding.mediaPicture.setVisibility(View.VISIBLE);
+                                            binding.pbarInf.setIndeterminate(true);
+                                            binding.loader.setVisibility(View.VISIBLE);
+                                            if (binding == null || !isAdded() || getActivity() == null) {
+                                                return;
+                                            }
+                                            if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
+                                                Glide.with(requireActivity())
+                                                        .asBitmap()
+                                                        .dontTransform()
+                                                        .load(url).into(
+                                                                new CustomTarget<Bitmap>() {
+                                                                    @Override
+                                                                    public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
+                                                                        if (binding != null) {
+                                                                            binding.loader.setVisibility(View.GONE);
+                                                                            if (binding.mediaPicture.getScale() < 1.1) {
+                                                                                binding.mediaPicture.setImageBitmap(resource);
+                                                                            } else {
+                                                                                binding.messageReady.setVisibility(View.VISIBLE);
+                                                                            }
+                                                                            binding.messageReady.setOnClickListener(view -> {
+                                                                                binding.mediaPicture.setImageBitmap(resource);
+                                                                                binding.messageReady.setVisibility(View.GONE);
+                                                                            });
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                                    }
+                                                                }
+                                                        );
+                                            }
+                                        }, 1000);
+
+
+                                    } else if (attachment.type.equalsIgnoreCase("image") && attachment.url.toLowerCase().endsWith(".gif")) {
+                                        binding.loader.setVisibility(View.GONE);
+                                        if (Helper.isValidContextForGlide(requireActivity())) {
+                                            Glide.with(requireActivity())
+                                                    .load(url).into(binding.mediaPicture);
+                                        }
+                                        scheduleStartPostponedTransition(binding.mediaPicture);
                                     }
-                                    binding.pbarInf.setScaleY(1f);
-                                    binding.mediaPicture.setVisibility(View.VISIBLE);
-                                    binding.pbarInf.setIndeterminate(true);
-                                    binding.loader.setVisibility(View.VISIBLE);
-                                    if (binding == null || !isAdded() || getActivity() == null) {
-                                        return;
-                                    }
-                                    if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
-                                        Glide.with(requireActivity())
-                                                .asBitmap()
-                                                .dontTransform()
-                                                .load(url).into(
-                                                new CustomTarget<Bitmap>() {
-                                                    @Override
-                                                    public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
-                                                        if (binding != null) {
-                                                            binding.loader.setVisibility(View.GONE);
-                                                            if (binding.mediaPicture.getScale() < 1.1) {
-                                                                binding.mediaPicture.setImageBitmap(resource);
-                                                            } else {
-                                                                binding.messageReady.setVisibility(View.VISIBLE);
-                                                            }
-                                                            binding.messageReady.setOnClickListener(view -> {
-                                                                binding.mediaPicture.setImageBitmap(resource);
-                                                                binding.messageReady.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                                    }
-                                                }
-                                        );
-                                    }
-                                }, 1000);
-
-
-                            } else if (attachment.type.equalsIgnoreCase("image") && attachment.url.toLowerCase().endsWith(".gif")) {
-                                binding.loader.setVisibility(View.GONE);
-                                if (Helper.isValidContextForGlide(requireActivity())) {
-                                    Glide.with(requireActivity())
-                                            .load(url).into(binding.mediaPicture);
                                 }
-                                scheduleStartPostponedTransition(binding.mediaPicture);
+
+                                @Override
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                    scheduleStartPostponedTransition(binding.mediaPicture);
+                                }
+
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                }
                             }
-                        }
-
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            scheduleStartPostponedTransition(binding.mediaPicture);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    }
-            );
+                    );
         }
         switch (type.toLowerCase()) {
             case "video":

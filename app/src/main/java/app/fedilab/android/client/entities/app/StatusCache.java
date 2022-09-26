@@ -471,23 +471,6 @@ public class StatusCache {
         return reply;
     }
 
-    public enum order {
-        @SerializedName("ASC")
-        ASC("ASC"),
-        @SerializedName("DESC")
-        DESC("DESC");
-        private final String value;
-
-        order(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-
     public int count(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
@@ -554,6 +537,22 @@ public class StatusCache {
     private Status convertCursorToStatus(Cursor c) {
         String serializedStatus = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS));
         return restoreStatusFromString(serializedStatus);
+    }
+
+    public enum order {
+        @SerializedName("ASC")
+        ASC("ASC"),
+        @SerializedName("DESC")
+        DESC("DESC");
+        private final String value;
+
+        order(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 }

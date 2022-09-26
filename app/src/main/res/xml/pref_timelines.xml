@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_EXPAND_CW"
+        app:singleLineTitle="false"
         app:title="@string/expand_cw" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_EXPAND_MEDIA"
+        app:singleLineTitle="false"
         app:title="@string/expand_image" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="true"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_NOTIF_VALIDATION"
+        app:singleLineTitle="false"
         app:title="@string/set_share_validation" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_DISPLAY_BOOKMARK"
+        app:singleLineTitle="false"
         app:title="@string/set_display_bookmark_indication" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_NOTIF_VALIDATION_FAV"
+        app:singleLineTitle="false"
         app:title="@string/set_share_validation_fav" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
@@ -38,67 +38,67 @@
         app:singleLineTitle="false"
         app:title="@string/set_display_counter" />
     <SeekBarPreference
-        app:iconSpaceReserved="false"
-        app:showSeekBarValue="true"
-        android:summary="@string/set_truncate_toot"
         android:defaultValue="0"
         android:max="20"
+        android:summary="@string/set_truncate_toot"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
+        app:showSeekBarValue="true"
         app:title="@string/truncate_long_toots" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_LONG_PRESS_STORE_MEDIA"
+        app:singleLineTitle="false"
         app:title="@string/set_long_press_media" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
+        android:summary="@string/set_fit_preview_indication"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_FULL_PREVIEW"
         app:singleLineTitle="false"
-        android:summary="@string/set_fit_preview_indication"
         app:title="@string/set_fit_preview" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_DISABLE_GIF"
+        app:singleLineTitle="false"
         app:title="@string/set_disable_gif" />
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
+        app:singleLineTitle="false"
         app:title="@string/set_disable_animated_emoji" />
 
     <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         android:defaultValue="false"
-        app:singleLineTitle="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_DISPLAY_CARD"
+        app:singleLineTitle="false"
         app:title="@string/set_display_card" />
 
     <androidx.preference.SeekBarPreference
-        app:iconSpaceReserved="false"
-        app:showSeekBarValue="true"
         android:defaultValue="40"
         android:max="80"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_STATUSES_PER_CALL"
+        app:showSeekBarValue="true"
         app:title="@string/set_toots_page" />
 
     <androidx.preference.SeekBarPreference
-        app:iconSpaceReserved="false"
-        app:showSeekBarValue="true"
         android:defaultValue="40"
         android:max="80"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_ACCOUNTS_PER_CALL"
+        app:showSeekBarValue="true"
         app:title="@string/set_accounts_page" />
 
     <androidx.preference.SeekBarPreference
-        app:iconSpaceReserved="false"
-        app:showSeekBarValue="true"
         android:defaultValue="30"
         android:max="30"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_NOTIFICATIONS_PER_CALL"
+        app:showSeekBarValue="true"
         app:title="@string/set_notifications_page" />
 </androidx.preference.PreferenceScreen>

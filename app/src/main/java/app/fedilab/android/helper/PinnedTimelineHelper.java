@@ -859,7 +859,7 @@ public class PinnedTimelineHelper {
     /**
      * Manage long clicks on followed instances
      *
-     * @param activity  - BaseMainActivity activity
+     * @param activity - BaseMainActivity activity
      * @param pinned   - {@link Pinned}
      * @param view     - View
      * @param position - int position of the tab

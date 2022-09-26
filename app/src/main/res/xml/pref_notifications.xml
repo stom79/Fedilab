@@ -2,18 +2,18 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:key="notification_type"
-        app:title="@string/type_of_notifications"
-        app:iconSpaceReserved="false">
+        app:title="@string/type_of_notifications">
         <ListPreference
             app:defaultValue="PUSH_NOTIFICATIONS"
+            app:dialogTitle="@string/type_of_notifications"
             app:entries="@array/set_notification_type_value"
             app:entryValues="@array/SET_NOTIFICATION_TYPE_VALUE"
+            app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIFICATION_TYPE"
             app:summary="@string/set_push_notifications"
             app:title="@string/type_of_notifications_title"
-            app:dialogTitle="@string/type_of_notifications"
-            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -43,47 +43,47 @@
         app:title="@string/settings_category_notif_categories">
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_FOLLOW"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_follow" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:singleLineTitle="false"
             app:key="@string/SET_NOTIF_MENTION"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_follow_mention" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:singleLineTitle="false"
             app:key="@string/SET_NOTIF_FAVOURITE"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_follow_add" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_SHARE"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_follow_share" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_POLL"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_follow_poll" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_STATUS"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_status" />
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:key="notification_sounds"
         app:summary="@string/select_sound"
-        app:title="@string/notification_sounds"
-        app:iconSpaceReserved="false">
+        app:title="@string/notification_sounds">
 
         <Preference
             app:icon="@drawable/ic_baseline_chat_bubble_24"
@@ -116,9 +116,9 @@
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_NOTIF_SILENT"
+            app:singleLineTitle="false"
             app:title="@string/set_notif_silent" />
 
         <ListPreference
@@ -140,9 +140,9 @@
         app:title="@string/set_enable_time_slot">
         <SwitchPreferenceCompat
             app:defaultValue="false"
-            app:singleLineTitle="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_ENABLE_TIME_SLOT"
+            app:singleLineTitle="false"
             app:title="@string/set_enable_time_slot" />
         <app.fedilab.android.helper.settings.TimePreference
             app:defaultValue="22:00"
@@ -153,9 +153,9 @@
             app:useSimpleSummaryProvider="true" />
         <app.fedilab.android.helper.settings.TimePreference
             app:defaultValue="7:00"
+            app:dependency="@string/SET_ENABLE_TIME_SLOT"
             app:iconSpaceReserved="false"
             app:key="@string/SET_TIME_TO"
-            app:dependency="@string/SET_ENABLE_TIME_SLOT"
             app:title="@string/settings_time_to"
             app:useSimpleSummaryProvider="true" />
         <ListPreference

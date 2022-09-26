@@ -8,15 +8,15 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/profile_picture"
-        android:padding="2dp"
         android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:padding="2dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/acc"
-        android:layout_marginStart="5dp"
-        android:padding="2dp"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_weight="1" />
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        android:padding="2dp" />
 </androidx.appcompat.widget.LinearLayoutCompat>

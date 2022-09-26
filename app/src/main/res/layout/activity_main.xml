@@ -30,9 +30,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
-            android:backgroundTint="?colorPrimaryDark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:backgroundTint="?colorPrimaryDark">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -47,20 +47,20 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_gravity="center"
                         android:id="@+id/profile_picture"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/open_menu" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"
-                        android:layout_height="?actionBarSize"
-                        android:background="@color/transparent"
                         android:layout_width="0dp"
-                        app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
+                        android:layout_height="?actionBarSize"
                         android:layout_weight="1"
+                        android:background="@color/transparent"
                         app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
                         app:tabMaxWidth="0dp"
                         app:tabMode="scrollable" />
 
@@ -119,9 +119,9 @@
                 android:id="@+id/bottom_nav_view"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:backgroundTint="@color/cyanea_primary_reference"
                 app:itemIconTint="@color/cyanea_accent_dark_reference"
                 app:itemTextColor="@color/cyanea_accent_dark_reference"
-                app:backgroundTint="@color/cyanea_primary_reference"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -136,14 +136,15 @@
             android:layout_marginBottom="?actionBarSize" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        app:itemIconTint="?menuIconColor"
-        android:background="@color/cyanea_primary_dark_reference"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/cyanea_primary_dark_reference"
         android:fitsSystemWindows="false"
+        app:itemIconTint="?menuIconColor"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

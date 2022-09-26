@@ -23,10 +23,10 @@
     android:padding="2dp">
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        app:buttonTint="@color/cyanea_accent_dark_reference"
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:buttonTint="@color/cyanea_accent_dark_reference" />
 
     <ImageView
         android:id="@+id/account_pp"

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright 2021 Thomas Schneider
 
     This file is a part of Fedilab
@@ -20,8 +19,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?backgroundColor"
-    android:padding="12dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/error_message"
@@ -50,13 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_instance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/instance"
-            android:maxLength="30"
             android:inputType="textPersonName"
+            android:maxLength="30"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,13 +65,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username"
-            android:maxLength="30"
             android:inputType="textPersonName"
+            android:maxLength="30"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_email"
             android:layout_width="match_parent"
@@ -102,6 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
@@ -122,6 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_password_confirm"
             android:layout_width="match_parent"
@@ -138,10 +142,10 @@
         android:orientation="horizontal">
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            app:buttonTint="@color/cyanea_accent_dark_reference"
             android:id="@+id/agreement"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
 
         <TextView
             android:id="@+id/agreement_text"

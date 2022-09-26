@@ -78,6 +78,7 @@ public class Account implements Serializable {
     public Date mute_expires_at;
     @SerializedName("moved")
     public Account moved;
+    public transient RelationShip relationShip;
 
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
         if (display_name == null || display_name.isEmpty()) {
@@ -90,13 +91,9 @@ public class Account implements Serializable {
         return SpannableHelper.convert(context, title, null, this, null, false, viewWeakReference);
     }
 
-
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
         return SpannableHelper.convert(context, note, null, this, null, true, viewWeakReference);
     }
-
-    public transient RelationShip relationShip;
-
 
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")

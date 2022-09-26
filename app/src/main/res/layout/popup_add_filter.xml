@@ -15,8 +15,8 @@
     see <http://www.gnu.org/licenses>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -53,11 +53,11 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/contextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/filter_context_explanations"
             android:textColor="@color/cyanea_accent_dark_reference"
-            android:id="@+id/contextDescription"
             android:textSize="12sp" />
 
 
@@ -74,18 +74,18 @@
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/context_home"
                     android:layout_width="0dp"
-                    app:buttonTint="@color/cyanea_accent_dark_reference"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/context_home" />
+                    android:text="@string/context_home"
+                    app:buttonTint="@color/cyanea_accent_dark_reference" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/context_public"
-                    app:buttonTint="@color/cyanea_accent_dark_reference"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/context_public" />
+                    android:text="@string/context_public"
+                    app:buttonTint="@color/cyanea_accent_dark_reference" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -96,27 +96,27 @@
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/context_notification"
                     android:layout_width="0dp"
-                    app:buttonTint="@color/cyanea_accent_dark_reference"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/context_notification" />
+                    android:text="@string/context_notification"
+                    app:buttonTint="@color/cyanea_accent_dark_reference" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/context_conversation"
                     android:layout_width="0dp"
-                    app:buttonTint="@color/cyanea_accent_dark_reference"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/context_conversation" />
+                    android:text="@string/context_conversation"
+                    app:buttonTint="@color/cyanea_accent_dark_reference" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/context_drop"
-            app:buttonTint="@color/cyanea_accent_dark_reference"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/context_drop" />
+            android:text="@string/context_drop"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
 
         <TextView
             android:layout_width="match_parent"
@@ -132,10 +132,10 @@
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/context_whole_word"
             android:layout_width="match_parent"
-            app:buttonTint="@color/cyanea_accent_dark_reference"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/context_whole_word" />
+            android:text="@string/context_whole_word"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
 
         <TextView
             android:layout_width="match_parent"

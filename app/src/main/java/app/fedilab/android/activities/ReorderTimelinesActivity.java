@@ -93,6 +93,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
     private boolean changes;
     private boolean bottomChanges;
     private boolean update;
+
     public void setChanges(boolean changes) {
         this.changes = changes;
     }

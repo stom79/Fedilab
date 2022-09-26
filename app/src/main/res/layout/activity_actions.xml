@@ -22,8 +22,8 @@
             android:textAlignment="textStart"
             android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconTint="@color/cyanea_accent_dark_reference"
             app:iconGravity="end"
+            app:iconTint="@color/cyanea_accent_dark_reference"
             app:strokeColor="@color/cyanea_accent_dark_reference" />
 
         <com.google.android.material.button.MaterialButton
@@ -37,8 +37,8 @@
             android:textAlignment="textStart"
             android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconTint="@color/cyanea_accent_dark_reference"
             app:iconGravity="end"
+            app:iconTint="@color/cyanea_accent_dark_reference"
             app:strokeColor="@color/cyanea_accent_dark_reference" />
 
         <com.google.android.material.button.MaterialButton
@@ -52,8 +52,8 @@
             android:textAlignment="textStart"
             android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconTint="@color/cyanea_accent_dark_reference"
             app:iconGravity="end"
+            app:iconTint="@color/cyanea_accent_dark_reference"
             app:strokeColor="@color/cyanea_accent_dark_reference" />
 
         <com.google.android.material.button.MaterialButton
@@ -67,8 +67,8 @@
             android:textAlignment="textStart"
             android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconTint="@color/cyanea_accent_dark_reference"
             app:iconGravity="end"
+            app:iconTint="@color/cyanea_accent_dark_reference"
             app:strokeColor="@color/cyanea_accent_dark_reference" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

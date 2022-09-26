@@ -82,7 +82,7 @@ public class FragmentAdminReport extends Fragment {
         binding.recyclerView.setVisibility(View.GONE);
         flagLoading = false;
         adminVM.getReports(
-                BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, null)
+                        BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, null)
                 .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         return binding.getRoot();
     }
@@ -109,7 +109,7 @@ public class FragmentAdminReport extends Fragment {
             max_id = null;
             flagLoading = false;
             adminVM.getReports(
-                    BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, null)
+                            BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, null)
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         });
 
@@ -162,7 +162,7 @@ public class FragmentAdminReport extends Fragment {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
                             adminVM.getReports(
-                                    BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, max_id)
+                                            BaseMainActivity.currentInstance, BaseMainActivity.currentToken, AdminActionActivity.resolved, null, null, max_id)
                                     .observe(getViewLifecycleOwner(), adminReports1 -> dealWithPagination(adminReports1));
                         }
                     } else {

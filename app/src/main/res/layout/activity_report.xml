@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/fab_margin">
+    android:layout_margin="@dimen/fab_margin"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/screen_reason"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">
@@ -147,9 +147,9 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/screen_idontlike"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">
@@ -270,13 +270,13 @@
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:id="@+id/screen_spam"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/spam_title"
@@ -295,19 +295,19 @@
             android:textSize="18sp" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:layout_marginTop="20dp"
             android:id="@+id/fram_spam_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/screen_violate_rules"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">
@@ -335,9 +335,9 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/screen_something_else"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">
@@ -360,17 +360,17 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fram_se_container"
-            android:layout_height="0dp"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/screen_more_details"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="gone">

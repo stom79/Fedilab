@@ -164,8 +164,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private Pinned pinned;
-    private BottomMenu bottomMenu;
     private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -192,7 +190,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
         }
     };
-
+    private Pinned pinned;
+    private BottomMenu bottomMenu;
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

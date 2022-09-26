@@ -61,6 +61,24 @@ public class Instance implements Serializable {
     @SerializedName("max_toot_chars")
     public String max_toot_chars;
 
+    public static String serialize(Instance instance) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(instance);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Instance restore(String serialized) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serialized, Instance.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public List<String> getMimeTypeAudio() {
         List<String> mimeTypes = new ArrayList<>();
         if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
@@ -87,7 +105,6 @@ public class Instance implements Serializable {
         return mimeTypes;
     }
 
-
     public List<String> getMimeTypeImage() {
         List<String> mimeTypes = new ArrayList<>();
         if (configuration == null || configuration.media_attachments == null || configuration.media_attachments.supported_mime_types == null) {
@@ -112,25 +129,6 @@ public class Instance implements Serializable {
             }
         }
         return mimeTypes;
-    }
-
-
-    public static String serialize(Instance instance) {
-        Gson gson = new Gson();
-        try {
-            return gson.toJson(instance);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static Instance restore(String serialized) {
-        Gson gson = new Gson();
-        try {
-            return gson.fromJson(serialized, Instance.class);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public static class Configuration implements Serializable {

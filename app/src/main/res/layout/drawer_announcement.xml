@@ -22,9 +22,9 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
+    android:backgroundTint="@color/cyanea_primary_dark_reference"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:backgroundTint="@color/cyanea_primary_dark_reference"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

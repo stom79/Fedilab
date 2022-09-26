@@ -112,37 +112,37 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         holder.binding.statusEmoji.setOnClickListener(v -> {
             EmojiManager.install(new EmojiOneProvider());
             final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
-            }).setOnEmojiClickListener((emoji, imageView) -> {
-                String emojiStr = imageView.getUnicode();
-                boolean alreadyAdded = false;
-                for (Reaction reaction : announcement.reactions) {
-                    if (reaction.name.compareTo(emojiStr) == 0) {
-                        alreadyAdded = true;
-                        reaction.count = (reaction.count - 1);
-                        if (reaction.count == 0) {
-                            announcement.reactions.remove(reaction);
+                        InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
+                    }).setOnEmojiClickListener((emoji, imageView) -> {
+                        String emojiStr = imageView.getUnicode();
+                        boolean alreadyAdded = false;
+                        for (Reaction reaction : announcement.reactions) {
+                            if (reaction.name.compareTo(emojiStr) == 0) {
+                                alreadyAdded = true;
+                                reaction.count = (reaction.count - 1);
+                                if (reaction.count == 0) {
+                                    announcement.reactions.remove(reaction);
+                                }
+                                notifyItemChanged(position);
+                                break;
+                            }
                         }
-                        notifyItemChanged(position);
-                        break;
-                    }
-                }
-                if (!alreadyAdded) {
-                    Reaction reaction = new Reaction();
-                    reaction.me = true;
-                    reaction.count = 1;
-                    reaction.name = emojiStr;
-                    announcement.reactions.add(0, reaction);
-                    notifyItemChanged(position);
-                }
-                announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
-                if (alreadyAdded) {
-                    announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
-                } else {
-                    announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
-                }
-            })
+                        if (!alreadyAdded) {
+                            Reaction reaction = new Reaction();
+                            reaction.me = true;
+                            reaction.count = 1;
+                            reaction.name = emojiStr;
+                            announcement.reactions.add(0, reaction);
+                            notifyItemChanged(position);
+                        }
+                        announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
+                        if (alreadyAdded) {
+                            announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
+                        } else {
+                            announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
+                        }
+                    })
                     .build(holder.binding.layoutReactions.fakeEdittext);
             emojiPopup.toggle();
         });

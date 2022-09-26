@@ -17,12 +17,12 @@
         app:layout_constraintGuide_end="?attr/actionBarSize" />
 
     <RelativeLayout
+        android:id="@+id/container_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/container_image"
         app:layout_constraintTop_toTopOf="parent">
 
         <ja.burhanrashid52.photoeditor.PhotoEditorView
@@ -47,6 +47,7 @@
         android:src="@drawable/ic_undo"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintEnd_toStartOf="@+id/imgRedo" />
+
     <ImageView
         android:id="@+id/imgRedo"
         android:layout_width="@dimen/top_tool_icon_width"
@@ -56,7 +57,6 @@
         android:src="@drawable/ic_redo"
         app:layout_constraintBottom_toTopOf="@+id/rvConstraintTools"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 
     <ImageView

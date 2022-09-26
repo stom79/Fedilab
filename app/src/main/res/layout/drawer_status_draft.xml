@@ -17,11 +17,11 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/container"
-    android:backgroundTint="@color/cyanea_primary_dark_reference"
     android:layout_margin="12dp"
+    android:backgroundTint="@color/cyanea_primary_dark_reference"
     app:cardElevation="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat

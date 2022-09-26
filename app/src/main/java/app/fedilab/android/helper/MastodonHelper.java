@@ -466,6 +466,21 @@ public class MastodonHelper {
         adapter.notifyItemRangeInserted(i, statusesToInsert.size());
     }
 
+    public static int getInstanceMaxChars(Context context) {
+        int max_car;
+        if (instanceInfo != null) {
+            max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+        } else {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
+            if (val != -1) {
+                return val;
+            } else {
+                max_car = 500;
+            }
+        }
+        return max_car;
+    }
 
     public enum MediaAccountType {
         AVATAR,
@@ -500,21 +515,5 @@ public class MastodonHelper {
 
     public interface TimedMuted {
         void onTimedMute(RelationShip relationShip);
-    }
-
-    public static int getInstanceMaxChars(Context context) {
-        int max_car;
-        if (instanceInfo != null) {
-            max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
-        } else {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
-            if (val != -1) {
-                return val;
-            } else {
-                max_car = 500;
-            }
-        }
-        return max_car;
     }
 }

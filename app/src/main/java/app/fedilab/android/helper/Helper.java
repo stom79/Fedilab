@@ -368,6 +368,7 @@ public class Helper {
 
     };
     public static int counter = 1;
+    private static int notificationId = 1;
 
     static {
         LinkedHashMap<PatternType, Pattern> aMap = new LinkedHashMap<>();
@@ -888,7 +889,6 @@ public class Helper {
         return Cyanea.getInstance().isDark() ? R.style.PopupDark : R.style.Popup;
     }
 
-
     /**
      * Load a media into a view
      *
@@ -1068,7 +1068,6 @@ public class Helper {
 
     }
 
-
     /**
      * Load a profile picture for the account
      *
@@ -1119,7 +1118,6 @@ public class Helper {
                     .into(view);
         }
     }
-
 
     public static Proxy getProxy(Context context) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -1182,7 +1180,6 @@ public class Helper {
         return MultipartBody.Part.createFormData(paramName, attachment.filename, requestFile);
     }
 
-
     /**
      * Creates MultipartBody.Part from Uri
      *
@@ -1234,7 +1231,6 @@ public class Helper {
         RequestBody requestFile = RequestBody.create(MediaType.parse(attachment.mimeType), new File(attachment.local_path));
         return MultipartBody.Part.createFormData(paramName, attachment.filename, requestFile);
     }
-
 
     public static MultipartBody.Part getMultipartBody(Context context, @NonNull String paramName, @NonNull Uri uri) {
         byte[] imageBytes = uriToByteArray(context, uri);
@@ -1418,9 +1414,6 @@ public class Helper {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
-
-
-    private static int notificationId = 1;
 
     /**
      * Sends notification with intent
@@ -1635,32 +1628,6 @@ public class Helper {
         return "@fedilab_fetch_more_" + uuid;
     }
 
-
-    //Enum that described actions to replace inside a toot content
-    public enum PatternType {
-        MENTION,
-        MENTION_LONG,
-        TAG,
-        GROUP
-    }
-
-    public enum NotifType {
-        FOLLLOW,
-        MENTION,
-        BOOST,
-        FAV,
-        POLL,
-        STATUS,
-        BACKUP,
-        STORE,
-        TOOT
-    }
-
-    public interface OnAttachmentCopied {
-        void onAttachmentCopied(Attachment attachment);
-    }
-
-
     public static Gson getDateBuilder() {
         SimpleDateFormat[] formats = new SimpleDateFormat[]{
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()),
@@ -1692,7 +1659,6 @@ public class Helper {
                 })
                 .create();
     }
-
 
     /***
      * Download method which works for http and https connections
@@ -1771,7 +1737,6 @@ public class Helper {
         }
         return null;
     }
-
 
     public static void displayReleaseNotesIfNeeded(Activity activity, boolean forced) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -1878,5 +1843,31 @@ public class Helper {
             editor.putInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), versionCode);
             editor.apply();
         }
+    }
+
+
+    //Enum that described actions to replace inside a toot content
+    public enum PatternType {
+        MENTION,
+        MENTION_LONG,
+        TAG,
+        GROUP
+    }
+
+    public enum NotifType {
+        FOLLLOW,
+        MENTION,
+        BOOST,
+        FAV,
+        POLL,
+        STATUS,
+        BACKUP,
+        STORE,
+        TOOT
+    }
+
+
+    public interface OnAttachmentCopied {
+        void onAttachmentCopied(Attachment attachment);
     }
 }

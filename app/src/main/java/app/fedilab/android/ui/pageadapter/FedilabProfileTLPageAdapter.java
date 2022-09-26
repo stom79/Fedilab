@@ -77,6 +77,7 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 3;
     }
+
     public enum follow_type {
         FOLLOWING,
         FOLLOWERS

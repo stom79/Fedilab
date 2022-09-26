@@ -147,9 +147,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
+    private final boolean canBeFederated;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
-    private final boolean canBeFederated;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated) {
         this.statusList = statuses;
@@ -304,14 +304,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /**
      * Manage status, this method is also reused in notifications timelines
      *
-     * @param context          Context
-     * @param statusesVM       StatusesVM - For handling actions in background to the correct activity
-     * @param searchVM         SearchVM - For handling remote actions
-     * @param holder           StatusViewHolder
-     * @param adapter          RecyclerView.Adapter<RecyclerView.ViewHolder> - General adapter that can be for {@link StatusAdapter} or {@link NotificationAdapter}
-     * @param statusList       List<Status>
-     * @param timelineType     Timeline.TimeLineEnum timelineTypeTimeline.TimeLineEnum
-     * @param status           {@link Status}
+     * @param context      Context
+     * @param statusesVM   StatusesVM - For handling actions in background to the correct activity
+     * @param searchVM     SearchVM - For handling remote actions
+     * @param holder       StatusViewHolder
+     * @param adapter      RecyclerView.Adapter<RecyclerView.ViewHolder> - General adapter that can be for {@link StatusAdapter} or {@link NotificationAdapter}
+     * @param statusList   List<Status>
+     * @param timelineType Timeline.TimeLineEnum timelineTypeTimeline.TimeLineEnum
+     * @param status       {@link Status}
      */
     @SuppressLint("ClickableViewAccessibility")
     public static void statusManagement(Context context,
@@ -359,40 +359,40 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusEmoji.setOnClickListener(v -> {
                 EmojiManager.install(new EmojiOneProvider());
                 final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
-                }).setOnEmojiClickListener((emoji, imageView) -> {
-                    String emojiStr = imageView.getUnicode();
-                    boolean alreadyAdded = false;
-                    if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
-                        return;
-                    }
-                    for (Reaction reaction : status.pleroma.emoji_reactions) {
-                        if (reaction.name.compareTo(emojiStr) == 0) {
-                            alreadyAdded = true;
-                            reaction.count = (reaction.count - 1);
-                            if (reaction.count == 0) {
-                                status.pleroma.emoji_reactions.remove(reaction);
+                            InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
+                        }).setOnEmojiClickListener((emoji, imageView) -> {
+                            String emojiStr = imageView.getUnicode();
+                            boolean alreadyAdded = false;
+                            if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
+                                return;
                             }
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            break;
-                        }
-                    }
-                    if (!alreadyAdded) {
-                        Reaction reaction = new Reaction();
-                        reaction.me = true;
-                        reaction.count = 1;
-                        reaction.name = emojiStr;
-                        status.pleroma.emoji_reactions.add(0, reaction);
-                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                    }
-                    ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
-                    if (alreadyAdded) {
-                        actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                    } else {
-                        actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                    }
-                })
+                            for (Reaction reaction : status.pleroma.emoji_reactions) {
+                                if (reaction.name.compareTo(emojiStr) == 0) {
+                                    alreadyAdded = true;
+                                    reaction.count = (reaction.count - 1);
+                                    if (reaction.count == 0) {
+                                        status.pleroma.emoji_reactions.remove(reaction);
+                                    }
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    break;
+                                }
+                            }
+                            if (!alreadyAdded) {
+                                Reaction reaction = new Reaction();
+                                reaction.me = true;
+                                reaction.count = 1;
+                                reaction.name = emojiStr;
+                                status.pleroma.emoji_reactions.add(0, reaction);
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            }
+                            ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+                            if (alreadyAdded) {
+                                actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            } else {
+                                actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            }
+                        })
                         .build(holder.binding.layoutReactions.fakeEdittext);
                 emojiPopup.toggle();
             });

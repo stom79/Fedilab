@@ -52,9 +52,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/continue_button"
+        style="@style/MyButtonColored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/MyButtonColored"
         android:text="@string/keepon"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -264,25 +264,25 @@ public class AdminReportActivity extends BaseActivity {
                 .asDrawable()
                 .dontTransform()
                 .load(targetedUrl).into(
-                new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
-                        binding.profilePicture.setImageDrawable(resource);
-                        startPostponedEnterTransition();
-                    }
+                        new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
+                                binding.profilePicture.setImageDrawable(resource);
+                                startPostponedEnterTransition();
+                            }
 
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        binding.profilePicture.setImageResource(R.drawable.ic_person);
-                        startPostponedEnterTransition();
-                    }
+                            @Override
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                binding.profilePicture.setImageResource(R.drawable.ic_person);
+                                startPostponedEnterTransition();
+                            }
 
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                    }
-                }
-        );
+                            }
+                        }
+                );
         //Load header
         MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts

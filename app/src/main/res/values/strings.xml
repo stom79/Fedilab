@@ -906,7 +906,7 @@
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
-    <string name="SET_HOME_INNER_MARKER" translatable="false">SET_HOME_INNER_MARKER</string>
+    <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
 
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_EXPAND_CW" translatable="false">SET_EXPAND_CW</string>

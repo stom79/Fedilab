@@ -94,18 +94,7 @@ public class Status implements Serializable, Cloneable {
     public Pleroma pleroma;
     @SerializedName("cached")
     public boolean cached = false;
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        boolean same = false;
-        if (obj instanceof Status) {
-            same = this.id.equals(((Status) obj).id);
-        }
-        return same;
-    }
-
     public Attachment art_attachment;
-
     public boolean isExpended = false;
     public boolean isTruncated = true;
     public boolean isFetchMore = false;
@@ -119,6 +108,15 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Status) {
+            same = this.id.equals(((Status) obj).id);
+        }
+        return same;
+    }
     //Some extra spannable element - They will be filled automatically when fetching the status
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {

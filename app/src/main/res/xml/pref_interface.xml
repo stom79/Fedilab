@@ -31,16 +31,16 @@
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_CLEAR_CACHE_EXIT"
+        app:singleLineTitle="false"
         app:summary="@string/set_clear_cache_exit_indication"
         app:title="@string/set_clear_cache_exit" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_EMBEDDED_BROWSER"
+        app:singleLineTitle="false"
         app:title="@string/embedded_browser" />
 
     <SwitchPreferenceCompat

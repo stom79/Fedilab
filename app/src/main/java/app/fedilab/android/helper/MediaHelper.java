@@ -389,16 +389,6 @@ public class MediaHelper {
         alertDialog.show();
     }
 
-
-    //Listener for recording media
-    public interface ActionRecord {
-        void onRecorded(String file);
-    }
-
-    public interface OnSchedule {
-        void scheduledAt(String scheduledDate);
-    }
-
     /**
      * Returns the max height of a list of media
      *
@@ -415,5 +405,14 @@ public class MediaHelper {
             }
         }
         return maxHeight;
+    }
+
+    //Listener for recording media
+    public interface ActionRecord {
+        void onRecorded(String file);
+    }
+
+    public interface OnSchedule {
+        void scheduledAt(String scheduledDate);
     }
 }

@@ -121,40 +121,6 @@ public class PeertubeVideo implements Serializable {
         public List<StreamingPlaylist> streamingPlaylists;
     }
 
-    public class StreamingPlaylist implements Serializable {
-        @SerializedName("id")
-        public String id;
-        @SerializedName("type")
-        public int type;
-        @SerializedName("playlistUrl")
-        public String playlistUrl;
-        @SerializedName("segmentsSha256Url")
-        public String segmentsSha256Url;
-        @SerializedName("files")
-        public List<File> files;
-    }
-
-    public class File implements Serializable {
-        @SerializedName("fileDownloadUrl")
-        public String fileDownloadUrl;
-        @SerializedName("fileUrl")
-        public String fileUrl;
-        @SerializedName("fps")
-        public int fps;
-        @SerializedName("magnetUri")
-        public String magnetUri;
-        @SerializedName("metadataUrl")
-        public String metadataUrl;
-        @SerializedName("resolution")
-        public Item resolutions;
-        @SerializedName("size")
-        public long size;
-        @SerializedName("torrentDownloadUrl")
-        public String torrentDownloadUrl;
-        @SerializedName("torrentUrl")
-        public String torrentUrl;
-    }
-
     public static class PeertubeAccount implements Serializable {
         @SerializedName("avatar")
         public Avatar avatar;
@@ -222,5 +188,39 @@ public class PeertubeVideo implements Serializable {
         public String path;
         @SerializedName("updatedAt")
         public Date updatedAt;
+    }
+
+    public class StreamingPlaylist implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("type")
+        public int type;
+        @SerializedName("playlistUrl")
+        public String playlistUrl;
+        @SerializedName("segmentsSha256Url")
+        public String segmentsSha256Url;
+        @SerializedName("files")
+        public List<File> files;
+    }
+
+    public class File implements Serializable {
+        @SerializedName("fileDownloadUrl")
+        public String fileDownloadUrl;
+        @SerializedName("fileUrl")
+        public String fileUrl;
+        @SerializedName("fps")
+        public int fps;
+        @SerializedName("magnetUri")
+        public String magnetUri;
+        @SerializedName("metadataUrl")
+        public String metadataUrl;
+        @SerializedName("resolution")
+        public Item resolutions;
+        @SerializedName("size")
+        public long size;
+        @SerializedName("torrentDownloadUrl")
+        public String torrentDownloadUrl;
+        @SerializedName("torrentUrl")
+        public String torrentUrl;
     }
 }

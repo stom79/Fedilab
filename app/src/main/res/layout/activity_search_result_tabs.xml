@@ -25,8 +25,8 @@
         android:id="@+id/search_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabGravity="fill"
         android:background="@color/cyanea_primary_dark_reference"
+        app:tabGravity="fill"
         app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
         app:tabMode="scrollable" />
 

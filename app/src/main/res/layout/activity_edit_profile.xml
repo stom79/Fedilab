@@ -67,13 +67,13 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/cyanea_accent_dark_reference"
-                app:iconTint="@color/cyanea_accent_dark_reference"
-                app:strokeColor="@color/cyanea_accent_dark_reference"
                 android:text="@string/select"
+                android:textColor="@color/cyanea_accent_dark_reference"
                 app:icon="@drawable/ic_menu_gallery"
+                app:iconTint="@color/cyanea_accent_dark_reference"
                 app:layout_constraintEnd_toEndOf="@id/banner_pp_container"
-                app:layout_constraintTop_toBottomOf="@id/banner_pp_container" />
+                app:layout_constraintTop_toBottomOf="@id/banner_pp_container"
+                app:strokeColor="@color/cyanea_accent_dark_reference" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/header_bottom_divider"
@@ -119,16 +119,16 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/avatar_select"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/cyanea_accent_dark_reference"
-                app:iconTint="@color/cyanea_accent_dark_reference"
-                app:strokeColor="@color/cyanea_accent_dark_reference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="@string/select"
+                android:textColor="@color/cyanea_accent_dark_reference"
                 app:icon="@drawable/ic_menu_gallery"
+                app:iconTint="@color/cyanea_accent_dark_reference"
                 app:layout_constraintBottom_toBottomOf="@id/account_pp_container"
-                app:layout_constraintStart_toEndOf="@id/account_pp_container" />
+                app:layout_constraintStart_toEndOf="@id/account_pp_container"
+                app:strokeColor="@color/cyanea_accent_dark_reference" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/display_name"
@@ -187,13 +187,13 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:iconTint="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference"
                     android:layout_gravity="end"
                     android:layout_marginVertical="6dp"
                     android:text="@string/add_field"
-                    app:icon="@drawable/ic_baseline_add_24" />
+                    android:textColor="@color/cyanea_accent_dark_reference"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconTint="@color/cyanea_accent_dark_reference"
+                    app:strokeColor="@color/cyanea_accent_dark_reference" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

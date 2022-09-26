@@ -352,6 +352,7 @@ public class TimelinesVM extends AndroidViewModel {
                 case HOME:
                     timelineCall = mastodonTimelinesService.getHome(timelineParams.token, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit, timelineParams.local);
                     break;
+                case REMOTE:
                 case LOCAL:
                     timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, true, false, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
                     break;
@@ -378,17 +379,26 @@ public class TimelinesVM extends AndroidViewModel {
                                 Status newestStatus = new StatusCache(getApplication().getApplicationContext()).getNewestStatus(timelineParams.slug, timelineParams.instance, timelineParams.userId);
                                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                                 if (newestStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(newestStatus.id) > 0) {
-                                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                                    Status statusFetchMore = new Status();
+                                    statusFetchMore.isFetchMore = true;
+                                    statusFetchMore.id = Helper.generateString();
+                                    statusList.add(statusFetchMore);
                                 }
                             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
                                 Status topStatus = new StatusCache(getApplication().getApplicationContext()).getTopFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
                                 if (topStatus != null && statusList.get(0).id.compareToIgnoreCase(topStatus.id) < 0) {
-                                    statusList.get(0).isFetchMore = true;
+                                    Status statusFetchMore = new Status();
+                                    statusFetchMore.isFetchMore = true;
+                                    statusFetchMore.id = Helper.generateString();
+                                    statusList.add(0, statusFetchMore);
                                 }
                             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
                                 Status bottomStatus = new StatusCache(getApplication().getApplicationContext()).getBottomFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
                                 if (bottomStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(bottomStatus.id) > 0) {
-                                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                                    Status statusFetchMore = new Status();
+                                    statusFetchMore.isFetchMore = true;
+                                    statusFetchMore.id = Helper.generateString();
+                                    statusList.add(statusFetchMore);
                                 }
                             }
                             for (Status status : statuses.statuses) {
@@ -444,62 +454,6 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
-    public static class TimelineParams {
-
-        public FragmentMastodonTimeline.DIRECTION direction;
-        public String instance;
-        public String token;
-        public Timeline.TimeLineEnum type;
-        public String slug;
-        public String userId;
-        public Boolean remote;
-        public Boolean onlyMedia;
-        public String hashtagTrim;
-        public List<String> all;
-        public List<String> any;
-        public List<String> none;
-        public String listId;
-        public Boolean fetchingMissing;
-        public String maxId;
-        public String sinceId;
-        public String minId;
-        public int limit = 40;
-        public Boolean local;
-
-        public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
-            if (type != Timeline.TimeLineEnum.REMOTE) {
-                instance = MainActivity.currentInstance;
-                token = MainActivity.currentToken;
-                userId = MainActivity.currentUserID;
-            }
-            type = timeLineEnum;
-            direction = timelineDirection;
-            String key = type.getValue();
-            if (ident != null) {
-                key += "|" + ident;
-            }
-            slug = key;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return "direction: " + direction + "\n" +
-                    "instance: " + instance + "\n" +
-                    "token: " + token + "\n" +
-                    "type: " + type + "\n" +
-                    "slug: " + slug + "\n" +
-                    "userId: " + userId + "\n" +
-                    "remote: " + remote + "\n" +
-                    "onlyMedia: " + onlyMedia + "\n" +
-                    "local: " + local + "\n" +
-                    "maxId: " + maxId + "\n" +
-                    "sinceId: " + sinceId + "\n" +
-                    "minId: " + minId + "\n";
-        }
-    }
-
-
     /**
      * Get user drafts
      *
@@ -522,7 +476,6 @@ public class TimelinesVM extends AndroidViewModel {
         }).start();
         return statusDraftListMutableLiveData;
     }
-
 
     /**
      * Show conversations
@@ -870,5 +823,60 @@ public class TimelinesVM extends AndroidViewModel {
                 }
             }
         }).start();
+    }
+
+    public static class TimelineParams {
+
+        public FragmentMastodonTimeline.DIRECTION direction;
+        public String instance;
+        public String token;
+        public Timeline.TimeLineEnum type;
+        public String slug;
+        public String userId;
+        public Boolean remote;
+        public Boolean onlyMedia;
+        public String hashtagTrim;
+        public List<String> all;
+        public List<String> any;
+        public List<String> none;
+        public String listId;
+        public Boolean fetchingMissing;
+        public String maxId;
+        public String sinceId;
+        public String minId;
+        public int limit = 40;
+        public Boolean local;
+
+        public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
+            if (type != Timeline.TimeLineEnum.REMOTE) {
+                instance = MainActivity.currentInstance;
+                token = MainActivity.currentToken;
+                userId = MainActivity.currentUserID;
+            }
+            type = timeLineEnum;
+            direction = timelineDirection;
+            String key = type.getValue();
+            if (ident != null) {
+                key += "|" + ident;
+            }
+            slug = key;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "direction: " + direction + "\n" +
+                    "instance: " + instance + "\n" +
+                    "token: " + token + "\n" +
+                    "type: " + type + "\n" +
+                    "slug: " + slug + "\n" +
+                    "userId: " + userId + "\n" +
+                    "remote: " + remote + "\n" +
+                    "onlyMedia: " + onlyMedia + "\n" +
+                    "local: " + local + "\n" +
+                    "maxId: " + maxId + "\n" +
+                    "sinceId: " + sinceId + "\n" +
+                    "minId: " + minId + "\n";
+        }
     }
 }

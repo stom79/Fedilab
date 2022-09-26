@@ -68,18 +68,18 @@ public class FragmentAdminAccount extends Fragment {
 
     private void fetchAccount(Callback callback) {
         adminVM.getAccounts(
-                BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
-                AdminActionActivity.local,
-                AdminActionActivity.remote,
-                byDomain,
-                AdminActionActivity.active,
-                AdminActionActivity.pending,
-                AdminActionActivity.disabled,
-                AdminActionActivity.silenced,
-                AdminActionActivity.suspended,
-                username, displayName, email, ip,
-                AdminActionActivity.staff, max_id, null,
-                MastodonHelper.statusesPerCall(requireActivity()))
+                        BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                        AdminActionActivity.local,
+                        AdminActionActivity.remote,
+                        byDomain,
+                        AdminActionActivity.active,
+                        AdminActionActivity.pending,
+                        AdminActionActivity.disabled,
+                        AdminActionActivity.silenced,
+                        AdminActionActivity.suspended,
+                        username, displayName, email, ip,
+                        AdminActionActivity.staff, max_id, null,
+                        MastodonHelper.statusesPerCall(requireActivity()))
                 .observe(requireActivity(), callback::accountFetched);
     }
 

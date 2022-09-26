@@ -9,32 +9,32 @@
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_CAPITALIZE"
+        app:singleLineTitle="false"
         app:summary="@string/set_capitalize_indication"
         app:title="@string/set_capitalize" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
-        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_PICTURE_COMPRESSED"
+        app:singleLineTitle="false"
         app:summary="@string/set_resize_picture_indication"
         app:title="@string/set_resize_picture" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
-        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_VIDEO_COMPRESSED"
+        app:singleLineTitle="false"
         app:summary="@string/set_resize_video_indication"
         app:title="@string/set_resize_video" />
 
     <SwitchPreferenceCompat
         app:defaultValue="false"
-        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_WATERMARK"
+        app:singleLineTitle="false"
         app:summary="@string/set_watermark_indication"
         app:title="@string/set_watermark" />
 
@@ -47,15 +47,15 @@
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_DISPLAY_EMOJI"
+        app:singleLineTitle="false"
         app:title="@string/set_display_emoji" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_SHARE_DETAILS"
+        app:singleLineTitle="false"
         app:title="@string/set_share_details" />
 
     <SwitchPreferenceCompat

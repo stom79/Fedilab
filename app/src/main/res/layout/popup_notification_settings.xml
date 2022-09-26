@@ -23,12 +23,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-         <androidx.appcompat.widget.SwitchCompat
-             android:id="@+id/display_all_categories"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="10dp"
-             android:text="@string/display_all_categories" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/display_all_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/display_all_categories" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:layout_width="match_parent"

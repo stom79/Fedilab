@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/cyanea_primary_dark_reference"
     android:clickable="true"
     android:focusable="true"
-    android:background="@color/cyanea_primary_dark_reference"
     android:foreground="?selectableItemBackground">
 
     <androidx.appcompat.widget.LinearLayoutCompat

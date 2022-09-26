@@ -138,6 +138,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
+    private List<Emoji> emojisList = new ArrayList<>();
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility) {
         this.statusList = statusList;
@@ -455,6 +456,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public String getLastComposeContent() {
         return statusList.get(statusList.size() - 1).text != null ? statusList.get(statusList.size() - 1).text : "";
     }
+    //------- end contact ----->
 
     //Used to write contact when composing
     public void updateContent(boolean checked, String acct) {
@@ -466,7 +468,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         notifyItemChanged(statusList.size() - 1);
     }
-    //------- end contact ----->
 
     //Put cursor to the end after changing contacts
     public void putCursor() {
@@ -691,7 +692,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return statusList.size();
     }
 
-    private List<Emoji> emojisList = new ArrayList<>();
     /**
      * Initialize text watcher for content writing
      * It will allow to complete autocomplete edit text while starting words with @, #, : etc.

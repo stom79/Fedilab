@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:minWidth="60dp"
     android:layout_width="wrap_content"
-    android:layout_height="?actionBarSize">
+    android:layout_height="?actionBarSize"
+    android:minWidth="60dp">
 
     <TextView
         android:id="@+id/name"
@@ -13,22 +12,20 @@
         android:padding="5dp"
         android:textAlignment="center"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/underline"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="2dp"
-        android:minWidth="60dp"
         android:background="@color/cyanea_accent_dark_reference"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:minWidth="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
- />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

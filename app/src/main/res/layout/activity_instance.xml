@@ -21,8 +21,8 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/main_container"
+        android:layout_width="match_parent"
         android:layout_height="420dp"
         android:padding="@dimen/fab_margin"
         android:paddingLeft="@dimen/drawer_padding"
@@ -34,12 +34,12 @@
             android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_height="300dp"
             android:id="@+id/instance_container"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="300dp"
             android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
             <!-- Instance title -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/instance_title"
@@ -86,8 +86,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -119,13 +117,13 @@
         <!-- Main Loader -->
         <RelativeLayout
             android:id="@+id/loader"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="420dp"
             android:gravity="center"
-            tools:visibility="visible"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
             <ProgressBar
                 android:layout_width="wrap_content"
@@ -146,10 +144,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/max_char_container"
             android:id="@+id/close"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
@@ -160,7 +154,11 @@
             android:text="@string/close"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/max_char_container" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -11,8 +11,7 @@
 
         <action
             android:id="@+id/categories_to_account"
-            app:destination="@id/EditProfileActivity"
-         />
+            app:destination="@id/EditProfileActivity" />
 
         <action
             android:id="@+id/categories_to_timelines"

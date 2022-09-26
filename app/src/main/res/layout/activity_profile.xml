@@ -24,25 +24,25 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
-        android:background="@color/cyanea_primary_dark_reference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/cyanea_primary_dark_reference"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cyanea_primary_dark_reference"
-            app:contentScrim="?colorPrimaryDark"
             android:fitsSystemWindows="true"
+            app:contentScrim="?colorPrimaryDark"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:id="@+id/profile_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="?attr/actionBarSize">
 
@@ -345,8 +345,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/cyanea_primary_dark_reference"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:layout_collapseMode="pin">
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/profile_picture"
