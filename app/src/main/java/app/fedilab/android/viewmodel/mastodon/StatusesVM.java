@@ -43,6 +43,7 @@ import app.fedilab.android.client.entities.api.ScheduledStatuses;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -352,8 +353,8 @@ public class StatusesVM extends AndroidViewModel {
                     if (contextResponse.isSuccessful()) {
                         context = contextResponse.body();
                         if (context != null) {
-                            TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.descendants, TimelineHelper.FilterTimeLineType.CONTEXT);
-                            TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.ancestors, TimelineHelper.FilterTimeLineType.CONTEXT);
+                            TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.descendants, Timeline.TimeLineEnum.CONTEXT);
+                            TimelineHelper.filterStatus(getApplication().getApplicationContext(), context.ancestors, Timeline.TimeLineEnum.CONTEXT);
                         }
 
                     }

@@ -22,8 +22,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +34,7 @@ import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -64,10 +63,22 @@ public class TimelineHelper {
      *
      * @param context            - Context
      * @param statuses           - List of {@link Status}
-     * @param filterTimeLineType - {@link FilterTimeLineType}
+     * @param filterTimeLineType - {@link Timeline.TimeLineEnum}
      * @return filtered List<Status>
      */
-    public static List<Status> filterStatus(Context context, List<Status> statuses, FilterTimeLineType filterTimeLineType) {
+    public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
+        return filterStatus(context, statuses, filterTimeLineType, false);
+    }
+
+    /**
+     * Allows to filter statuses, should be called in API calls (background)
+     *
+     * @param context            - Context
+     * @param statuses           - List of {@link Status}
+     * @param filterTimeLineType - {@link Timeline.TimeLineEnum}
+     * @return filtered List<Status>
+     */
+    public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType, boolean cached) {
         //A security to make sure filters have been fetched before displaying messages
         List<Status> statusesToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
@@ -95,11 +106,12 @@ public class TimelineHelper {
                     continue;
                 }
                 for (String filterContext : filter.context) {
-                    if (filterTimeLineType.value.equalsIgnoreCase(filterContext)) {
+                    if (filterTimeLineType.getValue().equalsIgnoreCase(filterContext)) {
                         if (filter.whole_word) {
                             Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
                             for (Status status : statuses) {
                                 String content;
+                                status.cached = cached;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
@@ -124,6 +136,7 @@ public class TimelineHelper {
                         } else {
                             for (Status status : statuses) {
                                 String content;
+                                status.cached = cached;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
@@ -183,7 +196,7 @@ public class TimelineHelper {
                     continue;
                 }
                 for (String filterContext : filter.context) {
-                    if (FilterTimeLineType.NOTIFICATION.value.equalsIgnoreCase(filterContext)) {
+                    if (Timeline.TimeLineEnum.NOTIFICATION.getValue().equalsIgnoreCase(filterContext)) {
                         if (filter.whole_word) {
                             Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
                             for (Notification notification : notifications) {
@@ -219,23 +232,4 @@ public class TimelineHelper {
         return notifications;
     }
 
-    public enum FilterTimeLineType {
-        @SerializedName("HOME")
-        HOME("HOME"),
-        @SerializedName("PUBLIC")
-        PUBLIC("PUBLIC"),
-        @SerializedName("CONTEXT")
-        CONTEXT("CONTEXT"),
-        @SerializedName("NOTIFICATION")
-        NOTIFICATION("NOTIFICATION");
-        private final String value;
-
-        FilterTimeLineType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
 }

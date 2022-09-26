@@ -127,7 +127,6 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> publicTlResponse = publicTlCall.execute();
                     if (publicTlResponse.isSuccessful()) {
                         statusList = publicTlResponse.body();
-                        statusList = statusList;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -248,7 +247,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = new Pagination();
                         if (statusList.size() > 0) {
                             statuses.pagination.min_id = statusList.get(0).id;
@@ -294,7 +293,7 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusList.add(status);
                             }
                         }
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = new Pagination();
                         if (statusList.size() > 0) {
                             //These values are not used.
@@ -371,8 +370,9 @@ public class TimelinesVM extends AndroidViewModel {
                     Response<List<Status>> timelineResponse = timelineCall.execute();
                     if (timelineResponse.isSuccessful()) {
                         List<Status> statusList = timelineResponse.body();
-                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, TimelineHelper.FilterTimeLineType.PUBLIC);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
+
                         if (statusList != null && statusList.size() > 0) {
                             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
                                 Status newestStatus = new StatusCache(getApplication().getApplicationContext()).getNewestStatus(timelineParams.slug, timelineParams.instance, timelineParams.userId);
@@ -426,7 +426,7 @@ public class TimelinesVM extends AndroidViewModel {
             try {
                 statuses = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (statuses != null) {
-                    TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, TimelineHelper.FilterTimeLineType.HOME);
+                    TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, timelineParams.type, true);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
@@ -479,6 +479,23 @@ public class TimelinesVM extends AndroidViewModel {
                 key += "|" + ident;
             }
             slug = key;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "direction: " + direction + "\n" +
+                    "instance: " + instance + "\n" +
+                    "token: " + token + "\n" +
+                    "type: " + type + "\n" +
+                    "slug: " + slug + "\n" +
+                    "userId: " + userId + "\n" +
+                    "remote: " + remote + "\n" +
+                    "onlyMedia: " + onlyMedia + "\n" +
+                    "local: " + local + "\n" +
+                    "maxId: " + maxId + "\n" +
+                    "sinceId: " + sinceId + "\n" +
+                    "minId: " + minId + "\n";
         }
     }
 

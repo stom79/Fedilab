@@ -495,7 +495,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
-            holder.binding.replyCount.setTextColor(theme_text_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_cached_24, theme_icons_color);
+            holder.binding.replyCount.setTextColor(theme_icons_color);
         } else {
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
@@ -514,6 +515,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
+
+        if (status.cached) {
+            holder.binding.cacheIndicator.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.cacheIndicator.setVisibility(View.GONE);
+        }
 
 
         if (status.pinned) {

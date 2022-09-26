@@ -362,6 +362,8 @@ public class Timeline {
         LOCAL("LOCAL"),
         @SerializedName("PUBLIC")
         PUBLIC("PUBLIC"),
+        @SerializedName("CONTEXT")
+        CONTEXT("CONTEXT"),
         @SerializedName("TAG")
         TAG("TAG"),
         @SerializedName("ART")

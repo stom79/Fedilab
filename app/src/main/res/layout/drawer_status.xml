@@ -594,6 +594,14 @@
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cache_indicator"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_baseline_cached_24"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

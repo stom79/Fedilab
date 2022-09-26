@@ -92,6 +92,8 @@ public class Status implements Serializable, Cloneable {
     public Poll poll;
     @SerializedName("pleroma")
     public Pleroma pleroma;
+    @SerializedName("cached")
+    public boolean cached = false;
 
     @Override
     public boolean equals(@Nullable Object obj) {

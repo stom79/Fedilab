@@ -194,8 +194,9 @@ public class StatusCache {
         ContentValues values = new ContentValues();
         values.put(Sqlite.COL_USER_ID, statusCache.user_id);
         values.put(Sqlite.COL_INSTANCE, statusCache.instance);
-        values.put(Sqlite.COL_SLUG, statusCache.slug);
+        values.put(Sqlite.COL_SLUG, slug);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
+        values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
         values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         //Inserts token
@@ -415,7 +416,6 @@ public class StatusCache {
     /**
      * Get statuses from db
      *
-     * @param statusCache StatusCache - status in cache to compare
      * @return Statuses
      * @throws DBException - throws a db exception
      */
