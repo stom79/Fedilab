@@ -69,12 +69,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private TimelinesVM timelinesVM;
     private AccountsVM accountsVM;
     private boolean flagLoading;
-    private List<Status> statuses;
     private String search, searchCache;
     private Status statusReport;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
+    private List<Status> timelineStatuses;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -88,17 +88,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
-                        statuses.get(position).reblog = receivedStatus.reblog;
-                        statuses.get(position).reblogged = receivedStatus.reblogged;
-                        statuses.get(position).favourited = receivedStatus.favourited;
-                        statuses.get(position).bookmarked = receivedStatus.bookmarked;
-                        statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                        statuses.get(position).favourites_count = receivedStatus.favourites_count;
+                        timelineStatuses.get(position).reblog = receivedStatus.reblog;
+                        timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
+                        timelineStatuses.get(position).favourited = receivedStatus.favourited;
+                        timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
+                        timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                        timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
                         statusAdapter.notifyItemChanged(position);
                     }
                 } else if (delete_statuses_for_user != null && statusAdapter != null) {
                     List<Status> statusesToRemove = new ArrayList<>();
-                    for (Status status : statuses) {
+                    for (Status status : timelineStatuses) {
                         if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
                             statusesToRemove.add(status);
                         }
@@ -106,18 +106,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     for (Status statusToRemove : statusesToRemove) {
                         int position = getPosition(statusToRemove);
                         if (position >= 0) {
-                            statuses.remove(position);
+                            timelineStatuses.remove(position);
                             statusAdapter.notifyItemRemoved(position);
                         }
                     }
                 } else if (status_to_delete != null && statusAdapter != null) {
                     int position = getPosition(status_to_delete);
                     if (position >= 0) {
-                        statuses.remove(position);
+                        timelineStatuses.remove(position);
                         statusAdapter.notifyItemRemoved(position);
                     }
                 } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
-                    statuses.add(0, statusPosted);
+                    timelineStatuses.add(0, statusPosted);
                     statusAdapter.notifyItemInserted(0);
                 }
             }
@@ -132,7 +132,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private PinnedTimeline pinnedTimeline;
     private String ident;
     private String slug;
-
+    private TimelinesVM.TimelineParams timelineParams;
     private boolean canBeFederated;
 
     /**
@@ -147,7 +147,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (status.id == null) {
             return -1;
         }
-        for (Status _status : statuses) {
+        for (Status _status : timelineStatuses) {
             if (_status.id != null && _status.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
@@ -164,7 +164,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     public List<String> getCheckedStatusesId() {
         List<String> stringList = new ArrayList<>();
-        for (Status status : statuses) {
+        for (Status status : timelineStatuses) {
             if (status.isChecked) {
                 stringList.add(status.id);
             }
@@ -280,7 +280,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 route(DIRECTION.REFRESH, true);
             });
         }
-
         if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
@@ -308,27 +307,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
-        if (statusAdapter != null && this.statuses != null) {
-            int size = this.statuses.size();
-            this.statuses.clear();
-            this.statuses = new ArrayList<>();
+        if (statusAdapter != null && timelineStatuses != null) {
+            int size = timelineStatuses.size();
+            timelineStatuses.clear();
+            timelineStatuses = new ArrayList<>();
             statusAdapter.notifyItemRangeRemoved(0, size);
         }
-        if (this.statuses == null) {
-            this.statuses = new ArrayList<>();
+        if (timelineStatuses == null) {
+            timelineStatuses = new ArrayList<>();
         }
         if (statusReport != null) {
-            this.statuses.add(statusReport);
+            timelineStatuses.add(statusReport);
         }
-        this.statuses.addAll(statuses.statuses);
-
+        timelineStatuses.addAll(statuses.statuses);
         if (max_id == null || (statuses.pagination.max_id != null && statuses.pagination.max_id.compareTo(max_id) < 0)) {
             max_id = statuses.pagination.max_id;
         }
         if (min_id == null || (statuses.pagination.min_id != null && statuses.pagination.min_id.compareTo(min_id) > 0)) {
             min_id = statuses.pagination.min_id;
         }
-        statusAdapter = new StatusAdapter(this.statuses, timelineType, minified, canBeFederated);
+        statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated);
         statusAdapter.fetchMoreCallBack = this;
         if (statusReport != null) {
             scrollToTop();
@@ -343,6 +341,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+
                     if (requireActivity() instanceof BaseMainActivity) {
                         if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
@@ -386,7 +385,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
-        if (statuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
+        if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             flagLoading = fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             if (timelineType == Timeline.TimeLineEnum.ART) {
@@ -432,17 +431,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (statusListReceived != null && statusListReceived.size() > 0) {
             for (Status statusReceived : statusListReceived) {
                 int position = 0;
-                if (this.statuses != null) {
+                if (timelineStatuses != null) {
                     //First we refresh statuses
-                    statusAdapter.notifyItemRangeChanged(0, this.statuses.size());
+                    statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
                     //We loop through messages already in the timeline
-                    for (Status statusAlreadyPresent : this.statuses) {
+                    for (Status statusAlreadyPresent : timelineStatuses) {
                         //We compare the id of each status and we only add status having an id greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
                         if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0) {
                             //We add the status to a list of id - thus we know it is already in the timeline
-                            if (!this.statuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
-                                this.statuses.add(position, statusReceived);
+                            if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
+                                timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
                             }
                             break;
@@ -450,9 +449,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         position++;
                     }
                     //Statuses added at the bottom
-                    if (position == this.statuses.size() && !this.statuses.contains(statusReceived)) {
+                    if (position == timelineStatuses.size() && !timelineStatuses.contains(statusReceived)) {
                         //We add the status to a list of id - thus we know it is already in the timeline
-                        this.statuses.add(position, statusReceived);
+                        timelineStatuses.add(position, statusReceived);
                         statusAdapter.notifyItemInserted(position);
                     }
                 }
@@ -480,9 +479,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private void storeMarker() {
         if (timelineType == Timeline.TimeLineEnum.HOME && mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
-            if (statuses != null && statuses.size() > position) {
+            if (timelineStatuses != null && timelineStatuses.size() > position) {
                 try {
-                    Status status = statuses.get(position);
+                    Status status = timelineStatuses.get(position);
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, status.id);
@@ -521,9 +520,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             return;
         }
         //Initialize with default params
-        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
+        timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
         timelineParams.limit = MastodonHelper.statusesPerCall(requireActivity());
-
         if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
             timelineParams.maxId = null;
             timelineParams.minId = null;
@@ -578,7 +576,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
         if (direction == null) {
-            timelinesVM.getTimelineCache(timelineParams)
+            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
                         if (statusesCached == null || statusesCached.statuses == null || statusesCached.statuses.size() == 0) {
                             getLiveStatus(null, fetchingMissing, timelineParams);
@@ -587,7 +585,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }
                     });
         } else if (direction == DIRECTION.BOTTOM) {
-            timelinesVM.getTimelineCache(timelineParams)
+            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCachedBottom -> {
                         if (statusesCachedBottom == null || statusesCachedBottom.statuses == null || statusesCachedBottom.statuses.size() == 0) {
                             getLiveStatus(DIRECTION.BOTTOM, fetchingMissing, timelineParams);
@@ -596,9 +594,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }
                     });
         } else if (direction == DIRECTION.TOP) {
-            timelinesVM.getTimelineCache(timelineParams)
+            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCachedTop -> {
-
                         if (statusesCachedTop == null || statusesCachedTop.statuses == null || statusesCachedTop.statuses.size() == 0) {
                             getLiveStatus(DIRECTION.TOP, fetchingMissing, timelineParams);
                         } else {
@@ -607,7 +604,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
                     });
         } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-            timelinesVM.getTimelineCache(timelineParams)
+            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                         if (statusesRefresh == null || statusesRefresh.statuses == null || statusesRefresh.statuses.size() == 0) {
                             getLiveStatus(direction, fetchingMissing, timelineParams);
@@ -624,16 +621,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
         if (direction == null) {
-            timelinesVM.getTimeline(timelineParams)
+            timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         } else if (direction == DIRECTION.BOTTOM) {
-            timelinesVM.getTimeline(timelineParams)
+            timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing));
         } else if (direction == DIRECTION.TOP) {
-            timelinesVM.getTimeline(timelineParams)
+            timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, fetchingMissing));
         } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-            timelinesVM.getTimeline(timelineParams)
+            timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                         if (statusAdapter != null) {
                             dealWithPagination(statusesRefresh, direction, true);
@@ -711,7 +708,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     timelinesVM.getPeertube(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 } else if (direction == DIRECTION.BOTTOM) {
-                    timelinesVM.getPeertube(remoteInstance, String.valueOf(statuses.size()), MastodonHelper.statusesPerCall(requireActivity()))
+                    timelinesVM.getPeertube(remoteInstance, String.valueOf(timelineStatuses.size()), MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
@@ -826,8 +823,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * Refresh status in list
      */
     public void refreshAllAdapters() {
-        if (statusAdapter != null && statuses != null) {
-            statusAdapter.notifyItemRangeChanged(0, statuses.size());
+        if (statusAdapter != null && timelineStatuses != null) {
+            statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
         }
     }
 
@@ -837,7 +834,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         min_id_fetch_more = min_id;
         Status status = null;
         int position = 0;
-        for (Status currentStatus : this.statuses) {
+        for (Status currentStatus : timelineStatuses) {
             if (currentStatus.id.compareTo(id) == 0) {
                 status = currentStatus;
                 break;
@@ -845,7 +842,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             position++;
         }
         if (status != null) {
-            this.statuses.remove(position);
+            timelineStatuses.remove(position);
             statusAdapter.notifyItemRemoved(position);
         }
         route(DIRECTION.TOP, true);
@@ -856,7 +853,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         max_id_fetch_more = max_id;
         Status status = null;
         int position = 0;
-        for (Status currentStatus : this.statuses) {
+        for (Status currentStatus : timelineStatuses) {
             if (currentStatus.id.compareTo(id) == 0) {
                 status = currentStatus;
                 break;
@@ -864,7 +861,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             position++;
         }
         if (status != null) {
-            this.statuses.remove(position);
+            timelineStatuses.remove(position);
             statusAdapter.notifyItemRemoved(position);
         }
         route(DIRECTION.BOTTOM, true);

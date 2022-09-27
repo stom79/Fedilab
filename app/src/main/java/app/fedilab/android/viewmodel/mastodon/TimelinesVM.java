@@ -341,7 +341,35 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
 
-    public LiveData<Statuses> getTimeline(TimelineParams timelineParams) {
+    private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
+        if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
+                    Status statusFetchMore = new Status();
+                    statusFetchMore.isFetchMore = true;
+                    statusFetchMore.id = Helper.generateString();
+                    statusList.add(statusFetchMore);
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                if (!timelineStatuses.contains(statusList.get(0))) {
+                    Status statusFetchMore = new Status();
+                    statusFetchMore.isFetchMore = true;
+                    statusFetchMore.id = Helper.generateString();
+                    statusList.add(0, statusFetchMore);
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
+                    Status statusFetchMore = new Status();
+                    statusFetchMore.isFetchMore = true;
+                    statusFetchMore.id = Helper.generateString();
+                    statusList.add(statusFetchMore);
+                }
+            }
+        }
+    }
+
+    public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
 
         statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
@@ -375,32 +403,6 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
 
                         if (statusList != null && statusList.size() > 0) {
-                            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
-                                Status newestStatus = new StatusCache(getApplication().getApplicationContext()).getNewestStatus(timelineParams.slug, timelineParams.instance, timelineParams.userId);
-                                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                                if (newestStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(newestStatus.id) > 0) {
-                                    Status statusFetchMore = new Status();
-                                    statusFetchMore.isFetchMore = true;
-                                    statusFetchMore.id = Helper.generateString();
-                                    statusList.add(statusFetchMore);
-                                }
-                            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
-                                Status topStatus = new StatusCache(getApplication().getApplicationContext()).getTopFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
-                                if (topStatus != null && statusList.get(0).id.compareToIgnoreCase(topStatus.id) < 0) {
-                                    Status statusFetchMore = new Status();
-                                    statusFetchMore.isFetchMore = true;
-                                    statusFetchMore.id = Helper.generateString();
-                                    statusList.add(0, statusFetchMore);
-                                }
-                            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
-                                Status bottomStatus = new StatusCache(getApplication().getApplicationContext()).getBottomFetchMore(timelineParams.slug, timelineParams.instance, timelineParams.slug, statusList.get(0).id);
-                                if (bottomStatus != null && statusList.get(statusList.size() - 1).id.compareToIgnoreCase(bottomStatus.id) > 0) {
-                                    Status statusFetchMore = new Status();
-                                    statusFetchMore.isFetchMore = true;
-                                    statusFetchMore.id = Helper.generateString();
-                                    statusList.add(statusFetchMore);
-                                }
-                            }
                             for (Status status : statuses.statuses) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -415,6 +417,7 @@ public class TimelinesVM extends AndroidViewModel {
                                     e.printStackTrace();
                                 }
                             }
+                            addFetchMore(statusList, timelineStatuses, timelineParams);
                         }
                     }
                 } catch (Exception e) {
@@ -428,7 +431,7 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
-    public LiveData<Statuses> getTimelineCache(TimelineParams timelineParams) {
+    public LiveData<Statuses> getTimelineCache(List<Status> timelineStatuses, TimelineParams timelineParams) {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
@@ -438,6 +441,7 @@ public class TimelinesVM extends AndroidViewModel {
                 if (statuses != null) {
                     TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, timelineParams.type, true);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                        addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
                         statuses.pagination.max_id = statuses.statuses.get(statuses.statuses.size() - 1).id;
@@ -876,7 +880,8 @@ public class TimelinesVM extends AndroidViewModel {
                     "local: " + local + "\n" +
                     "maxId: " + maxId + "\n" +
                     "sinceId: " + sinceId + "\n" +
-                    "minId: " + minId + "\n";
+                    "minId: " + minId + "\n" +
+                    "fetchingMissing: " + fetchingMissing;
         }
     }
 }

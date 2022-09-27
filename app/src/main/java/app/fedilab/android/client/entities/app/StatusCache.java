@@ -298,57 +298,7 @@ public class StatusCache {
     }
 
 
-    /**
-     * Get newest status for a timeline
-     *
-     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
-     * @param instance String - instance
-     * @param user_id  String - us
-     * @return Statuses
-     * @throws DBException - throws a db exception
-     */
-    public Status getNewestStatus(String slug, String instance, String user_id) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
-        try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "1");
-            Statuses statuses = createStatusReply(cursorToListOfStatuses(c));
-            if (statuses.statuses != null && statuses.statuses.size() > 0) {
-                return statuses.statuses.get(0);
-            } else return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
-    /**
-     * Get oldest status for a timeline
-     *
-     * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
-     * @param instance String - instance
-     * @param user_id  String - us
-     * @return Statuses
-     * @throws DBException - throws a db exception
-     */
-    public Status getOldestStatus(String slug, String instance, String user_id) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
-        try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " ASC", "1");
-            Statuses statuses = createStatusReply(cursorToListOfStatuses(c));
-            if (statuses.statuses != null && statuses.statuses.size() > 0) {
-                return statuses.statuses.get(0);
-            } else return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * Get paginated statuses from db
@@ -366,15 +316,15 @@ public class StatusCache {
             throw new DBException("db is null. Wrong initialization.");
         }
         String order = " DESC";
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "'";
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "' ";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
             order = " ASC";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
         } else if (since_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "'";
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
             limit = null;
         }
         try {
@@ -386,59 +336,6 @@ public class StatusCache {
         }
     }
 
-    /**
-     * Get statuses from db
-     *
-     * @return Statuses
-     * @throws DBException - throws a db exception
-     */
-    public Status getTopFetchMore(String slug, String instance, String user_id, String status_id) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND "
-                + Sqlite.COL_USER_ID + "= '" + user_id + "' AND "
-                + Sqlite.COL_SLUG + "= '" + slug + "' AND "
-                + Sqlite.COL_STATUS_ID + " > '" + status_id + "'";
-        try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " ASC", "1");
-            if (c != null && c.getCount() > 0) {
-                return convertCursorToStatus(c);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Get statuses from db
-     *
-     * @return Statuses
-     * @throws DBException - throws a db exception
-     */
-    public Status getBottomFetchMore(String slug, String instance, String user_id, String status_id) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND "
-                + Sqlite.COL_USER_ID + "= '" + user_id + "' AND "
-                + Sqlite.COL_SLUG + "= '" + slug + "' AND "
-                + Sqlite.COL_STATUS_ID + " < '" + status_id + "'";
-        try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "1");
-            if (c != null && c.getCount() > 0) {
-                return convertCursorToStatus(c);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * @param instance String - instance
