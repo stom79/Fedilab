@@ -346,24 +346,15 @@ public class TimelinesVM extends AndroidViewModel {
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
-                    Status statusFetchMore = new Status();
-                    statusFetchMore.isFetchMore = true;
-                    statusFetchMore.id = Helper.generateString();
-                    statusList.add(statusFetchMore);
+                    statusList.get(statusList.size() - 1).isFetchMore = true;
                 }
             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
                 if (!timelineStatuses.contains(statusList.get(0))) {
-                    Status statusFetchMore = new Status();
-                    statusFetchMore.isFetchMore = true;
-                    statusFetchMore.id = Helper.generateString();
-                    statusList.add(0, statusFetchMore);
+                    statusList.get(0).isFetchMore = true;
                 }
             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
                 if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
-                    Status statusFetchMore = new Status();
-                    statusFetchMore.isFetchMore = true;
-                    statusFetchMore.id = Helper.generateString();
-                    statusList.add(statusFetchMore);
+                    statusList.get(statusList.size() - 1).isFetchMore = true;
                 }
             }
         }

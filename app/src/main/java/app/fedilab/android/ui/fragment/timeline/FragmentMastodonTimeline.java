@@ -829,41 +829,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     @Override
-    public void onClickMinId(String min_id, String id) {
+    public void onClickMinId(String min_id) {
         //Fetch more has been pressed
         min_id_fetch_more = min_id;
-        Status status = null;
-        int position = 0;
-        for (Status currentStatus : timelineStatuses) {
-            if (currentStatus.id.compareTo(id) == 0) {
-                status = currentStatus;
-                break;
-            }
-            position++;
-        }
-        if (status != null) {
-            timelineStatuses.remove(position);
-            statusAdapter.notifyItemRemoved(position);
-        }
         route(DIRECTION.TOP, true);
     }
 
     @Override
-    public void onClickMaxId(String max_id, String id) {
+    public void onClickMaxId(String max_id) {
         max_id_fetch_more = max_id;
-        Status status = null;
-        int position = 0;
-        for (Status currentStatus : timelineStatuses) {
-            if (currentStatus.id.compareTo(id) == 0) {
-                status = currentStatus;
-                break;
-            }
-            position++;
-        }
-        if (status != null) {
-            timelineStatuses.remove(position);
-            statusAdapter.notifyItemRemoved(position);
-        }
         route(DIRECTION.BOTTOM, true);
     }
 

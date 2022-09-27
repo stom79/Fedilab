@@ -48,10 +48,11 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.NotificationAdapter;
+import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 
 
-public class FragmentMastodonNotification extends Fragment implements NotificationAdapter.FetchMoreCallBack {
+public class FragmentMastodonNotification extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
 
     private static final int NOTIFICATION_PRESENT = -1;
@@ -86,7 +87,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     };
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
-    private String instance, user_id;
     private ArrayList<String> idOfAddedNotifications;
     private NotificationTypeEnum notificationType;
     private List<String> excludeType;
@@ -115,8 +115,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
 
         flagLoading = false;
-        instance = BaseMainActivity.currentInstance;
-        user_id = BaseMainActivity.currentUserID;
         idOfAddedNotifications = new ArrayList<>();
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -456,43 +454,18 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onPause();
     }
 
+
     @Override
-    public void onClickMin(String min_id, String id) {
+    public void onClickMinId(String min_id) {
         //Fetch more has been pressed
         min_id_fetch_more = min_id;
-        Notification notification = null;
-        int position = 0;
-        for (Notification currentNotification : this.notificationList) {
-            if (currentNotification.id.compareTo(id) == 0) {
-                notification = currentNotification;
-                break;
-            }
-            position++;
-        }
-        if (notification != null) {
-            this.notificationList.remove(position);
-            notificationAdapter.notifyItemRemoved(position);
-        }
         route(FragmentMastodonTimeline.DIRECTION.TOP, true);
     }
 
     @Override
-    public void onClickMax(String max_id, String id) {
+    public void onClickMaxId(String max_id) {
         //Fetch more has been pressed
         max_id_fetch_more = max_id;
-        Notification notification = null;
-        int position = 0;
-        for (Notification currentNotification : this.notificationList) {
-            if (currentNotification.id.compareTo(id) == 0) {
-                notification = currentNotification;
-                break;
-            }
-            position++;
-        }
-        if (notification != null) {
-            this.notificationList.remove(position);
-            notificationAdapter.notifyItemRemoved(position);
-        }
         route(FragmentMastodonTimeline.DIRECTION.BOTTOM, true);
     }
 
