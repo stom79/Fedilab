@@ -347,14 +347,17 @@ public class TimelinesVM extends AndroidViewModel {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
                     statusList.get(statusList.size() - 1).isFetchMore = true;
+                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
                 }
             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
                 if (!timelineStatuses.contains(statusList.get(0))) {
                     statusList.get(0).isFetchMore = true;
+                    statusList.get(0).positionFetchMore = Status.PositionFetchMore.BOTTOM;
                 }
             } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
                 if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
                     statusList.get(statusList.size() - 1).isFetchMore = true;
+                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
                 }
             }
         }

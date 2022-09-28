@@ -98,6 +98,7 @@ public class Status implements Serializable, Cloneable {
     public boolean isExpended = false;
     public boolean isTruncated = true;
     public boolean isFetchMore = false;
+    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public boolean isMediaDisplayed = false;
     public boolean isMediaObfuscated = true;
     public boolean isChecked = false;
@@ -107,6 +108,11 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
+
+    public enum PositionFetchMore {
+        TOP,
+        BOTTOM
+    }
 
     @Override
     public boolean equals(@Nullable Object obj) {

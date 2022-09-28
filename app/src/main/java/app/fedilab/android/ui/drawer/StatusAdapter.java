@@ -113,7 +113,6 @@ import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
-import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
@@ -1862,7 +1861,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
         //For reports
-
         if (holder.bindingReport != null) {
             holder.bindingReport.checkbox.setChecked(status.isChecked);
             holder.bindingReport.checkbox.setOnClickListener(v -> status.isChecked = !status.isChecked);
@@ -1873,25 +1871,40 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                 status.isFetchMore = false;
                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                fetchMoreCallBack.onClickMinId(status.id);
-                if (!remote) {
-                    new Thread(() -> {
-                        StatusCache statusCache = new StatusCache();
-                        statusCache.instance = BaseMainActivity.currentInstance;
-                        statusCache.user_id = BaseMainActivity.currentUserID;
-                        statusCache.status = status;
-                        statusCache.status_id = status.id;
-                        try {
-                            new StatusCache(context).updateIfExists(statusCache);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
+                if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                    String fromId;
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                        fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                    } else {
+                        fromId = status.id;
+                    }
+                    fetchMoreCallBack.onClickMinId(fromId);
+                    if (!remote) {
+                        new Thread(() -> {
+                            StatusCache statusCache = new StatusCache();
+                            statusCache.instance = BaseMainActivity.currentInstance;
+                            statusCache.user_id = BaseMainActivity.currentUserID;
+                            statusCache.status = status;
+                            statusCache.status_id = status.id;
+                            try {
+                                new StatusCache(context).updateIfExists(statusCache);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+                    }
                 }
             });
             holder.binding.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
                 //We hide the button
                 status.isFetchMore = false;
+                String fromId;
+                if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                    fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                } else {
+                    fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                }
+                fetchMoreCallBack.onClickMaxId(fromId);
                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                 if (!remote) {
                     new Thread(() -> {
@@ -1907,7 +1920,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     }).start();
                 }
-                fetchMoreCallBack.onClickMaxId(status.id);
             });
         } else {
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
@@ -2070,7 +2082,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusBinding binding;
         DrawerStatusHiddenBinding bindingHidden;
         DrawerStatusReportBinding bindingReport;
-        DrawerFetchMoreBinding bindingFetchMore;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
 
