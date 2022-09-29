@@ -404,6 +404,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             //Update the timeline with new statuses
             updateStatusListWith(fetched_statuses.statuses);
+            if (direction == DIRECTION.TOP && fetchingMissing) {
+                binding.recyclerView.scrollToPosition(getPosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1)) + 1);
+            }
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
                     flagLoading = true;
@@ -427,7 +430,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param statusListReceived - List<Status> Statuses received
      */
-    private void updateStatusListWith(List<Status> statusListReceived) {
+    private int updateStatusListWith(List<Status> statusListReceived) {
+        int inserted = 0;
         if (statusListReceived != null && statusListReceived.size() > 0) {
             for (Status statusReceived : statusListReceived) {
                 int position = 0;
@@ -443,6 +447,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
                                 timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
+                                inserted++;
                             }
                             break;
                         }
@@ -457,6 +462,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
         }
+        return inserted;
     }
 
     @Override
@@ -604,10 +610,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
                     });
         } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
+            timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                         if (statusesRefresh == null || statusesRefresh.statuses == null || statusesRefresh.statuses.size() == 0) {
-                            getLiveStatus(direction, fetchingMissing, timelineParams);
+                            getCachedStatus(direction, fetchingMissing, timelineParams);
                         } else {
                             if (statusAdapter != null) {
                                 dealWithPagination(statusesRefresh, direction, true);

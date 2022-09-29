@@ -327,6 +327,7 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
             limit = null;
         }
+
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
             return createStatusReply(cursorToListOfStatuses(c));

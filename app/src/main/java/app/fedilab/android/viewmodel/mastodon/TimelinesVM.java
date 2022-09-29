@@ -395,7 +395,6 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = timelineResponse.body();
                         statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
-
                         if (statusList != null && statusList.size() > 0) {
                             for (Status status : statuses.statuses) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
