@@ -23,19 +23,21 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
+import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.PushSubscription;
+import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.client.entities.app.Timeline;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.TimelineHelper;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -62,7 +64,6 @@ public class NotificationsVM extends AndroidViewModel {
     }
 
     private MastodonNotificationsService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
@@ -71,38 +72,66 @@ public class NotificationsVM extends AndroidViewModel {
         return retrofit.create(MastodonNotificationsService.class);
     }
 
+    private static void addFetchMoreNotifications(List<Notification> notificationList, List<Notification> timelineNotifications, TimelinesVM.TimelineParams timelineParams) throws DBException {
+        if (notificationList != null && notificationList.size() > 0 && timelineNotifications != null && timelineNotifications.size() > 0) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                if (notificationList.get(notificationList.size() - 1).id.compareToIgnoreCase(timelineNotifications.get(0).id) > 0) {
+                    notificationList.get(notificationList.size() - 1).isFetchMore = true;
+                    notificationList.get(notificationList.size() - 1).positionFetchMore = Notification.PositionFetchMore.TOP;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                if (!timelineNotifications.contains(notificationList.get(0))) {
+                    notificationList.get(0).isFetchMore = true;
+                    notificationList.get(0).positionFetchMore = Notification.PositionFetchMore.BOTTOM;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                if (!timelineNotifications.contains(notificationList.get(notificationList.size() - 1))) {
+                    notificationList.get(notificationList.size() - 1).isFetchMore = true;
+                    notificationList.get(notificationList.size() - 1).positionFetchMore = Notification.PositionFetchMore.TOP;
+                }
+            }
+        }
+    }
+
     /**
      * Get notifications for the authenticated account
      *
-     * @param instance     String - Instance for the api call
-     * @param token        String - Token of the authenticated account
-     * @param maxId        String - max id for pagination
-     * @param sinceId      String - since id for pagination
-     * @param minId        String - min id for pagination
-     * @param limit        int - result fetched
-     * @param exlude_types List<String> - type of notifications to exclude in reply
-     * @param account_id   String - target notifications from an account
      * @return {@link LiveData} containing a {@link Notifications}
      */
-    public LiveData<Notifications> getNotifications(@NonNull String instance, String token,
-                                                    String maxId,
-                                                    String sinceId,
-                                                    String minId,
-                                                    int limit,
-                                                    List<String> exlude_types,
-                                                    String account_id) {
+    public LiveData<Notifications> getNotifications(List<Notification> notificationList, TimelinesVM.TimelineParams timelineParams) {
         notificationsMutableLiveData = new MutableLiveData<>();
-        MastodonNotificationsService mastodonNotificationsService = init(instance);
+        MastodonNotificationsService mastodonNotificationsService = init(timelineParams.instance);
         new Thread(() -> {
             Notifications notifications = new Notifications();
-            Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(token, exlude_types, account_id, maxId, sinceId, minId, limit);
+            Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(timelineParams.token, timelineParams.excludeType, timelineParams.userId, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
             if (notificationsCall != null) {
                 try {
                     Response<List<Notification>> notificationsResponse = notificationsCall.execute();
                     if (notificationsResponse.isSuccessful()) {
-                        List<Notification> notFilteredNotifications = notificationsResponse.body();
-                        notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFilteredNotifications);
+                        notifications.notifications = notificationsResponse.body();
+                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
+                        addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
+
+                        if (notifications.notifications != null && notifications.notifications.size() > 0) {
+                            for (Notification notification : notifications.notifications) {
+                                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                StatusCache statusCache = new StatusCache();
+                                statusCache.instance = timelineParams.instance;
+                                statusCache.user_id = timelineParams.userId;
+                                statusCache.notification = notification;
+                                statusCache.slug = notification.type;
+                                statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
+                                statusCache.status_id = notification.id;
+                                try {
+                                    statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -116,6 +145,32 @@ public class NotificationsVM extends AndroidViewModel {
         return notificationsMutableLiveData;
     }
 
+    public LiveData<Notifications> getNotificationCache(List<Notification> notificationList, TimelinesVM.TimelineParams timelineParams) {
+        notificationsMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+            Notifications notifications = null;
+            try {
+                notifications = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
+                if (notifications != null) {
+                    if (notifications.notifications != null && notifications.notifications.size() > 0) {
+                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
+                        addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
+                        notifications.pagination = new Pagination();
+                        notifications.pagination.min_id = notifications.notifications.get(0).id;
+                        notifications.pagination.max_id = notifications.notifications.get(notifications.notifications.size() - 1).id;
+                    }
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Notifications finalNotifications = notifications;
+            Runnable myRunnable = () -> notificationsMutableLiveData.setValue(finalNotifications);
+            mainHandler.post(myRunnable);
+        }).start();
+        return notificationsMutableLiveData;
+    }
 
     /**
      * Get a notification for the authenticated account by its id

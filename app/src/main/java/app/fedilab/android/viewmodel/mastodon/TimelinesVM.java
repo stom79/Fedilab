@@ -363,6 +363,7 @@ public class TimelinesVM extends AndroidViewModel {
         }
     }
 
+
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
 
         statusesMutableLiveData = new MutableLiveData<>();
@@ -450,6 +451,7 @@ public class TimelinesVM extends AndroidViewModel {
         }).start();
         return statusesMutableLiveData;
     }
+
 
     /**
      * Get user drafts
@@ -843,6 +845,7 @@ public class TimelinesVM extends AndroidViewModel {
         public String minId;
         public int limit = 40;
         public Boolean local;
+        public List<String> excludeType;
 
         public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
             if (type != Timeline.TimeLineEnum.REMOTE) {

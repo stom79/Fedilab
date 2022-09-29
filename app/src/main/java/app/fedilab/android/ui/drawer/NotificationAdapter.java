@@ -62,7 +62,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_POLL = 5;
     private final int TYPE_STATUS = 6;
     private final int TYPE_REACTION = 8;
-    public StatusAdapter.FetchMoreCallBack fetchMoreCallBack;
+    public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
     public NotificationAdapter(List<Notification> notificationList) {
@@ -114,7 +114,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Notification notification = notificationList.get(position);
@@ -160,14 +159,29 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                 holderFollow.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                     notification.isFetchMore = false;
-                    notifyItemChanged(position);
-                    fetchMoreCallBack.onClickMinId(notification.id);
+                    if (holderFollow.getBindingAdapterPosition() < notificationList.size() - 1) {
+                        String fromId;
+                        if (notification.positionFetchMore == Notification.PositionFetchMore.TOP) {
+                            fromId = notificationList.get(position + 1).id;
+                        } else {
+                            fromId = notification.id;
+                        }
+                        fetchMoreCallBack.onClickMinId(fromId, notification);
+                        notifyItemChanged(position);
+                    }
+
                 });
                 holderFollow.binding.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
                     //We hide the button
                     notification.isFetchMore = false;
+                    String fromId;
+                    if (notification.positionFetchMore == Notification.PositionFetchMore.TOP) {
+                        fromId = notificationList.get(position).id;
+                    } else {
+                        fromId = notificationList.get(position - 1).id;
+                    }
                     notifyItemChanged(position);
-                    fetchMoreCallBack.onClickMaxId(notification.id);
+                    fetchMoreCallBack.onClickMaxId(fromId, notification);
                 });
             } else {
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
@@ -191,7 +205,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, fetchMoreCallBack);
+            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
@@ -298,6 +312,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
         }
+    }
+
+    public interface FetchMoreCallBack {
+        void onClickMinId(String min_id, Notification notificationToUpdate);
+
+        void onClickMaxId(String max_id, Notification notificationToUpdate);
     }
 
 

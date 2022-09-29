@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.client.entities.api.Notification;
+import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
@@ -53,6 +55,8 @@ public class StatusCache {
     public String status_id;
     @SerializedName("status")
     public Status status;
+    @SerializedName("notification")
+    public Notification notification;
     @SerializedName("created_at")
     public Date created_at;
     @SerializedName("updated_at")
@@ -85,6 +89,21 @@ public class StatusCache {
     }
 
     /**
+     * Serialized a Notification class
+     *
+     * @param mastodon_notification {@link Notification} to serialize
+     * @return String serialized status
+     */
+    public static String mastodonNotificationToStringStorage(Notification mastodon_notification) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(mastodon_notification);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Unserialized a Mastodon Status
      *
      * @param serializedStatus String serialized status
@@ -94,6 +113,22 @@ public class StatusCache {
         Gson gson = new Gson();
         try {
             return gson.fromJson(serializedStatus, Status.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Unserialized a Mastodon Notification
+     *
+     * @param serializedNotification String serialized status
+     * @return {@link Notification}
+     */
+    public static Notification restoreNotificationFromString(String serializedNotification) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serializedNotification, Notification.class);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -197,7 +232,12 @@ public class StatusCache {
         values.put(Sqlite.COL_SLUG, slug);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
         values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
-        values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
+        if (statusCache.status != null) {
+            values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
+        }
+        if (statusCache.notification != null) {
+            values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(statusCache.notification));
+        }
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         //Inserts token
         try {
@@ -222,7 +262,12 @@ public class StatusCache {
         ContentValues values = new ContentValues();
         values.put(Sqlite.COL_USER_ID, statusCache.user_id);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
-        values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
+        if (statusCache.status != null) {
+            values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
+        }
+        if (statusCache.notification != null) {
+            values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(statusCache.notification));
+        }
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
         //Inserts token
         try {
@@ -298,6 +343,48 @@ public class StatusCache {
     }
 
 
+    /**
+     * Get paginated notifications from db
+     *
+     * @param instance String - instance
+     * @param user_id  String - us
+     * @param max_id   String - status having max id
+     * @param min_id   String - status having min id
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Notifications getNotifications(List<String> exclude_type, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String order = " DESC";
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.NOTIFICATION.getValue() + "' ";
+        String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
+        if (min_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            order = " ASC";
+        } else if (max_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+        } else if (since_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            limit = null;
+        }
+        if (exclude_type != null && exclude_type.size() > 0) {
+            StringBuilder exclude = new StringBuilder();
+            for (String excluded : exclude_type) {
+                exclude.append("'").append(excluded).append("'").append(",");
+            }
+            exclude = new StringBuilder(exclude.substring(0, exclude.length() - 1));
+            selection += "AND " + Sqlite.COL_SLUG + " NOT IN (" + exclude + ") ";
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
+            return createNotificationReply(cursorToListOfNotifications(c));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     /**
@@ -404,6 +491,52 @@ public class StatusCache {
     }
 
     /**
+     * Convert a cursor to list of notifications
+     *
+     * @param c Cursor
+     * @return List<Status>
+     */
+    private List<Notification> cursorToListOfNotifications(Cursor c) {
+        //No element found
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
+        }
+        List<Notification> notificationList = new ArrayList<>();
+        while (c.moveToNext()) {
+            Notification notification = convertCursorToNotification(c);
+            notificationList.add(notification);
+        }
+        //Close the cursor
+        c.close();
+        return notificationList;
+    }
+
+
+    /**
+     * Create a reply from db in the same way than API call
+     *
+     * @param notificationList List<Notification>
+     * @return Notifications (with pagination)
+     */
+    private Notifications createNotificationReply(List<Notification> notificationList) {
+        Notifications notifications = new Notifications();
+        notifications.notifications = notificationList;
+        Pagination pagination = new Pagination();
+        if (notificationList != null && notificationList.size() > 0) {
+            //Status list is inverted, it happens for min_id due to ASC ordering
+            if (notificationList.get(0).id.compareTo(notificationList.get(notificationList.size() - 1).id) < 0) {
+                Collections.reverse(notificationList);
+                notifications.notifications = notificationList;
+            }
+            pagination.max_id = notificationList.get(0).id;
+            pagination.min_id = notificationList.get(notificationList.size() - 1).id;
+        }
+        notifications.pagination = pagination;
+        return notifications;
+    }
+
+    /**
      * Create a reply from db in the same way than API call
      *
      * @param statusList List<Status>
@@ -436,6 +569,18 @@ public class StatusCache {
         String serializedStatus = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS));
         return restoreStatusFromString(serializedStatus);
     }
+
+    /**
+     * Read cursor and hydrate without closing it
+     *
+     * @param c - Cursor
+     * @return Notification
+     */
+    private Notification convertCursorToNotification(Cursor c) {
+        String serializedNotification = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS));
+        return restoreNotificationFromString(serializedNotification);
+    }
+
 
     public enum order {
         @SerializedName("ASC")

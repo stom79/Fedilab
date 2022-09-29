@@ -35,6 +35,12 @@ public class Notification {
     public Account account;
     @SerializedName("status")
     public Status status;
+    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+
+    public enum PositionFetchMore {
+        TOP,
+        BOTTOM
+    }
 
     public transient List<Notification> relatedNotifications;
     public boolean isFetchMore;

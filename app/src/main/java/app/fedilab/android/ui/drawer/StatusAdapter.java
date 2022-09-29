@@ -1878,21 +1878,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         fromId = status.id;
                     }
-                    fetchMoreCallBack.onClickMinId(fromId);
-                    if (!remote) {
-                        new Thread(() -> {
-                            StatusCache statusCache = new StatusCache();
-                            statusCache.instance = BaseMainActivity.currentInstance;
-                            statusCache.user_id = BaseMainActivity.currentUserID;
-                            statusCache.status = status;
-                            statusCache.status_id = status.id;
-                            try {
-                                new StatusCache(context).updateIfExists(statusCache);
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
-                    }
+                    fetchMoreCallBack.onClickMinId(fromId, status);
                 }
             });
             holder.binding.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
@@ -1904,22 +1890,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                 }
-                fetchMoreCallBack.onClickMaxId(fromId);
+                fetchMoreCallBack.onClickMaxId(fromId, status);
                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                if (!remote) {
-                    new Thread(() -> {
-                        StatusCache statusCache = new StatusCache();
-                        statusCache.instance = BaseMainActivity.currentInstance;
-                        statusCache.user_id = BaseMainActivity.currentUserID;
-                        statusCache.status = status;
-                        statusCache.status_id = status.id;
-                        try {
-                            new StatusCache(context).updateIfExists(statusCache);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
             });
         } else {
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
@@ -2073,9 +2045,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface FetchMoreCallBack {
-        void onClickMinId(String min_id);
+        void onClickMinId(String min_id, Status statusToUpdate);
 
-        void onClickMaxId(String max_id);
+        void onClickMaxId(String max_id, Status statusToUpdate);
     }
 
     public static class StatusViewHolder extends RecyclerView.ViewHolder {
