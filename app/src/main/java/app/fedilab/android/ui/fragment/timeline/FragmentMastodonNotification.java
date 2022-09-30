@@ -58,8 +58,6 @@ import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 public class FragmentMastodonNotification extends Fragment implements NotificationAdapter.FetchMoreCallBack {
 
 
-    private static final int NOTIFICATION_PRESENT = -1;
-    private static final int NOTIFICATION__AT_THE_BOTTOM = -2;
     private FragmentPaginationBinding binding;
     private NotificationsVM notificationsVM;
     private boolean flagLoading;
@@ -231,16 +229,16 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (aggregateNotification) {
             notifications.notifications = aggregateNotifications(notifications.notifications);
         }
-        if (notificationAdapter != null && this.notificationList != null) {
-            int size = this.notificationList.size();
-            this.notificationList.clear();
-            this.notificationList = new ArrayList<>();
+        if (notificationAdapter != null && notificationList != null) {
+            int size = notificationList.size();
+            notificationList.clear();
+            notificationList = new ArrayList<>();
             notificationAdapter.notifyItemRangeRemoved(0, size);
         }
-        if (this.notificationList == null) {
-            this.notificationList = new ArrayList<>();
+        if (notificationList == null) {
+            notificationList = new ArrayList<>();
         }
-        this.notificationList.addAll(notifications.notifications);
+        notificationList.addAll(notifications.notifications);
 
         if (max_id == null || (notifications.pagination.max_id != null && notifications.pagination.max_id.compareTo(max_id) < 0)) {
             max_id = notifications.pagination.max_id;
@@ -249,7 +247,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             min_id = notifications.pagination.min_id;
         }
 
-        notificationAdapter = new NotificationAdapter(this.notificationList);
+        notificationAdapter = new NotificationAdapter(notificationList);
         notificationAdapter.fetchMoreCallBack = this;
         mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -268,6 +266,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 if (dy > 0) {
                     int visibleItemCount = mLayoutManager.getChildCount();
                     int totalItemCount = mLayoutManager.getItemCount();
+
                     if (firstVisibleItem + visibleItemCount == totalItemCount) {
                         if (!flagLoading) {
                             flagLoading = true;
@@ -366,7 +365,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             notificationsVM.getNotificationCache(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsTop -> {
                         if (notificationsTop == null || notificationsTop.notifications == null || notificationsTop.notifications.size() == 0) {
-                            getLiveNotifications(FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, timelineParams, null);
+                            getLiveNotifications(FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, timelineParams, null);
                         } else {
                             dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, null);
                         }
@@ -488,6 +487,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             flagLoading = true;
         }
+        if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+            binding.recyclerView.scrollToPosition(0);
+        }
     }
 
     /**
@@ -500,9 +502,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             for (Notification notificationReceived : notificationsReceived) {
                 int position = 0;
                 //We loop through messages already in the timeline
-                if (this.notificationList != null) {
-                    notificationAdapter.notifyItemRangeChanged(0, this.notificationList.size());
-                    for (Notification notificationsAlreadyPresent : this.notificationList) {
+                if (notificationList != null) {
+                    notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
+                    for (Notification notificationsAlreadyPresent : notificationList) {
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
                         if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
