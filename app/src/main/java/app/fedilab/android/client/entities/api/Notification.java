@@ -14,6 +14,8 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
@@ -43,6 +45,15 @@ public class Notification {
     public enum PositionFetchMore {
         TOP,
         BOTTOM
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Notification) {
+            same = this.id.equals(((Notification) obj).id);
+        }
+        return same;
     }
 
     public transient List<Notification> relatedNotifications;
