@@ -231,7 +231,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else {
             ident = null;
         }
-        slug = timelineType.getValue() + (ident != null ? "|" + ident : "");
+        if (timelineType != null) {
+            slug = timelineType.getValue() + (ident != null ? "|" + ident : "");
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         //Retrieve the max_id to keep position
 

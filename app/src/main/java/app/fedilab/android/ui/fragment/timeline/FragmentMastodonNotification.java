@@ -90,7 +90,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private LinearLayoutManager mLayoutManager;
     private ArrayList<String> idOfAddedNotifications;
     private NotificationTypeEnum notificationType;
-    private List<String> excludeType;
     private boolean aggregateNotification;
 
     /**
@@ -135,7 +134,15 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = null;
-        excludeType = new ArrayList<>();
+        route(null, false);
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+        return root;
+    }
+
+    List<String> getExcludeType() {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
+        List<String> excludeType = new ArrayList<>();
         excludeType.add("follow");
         excludeType.add("favourite");
         excludeType.add("reblog");
@@ -167,12 +174,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             excludeType.remove("follow");
             excludeType.remove("follow_request");
         }
-        route(null, false);
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
-        return root;
+        return excludeType;
     }
-
-
     /**
      * Intialize the view for notifications
      *
@@ -304,7 +307,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else {
             timelineParams.maxId = max_id;
         }
-        timelineParams.excludeType = excludeType;
+        timelineParams.userId = null;
+        timelineParams.excludeType = getExcludeType();
+
         timelineParams.fetchingMissing = fetchingMissing;
 
         if (useCache) {
