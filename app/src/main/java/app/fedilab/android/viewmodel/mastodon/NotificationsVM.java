@@ -104,7 +104,7 @@ public class NotificationsVM extends AndroidViewModel {
         MastodonNotificationsService mastodonNotificationsService = init(timelineParams.instance);
         new Thread(() -> {
             Notifications notifications = new Notifications();
-            Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(timelineParams.token, timelineParams.excludeType, timelineParams.userId, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+            Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(timelineParams.token, timelineParams.excludeType, null, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
             if (notificationsCall != null) {
                 try {
                     Response<List<Notification>> notificationsResponse = notificationsCall.execute();
@@ -125,7 +125,7 @@ public class NotificationsVM extends AndroidViewModel {
                                 statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
                                 statusCache.status_id = notification.id;
                                 try {
-                                    statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                    statusCacheDAO.insertOrUpdate(statusCache, notification.type);
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }

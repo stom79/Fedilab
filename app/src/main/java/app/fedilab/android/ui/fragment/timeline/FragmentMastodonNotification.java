@@ -43,8 +43,10 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -103,6 +105,25 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         boolean found = false;
         for (Notification _notification : notificationList) {
             if (_notification.status != null && _notification.status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            }
+            position++;
+        }
+        return found ? position : -1;
+    }
+
+    /**
+     * Return the position of the notification in the ArrayList
+     *
+     * @param notification - Notification to fetch
+     * @return position or -1 if not found
+     */
+    private int getPosition(Notification notification) {
+        int position = 0;
+        boolean found = false;
+        for (Notification _notification : notificationList) {
+            if (_notification.status != null && _notification.id.compareTo(notification.id) == 0) {
                 found = true;
                 break;
             }
@@ -307,7 +328,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else {
             timelineParams.maxId = max_id;
         }
-        timelineParams.userId = null;
         timelineParams.excludeType = getExcludeType();
 
         timelineParams.fetchingMissing = fetchingMissing;
@@ -416,6 +436,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
 
+
     /**
      * Update view and pagination when scrolling down
      *
@@ -429,10 +450,31 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
         if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && fetched_notifications.notifications.size() > 0) {
+            try {
+                if (notificationToUpdate != null) {
+                    new Thread(() -> {
+                        StatusCache statusCache = new StatusCache();
+                        statusCache.instance = BaseMainActivity.currentInstance;
+                        statusCache.user_id = BaseMainActivity.currentUserID;
+                        statusCache.notification = notificationToUpdate;
+                        statusCache.status_id = notificationToUpdate.id;
+                        try {
+                            new StatusCache(requireActivity()).updateIfExists(statusCache);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            } catch (Exception ignored) {
+            }
+
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
-            updateNotificationListWith(direction, fetched_notifications.notifications, fetchingMissing);
+            updateNotificationListWith(fetched_notifications.notifications);
+            if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
+                binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
+            }
             if (!fetchingMissing) {
                 if (fetched_notifications.pagination.max_id == null) {
                     flagLoading = true;
@@ -452,83 +494,34 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      * Update the timeline with received statuses
      *
      * @param notificationsReceived - List<Notification> Notifications received
-     * @param fetchingMissing       - boolean if the call concerns fetching messages (ie: refresh of from fetch more button)
      */
-    private void updateNotificationListWith(FragmentMastodonTimeline.DIRECTION direction, List<Notification> notificationsReceived, boolean fetchingMissing) {
-        int numberInserted = 0;
-        int lastInsertedPosition = 0;
-        int initialInsertedPosition = NOTIFICATION_PRESENT;
+    private void updateNotificationListWith(List<Notification> notificationsReceived) {
         if (notificationsReceived != null && notificationsReceived.size() > 0) {
-            int insertedPosition = NOTIFICATION_PRESENT;
             for (Notification notificationReceived : notificationsReceived) {
-                insertedPosition = insertNotification(notificationReceived);
-                if (insertedPosition != NOTIFICATION_PRESENT && insertedPosition != NOTIFICATION__AT_THE_BOTTOM) {
-                    numberInserted++;
-                    if (initialInsertedPosition == NOTIFICATION_PRESENT) {
-                        initialInsertedPosition = insertedPosition;
+                int position = 0;
+                //We loop through messages already in the timeline
+                if (this.notificationList != null) {
+                    notificationAdapter.notifyItemRangeChanged(0, this.notificationList.size());
+                    for (Notification notificationsAlreadyPresent : this.notificationList) {
+                        //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
+                        //Pinned messages are ignored because their date can be older
+                        if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
+                            notificationList.add(position, notificationReceived);
+                            notificationAdapter.notifyItemInserted(position);
+                            break;
+                        }
+                        position++;
                     }
-                    if (insertedPosition < initialInsertedPosition) {
-                        initialInsertedPosition = lastInsertedPosition;
+                    //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+                    if (position == notificationList.size() && !notificationList.contains(notificationReceived)) {
+                        notificationList.add(position, notificationReceived);
+                        notificationAdapter.notifyItemInserted(position);
                     }
                 }
-            }
-            lastInsertedPosition = initialInsertedPosition + numberInserted;
-            //lastInsertedPosition contains the position of the last inserted status
-            //If there were no overlap for top status
-            if (fetchingMissing && insertedPosition != NOTIFICATION_PRESENT && insertedPosition != NOTIFICATION__AT_THE_BOTTOM && this.notificationList.size() > insertedPosition) {
-                Notification notificationFetchMore = new Notification();
-                notificationFetchMore.isFetchMore = true;
-                notificationFetchMore.id = Helper.generateString();
-                int insertAt;
-                if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
-                    insertAt = lastInsertedPosition;
-                } else {
-                    insertAt = initialInsertedPosition;
-                }
-
-                this.notificationList.add(insertAt, notificationFetchMore);
-                notificationAdapter.notifyItemInserted(insertAt);
             }
         }
     }
 
-    /**
-     * Insert a status if not yet in the timeline
-     *
-     * @param notificationReceived - Notification coming from the api/db
-     * @return int >= 0 |  STATUS_PRESENT = -1 | STATUS_AT_THE_BOTTOM = -2
-     */
-    private int insertNotification(Notification notificationReceived) {
-        if (idOfAddedNotifications.contains(notificationReceived.id)) {
-            return NOTIFICATION_PRESENT;
-        }
-        int position = 0;
-        //We loop through messages already in the timeline
-        if (this.notificationList != null) {
-            notificationAdapter.notifyItemRangeChanged(0, this.notificationList.size());
-            for (Notification notificationsAlreadyPresent : this.notificationList) {
-                //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
-                //Pinned messages are ignored because their date can be older
-                if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
-                    //We add the status to a list of id - thus we know it is already in the timeline
-                    idOfAddedNotifications.add(notificationReceived.id);
-                    this.notificationList.add(position, notificationReceived);
-                    notificationAdapter.notifyItemInserted(position);
-                    break;
-                }
-                position++;
-            }
-            //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
-            if (position == this.notificationList.size()) {
-                //We add the status to a list of id - thus we know it is already in the timeline
-                idOfAddedNotifications.add(notificationReceived.id);
-                this.notificationList.add(position, notificationReceived);
-                notificationAdapter.notifyItemInserted(position);
-                return NOTIFICATION__AT_THE_BOTTOM;
-            }
-        }
-        return position;
-    }
 
 
     @Override

@@ -391,20 +391,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         flagLoading = false;
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             try {
-                new Thread(() -> {
-                    StatusCache statusCache = new StatusCache();
-                    statusCache.instance = BaseMainActivity.currentInstance;
-                    statusCache.user_id = BaseMainActivity.currentUserID;
-                    statusCache.status = statusToUpdate;
-                    if (statusToUpdate != null) {
+                if (statusToUpdate != null) {
+                    new Thread(() -> {
+                        StatusCache statusCache = new StatusCache();
+                        statusCache.instance = BaseMainActivity.currentInstance;
+                        statusCache.user_id = BaseMainActivity.currentUserID;
+                        statusCache.status = statusToUpdate;
                         statusCache.status_id = statusToUpdate.id;
-                    }
-                    try {
-                        new StatusCache(requireActivity()).updateIfExists(statusCache);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
+                        try {
+                            new StatusCache(requireActivity()).updateIfExists(statusCache);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
             } catch (Exception ignored) {
             }
             flagLoading = fetched_statuses.pagination.max_id == null;
@@ -460,8 +460,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param statusListReceived - List<Status> Statuses received
      */
-    private int updateStatusListWith(List<Status> statusListReceived) {
-        int inserted = 0;
+    private void updateStatusListWith(List<Status> statusListReceived) {
         if (statusListReceived != null && statusListReceived.size() > 0) {
             for (Status statusReceived : statusListReceived) {
                 int position = 0;
@@ -477,7 +476,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
                                 timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
-                                inserted++;
                             }
                             break;
                         }
@@ -492,7 +490,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
         }
-        return inserted;
     }
 
     @Override
