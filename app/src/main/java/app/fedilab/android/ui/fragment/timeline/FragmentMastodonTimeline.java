@@ -396,6 +396,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         StatusCache statusCache = new StatusCache();
                         statusCache.instance = BaseMainActivity.currentInstance;
                         statusCache.user_id = BaseMainActivity.currentUserID;
+                        statusToUpdate.isFetchMore = false;
                         statusCache.status = statusToUpdate;
                         statusCache.status_id = statusToUpdate.id;
                         try {

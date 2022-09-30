@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.client.entities.api.Conversation;
+import app.fedilab.android.client.entities.api.Conversations;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
 import app.fedilab.android.client.entities.api.Pagination;
@@ -57,6 +59,8 @@ public class StatusCache {
     public Status status;
     @SerializedName("notification")
     public Notification notification;
+    @SerializedName("conversation")
+    public Conversation conversation;
     @SerializedName("created_at")
     public Date created_at;
     @SerializedName("updated_at")
@@ -104,6 +108,21 @@ public class StatusCache {
     }
 
     /**
+     * Serialized a Conversation class
+     *
+     * @param mastodon_conversation {@link Conversation} to serialize
+     * @return String serialized Conversation
+     */
+    public static String mastodonConversationToStringStorage(Conversation mastodon_conversation) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(mastodon_conversation);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Unserialized a Mastodon Status
      *
      * @param serializedStatus String serialized status
@@ -129,6 +148,23 @@ public class StatusCache {
         Gson gson = new Gson();
         try {
             return gson.fromJson(serializedNotification, Notification.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * Unserialized a Mastodon Conversation
+     *
+     * @param serializedConversation String serialized Conversation
+     * @return {@link Conversation}
+     */
+    public static Conversation restoreConversationFromString(String serializedConversation) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serializedConversation, Conversation.class);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -238,6 +274,9 @@ public class StatusCache {
         if (statusCache.notification != null) {
             values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(statusCache.notification));
         }
+        if (statusCache.conversation != null) {
+            values.put(Sqlite.COL_STATUS, mastodonConversationToStringStorage(statusCache.conversation));
+        }
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         //Inserts token
         try {
@@ -267,6 +306,9 @@ public class StatusCache {
         }
         if (statusCache.notification != null) {
             values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(statusCache.notification));
+        }
+        if (statusCache.conversation != null) {
+            values.put(Sqlite.COL_STATUS, mastodonConversationToStringStorage(statusCache.conversation));
         }
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
         //Inserts token
@@ -389,6 +431,42 @@ public class StatusCache {
 
 
     /**
+     * Get paginated conversations from db
+     *
+     * @param instance String - instance
+     * @param user_id  String - us
+     * @param max_id   String - status having max id
+     * @param min_id   String - status having min id
+     * @return Statuses
+     * @throws DBException - throws a db exception
+     */
+    public Conversations getConversations(String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String order = " DESC";
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_TYPE + "= '" + Timeline.TimeLineEnum.CONVERSATION.getValue() + "' ";
+        String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
+        if (min_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            order = " ASC";
+        } else if (max_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+        } else if (since_id != null) {
+            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            limit = null;
+        }
+
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
+            return createConversationReply(cursorToListOfConversations(c));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Get paginated statuses from db
      *
      * @param slug     String - slug for the timeline (it's a unique string value for a timeline)
@@ -495,7 +573,7 @@ public class StatusCache {
      * Convert a cursor to list of notifications
      *
      * @param c Cursor
-     * @return List<Status>
+     * @return List<Notification>
      */
     private List<Notification> cursorToListOfNotifications(Cursor c) {
         //No element found
@@ -513,6 +591,28 @@ public class StatusCache {
         return notificationList;
     }
 
+
+    /**
+     * Convert a cursor to list of Conversation
+     *
+     * @param c Cursor
+     * @return List<Conversation>
+     */
+    private List<Conversation> cursorToListOfConversations(Cursor c) {
+        //No element found
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
+        }
+        List<Conversation> conversationList = new ArrayList<>();
+        while (c.moveToNext()) {
+            Conversation conversation = convertCursorToConversation(c);
+            conversationList.add(conversation);
+        }
+        //Close the cursor
+        c.close();
+        return conversationList;
+    }
 
     /**
      * Create a reply from db in the same way than API call
@@ -535,6 +635,30 @@ public class StatusCache {
         }
         notifications.pagination = pagination;
         return notifications;
+    }
+
+
+    /**
+     * Create a reply from db in the same way than API call
+     *
+     * @param conversationList List<Conversation>
+     * @return Conversations (with pagination)
+     */
+    private Conversations createConversationReply(List<Conversation> conversationList) {
+        Conversations conversations = new Conversations();
+        conversations.conversations = conversationList;
+        Pagination pagination = new Pagination();
+        if (conversationList != null && conversationList.size() > 0) {
+            //Status list is inverted, it happens for min_id due to ASC ordering
+            if (conversationList.get(0).id.compareTo(conversationList.get(conversationList.size() - 1).id) < 0) {
+                Collections.reverse(conversationList);
+                conversations.conversations = conversationList;
+            }
+            pagination.max_id = conversationList.get(0).id;
+            pagination.min_id = conversationList.get(conversationList.size() - 1).id;
+        }
+        conversations.pagination = pagination;
+        return conversations;
     }
 
     /**
@@ -582,6 +706,17 @@ public class StatusCache {
         return restoreNotificationFromString(serializedNotification);
     }
 
+
+    /**
+     * Read cursor and hydrate without closing it
+     *
+     * @param c - Cursor
+     * @return Conversation
+     */
+    private Conversation convertCursorToConversation(Cursor c) {
+        String serializedNotification = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS));
+        return restoreConversationFromString(serializedNotification);
+    }
 
     public enum order {
         @SerializedName("ASC")

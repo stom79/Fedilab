@@ -58,6 +58,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final List<Conversation> conversationList;
     private Context context;
     private boolean isExpended = false;
+    public FetchMoreCallBack fetchMoreCallBack;
 
     public ConversationAdapter(List<Conversation> conversations) {
         if (conversations == null) {
@@ -126,6 +127,42 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (conversation.last_status == null) {
             return;
+        }
+        if (conversation.isFetchMore && fetchMoreCallBack != null) {
+            holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+            holder.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                conversation.isFetchMore = false;
+                if (holder.getBindingAdapterPosition() < conversationList.size() - 1) {
+                    String fromId;
+                    if (conversation.positionFetchMore == Conversation.PositionFetchMore.TOP) {
+                        fromId = conversationList.get(position + 1).id;
+                    } else {
+                        fromId = conversation.id;
+                    }
+                    fetchMoreCallBack.onClickMinId(fromId, conversation);
+                    notifyItemChanged(position);
+                }
+
+            });
+            holder.binding.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                //We hide the button
+                conversation.isFetchMore = false;
+                String fromId;
+                if (conversation.positionFetchMore == Conversation.PositionFetchMore.TOP) {
+                    fromId = conversationList.get(position).id;
+                } else {
+                    fromId = conversationList.get(position - 1).id;
+                }
+                notifyItemChanged(position);
+                fetchMoreCallBack.onClickMaxId(fromId, conversation);
+            });
+        } else {
+            holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+        }
+        if (conversation.cached) {
+            holder.binding.cacheIndicator.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.cacheIndicator.setVisibility(View.GONE);
         }
         //---- SPOILER TEXT -----
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
@@ -257,5 +294,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public interface FetchMoreCallBack {
+        void onClickMinId(String min_id, Conversation conversationToUpdate);
 
+        void onClickMaxId(String max_id, Conversation conversationToUpdate);
+    }
 }

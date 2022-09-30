@@ -115,6 +115,7 @@ public class NotificationsVM extends AndroidViewModel {
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
 
                         if (notifications.notifications != null && notifications.notifications.size() > 0) {
+                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                             for (Notification notification : notifications.notifications) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -130,7 +131,6 @@ public class NotificationsVM extends AndroidViewModel {
                                     e.printStackTrace();
                                 }
                             }
-                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         }
                     }
                 } catch (Exception e) {

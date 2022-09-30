@@ -358,6 +358,8 @@ public class Timeline {
         DIRECT("DIRECT"),
         @SerializedName("NOTIFICATION")
         NOTIFICATION("NOTIFICATION"),
+        @SerializedName("CONVERSATION")
+        CONVERSATION("CONVERSATION"),
         @SerializedName("LOCAL")
         LOCAL("LOCAL"),
         @SerializedName("PUBLIC")

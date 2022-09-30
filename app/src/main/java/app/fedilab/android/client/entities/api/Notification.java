@@ -58,7 +58,7 @@ public class Notification {
 
     public transient List<Notification> relatedNotifications;
     public boolean isFetchMore;
-    public boolean isFetchMoreHidden = false;
+
 
     /**
      * Serialized a list of Notification class

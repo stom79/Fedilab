@@ -1,5 +1,7 @@
 package app.fedilab.android.client.entities.api;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -27,4 +29,25 @@ public class Conversation {
     public List<Account> accounts;
     @SerializedName("last_status")
     public Status last_status;
+    public boolean isFetchMore = false;
+    @SerializedName("cached")
+    public boolean cached = false;
+
+
+    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Conversation) {
+            same = this.id.equals(((Conversation) obj).id);
+        }
+        return same;
+    }
+
+    public enum PositionFetchMore {
+        TOP,
+        BOTTOM
+    }
+
 }

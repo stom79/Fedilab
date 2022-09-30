@@ -363,6 +363,27 @@ public class TimelinesVM extends AndroidViewModel {
         }
     }
 
+    private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
+        if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
+                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
+                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                if (!timelineConversations.contains(conversationList.get(0))) {
+                    conversationList.get(0).isFetchMore = true;
+                    conversationList.get(0).positionFetchMore = Conversation.PositionFetchMore.BOTTOM;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                if (!timelineConversations.contains(conversationList.get(conversationList.size() - 1))) {
+                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
+                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
+                }
+            }
+        }
+    }
 
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
 
@@ -397,6 +418,7 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
                         if (statusList != null && statusList.size() > 0) {
+                            addFetchMore(statusList, timelineStatuses, timelineParams);
                             for (Status status : statuses.statuses) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -411,7 +433,6 @@ public class TimelinesVM extends AndroidViewModel {
                                     e.printStackTrace();
                                 }
                             }
-                            addFetchMore(statusList, timelineStatuses, timelineParams);
                         }
                     }
                 } catch (Exception e) {
@@ -476,28 +497,46 @@ public class TimelinesVM extends AndroidViewModel {
         return statusDraftListMutableLiveData;
     }
 
+
     /**
      * Show conversations
      *
      * @return {@link LiveData} containing a {@link Conversations}
      */
-    public LiveData<Conversations> getConversations(@NonNull String instance, String token,
-                                                    String maxId,
-                                                    String sinceId,
-                                                    String minId,
-                                                    int limit) {
+    public LiveData<Conversations> getConversations(List<Conversation> conversationsTimeline, TimelineParams timelineParams) {
         conversationListMutableLiveData = new MutableLiveData<>();
-        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
             Conversations conversations = null;
-            Call<List<Conversation>> conversationsCall = mastodonTimelinesService.getConversations(token, maxId, sinceId, minId, limit);
+            Call<List<Conversation>> conversationsCall = mastodonTimelinesService.getConversations(timelineParams.token, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
             if (conversationsCall != null) {
                 conversations = new Conversations();
                 try {
                     Response<List<Conversation>> conversationsResponse = conversationsCall.execute();
                     if (conversationsResponse.isSuccessful()) {
-                        conversations.conversations = conversationsResponse.body();
+                        List<Conversation> conversationList = conversationsResponse.body();
+                        conversations.conversations = conversationList;
                         conversations.pagination = MastodonHelper.getPagination(conversationsResponse.headers());
+
+                        if (conversationList != null && conversationList.size() > 0) {
+
+                            addFetchMoreConversation(conversationList, conversationsTimeline, timelineParams);
+
+                            for (Conversation conversation : conversations.conversations) {
+                                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                StatusCache statusCache = new StatusCache();
+                                statusCache.instance = timelineParams.instance;
+                                statusCache.user_id = timelineParams.userId;
+                                statusCache.conversation = conversation;
+                                statusCache.type = Timeline.TimeLineEnum.CONVERSATION;
+                                statusCache.status_id = conversation.id;
+                                try {
+                                    statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -509,6 +548,36 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
 
+        return conversationListMutableLiveData;
+    }
+
+
+    public LiveData<Conversations> getConversationsCache(List<Conversation> timelineConversations, TimelineParams timelineParams) {
+        conversationListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+            Conversations conversations = null;
+            try {
+                conversations = statusCacheDAO.getConversations(timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
+                if (conversations != null) {
+                    if (conversations.conversations != null && conversations.conversations.size() > 0) {
+                        for (Conversation conversation : conversations.conversations) {
+                            conversation.cached = true;
+                        }
+                        addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
+                        conversations.pagination = new Pagination();
+                        conversations.pagination.min_id = conversations.conversations.get(0).id;
+                        conversations.pagination.max_id = conversations.conversations.get(conversations.conversations.size() - 1).id;
+                    }
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Conversations finalConversations = conversations;
+            Runnable myRunnable = () -> conversationListMutableLiveData.setValue(finalConversations);
+            mainHandler.post(myRunnable);
+        }).start();
         return conversationListMutableLiveData;
     }
 

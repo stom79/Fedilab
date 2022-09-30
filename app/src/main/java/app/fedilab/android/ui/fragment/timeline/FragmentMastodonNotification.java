@@ -88,7 +88,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     };
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
-    private ArrayList<String> idOfAddedNotifications;
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;
 
@@ -121,7 +120,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         int position = 0;
         boolean found = false;
         for (Notification _notification : notificationList) {
-            if (_notification.status != null && _notification.id.compareTo(notification.id) == 0) {
+            if (_notification != null && _notification.id.compareTo(notification.id) == 0) {
                 found = true;
                 break;
             }
@@ -134,7 +133,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
 
         flagLoading = false;
-        idOfAddedNotifications = new ArrayList<>();
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         if (getArguments() != null) {
@@ -142,8 +140,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         aggregateNotification = false;
         binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
         binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
         binding.swipeContainer.setColorSchemeColors(
@@ -222,9 +218,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             binding.noAction.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
         }
-        for (Notification notification : notifications.notifications) {
-            idOfAddedNotifications.add(notification.id);
-        }
+
         flagLoading = notifications.pagination.max_id == null;
         if (aggregateNotification) {
             notifications.notifications = aggregateNotifications(notifications.notifications);
@@ -455,6 +449,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         StatusCache statusCache = new StatusCache();
                         statusCache.instance = BaseMainActivity.currentInstance;
                         statusCache.user_id = BaseMainActivity.currentUserID;
+                        notificationToUpdate.isFetchMore = false;
                         statusCache.notification = notificationToUpdate;
                         statusCache.status_id = notificationToUpdate.id;
                         try {
