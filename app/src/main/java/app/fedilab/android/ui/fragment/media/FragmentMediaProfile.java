@@ -162,19 +162,22 @@ public class FragmentMediaProfile extends Fragment {
             flagLoading = fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //We have to split media in different statuses
-            List<Status> mediaStatusesNew = new ArrayList<>();
+
+            int added = 0;
             for (Status status : fetched_statuses.statuses) {
-                if (status.media_attachments.size() > 1) {
-                    for (Attachment attachment : status.media_attachments) {
-                        status.media_attachments = new ArrayList<>();
-                        status.media_attachments.add(0, attachment);
-                        mediaStatusesNew.add(status);
+                for (Attachment attachment : status.media_attachments) {
+                    try {
+                        Status statusTmp = (Status) status.clone();
+                        statusTmp.art_attachment = attachment;
+                        mediaStatuses.add(statusTmp);
+                        added++;
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
-            int position = this.mediaStatuses.size();
-            this.mediaStatuses.addAll(mediaStatusesNew);
-            imageAdapter.notifyItemRangeChanged(position, mediaStatusesNew.size());
+
+            imageAdapter.notifyItemRangeInserted(this.mediaStatuses.size() - added, this.mediaStatuses.size());
             if (fetched_statuses.pagination.max_id == null) {
                 flagLoading = true;
             } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
