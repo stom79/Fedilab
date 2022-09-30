@@ -186,6 +186,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
+            if (notification.cached) {
+                holderFollow.binding.cacheIndicator.setVisibility(View.VISIBLE);
+            } else {
+                holderFollow.binding.cacheIndicator.setVisibility(View.GONE);
+            }
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);
@@ -205,6 +210,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
+            if (notification.status != null) {
+                notification.status.cached = notification.cached;
+            }
             statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);

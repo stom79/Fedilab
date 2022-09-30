@@ -358,7 +358,7 @@ public class StatusCache {
             throw new DBException("db is null. Wrong initialization.");
         }
         String order = " DESC";
-        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.NOTIFICATION.getValue() + "' ";
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_TYPE + "= '" + Timeline.TimeLineEnum.NOTIFICATION.getValue() + "' ";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
@@ -369,6 +369,7 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
             limit = null;
         }
+
         if (exclude_type != null && exclude_type.size() > 0) {
             StringBuilder exclude = new StringBuilder();
             for (String excluded : exclude_type) {

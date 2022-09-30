@@ -109,8 +109,8 @@ public class NotificationsVM extends AndroidViewModel {
                 try {
                     Response<List<Notification>> notificationsResponse = notificationsCall.execute();
                     if (notificationsResponse.isSuccessful()) {
-                        notifications.notifications = notificationsResponse.body();
-                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
+                        List<Notification> notFiltered = notificationsResponse.body();
+                        notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered, false);
                         addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
 
@@ -154,7 +154,7 @@ public class NotificationsVM extends AndroidViewModel {
                 notifications = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (notifications != null) {
                     if (notifications.notifications != null && notifications.notifications.size() > 0) {
-                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
+                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications, true);
                         addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = new Pagination();
                         notifications.pagination.min_id = notifications.notifications.get(0).id;

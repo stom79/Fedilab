@@ -35,6 +35,9 @@ public class Notification {
     public Account account;
     @SerializedName("status")
     public Status status;
+    @SerializedName("cached")
+    public boolean cached;
+
     public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
 
     public enum PositionFetchMore {

@@ -101,6 +101,9 @@ public class TimelineHelper {
 
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
+            for (Status status : statuses) {
+                status.cached = cached;
+            }
             for (Filter filter : BaseMainActivity.mainFilters) {
                 if (filter.irreversible) { //Dealt by the server
                     continue;
@@ -111,7 +114,6 @@ public class TimelineHelper {
                             Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
                             for (Status status : statuses) {
                                 String content;
-                                status.cached = cached;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
@@ -136,7 +138,6 @@ public class TimelineHelper {
                         } else {
                             for (Status status : statuses) {
                                 String content;
-                                status.cached = cached;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
@@ -175,7 +176,7 @@ public class TimelineHelper {
      * @param notifications - List of {@link Notification}
      * @return filtered List<Status>
      */
-    public static List<Notification> filterNotification(Context context, List<Notification> notifications) {
+    public static List<Notification> filterNotification(Context context, List<Notification> notifications, boolean cached) {
         //A security to make sure filters have been fetched before displaying messages
         List<Notification> notificationToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
@@ -200,6 +201,7 @@ public class TimelineHelper {
                         if (filter.whole_word) {
                             Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
                             for (Notification notification : notifications) {
+                                notification.cached = cached;
                                 if (notification.status != null) {
                                     String content;
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -215,6 +217,7 @@ public class TimelineHelper {
                         } else {
                             for (Notification notification : notifications) {
                                 String content;
+                                notification.cached = cached;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(notification.status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
@@ -223,6 +226,10 @@ public class TimelineHelper {
                                     notificationToRemove.add(notification);
                                 }
                             }
+                        }
+                    } else {
+                        for (Notification notification : notifications) {
+                            notification.cached = cached;
                         }
                     }
                 }
