@@ -82,7 +82,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        route(DIRECTION.FETCH_NEW, true);
+        if (timelineStatuses != null && timelineStatuses.size() > 0) {
+            route(DIRECTION.FETCH_NEW, true);
+        }
     }
 
     //Handle actions that can be done in other fragments
@@ -535,7 +537,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineParams.maxId = max_id;
         }
         timelineParams.fetchingMissing = fetchingMissing;
-
         switch (timelineType) {
             case LOCAL:
                 timelineParams.local = true;
