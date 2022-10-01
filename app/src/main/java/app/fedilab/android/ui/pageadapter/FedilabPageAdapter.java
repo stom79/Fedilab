@@ -46,10 +46,12 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     private final int toRemove;
     private final boolean singleBar;
     private Fragment mCurrentFragment;
+    private final BaseMainActivity activity;
 
     public FedilabPageAdapter(BaseMainActivity activity, FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.pinned = pinned;
+        this.activity = activity;
         this.bottomMenu = bottomMenu;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -86,6 +88,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
+        fragment.update = activity;
         Bundle bundle = new Bundle();
         //Position 3 is for notifications
         if (position < (BOTTOM_TIMELINE_COUNT - toRemove) && !singleBar) {

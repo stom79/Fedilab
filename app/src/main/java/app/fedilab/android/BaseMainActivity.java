@@ -148,7 +148,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
+public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters {
 
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
     public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
@@ -1080,6 +1080,63 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 fragTransaction2.commit();
             }
         }
+    }
+
+    @Override
+    public void onUpdate(int count, Timeline.TimeLineEnum type, String slug) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (!singleBar) {
+            switch (type) {
+                case HOME:
+                    if (count > 0) {
+                        binding.bottomNavView.getOrCreateBadge(R.id.nav_home).setNumber(count);
+                        binding.bottomNavView.getBadge(R.id.nav_home).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                        binding.bottomNavView.getBadge(R.id.nav_home).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+                    } else {
+                        binding.bottomNavView.removeBadge(R.id.nav_home);
+                    }
+                    break;
+                case LOCAL:
+                    if (count > 0) {
+                        binding.bottomNavView.getOrCreateBadge(R.id.nav_local).setNumber(count);
+                        binding.bottomNavView.getBadge(R.id.nav_local).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                        binding.bottomNavView.getBadge(R.id.nav_local).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+                    } else {
+                        binding.bottomNavView.removeBadge(R.id.nav_local);
+                    }
+                    break;
+                case PUBLIC:
+                    if (count > 0) {
+                        binding.bottomNavView.getOrCreateBadge(R.id.nav_public).setNumber(count);
+                        binding.bottomNavView.getBadge(R.id.nav_public).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                        binding.bottomNavView.getBadge(R.id.nav_public).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+                    } else {
+                        binding.bottomNavView.removeBadge(R.id.nav_public);
+                    }
+                    break;
+                case NOTIFICATION:
+                    if (count > 0) {
+                        binding.bottomNavView.getOrCreateBadge(R.id.nav_notifications).setNumber(count);
+                        binding.bottomNavView.getBadge(R.id.nav_notifications).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                        binding.bottomNavView.getBadge(R.id.nav_notifications).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+                    } else {
+                        binding.bottomNavView.removeBadge(R.id.nav_notifications);
+                    }
+                    break;
+                case DIRECT:
+                    if (count > 0) {
+                        binding.bottomNavView.getOrCreateBadge(R.id.nav_privates).setNumber(count);
+                        binding.bottomNavView.getBadge(R.id.nav_privates).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                        binding.bottomNavView.getBadge(R.id.nav_privates).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+                    } else {
+                        binding.bottomNavView.removeBadge(R.id.nav_privates);
+                    }
+                    break;
+            }
+        }
+
+
     }
 
     @Override

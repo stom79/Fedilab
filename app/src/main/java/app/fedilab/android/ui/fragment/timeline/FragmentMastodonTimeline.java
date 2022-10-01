@@ -77,6 +77,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
+    public UpdateCounters update;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        route(DIRECTION.FETCH_NEW, true);
+    }
+
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -263,6 +271,81 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         return binding.getRoot();
     }
 
+    /**
+     * Update view and pagination when scrolling down
+     *
+     * @param fetched_statuses Statuses
+     */
+    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing, Status statusToUpdate) {
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
+        binding.swipeContainer.setRefreshing(false);
+        binding.loadingNextElements.setVisibility(View.GONE);
+        flagLoading = false;
+        if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
+            try {
+                if (statusToUpdate != null) {
+                    new Thread(() -> {
+                        StatusCache statusCache = new StatusCache();
+                        statusCache.instance = BaseMainActivity.currentInstance;
+                        statusCache.user_id = BaseMainActivity.currentUserID;
+                        statusToUpdate.isFetchMore = false;
+                        statusCache.status = statusToUpdate;
+                        statusCache.status_id = statusToUpdate.id;
+                        try {
+                            new StatusCache(requireActivity()).updateIfExists(statusCache);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            } catch (Exception ignored) {
+            }
+
+            flagLoading = fetched_statuses.pagination.max_id == null;
+            binding.noAction.setVisibility(View.GONE);
+            if (timelineType == Timeline.TimeLineEnum.ART) {
+                //We have to split media in different statuses
+                List<Status> mediaStatuses = new ArrayList<>();
+                for (Status status : fetched_statuses.statuses) {
+                    if (status.media_attachments.size() > 1) {
+                        for (Attachment attachment : status.media_attachments) {
+                            status.media_attachments = new ArrayList<>();
+                            status.media_attachments.add(0, attachment);
+                            mediaStatuses.add(status);
+                        }
+                    }
+                }
+                fetched_statuses.statuses = mediaStatuses;
+            }
+            //Update the timeline with new statuses
+            int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
+
+            //For these directions, the app will display counters for new messages
+            if (insertedStatus >= 0 && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP)) {
+                update.onUpdate(insertedStatus, timelineType, slug);
+            }
+            if (direction == DIRECTION.TOP && fetchingMissing) {
+                binding.recyclerView.scrollToPosition(getPosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1)) + 1);
+            }
+            if (!fetchingMissing) {
+                if (fetched_statuses.pagination.max_id == null) {
+                    flagLoading = true;
+                } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
+                    max_id = fetched_statuses.pagination.max_id;
+                }
+                if (min_id == null || (fetched_statuses.pagination.min_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
+                    min_id = fetched_statuses.pagination.min_id;
+                }
+            }
+        } else if (direction == DIRECTION.BOTTOM) {
+            flagLoading = true;
+        }
+        if (direction == DIRECTION.SCROLL_TOP) {
+            binding.recyclerView.scrollToPosition(0);
+        }
+    }
 
     /**
      * Intialize the common view for statuses on different timelines
@@ -378,90 +461,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     /**
-     * Update view and pagination when scrolling down
-     *
-     * @param fetched_statuses Statuses
-     */
-    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing, Status statusToUpdate) {
-        if (binding == null || !isAdded() || getActivity() == null) {
-            return;
-        }
-        binding.swipeContainer.setRefreshing(false);
-        binding.loadingNextElements.setVisibility(View.GONE);
-        flagLoading = false;
-        if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
-            try {
-                if (statusToUpdate != null) {
-                    new Thread(() -> {
-                        StatusCache statusCache = new StatusCache();
-                        statusCache.instance = BaseMainActivity.currentInstance;
-                        statusCache.user_id = BaseMainActivity.currentUserID;
-                        statusToUpdate.isFetchMore = false;
-                        statusCache.status = statusToUpdate;
-                        statusCache.status_id = statusToUpdate.id;
-                        try {
-                            new StatusCache(requireActivity()).updateIfExists(statusCache);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
-            } catch (Exception ignored) {
-            }
-            flagLoading = fetched_statuses.pagination.max_id == null;
-            binding.noAction.setVisibility(View.GONE);
-            if (timelineType == Timeline.TimeLineEnum.ART) {
-                //We have to split media in different statuses
-                List<Status> mediaStatuses = new ArrayList<>();
-                for (Status status : fetched_statuses.statuses) {
-                    if (status.media_attachments.size() > 1) {
-                        for (Attachment attachment : status.media_attachments) {
-                            status.media_attachments = new ArrayList<>();
-                            status.media_attachments.add(0, attachment);
-                            mediaStatuses.add(status);
-                        }
-                    }
-                }
-                fetched_statuses.statuses = mediaStatuses;
-            }
-            //Update the timeline with new statuses
-            updateStatusListWith(fetched_statuses.statuses);
-            if (direction == DIRECTION.TOP && fetchingMissing) {
-                binding.recyclerView.scrollToPosition(getPosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1)) + 1);
-            }
-            if (!fetchingMissing) {
-                if (fetched_statuses.pagination.max_id == null) {
-                    flagLoading = true;
-                } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
-                    max_id = fetched_statuses.pagination.max_id;
-                }
-                if (min_id == null || (fetched_statuses.pagination.min_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
-                    min_id = fetched_statuses.pagination.min_id;
-                }
-            }
-        } else if (direction == DIRECTION.BOTTOM) {
-            flagLoading = true;
-        }
-        if (direction == DIRECTION.SCROLL_TOP) {
-            binding.recyclerView.scrollToPosition(0);
-        }
-    }
-
-    /**
-     * Update view and pagination when scrolling down
-     *
-     * @param fetched_statuses Statuses
-     */
-    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
-        dealWithPagination(fetched_statuses, direction, fetchingMissing, null);
-    }
-
-    /**
      * Update the timeline with received statuses
      *
      * @param statusListReceived - List<Status> Statuses received
      */
-    private void updateStatusListWith(List<Status> statusListReceived) {
+    private int updateStatusListWith(List<Status> statusListReceived) {
+        int insertedStatus = 0;
         if (statusListReceived != null && statusListReceived.size() > 0) {
             for (Status statusReceived : statusListReceived) {
                 int position = 0;
@@ -477,6 +482,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
                                 timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
+                                insertedStatus++;
                             }
                             break;
                         }
@@ -491,56 +497,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
         }
+        return insertedStatus;
     }
 
-    @Override
-    public void onPause() {
-        storeMarker();
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        //Update last read id for home timeline
-        if (isAdded()) {
-            storeMarker();
-        }
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
-        super.onDestroyView();
-    }
-
-
-    private void storeMarker() {
-        if (timelineType == Timeline.TimeLineEnum.HOME && mLayoutManager != null) {
-            int position = mLayoutManager.findFirstVisibleItemPosition();
-            if (timelineStatuses != null && timelineStatuses.size() > position) {
-                try {
-                    Status status = timelineStatuses.get(position);
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, status.id);
-                    editor.apply();
-                    timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null);
-
-                } catch (Exception ignored) {
-                }
-            }
-        }
-    }
-
-    private void router(DIRECTION direction) {
-        if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
-            new Thread(() -> {
-                if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
-                    networkAvailable = Helper.isConnectedToInternet(requireActivity(), BaseMainActivity.currentInstance);
-                }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> route(direction, false);
-                mainHandler.post(myRunnable);
-            }).start();
-        } else {
-            route(direction, false);
-        }
+    /**
+     * Update view and pagination when scrolling down
+     *
+     * @param fetched_statuses Statuses
+     */
+    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing) {
+        dealWithPagination(fetched_statuses, direction, fetchingMissing, null);
     }
 
     /**
@@ -600,12 +566,62 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
-        if (useCache) {
+        if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
             getCachedStatus(direction, fetchingMissing, timelineParams);
         } else {
             getLiveStatus(direction, fetchingMissing, timelineParams, status);
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        storeMarker();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        //Update last read id for home timeline
+        if (isAdded()) {
+            storeMarker();
+        }
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+        super.onDestroyView();
+    }
+
+
+    private void storeMarker() {
+        if (timelineType == Timeline.TimeLineEnum.HOME && mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            if (timelineStatuses != null && timelineStatuses.size() > position) {
+                try {
+                    Status status = timelineStatuses.get(position);
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, status.id);
+                    editor.apply();
+                    timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null);
+
+                } catch (Exception ignored) {
+                }
+            }
+        }
+    }
+
+    private void router(DIRECTION direction) {
+        if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
+            new Thread(() -> {
+                if (networkAvailable == BaseMainActivity.status.UNKNOWN) {
+                    networkAvailable = Helper.isConnectedToInternet(requireActivity(), BaseMainActivity.currentInstance);
+                }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> route(direction, false);
+                mainHandler.post(myRunnable);
+            }).start();
+        } else {
+            route(direction, false);
+        }
     }
 
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
@@ -637,11 +653,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }
 
                     });
-        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-            timelinesVM.getTimeline(timelineStatuses, timelineParams)
+        } else if (direction == DIRECTION.REFRESH) {
+            timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                         if (statusesRefresh == null || statusesRefresh.statuses == null || statusesRefresh.statuses.size() == 0) {
-                            getCachedStatus(direction, fetchingMissing, timelineParams);
+                            getLiveStatus(direction, fetchingMissing, timelineParams, null);
                         } else {
                             if (statusAdapter != null) {
                                 dealWithPagination(statusesRefresh, direction, true);
@@ -653,7 +669,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-
     private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Status status) {
         if (direction == null) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
@@ -664,7 +679,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (direction == DIRECTION.TOP) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, fetchingMissing, status));
-        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+        } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesRefresh -> {
                         if (statusAdapter != null) {
@@ -674,6 +689,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }
                     });
         }
+    }
+
+
+    public enum DIRECTION {
+        TOP,
+        BOTTOM,
+        REFRESH,
+        SCROLL_TOP,
+        FETCH_NEW
     }
 
 
@@ -887,10 +911,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         route(DIRECTION.BOTTOM, true, statusToUpdate);
     }
 
-    public enum DIRECTION {
-        TOP,
-        BOTTOM,
-        REFRESH,
-        SCROLL_TOP
+    public interface UpdateCounters {
+        void onUpdate(int count, Timeline.TimeLineEnum type, String slug);
     }
 }
