@@ -428,7 +428,10 @@ public class TimelinesVM extends AndroidViewModel {
                                 statusCache.type = timelineParams.type;
                                 statusCache.status_id = status.id;
                                 try {
-                                    statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                    int inserted = statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                    if (inserted == 0) {
+                                        status.cached = true;
+                                    }
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }

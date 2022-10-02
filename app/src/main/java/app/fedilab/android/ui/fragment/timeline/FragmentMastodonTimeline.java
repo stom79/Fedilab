@@ -325,7 +325,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
 
             //For these directions, the app will display counters for new messages
-            if (insertedStatus >= 0 && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP)) {
+            if (insertedStatus >= 0 && update != null && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP)) {
                 update.onUpdate(insertedStatus, timelineType, slug);
             }
             if (direction == DIRECTION.TOP && fetchingMissing) {
@@ -424,7 +424,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
-
+        //Fetching new messages
+        route(DIRECTION.FETCH_NEW, true);
 
         if (searchCache == null && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -460,6 +461,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             });
         }
+
     }
 
     /**
@@ -484,7 +486,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
                                 timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
-                                insertedStatus++;
+                                if (!statusReceived.cached) {
+                                    insertedStatus++;
+                                }
                             }
                             break;
                         }

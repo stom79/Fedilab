@@ -175,20 +175,21 @@ public class StatusCache {
      * Insert or update a status
      *
      * @param statusCache {@link StatusCache}
-     * @return long - db id
+     * @return int - 0 if updated 1 if inserted
      * @throws DBException exception with database
      */
-    public long insertOrUpdate(StatusCache statusCache, String slug) throws DBException {
+    public int insertOrUpdate(StatusCache statusCache, String slug) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         statusCache.slug = slug;
         boolean exists = statusExist(statusCache);
-        long idReturned;
+        int idReturned = 0;
         if (exists) {
-            idReturned = updateStatus(statusCache);
+            updateStatus(statusCache);
         } else {
-            idReturned = insertStatus(statusCache, slug);
+            insertStatus(statusCache, slug);
+            idReturned = 1;
         }
         return idReturned;
     }

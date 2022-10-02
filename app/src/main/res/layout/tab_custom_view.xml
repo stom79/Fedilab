@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -20,4 +21,21 @@
         android:maxWidth="150dp"
         android:singleLine="true"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tab_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/icon"
+        android:layout_alignEnd="@+id/icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shape_counter"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textColor="?mTextColor"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="35"
+        tools:visibility="visible" />
 </androidx.appcompat.widget.LinearLayoutCompat>

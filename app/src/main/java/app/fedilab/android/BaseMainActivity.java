@@ -37,6 +37,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -75,6 +76,7 @@ import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.jaredrummler.cyanea.Cyanea;
 
 import java.io.File;
@@ -1135,7 +1137,28 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     break;
             }
         }
-
+        int selectedTab = binding.tabLayout.getSelectedTabPosition();
+        TabLayout.Tab tab = binding.tabLayout.getTabAt(selectedTab);
+        Log.v(Helper.TAG, "selectedTab: " + selectedTab);
+        Log.v(Helper.TAG, "tab: " + tab);
+        View view = null;
+        if (tab != null) {
+            view = tab.getCustomView();
+        }
+        if (view != null) {
+            Log.v(Helper.TAG, "view: " + view);
+            TextView counter = view.findViewById(R.id.tab_counter);
+            Log.v(Helper.TAG, "counter: " + counter);
+            if (counter != null) {
+                if (count > 0) {
+                    counter.setVisibility(View.VISIBLE);
+                    counter.setText(String.valueOf(count));
+                } else {
+                    counter.setVisibility(View.GONE);
+                    counter.setText("0");
+                }
+            }
+        }
 
     }
 

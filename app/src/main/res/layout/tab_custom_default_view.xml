@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -8,4 +9,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tab_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/icon"
+        android:layout_alignEnd="@+id/icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shape_counter"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textColor="?mTextColor"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="35"
+        tools:visibility="visible" />
 </RelativeLayout>
