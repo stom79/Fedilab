@@ -245,6 +245,7 @@ public class PinnedTimelineHelper {
         List<PinnedTimeline> pinnedToRemove = new ArrayList<>();
         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
             //Default timelines are not added if we are not in the single bar mode
+            String ident = null;
             if (!singleBar) {
                 switch (pinnedTimeline.type) {
                     case HOME:
@@ -262,14 +263,23 @@ public class PinnedTimelineHelper {
                 switch (pinnedTimeline.type) {
                     case LIST:
                         name = pinnedTimeline.mastodonList.title;
+                        ident = "@l@" + pinnedTimeline.mastodonList.id;
                         break;
                     case TAG:
                         name = pinnedTimeline.tagTimeline.displayName != null && !pinnedTimeline.tagTimeline.displayName.isEmpty() ? pinnedTimeline.tagTimeline.displayName : pinnedTimeline.tagTimeline.name.replaceAll("#", "");
+                        ident = "@T@" + name;
                         break;
                     case REMOTE:
                         name = pinnedTimeline.remoteInstance.host;
+                        if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                            String remoteInstance = sharedpreferences.getString(activity.getString(R.string.SET_NITTER_HOST), activity.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                            ident = "@R@" + remoteInstance;
+                        } else {
+                            ident = "@R@" + pinnedTimeline.remoteInstance.host;
+                        }
                         break;
                 }
+
                 if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST || pinnedTimeline.type == Timeline.TimeLineEnum.TAG || pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
                     TabCustomViewBinding tabCustomViewBinding = TabCustomViewBinding.inflate(activity.getLayoutInflater());
                     tabCustomViewBinding.title.setText(name);
@@ -326,6 +336,9 @@ public class PinnedTimelineHelper {
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
+                //We be used to fetch position of tabs
+                String slug = pinnedTimeline.type.getValue() + (ident != null ? "|" + ident : "");
+                tab.setTag(slug);
                 activityMainBinding.tabLayout.addTab(tab);
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }

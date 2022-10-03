@@ -468,7 +468,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             //Update the timeline with new statuses
             int insertedStatus = updateNotificationListWith(fetched_notifications.notifications);
             if (insertedStatus >= 0 && FragmentNotificationContainer.update != null && notificationType == NotificationTypeEnum.ALL && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
-                FragmentNotificationContainer.update.onUpdateNotification(insertedStatus, notificationType.getValue());
+                FragmentNotificationContainer.update.onUpdateNotification(insertedStatus);
             }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);

@@ -1096,10 +1096,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.bottomNavView.removeBadge(R.id.nav_privates);
             }
         }
+        selectTab(Timeline.TimeLineEnum.CONVERSATION.getValue(), count);
     }
 
     @Override
-    public void onUpdateNotification(int count, String slug) {
+    public void onUpdateNotification(int count) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         if (!singleBar) {
@@ -1109,6 +1110,42 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.bottomNavView.getBadge(R.id.nav_notifications).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
             } else {
                 binding.bottomNavView.removeBadge(R.id.nav_notifications);
+            }
+        }
+        selectTab(Timeline.TimeLineEnum.NOTIFICATION.getValue(), count);
+    }
+
+    private int getTabPosition(String slug) {
+        int position = 0;
+        for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
+            if (tab != null && tab.getTag() != null && tab.getTag().equals(slug)) {
+                return position;
+            }
+            position++;
+        }
+        return -1;
+    }
+
+    private void selectTab(String slug, int count) {
+        int position = getTabPosition(slug);
+        if (position >= 0 && position < binding.tabLayout.getTabCount()) {
+            TabLayout.Tab tab = binding.tabLayout.getTabAt(position);
+            View view = null;
+            if (tab != null) {
+                view = tab.getCustomView();
+            }
+            if (view != null) {
+                TextView counter = view.findViewById(R.id.tab_counter);
+                if (counter != null) {
+                    if (count > 0) {
+                        counter.setVisibility(View.VISIBLE);
+                        counter.setText(String.valueOf(count));
+                    } else {
+                        counter.setVisibility(View.GONE);
+                        counter.setText("0");
+                    }
+                }
             }
         }
     }
@@ -1166,25 +1203,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     break;
             }
         }
-        int selectedTab = binding.tabLayout.getSelectedTabPosition();
-        TabLayout.Tab tab = binding.tabLayout.getTabAt(selectedTab);
-        View view = null;
-        if (tab != null) {
-            view = tab.getCustomView();
-        }
-        if (view != null) {
-            TextView counter = view.findViewById(R.id.tab_counter);
-            if (counter != null) {
-                if (count > 0) {
-                    counter.setVisibility(View.VISIBLE);
-                    counter.setText(String.valueOf(count));
-                } else {
-                    counter.setVisibility(View.GONE);
-                    counter.setText("0");
-                }
-            }
-        }
-
+        selectTab(slug, count);
     }
 
     @Override

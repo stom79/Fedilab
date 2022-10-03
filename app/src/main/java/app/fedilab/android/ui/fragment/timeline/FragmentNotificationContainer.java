@@ -270,6 +270,6 @@ public class FragmentNotificationContainer extends Fragment {
 
 
     public interface UpdateCounters {
-        void onUpdateNotification(int count, String slug);
+        void onUpdateNotification(int count);
     }
 }
