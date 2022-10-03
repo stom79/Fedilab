@@ -386,7 +386,6 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
-
         statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
@@ -418,6 +417,7 @@ public class TimelinesVM extends AndroidViewModel {
                         statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
                         if (statusList != null && statusList.size() > 0) {
+
                             addFetchMore(statusList, timelineStatuses, timelineParams);
                             for (Status status : statuses.statuses) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
@@ -456,7 +456,18 @@ public class TimelinesVM extends AndroidViewModel {
             Statuses statuses = null;
             try {
                 statuses = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
-                if (statuses != null) {
+                if (statuses != null && statuses.statuses != null && statuses.statuses.size() > 0) {
+                    if (timelineStatuses != null) {
+                        List<Status> notPresentStatuses = new ArrayList<>();
+                        for (Status status : statuses.statuses) {
+                            if (!timelineStatuses.contains(status)) {
+                                status.cached = true;
+                                notPresentStatuses.add(status);
+                            }
+                        }
+                        //Only not already present statuses are added
+                        statuses.statuses = notPresentStatuses;
+                    }
                     TimelineHelper.filterStatus(getApplication().getApplicationContext(), statuses.statuses, timelineParams.type, true);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
@@ -564,8 +575,16 @@ public class TimelinesVM extends AndroidViewModel {
                 conversations = statusCacheDAO.getConversations(timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (conversations != null) {
                     if (conversations.conversations != null && conversations.conversations.size() > 0) {
-                        for (Conversation conversation : conversations.conversations) {
-                            conversation.cached = true;
+                        if (timelineConversations != null) {
+                            List<Conversation> notPresentConversations = new ArrayList<>();
+                            for (Conversation conversation : conversations.conversations) {
+                                if (!timelineConversations.contains(conversation)) {
+                                    conversation.cached = true;
+                                    timelineConversations.add(conversation);
+                                }
+                            }
+                            //Only not already present statuses are added
+                            conversations.conversations = notPresentConversations;
                         }
                         addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
                         conversations.pagination = new Pagination();

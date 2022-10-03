@@ -23,6 +23,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -154,6 +155,17 @@ public class NotificationsVM extends AndroidViewModel {
                 notifications = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (notifications != null) {
                     if (notifications.notifications != null && notifications.notifications.size() > 0) {
+                        if (notificationList != null) {
+                            List<Notification> notPresentNotifications = new ArrayList<>();
+                            for (Notification notification : notifications.notifications) {
+                                if (!notificationList.contains(notification)) {
+                                    notification.cached = true;
+                                    notPresentNotifications.add(notification);
+                                }
+                            }
+                            //Only not already present statuses are added
+                            notifications.notifications = notPresentNotifications;
+                        }
                         TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications, true);
                         addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = new Pagination();
