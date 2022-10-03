@@ -323,9 +323,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             //Update the timeline with new statuses
             int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
-
             //For these directions, the app will display counters for new messages
-            if (insertedStatus >= 0 && update != null && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP)) {
+            if (insertedStatus >= 0 && update != null && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.REFRESH)) {
                 update.onUpdate(insertedStatus, timelineType, slug);
             }
             if (direction == DIRECTION.TOP && fetchingMissing) {
@@ -528,7 +527,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Initialize with default params
         timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
         timelineParams.limit = MastodonHelper.statusesPerCall(requireActivity());
-        if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+        if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
             timelineParams.maxId = null;
             timelineParams.minId = null;
         } else if (direction == DIRECTION.BOTTOM) {

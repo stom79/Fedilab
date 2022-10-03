@@ -75,7 +75,7 @@ public class NotificationsVM extends AndroidViewModel {
 
     private static void addFetchMoreNotifications(List<Notification> notificationList, List<Notification> timelineNotifications, TimelinesVM.TimelineParams timelineParams) throws DBException {
         if (notificationList != null && notificationList.size() > 0 && timelineNotifications != null && timelineNotifications.size() > 0) {
-            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (notificationList.get(notificationList.size() - 1).id.compareToIgnoreCase(timelineNotifications.get(0).id) > 0) {
                     notificationList.get(notificationList.size() - 1).isFetchMore = true;
@@ -167,10 +167,12 @@ public class NotificationsVM extends AndroidViewModel {
                             notifications.notifications = notPresentNotifications;
                         }
                         TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications, true);
-                        addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
-                        notifications.pagination = new Pagination();
-                        notifications.pagination.min_id = notifications.notifications.get(0).id;
-                        notifications.pagination.max_id = notifications.notifications.get(notifications.notifications.size() - 1).id;
+                        if (notifications.notifications.size() > 0) {
+                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
+                            notifications.pagination = new Pagination();
+                            notifications.pagination.min_id = notifications.notifications.get(0).id;
+                            notifications.pagination.max_id = notifications.notifications.get(notifications.notifications.size() - 1).id;
+                        }
                     }
                 }
             } catch (DBException e) {

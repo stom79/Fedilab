@@ -343,7 +343,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
         if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
-            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
                     statusList.get(statusList.size() - 1).isFetchMore = true;
@@ -365,7 +365,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
         if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
-            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
                     conversationList.get(conversationList.size() - 1).isFetchMore = true;
@@ -586,10 +586,12 @@ public class TimelinesVM extends AndroidViewModel {
                             //Only not already present statuses are added
                             conversations.conversations = notPresentConversations;
                         }
-                        addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
-                        conversations.pagination = new Pagination();
-                        conversations.pagination.min_id = conversations.conversations.get(0).id;
-                        conversations.pagination.max_id = conversations.conversations.get(conversations.conversations.size() - 1).id;
+                        if (conversations.conversations.size() > 0) {
+                            addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
+                            conversations.pagination = new Pagination();
+                            conversations.pagination.min_id = conversations.conversations.get(0).id;
+                            conversations.pagination.max_id = conversations.conversations.get(conversations.conversations.size() - 1).id;
+                        }
                     }
                 }
             } catch (DBException e) {

@@ -118,9 +118,14 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
             if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
-                return new FragmentNotificationContainer();
+                FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
+                FragmentNotificationContainer.update = activity;
+                return fragmentNotificationContainer;
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.DIRECT) {
-                return new FragmentMastodonConversation();
+                FragmentMastodonConversation fragmentMastodonConversation = new FragmentMastodonConversation();
+                fragmentMastodonConversation.update = activity;
+                return fragmentMastodonConversation;
+
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                 bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {

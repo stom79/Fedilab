@@ -37,7 +37,6 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -150,7 +149,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters {
+public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters, FragmentNotificationContainer.UpdateCounters, FragmentMastodonConversation.UpdateCounters {
 
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
     public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
@@ -1085,6 +1084,36 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
     @Override
+    public void onUpdateConversation(int count) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (!singleBar) {
+            if (count > 0) {
+                binding.bottomNavView.getOrCreateBadge(R.id.nav_privates).setNumber(count);
+                binding.bottomNavView.getBadge(R.id.nav_privates).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                binding.bottomNavView.getBadge(R.id.nav_privates).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+            } else {
+                binding.bottomNavView.removeBadge(R.id.nav_privates);
+            }
+        }
+    }
+
+    @Override
+    public void onUpdateNotification(int count, String slug) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (!singleBar) {
+            if (count > 0) {
+                binding.bottomNavView.getOrCreateBadge(R.id.nav_notifications).setNumber(count);
+                binding.bottomNavView.getBadge(R.id.nav_notifications).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
+                binding.bottomNavView.getBadge(R.id.nav_notifications).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
+            } else {
+                binding.bottomNavView.removeBadge(R.id.nav_notifications);
+            }
+        }
+    }
+
+    @Override
     public void onUpdate(int count, Timeline.TimeLineEnum type, String slug) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -1139,16 +1168,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         int selectedTab = binding.tabLayout.getSelectedTabPosition();
         TabLayout.Tab tab = binding.tabLayout.getTabAt(selectedTab);
-        Log.v(Helper.TAG, "selectedTab: " + selectedTab);
-        Log.v(Helper.TAG, "tab: " + tab);
         View view = null;
         if (tab != null) {
             view = tab.getCustomView();
         }
         if (view != null) {
-            Log.v(Helper.TAG, "view: " + view);
             TextView counter = view.findViewById(R.id.tab_counter);
-            Log.v(Helper.TAG, "counter: " + counter);
             if (counter != null) {
                 if (count > 0) {
                     counter.setVisibility(View.VISIBLE);

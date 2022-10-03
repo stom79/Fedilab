@@ -7,6 +7,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
+        tools:src="@drawable/nitter"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_gravity="center" />
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
+        tools:text="fedilab_app"
         android:ellipsize="end"
         android:maxWidth="150dp"
         android:singleLine="true"

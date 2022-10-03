@@ -63,6 +63,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -465,7 +466,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
-            updateNotificationListWith(fetched_notifications.notifications);
+            int insertedStatus = updateNotificationListWith(fetched_notifications.notifications);
+            if (insertedStatus >= 0 && FragmentNotificationContainer.update != null && notificationType == NotificationTypeEnum.ALL && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
+                FragmentNotificationContainer.update.onUpdateNotification(insertedStatus, notificationType.getValue());
+            }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
             }
@@ -492,7 +496,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      *
      * @param notificationsReceived - List<Notification> Notifications received
      */
-    private void updateNotificationListWith(List<Notification> notificationsReceived) {
+    private int updateNotificationListWith(List<Notification> notificationsReceived) {
+        int insertedNotifications = 0;
         if (notificationsReceived != null && notificationsReceived.size() > 0) {
             for (Notification notificationReceived : notificationsReceived) {
                 int position = 0;
@@ -506,6 +511,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                             if (!notificationList.contains(notificationReceived)) {
                                 notificationList.add(position, notificationReceived);
                                 notificationAdapter.notifyItemInserted(position);
+                                if (!notificationReceived.cached) {
+                                    insertedNotifications++;
+                                }
                             }
                             break;
                         }
@@ -519,6 +527,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 }
             }
         }
+        return insertedNotifications;
     }
 
 
@@ -575,4 +584,5 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             return value;
         }
     }
+
 }

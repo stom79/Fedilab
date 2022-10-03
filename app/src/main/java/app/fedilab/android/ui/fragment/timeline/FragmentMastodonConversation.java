@@ -56,6 +56,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private ConversationAdapter conversationAdapter;
     private LinearLayoutManager mLayoutManager;
+    public UpdateCounters update;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -318,7 +319,11 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             flagLoading = fetched_conversations.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
-            updateConversationListWith(fetched_conversations.conversations);
+            int insertedConversations = updateConversationListWith(fetched_conversations.conversations);
+            //For these directions, the app will display counters for new messages
+            if (insertedConversations >= 0 && update != null && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
+                update.onUpdateConversation(insertedConversations);
+            }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_conversations.conversations.get(fetched_conversations.conversations.size() - 1)) + 1);
             }
@@ -365,7 +370,8 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
      *
      * @param conversationsReceived - List<Conversation> Conversation received
      */
-    private void updateConversationListWith(List<Conversation> conversationsReceived) {
+    private int updateConversationListWith(List<Conversation> conversationsReceived) {
+        int insertedConversations = 0;
         if (conversationsReceived != null && conversationsReceived.size() > 0) {
             for (Conversation conversationReceived : conversationsReceived) {
                 int position = 0;
@@ -379,6 +385,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                             if (!conversationList.contains(conversationReceived)) {
                                 conversationList.add(position, conversationReceived);
                                 conversationAdapter.notifyItemInserted(position);
+                                if (!conversationReceived.cached) {
+                                    insertedConversations++;
+                                }
                             }
                             break;
                         }
@@ -392,6 +401,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                 }
             }
         }
+        return insertedConversations;
     }
 
 
@@ -411,5 +421,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         route(FragmentMastodonTimeline.DIRECTION.BOTTOM, true, conversationToUpdate);
     }
 
-
+    public interface UpdateCounters {
+        void onUpdateConversation(int count);
+    }
 }

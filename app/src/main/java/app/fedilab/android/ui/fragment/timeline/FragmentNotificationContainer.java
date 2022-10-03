@@ -54,6 +54,7 @@ import es.dmoral.toasty.Toasty;
 public class FragmentNotificationContainer extends Fragment {
 
     private FragmentNotificationContainerBinding binding;
+    public static UpdateCounters update;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -268,4 +269,7 @@ public class FragmentNotificationContainer extends Fragment {
     }
 
 
+    public interface UpdateCounters {
+        void onUpdateNotification(int count, String slug);
+    }
 }
