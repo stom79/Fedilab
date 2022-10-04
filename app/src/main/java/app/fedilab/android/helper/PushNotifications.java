@@ -26,7 +26,6 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -109,7 +108,7 @@ public class PushNotifications {
                             finalEcdh.saveServerKey(context, pushSubscription.server_key);
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
