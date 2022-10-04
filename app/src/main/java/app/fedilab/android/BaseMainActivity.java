@@ -1096,7 +1096,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.bottomNavView.removeBadge(R.id.nav_privates);
             }
         }
-        selectTab(Timeline.TimeLineEnum.CONVERSATION.getValue(), count);
+        setCounterToTab(Timeline.TimeLineEnum.CONVERSATION.getValue(), count);
     }
 
     @Override
@@ -1112,9 +1112,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.bottomNavView.removeBadge(R.id.nav_notifications);
             }
         }
-        selectTab(Timeline.TimeLineEnum.NOTIFICATION.getValue(), count);
+        setCounterToTab(Timeline.TimeLineEnum.NOTIFICATION.getValue(), count);
     }
 
+    /**
+     * Get the tab depending of its position
+     *
+     * @param slug String slug for the timeline
+     * @return int - position
+     */
     private int getTabPosition(String slug) {
         int position = 0;
         for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
@@ -1127,7 +1133,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         return -1;
     }
 
-    private void selectTab(String slug, int count) {
+    /**
+     * Set the counter to the tab depending of the slug
+     *
+     * @param slug  - String slug for the pinned timeline
+     * @param count - int new messages
+     */
+    private void setCounterToTab(String slug, int count) {
         int position = getTabPosition(slug);
         if (position >= 0 && position < binding.tabLayout.getTabCount()) {
             TabLayout.Tab tab = binding.tabLayout.getTabAt(position);
@@ -1141,9 +1153,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     if (count > 0) {
                         counter.setVisibility(View.VISIBLE);
                         counter.setText(String.valueOf(count));
-                    } else {
-                        counter.setVisibility(View.GONE);
-                        counter.setText("0");
                     }
                 }
             }
@@ -1203,7 +1212,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     break;
             }
         }
-        selectTab(slug, count);
+        setCounterToTab(slug, count);
     }
 
     @Override

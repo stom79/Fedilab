@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -68,6 +69,7 @@ import app.fedilab.android.databinding.TabCustomViewBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 import app.fedilab.android.ui.pageadapter.FedilabPageAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -121,6 +123,11 @@ public class PinnedTimelineHelper {
                 params.setMargins(0, 0, 0, actionBarHeight);
             }
         }
+        //Remove badge when reselecting
+        activityMainBinding.bottomNavView.setOnItemReselectedListener(item -> {
+            activityMainBinding.bottomNavView.removeBadge(item.getItemId());
+        });
+
         activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
 
@@ -495,10 +502,20 @@ public class PinnedTimelineHelper {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Fragment fragment = fedilabPageAdapter.getCurrentFragment();
+                View view = tab.getCustomView();
+                if (view != null) {
+                    TextView counter = view.findViewById(R.id.tab_counter);
+                    if (counter != null) {
+                        counter.setVisibility(View.GONE);
+                        counter.setText("0");
+                    }
+                }
                 if (fragment instanceof FragmentMastodonTimeline) {
                     ((FragmentMastodonTimeline) fragment).scrollToTop();
                 } else if (fragment instanceof FragmentMastodonConversation) {
                     ((FragmentMastodonConversation) fragment).scrollToTop();
+                } else if (fragment instanceof FragmentNotificationContainer) {
+                    ((FragmentNotificationContainer) fragment).scrollToTop();
                 }
             }
         });

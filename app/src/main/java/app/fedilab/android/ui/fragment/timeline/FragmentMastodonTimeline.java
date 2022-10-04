@@ -324,7 +324,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             //Update the timeline with new statuses
             int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             //For these directions, the app will display counters for new messages
-            if (insertedStatus >= 0 && update != null && (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.REFRESH)) {
+            if (insertedStatus >= 0 && update != null && direction != DIRECTION.FETCH_NEW && !fetchingMissing) {
                 update.onUpdate(insertedStatus, timelineType, slug);
             }
             if (direction == DIRECTION.TOP && fetchingMissing) {
