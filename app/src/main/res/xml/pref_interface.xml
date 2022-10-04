@@ -28,6 +28,15 @@
         app:summary="@string/set_unfollow_validation"
         app:title="@string/set_unfollow_validation_title" />
 
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_USE_CACHE"
+        app:singleLineTitle="false"
+        app:summary="@string/set_use_cache_indication"
+        app:title="@string/set_use_cache" />
+
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
