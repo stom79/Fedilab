@@ -313,14 +313,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
                     if (!singleBar) {
                         int position = BottomMenu.getPosition(bottomMenu, R.id.nav_notifications);
-                        if (position > 0) {
+                        if (position > 0 && binding.bottomNavView.getMenu().size() < position) {
                             binding.bottomNavView.getMenu().getItem(position).setChecked(true);
                             binding.viewPager.setCurrentItem(position);
                         }
                     } else {
                         int position = 0;
                         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                            if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
+                            if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION && binding.bottomNavView.getMenu().size() < position) {
                                 binding.bottomNavView.getMenu().getItem(position).setChecked(true);
                                 binding.viewPager.setCurrentItem(position);
                                 break;
