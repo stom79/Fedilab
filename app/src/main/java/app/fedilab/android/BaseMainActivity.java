@@ -124,6 +124,7 @@ import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
@@ -760,6 +761,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         new Thread(() -> {
             try {
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                //Delete cache older than 7 days
+                new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
             } catch (DBException e) {
                 e.printStackTrace();
             }

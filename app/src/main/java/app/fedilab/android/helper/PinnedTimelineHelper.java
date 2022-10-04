@@ -123,10 +123,6 @@ public class PinnedTimelineHelper {
                 params.setMargins(0, 0, 0, actionBarHeight);
             }
         }
-        //Remove badge when reselecting
-        activityMainBinding.bottomNavView.setOnItemReselectedListener(item -> {
-            activityMainBinding.bottomNavView.removeBadge(item.getItemId());
-        });
 
         activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
@@ -501,6 +497,20 @@ public class PinnedTimelineHelper {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (!singleBar && tab.getTag() != null) {
+                    if (tab.getTag().equals(Timeline.TimeLineEnum.HOME.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_home);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.LOCAL.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_local);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.PUBLIC.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_public);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_notifications);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.CONVERSATION.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_privates);
+                    }
+
+                }
                 Fragment fragment = fedilabPageAdapter.getCurrentFragment();
                 View view = tab.getCustomView();
                 if (view != null) {

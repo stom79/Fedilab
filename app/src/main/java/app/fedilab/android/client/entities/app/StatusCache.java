@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -379,6 +380,29 @@ public class StatusCache {
         }
         try {
             return db.delete(Sqlite.TABLE_STATUS_CACHE, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /**
+     * delete all cache for all account after 7 days
+     *
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteForAllAccountAfter7Days() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -7);
+        Date date = cal.getTime();
+        String dateStr = Helper.dateToString(date);
+        try {
+            return db.delete(Sqlite.TABLE_STATUS_CACHE, Sqlite.COL_CREATED_AT + " <  ?", new String[]{dateStr});
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
