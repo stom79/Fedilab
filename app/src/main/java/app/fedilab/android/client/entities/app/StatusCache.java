@@ -584,14 +584,16 @@ public class StatusCache {
             throw new DBException("db is null. Wrong initialization.");
         }
         String selection = Sqlite.COL_INSTANCE + "='" + instance
-                + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "'";
+                + "' AND " + Sqlite.COL_TYPE + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "'"
+                + " AND " + Sqlite.COL_STATUS + " LIKE '%" + search + "%'"
+                + " AND " + Sqlite.COL_USER_ID + "= '" + user_id + "'";
         List<Status> reply = new ArrayList<>();
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "");
             List<Status> statuses = cursorToListOfStatuses(c);
             if (statuses != null && statuses.size() > 0) {
                 for (Status status : statuses) {
-                    if (status.content.toLowerCase().contains(search.trim().toLowerCase())) {
+                    if (status.content != null && status.content.toLowerCase().contains(search.trim().toLowerCase())) {
                         reply.add(status);
                     }
                 }
