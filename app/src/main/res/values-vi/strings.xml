@@ -767,4 +767,17 @@
     <string name="set_push_notifications_delay">Chọn thời gian chờ giữa lần nạp tút</string>
     <string name="refresh_every">Nạp thông báo mỗi:</string>
     <string name="type_of_notifications_delay_title">Thời gian nạp thông báo</string>
+    <string name="load_settings">Tải thiết lập đã xuất</string>
+    <string name="push_distributors">Phân phối đẩy</string>
+    <string name="set_single_topbar_title">Thanh tác vụ đơn</string>
+    <string name="set_single_topbar">Nếu kích hoạt, app sẽ chỉ có thanh tác vụ đơn cho các bảng tin</string>
+    <string name="set_timelines_in_a_list_title">Bảng tin trong một danh sách</string>
+    <string name="set_timelines_in_a_list">Nếu kích hoạt, những bảng tin được ghim sẽ hiển thị trong một menu xổ xuống</string>
+    <string name="permission_missing">Chưa cấp quyền!</string>
+    <string name="set_display_counter">Hiện bộ đếm tin nhắn</string>
+    <string name="import_settings">Nhập thiết lập</string>
+    <string name="export_settings">Xuất thiết lập</string>
+    <string name="data_export_settings">Đã xuất các thiết lập</string>
+    <string name="data_import_settings_success">Các thiết lập đã được nhập</string>
+    <string name="data_export_settings_success">Các thiết lập đã được xuất</string>
 </resources>
