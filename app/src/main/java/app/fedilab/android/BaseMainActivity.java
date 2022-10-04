@@ -817,6 +817,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         if (position >= 0) {
                             if (binding.viewPager.getCurrentItem() == position) {
                                 scrollToTop();
+                                binding.bottomNavView.removeBadge(itemId);
                             } else {
                                 binding.viewPager.setCurrentItem(position, false);
                             }

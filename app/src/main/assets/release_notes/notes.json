@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.4-beta-1",
+    "code": "410",
+    "note": "- New cache mechanism\n- Cache can be disabled in settings\n- Add counters for new messages\n- Some fixes."
+  },
+  {
     "version": "3.3.2",
     "code": "409",
     "note": "- Fix an issue with cache and home timeline\n- Nitter timelines use the custom instance from settings\n- Fix Nitter issues (only RT)\n- No longer accepts invalid certificate for onion URLs(Google)\n- Fix some crashes"
