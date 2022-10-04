@@ -36,7 +36,10 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.CacheAccount;
+import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityCacheBinding;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CacheHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -72,6 +75,21 @@ public class CacheActivity extends BaseActivity {
             for (BaseAccount baseAccount : accounts) {
                 CacheAccount cacheAccount = new CacheAccount();
                 cacheAccount.account = baseAccount;
+                try {
+                    cacheAccount.home_cache_count = new StatusCache(CacheActivity.this).countHome(baseAccount);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    cacheAccount.other_cache_count = new StatusCache(CacheActivity.this).countOther(baseAccount);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    cacheAccount.draft_count = new StatusDraft(CacheActivity.this).count(baseAccount);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
                 cacheAccounts.add(cacheAccount);
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());

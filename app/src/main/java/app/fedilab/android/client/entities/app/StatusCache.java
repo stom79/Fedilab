@@ -210,6 +210,49 @@ public class StatusCache {
         }
     }
 
+
+    /**
+     * count messages for home
+     *
+     * @param baseAccount Status {@link BaseAccount}
+     * @return int - number of occurrences
+     * @throws DBException Exception
+     */
+    public int countHome(BaseAccount baseAccount) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
+                + " where " + Sqlite.COL_TYPE + " = '" + Timeline.TimeLineEnum.HOME.getValue() + "'"
+                + " AND " + Sqlite.COL_INSTANCE + " = '" + baseAccount.instance + "'"
+                + " AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "'", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return count;
+    }
+
+    /**
+     * count messages for other timelines
+     *
+     * @param baseAccount Status {@link BaseAccount}
+     * @return int - number of occurrences
+     * @throws DBException Exception
+     */
+    public int countOther(BaseAccount baseAccount) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
+                + " where " + Sqlite.COL_TYPE + " != '" + Timeline.TimeLineEnum.HOME.getValue() + "'"
+                + " AND " + Sqlite.COL_INSTANCE + " = '" + baseAccount.instance + "'"
+                + " AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "'", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return count;
+    }
+
     /**
      * Check if a status exists in db
      *

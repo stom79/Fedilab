@@ -71,6 +71,10 @@ public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 holder.binding.draftCount.setText(String.valueOf(countStatuses.get(2)));
             }
         });
+        holder.binding.homeCount.setText(String.valueOf(cacheAccount.home_cache_count));
+        holder.binding.otherCount.setText(String.valueOf(cacheAccount.other_cache_count));
+        holder.binding.draftCount.setText(String.valueOf(cacheAccount.draft_count));
+
         holder.binding.labelHomeTimelineCacheCount.setChecked(cacheAccount.clear_home);
         holder.binding.labelTimelinesCacheCount.setChecked(cacheAccount.clear_other);
         holder.binding.labelDraftsCount.setChecked(cacheAccount.clear_drafts);

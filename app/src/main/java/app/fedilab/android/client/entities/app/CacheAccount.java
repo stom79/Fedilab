@@ -28,4 +28,10 @@ public class CacheAccount implements Serializable {
     public boolean clear_drafts = false;
     @SerializedName("account")
     public BaseAccount account;
+    @SerializedName("home_cache_count")
+    public int home_cache_count;
+    @SerializedName("other_cache_count")
+    public int other_cache_count;
+    @SerializedName("draft_count")
+    public int draft_count;
 }
