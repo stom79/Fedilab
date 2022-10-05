@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.4-beta-2",
+    "code": "411",
+    "note": "- Fix post message with media\n- Set thumbnails load behavior Always/Wifi only /ask\n- Some other small fixes"
+  },
+  {
     "version": "3.4-beta-1",
     "code": "410",
     "note": "- New cache mechanism\n- Cache can be disabled in settings\n- Add counters for new messages\n- Some fixes."

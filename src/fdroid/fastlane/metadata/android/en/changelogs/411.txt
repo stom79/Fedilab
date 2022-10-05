@@ -1,0 +1,3 @@
+- Fix post message with media
+- Set thumbnails load behavior Always/Wifi only /ask
+- Some other small fixes

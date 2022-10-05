@@ -330,7 +330,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         }
                     }
 
-                }, 1000);
+                }, 2000);
                 intent.removeExtra(Helper.INTENT_ACTION);
 
             }
