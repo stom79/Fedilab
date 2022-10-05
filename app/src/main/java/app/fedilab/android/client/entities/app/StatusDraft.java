@@ -346,7 +346,10 @@ public class StatusDraft implements Serializable {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_DRAFT, null, Sqlite.COL_ID + " = '" + draftId + "'", null, null, null, null, "1");
-            return convertCursorToStatusDraft(c);
+            c.moveToFirst();
+            StatusDraft statusDraft = convertCursorToStatusDraft(c);
+            c.close();
+            return statusDraft;
         } catch (Exception e) {
             return null;
         }

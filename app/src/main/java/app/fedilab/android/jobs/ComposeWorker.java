@@ -400,7 +400,6 @@ public class ComposeWorker extends Worker {
     @NonNull
     private ForegroundInfo createForegroundInfo() {
         // Build a notification using bytesRead and contentLength
-
         Context context = getApplicationContext();
         // This PendingIntent can be used to cancel the worker
         PendingIntent intent = WorkManager.getInstance(context)

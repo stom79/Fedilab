@@ -848,6 +848,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                             .build();
                     WorkManager.getInstance(ComposeActivity.this).enqueue(request);
+
                 } else {
                     new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate);
                 }
