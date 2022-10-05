@@ -730,8 +730,8 @@
     <string name="toast_token">S\'aplicatzione no est resèssida a otènnere unu getone</string>
     <string name="set_push_notifications_delay">Imposta su tempus intre unu recùperu e s\'àteru</string>
     <string name="media_cannot_be_uploaded">No at fatu a carrigare s\'elementu multimediale!</string>
-    <string name="type_of_notifications_delay_title">Tempus de recùperu de is notìficas</string>
-    <string name="open_draft">Aberi abbotzu</string>
+    <string name="type_of_notifications_delay_title">Intervallu de recùperu de is notìficas</string>
+    <string name="open_draft">Aberi s\'abbotzu</string>
     <string name="refresh_every">Recùpera is notìficas cada:</string>
     <string name="data_export_settings">Is cunfiguratziones sunt istadas esportadas</string>
     <string name="export_settings">Esporta is cunfiguratziones</string>
@@ -746,4 +746,6 @@
     <string name="set_timelines_in_a_list_title">Lìnias de tempus in una lista</string>
     <string name="set_timelines_in_a_list">Candoest abilitada totu is lìnias de tempus apicadas ant a èssere ammustradas in unu menù a calada</string>
     <string name="set_display_counter">Ammustra is contadores de messàgios</string>
+    <string name="set_use_cache">Imprea sa memòria temporànea</string>
+    <string name="set_use_cache_indication">Sas lìnias de tempus s\'ant a sarvare in sa memòria temporànea in manera chi s\'aplicatzione siat prus lestra.</string>
 </resources>
