@@ -430,6 +430,25 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
 
+    private void storeMarker() {
+        if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            if (notificationList != null && notificationList.size() > position) {
+                try {
+                    if (notificationType == NotificationTypeEnum.ALL) {
+                        Notification notification = notificationList.get(position);
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.NOTIFICATION, notification.id);
+                        editor.apply();
+                        TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonNotification.this).get(TimelinesVM.class);
+                        timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, notification.id);
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+    }
 
     /**
      * Update view and pagination when scrolling down
@@ -535,11 +554,15 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     @Override
     public void onDestroyView() {
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+        if (isAdded()) {
+            storeMarker();
+        }
         super.onDestroyView();
     }
 
     @Override
     public void onPause() {
+        storeMarker();
         super.onPause();
     }
 

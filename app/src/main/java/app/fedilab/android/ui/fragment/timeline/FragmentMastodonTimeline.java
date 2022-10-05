@@ -596,7 +596,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
 
     private void storeMarker() {
-        if (timelineType == Timeline.TimeLineEnum.HOME && mLayoutManager != null) {
+        if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             if (timelineStatuses != null && timelineStatuses.size() > position) {
                 try {
@@ -605,8 +605,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, status.id);
                     editor.apply();
-                    timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null);
-
+                    if (timelineType == Timeline.TimeLineEnum.HOME) {
+                        timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null);
+                    }
                 } catch (Exception ignored) {
                 }
             }

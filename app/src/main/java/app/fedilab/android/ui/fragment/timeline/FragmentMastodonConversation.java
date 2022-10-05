@@ -180,6 +180,22 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     }
 
 
+    private void storeMarker() {
+        if (mLayoutManager != null) {
+            int position = mLayoutManager.findFirstVisibleItemPosition();
+            if (conversationList != null && conversationList.size() > position) {
+                try {
+                    Conversation conversation = conversationList.get(position);
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.CONVERSATION, conversation.id);
+                    editor.apply();
+                } catch (Exception ignored) {
+                }
+            }
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -283,6 +299,19 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
 
     }
 
+    @Override
+    public void onDestroyView() {
+        if (isAdded()) {
+            storeMarker();
+        }
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        storeMarker();
+        super.onPause();
+    }
 
     /**
      * Update view and pagination when scrolling down
