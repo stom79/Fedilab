@@ -754,4 +754,10 @@
     <string name="set_display_counter">Mesajlar için sayaçları göster</string>
     <string name="set_use_cache">Önbellek kullan</string>
     <string name="set_use_cache_indication">Zaman çizelgeleri önbelleğe alınacak ve uygulama daha hızlı olacaktır.</string>
+    <string name="display_media">Medyayı göster</string>
+    <string name="display_timelines">Zaman çizelgelerini göster</string>
+    <string name="cached_messages">Önbelleğe alınan mesaj</string>
+    <string name="reply">Yanıtla</string>
+    <string name="display_options">Görüntüleme seçenekleri</string>
+    <string name="load_media_type_title">Medya için küçük resimleri yükle</string>
 </resources>
