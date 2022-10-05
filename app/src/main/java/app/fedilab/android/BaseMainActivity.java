@@ -938,7 +938,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
-        DomainsBlock.updateDomains(BaseMainActivity.this);
+        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
+        if (embedded_browser) {
+            DomainsBlock.updateDomains(BaseMainActivity.this);
+        }
     }
 
 
