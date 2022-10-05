@@ -763,11 +763,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void run() {
                             String fedilabHugsTrigger = ":fedilab_hugs:";
                             String fedilabMorseTrigger = ":fedilab_morse:";
-
                             if (s.toString().contains(fedilabHugsTrigger)) {
-                                newContent[0] = s.toString().replaceAll(fedilabHugsTrigger, "");
-
-                                int toFill = 500 - currentLength;
+                                newContent[0] = s.toString().replaceAll(Pattern.quote(fedilabHugsTrigger), "").trim();
+                                int toFill = 500 - newContent[0].length();
                                 if (toFill <= 0) {
                                     return;
                                 }
@@ -782,6 +780,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     newContent[0] = newContent[0] + hugs;
                                     holder.binding.content.setText(newContent[0]);
                                     holder.binding.content.setSelection(holder.binding.content.getText().length());
+                                    statusList.get(holder.getBindingAdapterPosition()).text = newContent[0];
                                     autocomplete = false;
                                     updateCharacterCount(holder);
                                 };
@@ -826,6 +825,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 Runnable myRunnable = () -> {
                                     holder.binding.content.setText(newContent[0]);
+                                    statusList.get(holder.getBindingAdapterPosition()).text = newContent[0];
                                     holder.binding.content.setSelection(holder.binding.content.getText().length());
                                     autocomplete = false;
                                     updateCharacterCount(holder);
