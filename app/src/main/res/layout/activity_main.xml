@@ -78,6 +78,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
                         android:gravity="end"
+                        android:contentDescription="@string/display_timelines"
                         android:src="@drawable/ic_baseline_more_horiz_24"
                         android:tint="?attr/iconColor"
                         android:visibility="gone" />

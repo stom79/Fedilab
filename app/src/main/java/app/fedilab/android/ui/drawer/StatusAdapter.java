@@ -968,7 +968,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
                 holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
                 holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
-                holder.binding.time.setText(Helper.longDateToString(statusToDeal.created_at));
+                holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at);
                 holder.binding.visibility.setImageResource(ressource);
                 holder.binding.time.setVisibility(View.VISIBLE);
             } else {

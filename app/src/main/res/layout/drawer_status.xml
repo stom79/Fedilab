@@ -553,6 +553,7 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:contentDescription="@string/reply"
                 android:layout_marginStart="6dp"
                 android:adjustViewBounds="true"
                 app:srcCompat="@drawable/ic_reply" />
@@ -575,6 +576,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/reblog_add"
                 app:sparkbutton_activeImage="@drawable/ic_repeat"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="28dp"
@@ -590,6 +592,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/favourite_add"
                 app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="28dp"
@@ -606,6 +609,7 @@
                 android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:visibility="gone"
+                android:contentDescription="@string/bookmark_add"
                 app:sparkbutton_activeImage="@drawable/ic_baseline_bookmark_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="24dp"
@@ -619,6 +623,7 @@
                 android:layout_height="28dp"
                 android:layout_marginStart="12dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/cached_messages"
                 android:src="@drawable/ic_baseline_cached_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -657,6 +662,7 @@
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/action_button_more"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                android:contentDescription="@string/display_options"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:adjustViewBounds="true"

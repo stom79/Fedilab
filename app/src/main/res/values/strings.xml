@@ -1470,4 +1470,8 @@
     <string name="set_use_cache_indication">Timelines will be cached so the application will be faster.</string>
     <string name="load_media_type_title">Load thumbnails for media</string>
     <string name="display_media">Display media</string>
+    <string name="display_timelines">Display timelines</string>
+    <string name="cached_messages">Cached message</string>
+    <string name="reply">Reply</string>
+    <string name="display_options">Display options</string>
 </resources>
