@@ -747,6 +747,12 @@
         <item>No notifications</item>
     </string-array>
 
+    <string-array name="set_load_media_type_value">
+        <item>Always</item>
+        <item>Wifi only</item>
+        <item>Ask</item>
+    </string-array>
+
     <string-array name="set_notification_delay_values">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -769,6 +775,8 @@
     <string name="SET_CUSTOM_USER_AGENT" translatable="false">SET_CUSTOM_USER_AGENT</string>
     <string name="SET_NSFW_TIMEOUT" translatable="false">SET_NSFW_TIMEOUT</string>
     <string name="SET_NOTIFICATION_TYPE" translatable="false">SET_NOTIFICATION_TYPE</string>
+    <string name="SET_LOAD_MEDIA_TYPE" translatable="false">SET_LOAD_MEDIA_TYPE</string>
+
     <string name="SET_NOTIFICATION_DELAY_VALUE" translatable="false">SET_NOTIFICATION_DELAY_VALUE</string>
     <string name="SET_PUSH_DISTRIBUTOR" translatable="false">SET_PUSH_DISTRIBUTOR</string>
 
@@ -777,6 +785,13 @@
         <item>REPEAT_NOTIFICATIONS</item>
         <item>NO_NOTIFICATIONS</item>
     </string-array>
+
+    <string-array name="SET_LOAD_MEDIA_TYPE_VALUE" translatable="false">
+        <item>ALWAYS</item>
+        <item>WIFI</item>
+        <item>ASK</item>
+    </string-array>
+
     <string-array name="SET_NOTIFICATION_DELAYS_VALUES" translatable="false">
         <item>15</item>
         <item>30</item>
@@ -1453,4 +1468,6 @@
     <string name="set_display_counter">Display counters for messages</string>
     <string name="set_use_cache">Use cache</string>
     <string name="set_use_cache_indication">Timelines will be cached so the application will be faster.</string>
+    <string name="load_media_type_title">Load thumbnails for media</string>
+    <string name="display_media">Display media</string>
 </resources>

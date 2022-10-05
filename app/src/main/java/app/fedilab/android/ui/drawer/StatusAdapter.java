@@ -129,6 +129,7 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.helper.TimelineHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -342,6 +343,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), false);
         boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
+        String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
@@ -1112,159 +1114,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.mediaContainer.removeAllViews();
             //If only one attachment
             if (statusToDeal.media_attachments.size() == 1) {
-                LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                RelativeLayout.LayoutParams lp;
-                if (fullAttachement) {
-                    lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
-                    layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                } else {
-                    lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
-                    layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                if (statusToDeal.sensitive) {
-                    Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.red_1);
-                } else {
-                    Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
-                }
-                layoutMediaBinding.media.setLayoutParams(lp);
-                layoutMediaBinding.media.setOnClickListener(v -> {
-                    if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
-                        statusToDeal.isMediaObfuscated = false;
+                if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
+                    holder.binding.mediaContainer.setVisibility(View.GONE);
+                    holder.binding.displayMedia.setVisibility(View.VISIBLE);
+                    holder.binding.displayMedia.setOnClickListener(v -> {
+                        statusToDeal.canLoadMedia = true;
                         adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                        final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
-                        if (timeout > 0) {
-                            new CountDownTimer((timeout * 1000L), 1000) {
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                public void onFinish() {
-                                    status.isMediaObfuscated = true;
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                }
-                            }.start();
-                        }
-                        return;
-                    }
-                    Intent mediaIntent = new Intent(context, MediaActivity.class);
-                    Bundle b = new Bundle();
-                    b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-                    b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-                    mediaIntent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
-                    // start the new activity
-                    context.startActivity(mediaIntent, options.toBundle());
-                });
-                if (statusToDeal.media_attachments.get(0).type != null && (statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("video") || statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("gifv"))) {
-                    layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
+                    });
                 } else {
-                    layoutMediaBinding.playVideo.setVisibility(View.GONE);
-                }
-                if (statusToDeal.media_attachments.get(0).type != null && statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("audio")) {
-                    layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
-                } else {
-                    layoutMediaBinding.playMusic.setVisibility(View.GONE);
-                }
-                String finalUrl;
-                if (statusToDeal.media_attachments.get(0).url == null) {
-                    finalUrl = statusToDeal.media_attachments.get(0).remote_url;
-                } else {
-                    finalUrl = statusToDeal.media_attachments.get(0).url;
-                }
-                layoutMediaBinding.media.setOnLongClickListener(v -> {
-                    if (long_press_media) {
-                        MediaHelper.manageMove(context, finalUrl, false);
-                    }
-                    return true;
-                });
-
-                float focusX = 0.f;
-                float focusY = 0.f;
-                if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
-                    focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
-                    focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
-                }
-
-                if (!mediaObfuscated(statusToDeal) || expand_media) {
-                    layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
-                    RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                            .load(statusToDeal.media_attachments.get(0).preview_url);
-                    if (!fullAttachement) {
-                        requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
-                    }
-                    requestBuilder.into(layoutMediaBinding.media);
-                } else {
-                    layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
-                    Glide.with(layoutMediaBinding.media.getContext())
-                            .load(statusToDeal.media_attachments.get(0).preview_url)
-                            .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
-                            // .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                            .into(layoutMediaBinding.media);
-                }
-                layoutMediaBinding.viewHide.setOnClickListener(v -> {
-                    statusToDeal.sensitive = !statusToDeal.sensitive;
-                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                });
-                holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
-                holder.binding.mediaContainer.setVisibility(View.VISIBLE);
-                holder.binding.attachmentsListContainer.setVisibility(View.GONE);
-            } else { //Several media
-                int mediaPosition = 1;
-                for (Attachment attachment : statusToDeal.media_attachments) {
+                    holder.binding.mediaContainer.setVisibility(View.VISIBLE);
+                    holder.binding.displayMedia.setVisibility(View.GONE);
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     RelativeLayout.LayoutParams lp;
-                    float focusX = 0.f;
-                    float focusY = 0.f;
-                    if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
-                        focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
-                        focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
-                    }
-
-                    String finalUrl;
-                    if (attachment.url == null) {
-                        finalUrl = attachment.remote_url;
-                    } else {
-                        finalUrl = attachment.url;
-                    }
-                    layoutMediaBinding.media.setOnLongClickListener(v -> {
-                        if (long_press_media) {
-                            MediaHelper.manageMove(context, finalUrl, false);
-                        }
-                        return true;
-                    });
                     if (fullAttachement) {
-                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
+                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     } else {
-                        lp = new RelativeLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
+                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    }
-                    if (attachment.type != null && (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("gifv"))) {
-                        layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutMediaBinding.playVideo.setVisibility(View.GONE);
-                    }
-                    if (attachment.type != null && attachment.type.equalsIgnoreCase("audio")) {
-                        layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
-                    } else {
-                        layoutMediaBinding.playMusic.setVisibility(View.GONE);
-                    }
-                    lp.setMargins(0, 0, (int) Helper.convertDpToPixel(5, context), 0);
-                    if (!mediaObfuscated(statusToDeal) || expand_media) {
-                        layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
-                        RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                                .load(attachment.preview_url);
-                        if (!fullAttachement) {
-                            requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
-                        }
-                        requestBuilder.into(layoutMediaBinding.media);
-                    } else {
-                        layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
-                        Glide.with(layoutMediaBinding.media.getContext())
-                                .load(attachment.preview_url)
-                                .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
-                                //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                                .into(layoutMediaBinding.media);
                     }
                     if (statusToDeal.sensitive) {
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.red_1);
@@ -1272,29 +1139,185 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                     }
                     layoutMediaBinding.media.setLayoutParams(lp);
-                    int finalMediaPosition = mediaPosition;
                     layoutMediaBinding.media.setOnClickListener(v -> {
+                        if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
+                            statusToDeal.isMediaObfuscated = false;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+                            if (timeout > 0) {
+                                new CountDownTimer((timeout * 1000L), 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    public void onFinish() {
+                                        status.isMediaObfuscated = true;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                }.start();
+                            }
+                            return;
+                        }
                         Intent mediaIntent = new Intent(context, MediaActivity.class);
                         Bundle b = new Bundle();
-                        b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
+                        b.putInt(Helper.ARG_MEDIA_POSITION, 1);
                         b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
                         mediaIntent.putExtras(b);
                         ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(finalMediaPosition - 1).url);
+                                .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
                         // start the new activity
                         context.startActivity(mediaIntent, options.toBundle());
                     });
+                    if (statusToDeal.media_attachments.get(0).type != null && (statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("video") || statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("gifv"))) {
+                        layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
+                    } else {
+                        layoutMediaBinding.playVideo.setVisibility(View.GONE);
+                    }
+                    if (statusToDeal.media_attachments.get(0).type != null && statusToDeal.media_attachments.get(0).type.equalsIgnoreCase("audio")) {
+                        layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
+                    } else {
+                        layoutMediaBinding.playMusic.setVisibility(View.GONE);
+                    }
+                    String finalUrl;
+                    if (statusToDeal.media_attachments.get(0).url == null) {
+                        finalUrl = statusToDeal.media_attachments.get(0).remote_url;
+                    } else {
+                        finalUrl = statusToDeal.media_attachments.get(0).url;
+                    }
+                    layoutMediaBinding.media.setOnLongClickListener(v -> {
+                        if (long_press_media) {
+                            MediaHelper.manageMove(context, finalUrl, false);
+                        }
+                        return true;
+                    });
+
+                    float focusX = 0.f;
+                    float focusY = 0.f;
+                    if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
+                        focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
+                        focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
+                    }
+
+                    if (!mediaObfuscated(statusToDeal) || expand_media) {
+                        layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
+                        RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
+                                .load(statusToDeal.media_attachments.get(0).preview_url);
+                        if (!fullAttachement) {
+                            requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                        }
+                        requestBuilder.into(layoutMediaBinding.media);
+                    } else {
+                        layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+                        Glide.with(layoutMediaBinding.media.getContext())
+                                .load(statusToDeal.media_attachments.get(0).preview_url)
+                                .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
+                                // .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                                .into(layoutMediaBinding.media);
+                    }
                     layoutMediaBinding.viewHide.setOnClickListener(v -> {
                         statusToDeal.sensitive = !statusToDeal.sensitive;
                         adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                     });
-                    holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
-                    mediaPosition++;
+                    holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
+                    holder.binding.mediaContainer.setVisibility(View.VISIBLE);
+                    holder.binding.attachmentsListContainer.setVisibility(View.GONE);
                 }
-                holder.binding.mediaContainer.setVisibility(View.GONE);
-                holder.binding.attachmentsListContainer.setVisibility(View.VISIBLE);
+            } else { //Several media
+                if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
+                    holder.binding.mediaContainer.setVisibility(View.GONE);
+                    holder.binding.displayMedia.setVisibility(View.VISIBLE);
+                    holder.binding.displayMedia.setOnClickListener(v -> {
+                        statusToDeal.canLoadMedia = true;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    int mediaPosition = 1;
+                    for (Attachment attachment : statusToDeal.media_attachments) {
+                        LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
+                        RelativeLayout.LayoutParams lp;
+                        float focusX = 0.f;
+                        float focusY = 0.f;
+                        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
+                            focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
+                            focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
+                        }
+
+                        String finalUrl;
+                        if (attachment.url == null) {
+                            finalUrl = attachment.remote_url;
+                        } else {
+                            finalUrl = attachment.url;
+                        }
+                        layoutMediaBinding.media.setOnLongClickListener(v -> {
+                            if (long_press_media) {
+                                MediaHelper.manageMove(context, finalUrl, false);
+                            }
+                            return true;
+                        });
+                        if (fullAttachement) {
+                            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
+                            layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        } else {
+                            lp = new RelativeLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
+                            layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        }
+                        if (attachment.type != null && (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("gifv"))) {
+                            layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
+                        } else {
+                            layoutMediaBinding.playVideo.setVisibility(View.GONE);
+                        }
+                        if (attachment.type != null && attachment.type.equalsIgnoreCase("audio")) {
+                            layoutMediaBinding.playMusic.setVisibility(View.VISIBLE);
+                        } else {
+                            layoutMediaBinding.playMusic.setVisibility(View.GONE);
+                        }
+                        lp.setMargins(0, 0, (int) Helper.convertDpToPixel(5, context), 0);
+                        if (!mediaObfuscated(statusToDeal) || expand_media) {
+                            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
+                            RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
+                                    .load(attachment.preview_url);
+                            if (!fullAttachement) {
+                                requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                            }
+                            requestBuilder.into(layoutMediaBinding.media);
+                        } else {
+                            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+                            Glide.with(layoutMediaBinding.media.getContext())
+                                    .load(attachment.preview_url)
+                                    .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
+                                    //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+                                    .into(layoutMediaBinding.media);
+                        }
+                        if (statusToDeal.sensitive) {
+                            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.red_1);
+                        } else {
+                            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
+                        }
+                        layoutMediaBinding.media.setLayoutParams(lp);
+                        int finalMediaPosition = mediaPosition;
+                        layoutMediaBinding.media.setOnClickListener(v -> {
+                            Intent mediaIntent = new Intent(context, MediaActivity.class);
+                            Bundle b = new Bundle();
+                            b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
+                            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
+                            mediaIntent.putExtras(b);
+                            ActivityOptionsCompat options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(finalMediaPosition - 1).url);
+                            // start the new activity
+                            context.startActivity(mediaIntent, options.toBundle());
+                        });
+                        layoutMediaBinding.viewHide.setOnClickListener(v -> {
+                            statusToDeal.sensitive = !statusToDeal.sensitive;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                        });
+                        holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
+                        mediaPosition++;
+                    }
+                    holder.binding.mediaContainer.setVisibility(View.GONE);
+                    holder.binding.attachmentsListContainer.setVisibility(View.VISIBLE);
+                }
             }
         } else {
+            holder.binding.displayMedia.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.attachmentsListContainer.setVisibility(View.GONE);
         }

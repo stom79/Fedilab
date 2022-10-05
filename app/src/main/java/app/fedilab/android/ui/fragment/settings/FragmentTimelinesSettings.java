@@ -17,10 +17,12 @@ package app.fedilab.android.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.R;
+import app.fedilab.android.helper.Helper;
 
 public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -31,7 +33,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
     }
 
     private void createPref() {
-
+        ListPreference SET_LOAD_MEDIA_TYPE = findPreference(getString(R.string.SET_LOAD_MEDIA_TYPE));
+        if (SET_LOAD_MEDIA_TYPE != null) {
+            SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
+        }
     }
 
     @Override

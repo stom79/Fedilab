@@ -15,6 +15,8 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
 
@@ -239,4 +241,19 @@ public class TimelineHelper {
         return notifications;
     }
 
+
+    /**
+     * Check if WIFI is opened
+     *
+     * @param context Context
+     * @return boolean
+     */
+    public static boolean isOnWIFI(Context context) {
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connManager != null) {
+            NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+            return (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI);
+        }
+        return false;
+    }
 }

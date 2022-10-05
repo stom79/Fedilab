@@ -104,6 +104,7 @@ public class Status implements Serializable, Cloneable {
     public boolean isChecked = false;
     public String translationContent;
     public boolean translationShown;
+    public boolean canLoadMedia = false;
     public transient boolean isFocused = false;
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;

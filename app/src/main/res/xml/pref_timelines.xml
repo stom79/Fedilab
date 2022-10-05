@@ -25,6 +25,15 @@
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:singleLineTitle="false"
         app:title="@string/set_display_bookmark_indication" />
+    <ListPreference
+        app:defaultValue="ALWAYS"
+        app:dialogTitle="@string/load_media_type_title"
+        app:entries="@array/set_load_media_type_value"
+        app:entryValues="@array/SET_LOAD_MEDIA_TYPE_VALUE"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LOAD_MEDIA_TYPE"
+        app:title="@string/load_media_type_title"
+        app:useSimpleSummaryProvider="true" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
