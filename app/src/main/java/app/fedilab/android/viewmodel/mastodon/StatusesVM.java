@@ -49,8 +49,10 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.TimelineHelper;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -118,7 +120,8 @@ public class StatusesVM extends AndroidViewModel {
             MultipartBody.Part thumbnailMultipartBody;
             fileMultipartBody = Helper.getMultipartBody(getApplication(), "file", file);
             thumbnailMultipartBody = Helper.getMultipartBody(getApplication(), "file", thumbnail);
-            Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, thumbnailMultipartBody, description, focus);
+            RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), description);
+            Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, thumbnailMultipartBody, descriptionBody, focus);
             Attachment attachment = null;
             if (attachmentCall != null) {
                 try {

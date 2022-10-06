@@ -25,6 +25,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -217,7 +218,7 @@ public interface MastodonStatusesService {
             @Header("Authorization") String token,
             @Part MultipartBody.Part file,
             @Part MultipartBody.Part thumbnail,
-            @Part("description") String description,
+            @Part("description") RequestBody description,
             @Part("focus") String focus
     );
 

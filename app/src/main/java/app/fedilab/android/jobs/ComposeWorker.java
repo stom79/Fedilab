@@ -62,8 +62,10 @@ import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -325,7 +327,8 @@ public class ComposeWorker extends Worker {
 
     private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
 
-        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, attachment.description, attachment.focus);
+        RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), attachment.description);
+        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, descriptionBody, attachment.focus);
 
         if (attachmentCall != null) {
             try {
