@@ -327,7 +327,10 @@ public class ComposeWorker extends Worker {
 
     private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
 
-        RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), attachment.description);
+        RequestBody descriptionBody = null;
+        if (attachment.description != null && attachment.description.trim().length() > 0) {
+            descriptionBody = RequestBody.create(MediaType.parse("text/plain"), attachment.description);
+        }
         Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, descriptionBody, attachment.focus);
 
         if (attachmentCall != null) {

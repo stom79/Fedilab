@@ -120,7 +120,10 @@ public class StatusesVM extends AndroidViewModel {
             MultipartBody.Part thumbnailMultipartBody;
             fileMultipartBody = Helper.getMultipartBody(getApplication(), "file", file);
             thumbnailMultipartBody = Helper.getMultipartBody(getApplication(), "file", thumbnail);
-            RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), description);
+            RequestBody descriptionBody = null;
+            if (description != null && description.trim().length() > 0) {
+                descriptionBody = RequestBody.create(MediaType.parse("text/plain"), description);
+            }
             Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(token, fileMultipartBody, thumbnailMultipartBody, descriptionBody, focus);
             Attachment attachment = null;
             if (attachmentCall != null) {

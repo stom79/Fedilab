@@ -728,18 +728,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
         textw = new TextWatcher() {
-            private int cPosition;
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 2) {
-                    holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
-                }
-                cPosition = start;
+                buttonVisibility(holder);
             }
 
             @Override
@@ -752,17 +747,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
                 }
-                /*if (currentLength > max_car + 1) {
-                    int from = max_car - holder.binding.contentSpoiler.getText().length();
-                    int to = (currentLength - holder.binding.contentSpoiler.getText().length());
-                    if (to <= s.length()) {
-                        holder.binding.content.setText(s.delete(from, to));
-                    }
-                } else if (currentLength > max_car) {
-                    if (cPosition + 1 <= s.length()) {
-                        holder.binding.content.setText(s.delete(cPosition, cPosition + 1));
-                    }
-                }*/
                 statusList.get(holder.getBindingAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {
                     buttonVisibility(holder);
@@ -1304,18 +1288,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int max_car = MastodonHelper.getInstanceMaxChars(context);
             holder.binding.characterProgress.setMax(max_car);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
-                private int cPosition;
-
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    cPosition = start;
-                    if (count > 2) {
-                        holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
-                    }
+                    buttonVisibility(holder);
                 }
 
                 @Override
@@ -1327,13 +1306,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
                     }
-                    /*if (currentLength > max_car + 1) {
-                        holder.binding.contentSpoiler.setText(s.delete(max_car - holder.binding.content.getText().length(), (currentLength - holder.binding.content.getText().length())));
-                        buttonVisibility(holder);
-                    } else if (currentLength > max_car) {
-                        buttonVisibility(holder);
-                        holder.binding.contentSpoiler.setText(s.delete(cPosition, cPosition + 1));
-                    }*/
                     statusList.get(holder.getBindingAdapterPosition()).spoiler_text = s.toString();
                     if (s.toString().trim().length() < 2) {
                         buttonVisibility(holder);
