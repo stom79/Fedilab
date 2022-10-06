@@ -39,6 +39,8 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -359,6 +361,7 @@ public class ComposeWorker extends Worker {
         }
     }
 
+
     @NonNull
     @Override
     public Result doWork() {
@@ -395,6 +398,29 @@ public class ComposeWorker extends Worker {
         setForegroundAsync(createForegroundInfo());
         publishMessage(getApplicationContext(), dataPost);
         return Result.success();
+    }
+
+
+    @NonNull
+    @Override
+    public ListenableFuture<ForegroundInfo> getForegroundInfoAsync() {
+        // Build a notification using bytesRead and contentLength
+        Context context = getApplicationContext();
+        // This PendingIntent can be used to cancel the worker
+        PendingIntent intent = WorkManager.getInstance(context)
+                .createCancelPendingIntent(getId());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel();
+        }
+        notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle(context.getString(R.string.post_message))
+                .setOngoing(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_DEFAULT);
+        return Futures.immediateFuture(new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build()));
     }
 
     @NonNull
