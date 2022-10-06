@@ -278,6 +278,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    /**
+     * Manage the actions when picking up a media
+     *
+     * @param type     - type of media in the list of {@link ComposeActivity.mediaType}
+     * @param position - int position of the media in the message
+     */
     private void pickupMedia(ComposeActivity.mediaType type, int position) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -475,6 +481,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyItemChanged(statusList.size() - 1);
     }
 
+    /**
+     * Display attachment for a holder
+     *
+     * @param holder                - view related to a compose element {@link ComposeViewHolder}
+     * @param position              - int position of the message in the thread
+     * @param scrollToMediaPosition - int the position to scroll to media
+     */
     private void displayAttachments(ComposeViewHolder holder, int position, int scrollToMediaPosition) {
         if (statusList.size() > position && statusList.get(position).media_attachments != null) {
             holder.binding.attachmentsList.removeAllViews();
@@ -1345,6 +1358,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
+    /**
+     * Display the emoji picker in the current message
+     *
+     * @param holder - view for the message {@link ComposeViewHolder}
+     * @throws DBException
+     */
     private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
@@ -1372,7 +1391,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         alertDialogEmoji = builder.show();
     }
 
-    private void displayPollPopup(ComposeAdapter.ComposeViewHolder holder, Status statusDraft, int position) {
+    /**
+     * Display the popup to attach a poll to message
+     *
+     * @param holder      - view for the message {@link ComposeViewHolder}
+     * @param statusDraft - Status message instance  {@link Status} linked to the view
+     * @param position    - int position
+     */
+    private void displayPollPopup(ComposeViewHolder holder, Status statusDraft, int position) {
         AlertDialog.Builder alertPoll = new AlertDialog.Builder(context, Helper.dialogStyle());
         alertPoll.setTitle(R.string.create_poll);
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);

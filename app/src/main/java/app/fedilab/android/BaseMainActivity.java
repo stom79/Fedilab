@@ -182,6 +182,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             .setAction(getString(R.string.open_draft), view -> {
                                 Intent intentCompose = new Intent(context, ComposeActivity.class);
                                 intentCompose.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                intentCompose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intentCompose);
                             })
                             .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))

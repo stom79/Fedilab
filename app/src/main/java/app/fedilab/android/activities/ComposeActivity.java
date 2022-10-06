@@ -110,6 +110,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
 
+
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -513,6 +514,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusDraft = new StatusDraft();
             List<Status> statuses = new ArrayList<>();
             Status status = new Status();
+            status.id = Helper.generateIdString();
             status.text = scheduledStatus.params.text;
             status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
             status.poll = scheduledStatus.params.poll;
@@ -567,6 +569,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         //Empty compose
         List<Status> statusDraftList = new ArrayList<>();
         Status status = new Status();
+        status.id = Helper.generateIdString();
         statusDraftList.add(status);
 
         if (statusReplyId != null && statusDraft != null) {//Delete and redraft
@@ -713,6 +716,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     public void onItemDraftAdded(int position) {
         Status status = new Status();
+
+        status.id = Helper.generateIdString();
         status.mentions = statusList.get(position).mentions;
         status.visibility = statusList.get(position).visibility;
         status.spoiler_text = statusList.get(position).spoiler_text;
@@ -750,7 +755,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             List<Status> statusDrafts = new ArrayList<>();
             List<Status> statusReplies = new ArrayList<>();
             for (Status status : statusList) {
-                if (status.id == null) {
+                if (status.id == null || status.id.startsWith("@fedilab_compose_")) {
                     statusDrafts.add(status);
                 } else {
                     statusReplies.add(status);

@@ -1628,6 +1628,11 @@ public class Helper {
         return "@fedilab_fetch_more_" + uuid;
     }
 
+    public static String generateIdString() {
+        String uuid = UUID.randomUUID().toString();
+        return "@fedilab_compose_" + uuid;
+    }
+
     public static Gson getDateBuilder() {
         SimpleDateFormat[] formats = new SimpleDateFormat[]{
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()),

@@ -124,7 +124,7 @@ public class ComposeWorker extends Worker {
             //Check if previous messages in thread have already been published (ie: when resending after a fail)
             int startingPosition = 0;
             for (PostState.Post post : dataPost.statusDraft.state.posts) {
-                if (post.id == null) {
+                if (post.id == null || post.id.startsWith("@fedilab_compose_")) {
                     break;
                 }
                 startingPosition++;
