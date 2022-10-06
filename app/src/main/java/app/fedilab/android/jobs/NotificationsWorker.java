@@ -28,6 +28,9 @@ import androidx.work.ForegroundInfo;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 
 import app.fedilab.android.R;
@@ -45,6 +48,28 @@ public class NotificationsWorker extends Worker {
     public NotificationsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+
+    @NonNull
+    @Override
+    public ListenableFuture<ForegroundInfo> getForegroundInfoAsync() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String channelName = "Notification";
+            String channelDescription = "Fetched notifications";
+            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            notifChannel.setDescription(channelDescription);
+            notificationManager.createNotificationChannel(notifChannel);
+
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle(getApplicationContext().getString(R.string.scheduled_toots))
+                .setContentText(getApplicationContext().getString(R.string.scheduled_toots))
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_DEFAULT);
+        return Futures.immediateFuture(new ForegroundInfo(FETCH_NOTIFICATION_CHANNEL_ID, notificationBuilder.build()));
     }
 
     @NonNull

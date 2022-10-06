@@ -28,6 +28,9 @@ import androidx.work.ForegroundInfo;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +55,28 @@ public class ScheduleBoostWorker extends Worker {
     public ScheduleBoostWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+
+    @NonNull
+    @Override
+    public ListenableFuture<ForegroundInfo> getForegroundInfoAsync() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            String channelName = "Boost messages";
+            String channelDescription = "Schedule boosts channel";
+            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            notifChannel.setDescription(channelDescription);
+            notificationManager.createNotificationChannel(notifChannel);
+
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher_foreground))
+                .setContentTitle(getApplicationContext().getString(R.string.schedule_boost))
+                .setContentText(getApplicationContext().getString(R.string.schedule_boost))
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_DEFAULT);
+        return Futures.immediateFuture(new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build()));
     }
 
     @NonNull
