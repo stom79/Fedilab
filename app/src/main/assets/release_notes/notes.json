@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.4-beta-3",
+    "code": "412",
+    "note": "- Fix post message with media\n- Fix encoding issue with media descriptions\n- Fix Friendica tag search\n- Fixes when composing\n- Some other small fixes\n"
+  },
+  {
     "version": "3.4-beta-2",
     "code": "411",
     "note": "- Fix post message with media\n- Set thumbnails load behavior Always/Wifi only /ask\n- Some other small fixes"

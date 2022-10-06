@@ -1,0 +1,5 @@
+- Fix post message with media
+- Fix encoding issue with media descriptions
+- Fix Friendica tag search
+- Fixes when composing
+- Some other small fixes
