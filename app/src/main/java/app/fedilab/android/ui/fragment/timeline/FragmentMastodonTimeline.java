@@ -540,6 +540,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineParams.maxId = max_id;
         }
         timelineParams.fetchingMissing = fetchingMissing;
+
         switch (timelineType) {
             case LOCAL:
                 timelineParams.local = true;
@@ -562,6 +563,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineParams.all = tagTimeline.all;
                 timelineParams.any = tagTimeline.any;
                 timelineParams.hashtagTrim = tagTimeline.name;
+                if (timelineParams.hashtagTrim != null && timelineParams.hashtagTrim.startsWith("#")) {
+                    timelineParams.hashtagTrim = tagTimeline.name.substring(1);
+                }
                 break;
             case REMOTE:
                 timelineParams.instance = remoteInstance;
