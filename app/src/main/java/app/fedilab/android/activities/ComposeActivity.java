@@ -245,7 +245,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusList.addAll(0, context.ancestors);
         composeAdapter.setStatusCount(context.ancestors.size() + 1);
         composeAdapter.notifyItemRangeInserted(0, context.ancestors.size());
-        composeAdapter.notifyItemChanged(context.ancestors.size() + 1);
+     //   composeAdapter.notifyItemChanged(context.ancestors.size() + 1);
         if (binding.recyclerView.getItemDecorationCount() > 0) {
             for (int i = 0; i < binding.recyclerView.getItemDecorationCount(); i++) {
                 binding.recyclerView.removeItemDecorationAt(i);
