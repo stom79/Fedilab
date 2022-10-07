@@ -1,18 +1,8 @@
 [
   {
-    "version": "3.4-beta-3",
-    "code": "412",
-    "note": "- Fix post message with media\n- Fix encoding issue with media descriptions\n- Fix Friendica tag search\n- Fixes when composing\n- Some other small fixes\n"
-  },
-  {
-    "version": "3.4-beta-2",
-    "code": "411",
-    "note": "- Fix post message with media\n- Set thumbnails load behavior Always/Wifi only /ask\n- Some other small fixes"
-  },
-  {
-    "version": "3.4-beta-1",
-    "code": "410",
-    "note": "- New cache mechanism\n- Cache can be disabled in settings\n- Add counters for new messages\n- Some fixes."
+    "version": "3.4.0",
+    "code": "413",
+    "note": "Added:\n- New cache mechanism (can be disabled in settings)\n- Set thumbnails load behavior Always/Wifi only /ask\n- Add counters for new messages in timelines\nFixed:\n- Contextual menu not working in threads\n- Tag search issue with Friendica\n- Notifications click open the wrong tab\n- Encoding issue with media descriptions\n- Some other fixes."
   },
   {
     "version": "3.3.2",

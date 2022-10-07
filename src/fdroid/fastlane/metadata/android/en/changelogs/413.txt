@@ -1,0 +1,10 @@
+Added:
+- New cache mechanism (can be disabled in settings)
+- Set thumbnails load behavior Always/Wifi only /ask
+- Add counters for new messages in timelines
+Fixed:
+- Contextual menu not working in threads
+- Tag search issue with Friendica
+- Notifications click open the wrong tab
+- Encoding issue with media descriptions
+- Some other fixes.
