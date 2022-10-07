@@ -1550,17 +1550,16 @@ public class Helper {
         notificationBuilder.setLargeIcon(icon);
 
 
-        Notification summaryNotification = summaryNotification = new NotificationCompat.Builder(context, channelId)
+        Notification summaryNotification = new NotificationCompat.Builder(context, channelId)
                 .setContentTitle(title)
                 .setContentText(channelTitle)
                 .setContentIntent(pIntent)
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setGroup(account.mastodon_account != null ? account.mastodon_account.acct : "" + "@" + account.instance)
+                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
-
         notificationManager.notify(notificationId++, notificationBuilder.build());
         notificationManager.notify(0, summaryNotification);
     }

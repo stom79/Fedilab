@@ -278,6 +278,34 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         mamageNewIntent(intent);
     }
 
+    /**
+     * Open notifications tab when coming from a notification device
+     *
+     * @param intent - Intent intent that will be cancelled
+     */
+    private void openNotifications(Intent intent) {
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+            boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+            if (!singleBar) {
+                binding.bottomNavView.setSelectedItemId(R.id.nav_notifications);
+            } else {
+                int position = 0;
+                for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
+                    TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
+                    if (tab != null && tab.getTag() != null && tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
+                        break;
+                    }
+                    position++;
+                }
+                binding.viewPager.setCurrentItem(position);
+            }
+        }, 1000);
+        intent.removeExtra(Helper.INTENT_ACTION);
+    }
+
+
     @SuppressLint("ApplySharedPref")
     private void mamageNewIntent(Intent intent) {
         if (intent == null)
@@ -290,50 +318,30 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
             instanceIntent = extras.getString(Helper.PREF_INSTANCE);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
-                try {
-                    BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                    headerMenuOpen = false;
-                    Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
-                    BaseMainActivity.currentToken = account.token;
-                    BaseMainActivity.currentUserID = account.user_id;
-                    api = account.api;
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(PREF_USER_TOKEN, account.token);
-                    editor.commit();
-                    Intent mainActivity = new Intent(this, MainActivity.class);
-                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
-                    startActivity(mainActivity);
-                    finish();
-                } catch (DBException e) {
-                    e.printStackTrace();
+                if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
+                    openNotifications(intent);
+                } else {
+                    try {
+                        BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                        headerMenuOpen = false;
+                        Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                        BaseMainActivity.currentToken = account.token;
+                        BaseMainActivity.currentUserID = account.user_id;
+                        api = account.api;
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(PREF_USER_TOKEN, account.token);
+                        editor.commit();
+                        Intent mainActivity = new Intent(this, MainActivity.class);
+                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
+                        startActivity(mainActivity);
+                        finish();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
-                final Handler handler = new Handler();
-                handler.postDelayed(() -> {
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                    boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-                    if (!singleBar) {
-                        int position = BottomMenu.getPosition(bottomMenu, R.id.nav_notifications);
-                        if (position > 0 && binding.bottomNavView.getMenu().size() < position) {
-                            binding.bottomNavView.getMenu().getItem(position).setChecked(true);
-                            binding.viewPager.setCurrentItem(position);
-                        }
-                    } else {
-                        int position = 0;
-                        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                            if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION && binding.bottomNavView.getMenu().size() < position) {
-                                binding.bottomNavView.getMenu().getItem(position).setChecked(true);
-                                binding.viewPager.setCurrentItem(position);
-                                break;
-                            }
-                            position++;
-                        }
-                    }
-
-                }, 2000);
-                intent.removeExtra(Helper.INTENT_ACTION);
-
+                openNotifications(intent);
             }
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
