@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -42,6 +43,7 @@ import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.jobs.NotificationsWorker;
 
 public class PushHelper {
+
 
     public static void startStreaming(Context context) {
 
@@ -113,7 +115,7 @@ public class PushHelper {
         PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(NotificationsWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
                 .addTag(Helper.WORKER_REFRESH_NOTIFICATION)
                 .build();
-        WorkManager.getInstance(context).enqueue(notificationPeriodic);
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_NOTIFICATION, ExistingPeriodicWorkPolicy.REPLACE, notificationPeriodic);
     }
 
 
