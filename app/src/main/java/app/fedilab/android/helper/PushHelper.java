@@ -110,9 +110,10 @@ public class PushHelper {
         }).start();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String value = prefs.getString(context.getString(R.string.SET_NOTIFICATION_DELAY_VALUE), "15");
-        new PeriodicWorkRequest.Builder(NotificationsWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
+        PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(NotificationsWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
                 .addTag(Helper.WORKER_REFRESH_NOTIFICATION)
                 .build();
+        WorkManager.getInstance(context).enqueue(notificationPeriodic);
     }
 
 

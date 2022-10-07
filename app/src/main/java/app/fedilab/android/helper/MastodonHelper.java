@@ -37,6 +37,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
@@ -389,6 +390,7 @@ public class MastodonHelper {
                             .setInputData(inputData)
                             .setInitialDelay(delayToPass, TimeUnit.MILLISECONDS)
                             .build();
+                    WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
                     ScheduledBoost scheduledBoost = new ScheduledBoost();
                     scheduledBoost.userId = BaseMainActivity.currentUserID;
                     scheduledBoost.statusId = status.reblog != null ? status.reblog.id : status.id;
