@@ -1,0 +1,7 @@
+Added:
+- Disable counters in settings
+Fixed:
+- Duplicated messages from cache
+- Notifications in double
+- Drafts not automatically removed
+- Messages not removed from cache after deletion
