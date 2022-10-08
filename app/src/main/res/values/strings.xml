@@ -888,6 +888,7 @@
     <string name="SET_LONG_PRESS_STORE_MEDIA" translatable="false">SET_LONG_PRESS_STORE_MEDIA</string>
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
+    <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_DISPLAY_ADMIN_STATUSES" translatable="false">SET_DISPLAY_ADMIN_STATUSES</string>
     <string name="SET_LED_COLOUR_VAL" translatable="false">SET_LED_COLOUR_VAL</string>
@@ -1475,4 +1476,6 @@
     <string name="reply">Reply</string>
     <string name="display_options">Display options</string>
     <string name="fetch_notifications">Fetch notifications</string>
+    <string name="set_display_counters">Display counters</string>
+    <string name="set_display_counters_description">Will display a bubble counter in tab timelines for new messages</string>
 </resources>

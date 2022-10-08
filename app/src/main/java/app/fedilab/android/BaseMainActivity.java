@@ -1103,6 +1103,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public void onUpdateConversation(int count) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        boolean displayCounters = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_COUNTERS), true);
+        if (!displayCounters) {
+            return;
+        }
         if (!singleBar) {
             if (count > 0) {
                 binding.bottomNavView.getOrCreateBadge(R.id.nav_privates).setNumber(count);
@@ -1119,6 +1123,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public void onUpdateNotification(int count) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        boolean displayCounters = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_COUNTERS), true);
+        if (!displayCounters) {
+            return;
+        }
         if (!singleBar) {
             if (count > 0) {
                 binding.bottomNavView.getOrCreateBadge(R.id.nav_notifications).setNumber(count);
@@ -1178,6 +1186,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     public void onUpdate(int count, Timeline.TimeLineEnum type, String slug) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        boolean displayCounters = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_COUNTERS), true);
+        if (!displayCounters) {
+            return;
+        }
         boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         if (!singleBar) {
             switch (type) {

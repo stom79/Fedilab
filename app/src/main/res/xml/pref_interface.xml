@@ -28,6 +28,13 @@
         app:summary="@string/set_unfollow_validation"
         app:title="@string/set_unfollow_validation_title" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_COUNTERS"
+        app:singleLineTitle="false"
+        app:summary="@string/set_display_counters_description"
+        app:title="@string/set_display_counters" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
