@@ -179,7 +179,7 @@ public class StatusCache {
      * @return int - 0 if updated 1 if inserted
      * @throws DBException exception with database
      */
-    public int insertOrUpdate(StatusCache statusCache, String slug) throws DBException {
+    public synchronized int insertOrUpdate(StatusCache statusCache, String slug) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }

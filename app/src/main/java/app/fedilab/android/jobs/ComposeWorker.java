@@ -234,8 +234,11 @@ public class ComposeWorker extends Worker {
                             if (statusReply != null) {
                                 in_reply_to_status = statusReply.id;
                                 dataPost.statusDraft.state.posts_successfully_sent = i;
-                                dataPost.statusDraft.state.posts.get(i).id = statusReply.id;
-                                dataPost.statusDraft.state.posts.get(i).in_reply_to_id = statusReply.in_reply_to_id;
+                                if (dataPost.statusDraft.state.posts.size() > i + 1) {
+                                    dataPost.statusDraft.state.posts.get(i + 1).id = statusReply.id;
+                                    dataPost.statusDraft.state.posts.get(i + 1).in_reply_to_id = statusReply.in_reply_to_id;
+                                }
+
                                 try {
                                     new StatusDraft(context.getApplicationContext()).updatePostState(dataPost.statusDraft);
                                 } catch (DBException e) {
@@ -284,22 +287,14 @@ public class ComposeWorker extends Worker {
                             if (statusReply != null) {
                                 in_reply_to_status = statusReply.id;
                                 dataPost.statusDraft.state.posts_successfully_sent = i;
-                                dataPost.statusDraft.state.posts.get(i).id = statusReply.id;
-                                dataPost.statusDraft.state.posts.get(i).in_reply_to_id = statusReply.params.in_reply_to_id;
+                                if (dataPost.statusDraft.state.posts.size() > i + 1) {
+                                    dataPost.statusDraft.state.posts.get(i + 1).id = statusReply.id;
+                                    dataPost.statusDraft.state.posts.get(i + 1).in_reply_to_id = statusReply.params.in_reply_to_id;
+                                }
                                 try {
                                     new StatusDraft(context.getApplicationContext()).updatePostState(dataPost.statusDraft);
                                 } catch (DBException e) {
                                     e.printStackTrace();
-                                }
-                                if (i >= dataPost.statusDraft.statusDraftList.size()) {
-                                    try {
-                                        new StatusDraft(context).removeDraft(dataPost.statusDraft);
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
-                                    }
-                                    if (dataPost.service != null) {
-                                        dataPost.service.stopSelf();
-                                    }
                                 }
                             }
                         }
@@ -311,6 +306,16 @@ public class ComposeWorker extends Worker {
                 dataPost.messageSent++;
                 if (dataPost.messageSent > dataPost.messageToSend) {
                     dataPost.messageSent = dataPost.messageToSend;
+                }
+                if (i >= (statuses.size() - 1)) {
+                    try {
+                        new StatusDraft(context).removeDraft(dataPost.statusDraft);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    if (dataPost.service != null) {
+                        dataPost.service.stopSelf();
+                    }
                 }
             }
         }
