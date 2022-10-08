@@ -1482,7 +1482,7 @@ public class Helper {
                 message = message.substring(0, 499) + "…";
             }
         }*/
-        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.acct : "" + "@" + account.instance)
+        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
                 .setContentIntent(pIntent)
                 .setContentText(message);
         int ledColour = Color.BLUE;
@@ -1493,9 +1493,6 @@ public class Helper {
             prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL), String.valueOf(LED_COLOUR)));
         }
         switch (prefColor) {
-            case 0: // BLUE
-                ledColour = Color.BLUE;
-                break;
             case 1: // CYAN
                 ledColour = Color.CYAN;
                 break;

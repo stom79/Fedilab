@@ -65,8 +65,8 @@ public class NotificationsWorker extends Worker {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher_foreground))
-                .setContentTitle(getApplicationContext().getString(R.string.scheduled_toots))
-                .setContentText(getApplicationContext().getString(R.string.scheduled_toots))
+                .setContentTitle(getApplicationContext().getString(R.string.notifications))
+                .setContentText(getApplicationContext().getString(R.string.fetch_notifications))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_DEFAULT);
         return Futures.immediateFuture(new ForegroundInfo(FETCH_NOTIFICATION_CHANNEL_ID, notificationBuilder.build()));
@@ -85,8 +85,8 @@ public class NotificationsWorker extends Worker {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher_foreground))
-                .setContentTitle(getApplicationContext().getString(R.string.scheduled_toots))
-                .setContentText(getApplicationContext().getString(R.string.scheduled_toots))
+                .setContentTitle(getApplicationContext().getString(R.string.notifications))
+                .setContentText(getApplicationContext().getString(R.string.fetch_notifications))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_DEFAULT);
         return new ForegroundInfo(FETCH_NOTIFICATION_CHANNEL_ID, notificationBuilder.build());

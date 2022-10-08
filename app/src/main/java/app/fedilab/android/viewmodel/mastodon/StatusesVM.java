@@ -325,11 +325,10 @@ public class StatusesVM extends AndroidViewModel {
             //The status must also be deleted in cache
             try {
                 BaseAccount account = new app.fedilab.android.client.entities.app.Account(getApplication().getApplicationContext()).getAccountByToken(token);
-                new StatusCache(getApplication().getApplicationContext()).deleteStatus(id, account.instance);
+                new StatusCache(getApplication().getApplicationContext()).deleteStatus(account.instance, id);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-
 
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Status finalStatus = status;

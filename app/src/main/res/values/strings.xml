@@ -1474,4 +1474,5 @@
     <string name="cached_messages">Cached message</string>
     <string name="reply">Reply</string>
     <string name="display_options">Display options</string>
+    <string name="fetch_notifications">Fetch notifications</string>
 </resources>
