@@ -397,6 +397,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (position == -1) {
             position = statusList.size() - 1;
         }
+       // position = statusCount-1+position;
         if (statusList.get(position).media_attachments == null) {
             statusList.get(position).media_attachments = new ArrayList<>();
         }
@@ -1095,7 +1096,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
-
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
 
