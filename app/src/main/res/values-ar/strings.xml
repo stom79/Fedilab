@@ -17,15 +17,15 @@
     <string name="password">كلمة السر</string>
     <string name="email">البريد الإلكتروني</string>
     <string name="accounts">الحسابات</string>
-    <string name="toots">التبويقات</string>
+    <string name="toots">الرسائل</string>
     <string name="tags">الوسوم</string>
     <string name="save">حفظ</string>
     <string name="instance">مثيل الخادم</string>
     <string name="instance_example">مثيل الخادم: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">يعمل الآن بحساب %1$s</string>
     <string name="add_account">إضافة حساب</string>
-    <string name="clipboard">تم نسخ محتوى التبويق إلى الحافظة</string>
-    <string name="clipboard_url">تم نسخ عنوان رابط التبويق إلى الحافظة</string>
+    <string name="clipboard">تم نسخ محتوى الرسالة إلى الحافظة</string>
+    <string name="clipboard_url">تم نسخ عنوان رابط الرسالة إلى الحافظة</string>
     <string name="camera">آلة التصوير</string>
     <string name="delete_all">حذف الكل</string>
     <string name="schedule">برمجة</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">طلبات المتابعة</string>
     <string name="settings">الإعدادات</string>
     <string name="send_email">إرسال بريد إلكتروني</string>
-    <string name="scheduled_toots">التبويقات المبرمجة</string>
+    <string name="scheduled_toots">الرسائل المبرمَجة</string>
     <string name="disclaimer_full">قد لا تعكِس المعلومات أدناه كامل الملف الشخصي للمستخدِم.</string>
     <string name="insert_emoji">إضافة إيموجو</string>
     <string name="no_emoji">ليس بإمكان التطبيق حاليًا حصاد الإيموجي الخاصة.</string>
     <string name="logout_account_confirmation">هل أنت متأكد من أنك تريد تسجيل الخروج @%1$s@%2$s؟</string>
     <!-- Status -->
-    <string name="no_status">لا توجد هناك أية تبويقات لعرضها</string>
-    <string name="favourite_add">هل تود إضافة هذا التبويق إلى مفضلاتك ؟</string>
-    <string name="favourite_remove">هل تود إزالة هذا التبويق من مفضلاتك ؟</string>
-    <string name="reblog_add">هل تود ترقية هذا التبويق؟</string>
-    <string name="reblog_remove">هل تود إلغاء ترقية هذا التبويق؟</string>
+    <string name="no_status">لا توجد هناك أية رسائل لعرضها</string>
+    <string name="favourite_add">هل تود إضافة هذه الرسالة إلى مفضلاتك؟</string>
+    <string name="favourite_remove">هل تود إزالة هذه الرسالة من مفضلاتك؟</string>
+    <string name="reblog_add">هل تود إعادة مشاركة هذه الرسالة؟</string>
+    <string name="reblog_remove">هل تود إلغاء إعادة مشاركة هذه الرسالة؟</string>
     <string name="more_action_1">كتم</string>
     <string name="more_action_2">حظر</string>
     <string name="more_action_3">الإبلاغ</string>
@@ -138,8 +138,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">طرأ هناك خطأ أثناء اختيار الوسائط!</string>
     <string name="toot_delete_media">هل تود حذف هذه الصورة؟</string>
-    <string name="toot_error_no_content">إن تبويقك فارغ!</string>
-    <string name="toot_sent">تم إرسال التبويق!</string>
+    <string name="toot_error_no_content">إنّ منشورك فارغ!</string>
+    <string name="toot_sent">تم إرسال المنشور!</string>
     <string name="toot_sensitive">محتوى حساس؟</string>
     <string name="no_draft">لا توجد مسودات!</string>
     <string name="choose_accounts">اختر حسابا</string>
@@ -159,14 +159,15 @@
     <!-- Accounts -->
     <string name="no_accounts">لا توجد حسابات للعرض</string>
     <string name="no_follow_request">ليس هناك طلبات بالمتابعة</string>
-    <string name="status_cnt">التبويقات \n %1$s</string>
+    <string name="status_cnt">الرسائل
+\n %1$s</string>
     <string name="following_cnt">المُتابَعون \n %1$s</string>
     <string name="followers_cnt">المتابِعون \n %1$s</string>
     <string name="reject">رفض</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">ليس عندك أية تبويقات مبرمَجة للعرض!</string>
-    <string name="remove_scheduled">هل تود حذف التبويق المُبرمَج؟</string>
-    <string name="toot_scheduled">تمت برمجة التبويق بنجاح!</string>
+    <string name="no_scheduled_toots">ليس عندك أية رسائل مبرمَجة للعرض!</string>
+    <string name="remove_scheduled">هل تود حذف الرسالة المُبرمَجة؟</string>
+    <string name="toot_scheduled">تمت برمجة نشر الرسالة بنجاح!</string>
     <string name="toot_scheduled_date">يجب أن يكون تاريخ البرمجة أكبر من الساعة الحالية!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">ينبغي أن تكون مدة الكتم أطول مِن دقيقة واحدة.</string>
@@ -192,10 +193,10 @@
     <string name="toast_unmute">لقد تم إلغاء الكتم عن هذا الحساب!</string>
     <string name="toast_follow">تمت متابعة الحساب!</string>
     <string name="toast_unfollow">لم تعد تتابع هذا الحساب!</string>
-    <string name="toast_reblog">تمت ترقية التبويق!</string>
-    <string name="toast_unreblog">تمت عملية إلغاء ترقية هذا التبويق!</string>
-    <string name="toast_favourite">تمت إضافة التبويق إلى مفضلاتك!</string>
-    <string name="toast_unfavourite">تمت إزالة التبويق من مفضلاتك!</string>
+    <string name="toast_reblog">تمت مشاركة الرسالة!</string>
+    <string name="toast_unreblog">تمت عملية إلغاء إعادة مشاركة الرسالة!</string>
+    <string name="toast_favourite">تمت إضافة الرسالة إلى مفضلاتك!</string>
+    <string name="toast_unfavourite">تمت إزالة الرسالة من مفضلاتك!</string>
     <string name="toast_error">عذراً ! حدث خطأ!</string>
     <string name="toast_code_error">طرأ هناك خطأ! لم يقم مثيل الخادم بإعادة رمز المصادقة!</string>
     <string name="toast_error_instance">يبدو أنّ اسم نطاق مثيل الخادوم غير صالح!</string>
@@ -204,7 +205,7 @@
     <string name="nothing_to_do">لا يمكن اتخاذ أي إجراء</string>
     <string name="toast_error_translate">وقع خطاء أثناء عملية الترجمة!</string>
     <!-- Settings -->
-    <string name="set_toots_page">عدد التبويقات التي يتم تحميلها كل مرة</string>
+    <string name="set_toots_page">عدد الرسائل التي يتم تحميلها كل مرة</string>
     <string name="set_disable_gif">تعطيل الصور الرمزية المتحركة</string>
     <string name="set_notif_follow">تنبيهي عندما يتبعني أحدهم</string>
     <string name="set_notif_follow_share">تنبيهي عندما يقوم أحدهم بترقية منشوري</string>
@@ -283,7 +284,7 @@
     <string name="poxy_port">المنفذ</string>
     <string name="poxy_login">اسم المستخدم</string>
     <string name="poxy_password">كلمة السر</string>
-    <string name="set_share_details">إضافة التفاصيل عند مشاركة تبويق ما</string>
+    <string name="set_share_details">إضافة التفاصيل عند مشاركة رسالة ما</string>
     <string name="support_the_app_on_liberapay">ادعم التطبيق على ليبيراباي</string>
     <string name="alert_regex">هناك خطأ في العبارة المنطقية!</string>
     <string name="toast_instance_unavailable">لم يتم العثور على أي خيط زمني في مثيل الخادم هذا!</string>
@@ -304,7 +305,7 @@
     <string name="context_conversation">المحادثات</string>
     <string name="filter_keyword_explanations">سوف يتم العثور عليه بغض النظر عن حالة الأحرف في النص أو حتى و إن كان فيه تحذير عن المحتوى</string>
     <string name="context_drop">حذف بدلًا مِن الإخفاء</string>
-    <string name="context_drop_explanations">سوف تختفي التبويقات المُصفّاة إلى الأبد، حتى و إن تم حذف عامل التصفية لاحقًا</string>
+    <string name="context_drop_explanations">سوف تختفي الرسائل المُصفّاة إلى الأبد، حتى و إن تم حذف عامل التصفية لاحقًا</string>
     <string name="context_whole_word_explanations">إذا كانت الكلمة أو الجملة مكونة من الأرقام والحروف فقط سوف يتم تطبيقها فقط عند مطابقة الكلمة ككل</string>
     <string name="context_whole_word">الكلمة كلها</string>
     <string name="filter_context">سياق عامل التصفية</string>
@@ -319,7 +320,7 @@
     <string name="channel_notif_fav">مفضلة جديدة</string>
     <string name="channel_notif_mention">إشارة جديدة</string>
     <string name="channel_notif_poll">انتهى استطلاع الرأي</string>
-    <string name="channel_notif_backup">النسخ الاحتياطي للتبويقات</string>
+    <string name="channel_notif_backup">النسخ الاحتياطي للرسائل</string>
     <string name="channel_notif_status">مشاركات جديدة</string>
     <string name="channel_notif_media">تنزيل الوسائط</string>
     <string name="select_sound">اختيار نغمة</string>
@@ -331,11 +332,11 @@
     <string name="peertube_instance">مثيل خادم بيرتيوب</string>
     <string name="set_display_emoji">استخدم إيموجي وان</string>
     <string name="information">معلومات</string>
-    <string name="set_display_card">عرض المعاينات في كافة التبويقات</string>
+    <string name="set_display_card">عرض المعاينات في كافة الرسائل</string>
     <string name="account_id_clipbloard">تم نسخ معرف الحساب إلى الحافظة!</string>
     <string name="set_change_locale">تغيير اللغة</string>
-    <string name="truncate_long_toots">تقسيم التبويقات الطويلة</string>
-    <string name="set_truncate_toot">اقتطاع التبويقات إلى \'س\' خطوط. الصفر يعني معطَّل.</string>
+    <string name="truncate_long_toots">تقسيم الرسائل الطويلة</string>
+    <string name="set_truncate_toot">اقتطاع الرسائل إلى \'س\' خطوط. الصفر يعني معطَّل.</string>
     <string name="display_toot_truncate">عرض المزيد</string>
     <string name="hide_toot_truncate">اعرض أقل</string>
     <string name="tags_already_stored">الوسم موجود مِن قَبل!</string>
@@ -381,8 +382,8 @@
     <string name="category">الفئة</string>
     <string name="description">الوصف</string>
     <string name="share">شارك</string>
-    <string name="toots_server">التبويقات (السيرفر)</string>
-    <string name="toots_client">التبويقات (الجهاز)</string>
+    <string name="toots_server">الرسائل (السيرفر)</string>
+    <string name="toots_client">الرسائل (الجهاز)</string>
     <string name="settings_category_label_timelines">الخيوط الزمنية</string>
     <string name="settings_category_label_interface">الواجهة</string>
     <string name="contact">المتراسلون</string>
