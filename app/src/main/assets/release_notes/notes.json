@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.4.2",
+    "code": "412",
+    "note": "Fixed:\n- Attach media to a reply"
+  },
+  {
     "version": "3.4.1",
     "code": "414",
     "note": "Added:\n- Disable counters in settings\nFixed:\n- Duplicated messages from cache\n- Notifications in double\n- Drafts not automatically removed\n- Messages not removed from cache after deletion"
