@@ -451,7 +451,7 @@ public class ComposeWorker extends Worker {
                 .setContentTitle(context.getString(R.string.post_message))
                 .setOngoing(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_DEFAULT);
+                .setPriority(Notification.PRIORITY_HIGH);
 
         return new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
     }

@@ -55,10 +55,12 @@ public class NotificationsWorker extends Worker {
     @Override
     public ListenableFuture<ForegroundInfo> getForegroundInfoAsync() {
         if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Notification";
+            String channelName = "Notifications";
             String channelDescription = "Fetched notifications";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
             notifChannel.setDescription(channelDescription);
+            notifChannel.setSound(null, null);
+            notifChannel.setShowBadge(false);
             notificationManager.createNotificationChannel(notifChannel);
 
         }
@@ -75,9 +77,11 @@ public class NotificationsWorker extends Worker {
     @NonNull
     private ForegroundInfo createForegroundInfo() {
         if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Notification";
+            String channelName = "Notifications";
             String channelDescription = "Fetched notifications";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
+            notifChannel.setSound(null, null);
+            notifChannel.setShowBadge(false);
             notifChannel.setDescription(channelDescription);
             notificationManager.createNotificationChannel(notifChannel);
 
@@ -88,7 +92,7 @@ public class NotificationsWorker extends Worker {
                 .setContentTitle(getApplicationContext().getString(R.string.notifications))
                 .setContentText(getApplicationContext().getString(R.string.fetch_notifications))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_DEFAULT);
+                .setPriority(Notification.PRIORITY_LOW);
         return new ForegroundInfo(FETCH_NOTIFICATION_CHANNEL_ID, notificationBuilder.build());
     }
 
