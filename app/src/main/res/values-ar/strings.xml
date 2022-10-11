@@ -524,7 +524,7 @@
     <string name="unfollow_confirm">هل تريد إلغاء متابعة هذا الحساب؟</string>
     <string name="set_unfollow_validation">أظهر مربع حوار التأكيد قبل إلغاء المتابعة</string>
     <string name="replace_medium">استبدال روابط Medium</string>
-    <string name="replace_medium_description">استبدال روابط medium.com بواجهة أمامية مفتوحة المصدر تركز على الخصوصية.</string>
+    <string name="replace_medium_description">استخدم واجهة أمامية بديلة لـ Medium</string>
     <string name="replace_medium_host">الافتراضي: scribe.rip</string>
     <string name="set_push_notifications">استخدام نظام الإشعارات المنبثق للحصول على الإشعارات في الوقت الحقيقي.</string>
     <string name="action_add_notes">أضف ملاحظات</string>
