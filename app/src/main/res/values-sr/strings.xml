@@ -312,7 +312,7 @@
     <string name="channel_notif_media">Преузимање мултимедије</string>
     <string name="select_sound">Изаберите тон</string>
     <string name="set_enable_time_slot">Омогући термин</string>
-    <string name="block_domain_confirm_message">Да ли сте сигурни да желите да блокирате %s?</string>
+    <string name="block_domain_confirm_message">Да ли сте сигурни да желите да блокирате %s\?</string>
     <string name="block_domain">Блокирај домен</string>
     <string name="toast_block_domain">Домен блокиран</string>
     <string name="retrieve_remote_status">Дохватам удаљени статус</string>
