@@ -309,7 +309,7 @@
     <string name="channel_notif_media">Scarica i media</string>
     <string name="select_sound">Seleziona tono</string>
     <string name="set_enable_time_slot">Abilita fascia oraria</string>
-    <string name="block_domain_confirm_message">Sei sicuro di voler bloccare %s?</string>
+    <string name="block_domain_confirm_message">Sei sicuro di voler bloccare %s\?</string>
     <string name="block_domain">Blocca dominio</string>
     <string name="toast_block_domain">Il dominio è bloccato</string>
     <string name="retrieve_remote_status">Recupero dello stato remoto</string>
