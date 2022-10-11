@@ -308,7 +308,7 @@
     <string name="channel_notif_media">मीडिया डाउंलोड</string>
     <string name="select_sound">टोन चुनें</string>
     <string name="set_enable_time_slot">निर्धारित समय चालू करें</string>
-    <string name="block_domain_confirm_message">क्या आपको वाकई %s को अवरुद्ध करना है?</string>
+    <string name="block_domain_confirm_message">क्या आपको वाकई %s को अवरुद्ध करना है\?</string>
     <string name="block_domain">डोमेन अवरुद्ध करें</string>
     <string name="toast_block_domain">डोमेन अवरुद्ध है</string>
     <string name="retrieve_remote_status">दूरर्वती लेखों को लाया जा रहा है</string>
