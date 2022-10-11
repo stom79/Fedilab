@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_about">ⵖⴻⴼ</string>
-    <string name="action_about_instance">About the instance</string>
+    <string name="action_about_instance"></string>
     <string name="action_privacy">ⵜⵉⵏⵏⵓⵜⵍⴰ</string>
     <string name="action_cache">Cache</string>
     <string name="action_logout">ⴼⴼⵖ</string>
@@ -12,15 +12,15 @@
     <string name="cancel">ⵙⴻⴼⵙⴻⵅ</string>
     <string name="download">ⴰⴳⵎ</string>
     <string name="download_file">ⴰⴳⵎ %1$s</string>
-    <string name="save_over">Media saved</string>
+    <string name="save_over"></string>
     <string name="download_from" formatted="false">ⴰⴼⴰⵢⵍⵓ: %1$s</string>
     <string name="password">ⴰⵡⴰⵍ ⵓⴼⴼⵉⵔ</string>
     <string name="email">ⵉⵎⴰⵢⵍ</string>
     <string name="accounts">ⵉⵎⵉⴹⴰⵏⵏ</string>
-    <string name="toots">ⵉⵎⴰⵙⵙⵏ</string>
+    <string name="toots">ⵉⵣⵏⴰⵏ</string>
     <string name="tags">Tags</string>
     <string name="save">ⵃⴹⵓ</string>
-    <string name="instance">Instance</string>
+    <string name="instance"></string>
     <string name="instance_example">Instance: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Now works with the account %1$s</string>
     <string name="add_account">ⵔⵏⵓ ⴰⵎⵉⴹⴰⵏ</string>
@@ -28,8 +28,8 @@
     <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
     <string name="camera">ⵜⴽⴰⵎⵕⴰ</string>
     <string name="delete_all">ⴽⴽⵙ ⵎⴰⵕⵕⴰ</string>
-    <string name="schedule">Schedule</string>
-    <string name="text_size">Text and icon sizes</string>
+    <string name="schedule"></string>
+    <string name="text_size"></string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="open_with">ⵕⵥⵎ ⵙ</string>
@@ -74,7 +74,7 @@
     <string name="more_action_4">ⴽⴽⵙ</string>
     <string name="more_action_5">ⵙⵙⵏⵖⵍ</string>
     <string name="more_action_6">ⴱⴹⵓ</string>
-    <string name="more_action_7">Mention</string>
+    <string name="more_action_7">Bder</string>
     <string name="more_action_8">Timed mute</string>
     <string name="more_action_9">Delete &amp; re-draft</string>
     <string-array name="more_action_confirm">
