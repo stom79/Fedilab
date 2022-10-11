@@ -763,4 +763,7 @@
     <string name="display_timelines">Afficher le fil</string>
     <string name="reply">Répondre</string>
     <string name="display_options">Afficher les options</string>
+    <string name="fetch_notifications">Récupération des notifications</string>
+    <string name="set_display_counters">Afficher des compteurs</string>
+    <string name="set_display_counters_description">Affichera une bulle avec un compteur dans les onglets des fils pour les nouveaux messages</string>
 </resources>
