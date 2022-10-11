@@ -308,7 +308,7 @@
     <string name="channel_notif_media">Media downloaden</string>
     <string name="select_sound">Selecteer toon</string>
     <string name="set_enable_time_slot">Tijdslot inschakelen</string>
-    <string name="block_domain_confirm_message">Weet je zeker dat je %s wilt blokkeren?</string>
+    <string name="block_domain_confirm_message">Weet je zeker dat je %s wilt blokkeren\?</string>
     <string name="block_domain">Domein blokkeren</string>
     <string name="toast_block_domain">Het domein is geblokkeerd</string>
     <string name="retrieve_remote_status">Extern bericht ophalen</string>
