@@ -308,7 +308,7 @@
     <string name="channel_notif_media">Last ned media</string>
     <string name="select_sound">Velg varsellyd</string>
     <string name="set_enable_time_slot">Aktiver tidsvindu</string>
-    <string name="block_domain_confirm_message">Er du sikker på at du vil blokkere %s?</string>
+    <string name="block_domain_confirm_message">Er du sikker på at du vil blokkere %s\?</string>
     <string name="block_domain">Blokker domenet</string>
     <string name="toast_block_domain">Domenet er blokkert</string>
     <string name="retrieve_remote_status">Henter ekstern status</string>
