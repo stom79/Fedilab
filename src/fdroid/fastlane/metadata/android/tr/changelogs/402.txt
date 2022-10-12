@@ -1,0 +1,15 @@
+Eklenen:
+- Yeni tema: S1m'den Dark Elephant
+- Gönderim başarısız olduğunda sunucu tarafından gelen hata mesajları
+- Gecikmeli bildirimler için getirme süresini ayarlamaya izin verildi
+
+Güncellenen:
+- Bir çok buton daha görünür hale getirildi
+
+Düzeltilen:
+- Eksik mesajlar alınırken oluşan problem
+- Temalarla ilgili bazı sorunlar
+- Reaksiyonla çok fazla alan kaybı (Pleroma)
+- Çalışma esnasındaki hatalar kaldırıldı ve yeniden düzenlendi
+- Video oynatırken oluşan hata
+- Diğer hata düzeltmeleri
