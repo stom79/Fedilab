@@ -1,0 +1,3 @@
+- Réparation de la publication de message avec média
+- Choix du chargement des miniatures Toujours/Wifi uniquement/Sur demande
+- Quelques autres petites réparations

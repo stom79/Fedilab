@@ -1,0 +1,10 @@
+Ajouté :
+- Réparation de la publication de message avec média
+- Choix du chargement des miniatures Toujours/Wifi uniquement/Sur demande
+- Ajout de compteurs pour les nouveaux messages de fils
+Résolu :
+- Menu contextuel des fils ne fonctionne pas
+- Problème de recherche d'étiquettes avec Friendica
+- Le clique sur les notifications ouvre le mauvais onglet
+- Problème d'encodage avec les descriptions de médias
+- D'autres réparations.

@@ -1,16 +1,12 @@
 Il prend en charge :
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon, Pleroma, Pixelfed et Friendica.
 
+L’application possède des fonctionnalités avancées :
 
-L’application possède des fonctionnalités avancées (particulièrement pour Pleroma et Mastodon) :
-
+- Composition de fils
 - Support multicomptes
 - Planification de messages depuis l'application
-- Planification de boosts
-- Utilisation de signets
 - Abonnement et interaction avec des instances distantes
-- Possibilité de mettre des comptes temporairement en sourdine
 - Actions entre comptes grâce aux appuis longs
 - Option de traduction
 - Fils artistiques
-- Fils vidéos

@@ -1,0 +1,20 @@
+Thêm:
+- Xuất Cài đặt
+- Tuyên truyền việc sắp xếp lại thủ công các danh sách trong dòng thời gian tới menu con "Danh sách"
+- Cho phép thay đổi bộ phân phối đẩy trong cài đặt
+
+Đã thay đổi:
+- Cải thiện hình ảnh xem trước phù hợp
+- Cải thiện thông báo
+- Phương tiện hồ sơ được hiển thị dưới dạng lưới
+
+Đã sửa:
+- Một số video Peertube không hoạt động
+- Tôn trọng tài khoản hiển thị mặc định khi trả lời
+- GIF phân biệt đối xử từ hình ảnh
+- Ứng dụng gặp sự cố khi mở dòng thời gian phiên bản bên ngoài
+- Xóa nút trong trình soạn chủ đề làm hỏng ứng dụng
+- Nút quay lại mở nhiều hoạt động cũ trước khi đóng ứng dụng
+- Các vấn đề với việc chia sẻ
+- Sắp xếp lại danh sách có vấn đề về giao diện người dùng khi thay đổi khả năng hiển thị
+- Liên kết không được hiển thị chính xác trong các bài đăng từ Friendica

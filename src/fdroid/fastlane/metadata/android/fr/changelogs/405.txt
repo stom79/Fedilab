@@ -1,0 +1,20 @@
+Ajouté :
+- Exporter paramètres
+- Réorganisation des listes propagée aux sous-menus "Listes"
+- Choix distributeur de notifications
+
+Changé :
+- Meilleure adaptation des aperçus
+- Amélioration notifications
+- Médias de profil en grille
+
+Résolu :
+- Fonctionnement de certaines vidéos Peertube
+- Visibilité par défaut du compte lors d'une réponse
+- Distinction gif/images
+- Plantage sur le fil d'une autre instance
+- "Supprimer" du compositeur de fils fait planter l'appli
+- "Retour" ouvre trop de vieilles activités avant de fermer l'appli
+- Problèmes de partage
+- Réorganisation des Listes avec problèmes d'IU en changeant la visibilité
+- Liens depuis Friendica pas affichés correctement

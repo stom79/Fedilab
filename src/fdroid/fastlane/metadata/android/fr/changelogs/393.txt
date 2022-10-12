@@ -1,0 +1,2 @@
+-Quelques corrections de bugs
+-Amélioration des fils épinglés
