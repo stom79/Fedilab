@@ -1,0 +1,2 @@
+- Sửa lỗi
+- Cho phép chia sẻ với app

@@ -1,16 +1,15 @@
-It supports:
+Hỗ trợ:
 - Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
 
+Ứng dụng có các tính năng nâng cao (đặc biệt cho Pleroma và Mastodon):
 
-The app has advanced features (especially for Pleroma and Mastodon):
-
-- Multi-accounts support
-- Schedule messages from the device
-- Schedule boosts
-- Bookmark messages
-- Follow and interact with remote instances
-- Timed mute accounts
-- Cross-account actions with a long press
-- Translation feature
-- Art timelines
-- Video timelines
+- Hỗ trợ nhiều tài khoản
+- Lên lịch tin nhắn từ thiết bị
+- Lên lịch đăng
+- Đánh dấu tin nhắn
+- Theo dõi và tương tác với các máy chủ từ xa
+- Tài khoản tắt tiếng theo thời gian
+- Thao tác trên nhiều tài khoản với một thao tác nhấn và giữ
+- Tính năng dịch
+- Dòng thời gian nghệ thuật
+- Dòng thời gian của video

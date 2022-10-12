@@ -1,0 +1,9 @@
+Thêm:
+- Cho phép xác định số lượng ký tự tối đa khi không được phát hiện (Trong trường hợp)
+- Thêm biểu tượng cảm xúc một bộ chọn khi sáng tác (phải được bật trong cài đặt)
+- Thêm ghi chú phát hành với khả năng dịch chúng
+
+Đã sửa:
+- Biểu tượng cảm xúc tùy chỉnh Friendica không được hiển thị
+- Nhấn lâu để lưu trữ phương tiện
+- Một số bản sửa lỗi
