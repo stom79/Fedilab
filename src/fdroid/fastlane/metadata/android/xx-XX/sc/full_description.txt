@@ -1,0 +1,12 @@
+Suportat:
+- Mastodon, Pleroma, Pixelfed e Friendica.
+
+S'aplicatzione tenet funtzionalidades avantzadas :
+
+- Cumponidura de discussiones
+- Suportu pro prus contos
+- Pianificatzione de messàgios dae su dispositivu
+- Sighiduras e interatziones cun istàntzias remotas
+- Atziones intre is contos cun un'incarcada longa
+- Funtzionalidade de tradutzione
+- Lìnias de tempus de arte

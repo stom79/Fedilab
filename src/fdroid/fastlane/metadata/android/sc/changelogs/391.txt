@@ -1,0 +1,5 @@
+Versione noa de Fedilab cun funtzionalidades noas.
+- Como podes cumpònnere discussiones
+- Pòmpia sa discussione intrea cando ses rispondende
+- Suportu pro sa memòria temporànea
+- Aspetu nou
