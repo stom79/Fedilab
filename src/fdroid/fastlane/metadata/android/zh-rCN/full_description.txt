@@ -1,16 +1,12 @@
 它支持：
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon、Pleroma、Pixelfed 和 Friendica.
 
+本应用有下列高级功能 :
 
-应用程序具有先进功能(尤其是对于Pleroma和Mastodon)：
-
-- 多账户支助
-- 安排设备上的消息
-- 计划发嘟
-- 书签消息
-- 关注与交互远程实例
-- 定时静音账户
-- 长按执行跨账户操作
+- 撰写主题讨论帖
+- 多账户支持
+- 定时发送嘟文
+- 关注并和远程实例进行互动
+- 长按进行跨账户操作
 - 翻译功能
 - 艺术时间线
-- 视频时间线
