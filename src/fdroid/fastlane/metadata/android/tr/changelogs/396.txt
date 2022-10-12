@@ -1,0 +1,13 @@
+Eklendi:
+- Ön izlemelerde bir odak noktası ayarlamaya izin ver (medya düzenleyici)
+- Ön izlemelerle odak noktasını dikkate al
+- Daha fazla getir düğmesi ile sayfalandırma, yukarı veya aşağı okumayı destekler
+- Trendler
+
+Düzeltildi:
+- Yalnızca son anlık bildirimin görüntülenmesi (gruplandırılmamış)
+- Sağa/sola kaydırma ile ilgili hatalı davranış
+- Tam olarak görüntülenmeyen uzun profiller
+- Bazı anketlerle ilgili sorunlar
+- Bazı çökmeler
+- Bazı hatalı davranışlar

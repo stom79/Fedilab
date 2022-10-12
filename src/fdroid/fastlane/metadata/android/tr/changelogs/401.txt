@@ -1,0 +1,11 @@
+Değiştirildi:
+- Mesaj oluşturma artık azami karakter sayısına zorlanmıyor
+
+Düzeltildi:
+- Hesaplar arası takip
+- Bir hesap için bildirimlere abone olunamaması
+- Paylaşım sırasında karşılaşılan sorunlar
+- Bildirimlerdeki emoji tepkileri için yanlış profil
+- Kartlarla ilgili sorun
+- Sekmelerin çökmesi
+- Sekmelerin yeniden adlandırılamaması
