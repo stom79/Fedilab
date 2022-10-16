@@ -1,0 +1,16 @@
+Ajouté :
+- Choix de langue de rédaction (menu de rédaction -> 3 points verticaux)
+- Support des réactions pour Pleroma
+- Indicateur vie privée en haut à droite
+
+Changé :
+- Amélioration du défilement
+- Défilement vers le haut (re-sélection d'onglet) cherchera de nouveaux messages puis défilera vers le haut
+
+Résolu :
+- Fils d'étiquettes vides
+- Retrait du point de focalisation pour s'adapter aux miniatures
+- Partage avec un compte
+- Thème sombre
+- Choix du thème
+- Couleurs de certains boutons

@@ -308,7 +308,7 @@
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">ගීත කණ්ඩය තෝරාගන්න</string>
     <string name="set_enable_time_slot">Enable time slot</string>
-    <string name="block_domain_confirm_message">%s අවහිර කිරීම විශ්වාස ද?</string>
+    <string name="block_domain_confirm_message">%s අවහිර කිරීම විශ්වාස ද\?</string>
     <string name="block_domain">අඩවිය අවහිර කරන්න</string>
     <string name="toast_block_domain">අඩවිය අවහිර කරන ලදී</string>
     <string name="retrieve_remote_status">Fetching remote status</string>

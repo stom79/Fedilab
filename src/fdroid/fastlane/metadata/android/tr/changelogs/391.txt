@@ -1,0 +1,5 @@
+Fedilab'ın yeni özelliklere sahip yeni sürümü.
+- Artık mesaj dizileri oluşturabilirsiniz
+- Yanıt verirken tüm mesaj dizisini görün
+- Önbellek desteği
+- Yeni tasarım

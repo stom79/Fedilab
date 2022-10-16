@@ -316,7 +316,7 @@
     <string name="channel_notif_media">Загрузка медиа</string>
     <string name="select_sound">Выбрать сигнал</string>
     <string name="set_enable_time_slot">Активировать временной интервал</string>
-    <string name="block_domain_confirm_message">Вы уверены, что хотите заблокировать %s?</string>
+    <string name="block_domain_confirm_message">Вы уверены, что хотите заблокировать %s\?</string>
     <string name="block_domain">Заблокировать домен</string>
     <string name="toast_block_domain">Этот домен заблокирован</string>
     <string name="retrieve_remote_status">Получение внешнего статуса</string>

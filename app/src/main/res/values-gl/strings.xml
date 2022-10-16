@@ -308,7 +308,7 @@
     <string name="channel_notif_media">Descarga de medios</string>
     <string name="select_sound">Escoller Tono</string>
     <string name="set_enable_time_slot">Activar tramo horario</string>
-    <string name="block_domain_confirm_message">Desexa bloquear a %s?</string>
+    <string name="block_domain_confirm_message">Desexa bloquear a %s\?</string>
     <string name="block_domain">Bloquear dominio</string>
     <string name="toast_block_domain">O dominio foi bloqueado</string>
     <string name="retrieve_remote_status">Obtendo estado remoto</string>

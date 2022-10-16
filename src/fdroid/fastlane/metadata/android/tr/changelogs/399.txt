@@ -1,0 +1,16 @@
+Eklenenler:
+- Oluşturma dilini ayarla (oluşturma menüsünden -> üç dikey nokta)
+- Pleroma için etkileşim desteği
+- Sağ üst kısma gizlilik göstergesi
+
+Değişenler:
+- Kaydırma davranışı iyileştirildi
+- En üste kaydırma (sekme yeniden seçimi) yeni mesajları getirir ve ardından en üste kaydırır
+
+Düzeltilenler:
+- Boş etiket zaman çizelgeleri
+- Sığdırma medya ön izlemesi için odak noktasını kaldır
+- Tek bir hesapla paylaşılamaması
+- Siyah tema
+- Temanın seçilememesi
+- Bazı düğme renkleri

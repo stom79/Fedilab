@@ -1,0 +1,13 @@
+Ajouté :
+- Possibilité d'ajouter un point de focalisation sur les aperçus (éditeur de média)
+- Respect du point de focalisation des aperçus
+- Pagination avec le support du bouton "Récupérer plus de messages" lisant vers le haut ou le bas.
+- Tendances
+
+Réparé :
+- Seule la dernière notification poussée est affichée (pas groupées)
+- Mauvais comportement du défilement gauche/droit
+- Longs profils pas complètement affichés
+- Problèmes avec certains sondages
+- Plantages
+- Mauvais comportements

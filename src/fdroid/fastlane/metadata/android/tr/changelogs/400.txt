@@ -1,0 +1,9 @@
+Eklendi:
+- Algılanmadığında azami karakter sayısını tanımlamaya izin ver (Sunucu hakkında kısmında)
+- Oluştururken bir emoji seçici ekle (ayarlarda etkinleştirilmelidir)
+- Sürüm notlarını çevirme özelliğiyle birlikte ekle
+
+Düzeltildi:
+- Friendica özel emojilerinin görüntülenmemesi
+- Medyayı kaydetmek için uzun basma
+- Bazı hata düzeltmeleri

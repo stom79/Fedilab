@@ -316,7 +316,7 @@
     <string name="channel_notif_media">Prenos vsebine</string>
     <string name="select_sound">Izberite zvok</string>
     <string name="set_enable_time_slot">Omogoči časovni okvir</string>
-    <string name="block_domain_confirm_message">Res želite blokirati %s?</string>
+    <string name="block_domain_confirm_message">Res želite blokirati %s\?</string>
     <string name="block_domain">Blokada domene</string>
     <string name="toast_block_domain">Domena je blokirana</string>
     <string name="retrieve_remote_status">Pridobivanje oddaljenih statusov</string>

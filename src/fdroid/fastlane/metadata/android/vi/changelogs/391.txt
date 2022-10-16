@@ -1,0 +1,5 @@
+Những tính năng mới của Fedilab.
+- Bạn có thể thu gọn chuỗi tút
+- Xem trước chuỗi tút khi trả lời
+- Hỗ trợ bộ nhớ đệm
+- Thiết kế mới

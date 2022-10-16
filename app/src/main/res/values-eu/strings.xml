@@ -308,7 +308,7 @@
     <string name="channel_notif_media">Multimediaren deskarga</string>
     <string name="select_sound">Hautatu doinua</string>
     <string name="set_enable_time_slot">Gaitu denbora-tartea</string>
-    <string name="block_domain_confirm_message">Ziur al zaude %s blokeatu nahi duzula?</string>
+    <string name="block_domain_confirm_message">Ziur al zaude %s blokeatu nahi duzula\?</string>
     <string name="block_domain">Blokeatu domeinua</string>
     <string name="toast_block_domain">Domeinu hau blokeatuta dago</string>
     <string name="retrieve_remote_status">Urruneko mezua jasotzen</string>

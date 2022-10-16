@@ -105,18 +105,22 @@
     <string name="date_day">%d j</string>
     <plurals name="date_seconds_polls">
         <item quantity="one">%d seconde</item>
+        <item quantity="many">%d secondes</item>
         <item quantity="other">%d secondes</item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="one">%d minute</item>
+        <item quantity="many">%d minutes</item>
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="date_hours_polls">
         <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
         <item quantity="other">%d heures</item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
         <item quantity="other">%d jours</item>
     </plurals>
     <!-- TOOT -->
@@ -489,6 +493,7 @@
     <string name="report_account">Signaler le compte</string>
     <plurals name="number_of_voters">
         <item quantity="one">%d votant</item>
+        <item quantity="many">%d votants</item>
         <item quantity="other">%d votants</item>
     </plurals>
     <string-array name="poll_choice_type">
@@ -738,4 +743,27 @@
     <string name="message_language">Langue des messages</string>
     <string name="my_instance">Mon instance</string>
     <string name="my_app">Mon application</string>
+    <string name="set_single_topbar_title">Barre d\'action unique</string>
+    <string name="set_timelines_in_a_list_title">Fils dans une liste</string>
+    <string name="set_timelines_in_a_list">Quand activé, tous les fils seront affichés dans un menu déroulant</string>
+    <string name="set_push_notifications_delay">Saisissez le délai entre chaque nouvelle récupération</string>
+    <string name="set_display_counter">Afficher les compteurs de messages</string>
+    <string name="set_your_max_char_count">Saisissez votre nombre de caractères maximum</string>
+    <string name="set_use_cache">Utiliser le cache</string>
+    <string name="set_use_cache_indication">Les fils seront mis en cache pour que l\'application soit plus rapide.</string>
+    <string name="load_media_type_title">Charger les miniatures de média</string>
+    <string name="display_media">Afficher le média</string>
+    <string name="cached_messages">Message mis en cache</string>
+    <string name="load_settings">Charger les paramètres exportés</string>
+    <string name="release_notes">Notes de version</string>
+    <string name="media_cannot_be_uploaded">Le média ne peut pas être téléversé !</string>
+    <string name="import_settings">Importer des paramètres</string>
+    <string name="export_settings">Exporter les paramètres</string>
+    <string name="push_distributors">Distributeur de notification</string>
+    <string name="display_timelines">Afficher le fil</string>
+    <string name="reply">Répondre</string>
+    <string name="display_options">Afficher les options</string>
+    <string name="fetch_notifications">Récupération des notifications</string>
+    <string name="set_display_counters">Afficher des compteurs</string>
+    <string name="set_display_counters_description">Affichera une bulle avec un compteur dans les onglets des fils pour les nouveaux messages</string>
 </resources>

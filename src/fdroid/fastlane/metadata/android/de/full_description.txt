@@ -1,7 +1,6 @@
 Es unterstützt:
 - Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
 
-
 Die App verfügt über erweiterte Funktionen (insbesondere für Pleroma und Mastodon):
 
 - Unterstützung von Mehrfachkonten

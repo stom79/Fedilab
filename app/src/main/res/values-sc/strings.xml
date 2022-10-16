@@ -749,8 +749,12 @@
     <string name="set_use_cache">Imprea sa memòria temporànea</string>
     <string name="set_use_cache_indication">Sas lìnias de tempus s\'ant a sarvare in sa memòria temporànea in manera chi s\'aplicatzione siat prus lestra.</string>
     <string name="load_media_type_title">Càrriga is miniaduras pro is mèdios</string>
-    <string name="display_options">Optziones de visualizatzione</string>
+    <string name="display_options">Ammustra sas optziones</string>
     <string name="display_media">Ammustra is mèdios</string>
     <string name="display_timelines">Ammustra is lìnias de tempus</string>
     <string name="cached_messages">Messàgiu in memòria temporànea</string>
+    <string name="reply">Rispòndere</string>
+    <string name="fetch_notifications">Recùpera sas notìficas</string>
+    <string name="set_display_counters">Ammustra sos contadores</string>
+    <string name="set_display_counters_description">At a ammustrare unu contadore a abbajolu in is lìnias de tempus de sas istangas pro is messàgios noos</string>
 </resources>

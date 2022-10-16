@@ -1,0 +1,2 @@
+- Birkaç hata düzeltmesi
+- Uygulama ile paylaşmaya izin ver

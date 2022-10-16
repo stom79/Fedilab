@@ -760,4 +760,7 @@
     <string name="reply">Yanıtla</string>
     <string name="display_options">Görüntüleme seçenekleri</string>
     <string name="load_media_type_title">Medya için küçük resimleri yükle</string>
+    <string name="set_display_counters">Sayaçları göster</string>
+    <string name="set_display_counters_description">Yeni mesajlar için sekme zaman çizelgelerinde bir baloncuk sayacı görüntüler</string>
+    <string name="fetch_notifications">Bildirimleri getir</string>
 </resources>

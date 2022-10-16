@@ -1,0 +1,11 @@
+Changé :
+- La composition des message n'est plus soumise aux caractères maximum
+
+Résolu :
+- Suivi entre comptes
+- Impossibilité de s'abonner aux notifications pour un compte
+- Problèmes de partage
+- Mauvais profil pour les réactions en émoji dans les notifications
+- Problèmes de cartes
+- Plantages avec les onglets
+- Onglets non-re-nommables
