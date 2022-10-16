@@ -83,6 +83,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             for (Status status1 : statuses) {
                 attachmentsTmp.add(status1.art_attachment);
             }
+            b.putSerializable(Helper.ARG_STATUS, status);
             b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(attachmentsTmp));
             mediaIntent.putExtras(b);
             ActivityOptionsCompat options = ActivityOptionsCompat

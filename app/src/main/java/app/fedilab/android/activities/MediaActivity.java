@@ -58,6 +58,7 @@ import java.util.ArrayList;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MediaHelper;
@@ -106,6 +107,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     private float startY;
     private ActivityMediaPagerBinding binding;
     private FragmentMedia mCurrentFragment;
+    private Status status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         if (b != null) {
             mediaPosition = b.getInt(Helper.ARG_MEDIA_POSITION, 1);
             attachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ARRAY);
+            status = (Status) b.getSerializable(Helper.ARG_STATUS);
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -143,6 +146,14 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
+        if (status != null) {
+            binding.originalMessage.setOnClickListener(v -> {
+                Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
+                intentContext.putExtra(Helper.ARG_STATUS, status);
+                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentContext);
+            });
+        }
         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
@@ -377,10 +388,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                             }
                         } else {
                             binding.translate.setVisibility(View.GONE);
+                            binding.originalMessage.setVisibility(View.GONE);
                             binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                             binding.mediaDescription.setVisibility(View.GONE);
                         }
                     } else {
+                        binding.originalMessage.setVisibility(View.GONE);
                         binding.translate.setVisibility(View.GONE);
                         binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                         binding.mediaDescription.setVisibility(View.GONE);
@@ -437,9 +450,13 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
             showSystemUI();
             binding.mediaDescription.setVisibility(View.VISIBLE);
             binding.translate.setVisibility(View.VISIBLE);
+            if (status != null) {
+                binding.originalMessage.setVisibility(View.VISIBLE);
+            }
         } else {
             binding.mediaDescription.setVisibility(View.GONE);
             binding.translate.setVisibility(View.GONE);
+            binding.originalMessage.setVisibility(View.GONE);
             hideSystemUI();
         }
     }

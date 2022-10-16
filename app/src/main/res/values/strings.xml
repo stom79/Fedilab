@@ -1478,4 +1478,5 @@
     <string name="fetch_notifications">Fetch notifications</string>
     <string name="set_display_counters">Display counters</string>
     <string name="set_display_counters_description">Will display a bubble counter in tab timelines for new messages</string>
+    <string name="view_the_original_message">Open the original message</string>
 </resources>
