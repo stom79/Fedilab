@@ -202,10 +202,9 @@ public class SpannableHelper {
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
                 content.replace(matchStart, matchEnd, newURL);
-                offSetTruncate += (newURL.length() - url.length());
+                offSetTruncate -= (newURL.length() - url.length());
                 matchEnd = matchStart + newURL.length();
                 //The transformed URL was in the list of URLs having a different names
-
                 if (urlDetails.containsKey(url)) {
                     urlDetails.put(newURL, urlDetails.get(url));
                 }
