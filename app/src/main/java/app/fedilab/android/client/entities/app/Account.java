@@ -361,7 +361,6 @@ public class Account extends BaseAccount implements Serializable {
         List<BaseAccount> accountList = new ArrayList<>();
         while (c.moveToNext()) {
             BaseAccount account = convertCursorToAccount(c);
-            //We don't add in the list the current connected account
             accountList.add(account);
         }
         //Close the cursor
