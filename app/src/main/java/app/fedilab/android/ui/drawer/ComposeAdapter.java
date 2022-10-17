@@ -419,26 +419,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param content     - String content (description) coming from the shared elements
      */
     public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
+
         int position = statusList.size() - 1;
-        if (description == null && content == null) {
-            return;
+        statusList.get(position).text = "";
+        if (title != null && title.trim().length() > 0) {
+            statusList.get(position).text += title + "\n\n";
+        } else if (subject != null && subject.trim().length() > 0) {
+            statusList.get(position).text += subject + "\n\n";
         }
-        boolean addUrl = true;
-        if (url != null && content != null && content.trim().length() > url.trim().length()) {
-            statusList.get(position).text = content;
-            statusList.get(position).text += "\n\n";
-            addUrl = false;
-        } else {
-            if (title != null || subject != null) {
-                statusList.get(position).text = title != null ? title : subject;
-                statusList.get(position).text += "\n\n";
-            } else {
-                statusList.get(position).text = "";
+        if (description != null && description.trim().length() > 0) {
+            statusList.get(position).text += description + "\n\n";
+            if (!description.contains(url)) {
+                statusList.get(position).text += url;
             }
-        }
-        statusList.get(position).text += description != null ? description : content;
-        if (url != null && addUrl) {
-            statusList.get(position).text += "\n\n";
+        } else if (content != null && content.trim().length() > 0) {
+            statusList.get(position).text += content + "\n\n";
+            if (!content.contains(url)) {
+                statusList.get(position).text += url;
+            }
+        } else {
             statusList.get(position).text += url;
         }
         if (saveFilePath != null) {

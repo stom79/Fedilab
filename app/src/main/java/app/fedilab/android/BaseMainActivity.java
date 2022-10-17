@@ -383,9 +383,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             }
                             // If we actually have a URL then make use of it.
                             if (potentialUrl != null && potentialUrl.length() > 0) {
-                                Pattern titlePattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:title[\"']\\s+content=[\"']([^>]*)[\"']");
-                                Pattern descriptionPattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:description[\"']\\s+content=[\"']([^>]*)[\"']");
-                                Pattern imagePattern = Pattern.compile("meta[ a-zA-Z=\"'-]+property=[\"']og:image[\"']\\s+content=[\"']([^>]*)[\"']");
+                                Pattern titlePattern = Pattern.compile("<meta [^>]*property=[\"']og:title[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                Pattern descriptionPattern = Pattern.compile("<meta [^>]*property=[\"']og:description[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                Pattern imagePattern = Pattern.compile("<meta [^>]*property=[\"']og:image[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+
                                 try {
                                     OkHttpClient client = new OkHttpClient.Builder()
                                             .connectTimeout(10, TimeUnit.SECONDS)
@@ -440,6 +441,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     String finalImage = image;
                                                     String finalTitle = title;
                                                     String finalDescription = description;
+
+
                                                     runOnUiThread(() -> {
                                                         Bundle b = new Bundle();
                                                         b.putString(Helper.ARG_SHARE_URL, url[0]);

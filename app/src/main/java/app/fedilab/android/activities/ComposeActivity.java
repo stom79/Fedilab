@@ -508,7 +508,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             shareURL = b.getString(Helper.ARG_SHARE_URL, null);
         }
 
-
+        if (sharedContent != null && shareURL != null && sharedContent.compareTo(shareURL) == 0) {
+            sharedContent = "";
+        }
+        if (sharedTitle != null && sharedSubject != null && sharedSubject.length() > sharedTitle.length()) {
+            sharedTitle = sharedSubject;
+        }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         //Edit a scheduled status from server
         if (scheduledStatus != null) {
@@ -698,6 +703,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
                 @Override
                 public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
+
                     composeAdapter.addSharing(shareURL, sharedTitle, sharedDescription, sharedSubject, sharedContent, saveFilePath);
                 }
 
