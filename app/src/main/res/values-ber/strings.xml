@@ -21,8 +21,6 @@
     <string name="instance_example">Instance: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Now works with the account %1$s</string>
     <string name="add_account">ⵔⵏⵓ ⴰⵎⵉⴹⴰⵏ</string>
-    <string name="clipboard"></string>
-    <string name="clipboard_url"></string>
     <string name="camera">ⵜⴽⴰⵎⵕⴰ</string>
     <string name="delete_all">ⴽⴽⵙ ⵎⴰⵕⵕⴰ</string>
     <string name="next">Next</string>
@@ -52,17 +50,11 @@
     <string name="follow_request">Follow requests</string>
     <string name="settings">ⵜⵉⵙⵖⴰⵍ</string>
     <string name="send_email">ⴰⵣⵏ ⵉⵎⴰⵢⵍ</string>
-    <string name="scheduled_toots"></string>
     <string name="disclaimer_full">Information below may reflect the user\'s profile incompletely.</string>
     <string name="insert_emoji">ⵔⵏⵓ ⵉⵎⵓⵊⵉ</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
     <string name="logout_account_confirmation">ⵉⵙ ⵏⵉⵜ ⵜⵅⵙⴼ ⴰⴷ ⵜⴼⴼⵖⴷ @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status"></string>
-    <string name="favourite_add"></string>
-    <string name="favourite_remove"></string>
-    <string name="reblog_add"></string>
-    <string name="reblog_remove"></string>
     <string name="more_action_1">ⵙⵙⵓⵙⵎ</string>
     <string name="more_action_2">ⴳⴷⵍ</string>
     <string name="more_action_3">ⵎⵍ</string>
@@ -118,7 +110,6 @@
     <string name="toot_select_image_error">An error occurred while selecting the media!</string>
     <string name="toot_delete_media">Remove this media?</string>
     <string name="toot_error_no_content">ⵉⵣⴻⵏ ⵊⴽ ⴸ ⵉⵍⴻⵎ !</string>
-    <string name="toot_sent"></string>
     <string name="toot_sensitive">Sensitive content?</string>
     <string name="no_draft">No drafts!</string>
     <string name="choose_accounts">ⴷⵖⵔ ⵢⴰⵏ ⵓⵎⵉⴹⴰⵏ</string>
@@ -144,9 +135,6 @@
     <string name="followers_cnt">ⵉⵎⴹⴼⴰⵕⵏ \n %1$s</string>
     <string name="reject">ⴰⴳⵢ</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots"></string>
-    <string name="remove_scheduled"></string>
-    <string name="toot_scheduled"></string>
     <string name="toot_scheduled_date">The scheduled date must be greater than the current hour!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">The time for muting should be greater than one minute.</string>
@@ -172,10 +160,6 @@
     <string name="toast_unmute">The account is no longer muted!</string>
     <string name="toast_follow">The account was followed!</string>
     <string name="toast_unfollow">The account is no longer followed!</string>
-    <string name="toast_reblog"></string>
-    <string name="toast_unreblog"></string>
-    <string name="toast_favourite"></string>
-    <string name="toast_unfavourite"></string>
     <string name="toast_error">Oops ! An error occurred!</string>
     <string name="toast_code_error">An error occurred! The instance did not return an authorisation code!</string>
     <string name="toast_error_instance">The instance domain does not seem to be valid!</string>
@@ -184,7 +168,6 @@
     <string name="nothing_to_do">No action can be taken</string>
     <string name="toast_error_translate">An error occurred while translating!</string>
     <!-- Settings -->
-    <string name="set_toots_page"></string>
     <string name="set_disable_gif">Disable GIF avatars</string>
     <string name="set_notif_follow">Notify when someone follows you</string>
     <string name="set_notif_follow_share">Notify when someone boosts your status</string>
@@ -263,7 +246,6 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Password</string>
-    <string name="set_share_details"></string>
     <string name="support_the_app_on_liberapay">Support the app on Liberapay</string>
     <string name="alert_regex">There is an error in the regular expression!</string>
     <string name="toast_instance_unavailable">No timelines was found on this instance!</string>
@@ -282,9 +264,7 @@
     <string name="context_public">Public timelines</string>
     <string name="context_notification">Notifications</string>
     <string name="context_conversation">Conversations</string>
-    <string name="filter_keyword_explanations"></string>
     <string name="context_drop">Drop instead of hide</string>
-    <string name="context_drop_explanations"></string>
     <string name="context_whole_word_explanations">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="context_whole_word">Whole word</string>
     <string name="filter_context">Filter contexts</string>
@@ -299,7 +279,6 @@
     <string name="channel_notif_fav">New Favourite</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup"></string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
@@ -311,11 +290,8 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
-    <string name="set_display_card"></string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
-    <string name="truncate_long_toots"></string>
-    <string name="set_truncate_toot"></string>
     <string name="display_toot_truncate">Display more</string>
     <string name="hide_toot_truncate">Display less</string>
     <string name="tags_already_stored">The tag already exists!</string>
@@ -361,8 +337,6 @@
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="share">ⴱⴹⵓ</string>
-    <string name="toots_server"></string>
-    <string name="toots_client"></string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">ⴰⵙⵙⴰⵖⵏ</string>
@@ -384,7 +358,6 @@
     <string name="poll_finish_at">end at %s</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
-    <string name="notif_poll_self"></string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
@@ -499,7 +472,6 @@
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description"></string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
