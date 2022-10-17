@@ -1830,7 +1830,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         else
                             extra_text = "@" + extra_text;
                         extra_text += " \uD83D\uDD17 " + url + "\r\n-\n";
-                        extra_text += statusToDeal.text;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            extra_text += Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                        else
+                            extra_text += Html.fromHtml(statusToDeal.content).toString();
                     } else {
                         extra_text = url;
                     }
