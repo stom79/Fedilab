@@ -420,6 +420,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
 
+        if (description == null && content == null) {
+            return;
+        }
         int position = statusList.size() - 1;
         statusList.get(position).text = "";
         if (title != null && title.trim().length() > 0) {

@@ -410,6 +410,26 @@ public class StatusCache {
     }
 
     /**
+     * delete all cached notification for an account
+     *
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteNotifications() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_STATUS_CACHE,
+                    Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_TYPE + "=?",
+                    new String[]{MainActivity.currentUserID, MainActivity.currentInstance, Timeline.TimeLineEnum.NOTIFICATION.getValue()});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /**
      * delete all cache for an account
      *
      * @param account - Account

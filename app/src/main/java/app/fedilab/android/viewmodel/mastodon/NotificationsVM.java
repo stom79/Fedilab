@@ -231,6 +231,10 @@ public class NotificationsVM extends AndroidViewModel {
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Call<Void> voidCall = mastodonNotificationsService.clearAllNotifications(token);
+            try {
+                new StatusCache(getApplication().getApplicationContext()).deleteNotifications();
+            } catch (Exception ignored) {
+            }
             if (voidCall != null) {
                 try {
                     voidCall.execute();
