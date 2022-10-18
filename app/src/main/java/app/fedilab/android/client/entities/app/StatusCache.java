@@ -509,7 +509,7 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_SLUG + " NOT IN (" + exclude + ") ";
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
             return createNotificationReply(cursorToListOfNotifications(c));
         } catch (Exception e) {
             e.printStackTrace();
@@ -546,7 +546,7 @@ public class StatusCache {
         }
 
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
             return createConversationReply(cursorToListOfConversations(c));
         } catch (Exception e) {
             e.printStackTrace();
@@ -583,7 +583,7 @@ public class StatusCache {
         }
 
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
             return createStatusReply(cursorToListOfStatuses(c));
         } catch (Exception e) {
             e.printStackTrace();
@@ -609,7 +609,7 @@ public class StatusCache {
                 + " AND " + Sqlite.COL_USER_ID + "= '" + user_id + "'";
         List<Status> reply = new ArrayList<>();
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, null, null, Sqlite.COL_STATUS_ID + " DESC", "");
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " DESC", "");
             List<Status> statuses = cursorToListOfStatuses(c);
             if (statuses != null && statuses.size() > 0) {
                 for (Status status : statuses) {
