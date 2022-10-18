@@ -555,8 +555,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
         } else {
-            holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
-            holder.binding.translationLabel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+            holder.binding.cardviewContainer.setBackgroundColor(ThemeHelper.getBackgroundColor(context));
+            holder.binding.translationLabel.setBackgroundColor(ThemeHelper.getBackgroundColor(context));
         }
         if (theme_boost_header_color != -1 && status.reblog != null) {
             holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
