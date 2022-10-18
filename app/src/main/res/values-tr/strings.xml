@@ -763,4 +763,5 @@
     <string name="set_display_counters">Sayaçları göster</string>
     <string name="set_display_counters_description">Yeni mesajlar için sekme zaman çizelgelerinde bir baloncuk sayacı görüntüler</string>
     <string name="fetch_notifications">Bildirimleri getir</string>
+    <string name="view_the_original_message">Mesajın aslını aç</string>
 </resources>
