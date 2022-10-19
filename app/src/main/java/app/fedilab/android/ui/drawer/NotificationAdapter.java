@@ -20,6 +20,7 @@ import static app.fedilab.android.ui.drawer.StatusAdapter.statusManagement;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -125,6 +127,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new WeakReference<>(holderFollow.binding.displayName)),
                     TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            int theme_icons_color = -1;
+            int theme_text_color = -1;
+            if (sharedpreferences.getBoolean("use_custom_theme", false)) {
+                //Getting custom colors
+                theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
+                theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
+            }
+            if (theme_icons_color != -1) {
+                Helper.changeDrawableColor(context, holderFollow.binding.cacheIndicator, theme_icons_color);
+            }
+            if (theme_text_color != -1) {
+                holderFollow.binding.displayName.setTextColor(theme_text_color);
+                holderFollow.binding.username.setTextColor(theme_text_color);
+                holderFollow.binding.title.setTextColor(theme_text_color);
+            }
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
                 holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
                 holderFollow.binding.acceptButton.setVisibility(View.VISIBLE);
