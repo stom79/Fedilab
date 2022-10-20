@@ -766,4 +766,5 @@
     <string name="fetch_notifications">Récupération des notifications</string>
     <string name="set_display_counters">Afficher des compteurs</string>
     <string name="set_display_counters_description">Affichera une bulle avec un compteur dans les onglets des fils pour les nouveaux messages</string>
+    <string name="view_the_original_message">Ouvrir le message d\'origine</string>
 </resources>
