@@ -757,4 +757,5 @@
     <string name="fetch_notifications">Recùpera sas notìficas</string>
     <string name="set_display_counters">Ammustra sos contadores</string>
     <string name="set_display_counters_description">At a ammustrare unu contadore a abbajolu in is lìnias de tempus de sas istangas pro is messàgios noos</string>
+    <string name="view_the_original_message">Aberi su messàgiu originale</string>
 </resources>
