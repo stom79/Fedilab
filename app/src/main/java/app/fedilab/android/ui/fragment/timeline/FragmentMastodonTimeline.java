@@ -425,8 +425,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
-        //Fetching new messages
-        route(DIRECTION.FETCH_NEW, true);
 
         if (searchCache == null && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -461,6 +459,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             });
+            //For home (first tab) we fetch new messages
+            if (timelineType == Timeline.TimeLineEnum.HOME) {
+                route(DIRECTION.FETCH_NEW, true);
+            }
         }
 
     }
@@ -576,11 +578,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
-        if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
-            getCachedStatus(direction, fetchingMissing, timelineParams);
-        } else {
-            getLiveStatus(direction, fetchingMissing, timelineParams, status);
-        }
+
+        Handler handler = new Handler();
+        //The action for fetching new messages is delayed for other timelines than HOME
+        handler.postDelayed(() -> {
+            if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
+                getCachedStatus(direction, fetchingMissing, timelineParams);
+            } else {
+                getLiveStatus(direction, fetchingMissing, timelineParams, status);
+            }
+        }, timelineType == Timeline.TimeLineEnum.HOME ? 0 : 1000);
 
     }
 

@@ -461,7 +461,6 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> notPresentStatuses = new ArrayList<>();
                         for (Status status : statuses.statuses) {
                             if (!timelineStatuses.contains(status)) {
-                                status.cached = true;
                                 notPresentStatuses.add(status);
                             }
                         }

@@ -652,6 +652,7 @@ public class StatusCache {
         List<Status> statusList = new ArrayList<>();
         while (c.moveToNext()) {
             Status status = convertCursorToStatus(c);
+            status.cached = true;
             statusList.add(status);
         }
         //Close the cursor
@@ -674,6 +675,7 @@ public class StatusCache {
         List<Notification> notificationList = new ArrayList<>();
         while (c.moveToNext()) {
             Notification notification = convertCursorToNotification(c);
+            notification.cached = true;
             notificationList.add(notification);
         }
         //Close the cursor
@@ -697,6 +699,7 @@ public class StatusCache {
         List<Conversation> conversationList = new ArrayList<>();
         while (c.moveToNext()) {
             Conversation conversation = convertCursorToConversation(c);
+            conversation.cached = true;
             conversationList.add(conversation);
         }
         //Close the cursor
