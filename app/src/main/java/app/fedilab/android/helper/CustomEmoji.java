@@ -32,7 +32,7 @@ public class CustomEmoji extends ReplacementSpan {
         Context mContext = viewWeakReference.get().getContext();
         this.viewWeakReference = viewWeakReference;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.0f);
+        scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.1f);
     }
 
     @Override

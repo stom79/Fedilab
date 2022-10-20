@@ -548,14 +548,16 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/action_button_reply"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:contentDescription="@string/reply"
-                android:layout_marginStart="6dp"
+                android:layout_gravity="center"
                 android:adjustViewBounds="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="6dp"
                 app:srcCompat="@drawable/ic_reply" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -619,12 +621,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/cache_indicator"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="12dp"
+                android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/cached_messages"
-                android:src="@drawable/ic_baseline_cached_24"
+                android:src="@drawable/ic_baseline_storage_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -640,6 +643,10 @@
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
                 android:src="@drawable/ic_baseline_emoji_emotions_24"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:focusable="true"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -650,6 +657,10 @@
                 android:layout_marginStart="6dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:focusable="true"
                 android:src="@drawable/ic_baseline_add_reaction_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
@@ -659,13 +670,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/action_button_more"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:contentDescription="@string/display_options"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:clickable="true"
                 android:adjustViewBounds="true"
+                android:focusable="true"
                 app:srcCompat="@drawable/ic_more_horiz" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

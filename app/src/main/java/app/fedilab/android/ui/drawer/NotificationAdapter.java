@@ -226,6 +226,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (getItemViewType(position) == TYPE_POLL) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
             }
+
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             if (notification.status != null) {
@@ -272,6 +273,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             } else {
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
+                holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
                 String title = "";
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
                 if (getItemViewType(position) == TYPE_FAVOURITE) {

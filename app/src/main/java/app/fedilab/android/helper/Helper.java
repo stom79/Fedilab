@@ -1188,7 +1188,7 @@ public class Helper {
     public static MultipartBody.Part getMultipartBodyWithWM(Context context, String waterMark, @NonNull String paramName, @NonNull Attachment attachment) {
         File files = new File(attachment.local_path);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.0f);
+        float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         float textSize = 15;
         Paint mPaint = new Paint();
         mPaint.setTextSize(textSize);

@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="12dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_baseline_cached_24"
+                android:src="@drawable/ic_baseline_storage_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
 

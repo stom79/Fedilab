@@ -915,17 +915,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_text_header_2_line != -1) {
             holder.binding.username.setTextColor(theme_text_header_2_line);
         }
-
+        //final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         if (statusToDeal.account.locked) {
-            final float scale = context.getResources().getDisplayMetrics().density;
             Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_lock_24);
             assert img != null;
-            img.setBounds(0, 0, (int) (16 * scale + 0.5f), (int) (16 * scale + 0.5f));
+            img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
             holder.binding.username.setCompoundDrawables(null, null, img, null);
         } else {
             holder.binding.username.setCompoundDrawables(null, null, null, null);
         }
-
+        float normalSize = Helper.convertDpToPixel(28, context);
+        holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scale);
+        holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionButtonReply.requestLayout();
+        holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scale));
+        holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scale));
+        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scale));
+        holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scale);
+        holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.statusAddCustomEmoji.requestLayout();
+        holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scale);
+        holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scale);
+        holder.binding.actionButtonMore.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionButtonMore.requestLayout();
+        holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scale);
+        holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionShare.requestLayout();
 
         if (statusToDeal.account.bot) {
             holder.binding.botIcon.setVisibility(View.VISIBLE);
@@ -1416,7 +1433,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (ownvotes != null && ownvotes.contains(j)) {
                         Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_24);
                         assert img != null;
-                        final float scale = context.getResources().getDisplayMetrics().density;
                         img.setColorFilter(ContextCompat.getColor(context, R.color.cyanea_accent_reference), PorterDuff.Mode.SRC_IN);
                         img.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
                         pollItemBinding.pollItemText.setCompoundDrawables(null, null, img, null);
