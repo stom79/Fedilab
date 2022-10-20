@@ -896,10 +896,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
                                     app.fedilab.android.client.entities.api.Account account = accounts.get(position);
                                     String deltaSearch = "";
-                                    int searchLength = searchDeep;
-                                    if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position
-                                        searchLength = currentCursorPosition;
-                                    }
+                                    //Less than 15 characters are written before the cursor position
+                                    int searchLength = Math.min(currentCursorPosition, searchDeep);
                                     if (currentCursorPosition - searchLength > 0 && currentCursorPosition < oldContent.length())
                                         deltaSearch = oldContent.substring(currentCursorPosition - searchLength, currentCursorPosition);
                                     else {
@@ -951,10 +949,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             return;
                                         Tag tag = results.hashtags.get(position);
                                         String deltaSearch = "";
-                                        int searchLength = searchDeep;
-                                        if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position
-                                            searchLength = currentCursorPosition;
-                                        }
+                                        //Less than 15 characters are written before the cursor position
+                                        int searchLength = Math.min(currentCursorPosition, searchDeep);
                                         if (currentCursorPosition - searchLength > 0 && currentCursorPosition < oldContent.length())
                                             deltaSearch = oldContent.substring(currentCursorPosition - searchLength, currentCursorPosition);
                                         else {
@@ -1011,10 +1007,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
                                         String shortcodeSelected = emojisToDisplay.get(position).shortcode;
                                         String deltaSearch = "";
-                                        int searchLength = searchDeep;
-                                        if (currentCursorPosition < searchDeep) { //Less than 15 characters are written before the cursor position
-                                            searchLength = currentCursorPosition;
-                                        }
+                                        //Less than 15 characters are written before the cursor position
+                                        int searchLength = Math.min(currentCursorPosition, searchDeep);
                                         if (currentCursorPosition - searchLength > 0 && currentCursorPosition < oldContent.length())
                                             deltaSearch = oldContent.substring(currentCursorPosition - searchLength, currentCursorPosition);
                                         else {
