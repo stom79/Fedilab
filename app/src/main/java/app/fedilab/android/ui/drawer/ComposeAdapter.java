@@ -890,7 +890,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.binding.content.setAdapter(accountsListAdapter);
                         final String oldContent = holder.binding.content.getText().toString();
                         if (oldContent.length() >= currentCursorPosition) {
-                            String[] searchA = oldContent.substring(0, currentCursorPosition).split("@");
+                            String[] searchA = oldContent.substring(0, currentCursorPosition).split("\\s+@|^@");
                             if (searchA.length > 0) {
                                 final String search = searchA[searchA.length - 1];
                                 holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
@@ -906,7 +906,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (currentCursorPosition >= oldContent.length())
                                             deltaSearch = oldContent.substring(currentCursorPosition - searchLength);
                                     }
-
                                     if (!search.equals(""))
                                         deltaSearch = deltaSearch.replace("@" + search, "");
                                     String newContent = oldContent.substring(0, currentCursorPosition - searchLength);

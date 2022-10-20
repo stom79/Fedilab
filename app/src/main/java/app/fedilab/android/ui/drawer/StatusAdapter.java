@@ -925,6 +925,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.username.setCompoundDrawables(null, null, null, null);
         }
+        //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scale);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scale);
