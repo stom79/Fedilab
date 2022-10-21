@@ -358,6 +358,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private void initializeStatusesCommonView(final Statuses statuses) {
         flagLoading = false;
         if (binding == null || !isAdded() || getActivity() == null) {
+            if (binding != null) {
+                binding.loader.setVisibility(View.GONE);
+            }
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -643,6 +646,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
+        if (getView() == null) {
+            return;
+        }
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
