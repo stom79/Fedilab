@@ -164,6 +164,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
     Fragment currentFragment;
+    public static String slugOfFirstFragment;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
@@ -894,6 +895,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
                         .observe(this, pinned -> {
                             this.pinned = pinned;
+                            //Initialize the slug of the first fragment
+                            slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(BaseMainActivity.this, pinned, bottomMenu);
                             //First it's taken from db (last stored values)
                             PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
                             //Fetch remote lists for the authenticated account and update them

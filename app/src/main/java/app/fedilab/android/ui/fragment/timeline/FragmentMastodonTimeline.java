@@ -16,6 +16,7 @@ package app.fedilab.android.ui.fragment.timeline;
 
 
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
+import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -78,14 +79,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
     public UpdateCounters update;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (timelineStatuses != null && timelineStatuses.size() > 0) {
-            route(DIRECTION.FETCH_NEW, true);
-        }
-    }
+    private boolean isViewInitialized;
+    private Statuses initialStatuses;
 
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -147,6 +142,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private TimelinesVM.TimelineParams timelineParams;
     private boolean canBeFederated;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (slug.compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+            isViewInitialized = true;
+            initializeStatusesCommonView(initialStatuses);
+        }
+        if (timelineStatuses != null && timelineStatuses.size() > 0) {
+            route(DIRECTION.FETCH_NEW, true);
+        }
+    }
+
     /**
      * Return the position of the status in the ArrayList
      *
@@ -196,6 +203,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
+
         canBeFederated = true;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
@@ -244,6 +252,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineType != null) {
             slug = timelineType.getValue() + (ident != null ? "|" + ident : "");
         }
+        //Only the first fragment will initialize its view
+        isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         //Retrieve the max_id to keep position
 
@@ -357,6 +367,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     private void initializeStatusesCommonView(final Statuses statuses) {
         flagLoading = false;
+        if (!isViewInitialized) {
+            return;
+        }
         if (binding == null || !isAdded() || getActivity() == null) {
             if (binding != null) {
                 binding.loader.setVisibility(View.GONE);
@@ -528,6 +541,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
+        if (direction == null) {
+            isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
+        }
         if (binding == null || getActivity() == null || !isAdded()) {
             return;
         }
@@ -584,13 +600,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         Handler handler = new Handler();
         //The action for fetching new messages is delayed for other timelines than HOME
+        if (slugOfFirstFragment == null) {
+            slugOfFirstFragment = slug;
+        }
+
         handler.postDelayed(() -> {
             if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
                 getCachedStatus(direction, fetchingMissing, timelineParams);
             } else {
                 getLiveStatus(direction, fetchingMissing, timelineParams, status);
             }
-        }, timelineType == Timeline.TimeLineEnum.HOME ? 0 : 1000);
+        }, slug.compareTo(slugOfFirstFragment) == 0 ? 0 : 1000);
 
     }
 
@@ -652,6 +672,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
+                        initialStatuses = statusesCached;
                         if (statusesCached == null || statusesCached.statuses == null || statusesCached.statuses.size() == 0) {
                             getLiveStatus(null, fetchingMissing, timelineParams, null);
                         } else {
@@ -694,9 +715,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Status status) {
+        if (getView() == null) {
+            return;
+        }
         if (direction == null) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
-                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    .observe(getViewLifecycleOwner(), statuses -> {
+                        initialStatuses = statuses;
+                        initializeStatusesCommonView(statuses);
+                    });
         } else if (direction == DIRECTION.BOTTOM) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, fetchingMissing, status));

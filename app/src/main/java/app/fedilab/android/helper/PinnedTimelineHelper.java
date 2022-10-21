@@ -22,6 +22,7 @@ import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -89,6 +90,59 @@ public class PinnedTimelineHelper {
     public static void sortMenuItem(List<BottomMenu.MenuItem> menuItemList) {
         //noinspection ComparatorCombinators
         Collections.sort(menuItemList, (obj1, obj2) -> Integer.compare(obj1.position, obj2.position));
+    }
+
+
+    /**
+     * Returns the slug of the first loaded fragment
+     *
+     * @param context    - Context
+     * @param pinned     - {@link Pinned}
+     * @param bottomMenu - {@link BottomMenu}
+     * @return String - slug
+     */
+    public static String firstTimelineSlug(Context context, Pinned pinned, BottomMenu bottomMenu) {
+        String slug = null;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean singleBar = sharedpreferences.getBoolean(context.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        PinnedTimeline pinnedTimelineMin = null;
+        if (singleBar) {
+            for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                if (pinnedTimeline.displayed) {
+                    if (pinnedTimelineMin == null) {
+                        pinnedTimelineMin = pinnedTimeline;
+                    } else if (pinnedTimelineMin.position > pinnedTimeline.position) {
+                        pinnedTimelineMin = pinnedTimeline;
+                    }
+                }
+            }
+        } else {
+            if (bottomMenu != null && bottomMenu.bottom_menu != null && bottomMenu.bottom_menu.size() > 0) {
+                BottomMenu.MenuItem menuItem = bottomMenu.bottom_menu.get(0);
+                return menuItem.item_menu_type.getValue();
+            }
+
+        }
+        String ident = null;
+        if (pinnedTimelineMin != null) {
+            if (pinnedTimelineMin.tagTimeline != null) {
+                ident = "@T@" + pinnedTimelineMin.tagTimeline.name;
+                if (pinnedTimelineMin.tagTimeline.isART) {
+                    pinnedTimelineMin.type = Timeline.TimeLineEnum.ART;
+                }
+            } else if (pinnedTimelineMin.mastodonList != null) {
+                ident = "@l@" + pinnedTimelineMin.mastodonList.id;
+            } else if (pinnedTimelineMin.remoteInstance != null) {
+                if (pinnedTimelineMin.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                    String remoteInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                    ident = "@R@" + remoteInstance;
+                } else {
+                    ident = "@R@" + pinnedTimelineMin.remoteInstance.host;
+                }
+            }
+            slug = pinnedTimelineMin.type.getValue() + (ident != null ? "|" + ident : "");
+        }
+        return slug;
     }
 
     public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, BottomMenu bottomMenu, List<MastodonList> mastodonLists) {
