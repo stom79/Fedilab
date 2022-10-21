@@ -14,6 +14,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -63,6 +65,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+    private boolean isViewInitialized;
+    private Notifications initialNotifications;
 
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -134,6 +138,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
 
         flagLoading = false;
+        isViewInitialized = Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(slugOfFirstFragment) == 0;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         if (getArguments() != null) {
@@ -199,6 +204,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      */
     private void initializeNotificationView(final Notifications notifications) {
         flagLoading = false;
+        if (!isViewInitialized) {
+            return;
+        }
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
@@ -283,6 +291,15 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+            isViewInitialized = true;
+            initializeNotificationView(initialNotifications);
+        }
+    }
+
     /**
      * Router for timelines
      *
@@ -343,6 +360,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         if (notificationsCached == null || notificationsCached.notifications == null || notificationsCached.notifications.size() == 0) {
                             getLiveNotifications(null, fetchingMissing, timelineParams, null);
                         } else {
+                            initialNotifications = notificationsCached;
                             initializeNotificationView(notificationsCached);
                         }
                     });
@@ -380,7 +398,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private void getLiveNotifications(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Notification notificationToUpdate) {
         if (direction == null) {
             notificationsVM.getNotifications(notificationList, timelineParams)
-                    .observe(getViewLifecycleOwner(), this::initializeNotificationView);
+                    .observe(getViewLifecycleOwner(), notifications -> {
+                        initialNotifications = notifications;
+                        initializeNotificationView(notifications);
+                    });
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, notificationToUpdate));

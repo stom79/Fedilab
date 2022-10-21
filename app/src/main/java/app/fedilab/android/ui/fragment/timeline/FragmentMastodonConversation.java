@@ -15,6 +15,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,6 +59,8 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private ConversationAdapter conversationAdapter;
     private LinearLayoutManager mLayoutManager;
     public UpdateCounters update;
+    private boolean isViewInitialized;
+    private Conversations initialConversations;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +77,16 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
      */
     private void route(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing) {
         route(direction, fetchingMissing, null);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+            isViewInitialized = true;
+            initializeConversationCommonView(initialConversations);
+        }
     }
 
     /**
@@ -123,6 +137,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                         if (conversationsCached == null || conversationsCached.conversations == null || conversationsCached.conversations.size() == 0) {
                             getLiveConversations(null, fetchingMissing, timelineParams, null);
                         } else {
+                            initialConversations = conversationsCached;
                             initializeConversationCommonView(conversationsCached);
                         }
                     });
@@ -160,7 +175,10 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private void getLiveConversations(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Conversation conversationToUpdate) {
         if (direction == null) {
             timelinesVM.getConversations(conversationList, timelineParams)
-                    .observe(getViewLifecycleOwner(), this::initializeConversationCommonView);
+                    .observe(getViewLifecycleOwner(), conversations -> {
+                        initialConversations = conversations;
+                        initializeConversationCommonView(conversations);
+                    });
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             timelinesVM.getConversations(conversationList, timelineParams)
                     .observe(getViewLifecycleOwner(), conversationsBottom -> dealWithPagination(conversationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, conversationToUpdate));
@@ -219,6 +237,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
      */
     private void initializeConversationCommonView(final Conversations conversations) {
         flagLoading = false;
+        if (!isViewInitialized) {
+            return;
+        }
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
