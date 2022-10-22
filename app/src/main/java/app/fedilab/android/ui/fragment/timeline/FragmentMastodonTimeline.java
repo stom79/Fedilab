@@ -257,13 +257,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (!isViewInitialized) {
             if (slug != null && slugOfFirstFragment != null) {
                 isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
-            } else {
+            } else if (timelineType != null) {
                 isViewInitialized = timelineType.compareTo(Timeline.TimeLineEnum.HOME) == 0;
             }
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        //Retrieve the max_id to keep position
-
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
@@ -548,7 +546,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
-        if (direction == null && !isViewInitialized) {
+        if (direction == null && !isViewInitialized && slug != null && slugOfFirstFragment != null) {
             isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
         }
         if (binding == null || getActivity() == null || !isAdded()) {

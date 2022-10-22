@@ -64,6 +64,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ProgressBar
+                android:indeterminateTint="@color/cyanea_accent_dark_reference"
                 android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"

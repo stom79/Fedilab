@@ -187,6 +187,7 @@
     </ScrollView>
 
     <ProgressBar
+        android:indeterminateTint="@color/cyanea_accent_dark_reference"
         android:id="@+id/loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

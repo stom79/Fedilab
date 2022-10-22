@@ -175,6 +175,7 @@
             tools:ignore="HardcodedText" />
 
         <ProgressBar
+            android:indeterminateTint="@color/cyanea_accent_dark_reference"
             android:id="@+id/character_progress"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="48dp"
