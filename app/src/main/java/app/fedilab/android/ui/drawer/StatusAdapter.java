@@ -467,6 +467,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int theme_text_color = -1;
         int theme_text_header_1_line = -1;
         int theme_text_header_2_line = -1;
+        int link_color = -1;
         if (sharedpreferences.getBoolean("use_custom_theme", false)) {
             //Getting custom colors
             theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
@@ -475,6 +476,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
             theme_text_header_1_line = sharedpreferences.getInt("theme_text_header_1_line", -1);
             theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
+            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
+            link_color = sharedpreferences.getInt("theme_link_color", -1);
 
         }
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
@@ -578,6 +581,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
+        }
+        if (link_color != -1) {
+            holder.binding.cardUrl.setTextColor(link_color);
         }
 
         holder.binding.toggleTruncate.setVisibility(View.GONE);
