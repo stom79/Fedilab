@@ -388,12 +388,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                             }
                         } else {
                             binding.translate.setVisibility(View.GONE);
-                            binding.originalMessage.setVisibility(View.GONE);
+                            binding.originalMessage.setVisibility(View.INVISIBLE);
                             binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                             binding.mediaDescription.setVisibility(View.GONE);
                         }
                     } else {
-                        binding.originalMessage.setVisibility(View.GONE);
+                        binding.originalMessage.setVisibility(View.INVISIBLE);
                         binding.translate.setVisibility(View.GONE);
                         binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                         binding.mediaDescription.setVisibility(View.GONE);
@@ -456,7 +456,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         } else {
             binding.mediaDescription.setVisibility(View.GONE);
             binding.translate.setVisibility(View.GONE);
-            binding.originalMessage.setVisibility(View.GONE);
+            binding.originalMessage.setVisibility(View.INVISIBLE);
             hideSystemUI();
         }
     }

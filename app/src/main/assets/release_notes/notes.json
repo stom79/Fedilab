@@ -1,7 +1,12 @@
 [
   {
+    "version": "3.4.3",
+    "code": "416",
+    "note": "Changed:\n- Swipe between timelines\n- Improve cache\n- Button sizes in messages follow defined scale\n\nFixed:\n- Pleroma: Emoji reactions\n- Sharing (several fixes)\n- Theme issues\n- Rendering issue for links\n- Notifications not removed from cache\n- Some crashes"
+  },
+  {
     "version": "3.4.2",
-    "code": "412",
+    "code": "415",
     "note": "Fixed:\n- Attach media to a reply"
   },
   {

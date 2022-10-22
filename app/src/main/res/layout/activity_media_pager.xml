@@ -95,7 +95,7 @@
             android:text="@string/view_the_original_message"
             android:textColor="@color/cyanea_accent_dark_reference"
             android:textSize="18sp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

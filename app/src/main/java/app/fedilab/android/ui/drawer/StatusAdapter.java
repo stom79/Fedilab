@@ -348,7 +348,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
-                ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions);
+                ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -369,7 +369,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 return;
                             }
                             for (Reaction reaction : status.pleroma.emoji_reactions) {
-                                if (reaction.name.compareTo(emojiStr) == 0) {
+                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
                                     alreadyAdded = true;
                                     reaction.count = (reaction.count - 1);
                                     if (reaction.count == 0) {
@@ -405,6 +405,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 int paddingDp = (int) (paddingPixel * density);
                 builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 builder.setTitle(R.string.insert_emoji);
+
                 if (emojis != null && emojis.size() > 0 && emojis.get(BaseMainActivity.currentInstance) != null) {
                     GridView gridView = new GridView(context);
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
@@ -418,7 +419,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             return;
                         }
                         for (Reaction reaction : status.pleroma.emoji_reactions) {
-                            if (reaction.name.compareTo(emojiStr) == 0) {
+                            if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
                                 alreadyAdded = true;
                                 reaction.count = (reaction.count - 1);
                                 if (reaction.count == 0) {

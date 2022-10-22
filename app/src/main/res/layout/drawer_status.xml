@@ -247,7 +247,7 @@
             android:text="@string/display_toot_truncate"
             android:textAllCaps="false"
             app:iconTint="@color/cyanea_accent_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:strokeColor="@color/cyanea_accent_reference" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_trans"

@@ -33,6 +33,7 @@ import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.databinding.DrawerReactionBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
+import app.fedilab.android.viewmodel.pleroma.ActionsVM;
 
 
 /**
@@ -44,10 +45,18 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
     private final List<Reaction> reactions;
     private final String announcementId;
     private Context context;
+    private final boolean statusReaction;
+
+    ReactionAdapter(String announcementId, List<Reaction> reactions, boolean statusReaction) {
+        this.reactions = reactions;
+        this.announcementId = announcementId;
+        this.statusReaction = statusReaction;
+    }
 
     ReactionAdapter(String announcementId, List<Reaction> reactions) {
         this.reactions = reactions;
         this.announcementId = announcementId;
+        this.statusReaction = false;
     }
 
     @NonNull
@@ -78,17 +87,33 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
             holder.binding.reactionName.setVisibility(View.VISIBLE);
             holder.binding.reactionEmoji.setVisibility(View.GONE);
         }
-        AnnouncementsVM announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
-        holder.binding.reactionContainer.setOnClickListener(v -> {
-            if (reaction.me) {
-                announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
-                reaction.me = false;
-            } else {
-                announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
-                reaction.me = true;
-            }
-            notifyItemChanged(position);
-        });
+        if (!statusReaction) {
+            AnnouncementsVM announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
+            holder.binding.reactionContainer.setOnClickListener(v -> {
+                if (reaction.me) {
+                    announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = false;
+                } else {
+                    announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = true;
+                }
+                notifyItemChanged(position);
+            });
+        } else {
+            ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+            holder.binding.reactionContainer.setOnClickListener(v -> {
+                if (reaction.me) {
+                    actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = false;
+                    reaction.count -= 1;
+                } else {
+                    actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = true;
+                    reaction.count += 1;
+                }
+                notifyItemChanged(position);
+            });
+        }
     }
 
     @Override
