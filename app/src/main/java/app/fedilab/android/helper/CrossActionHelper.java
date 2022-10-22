@@ -151,7 +151,7 @@ public class CrossActionHelper {
         } else if (targetedStatus != null) {
             searchVM.search(ownerAccount.instance, ownerAccount.token, targetedStatus.uri, null, "statuses", false, true, false, 0, null, null, 1)
                     .observe((LifecycleOwner) context, results -> {
-                        if (results.statuses != null && results.statuses.size() > 0) {
+                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
                             Status status = results.statuses.get(0);
                             applyAction(context, actionType, ownerAccount, null, status);
                         } else {

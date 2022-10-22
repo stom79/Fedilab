@@ -252,7 +252,7 @@ public class Helper {
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
     public static final String ARG_SHOW_REPLIES = "ARG_SHOW_REPLIES";
     public static final String ARG_SHOW_REBLOGS = "ARG_SHOW_REBLOGS";
-
+    public static final String ARG_INITIALIZE_VIEW = "ARG_INITIALIZE_VIEW";
     public static final String ARG_SHOW_PINNED = "ARG_SHOW_PINNED";
     public static final String ARG_SHOW_MEDIA_ONY = "ARG_SHOW_MEDIA_ONY";
     public static final String ARG_MENTION = "ARG_MENTION";

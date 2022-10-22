@@ -221,7 +221,13 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
                 try {
                     int value = sharedPreferences.getInt(key, 0);
                     sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), value).apply();
-                } catch (NumberFormatException e) {
+                } catch (Exception e) {
+                    try {
+                        String value = sharedPreferences.getString(key, "0");
+                        sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), Integer.parseInt(value)).apply();
+                    } catch (Exception e2) {
+                        e.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
 

@@ -873,7 +873,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
 
     private boolean canBeSent(StatusDraft statusDraft) {
-        if (statusDraft == null || statusDraft.statusDraftList == null || statusDraft.statusDraftList.size() == 0) {
+        if (statusDraft == null || statusDraft.statusDraftList == null || statusDraft.statusDraftList.isEmpty()) {
             return false;
         }
         Status statusCheck = statusDraft.statusDraftList.get(0);

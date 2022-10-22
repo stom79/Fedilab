@@ -612,6 +612,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     .makeSceneTransitionAnimation(BaseMainActivity.this, headerMainBinding.instanceInfoContainer, getString(R.string.activity_porfile_pp));
             startActivity(intent, options.toBundle());
         });
+
         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
         headerMainBinding.changeAccount.setOnClickListener(v -> {
             headerMenuOpen = !headerMenuOpen;
@@ -858,11 +859,27 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
+                 *  - Pinned timelines (in app feature)
                  *  - Instance info (for limits)
                  *  - Emoji for picker
                  *  - Filters for timelines
-                 *  - Pinned timelines (in app feature)
+
                  */
+
+                //Update pinned timelines
+                new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
+                        .observe(this, pinned -> {
+                            this.pinned = pinned;
+                            //Initialize the slug of the first fragment
+                            slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(BaseMainActivity.this, pinned, bottomMenu);
+                            //First it's taken from db (last stored values)
+                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
+                            //Fetch remote lists for the authenticated account and update them
+                            new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
+                                    .observe(this, mastodonLists ->
+                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
+                                    );
+                        });
 
                 //Update emoji in db for the current instance
                 new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getEmoji(currentInstance);
@@ -891,20 +908,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 }
                             }).start();
                         });
-                //Update pinned timelines
-                new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
-                        .observe(this, pinned -> {
-                            this.pinned = pinned;
-                            //Initialize the slug of the first fragment
-                            slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(BaseMainActivity.this, pinned, bottomMenu);
-                            //First it's taken from db (last stored values)
-                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
-                            //Fetch remote lists for the authenticated account and update them
-                            new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
-                                    .observe(this, mastodonLists ->
-                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
-                                    );
-                        });
+
             };
             mainHandler.post(myRunnable);
         }).start();

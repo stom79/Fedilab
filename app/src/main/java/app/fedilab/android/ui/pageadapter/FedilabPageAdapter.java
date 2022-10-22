@@ -90,7 +90,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
         FragmentMastodonTimeline fragment = new FragmentMastodonTimeline();
         fragment.update = activity;
         Bundle bundle = new Bundle();
-        //Position 3 is for notifications
+        bundle.putBoolean(Helper.ARG_INITIALIZE_VIEW, false);
         if (position < (BOTTOM_TIMELINE_COUNT - toRemove) && !singleBar) {
             if (bottomMenu != null) {
                 BottomMenu.ItemMenuType type = BottomMenu.getType(bottomMenu, position);
@@ -98,9 +98,13 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
                     return fragment;
                 }
                 if (type == BottomMenu.ItemMenuType.NOTIFICATION) {
-                    return new FragmentNotificationContainer();
+                    FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
+                    fragmentNotificationContainer.setArguments(bundle);
+                    return fragmentNotificationContainer;
                 } else if (type == BottomMenu.ItemMenuType.DIRECT) {
-                    return new FragmentMastodonConversation();
+                    FragmentMastodonConversation fragmentMastodonConversation = new FragmentMastodonConversation();
+                    fragmentMastodonConversation.setArguments(bundle);
+                    return fragmentMastodonConversation;
                 }
                 if (type == BottomMenu.ItemMenuType.HOME) { //Home timeline
                     bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.HOME);
@@ -120,12 +124,13 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
                 FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
                 FragmentNotificationContainer.update = activity;
+                fragmentNotificationContainer.setArguments(bundle);
                 return fragmentNotificationContainer;
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.DIRECT) {
                 FragmentMastodonConversation fragmentMastodonConversation = new FragmentMastodonConversation();
                 fragmentMastodonConversation.update = activity;
+                fragmentMastodonConversation.setArguments(bundle);
                 return fragmentMastodonConversation;
-
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                 bundle.putString(Helper.ARG_LIST_ID, pinnedTimeline.mastodonList.id);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {

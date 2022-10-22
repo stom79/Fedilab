@@ -666,7 +666,7 @@ public class ProfileActivity extends BaseActivity {
         String[] splitAcct = account.acct.split("@");
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         AlertDialog.Builder builderInner = null;
-        final boolean isOwner = account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
+        final boolean isOwner = account.id != null && BaseMainActivity.currentUserID != null && account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
         final String[] stringArrayConf;
         if (isOwner) {
             stringArrayConf = getResources().getStringArray(R.array.more_action_owner_confirm);
