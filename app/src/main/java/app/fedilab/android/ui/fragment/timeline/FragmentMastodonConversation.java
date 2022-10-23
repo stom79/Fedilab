@@ -15,7 +15,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.ConversationAdapter;
@@ -83,7 +85,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     @Override
     public void onResume() {
         super.onResume();
-        if (Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+        if (Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
             initializeConversationCommonView(initialConversations);
         }
@@ -218,6 +220,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        isViewInitialized = Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
         binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
         binding.swipeContainer.setColorSchemeColors(

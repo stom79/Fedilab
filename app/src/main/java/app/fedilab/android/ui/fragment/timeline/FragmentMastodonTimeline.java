@@ -15,8 +15,9 @@ package app.fedilab.android.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
-import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -145,7 +146,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        if (slug != null && slugOfFirstFragment != null && slug.compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+        if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
             initializeStatusesCommonView(initialStatuses);
         }
@@ -255,10 +256,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
         if (!isViewInitialized) {
-            if (slug != null && slugOfFirstFragment != null) {
-                isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
-            } else if (timelineType != null) {
-                isViewInitialized = timelineType.compareTo(Timeline.TimeLineEnum.HOME) == 0;
+            if (slug != null) {
+                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
             }
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
@@ -546,8 +545,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
-        if (direction == null && !isViewInitialized && slug != null && slugOfFirstFragment != null) {
-            isViewInitialized = slug.compareTo(slugOfFirstFragment) == 0;
+        if (direction == null && !isViewInitialized && slug != null) {
+            isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
         }
         if (binding == null || getActivity() == null || !isAdded()) {
             return;
@@ -604,18 +603,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
 
         Handler handler = new Handler();
-        //The action for fetching new messages is delayed for other timelines than HOME
-        if (slugOfFirstFragment == null) {
-            slugOfFirstFragment = slug;
-        }
-
         handler.postDelayed(() -> {
             if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
                 getCachedStatus(direction, fetchingMissing, timelineParams);
             } else {
                 getLiveStatus(direction, fetchingMissing, timelineParams, status);
             }
-        }, slug.compareTo(slugOfFirstFragment) == 0 ? 0 : 1000);
+        }, slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 ? 0 : 1000);
 
     }
 

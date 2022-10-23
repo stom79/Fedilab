@@ -14,7 +14,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.slugOfFirstFragment;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -138,7 +139,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
 
         flagLoading = false;
-        isViewInitialized = Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(slugOfFirstFragment) == 0;
+        isViewInitialized = Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         if (getArguments() != null) {
@@ -294,7 +295,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     @Override
     public void onResume() {
         super.onResume();
-        if (Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(slugOfFirstFragment) != 0 && !isViewInitialized) {
+        if (Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
             initializeNotificationView(initialNotifications);
         }

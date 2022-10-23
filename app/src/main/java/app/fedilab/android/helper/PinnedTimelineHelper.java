@@ -102,17 +102,19 @@ public class PinnedTimelineHelper {
      * @return String - slug
      */
     public static String firstTimelineSlug(Context context, Pinned pinned, BottomMenu bottomMenu) {
-        String slug = null;
+        String slug = Timeline.TimeLineEnum.HOME.getValue();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean singleBar = sharedpreferences.getBoolean(context.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         PinnedTimeline pinnedTimelineMin = null;
         if (singleBar) {
-            for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                if (pinnedTimeline.displayed) {
-                    if (pinnedTimelineMin == null) {
-                        pinnedTimelineMin = pinnedTimeline;
-                    } else if (pinnedTimelineMin.position > pinnedTimeline.position) {
-                        pinnedTimelineMin = pinnedTimeline;
+            if (pinned != null && pinned.pinnedTimelines != null) {
+                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                    if (pinnedTimeline.displayed) {
+                        if (pinnedTimelineMin == null) {
+                            pinnedTimelineMin = pinnedTimeline;
+                        } else if (pinnedTimelineMin.position > pinnedTimeline.position) {
+                            pinnedTimelineMin = pinnedTimeline;
+                        }
                     }
                 }
             }
@@ -155,6 +157,10 @@ public class PinnedTimelineHelper {
         if (pinned.pinnedTimelines == null) {
             pinned.pinnedTimelines = new ArrayList<>();
         }
+        //Set the slug of first visible fragment
+        String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
+        Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         boolean timeInList = sharedpreferences.getBoolean(activity.getString(R.string.SET_TIMELINES_IN_A_LIST), false);

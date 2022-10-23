@@ -153,6 +153,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.ReleaseNote;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.PopupReleaseNotesBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.interfaces.OnDownloadInterface;
@@ -217,6 +218,7 @@ public class Helper {
 
     public static final String ARG_STATUS_DRAFT = "ARG_STATUS_DRAFT";
     public static final String ARG_STATUS_SCHEDULED = "ARG_STATUS_SCHEDULED";
+    public static final String ARG_SLUG_OF_FIRST_FRAGMENT = "ARG_SLUG_OF_FIRST_FRAGMENT";
 
     public static final String ARG_STATUS_DRAFT_ID = "ARG_STATUS_DRAFT_ID";
     public static final String ARG_STATUS_REPLY = "ARG_STATUS_REPLY";
@@ -1870,5 +1872,27 @@ public class Helper {
 
     public interface OnAttachmentCopied {
         void onAttachmentCopied(Attachment attachment);
+    }
+
+
+    //Allow to store in shared preference first visible fragment when the app starts
+    private static String slugOfFirstFragment;
+
+    public static String getSlugOfFirstFragment(Context context, String userId, String instance) {
+        if (slugOfFirstFragment != null) {
+            return slugOfFirstFragment;
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedpreferences.getString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, Timeline.TimeLineEnum.HOME.getValue());
+    }
+
+    public static void setSlugOfFirstFragment(Context context, String slug, String userId, String instance) {
+        if (slug != null) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            slugOfFirstFragment = slug;
+            editor.putString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, slug);
+            editor.apply();
+        }
     }
 }
