@@ -31,7 +31,8 @@
     <string name="camera">Camera</string>
     <string name="delete_all">Delete all</string>
     <string name="schedule">Schedule</string>
-    <string name="text_size">Text and icon sizes</string>
+    <string name="text_size">Text sizes</string>
+    <string name="icon_size">Icon sizes</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="open_with">Open with</string>
@@ -915,6 +916,9 @@
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
+    <string name="SET_FONT_SCALE_ICON" translatable="false">SET_FONT_SCALE_ICON</string>
+    <string name="SET_FONT_SCALE_ICON_INT" translatable="false">SET_FONT_SCALE_ICON_INT</string>
+
     <string name="SET_FILTER_REGEX_HOME" translatable="false">SET_FILTER_REGEX_HOME</string>
     <string name="SET_FILTER_REGEX_LOCAL" translatable="false">SET_FILTER_REGEX_LOCAL</string>
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>

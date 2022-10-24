@@ -49,6 +49,11 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             SET_FONT_SCALE.setMax(180);
             SET_FONT_SCALE.setMin(80);
         }
+        SeekBarPreference SET_FONT_SCALE_ICON = findPreference(getString(R.string.SET_FONT_SCALE_ICON_INT));
+        if (SET_FONT_SCALE_ICON != null) {
+            SET_FONT_SCALE_ICON.setMax(180);
+            SET_FONT_SCALE_ICON.setMin(80);
+        }
         recreate = false;
     }
 
@@ -61,6 +66,12 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 int progress = sharedPreferences.getInt(getString(R.string.SET_FONT_SCALE_INT), 110);
                 float scale = (float) (progress) / 100.0f;
                 editor.putFloat(getString(R.string.SET_FONT_SCALE), scale);
+                recreate = true;
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_FONT_SCALE_ICON_INT)) == 0) {
+                int progress = sharedPreferences.getInt(getString(R.string.SET_FONT_SCALE_ICON_INT), 110);
+                float scale = (float) (progress) / 100.0f;
+                editor.putFloat(getString(R.string.SET_FONT_SCALE_ICON), scale);
                 recreate = true;
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_USE_SINGLE_TOPBAR)) == 0) {

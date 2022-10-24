@@ -924,6 +924,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //final float scale = context.getResources().getDisplayMetrics().density;
         final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
+        final float scaleIcon = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE_ICON), 1.1f);
         if (statusToDeal.account.locked) {
             Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_lock_24);
             assert img != null;
@@ -934,22 +935,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
-        holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scale);
-        holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
-        holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scale));
-        holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scale));
-        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scale));
-        holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scale);
-        holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.requestLayout();
-        holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scale);
-        holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scale);
-        holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scale);
-        holder.binding.actionButtonMore.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonMore.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonMore.requestLayout();
-        holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scale);
-        holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scale);
+        holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionShare.requestLayout();
 
         if (statusToDeal.account.bot) {

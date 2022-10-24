@@ -70,14 +70,26 @@
     <androidx.preference.SeekBarPreference
         android:defaultValue="110"
         android:max="180"
+        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_FONT_SCALE_INT"
         app:showSeekBarValue="true"
         app:title="@string/text_size" />
 
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="110"
+        android:max="180"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FONT_SCALE_ICON_INT"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/icon_size" />
+
     <androidx.preference.SeekBarPreference
         android:defaultValue="100"
         android:max="1000"
+        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_VIDEO_CACHE"
         app:showSeekBarValue="true"
@@ -86,6 +98,7 @@
     <androidx.preference.SeekBarPreference
         android:defaultValue="5"
         android:max="30"
+        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_NSFW_TIMEOUT"
         app:showSeekBarValue="true"
@@ -94,6 +107,7 @@
     <androidx.preference.SeekBarPreference
         android:defaultValue="3"
         android:max="30"
+        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MED_DESC_TIMEOUT"
         app:showSeekBarValue="true"
