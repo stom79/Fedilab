@@ -1189,12 +1189,10 @@ public class Helper {
      */
     public static MultipartBody.Part getMultipartBodyWithWM(Context context, String waterMark, @NonNull String paramName, @NonNull Attachment attachment) {
         File files = new File(attachment.local_path);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         float textSize = 15;
-        Paint mPaint = new Paint();
-        mPaint.setTextSize(textSize);
-        float width = mPaint.measureText(waterMark, 0, waterMark.length()) * scale;
+        Paint paint = new Paint();
+        float textWidht = paint.measureText(waterMark);
+        float width = Helper.convertDpToPixel(textWidht, context);
         try {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -1202,11 +1200,10 @@ public class Helper {
 
             int w = options.outWidth;
             int h = options.outHeight;
-            float valx = (float) 1.0 - ((Helper.convertDpToPixel(width, context) + 90)) / (float) w;
+            float valx = (float) 1.0 - (float) width / (float) w;
             if (valx < 0)
                 valx = 0;
-            float valy = (h - Helper.convertDpToPixel(textSize, context) - 30) / (float) h;
-
+            float valy = (h - Helper.convertDpToPixel(textSize, context) - 10) / (float) h;
             WatermarkText watermarkText = new WatermarkText(waterMark)
                     .setPositionX(valx)
                     .setPositionY(valy)

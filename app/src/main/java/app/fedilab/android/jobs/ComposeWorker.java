@@ -147,7 +147,7 @@ public class ComposeWorker extends Worker {
                     }
                 }
             }
-            if (watermarkText == null) {
+            if (watermarkText == null || watermarkText.trim().length() == 0) {
                 try {
                     BaseAccount account = new Account(context).getAccountByToken(dataPost.token);
                     watermarkText = account.mastodon_account.username + "@" + account.instance;
