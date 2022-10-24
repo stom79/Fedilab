@@ -13,9 +13,9 @@
         app:singleLineTitle="false"
         app:summary="@string/set_capitalize_indication"
         app:title="@string/set_capitalize" />
-
+    <!--
     <SwitchPreferenceCompat
-        app:defaultValue="true"
+        app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_PICTURE_COMPRESSED"
         app:singleLineTitle="false"
@@ -23,13 +23,13 @@
         app:title="@string/set_resize_picture" />
 
     <SwitchPreferenceCompat
-        app:defaultValue="true"
+        app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_VIDEO_COMPRESSED"
         app:singleLineTitle="false"
         app:summary="@string/set_resize_video_indication"
         app:title="@string/set_resize_video" />
-
+    -->
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"

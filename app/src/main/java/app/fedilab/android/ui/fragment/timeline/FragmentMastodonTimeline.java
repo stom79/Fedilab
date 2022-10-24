@@ -253,13 +253,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineType != null) {
             slug = timelineType.getValue() + (ident != null ? "|" + ident : "");
         }
-        //Only fragment in main view pager should not have the view initialized
-        //AND Only the first fragment will initialize its view
-        if (!isViewInitialized) {
-            if (slug != null) {
-                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
-            }
-        }
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
@@ -278,9 +272,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = statusReport != null ? statusReport.id : null;
-        if (max_id == null) {
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
         }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        if (!isViewInitialized) {
+            if (slug != null) {
+                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
+            }
+        }
+
         flagLoading = false;
         router(null);
 
@@ -299,6 +302,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
+
+
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             try {
                 if (statusToUpdate != null) {
@@ -318,7 +323,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             } catch (Exception ignored) {
             }
-
             flagLoading = fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             if (timelineType == Timeline.TimeLineEnum.ART) {
