@@ -1,0 +1,15 @@
+Changed:
+- Swipe between timelines
+- Improve cache
+- Button sizes in messages follow defined scale
+- French translation
+
+Fixed:
+- Pleroma: Emoji reactions
+- Sharing (several fixes)
+- Theme issues
+- Rendering issue for links
+- Notifications not removed from cache
+- Issue with watermarks
+- Pagination with bookmarks/favourites
+- Some crashes
