@@ -2,7 +2,7 @@
   {
     "version": "3.5.0",
     "code": "417",
-    "note": "Changed:\n- Swipe between timelines\n- Improve cache\n- Button sizes in messages follow defined scale\n- French translation\n\nFixed:\n- Pleroma: Emoji reactions\n- Sharing (several fixes)\n- Theme issues\n- Rendering issue for links\n- Notifications not removed from cache\n- Issue with watermarks\n- Pagination with bookmarks/favourites\n- Some crashes"
+    "note": "Changed:\n- Swipe between timelines\n- Improve cache\n- Button sizes can be changed in settings\n- French translation\n\nFixed:\n- Pleroma: Emoji reactions\n- Sharing (several fixes)\n- Theme issues\n- Rendering issue for links\n- Notifications not removed from cache\n- Issue with watermarks\n- Pagination with bookmarks/favourites\n- Some crashes"
   },
   {
     "version": "3.4.2",

@@ -1,7 +1,7 @@
 Changed:
 - Swipe between timelines
 - Improve cache
-- Button sizes in messages follow defined scale
+- Button sizes can be changed in settings
 - French translation
 
 Fixed:
