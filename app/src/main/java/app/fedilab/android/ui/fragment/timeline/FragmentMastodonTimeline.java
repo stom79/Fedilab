@@ -142,6 +142,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String slug;
     private TimelinesVM.TimelineParams timelineParams;
     private boolean canBeFederated;
+    private boolean rememberPosition;
 
     @Override
     public void onResume() {
@@ -272,8 +273,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = statusReport != null ? statusReport.id : null;
+
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized) {
+        if (max_id == null && !isViewInitialized && rememberPosition) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
         }
         //Only fragment in main view pager should not have the view initialized
@@ -483,8 +486,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             });
-            //For home (first tab) we fetch new messages
-            if (timelineType == Timeline.TimeLineEnum.HOME) {
+            //For first tab we fetch new messages, if we keep position
+            if (slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 && rememberPosition) {
                 route(DIRECTION.FETCH_NEW, true);
             }
         }

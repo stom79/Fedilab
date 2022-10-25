@@ -929,6 +929,8 @@
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
 
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
+
+    <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
     <string name="SET_EXPAND_CW" translatable="false">SET_EXPAND_CW</string>
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
@@ -1483,4 +1485,5 @@
     <string name="set_display_counters">Display counters</string>
     <string name="set_display_counters_description">Will display a bubble counter in tab timelines for new messages</string>
     <string name="view_the_original_message">Open the original message</string>
+    <string name="remember_position">Remember position in timelines</string>
 </resources>

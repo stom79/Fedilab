@@ -2,6 +2,12 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_REMEMBER_POSITION"
+        app:singleLineTitle="false"
+        app:title="@string/remember_position" />
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_EXPAND_CW"
