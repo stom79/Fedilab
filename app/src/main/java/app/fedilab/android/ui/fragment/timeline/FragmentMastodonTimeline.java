@@ -508,9 +508,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     for (Status statusAlreadyPresent : timelineStatuses) {
                         //We compare the id of each status and we only add status having an id greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0) {
+                        if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
                             //We add the status to a list of id - thus we know it is already in the timeline
-                            if (!timelineStatuses.contains(statusReceived) && !statusReceived.pinned && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
+                            if (!timelineStatuses.contains(statusReceived)) {
                                 timelineStatuses.add(position, statusReceived);
                                 statusAdapter.notifyItemInserted(position);
                                 if (!statusReceived.cached) {
