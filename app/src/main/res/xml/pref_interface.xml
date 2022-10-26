@@ -20,6 +20,14 @@
         app:summary="@string/set_timelines_in_a_list"
         app:title="@string/set_timelines_in_a_list_title" />
 
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_AGGREGATE_NOTIFICATION"
+        app:singleLineTitle="false"
+        app:summary="@string/aggregate_notifications_summary"
+        app:title="@string/aggregate_notifications" />
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"

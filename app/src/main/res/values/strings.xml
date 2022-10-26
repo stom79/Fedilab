@@ -1486,4 +1486,6 @@
     <string name="set_display_counters_description">Will display a bubble counter in tab timelines for new messages</string>
     <string name="view_the_original_message">Open the original message</string>
     <string name="remember_position">Remember position in timelines</string>
+    <string name="aggregate_notifications">Aggregate notifications</string>
+    <string name="aggregate_notifications_summary">When turning on, the app will collapse related notifications</string>
 </resources>
