@@ -311,7 +311,9 @@
             android:backgroundTint="@color/cyanea_primary_dark_reference"
             android:visibility="gone"
             app:cardCornerRadius="8dp"
+            app:strokeColor="@color/cyanea_accent_dark_reference"
             app:cardElevation="0dp"
+            app:strokeWidth="1dp"
             tools:visibility="visible">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -322,9 +324,11 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/card_image_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
+                    android:padding="1dp"
                     android:adjustViewBounds="true"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -334,6 +338,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/card_image_vertical"
                         android:layout_width="0dp"
+                        android:padding="1dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
