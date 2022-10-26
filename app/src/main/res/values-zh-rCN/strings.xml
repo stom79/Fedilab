@@ -29,7 +29,7 @@
     <string name="camera">相机</string>
     <string name="delete_all">全部删除</string>
     <string name="schedule">定时</string>
-    <string name="text_size">文本和图标大小</string>
+    <string name="text_size">文本大小</string>
     <string name="next">下一个</string>
     <string name="previous">上一个</string>
     <string name="open_with">打开方式</string>

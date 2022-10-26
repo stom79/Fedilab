@@ -29,7 +29,7 @@
     <string name="camera">Kamera</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="schedule">Zamanla</string>
-    <string name="text_size">Metin ve simge boyutları</string>
+    <string name="text_size">Metin boyutları</string>
     <string name="next">İleri</string>
     <string name="previous">Önceki</string>
     <string name="open_with">Birlikte aç</string>
@@ -764,4 +764,5 @@
     <string name="set_display_counters_description">Yeni mesajlar için sekme zaman çizelgelerinde bir baloncuk sayacı görüntüler</string>
     <string name="fetch_notifications">Bildirimleri getir</string>
     <string name="view_the_original_message">Mesajın aslını aç</string>
+    <string name="icon_size">Simge boyutları</string>
 </resources>

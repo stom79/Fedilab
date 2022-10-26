@@ -29,7 +29,7 @@
     <string name="camera">Fotocàmera</string>
     <string name="delete_all">Iscantzella totu</string>
     <string name="schedule">Pranìfica</string>
-    <string name="text_size">Mannària de su testu e de is iconas</string>
+    <string name="text_size">Mannària de su testu</string>
     <string name="next">Sighi</string>
     <string name="previous">Pretzedente</string>
     <string name="open_with">Aberi cun</string>
@@ -758,4 +758,5 @@
     <string name="set_display_counters">Ammustra sos contadores</string>
     <string name="set_display_counters_description">At a ammustrare unu contadore a abbajolu in is lìnias de tempus de sas istangas pro is messàgios noos</string>
     <string name="view_the_original_message">Aberi su messàgiu originale</string>
+    <string name="icon_size">Mannària de sas iconas</string>
 </resources>
