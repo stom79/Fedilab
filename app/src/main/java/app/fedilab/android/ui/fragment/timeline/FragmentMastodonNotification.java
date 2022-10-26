@@ -421,12 +421,12 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
     }
 
-    private List<Notification> aggregateNotifications(List<Notification> notifications) {
+    private List<Notification> aggregateNotifications(@NonNull List<Notification> notifications) {
         List<Notification> notificationList = new ArrayList<>();
         int refPosition = 0;
         for (int i = 0; i < notifications.size(); i++) {
             if (i != refPosition) {
-                if (notifications.get(i).type.equals(notifications.get(refPosition).type)
+                if (notifications.get(i).type != null && notifications.get(refPosition).type != null && notifications.get(i).type.equals(notifications.get(refPosition).type)
                         && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))
                         && notifications.get(i).status != null && notifications.get(refPosition).status != null && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
                 ) {
