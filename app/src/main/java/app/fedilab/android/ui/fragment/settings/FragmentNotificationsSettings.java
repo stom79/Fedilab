@@ -217,21 +217,7 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
                 createPref();
                 PushHelper.setRepeat(requireActivity());
             }
-            if (key.compareToIgnoreCase(getString(R.string.SET_LED_COLOUR_VAL)) == 0) {
-                try {
-                    int value = sharedPreferences.getInt(key, 0);
-                    sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), value).apply();
-                } catch (Exception e) {
-                    try {
-                        String value = sharedPreferences.getString(key, "0");
-                        sharedPreferences.edit().putInt(getString(R.string.SET_LED_COLOUR_VAL), Integer.parseInt(value)).apply();
-                    } catch (Exception e2) {
-                        e.printStackTrace();
-                    }
-                    e.printStackTrace();
-                }
 
-            }
             if (key.compareToIgnoreCase(getString(R.string.SET_PUSH_DISTRIBUTOR)) == 0) {
                 String distributor = sharedPreferences.getString(key, "");
                 UnifiedPush.saveDistributor(requireActivity(), distributor);

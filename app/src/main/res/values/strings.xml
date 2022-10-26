@@ -892,7 +892,7 @@
     <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_DISPLAY_ADMIN_STATUSES" translatable="false">SET_DISPLAY_ADMIN_STATUSES</string>
-    <string name="SET_LED_COLOUR_VAL" translatable="false">SET_LED_COLOUR_VAL</string>
+    <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>

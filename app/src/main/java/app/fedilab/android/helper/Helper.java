@@ -311,7 +311,7 @@ public class Helper {
     public static final Pattern hashtagPattern = Pattern.compile("(#[\\w_A-zÀ-ÿ]+)");
     public static final Pattern groupPattern = Pattern.compile("(![\\w_]+)");
     public static final Pattern mentionPattern = Pattern.compile("(@[\\w_]+)");
-    public static final Pattern mentionLongPattern = Pattern.compile("(@[\\w_-]+@[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
+    public static final Pattern mentionLongPattern = Pattern.compile("(@[\\w_-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
 
     public static final Pattern twitterPattern = Pattern.compile("((@[\\w]+)@twitter\\.com)");
     public static final Pattern youtubePattern = Pattern.compile("(www\\.|m\\.)?(youtube\\.com|youtu\\.be|youtube-nocookie\\.com)/(((?!([\"'<])).)*)");
@@ -1486,11 +1486,7 @@ public class Helper {
                 .setContentText(message);
         int ledColour = Color.BLUE;
         int prefColor;
-        try {
-            prefColor = sharedpreferences.getInt(context.getString(R.string.SET_LED_COLOUR_VAL), LED_COLOUR);
-        } catch (ClassCastException e) {
-            prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL), String.valueOf(LED_COLOUR)));
-        }
+        prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL_N), String.valueOf(LED_COLOUR)));
         switch (prefColor) {
             case 1: // CYAN
                 ledColour = Color.CYAN;

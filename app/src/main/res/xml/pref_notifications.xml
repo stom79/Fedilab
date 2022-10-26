@@ -128,7 +128,7 @@
             app:entries="@array/led_colours"
             app:entryValues="@array/SET_LED_COLOUR_VALUES"
             app:iconSpaceReserved="false"
-            app:key="@string/SET_LED_COLOUR_VAL"
+            app:key="@string/SET_LED_COLOUR_VAL_N"
             app:title="@string/set_led_colour"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>

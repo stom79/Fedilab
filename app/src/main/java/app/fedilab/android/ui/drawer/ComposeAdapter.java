@@ -750,6 +750,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
                 }
+                if (holder.getBindingAdapterPosition() < 0) {
+                    return;
+                }
                 statusList.get(holder.getBindingAdapterPosition()).text = s.toString();
                 if (s.toString().trim().length() < 2) {
                     buttonVisibility(holder);
