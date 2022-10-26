@@ -485,6 +485,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
         if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && fetched_notifications.notifications.size() > 0) {
+
+            if (aggregateNotification) {
+                fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
+            }
             try {
                 if (notificationToUpdate != null) {
                     new Thread(() -> {
@@ -503,7 +507,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 }
             } catch (Exception ignored) {
             }
-
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
@@ -513,6 +516,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
+            }
+            if (aggregateNotification && notificationList != null && notificationList.size() > 0) {
+                notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
             }
             if (!fetchingMissing) {
                 if (fetched_notifications.pagination.max_id == null) {
