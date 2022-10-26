@@ -1229,11 +1229,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
             });
+            if (statusDraft.spoilerChecked) {
+                holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.contentSpoiler.setVisibility(View.GONE);
+            }
             holder.binding.buttonSensitive.setOnClickListener(v -> {
-                if (holder.binding.contentSpoiler.getVisibility() == View.VISIBLE)
+                if (holder.binding.contentSpoiler.getVisibility() == View.VISIBLE) {
+                    statusDraft.spoilerChecked = false;
                     holder.binding.contentSpoiler.setVisibility(View.GONE);
-                else
+                } else {
                     holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
+                    statusDraft.spoilerChecked = true;
+                }
             });
             //Last compose drawer
             buttonVisibility(holder);
