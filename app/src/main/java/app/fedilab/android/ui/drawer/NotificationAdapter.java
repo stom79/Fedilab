@@ -277,7 +277,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             } else {
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
-                holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
+                if (displayMedia) {
+                    holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.VISIBLE);
+                } else {
+                    holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
+                }
                 String title = "";
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
                 if (getItemViewType(position) == TYPE_FAVOURITE) {

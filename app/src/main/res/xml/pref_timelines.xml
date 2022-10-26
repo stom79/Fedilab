@@ -31,6 +31,23 @@
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:singleLineTitle="false"
         app:title="@string/set_display_bookmark_indication" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_AGGREGATE_NOTIFICATION"
+        app:singleLineTitle="false"
+        app:summary="@string/aggregate_notifications_summary"
+        app:title="@string/aggregate_notifications" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_MEDIA_NOTIFICATION"
+        app:singleLineTitle="false"
+        app:summary="@string/display_media_notification_summary"
+        app:title="@string/display_media_notification" />
+
     <ListPreference
         app:defaultValue="ALWAYS"
         app:dialogTitle="@string/load_media_type_title"
