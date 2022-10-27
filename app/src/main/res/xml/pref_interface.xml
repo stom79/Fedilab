@@ -112,4 +112,15 @@
         app:key="@string/SET_MED_DESC_TIMEOUT"
         app:showSeekBarValue="true"
         app:title="@string/set_med_desc_timeout" />
+
+    <ListPreference
+        app:defaultValue="bubbles"
+        app:dialogTitle="@string/pickup_logo"
+        app:entries="@array/set_logo_type_value"
+        app:entryValues="@array/SET_LOGO_TYPE_VALUE"
+        app:key="@string/SET_LOGO_LAUNCHER"
+        app:summary="@string/change_logo_description"
+        app:title="@string/change_logo"
+        app:useSimpleSummaryProvider="true" />
+
 </PreferenceScreen>

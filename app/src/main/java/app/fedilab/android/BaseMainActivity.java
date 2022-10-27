@@ -26,6 +26,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -194,313 +196,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
         }
     };
-    private Pinned pinned;
-    private BottomMenu bottomMenu;
-    private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
-                    List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
-                    redrawPinned(mastodonLists);
-                }
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
-                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
-                    if (bottomMenu != null) {
-                        //ManageClick on bottom menu items
-                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        binding.bottomNavView.setOnItemSelectedListener(item -> {
-                            int itemId = item.getItemId();
-                            int position = BottomMenu.getPosition(bottomMenu, itemId);
-                            if (position >= 0) {
-                                if (binding.viewPager.getCurrentItem() == position) {
-                                    scrollToTop();
-                                } else {
-                                    binding.viewPager.setCurrentItem(position, false);
-                                }
-                            }
-                            return true;
-                        });
-                    }
-                } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
-                    Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
-                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
-                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.display), view -> {
-                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
-                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentContext);
-                            })
-                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
-                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
-                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
-                            .show();
-                }
-            }
-        }
-    };
-    private NetworkStateReceiver networkStateReceiver;
-    private boolean headerMenuOpen;
 
-    protected abstract void rateThisApp();
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        mamageNewIntent(intent);
-    }
-
-    /**
-     * Open notifications tab when coming from a notification device
-     *
-     * @param intent - Intent intent that will be cancelled
-     */
-    private void openNotifications(Intent intent) {
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-            boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-            if (!singleBar) {
-                binding.bottomNavView.setSelectedItemId(R.id.nav_notifications);
-            } else {
-                int position = 0;
-                for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
-                    TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
-                    if (tab != null && tab.getTag() != null && tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
-                        break;
-                    }
-                    position++;
-                }
-                binding.viewPager.setCurrentItem(position);
-            }
-        }, 1000);
-        intent.removeExtra(Helper.INTENT_ACTION);
-    }
-
-
-    @SuppressLint("ApplySharedPref")
-    private void mamageNewIntent(Intent intent) {
-        if (intent == null)
-            return;
-        String action = intent.getAction();
-        String type = intent.getType();
-        Bundle extras = intent.getExtras();
-        String userIdIntent, instanceIntent;
-        if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
-            userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
-            instanceIntent = extras.getString(Helper.PREF_INSTANCE);
-            if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
-                if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
-                    openNotifications(intent);
-                } else {
-                    try {
-                        BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
-                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                        headerMenuOpen = false;
-                        Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
-                        BaseMainActivity.currentToken = account.token;
-                        BaseMainActivity.currentUserID = account.user_id;
-                        api = account.api;
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(PREF_USER_TOKEN, account.token);
-                        editor.commit();
-                        Intent mainActivity = new Intent(this, MainActivity.class);
-                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
-                        startActivity(mainActivity);
-                        finish();
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
-                openNotifications(intent);
-            }
-        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                final String[] url = {null};
-                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-                //SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                //boolean shouldRetrieveMetaData = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
-                if (sharedText != null) {
-                    /* Some apps don't send the URL as the first part of the EXTRA_TEXT,
-                        the BBC News app being one such, in this case find where the URL
-                        is and strip that out into sharedText.
-                     */
-                    Matcher matcher;
-                    matcher = Patterns.WEB_URL.matcher(sharedText);
-                    int count = 0;
-                    while (matcher.find()) {
-                        int matchStart = matcher.start(1);
-                        int matchEnd = matcher.end();
-                        if (matchStart < matchEnd && sharedText.length() >= matchEnd) {
-                            url[0] = sharedText.substring(matchStart, matchEnd);
-                            count++;
-                        }
-                    }
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                    boolean fetchSharedMedia = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
-                    boolean fetchShareContent = sharedpreferences.getBoolean(getString(R.string.SET_SHARE_DETAILS), true);
-                    if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
-                        new Thread(() -> {
-                            if (url[0].startsWith("www."))
-                                url[0] = "http://" + url[0];
-                            Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
-                            String potentialUrl = null;
-                            while (matcherPattern.find()) {
-                                int matchStart = matcherPattern.start(1);
-                                int matchEnd = matcherPattern.end();
-                                if (matchStart < matchEnd && url[0].length() >= matchEnd)
-                                    potentialUrl = url[0].substring(matchStart, matchEnd);
-                            }
-                            // If we actually have a URL then make use of it.
-                            if (potentialUrl != null && potentialUrl.length() > 0) {
-                                Pattern titlePattern = Pattern.compile("<meta [^>]*property=[\"']og:title[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
-                                Pattern descriptionPattern = Pattern.compile("<meta [^>]*property=[\"']og:description[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
-                                Pattern imagePattern = Pattern.compile("<meta [^>]*property=[\"']og:image[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
-
-                                try {
-                                    OkHttpClient client = new OkHttpClient.Builder()
-                                            .connectTimeout(10, TimeUnit.SECONDS)
-                                            .writeTimeout(10, TimeUnit.SECONDS)
-                                            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                                            .readTimeout(10, TimeUnit.SECONDS).build();
-                                    Request request = new Request.Builder()
-                                            .url(potentialUrl)
-                                            .build();
-                                    client.newCall(request).enqueue(new Callback() {
-                                        @Override
-                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                            e.printStackTrace();
-                                            runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
-                                        }
-
-                                        @Override
-                                        public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                                            if (response.isSuccessful()) {
-                                                try {
-                                                    String data = response.body().string();
-                                                    Matcher matcherTitle;
-                                                    matcherTitle = titlePattern.matcher(data);
-                                                    Matcher matcherDescription = descriptionPattern.matcher(data);
-                                                    Matcher matcherImage = imagePattern.matcher(data);
-                                                    String titleEncoded = null;
-                                                    String descriptionEncoded = null;
-                                                    if (fetchShareContent) {
-                                                        while (matcherTitle.find())
-                                                            titleEncoded = matcherTitle.group(1);
-                                                        while (matcherDescription.find())
-                                                            descriptionEncoded = matcherDescription.group(1);
-                                                    }
-                                                    String image = null;
-                                                    if (fetchSharedMedia) {
-                                                        while (matcherImage.find())
-                                                            image = matcherImage.group(1);
-                                                    }
-                                                    String title = null;
-                                                    String description = null;
-                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                        if (titleEncoded != null)
-                                                            title = Html.fromHtml(titleEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
-                                                        if (descriptionEncoded != null)
-                                                            description = Html.fromHtml(descriptionEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
-                                                    } else {
-                                                        if (titleEncoded != null)
-                                                            title = Html.fromHtml(titleEncoded).toString();
-                                                        if (descriptionEncoded != null)
-                                                            description = Html.fromHtml(descriptionEncoded).toString();
-                                                    }
-                                                    String finalImage = image;
-                                                    String finalTitle = title;
-                                                    String finalDescription = description;
-
-
-                                                    runOnUiThread(() -> {
-                                                        Bundle b = new Bundle();
-                                                        b.putString(Helper.ARG_SHARE_URL, url[0]);
-                                                        b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
-                                                        b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
-                                                        b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
-                                                        b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
-                                                        b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
-                                                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                                                    });
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            } else {
-                                                runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
-                                            }
-                                        }
-                                    });
-                                } catch (IndexOutOfBoundsException e) {
-                                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                        }).start();
-                    } else {
-                        Bundle b = new Bundle();
-                        b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);
-                        b.putString(Helper.ARG_SHARE_DESCRIPTION, sharedText);
-                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                    }
-
-
-                }
-            } else if (type.startsWith("image/") || type.startsWith("video/")) {
-                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if (imageUri != null) {
-                    Bundle b = new Bundle();
-                    b.putParcelable(Helper.ARG_SHARE_URI, imageUri);
-                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                } else {
-                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/") || type.startsWith("video/")) {
-                ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                if (imageList != null) {
-                    Bundle b = new Bundle();
-                    b.putParcelableArrayList(Helper.ARG_SHARE_URI_LIST, imageList);
-                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                } else {
-                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-    }
+    public static iconLauncher mLauncher = iconLauncher.BUBBLES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -516,7 +213,45 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
-        mamageNewIntent(getIntent());
+
+        Intent intentIni = getIntent();
+        PackageManager pm = getPackageManager();
+        try {
+            if (intentIni != null && intentIni.getComponent() != null) {
+                ActivityInfo ai = pm.getActivityInfo(intentIni.getComponent(), PackageManager.GET_META_DATA);
+                String icon;
+                Bundle b = ai.metaData;
+                if (b != null) {
+                    icon = b.getString("icon");
+                    if (icon != null) {
+                        switch (icon) {
+                            case "fediverse":
+                                mLauncher = iconLauncher.FEDIVERSE;
+                                break;
+                            case "hero":
+                                mLauncher = iconLauncher.HERO;
+                                break;
+                            case "atom":
+                                mLauncher = iconLauncher.ATOM;
+                                break;
+                            case "braincrash":
+                                mLauncher = iconLauncher.BRAINCRASH;
+                                break;
+                            default:
+                                mLauncher = iconLauncher.BUBBLES;
+                        }
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(getString(R.string.SET_LOGO_LAUNCHER), icon);
+                        editor.apply();
+                    }
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        mamageNewIntent(intentIni);
         ThemeHelper.initiliazeColors(BaseMainActivity.this);
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();
@@ -959,6 +694,323 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (embedded_browser) {
             DomainsBlock.updateDomains(BaseMainActivity.this);
         }
+    }
+
+    private Pinned pinned;
+    private BottomMenu bottomMenu;
+    private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
+                    List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
+                    redrawPinned(mastodonLists);
+                }
+                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
+                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                    if (bottomMenu != null) {
+                        //ManageClick on bottom menu items
+                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        binding.bottomNavView.setOnItemSelectedListener(item -> {
+                            int itemId = item.getItemId();
+                            int position = BottomMenu.getPosition(bottomMenu, itemId);
+                            if (position >= 0) {
+                                if (binding.viewPager.getCurrentItem() == position) {
+                                    scrollToTop();
+                                } else {
+                                    binding.viewPager.setCurrentItem(position, false);
+                                }
+                            }
+                            return true;
+                        });
+                    }
+                } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
+                    Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
+                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.display), view -> {
+                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
+                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentContext);
+                            })
+                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
+                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
+                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
+                            .show();
+                }
+            }
+        }
+    };
+    private NetworkStateReceiver networkStateReceiver;
+    private boolean headerMenuOpen;
+
+    protected abstract void rateThisApp();
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mamageNewIntent(intent);
+    }
+
+    /**
+     * Open notifications tab when coming from a notification device
+     *
+     * @param intent - Intent intent that will be cancelled
+     */
+    private void openNotifications(Intent intent) {
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+            boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+            if (!singleBar) {
+                binding.bottomNavView.setSelectedItemId(R.id.nav_notifications);
+            } else {
+                int position = 0;
+                for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
+                    TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
+                    if (tab != null && tab.getTag() != null && tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
+                        break;
+                    }
+                    position++;
+                }
+                binding.viewPager.setCurrentItem(position);
+            }
+        }, 1000);
+        intent.removeExtra(Helper.INTENT_ACTION);
+    }
+
+
+    @SuppressLint("ApplySharedPref")
+    private void mamageNewIntent(Intent intent) {
+        if (intent == null)
+            return;
+        String action = intent.getAction();
+        String type = intent.getType();
+        Bundle extras = intent.getExtras();
+        String userIdIntent, instanceIntent;
+        if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
+            userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
+            instanceIntent = extras.getString(Helper.PREF_INSTANCE);
+            if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
+                if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
+                    openNotifications(intent);
+                } else {
+                    try {
+                        BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                        headerMenuOpen = false;
+                        Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                        BaseMainActivity.currentToken = account.token;
+                        BaseMainActivity.currentUserID = account.user_id;
+                        api = account.api;
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(PREF_USER_TOKEN, account.token);
+                        editor.commit();
+                        Intent mainActivity = new Intent(this, MainActivity.class);
+                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
+                        startActivity(mainActivity);
+                        finish();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
+                openNotifications(intent);
+            }
+        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                final String[] url = {null};
+                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                //SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                //boolean shouldRetrieveMetaData = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                if (sharedText != null) {
+                    /* Some apps don't send the URL as the first part of the EXTRA_TEXT,
+                        the BBC News app being one such, in this case find where the URL
+                        is and strip that out into sharedText.
+                     */
+                    Matcher matcher;
+                    matcher = Patterns.WEB_URL.matcher(sharedText);
+                    int count = 0;
+                    while (matcher.find()) {
+                        int matchStart = matcher.start(1);
+                        int matchEnd = matcher.end();
+                        if (matchStart < matchEnd && sharedText.length() >= matchEnd) {
+                            url[0] = sharedText.substring(matchStart, matchEnd);
+                            count++;
+                        }
+                    }
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                    boolean fetchSharedMedia = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                    boolean fetchShareContent = sharedpreferences.getBoolean(getString(R.string.SET_SHARE_DETAILS), true);
+                    if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
+                        new Thread(() -> {
+                            if (url[0].startsWith("www."))
+                                url[0] = "http://" + url[0];
+                            Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
+                            String potentialUrl = null;
+                            while (matcherPattern.find()) {
+                                int matchStart = matcherPattern.start(1);
+                                int matchEnd = matcherPattern.end();
+                                if (matchStart < matchEnd && url[0].length() >= matchEnd)
+                                    potentialUrl = url[0].substring(matchStart, matchEnd);
+                            }
+                            // If we actually have a URL then make use of it.
+                            if (potentialUrl != null && potentialUrl.length() > 0) {
+                                Pattern titlePattern = Pattern.compile("<meta [^>]*property=[\"']og:title[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                Pattern descriptionPattern = Pattern.compile("<meta [^>]*property=[\"']og:description[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                Pattern imagePattern = Pattern.compile("<meta [^>]*property=[\"']og:image[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+
+                                try {
+                                    OkHttpClient client = new OkHttpClient.Builder()
+                                            .connectTimeout(10, TimeUnit.SECONDS)
+                                            .writeTimeout(10, TimeUnit.SECONDS)
+                                            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
+                                            .readTimeout(10, TimeUnit.SECONDS).build();
+                                    Request request = new Request.Builder()
+                                            .url(potentialUrl)
+                                            .build();
+                                    client.newCall(request).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                            e.printStackTrace();
+                                            runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                                            if (response.isSuccessful()) {
+                                                try {
+                                                    String data = response.body().string();
+                                                    Matcher matcherTitle;
+                                                    matcherTitle = titlePattern.matcher(data);
+                                                    Matcher matcherDescription = descriptionPattern.matcher(data);
+                                                    Matcher matcherImage = imagePattern.matcher(data);
+                                                    String titleEncoded = null;
+                                                    String descriptionEncoded = null;
+                                                    if (fetchShareContent) {
+                                                        while (matcherTitle.find())
+                                                            titleEncoded = matcherTitle.group(1);
+                                                        while (matcherDescription.find())
+                                                            descriptionEncoded = matcherDescription.group(1);
+                                                    }
+                                                    String image = null;
+                                                    if (fetchSharedMedia) {
+                                                        while (matcherImage.find())
+                                                            image = matcherImage.group(1);
+                                                    }
+                                                    String title = null;
+                                                    String description = null;
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                        if (titleEncoded != null)
+                                                            title = Html.fromHtml(titleEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                        if (descriptionEncoded != null)
+                                                            description = Html.fromHtml(descriptionEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                    } else {
+                                                        if (titleEncoded != null)
+                                                            title = Html.fromHtml(titleEncoded).toString();
+                                                        if (descriptionEncoded != null)
+                                                            description = Html.fromHtml(descriptionEncoded).toString();
+                                                    }
+                                                    String finalImage = image;
+                                                    String finalTitle = title;
+                                                    String finalDescription = description;
+
+
+                                                    runOnUiThread(() -> {
+                                                        Bundle b = new Bundle();
+                                                        b.putString(Helper.ARG_SHARE_URL, url[0]);
+                                                        b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
+                                                        b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
+                                                        b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
+                                                        b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
+                                                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                                                    });
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } else {
+                                                runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                            }
+                                        }
+                                    });
+                                } catch (IndexOutOfBoundsException e) {
+                                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }).start();
+                    } else {
+                        Bundle b = new Bundle();
+                        b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);
+                        b.putString(Helper.ARG_SHARE_DESCRIPTION, sharedText);
+                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                    }
+
+
+                }
+            } else if (type.startsWith("image/") || type.startsWith("video/")) {
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    Bundle b = new Bundle();
+                    b.putParcelable(Helper.ARG_SHARE_URI, imageUri);
+                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                } else {
+                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/") || type.startsWith("video/")) {
+                ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if (imageList != null) {
+                    Bundle b = new Bundle();
+                    b.putParcelableArrayList(Helper.ARG_SHARE_URI_LIST, imageList);
+                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                } else {
+                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+    }
+
+    public enum iconLauncher {
+        BUBBLES,
+        FEDIVERSE,
+        HERO,
+        ATOM,
+        BRAINCRASH,
+        MASTALAB
     }
 
 

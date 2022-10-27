@@ -17,6 +17,7 @@ package app.fedilab.android.helper;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.notify_user;
+import static app.fedilab.android.helper.LogoHelper.getMainLogo;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -167,7 +168,7 @@ public class MediaHelper {
                             intent.setDataAndType(uri, mime);
                             if (!share) {
                                 notify_user(context, currentAccount, intent, BitmapFactory.decodeResource(context.getResources(),
-                                        R.mipmap.ic_launcher), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
+                                        getMainLogo(context)), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {
                                 Intent shareIntent = new Intent(Intent.ACTION_SEND);

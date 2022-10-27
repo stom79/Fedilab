@@ -16,6 +16,7 @@ package app.fedilab.android.helper;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static app.fedilab.android.helper.Helper.notify_user;
+import static app.fedilab.android.helper.LogoHelper.getMainLogo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -343,7 +344,7 @@ public class NotificationsHelper {
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();
                                     notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                            R.mipmap.ic_launcher), finalNotifType, finalTitle, finalMessage);
+                                            getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
                                 }
                                 return false;
                             }

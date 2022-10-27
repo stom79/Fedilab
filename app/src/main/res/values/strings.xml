@@ -748,6 +748,24 @@
         <item>No notifications</item>
     </string-array>
 
+    <string-array name="set_logo_type_value" translatable="false">
+        <item>Fedilab</item>
+        <item>Fediverse</item>
+        <item>SuperHero</item>
+        <item>Atom</item>
+        <item>BrainCrash</item>
+        <item>Mastalab</item>
+    </string-array>
+
+    <string-array name="SET_LOGO_TYPE_VALUE" translatable="false">
+        <item>Bubbles</item>
+        <item>Fediverse</item>
+        <item>Hero</item>
+        <item>Atom</item>
+        <item>BrainCrash</item>
+        <item>Mastalab</item>
+    </string-array>
+
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
@@ -908,7 +926,7 @@
     <string name="SET_TIME_TO" translatable="false">SET_TIME_TO</string>
     <string name="SET_MED_DESC_TIMEOUT" translatable="false">SET_MED_DESC_TIMEOUT</string>
     <string name="SET_COMPOSE_LANGUAGE" translatable="false">SET_COMPOSE_LANGUAGE</string>
-
+    <string name="SET_LOGO_LAUNCHER" translatable="false">SET_LOGO_LAUNCHER</string>
 
     <string name="SET_NOTIF_FOLLOW" translatable="false">SET_NOTIF_FOLLOW</string>
     <string name="SET_NOTIF_MENTION" translatable="false">SET_NOTIF_MENTION</string>
@@ -1492,4 +1510,7 @@
     <string name="aggregate_notifications_summary">When turning on, the app will collapse related notifications</string>
     <string name="display_media_notification">Display media in notifications</string>
     <string name="display_media_notification_summary">Media in notifications for reblogs and favourites will be displayed</string>
+    <string name="pickup_logo">Pickup a logo</string>
+    <string name="change_logo">Change logo</string>
+    <string name="change_logo_description">Change the logo of the app on your device</string>
 </resources>

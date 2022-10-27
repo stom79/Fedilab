@@ -15,6 +15,7 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.helper.LogoHelper.getMainLogo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -61,7 +62,7 @@ public class SettingsStorage {
             intentOpen.setDataAndType(uri, "text/txt");
             String title = context.getString(R.string.data_export_settings);
             Helper.notify_user(context, currentAccount, intentOpen, BitmapFactory.decodeResource(context.getResources(),
-                    R.mipmap.ic_launcher), Helper.NotifType.BACKUP, title, message);
+                    getMainLogo(context)), Helper.NotifType.BACKUP, title, message);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

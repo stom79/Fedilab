@@ -16,6 +16,7 @@ package app.fedilab.android.ui.fragment.settings;
 
 import static android.app.Activity.RESULT_OK;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.helper.LogoHelper.getMainLogo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -572,7 +573,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             intentOpen.setDataAndType(uri, "text/csv");
             String title = getString(R.string.data_export_theme);
             Helper.notify_user(getActivity(), currentAccount, intentOpen, BitmapFactory.decodeResource(requireActivity().getResources(),
-                    R.mipmap.ic_launcher), Helper.NotifType.BACKUP, title, message);
+                    getMainLogo(requireActivity())), Helper.NotifType.BACKUP, title, message);
         } catch (Exception e) {
             e.printStackTrace();
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();

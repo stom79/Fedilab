@@ -16,6 +16,7 @@ package app.fedilab.android.helper;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.helper.LogoHelper.getNotificationIcon;
 import static app.fedilab.android.webview.ProxyHelper.setProxy;
 
 import android.annotation.SuppressLint;
@@ -1475,7 +1476,7 @@ public class Helper {
                 channelTitle = context.getString(R.string.channel_notif_boost);
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_notification).setTicker(message);
+                .setSmallIcon(getNotificationIcon(context)).setTicker(message);
       /*  if (notifType == NotifType.MENTION) {
             if (message.length() > 500) {
                 message = message.substring(0, 499) + "…";
@@ -1547,7 +1548,7 @@ public class Helper {
                 .setContentText(channelTitle)
                 .setContentIntent(pIntent)
                 .setLargeIcon(icon)
-                .setSmallIcon(R.drawable.ic_notification)
+                .setSmallIcon(getNotificationIcon(context))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
                 .setGroupSummary(true)

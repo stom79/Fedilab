@@ -14,9 +14,15 @@ package app.fedilab.android.ui.fragment.settings;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.helper.LogoHelper.setDrawable;
+
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -24,6 +30,7 @@ import androidx.preference.SeekBarPreference;
 
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.LogoHelper;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentInterfaceSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -54,6 +61,11 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             SET_FONT_SCALE_ICON.setMax(180);
             SET_FONT_SCALE_ICON.setMin(80);
         }
+        ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
+        if (SET_LOGO_LAUNCHER != null) {
+            SET_LOGO_LAUNCHER.getContext().setTheme(Helper.dialogStyle());
+            SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
+        }
         recreate = false;
     }
 
@@ -81,7 +93,48 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 recreate = true;
             }
             editor.apply();
+            if (key.compareToIgnoreCase(getString(R.string.SET_LOGO_LAUNCHER)) == 0) {
+                ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
+                if (SET_LOGO_LAUNCHER != null) {
+                    hideAllIcons(requireActivity());
+                    setIcon(requireActivity(), SET_LOGO_LAUNCHER.getValue());
+                    SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
+                    setDrawable(SET_LOGO_LAUNCHER.getValue());
+                }
+            }
         }
+    }
+
+    private void hideAllIcons(Context context) {
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Bubbles"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Fediverse"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Hero"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Atom"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.BrainCrash"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Mastalab"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    private void setIcon(Context context, String iconName) {
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity." + iconName),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     @Override
