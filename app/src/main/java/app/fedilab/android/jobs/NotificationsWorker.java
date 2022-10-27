@@ -42,7 +42,7 @@ import app.fedilab.android.helper.NotificationsHelper;
 public class NotificationsWorker extends Worker {
 
     private static final int FETCH_NOTIFICATION_CHANNEL_ID = 4;
-    private static final String CHANNEL_ID = "notifications";
+    private static final String CHANNEL_ID = "fedilab_notifications";
     private final NotificationManager notificationManager;
 
     public NotificationsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -62,6 +62,9 @@ public class NotificationsWorker extends Worker {
             notifChannel.setSound(null, null);
             notifChannel.setShowBadge(false);
             notificationManager.createNotificationChannel(notifChannel);
+            if (notificationManager.getNotificationChannel("notifications") != null) {
+                notificationManager.deleteNotificationChannel("notifications");
+            }
 
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
@@ -92,6 +95,7 @@ public class NotificationsWorker extends Worker {
                 .setContentTitle(getApplicationContext().getString(R.string.notifications))
                 .setContentText(getApplicationContext().getString(R.string.fetch_notifications))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSilent(true)
                 .setPriority(Notification.PRIORITY_LOW);
         return new ForegroundInfo(FETCH_NOTIFICATION_CHANNEL_ID, notificationBuilder.build());
     }
