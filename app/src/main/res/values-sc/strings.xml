@@ -760,4 +760,11 @@
     <string name="view_the_original_message">Aberi su messàgiu originale</string>
     <string name="icon_size">Mannària de sas iconas</string>
     <string name="remember_position">Ammenta sa positzione in is lìnias de tempus</string>
+    <string name="aggregate_notifications">Agrega is notìficas</string>
+    <string name="aggregate_notifications_summary">A s\'allughìngiu s\'aplicatzione at a agrupare is notìficas curreladas</string>
+    <string name="display_media_notification">Ammustra is mèdios in is notìficas</string>
+    <string name="display_media_notification_summary">Is elementos multimediales pro is cumpartziduras e is preferidos s\'ant a ammustrare</string>
+    <string name="pickup_logo">Seletziona unu logotipu</string>
+    <string name="change_logo">Càmbia su logotipu</string>
+    <string name="change_logo_description">Càmbia su logotipu de s\'aplicatzione in su dispositivu tuo</string>
 </resources>
