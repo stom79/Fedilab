@@ -765,4 +765,12 @@
     <string name="fetch_notifications">Bildirimleri getir</string>
     <string name="view_the_original_message">Mesajın aslını aç</string>
     <string name="icon_size">Simge boyutları</string>
+    <string name="remember_position">Zaman çizelgelerindeki konumu hatırla</string>
+    <string name="display_media_notification">Bildirimlerde medyayı göster</string>
+    <string name="aggregate_notifications_summary">Etkinleştirildiğinde, uygulama ilgili bildirimleri daraltacaktır</string>
+    <string name="aggregate_notifications">Toplu bildirimler</string>
+    <string name="display_media_notification_summary">Yeniden bloglamalar ve favoriler için bildirimlerdeki medya görüntülenecektir</string>
+    <string name="pickup_logo">Logo seç</string>
+    <string name="change_logo">Logoyu değiştir</string>
+    <string name="change_logo_description">Aygıtınızdaki uygulamanın logosunu değiştirin</string>
 </resources>
