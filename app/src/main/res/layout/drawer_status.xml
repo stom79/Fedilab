@@ -328,6 +328,7 @@
                     android:padding="1dp"
                     android:adjustViewBounds="true"
                     android:visibility="gone"
+                    android:scaleType="centerCrop"
                     tools:visibility="visible"
                     tools:src="@tools:sample/backgrounds/scenic" />
 

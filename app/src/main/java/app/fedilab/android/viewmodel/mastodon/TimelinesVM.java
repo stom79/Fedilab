@@ -402,6 +402,7 @@ public class TimelinesVM extends AndroidViewModel {
                 case PUBLIC:
                     timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, false, true, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
                     break;
+                case ART:
                 case TAG:
                     timelineCall = mastodonTimelinesService.getHashTag(timelineParams.token, timelineParams.hashtagTrim, timelineParams.local, timelineParams.onlyMedia, timelineParams.all, timelineParams.any, timelineParams.none, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
                     break;

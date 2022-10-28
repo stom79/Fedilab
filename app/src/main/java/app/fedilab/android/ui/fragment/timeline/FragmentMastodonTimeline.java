@@ -252,7 +252,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             ident = null;
         }
         if (timelineType != null) {
-            slug = timelineType.getValue() + (ident != null ? "|" + ident : "");
+            slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
@@ -328,6 +328,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             flagLoading = fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
+
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
                 List<Status> mediaStatuses = new ArrayList<>();
@@ -574,7 +575,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineParams.maxId = max_id;
         }
         timelineParams.fetchingMissing = fetchingMissing;
-
         switch (timelineType) {
             case LOCAL:
                 timelineParams.local = true;
@@ -587,6 +587,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             case LIST:
                 timelineParams.listId = list_id;
                 break;
+            case ART:
             case TAG:
                 if (tagTimeline == null) {
                     tagTimeline = new TagTimeline();
@@ -608,7 +609,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
-
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
@@ -681,10 +681,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
-                        initialStatuses = statusesCached;
                         if (statusesCached == null || statusesCached.statuses == null || statusesCached.statuses.size() == 0) {
                             getLiveStatus(null, fetchingMissing, timelineParams, null);
                         } else {
+                            initialStatuses = statusesCached;
                             initializeStatusesCommonView(statusesCached);
                         }
                     });
@@ -727,6 +727,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (getView() == null) {
             return;
         }
+
         if (direction == null) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statuses -> {

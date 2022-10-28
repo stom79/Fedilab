@@ -429,6 +429,27 @@ public class StatusCache {
         }
     }
 
+
+    /**
+     * delete all cache for an slug
+     *
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteForSlug(String slug) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_STATUS_CACHE,
+                    Sqlite.COL_SLUG + " = ? AND " + Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{slug, MainActivity.currentUserID, MainActivity.currentInstance});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     /**
      * delete all cache for an account
      *
@@ -581,7 +602,6 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
             limit = null;
         }
-
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
             return createStatusReply(cursorToListOfStatuses(c));
