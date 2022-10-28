@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.5.1",
+    "code": "418",
+    "note": "Added:\n- Change app icon (Settings > Interface)\n- Allow to disable \"remember position\" in timelines\n- Allow to disable notification aggregation in settings\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Post loses \"spoiler message\" when adding a media\n- Camera not working on Android 11\n- Notification aggregation\n- Vibrations when fetching new notifications\n- Fix an issue with media timelines\n- Some crashes"
+  },
+  {
     "version": "3.5.0",
     "code": "417",
     "note": "Changed:\n- Swipe between timelines\n- Improve cache\n- Button sizes can be changed in settings\n- French translation\n\nFixed:\n- Pleroma: Emoji reactions\n- Sharing (several fixes)\n- Theme issues\n- Rendering issue for links\n- Notifications not removed from cache\n- Issue with watermarks\n- Pagination with bookmarks/favourites\n- Some crashes"

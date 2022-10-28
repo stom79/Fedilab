@@ -1,0 +1,15 @@
+Added:
+- Change app icon (Settings > Interface)
+- Allow to disable "remember position" in timelines
+- Allow to disable notification aggregation in settings
+
+Changed:
+- Allow to disable/enable media for notifications
+
+Fixed:
+- Post loses "spoiler message" when adding a media
+- Camera not working on Android 11
+- Notification aggregation
+- Vibrations when fetching new notifications
+- Fix an issue with media timelines
+- Some crashes
