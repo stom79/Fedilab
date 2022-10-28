@@ -390,7 +390,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/display_media"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/MyOutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -400,8 +400,7 @@
             android:text="@string/display_media"
             android:textAllCaps="false"
             android:visibility="gone"
-            app:iconTint="@color/cyanea_accent_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/media_container"
