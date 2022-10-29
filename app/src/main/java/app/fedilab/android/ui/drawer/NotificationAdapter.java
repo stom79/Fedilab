@@ -279,7 +279,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
-                if (displayMedia) {
+                if (displayMedia && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.VISIBLE);
                 } else {
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
