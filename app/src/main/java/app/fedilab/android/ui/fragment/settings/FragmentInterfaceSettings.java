@@ -106,6 +106,11 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
     }
 
     private void hideAllIcons(Context context) {
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
         context.getPackageManager().setComponentEnabledSetting(
                 new ComponentName(context.getPackageName(), "app.fedilab.android.activities.MainActivity.Bubbles"),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
