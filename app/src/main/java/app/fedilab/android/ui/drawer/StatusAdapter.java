@@ -1649,7 +1649,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.unmute_conversation);
             else
                 popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.mute_conversation);
-
+            if (statusToDeal.pinned)
+                popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_unpin);
+            else
+                popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_pin);
             final String[] stringArrayConf;
             if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
                 popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
@@ -1661,6 +1664,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
                 stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
             } else {
+                popup.getMenu().findItem(R.id.action_pin).setVisible(false);
                 popup.getMenu().findItem(R.id.action_redraft).setVisible(false);
                 popup.getMenu().findItem(R.id.action_remove).setVisible(false);
                 if (statusToDeal.account.acct.split("@").length < 2)
@@ -1761,7 +1765,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
                     }
-
+                    return true;
+                } else if (itemId == R.id.action_pin) {
+                    if (statusToDeal.pinned) {
+                        statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
+                    } else {
+                        statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
+                    }
                     return true;
                 } else if (itemId == R.id.action_bookmark) {
                     if (statusToDeal.bookmarked) {
