@@ -26,8 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -214,44 +212,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
 
-        Intent intentIni = getIntent();
-        PackageManager pm = getPackageManager();
-        try {
-            if (intentIni != null && intentIni.getComponent() != null) {
-                ActivityInfo ai = pm.getActivityInfo(intentIni.getComponent(), PackageManager.GET_META_DATA);
-                String icon;
-                Bundle b = ai.metaData;
-                if (b != null) {
-                    icon = b.getString("icon");
-                    if (icon != null) {
-                        switch (icon) {
-                            case "fediverse":
-                                mLauncher = iconLauncher.FEDIVERSE;
-                                break;
-                            case "hero":
-                                mLauncher = iconLauncher.HERO;
-                                break;
-                            case "atom":
-                                mLauncher = iconLauncher.ATOM;
-                                break;
-                            case "braincrash":
-                                mLauncher = iconLauncher.BRAINCRASH;
-                                break;
-                            default:
-                                mLauncher = iconLauncher.BUBBLES;
-                        }
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(getString(R.string.SET_LOGO_LAUNCHER), icon);
-                        editor.apply();
-                    }
-                }
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
-        mamageNewIntent(intentIni);
+        mamageNewIntent(getIntent());
         ThemeHelper.initiliazeColors(BaseMainActivity.this);
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();

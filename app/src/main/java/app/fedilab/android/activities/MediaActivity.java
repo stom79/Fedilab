@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -44,6 +45,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.github.stom79.mytransl.MyTransL;
@@ -171,7 +173,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                     statusToTranslate = Html.fromHtml(descriptionToTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
                 else
                     statusToTranslate = Html.fromHtml(descriptionToTranslate).toString();
-                myTransL.translate(statusToTranslate, MyTransL.getLocale(), params, new Results() {
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
+                String translate = sharedpreferences.getString(getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+                if (translate != null && translate.equalsIgnoreCase("default")) {
+                    translate = MyTransL.getLocale();
+                }
+                myTransL.translate(statusToTranslate, translate, params, new Results() {
                     @Override
                     public void onSuccess(Translate translate) {
                         if (translate.getTranslatedContent() != null) {
@@ -231,7 +238,12 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
                         statusToTranslate = Html.fromHtml(descriptionToTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
                     else
                         statusToTranslate = Html.fromHtml(descriptionToTranslate).toString();
-                    myTransL.translate(statusToTranslate, MyTransL.getLocale(), params, new Results() {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
+                    String translate = sharedpreferences.getString(getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+                    if (translate != null && translate.equalsIgnoreCase("default")) {
+                        translate = MyTransL.getLocale();
+                    }
+                    myTransL.translate(statusToTranslate, translate, params, new Results() {
                         @Override
                         public void onSuccess(Translate translate) {
                             if (translate.getTranslatedContent() != null) {

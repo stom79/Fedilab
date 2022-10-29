@@ -1804,11 +1804,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     params.setSource_lang("auto");
                     myTransL.setLibretranslateDomain("translate.fedilab.app");
                     String statusToTranslate;
+                    String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+                    if (translate != null && translate.equalsIgnoreCase("default")) {
+                        translate = MyTransL.getLocale();
+                    }
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                         statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
                     else
                         statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
-                    myTransL.translate(statusToTranslate, MyTransL.getLocale(), params, new Results() {
+                    myTransL.translate(statusToTranslate, translate, params, new Results() {
                         @Override
                         public void onSuccess(Translate translate) {
                             if (translate.getTranslatedContent() != null) {

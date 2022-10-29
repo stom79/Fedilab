@@ -864,6 +864,40 @@
         <item>sc</item>
     </string-array>
 
+
+    <string-array name="SET_LIVE_TRANSLATE_ENTRIES" translatable="false">
+        <item>default</item>
+        <item>en</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>zh</item>
+        <item>ar</item>
+        <item>pt</item>
+        <item>es</item>
+        <item>sr</item>
+        <item>uk</item>
+        <item>ru</item>
+    </string-array>
+
+
+    <string-array name="SET_LIVE_TRANSLATE_VALUES" translatable="false">
+        <item>-----</item>
+        <item>English</item>
+        <item>Français</item>
+        <item>Deutsch</item>
+        <item>Italiano</item>
+        <item>日本語</item>
+        <item>繁體中文</item>
+        <item>العربية</item>
+        <item>Português</item>
+        <item>Español</item>
+        <item>Српски</item>
+        <item>Українська</item>
+        <item>Русский</item>
+    </string-array>
+
     <string-array name="SET_TRANSLATE_VALUES" translatable="false">
         <item>English</item>
         <item>Français</item>
@@ -955,6 +989,8 @@
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
+    <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
+
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
     <string name="SET_VIDEO_CACHE" translatable="false">SET_VIDEO_CACHE</string>
@@ -1517,4 +1553,6 @@
     <string name="action_unpin">Unpin message</string>
     <string name="toast_unpin">The message is no longer pinned!</string>
     <string name="toast_pin">The message has been pinned</string>
+    <string name="set_live_translate_title">Translate messages</string>
+    <string name="set_live_translate">Force translation to a specific language. Choose first value to reset to device settings</string>
 </resources>

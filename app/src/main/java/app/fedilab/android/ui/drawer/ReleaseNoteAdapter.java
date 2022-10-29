@@ -16,12 +16,14 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.stom79.mytransl.MyTransL;
@@ -88,7 +90,12 @@ public class ReleaseNoteAdapter extends RecyclerView.Adapter<ReleaseNoteAdapter.
             params.setFormat(Params.fType.TEXT);
             params.setSource_lang("auto");
             myTransL.setLibretranslateDomain("translate.fedilab.app");
-            myTransL.translate(note.note, MyTransL.getLocale(), params, new Results() {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+            if (translate != null && translate.equalsIgnoreCase("default")) {
+                translate = MyTransL.getLocale();
+            }
+            myTransL.translate(note.note, translate, params, new Results() {
                 @Override
                 public void onSuccess(Translate translate) {
                     if (translate.getTranslatedContent() != null) {
