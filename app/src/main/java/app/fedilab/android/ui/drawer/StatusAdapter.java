@@ -1662,6 +1662,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 popup.getMenu().findItem(R.id.action_report).setVisible(false);
                 popup.getMenu().findItem(R.id.action_timed_mute).setVisible(false);
                 popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
+                popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
                 stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
             } else {
                 popup.getMenu().findItem(R.id.action_pin).setVisible(false);
@@ -1768,9 +1769,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return true;
                 } else if (itemId == R.id.action_pin) {
                     if (statusToDeal.pinned) {
-                        statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
+                        statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unpin)).show());
                     } else {
-                        statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
+                        statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
                     }
                     return true;
                 } else if (itemId == R.id.action_bookmark) {
