@@ -1,0 +1,11 @@
+Added:
+- Pin/Unpin messages
+- Set the default language for translations
+
+Changed:
+- Allow to disable/enable media for notifications
+
+Fixed:
+- Wrong images in notification timeline
+- Double icon bug
+- Fix some crashes

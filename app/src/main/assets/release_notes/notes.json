@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.5.2",
+    "code": "419",
+    "note": "Added:\n- Pin/Unpin messages\n- Set the default language for translations\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Wrong images in notification timeline\n- Double icon bug\n- Fix some crashes"
+  },
+  {
     "version": "3.5.1",
     "code": "418",
     "note": "Added:\n- Change app icon (Settings > Interface)\n- Allow to disable \"remember position\" in timelines\n- Allow to disable notification aggregation in settings\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Post loses \"spoiler message\" when adding a media\n- Camera not working on Android 11\n- Notification aggregation\n- Vibrations when fetching new notifications\n- Fix an issue with media timelines\n- Some crashes"
