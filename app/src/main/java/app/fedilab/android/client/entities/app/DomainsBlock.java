@@ -59,7 +59,12 @@ public class DomainsBlock {
                     List<String> domains = new ArrayList<>();
                     while ((line = br.readLine()) != null) {
                         if (line.startsWith("0.0.0.0 ")) {
-                            domains.add(line.replace("0.0.0.0 ", "").trim());
+                            try {
+                                domains.add(line.replace("0.0.0.0 ", "").trim());
+                            } catch (Exception e) {
+                                return;
+                            }
+
                         }
                     }
                     br.close();

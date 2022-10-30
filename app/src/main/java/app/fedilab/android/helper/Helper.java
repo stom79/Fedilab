@@ -990,8 +990,12 @@ public class Helper {
      */
     public static String getFileName(Context context, Uri uri) {
         ContentResolver resolver = context.getContentResolver();
-        Cursor returnCursor =
-                resolver.query(uri, null, null, null, null);
+        Cursor returnCursor = null;
+        try {
+            returnCursor =
+                    resolver.query(uri, null, null, null, null);
+        } catch (Exception ignored) {
+        }
         if (returnCursor != null) {
             try {
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
@@ -1092,7 +1096,7 @@ public class Helper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (targetedUrl != null) {
+        if (targetedUrl != null && Helper.isValidContextForGlide(view.getContext())) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
                 RequestBuilder<Drawable> requestBuilder = Glide.with(view.getContext())
                         .asDrawable()
@@ -1112,7 +1116,7 @@ public class Helper {
                 }
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             }
-        } else {
+        } else if (Helper.isValidContextForGlide(view.getContext())) {
             Glide.with(view.getContext())
                     .asDrawable()
                     .load(R.drawable.ic_person)
@@ -1201,7 +1205,7 @@ public class Helper {
 
             int w = options.outWidth;
             int h = options.outHeight;
-            float valx = (float) 1.0 - (float) width / (float) w;
+            float valx = (float) 1.0 - width / (float) w;
             if (valx < 0)
                 valx = 0;
             float valy = (h - Helper.convertDpToPixel(textSize, context) - 10) / (float) h;

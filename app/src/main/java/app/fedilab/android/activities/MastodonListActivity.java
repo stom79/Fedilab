@@ -277,7 +277,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                                 if (mastodonListList == null) {
                                     mastodonListList = new ArrayList<>();
                                 }
-                                if (newMastodonList != null) {
+                                if (newMastodonList != null && mastodonListAdapter != null) {
                                     mastodonListList.add(0, newMastodonList);
                                     mastodonListAdapter.notifyItemInserted(0);
                                 } else {

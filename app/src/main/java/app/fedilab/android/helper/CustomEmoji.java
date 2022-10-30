@@ -95,7 +95,9 @@ public class CustomEmoji extends ReplacementSpan {
                     ((Animatable) resource).start();
                 }
                 imageDrawable = resource;
-                view.invalidate();
+                if (view != null) {
+                    view.invalidate();
+                }
             }
 
             @Override

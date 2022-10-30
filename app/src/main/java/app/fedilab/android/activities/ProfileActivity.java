@@ -663,7 +663,10 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        String[] splitAcct = account.acct.split("@");
+        String[] splitAcct = null;
+        if (account.acct != null) {
+            splitAcct = account.acct.split("@");
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         AlertDialog.Builder builderInner = null;
         final boolean isOwner = account.id != null && BaseMainActivity.currentUserID != null && account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
@@ -677,7 +680,7 @@ public class ProfileActivity extends BaseActivity {
         if (itemId == android.R.id.home) {
             finish();
             return true;
-        } else if (itemId == R.id.action_follow_instance) {
+        } else if (itemId == R.id.action_follow_instance && splitAcct != null) {
             String finalInstanceName = splitAcct[1];
             ReorderVM reorderVM = new ViewModelProvider(ProfileActivity.this).get(ReorderVM.class);
             //Get pinned instances

@@ -488,7 +488,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             });
             //For first tab we fetch new messages, if we keep position
-            if (slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 && rememberPosition) {
+            if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 && rememberPosition) {
                 route(DIRECTION.FETCH_NEW, true);
             }
         }

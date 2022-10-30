@@ -66,39 +66,42 @@ public class NodeInfoVM extends AndroidViewModel {
      * @return LiveData<WellKnownNodeinfo.NodeInfo>
      */
     public LiveData<WellKnownNodeinfo.NodeInfo> getNodeInfo(String instance) {
-        NodeInfoService nodeInfoService = init(instance);
-        nodeInfoMutableLiveData = new MutableLiveData<>();
-        new Thread(() -> {
-            WellKnownNodeinfo.NodeInfo nodeInfo = null;
+        if (instance != null) {
+            NodeInfoService nodeInfoService = init(instance);
+            nodeInfoMutableLiveData = new MutableLiveData<>();
+            new Thread(() -> {
+                WellKnownNodeinfo.NodeInfo nodeInfo = null;
 
-            Call<WellKnownNodeinfo> nodeInfoLinksCall = nodeInfoService.getWellKnownNodeinfoLinks();
-            if (nodeInfoLinksCall != null) {
-                try {
-                    Response<WellKnownNodeinfo> nodeInfoLinksResponse = nodeInfoLinksCall.execute();
-                    if (nodeInfoLinksResponse.isSuccessful() && nodeInfoLinksResponse.body() != null) {
-                        WellKnownNodeinfo wellKnownNodeinfo = nodeInfoLinksResponse.body();
-                        Call<WellKnownNodeinfo.NodeInfo> wellKnownNodeinfoCall = nodeInfoService.getNodeinfo(wellKnownNodeinfo.links.get(0).href);
-                        if (wellKnownNodeinfoCall != null) {
-                            try {
-                                Response<WellKnownNodeinfo.NodeInfo> response = wellKnownNodeinfoCall.execute();
-                                if (response.isSuccessful() && response.body() != null) {
-                                    nodeInfo = response.body();
+                Call<WellKnownNodeinfo> nodeInfoLinksCall = nodeInfoService.getWellKnownNodeinfoLinks();
+                if (nodeInfoLinksCall != null) {
+                    try {
+                        Response<WellKnownNodeinfo> nodeInfoLinksResponse = nodeInfoLinksCall.execute();
+                        if (nodeInfoLinksResponse.isSuccessful() && nodeInfoLinksResponse.body() != null) {
+                            WellKnownNodeinfo wellKnownNodeinfo = nodeInfoLinksResponse.body();
+                            Call<WellKnownNodeinfo.NodeInfo> wellKnownNodeinfoCall = nodeInfoService.getNodeinfo(wellKnownNodeinfo.links.get(0).href);
+                            if (wellKnownNodeinfoCall != null) {
+                                try {
+                                    Response<WellKnownNodeinfo.NodeInfo> response = wellKnownNodeinfoCall.execute();
+                                    if (response.isSuccessful() && response.body() != null) {
+                                        nodeInfo = response.body();
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            WellKnownNodeinfo.NodeInfo finalNodeInfo = nodeInfo;
-            Runnable myRunnable = () -> nodeInfoMutableLiveData.setValue(finalNodeInfo);
-            mainHandler.post(myRunnable);
-        }).start();
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                WellKnownNodeinfo.NodeInfo finalNodeInfo = nodeInfo;
+                Runnable myRunnable = () -> nodeInfoMutableLiveData.setValue(finalNodeInfo);
+                mainHandler.post(myRunnable);
+            }).start();
+        } else {
+            nodeInfoMutableLiveData.setValue(null);
+        }
         return nodeInfoMutableLiveData;
     }
 

@@ -122,7 +122,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 for (Status status : statusList) {
                     if (status.media_attachments != null && status.media_attachments.size() > 0) {
                         for (Attachment attachment : status.media_attachments) {
-                            if (attachment.local_path.equalsIgnoreCase(imgpath)) {
+                            if (attachment.local_path != null && attachment.local_path.equalsIgnoreCase(imgpath)) {
                                 if (focusX != -2) {
                                     attachment.focus = focusX + "," + focusY;
                                 }
@@ -492,7 +492,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
             if (visibility == null && statusReply != null) {
                 visibility = getVisibility(statusReply.visibility);
-            } else if (visibility == null && currentAccount != null && currentAccount.mastodon_account.source != null) {
+            } else if (visibility == null && currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
                 visibility = currentAccount.mastodon_account.source.privacy;
             }
             mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
@@ -615,7 +615,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //We change order for mentions
             //At first place the account that has been mentioned if it's not our
             statusDraftList.get(0).mentions = new ArrayList<>();
-            if (statusReply.account.acct != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+            if (statusReply.account.acct != null && currentAccount.mastodon_account != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                 Mention mention = new Mention();
                 mention.acct = "@" + statusReply.account.acct;
                 mention.url = statusReply.account.url;
@@ -626,7 +626,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //There are other mentions to
             if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                 for (Mention mentionTmp : statusReply.mentions) {
-                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && currentAccount.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                         statusDraftList.get(0).mentions.add(mentionTmp);
                     }
                 }
