@@ -84,8 +84,8 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                 try {
                     List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(currentAccount);
                     Handler mainHandler = new Handler(Looper.getMainLooper());
-                    binding.loader.setVisibility(View.GONE);
                     Runnable myRunnable = () -> {
+                        binding.loader.setVisibility(View.GONE);
                         if (scheduledDrafts != null && scheduledDrafts.size() > 0) {
                             StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(null, scheduledDrafts, null);
                             statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
