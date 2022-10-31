@@ -24,6 +24,7 @@ import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.StatusSource;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -60,6 +61,32 @@ public interface MastodonStatusesService {
             @Field("visibility") String visibility,
             @Field("language") String language
     );
+
+    @GET("statuses/{id}/source")
+    Call<StatusSource> getStatusSource(
+            @Header("Authorization") String token,
+            @Path("id") String id);
+
+    //Post a status
+    @FormUrlEncoded
+    @PUT("statuses/{id}")
+    Call<Status> updateStatus(
+            @Header("Idempotency-Key") String idempotency_Key,
+            @Header("Authorization") String token,
+            @Path("id") String id,
+            @Field("status") String status,
+            @Field("media_ids[]") List<String> media_ids,
+            @Field("poll[options][]") List<String> poll_options,
+            @Field("poll[expires_in]") Integer poll_expire_in,
+            @Field("poll[multiple]") Boolean poll_multiple,
+            @Field("poll[hide_totals]") Boolean poll_hide_totals,
+            @Field("in_reply_to_id") String in_reply_to_id,
+            @Field("sensitive") Boolean sensitive,
+            @Field("spoiler_text") String spoiler_text,
+            @Field("visibility") String visibility,
+            @Field("language") String language
+    );
+
 
     //Post a scheduled status
     @FormUrlEncoded
