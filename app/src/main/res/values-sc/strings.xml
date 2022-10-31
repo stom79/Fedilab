@@ -767,4 +767,10 @@
     <string name="pickup_logo">Seletziona unu logotipu</string>
     <string name="change_logo">Càmbia su logotipu</string>
     <string name="change_logo_description">Càmbia su logotipu de s\'aplicatzione in su dispositivu tuo</string>
+    <string name="action_pin">Apica su messàgiu</string>
+    <string name="action_unpin">Isbloca su messàgiu</string>
+    <string name="toast_unpin">Su messàgiu no est prus apicadu!</string>
+    <string name="toast_pin">Su messàgiu est istadu apicadu</string>
+    <string name="set_live_translate_title">Borta sos messàgios</string>
+    <string name="set_live_translate">Fortza sa tradutzione a una limba ispetzificada. Issèbera su primu valore pro torrare a is cunfiguratziones de su dispositivu</string>
 </resources>

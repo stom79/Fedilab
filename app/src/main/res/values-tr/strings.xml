@@ -773,4 +773,10 @@
     <string name="pickup_logo">Logo seç</string>
     <string name="change_logo">Logoyu değiştir</string>
     <string name="change_logo_description">Aygıtınızdaki uygulamanın logosunu değiştirin</string>
+    <string name="action_pin">Mesajı sabitle</string>
+    <string name="action_unpin">Mesajı sabitlemeyi kaldır</string>
+    <string name="toast_pin">Mesaj sabitlendi</string>
+    <string name="toast_unpin">Mesaj artık sabitlenmiyor!</string>
+    <string name="set_live_translate_title">Mesajları çevir</string>
+    <string name="set_live_translate">Belirli bir dile çeviriyi zorlayın. Aygıt ayarlarına sıfırlamak için ilk değeri seçin</string>
 </resources>
