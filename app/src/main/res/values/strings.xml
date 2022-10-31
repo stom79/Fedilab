@@ -1556,4 +1556,5 @@
     <string name="set_live_translate_title">Translate messages</string>
     <string name="set_live_translate">Force translation to a specific language. Choose first value to reset to device settings</string>
     <string name="edit_message">Edit message</string>
+    <string name="full_date_edited">%1$s edited %2$s</string>
 </resources>

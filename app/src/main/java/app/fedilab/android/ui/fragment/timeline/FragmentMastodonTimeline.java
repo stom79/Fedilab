@@ -92,6 +92,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
+                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
                 Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
@@ -123,6 +124,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     if (position >= 0) {
                         timelineStatuses.remove(position);
                         statusAdapter.notifyItemRemoved(position);
+                    }
+                } else if (status_to_update != null && statusAdapter != null) {
+                    int position = getPosition(status_to_update);
+                    if (position >= 0) {
+                        timelineStatuses.set(position, status_to_update);
+                        statusAdapter.notifyItemChanged(position);
                     }
                 } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
                     timelineStatuses.add(0, statusPosted);

@@ -980,7 +980,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
             holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));
             holder.binding.favoritesCount.setText(String.valueOf(status.favourites_count));
-            holder.binding.time.setText(Helper.longDateToString(status.created_at));
+
+            if (statusToDeal.edited_at != null) {
+                holder.binding.time.setText(context.getString(R.string.full_date_edited, Helper.longDateToString(status.created_at), Helper.longDateToString(status.edited_at)));
+            } else {
+                holder.binding.time.setText(Helper.longDateToString(status.created_at));
+            }
             holder.binding.time.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setVisibility(View.GONE);
             holder.binding.visibility.setImageResource(ressource);
@@ -994,17 +999,25 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
                 holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
                 holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
-                holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
-                Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at);
+                if (statusToDeal.edited_at != null) {
+                    holder.binding.time.setText(String.format(Locale.getDefault(), "%s%s", Helper.dateDiff(context, statusToDeal.created_at), "*"));
+                } else {
+                    holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                }
+                Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at, statusToDeal.edited_at);
                 holder.binding.visibility.setImageResource(ressource);
                 holder.binding.time.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.statusInfo.setVisibility(View.GONE);
                 holder.binding.dateShort.setVisibility(View.VISIBLE);
                 holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
-                holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                if (statusToDeal.edited_at != null) {
+                    holder.binding.dateShort.setText(String.format(Locale.getDefault(), "%s%s", Helper.dateDiff(context, statusToDeal.created_at), "*"));
+                } else {
+                    holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                }
                 holder.binding.time.setVisibility(View.GONE);
-                Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at);
+                Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
             }
         }
 

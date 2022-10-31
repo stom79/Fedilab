@@ -328,6 +328,7 @@ public class ComposeWorker extends Worker {
         if (dataPost.scheduledDate == null && dataPost.token != null && firstSendMessage != null) {
             Bundle b = new Bundle();
             b.putBoolean(Helper.RECEIVE_NEW_MESSAGE, true);
+            b.putString(Helper.ARG_EDIT_STATUS_ID, dataPost.statusEditId);
             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
             b.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
             intentBD.putExtras(b);

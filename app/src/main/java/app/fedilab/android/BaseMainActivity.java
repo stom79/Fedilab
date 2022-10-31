@@ -19,6 +19,7 @@ import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.helper.CacheHelper.deleteDir;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.helper.Helper.displayReleaseNotesIfNeeded;
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -718,6 +719,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
                 } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
                     Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                    String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
                     Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.display), view -> {
                                 Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
@@ -729,6 +731,24 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
                             .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
                             .show();
+                    //The message was edited, we need to update the timeline
+                    if (statusEditId != null) {
+                        //Update message in cache
+                        new Thread(() -> {
+                            StatusCache statusCache = new StatusCache();
+                            statusCache.instance = BaseMainActivity.currentInstance;
+                            statusCache.user_id = BaseMainActivity.currentUserID;
+                            statusCache.status = statusSent;
+                            statusCache.status_id = statusEditId;
+                            try {
+                                new StatusCache(BaseMainActivity.this).updateIfExists(statusCache);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+                        //Update timelines
+                        sendAction(context, Helper.ARG_STATUS_UPDATED, statusSent, null);
+                    }
                 }
             }
         }

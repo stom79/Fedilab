@@ -213,6 +213,8 @@ public class Helper {
     public static final String ARG_EXCLUDED_NOTIFICATION_TYPE = "ARG_EXCLUDED_NOTIFICATION_TYPE";
     public static final String ARG_STATUS = "ARG_STATUS";
     public static final String ARG_STATUS_DELETED = "ARG_STATUS_DELETED";
+    public static final String ARG_STATUS_UPDATED = "ARG_STATUS_UPDATED";
+
     public static final String ARG_STATUS_POSTED = "ARG_STATUS_POSTED";
     public static final String ARG_STATUS_ACTION = "ARG_STATUS_ACTION";
     public static final String ARG_STATUS_ACCOUNT_ID_DELETED = "ARG_STATUS_ACCOUNT_ID_DELETED";
@@ -1604,10 +1606,15 @@ public class Helper {
      * @param date    Date
      */
 
-    public static void absoluteDateTimeReveal(final Context context, final TextView tvDate, final Date date) {
+    public static void absoluteDateTimeReveal(final Context context, final TextView tvDate, final Date date, final Date dateEdit) {
         tvDate.setOnClickListener(v -> {
 
-            tvDate.setText(dateDiffFull(date));
+            if (dateEdit == null) {
+                tvDate.setText(dateDiffFull(date));
+            } else {
+                String dateEditText = context.getString(R.string.full_date_edited, dateDiffFull(date), dateDiffFull(dateEdit));
+                tvDate.setText(dateEditText);
+            }
 
             new CountDownTimer((5 * 1000), 1000) {
 
@@ -1615,7 +1622,7 @@ public class Helper {
                 }
 
                 public void onFinish() {
-                    tvDate.setText(dateDiff(context, date));
+                    tvDate.setText(String.format(Locale.getDefault(), "%s%s", dateDiff(context, date), (dateEdit != null ? "*" : "")));
                 }
             }.start();
         });
