@@ -1096,9 +1096,9 @@ public class Helper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (targetedUrl != null && Helper.isValidContextForGlide(view.getContext())) {
+        if (targetedUrl != null && Helper.isValidContextForGlide(context)) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                RequestBuilder<Drawable> requestBuilder = Glide.with(view.getContext())
+                RequestBuilder<Drawable> requestBuilder = Glide.with(context)
                         .asDrawable()
                         .load(targetedUrl)
                         .thumbnail(0.1f);
@@ -1107,7 +1107,7 @@ public class Helper {
                 }
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             } else {
-                RequestBuilder<GifDrawable> requestBuilder = Glide.with(view.getContext())
+                RequestBuilder<GifDrawable> requestBuilder = Glide.with(context)
                         .asGif()
                         .load(targetedUrl)
                         .thumbnail(0.1f);
@@ -1116,8 +1116,8 @@ public class Helper {
                 }
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             }
-        } else if (Helper.isValidContextForGlide(view.getContext())) {
-            Glide.with(view.getContext())
+        } else if (Helper.isValidContextForGlide(context)) {
+            Glide.with(context)
                     .asDrawable()
                     .load(R.drawable.ic_person)
                     .thumbnail(0.1f)
@@ -1286,7 +1286,7 @@ public class Helper {
                         }
                         selectedFileInputStream.close();
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
