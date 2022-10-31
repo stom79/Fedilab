@@ -149,6 +149,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private ArrayList<Uri> sharedUriList = new ArrayList<>();
     private Uri sharedUri;
     private String sharedSubject, sharedContent, sharedTitle, sharedDescription, shareURL, sharedUrlMedia;
+    private String editMessageId;
 
     private static int visibilityToNumber(String visibility) {
         switch (visibility) {
@@ -271,7 +272,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusList.addAll(0, context.ancestors);
         statusList.add(initialStatus);
         statusList.add(statusDraft.statusDraftList.get(0));
-        composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility);
+        composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility, editMessageId);
         composeAdapter.manageDrafts = this;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
         binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -487,6 +488,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
             statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
             account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
+            editMessageId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
             instance = b.getString(Helper.ARG_INSTANCE, null);
             token = b.getString(Helper.ARG_TOKEN, null);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
@@ -601,7 +603,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
             int statusCount = statusList.size();
             statusList.addAll(statusDraft.statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -652,7 +654,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
             //StatusDraftList at this point should only have one element
             statusList.addAll(statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -662,7 +664,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         } else {
             //Compose without replying
             statusList.addAll(statusDraftList);
-            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility);
+            composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -758,6 +760,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     private void storeDraft(boolean sendMessage, String scheduledDate) {
         new Thread(() -> {
+
             //Collect all statusCompose
             List<Status> statusDrafts = new ArrayList<>();
             List<Status> statusReplies = new ArrayList<>();
@@ -854,6 +857,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                             .putString(Helper.ARG_STATUS_DRAFT_ID, String.valueOf(statusDraft.id))
                             .putString(Helper.ARG_INSTANCE, instance)
                             .putString(Helper.ARG_TOKEN, token)
+                            .putString(Helper.ARG_EDIT_STATUS_ID, editMessageId)
                             .putString(Helper.ARG_USER_ID, account.user_id)
                             .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
                     OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ComposeWorker.class)
@@ -863,7 +867,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     WorkManager.getInstance(ComposeActivity.this).enqueue(request);
 
                 } else {
-                    new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate);
+                    new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId);
                 }
                 finish();
             }

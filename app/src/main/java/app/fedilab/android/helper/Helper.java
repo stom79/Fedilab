@@ -218,6 +218,8 @@ public class Helper {
     public static final String ARG_STATUS_ACCOUNT_ID_DELETED = "ARG_STATUS_ACCOUNT_ID_DELETED";
 
     public static final String ARG_STATUS_DRAFT = "ARG_STATUS_DRAFT";
+    public static final String ARG_EDIT_STATUS_ID = "ARG_EDIT_STATUS_ID";
+
     public static final String ARG_STATUS_SCHEDULED = "ARG_STATUS_SCHEDULED";
     public static final String ARG_SLUG_OF_FIRST_FRAGMENT = "ARG_SLUG_OF_FIRST_FRAGMENT";
 

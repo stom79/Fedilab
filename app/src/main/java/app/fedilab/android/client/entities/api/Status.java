@@ -113,6 +113,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean submitted = false;
     public transient boolean spoilerChecked = false;
 
+
     public enum PositionFetchMore {
         TOP,
         BOTTOM

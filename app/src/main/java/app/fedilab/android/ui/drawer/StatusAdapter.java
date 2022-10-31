@@ -1667,6 +1667,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 popup.getMenu().findItem(R.id.action_pin).setVisible(false);
                 popup.getMenu().findItem(R.id.action_redraft).setVisible(false);
+                popup.getMenu().findItem(R.id.action_edit).setVisible(false);
                 popup.getMenu().findItem(R.id.action_remove).setVisible(false);
                 if (statusToDeal.account.acct.split("@").length < 2)
                     popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
@@ -1712,6 +1713,25 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                     builderInner.setMessage(statusToDeal.text);
                     builderInner.show();
+                } else if (itemId == R.id.action_edit) {
+                    statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                            .observe((LifecycleOwner) context, statusSource -> {
+                                if (statusSource != null) {
+                                    Intent intent = new Intent(context, ComposeActivity.class);
+                                    StatusDraft statusDraft = new StatusDraft();
+                                    statusDraft.statusDraftList = new ArrayList<>();
+                                    statusDraft.statusReplyList = new ArrayList<>();
+                                    statusToDeal.text = statusSource.text;
+                                    statusToDeal.spoiler_text = statusSource.spoiler_text;
+                                    statusDraft.statusDraftList.add(statusToDeal);
+                                    intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                    intent.putExtra(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
+                                    intent.putExtra(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
+                                    context.startActivity(intent);
+                                } else {
+                                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
+                            });
                 } else if (itemId == R.id.action_schedule_boost) {
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
                 } /*else if (itemId == R.id.action_admin) {

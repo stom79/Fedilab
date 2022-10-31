@@ -219,8 +219,13 @@ public class ComposeWorker extends Worker {
                 }
                 String language = sharedPreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + dataPost.userId + dataPost.instance, null);
                 if (dataPost.scheduledDate == null) {
-                    statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
+                    if (dataPost.statusEditId == null) {
+                        statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
+                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
+                    } else { //Status is edited
+                        statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
+                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
+                    }
                     try {
                         Response<Status> statusResponse = statusCall.execute();
                         if (statusResponse.isSuccessful()) {
@@ -390,6 +395,7 @@ public class ComposeWorker extends Worker {
         String instance = inputData.getString(Helper.ARG_INSTANCE);
         String userId = inputData.getString(Helper.ARG_USER_ID);
         String scheduledDate = inputData.getString(Helper.ARG_SCHEDULED_DATE);
+        String editMessageId = inputData.getString(Helper.ARG_EDIT_STATUS_ID);
         //Should not be null, but a simple security
         if (token == null) {
             token = BaseMainActivity.currentToken;
@@ -405,6 +411,7 @@ public class ComposeWorker extends Worker {
         dataPost.scheduledDate = scheduledDate;
         dataPost.notificationBuilder = notificationBuilder;
         dataPost.notificationManager = notificationManager;
+        dataPost.statusEditId = editMessageId;
         // Mark the Worker as important
         setForegroundAsync(createForegroundInfo());
         publishMessage(getApplicationContext(), dataPost);
@@ -469,6 +476,7 @@ public class ComposeWorker extends Worker {
         public String instance;
         public String token;
         public String userId;
+        public String statusEditId;
         public StatusDraft statusDraft;
         public int messageToSend;
         public int messageSent;

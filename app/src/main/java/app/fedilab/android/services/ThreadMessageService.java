@@ -24,13 +24,14 @@ import app.fedilab.android.jobs.ComposeWorker;
 
 public class ThreadMessageService {
 
-    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate) {
+    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate, String editMessageId) {
         ComposeWorker.DataPost dataPost = new ComposeWorker.DataPost();
         dataPost.instance = instance;
         dataPost.userId = userId;
         dataPost.token = token;
         dataPost.scheduledDate = scheduledDate;
         dataPost.statusDraft = statusDraft;
+        dataPost.statusEditId = editMessageId;
         publishMessage(context, dataPost);
     }
 }

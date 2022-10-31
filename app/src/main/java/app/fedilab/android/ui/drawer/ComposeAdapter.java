@@ -139,13 +139,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
+    private final String editMessageId;
 
-    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility) {
+    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
         this.statusCount = statusCount;
         this.account = account;
         this.mentionedAccount = mentionedAccount;
         this.visibility = visibility;
+        this.editMessageId = editMessageId;
 
     }
 
@@ -334,7 +336,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void buttonVisibility(ComposeViewHolder holder) {
         //First message - Needs at least one char to display the + button
-        if (holder.getLayoutPosition() == statusCount && canBeRemoved(statusList.get(holder.getLayoutPosition()))) {
+        if (editMessageId != null || holder.getLayoutPosition() == statusCount && canBeRemoved(statusList.get(holder.getLayoutPosition()))) {
             holder.binding.addRemoveStatus.setVisibility(View.GONE);
             return;
         }

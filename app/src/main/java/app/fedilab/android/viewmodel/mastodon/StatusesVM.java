@@ -41,6 +41,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.ScheduledStatus;
 import app.fedilab.android.client.entities.api.ScheduledStatuses;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.StatusSource;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -63,6 +64,7 @@ public class StatusesVM extends AndroidViewModel {
 
 
     private MutableLiveData<Status> statusMutableLiveData;
+    private MutableLiveData<StatusSource> statusSourceMutableLiveData;
     private MutableLiveData<ScheduledStatus> scheduledStatusMutableLiveData;
     private MutableLiveData<ScheduledStatuses> scheduledStatusesMutableLiveData;
     private MutableLiveData<Void> voidMutableLiveData;
@@ -296,6 +298,39 @@ public class StatusesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return statusMutableLiveData;
+    }
+
+
+    /**
+     * Get a status source by ID
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @param id       String - id of the status
+     * @return LiveData<StatusSource>
+     */
+    public LiveData<StatusSource> getStatusSource(@NonNull String instance, String token, String id) {
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        statusSourceMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<StatusSource> statusSourceCall = mastodonStatusesService.getStatusSource(token, id);
+            StatusSource statusSource = null;
+            if (statusSourceCall != null) {
+                try {
+                    Response<StatusSource> statusResponse = statusSourceCall.execute();
+                    if (statusResponse.isSuccessful()) {
+                        statusSource = statusResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            StatusSource finalStatusSource = statusSource;
+            Runnable myRunnable = () -> statusSourceMutableLiveData.setValue(finalStatusSource);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusSourceMutableLiveData;
     }
 
     /**
