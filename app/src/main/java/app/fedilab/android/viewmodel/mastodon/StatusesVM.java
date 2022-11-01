@@ -64,6 +64,7 @@ public class StatusesVM extends AndroidViewModel {
 
 
     private MutableLiveData<Status> statusMutableLiveData;
+    private MutableLiveData<List<Status>> statusListMutableLiveData;
     private MutableLiveData<StatusSource> statusSourceMutableLiveData;
     private MutableLiveData<ScheduledStatus> scheduledStatusMutableLiveData;
     private MutableLiveData<ScheduledStatuses> scheduledStatusesMutableLiveData;
@@ -331,6 +332,38 @@ public class StatusesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return statusSourceMutableLiveData;
+    }
+
+    /**
+     * Get a history of statuses by id
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @param id       String - id of the status
+     * @return LiveData<Status>
+     */
+    public LiveData<List<Status>> getStatusHistory(@NonNull String instance, String token, String id) {
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        statusListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<List<Status>> statusListCall = mastodonStatusesService.getStatusHistory(token, id);
+            List<Status> statusList = null;
+            if (statusListCall != null) {
+                try {
+                    Response<List<Status>> statusResponse = statusListCall.execute();
+                    if (statusResponse.isSuccessful()) {
+                        statusList = statusResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<Status> finalStatusList = statusList;
+            Runnable myRunnable = () -> statusListMutableLiveData.setValue(finalStatusList);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusListMutableLiveData;
     }
 
     /**

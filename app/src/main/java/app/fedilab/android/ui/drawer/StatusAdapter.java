@@ -104,6 +104,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
+import app.fedilab.android.activities.StatusHistoryActivity;
 import app.fedilab.android.activities.StatusInfoActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Poll;
@@ -983,6 +984,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (statusToDeal.edited_at != null) {
                 holder.binding.time.setText(context.getString(R.string.full_date_edited, Helper.longDateToString(status.created_at), Helper.longDateToString(status.edited_at)));
+                holder.binding.time.setOnClickListener(v -> {
+                    Intent historyIntent = new Intent(context, StatusHistoryActivity.class);
+                    historyIntent.putExtra(Helper.ARG_STATUS_ID, statusToDeal.id);
+                    context.startActivity(historyIntent);
+                });
             } else {
                 holder.binding.time.setText(Helper.longDateToString(status.created_at));
             }

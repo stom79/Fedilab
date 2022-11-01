@@ -378,6 +378,8 @@ public class Timeline {
         TREND_TAG("TREND_TAG"),
         @SerializedName("TREND_MESSAGE")
         TREND_MESSAGE("TREND_MESSAGE"),
+        @SerializedName("STATUS_HISTORY")
+        STATUS_HISTORY("STATUS_HISTORY"),
         @SerializedName("ACCOUNT_TIMELINE")
         ACCOUNT_TIMELINE("ACCOUNT_TIMELINE"),
         @SerializedName("MUTED_TIMELINE")

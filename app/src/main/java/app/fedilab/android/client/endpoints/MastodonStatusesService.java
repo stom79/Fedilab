@@ -67,6 +67,11 @@ public interface MastodonStatusesService {
             @Header("Authorization") String token,
             @Path("id") String id);
 
+    @GET("statuses/{id}/history")
+    Call<List<Status>> getStatusHistory(
+            @Header("Authorization") String token,
+            @Path("id") String id);
+
     //Post a status
     @FormUrlEncoded
     @PUT("statuses/{id}")
