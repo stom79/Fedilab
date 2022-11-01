@@ -1622,7 +1622,7 @@ public class Helper {
                 }
 
                 public void onFinish() {
-                    tvDate.setText(String.format(Locale.getDefault(), "%s%s", dateDiff(context, date), (dateEdit != null ? "*" : "")));
+                    tvDate.setText(dateDiff(context, date));
                 }
             }.start();
         });

@@ -486,6 +486,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
             holder.binding.statusEmoji.setVisibility(View.VISIBLE);
         }
+
+        Helper.changeDrawableColor(context, R.drawable.ic_baseline_mode_edit_message_24, R.color.cyanea_accent_reference);
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.cacheIndicator, theme_icons_color);
@@ -983,15 +985,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.favoritesCount.setText(String.valueOf(status.favourites_count));
 
             if (statusToDeal.edited_at != null) {
-                holder.binding.time.setText(context.getString(R.string.full_date_edited, Helper.longDateToString(status.created_at), Helper.longDateToString(status.edited_at)));
-                holder.binding.time.setOnClickListener(v -> {
+                holder.binding.editTime.setText(context.getString(R.string.edited_message_at, Helper.longDateToString(status.edited_at)));
+                holder.binding.editTime.setOnClickListener(v -> {
                     Intent historyIntent = new Intent(context, StatusHistoryActivity.class);
                     historyIntent.putExtra(Helper.ARG_STATUS_ID, statusToDeal.id);
                     context.startActivity(historyIntent);
                 });
+                holder.binding.editTime.setVisibility(View.VISIBLE);
             } else {
-                holder.binding.time.setText(Helper.longDateToString(status.created_at));
+                holder.binding.editTime.setVisibility(View.GONE);
             }
+            holder.binding.time.setText(Helper.longDateToString(status.created_at));
             holder.binding.time.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setVisibility(View.GONE);
             holder.binding.visibility.setImageResource(ressource);
@@ -1005,10 +1009,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
                 holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
                 holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
+                holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
                 if (statusToDeal.edited_at != null) {
-                    holder.binding.time.setText(String.format(Locale.getDefault(), "%s%s", Helper.dateDiff(context, statusToDeal.created_at), "*"));
+                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
+                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
+                    holder.binding.time.setCompoundDrawables(null, null, img, null);
                 } else {
-                    holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                    holder.binding.time.setCompoundDrawables(null, null, null, null);
                 }
                 Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at, statusToDeal.edited_at);
                 holder.binding.visibility.setImageResource(ressource);
@@ -1018,10 +1025,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.dateShort.setVisibility(View.VISIBLE);
                 holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
                 if (statusToDeal.edited_at != null) {
-                    holder.binding.dateShort.setText(String.format(Locale.getDefault(), "%s%s", Helper.dateDiff(context, statusToDeal.created_at), "*"));
+                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
+                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
+                    holder.binding.dateShort.setCompoundDrawables(null, null, img, null);
                 } else {
-                    holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                    holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
                 }
+                holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
                 holder.binding.time.setVisibility(View.GONE);
                 Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
             }
