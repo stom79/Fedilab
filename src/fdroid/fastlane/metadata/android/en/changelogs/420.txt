@@ -1,2 +1,2 @@
-- Edit messages (if your instance support that feature)
+- Edit messages (if your instance supports that feature)
 - Some fixes
