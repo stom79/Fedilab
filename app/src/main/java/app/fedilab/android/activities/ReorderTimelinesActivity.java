@@ -24,7 +24,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -195,7 +194,6 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                 popupSearchInstanceBinding.searchInstance.addTextChangedListener(textWatcher);
             }
         });
-        popupSearchInstanceBinding.searchInstance.setFilters(new InputFilter[]{new InputFilter.LengthFilter(60)});
         dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
             String instanceName = popupSearchInstanceBinding.searchInstance.getText().toString().trim().replace("@", "");
             new Thread(() -> {
@@ -217,7 +215,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
                     String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("\\s", "") + "/rss";
+                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/rss";
                 }
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
