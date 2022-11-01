@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.5.3",
+    "code": "420",
+    "note": "- Edit messages (if your instance support that feature)\n- Some fixes"
+  },
+  {
     "version": "3.5.2",
     "code": "419",
     "note": "Added:\n- Pin/Unpin messages\n- Set the default language for translations\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Wrong images in notification timeline\n- Double icon bug\n- Fix some crashes"
