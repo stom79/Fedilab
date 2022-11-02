@@ -87,7 +87,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         super.onResume();
         if (Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
-            initializeConversationCommonView(initialConversations);
+            if (initialConversations != null && initialConversations.conversations != null && initialConversations.conversations.size() > 0) {
+                initializeConversationCommonView(initialConversations);
+            }
         }
     }
 

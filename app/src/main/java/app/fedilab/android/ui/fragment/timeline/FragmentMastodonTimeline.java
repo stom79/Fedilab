@@ -154,9 +154,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
+        if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0
+                && !isViewInitialized) {
             isViewInitialized = true;
-            initializeStatusesCommonView(initialStatuses);
+            if (initialStatuses != null && initialStatuses.statuses != null && initialStatuses.statuses.size() > 0) {
+                initializeStatusesCommonView(initialStatuses);
+            }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);

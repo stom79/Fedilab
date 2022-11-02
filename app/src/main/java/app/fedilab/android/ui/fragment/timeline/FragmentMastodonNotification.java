@@ -297,7 +297,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onResume();
         if (Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
-            initializeNotificationView(initialNotifications);
+            if (initialNotifications != null && initialNotifications.notifications != null && initialNotifications.notifications.size() > 0) {
+                initializeNotificationView(initialNotifications);
+            }
         }
     }
 
