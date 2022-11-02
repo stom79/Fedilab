@@ -1002,6 +1002,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.dateShort.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setVisibility(View.GONE);
         } else {
+            holder.binding.editTime.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setImageResource(ressource);
             if (displayCounters && canBeFederated) {
                 holder.binding.statusInfo.setVisibility(View.VISIBLE);
