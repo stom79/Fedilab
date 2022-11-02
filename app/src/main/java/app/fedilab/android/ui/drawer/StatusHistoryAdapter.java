@@ -80,20 +80,40 @@ public class StatusHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.binding.username.setText(String.format("@%s", status.account.acct));
         }
         int theme_statuses_color = -1;
+        int theme_text_color = -1;
+        int theme_text_header_1_line = -1;
+        int theme_text_header_2_line = -1;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (sharedpreferences.getBoolean("use_custom_theme", false)) {
             theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
+            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
+            theme_text_header_1_line = sharedpreferences.getInt("theme_text_header_1_line", -1);
+            theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
+
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
         } else {
             holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
         }
+        if (theme_text_header_2_line != -1) {
+            holder.binding.username.setTextColor(theme_text_header_2_line);
+        }
+        if (theme_text_header_1_line != -1) {
+            holder.binding.displayName.setTextColor(theme_text_header_1_line);
+        }
+        if (theme_text_color != -1) {
+            holder.binding.statusContent.setTextColor(theme_text_color);
+            holder.binding.dateModif.setTextColor(theme_text_color);
+            holder.binding.spoiler.setTextColor(theme_text_color);
+        }
+
         if (position == 0) {
             holder.binding.dateModif.setText(context.getString(R.string.created_message_at, Helper.dateDiffFull(status.created_at)));
         } else {
             holder.binding.dateModif.setText(context.getString(R.string.edited_message_at, Helper.dateDiffFull(status.created_at)));
         }
+
     }
 
     @Override

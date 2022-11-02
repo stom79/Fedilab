@@ -511,6 +511,7 @@ public class ProfileActivity extends BaseActivity {
             }
         }
         binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
+        binding.headerEditProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
         binding.accountFollow.setEnabled(true);
         //Visibility depending of the relationship
         if (relationship != null) {
