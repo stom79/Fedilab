@@ -29,7 +29,7 @@
     <string name="camera">Fotocàmera</string>
     <string name="delete_all">Iscantzella totu</string>
     <string name="schedule">Pranìfica</string>
-    <string name="text_size">Mannària de su testu</string>
+    <string name="text_size">Mannàrias de su testu</string>
     <string name="next">Sighi</string>
     <string name="previous">Pretzedente</string>
     <string name="open_with">Aberi cun</string>
@@ -758,7 +758,7 @@
     <string name="set_display_counters">Ammustra sos contadores</string>
     <string name="set_display_counters_description">At a ammustrare unu contadore a abbajolu in is lìnias de tempus de sas istangas pro is messàgios noos</string>
     <string name="view_the_original_message">Aberi su messàgiu originale</string>
-    <string name="icon_size">Mannària de sas iconas</string>
+    <string name="icon_size">Mannàrias de sas iconas</string>
     <string name="remember_position">Ammenta sa positzione in is lìnias de tempus</string>
     <string name="aggregate_notifications">Agrega is notìficas</string>
     <string name="aggregate_notifications_summary">A s\'allughìngiu s\'aplicatzione at a agrupare is notìficas curreladas</string>
@@ -773,4 +773,9 @@
     <string name="toast_pin">Su messàgiu est istadu apicadu</string>
     <string name="set_live_translate_title">Borta sos messàgios</string>
     <string name="set_live_translate">Fortza sa tradutzione a una limba ispetzificada. Issèbera su primu valore pro torrare a is cunfiguratziones de su dispositivu</string>
+    <string name="edit_message">Modìfica su messàgiu</string>
+    <string name="full_date_edited">%1$s modificadu %2$s</string>
+    <string name="status_history">Cronologia de su messàgiu</string>
+    <string name="created_message_at">Creadu: %1$s</string>
+    <string name="edited_message_at">Modificadu: %1$s</string>
 </resources>

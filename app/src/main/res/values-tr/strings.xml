@@ -781,4 +781,7 @@
     <string name="set_live_translate">Belirli bir dile çeviriyi zorlayın. Aygıt ayarlarına sıfırlamak için ilk değeri seçin</string>
     <string name="edit_message">Mesajı düzenle</string>
     <string name="full_date_edited">%1$s %2$s düzenledi</string>
+    <string name="edited_message_at">%1$s\'de düzenlendi</string>
+    <string name="created_message_at">%1$s\'de oluşturuldu</string>
+    <string name="status_history">Mesaj geçmişi</string>
 </resources>
