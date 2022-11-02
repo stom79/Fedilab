@@ -36,6 +36,8 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -44,6 +46,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
@@ -66,6 +70,7 @@ public class WebviewConnectActivity extends BaseActivity {
     private AlertDialog alert;
     private String login_url;
     private boolean requestedAdmin;
+
 
     @SuppressWarnings("deprecation")
     public static void clearCookies(Context context) {
@@ -192,6 +197,57 @@ public class WebviewConnectActivity extends BaseActivity {
                 return super.shouldInterceptRequest(view, request);
             }*/
 
+
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                if (request.getUrl().toString().contains(currentInstanceLogin + "/api/v1")) {
+                    request.getRequestHeaders();
+                    Map<String, String> requestHeaders = request.getRequestHeaders();
+                    Iterator<Map.Entry<String, String>> it = requestHeaders.entrySet().iterator();
+                    String token = null;
+                    while (it.hasNext()) {
+                        Map.Entry<String, String> pair = it.next();
+                        if (pair.getKey().equals("Authorization")) {
+                            token = pair.getValue();
+                            break;
+                        }
+                        it.remove();
+                    }
+                    if (token != null) {
+                        AccountsVM accountsVM = new ViewModelProvider(WebviewConnectActivity.this).get(AccountsVM.class);
+                        String finalToken = token;
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> {
+                            accountsVM.getConnectedAccount(currentInstanceLogin, finalToken).observe(WebviewConnectActivity.this, mastodonAccount -> {
+                                if (mastodonAccount != null) {
+                                    Account account = new Account();
+                                    account.client_id = client_idLogin;
+                                    account.client_secret = client_secretLogin;
+                                    account.token = finalToken;
+                                    account.api = apiLogin;
+                                    account.software = softwareLogin;
+                                    account.instance = currentInstanceLogin;
+                                    account.mastodon_account = mastodonAccount;
+                                    account.user_id = mastodonAccount.id;
+                                    //We check if user have really moderator rights
+                                    if (requestedAdmin) {
+                                        AdminVM adminVM = new ViewModelProvider(WebviewConnectActivity.this).get(AdminVM.class);
+                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(WebviewConnectActivity.this, adminAccount -> {
+                                            account.admin = adminAccount != null;
+                                            proceedLogin(WebviewConnectActivity.this, account);
+                                        });
+                                    } else {
+                                        proceedLogin(WebviewConnectActivity.this, account);
+                                    }
+                                } else {
+                                    Toasty.error(WebviewConnectActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
+                            });
+                        };
+                        mainHandler.post(myRunnable);
+                    }
+                }
+                return super.shouldInterceptRequest(view, request);
+            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
