@@ -39,6 +39,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Conversations;
+import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
@@ -89,6 +90,14 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             isViewInitialized = true;
             if (initialConversations != null && initialConversations.conversations != null && initialConversations.conversations.size() > 0) {
                 initializeConversationCommonView(initialConversations);
+            } else {
+                Conversations conversations = new Conversations();
+                if (conversationList != null && conversationList.size() > 0) {
+                    conversations.pagination = new Pagination();
+                    conversations.pagination.max_id = conversationList.get(conversationList.size() - 1).id;
+                    conversations.pagination.min_id = conversationList.get(0).id;
+                }
+                initializeConversationCommonView(conversations);
             }
         }
     }

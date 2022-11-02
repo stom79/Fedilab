@@ -159,6 +159,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             isViewInitialized = true;
             if (initialStatuses != null && initialStatuses.statuses != null && initialStatuses.statuses.size() > 0) {
                 initializeStatusesCommonView(initialStatuses);
+            } else {
+                Statuses statuses = new Statuses();
+                if (timelineStatuses != null && timelineStatuses.size() > 0) {
+                    statuses.pagination = new Pagination();
+                    statuses.pagination.max_id = timelineStatuses.get(timelineStatuses.size() - 1).id;
+                    statuses.pagination.min_id = timelineStatuses.get(0).id;
+                }
+                initializeStatusesCommonView(statuses);
             }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {

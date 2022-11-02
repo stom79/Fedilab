@@ -45,6 +45,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
+import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -299,6 +300,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             isViewInitialized = true;
             if (initialNotifications != null && initialNotifications.notifications != null && initialNotifications.notifications.size() > 0) {
                 initializeNotificationView(initialNotifications);
+            } else {
+                Notifications notifications = new Notifications();
+                if (notificationList != null && notificationList.size() > 0) {
+                    notifications.pagination = new Pagination();
+                    notifications.pagination.max_id = notificationList.get(notificationList.size() - 1).id;
+                    notifications.pagination.min_id = notificationList.get(0).id;
+                }
+                initializeNotificationView(notifications);
             }
         }
     }
