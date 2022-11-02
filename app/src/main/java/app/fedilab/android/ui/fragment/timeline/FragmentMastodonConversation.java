@@ -39,7 +39,6 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Conversation;
 import app.fedilab.android.client.entities.api.Conversations;
-import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
@@ -54,6 +53,7 @@ import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 public class FragmentMastodonConversation extends Fragment implements ConversationAdapter.FetchMoreCallBack {
 
 
+    public UpdateCounters update;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private boolean flagLoading;
@@ -61,9 +61,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private ConversationAdapter conversationAdapter;
     private LinearLayoutManager mLayoutManager;
-    public UpdateCounters update;
     private boolean isViewInitialized;
     private Conversations initialConversations;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -88,17 +88,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         super.onResume();
         if (Timeline.TimeLineEnum.CONVERSATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
-            if (initialConversations != null && initialConversations.conversations != null && initialConversations.conversations.size() > 0) {
-                initializeConversationCommonView(initialConversations);
-            } else {
-                Conversations conversations = new Conversations();
-                if (conversationList != null && conversationList.size() > 0) {
-                    conversations.pagination = new Pagination();
-                    conversations.pagination.max_id = conversationList.get(conversationList.size() - 1).id;
-                    conversations.pagination.min_id = conversationList.get(0).id;
-                }
-                initializeConversationCommonView(conversations);
-            }
+            initializeConversationCommonView(initialConversations);
         }
     }
 

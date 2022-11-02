@@ -352,13 +352,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public interface FetchMoreCallBack {
-        void onClickMinId(String min_id, Notification notificationToUpdate);
-
-        void onClickMaxId(String max_id, Notification notificationToUpdate);
-    }
-
-
     public long getItemId(int position) {
         return position;
     }
@@ -368,6 +361,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return notificationList.size();
     }
 
+    public interface FetchMoreCallBack {
+        void onClickMinId(String min_id, Notification notificationToUpdate);
+
+        void onClickMaxId(String max_id, Notification notificationToUpdate);
+    }
 
     static class ViewHolderFollow extends RecyclerView.ViewHolder {
         DrawerFollowBinding binding;

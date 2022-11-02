@@ -376,6 +376,8 @@ public class Helper {
     };
     public static int counter = 1;
     private static int notificationId = 1;
+    //Allow to store in shared preference first visible fragment when the app starts
+    private static String slugOfFirstFragment;
 
     static {
         LinkedHashMap<PatternType, Pattern> aMap = new LinkedHashMap<>();
@@ -1855,6 +1857,24 @@ public class Helper {
         }
     }
 
+    public static String getSlugOfFirstFragment(Context context, String userId, String instance) {
+        if (slugOfFirstFragment != null) {
+            return slugOfFirstFragment;
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedpreferences.getString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, Timeline.TimeLineEnum.HOME.getValue());
+    }
+
+    public static void setSlugOfFirstFragment(Context context, String slug, String userId, String instance) {
+        if (slug != null) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            slugOfFirstFragment = slug;
+            editor.putString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, slug);
+            editor.apply();
+        }
+    }
+
 
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
@@ -1876,30 +1896,7 @@ public class Helper {
         TOOT
     }
 
-
     public interface OnAttachmentCopied {
         void onAttachmentCopied(Attachment attachment);
-    }
-
-
-    //Allow to store in shared preference first visible fragment when the app starts
-    private static String slugOfFirstFragment;
-
-    public static String getSlugOfFirstFragment(Context context, String userId, String instance) {
-        if (slugOfFirstFragment != null) {
-            return slugOfFirstFragment;
-        }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedpreferences.getString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, Timeline.TimeLineEnum.HOME.getValue());
-    }
-
-    public static void setSlugOfFirstFragment(Context context, String slug, String userId, String instance) {
-        if (slug != null) {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            slugOfFirstFragment = slug;
-            editor.putString(Helper.ARG_SLUG_OF_FIRST_FRAGMENT + userId + instance, slug);
-            editor.apply();
-        }
     }
 }

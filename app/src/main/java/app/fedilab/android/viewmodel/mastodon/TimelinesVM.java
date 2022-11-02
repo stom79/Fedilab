@@ -89,6 +89,50 @@ public class TimelinesVM extends AndroidViewModel {
         super(application);
     }
 
+    private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
+        if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
+                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
+                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                if (!timelineStatuses.contains(statusList.get(0))) {
+                    statusList.get(0).isFetchMore = true;
+                    statusList.get(0).positionFetchMore = Status.PositionFetchMore.BOTTOM;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
+                    statusList.get(statusList.size() - 1).isFetchMore = true;
+                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
+                }
+            }
+        }
+    }
+
+    private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
+        if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
+            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
+                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
+                if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
+                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
+                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
+                if (!timelineConversations.contains(conversationList.get(0))) {
+                    conversationList.get(0).isFetchMore = true;
+                    conversationList.get(0).positionFetchMore = Conversation.PositionFetchMore.BOTTOM;
+                }
+            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
+                if (!timelineConversations.contains(conversationList.get(conversationList.size() - 1))) {
+                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
+                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
+                }
+            }
+        }
+    }
+
     private MastodonTimelinesService initInstanceOnly(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance)
@@ -140,7 +184,6 @@ public class TimelinesVM extends AndroidViewModel {
         return statusListMutableLiveData;
     }
 
-
     public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         tagListMutableLiveData = new MutableLiveData<>();
@@ -164,7 +207,6 @@ public class TimelinesVM extends AndroidViewModel {
         }).start();
         return tagListMutableLiveData;
     }
-
 
     /**
      * Public timeline for Nitter
@@ -312,7 +354,6 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
-
     /**
      * Returns details for a peertube video
      *
@@ -338,51 +379,6 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return peertubeVideoMutableLiveData;
-    }
-
-
-    private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
-        if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
-            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
-                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
-                    statusList.get(statusList.size() - 1).isFetchMore = true;
-                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
-                }
-            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
-                if (!timelineStatuses.contains(statusList.get(0))) {
-                    statusList.get(0).isFetchMore = true;
-                    statusList.get(0).positionFetchMore = Status.PositionFetchMore.BOTTOM;
-                }
-            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
-                if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
-                    statusList.get(statusList.size() - 1).isFetchMore = true;
-                    statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
-                }
-            }
-        }
-    }
-
-    private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
-        if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
-            if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
-                //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
-                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
-                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
-                }
-            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.TOP && timelineParams.fetchingMissing) {
-                if (!timelineConversations.contains(conversationList.get(0))) {
-                    conversationList.get(0).isFetchMore = true;
-                    conversationList.get(0).positionFetchMore = Conversation.PositionFetchMore.BOTTOM;
-                }
-            } else if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.BOTTOM && timelineParams.fetchingMissing) {
-                if (!timelineConversations.contains(conversationList.get(conversationList.size() - 1))) {
-                    conversationList.get(conversationList.size() - 1).isFetchMore = true;
-                    conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
-                }
-            }
-        }
     }
 
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {

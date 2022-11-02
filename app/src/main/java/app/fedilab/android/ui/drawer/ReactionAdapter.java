@@ -44,8 +44,8 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
 
     private final List<Reaction> reactions;
     private final String announcementId;
-    private Context context;
     private final boolean statusReaction;
+    private Context context;
 
     ReactionAdapter(String announcementId, List<Reaction> reactions, boolean statusReaction) {
         this.reactions = reactions;

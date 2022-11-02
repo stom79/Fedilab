@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -45,7 +46,6 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Notifications;
-import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -67,9 +67,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
-    private boolean isViewInitialized;
-    private Notifications initialNotifications;
-
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -93,6 +90,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
         }
     };
+    private boolean isViewInitialized;
+    private Notifications initialNotifications;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
     private NotificationTypeEnum notificationType;
@@ -136,6 +135,18 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         return found ? position : -1;
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        notificationsVM = new ViewModelProvider(FragmentMastodonNotification.this).get(NotificationsVM.class);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        max_id = null;
+        route(null, false);
+    }
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -153,11 +164,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.swipeContainer.setColorSchemeColors(
                 c1, c1, c1
         );
-        notificationsVM = new ViewModelProvider(FragmentMastodonNotification.this).get(NotificationsVM.class);
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.recyclerView.setVisibility(View.GONE);
-        max_id = null;
-        route(null, false);
+
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;
     }
@@ -199,6 +206,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         return excludeType;
     }
+
     /**
      * Intialize the view for notifications
      *
@@ -298,17 +306,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onResume();
         if (Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0 && !isViewInitialized) {
             isViewInitialized = true;
-            if (initialNotifications != null && initialNotifications.notifications != null && initialNotifications.notifications.size() > 0) {
-                initializeNotificationView(initialNotifications);
-            } else {
-                Notifications notifications = new Notifications();
-                if (notificationList != null && notificationList.size() > 0) {
-                    notifications.pagination = new Pagination();
-                    notifications.pagination.max_id = notificationList.get(notificationList.size() - 1).id;
-                    notifications.pagination.min_id = notificationList.get(0).id;
-                }
-                initializeNotificationView(notifications);
-            }
+            initializeNotificationView(initialNotifications);
         }
     }
 
@@ -587,7 +585,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         return insertedNotifications;
     }
-
 
 
     @Override

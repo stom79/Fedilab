@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -69,6 +70,7 @@ import es.dmoral.toasty.Toasty;
 public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
 
+    public UpdateCounters update;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private AccountsVM accountsVM;
@@ -79,10 +81,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-    public UpdateCounters update;
-    private boolean isViewInitialized;
-    private Statuses initialStatuses;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -138,6 +136,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
+    private boolean isViewInitialized;
+    private Statuses initialStatuses;
     private String list_id;
     private TagTimeline tagTimeline;
     private LinearLayoutManager mLayoutManager;
@@ -157,17 +157,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0
                 && !isViewInitialized) {
             isViewInitialized = true;
-            if (initialStatuses != null && initialStatuses.statuses != null && initialStatuses.statuses.size() > 0) {
-                initializeStatusesCommonView(initialStatuses);
-            } else {
-                Statuses statuses = new Statuses();
-                if (timelineStatuses != null && timelineStatuses.size() > 0) {
-                    statuses.pagination = new Pagination();
-                    statuses.pagination.max_id = timelineStatuses.get(timelineStatuses.size() - 1).id;
-                    statuses.pagination.min_id = timelineStatuses.get(0).id;
-                }
-                initializeStatusesCommonView(statuses);
-            }
+            initializeStatusesCommonView(initialStatuses);
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);
@@ -217,6 +207,35 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             flagLoading = false;
             route(DIRECTION.SCROLL_TOP, true);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
+        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        max_id = statusReport != null ? statusReport.id : null;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized && rememberPosition) {
+            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        if (!isViewInitialized) {
+            if (slug != null) {
+                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
+            }
+        }
+
+        flagLoading = false;
+
+        router(null);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -273,8 +292,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
 
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
@@ -285,28 +302,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 c1, c1, c1
         );
 
-        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
-        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
-
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.recyclerView.setVisibility(View.GONE);
-        max_id = statusReport != null ? statusReport.id : null;
-
-        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
-        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized && rememberPosition) {
-            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
-        }
-        //Only fragment in main view pager should not have the view initialized
-        //AND Only the first fragment will initialize its view
-        if (!isViewInitialized) {
-            if (slug != null) {
-                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
-            }
-        }
-
-        flagLoading = false;
-        router(null);
 
         return binding.getRoot();
     }
@@ -693,9 +688,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
-        if (getView() == null) {
-            return;
-        }
+
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
@@ -742,9 +735,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Status status) {
-        if (getView() == null) {
-            return;
-        }
 
         if (direction == null) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
@@ -769,16 +759,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     });
         }
     }
-
-
-    public enum DIRECTION {
-        TOP,
-        BOTTOM,
-        REFRESH,
-        SCROLL_TOP,
-        FETCH_NEW
-    }
-
 
     /**
      * Router for timelines
@@ -965,9 +945,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     }
 
-
-
-
     /**
      * Refresh status in list
      */
@@ -988,6 +965,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public void onClickMaxId(String max_id, Status statusToUpdate) {
         max_id_fetch_more = max_id;
         route(DIRECTION.BOTTOM, true, statusToUpdate);
+    }
+
+    public enum DIRECTION {
+        TOP,
+        BOTTOM,
+        REFRESH,
+        SCROLL_TOP,
+        FETCH_NEW
     }
 
     public interface UpdateCounters {

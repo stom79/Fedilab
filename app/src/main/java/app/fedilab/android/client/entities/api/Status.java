@@ -113,12 +113,6 @@ public class Status implements Serializable, Cloneable {
     public transient boolean submitted = false;
     public transient boolean spoilerChecked = false;
 
-
-    public enum PositionFetchMore {
-        TOP,
-        BOTTOM
-    }
-
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;
@@ -127,12 +121,11 @@ public class Status implements Serializable, Cloneable {
         }
         return same;
     }
-    //Some extra spannable element - They will be filled automatically when fetching the status
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
         return SpannableHelper.convert(context, content, this, null, null, true, viewWeakReference);
     }
-
+    //Some extra spannable element - They will be filled automatically when fetching the status
 
     public Spannable getSpanContentNitter() {
         return SpannableHelper.convertNitter(content);
@@ -149,6 +142,11 @@ public class Status implements Serializable, Cloneable {
     @NonNull
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public enum PositionFetchMore {
+        TOP,
+        BOTTOM
     }
 
 }

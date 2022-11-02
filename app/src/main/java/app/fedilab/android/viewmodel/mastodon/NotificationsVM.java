@@ -64,15 +64,6 @@ public class NotificationsVM extends AndroidViewModel {
         super(application);
     }
 
-    private MastodonNotificationsService init(@NonNull String instance) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
-                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
-                .client(okHttpClient)
-                .build();
-        return retrofit.create(MastodonNotificationsService.class);
-    }
-
     private static void addFetchMoreNotifications(List<Notification> notificationList, List<Notification> timelineNotifications, TimelinesVM.TimelineParams timelineParams) throws DBException {
         if (notificationList != null && notificationList.size() > 0 && timelineNotifications != null && timelineNotifications.size() > 0) {
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
@@ -93,6 +84,15 @@ public class NotificationsVM extends AndroidViewModel {
                 }
             }
         }
+    }
+
+    private MastodonNotificationsService init(@NonNull String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonNotificationsService.class);
     }
 
     /**

@@ -164,8 +164,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static boolean show_boosts, show_replies, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
+    public static iconLauncher mLauncher = iconLauncher.BUBBLES;
     Fragment currentFragment;
-
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
@@ -195,8 +195,101 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
         }
     };
-
-    public static iconLauncher mLauncher = iconLauncher.BUBBLES;
+    private Pinned pinned;
+    private BottomMenu bottomMenu;
+    private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
+                    List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
+                    redrawPinned(mastodonLists);
+                }
+                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
+                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                    if (bottomMenu != null) {
+                        //ManageClick on bottom menu items
+                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                                if (position >= 0) {
+                                    manageFilters(position);
+                                }
+                                return false;
+                            });
+                        }
+                        binding.bottomNavView.setOnItemSelectedListener(item -> {
+                            int itemId = item.getItemId();
+                            int position = BottomMenu.getPosition(bottomMenu, itemId);
+                            if (position >= 0) {
+                                if (binding.viewPager.getCurrentItem() == position) {
+                                    scrollToTop();
+                                } else {
+                                    binding.viewPager.setCurrentItem(position, false);
+                                }
+                            }
+                            return true;
+                        });
+                    }
+                } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
+                    Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
+                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                    String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
+                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.display), view -> {
+                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
+                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentContext);
+                            })
+                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
+                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
+                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
+                            .show();
+                    //The message was edited, we need to update the timeline
+                    if (statusEditId != null) {
+                        //Update message in cache
+                        new Thread(() -> {
+                            StatusCache statusCache = new StatusCache();
+                            statusCache.instance = BaseMainActivity.currentInstance;
+                            statusCache.user_id = BaseMainActivity.currentUserID;
+                            statusCache.status = statusSent;
+                            statusCache.status_id = statusEditId;
+                            try {
+                                new StatusCache(BaseMainActivity.this).updateIfExists(statusCache);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+                        //Update timelines
+                        sendAction(context, Helper.ARG_STATUS_UPDATED, statusSent, null);
+                    }
+                }
+            }
+        }
+    };
+    private NetworkStateReceiver networkStateReceiver;
+    private boolean headerMenuOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +305,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
-
 
 
         mamageNewIntent(getIntent());
@@ -660,102 +752,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     }
 
-    private Pinned pinned;
-    private BottomMenu bottomMenu;
-    private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
-                    List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
-                    redrawPinned(mastodonLists);
-                }
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
-                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
-                    if (bottomMenu != null) {
-                        //ManageClick on bottom menu items
-                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        binding.bottomNavView.setOnItemSelectedListener(item -> {
-                            int itemId = item.getItemId();
-                            int position = BottomMenu.getPosition(bottomMenu, itemId);
-                            if (position >= 0) {
-                                if (binding.viewPager.getCurrentItem() == position) {
-                                    scrollToTop();
-                                } else {
-                                    binding.viewPager.setCurrentItem(position, false);
-                                }
-                            }
-                            return true;
-                        });
-                    }
-                } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
-                    Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
-                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
-                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
-                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.display), view -> {
-                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
-                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentContext);
-                            })
-                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
-                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
-                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
-                            .show();
-                    //The message was edited, we need to update the timeline
-                    if (statusEditId != null) {
-                        //Update message in cache
-                        new Thread(() -> {
-                            StatusCache statusCache = new StatusCache();
-                            statusCache.instance = BaseMainActivity.currentInstance;
-                            statusCache.user_id = BaseMainActivity.currentUserID;
-                            statusCache.status = statusSent;
-                            statusCache.status_id = statusEditId;
-                            try {
-                                new StatusCache(BaseMainActivity.this).updateIfExists(statusCache);
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
-                        }).start();
-                        //Update timelines
-                        sendAction(context, Helper.ARG_STATUS_UPDATED, statusSent, null);
-                    }
-                }
-            }
-        }
-    };
-    private NetworkStateReceiver networkStateReceiver;
-    private boolean headerMenuOpen;
-
     protected abstract void rateThisApp();
 
     @Override
@@ -986,16 +982,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
 
     }
-
-    public enum iconLauncher {
-        BUBBLES,
-        FEDIVERSE,
-        HERO,
-        ATOM,
-        BRAINCRASH,
-        MASTALAB
-    }
-
 
     private void manageFilters(int position) {
         View view = binding.bottomNavView.findViewById(R.id.nav_home);
@@ -1338,7 +1324,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     }
 
-
     public void redrawPinned(List<MastodonList> mastodonLists) {
         int currentItem = binding.viewPager.getCurrentItem();
         new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
@@ -1389,6 +1374,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        //unselect all tag elements
+        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+            pinnedTimeline.isSelected = false;
+        }
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
    /* @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -1419,17 +1415,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }*/
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        //unselect all tag elements
-        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-            pinnedTimeline.isSelected = false;
-        }
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
-    @Override
     public void networkAvailable() {
         networkAvailable = status.CONNECTED;
     }
@@ -1437,6 +1422,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     public void networkUnavailable() {
         networkAvailable = DISCONNECTED;
+    }
+
+    public enum iconLauncher {
+        BUBBLES,
+        FEDIVERSE,
+        HERO,
+        ATOM,
+        BRAINCRASH,
+        MASTALAB
     }
 
 

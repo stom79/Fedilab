@@ -56,9 +56,9 @@ import app.fedilab.android.helper.MastodonHelper;
 
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Conversation> conversationList;
+    public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean isExpended = false;
-    public FetchMoreCallBack fetchMoreCallBack;
 
     public ConversationAdapter(List<Conversation> conversations) {
         if (conversations == null) {
@@ -284,6 +284,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public interface FetchMoreCallBack {
+        void onClickMinId(String min_id, Conversation conversationToUpdate);
+
+        void onClickMaxId(String max_id, Conversation conversationToUpdate);
+    }
+
     static class ConversationHolder extends RecyclerView.ViewHolder {
         DrawerConversationBinding binding;
         Timer timer;
@@ -292,11 +298,5 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView.getRoot());
             binding = itemView;
         }
-    }
-
-    public interface FetchMoreCallBack {
-        void onClickMinId(String min_id, Conversation conversationToUpdate);
-
-        void onClickMaxId(String max_id, Conversation conversationToUpdate);
     }
 }

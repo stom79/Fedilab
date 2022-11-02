@@ -41,24 +41,8 @@ public class Notification {
     public boolean cached;
 
     public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
-
-    public enum PositionFetchMore {
-        TOP,
-        BOTTOM
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        boolean same = false;
-        if (obj instanceof Notification) {
-            same = this.id.equals(((Notification) obj).id);
-        }
-        return same;
-    }
-
     public transient List<Notification> relatedNotifications;
     public boolean isFetchMore;
-
 
     /**
      * Serialized a list of Notification class
@@ -89,6 +73,20 @@ public class Notification {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Notification) {
+            same = this.id.equals(((Notification) obj).id);
+        }
+        return same;
+    }
+
+    public enum PositionFetchMore {
+        TOP,
+        BOTTOM
     }
 
 }

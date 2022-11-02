@@ -134,12 +134,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final BaseAccount account;
     private final String visibility;
     private final app.fedilab.android.client.entities.api.Account mentionedAccount;
+    private final String editMessageId;
     public ManageDrafts manageDrafts;
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
-    private final String editMessageId;
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
@@ -399,7 +399,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (position == -1) {
             position = statusList.size() - 1;
         }
-       // position = statusCount-1+position;
+        // position = statusCount-1+position;
         if (statusList.get(position).media_attachments == null) {
             statusList.get(position).media_attachments = new ArrayList<>();
         }

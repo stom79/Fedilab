@@ -45,8 +45,8 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
     private final BottomMenu bottomMenu;
     private final int toRemove;
     private final boolean singleBar;
-    private Fragment mCurrentFragment;
     private final BaseMainActivity activity;
+    private Fragment mCurrentFragment;
 
     public FedilabPageAdapter(BaseMainActivity activity, FragmentManager fm, Pinned pinned, BottomMenu bottomMenu) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

@@ -53,8 +53,8 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentNotificationContainer extends Fragment {
 
-    private FragmentNotificationContainerBinding binding;
     public static UpdateCounters update;
+    private FragmentNotificationContainerBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
