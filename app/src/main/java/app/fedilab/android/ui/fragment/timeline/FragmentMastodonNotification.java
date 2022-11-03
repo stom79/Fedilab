@@ -240,7 +240,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
         flagLoading = notifications.pagination.max_id == null;
         if (aggregateNotification) {
-            notifications.notifications = aggregateNotifications(notifications.notifications);
+            notifications.notifications = aggregateNotifications(notifications.notifications, false);
         }
         if (notificationAdapter != null && notificationList != null) {
             int size = notificationList.size();
@@ -430,11 +430,19 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
     }
 
-    private List<Notification> aggregateNotifications(@NonNull List<Notification> notifications) {
+    /***
+     * Allow to aggregate notifications
+     * @param notifications - List<Notification> to aggregate
+     * @param update - boolean - if true the adapter will be updated to remove notification that have been aggregated
+     * @return List<Notification> that has been aggregated
+     */
+    private List<Notification> aggregateNotifications(@NonNull List<Notification> notifications, boolean update) {
         List<Notification> notificationList = new ArrayList<>();
+        List<Notification> notificationsToRemove = new ArrayList<>();
         int refPosition = 0;
         for (int i = 0; i < notifications.size(); i++) {
             if (i != refPosition) {
+                //Loop through notifications, only fav and boost will be aggregated if they are just bellow
                 if (notifications.get(i).type != null && notifications.get(refPosition).type != null && notifications.get(i).type.equals(notifications.get(refPosition).type)
                         && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))
                         && notifications.get(i).status != null && notifications.get(refPosition).status != null && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
@@ -443,7 +451,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         if (notificationList.get(notificationList.size() - 1).relatedNotifications == null) {
                             notificationList.get(notificationList.size() - 1).relatedNotifications = new ArrayList<>();
                         }
-                        notificationList.get(notificationList.size() - 1).relatedNotifications.add(notifications.get(i));
+                        if (!notificationList.get(notificationList.size() - 1).relatedNotifications.contains(notifications.get(i))) {
+                            notificationList.get(notificationList.size() - 1).relatedNotifications.add(notifications.get(i));
+                        }
+                        notificationsToRemove.add(notifications.get(i));
                     }
                 } else {
                     notificationList.add(notifications.get(i));
@@ -451,6 +462,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 }
             } else {
                 notificationList.add(notifications.get(i));
+            }
+        }
+        if (notificationsToRemove.size() > 0 && update) {
+            for (Notification notification : notificationsToRemove) {
+                int position = getPosition(notification);
+                this.notificationList.remove(position);
+                notificationAdapter.notifyItemRemoved(position);
             }
         }
         return notificationList;
@@ -495,9 +513,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         flagLoading = false;
         if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && fetched_notifications.notifications.size() > 0) {
 
-            if (aggregateNotification) {
+           /* if (aggregateNotification) {
                 fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
-            }
+            }*/
             try {
                 if (notificationToUpdate != null) {
                     new Thread(() -> {
@@ -527,7 +545,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
             }
             if (aggregateNotification && notificationList != null && notificationList.size() > 0) {
-                notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
+                aggregateNotifications(notificationList, true);
             }
             if (!fetchingMissing) {
                 if (fetched_notifications.pagination.max_id == null) {
