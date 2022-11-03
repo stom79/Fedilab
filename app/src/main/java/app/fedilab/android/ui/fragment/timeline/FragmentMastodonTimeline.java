@@ -342,19 +342,28 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             flagLoading = fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
 
+
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
                 List<Status> mediaStatuses = new ArrayList<>();
                 for (Status status : fetched_statuses.statuses) {
-                    if (status.media_attachments.size() > 1) {
-                        for (Attachment attachment : status.media_attachments) {
-                            status.media_attachments = new ArrayList<>();
-                            status.media_attachments.add(0, attachment);
-                            mediaStatuses.add(status);
+                    if (!tagTimeline.isNSFW && status.sensitive) {
+                        continue;
+                    }
+                    for (Attachment attachment : status.media_attachments) {
+                        try {
+                            Status statusTmp = (Status) status.clone();
+                            statusTmp.art_attachment = attachment;
+                            mediaStatuses.add(statusTmp);
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 }
-                fetched_statuses.statuses = mediaStatuses;
+                if (mediaStatuses.size() > 0) {
+                    fetched_statuses.statuses = mediaStatuses;
+                }
             }
             //Update the timeline with new statuses
             int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
@@ -622,14 +631,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
-        /*Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
-                getCachedStatus(direction, fetchingMissing, timelineParams);
-            } else {
-                getLiveStatus(direction, fetchingMissing, timelineParams, status);
-            }
-        }, slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 ? 0 : 1000);*/
         if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
             getCachedStatus(direction, fetchingMissing, timelineParams);
         } else {
