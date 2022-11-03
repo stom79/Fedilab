@@ -17,4 +17,5 @@ Fixed:
 - Vibrations when fetching new notifications
 - Fix an issue with media timelines
 - Fix some theme issues
+- Bad behaviours with Art Timelines
 - Some crashes

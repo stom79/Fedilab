@@ -2,7 +2,7 @@
   {
     "version": "3.6.0",
     "code": "421",
-    "note": "Added:\n- Edit messages (if your instance supports that feature)\n- Pin/Unpin messages\n- Set the default language for translations\n- Change app icon (Settings > Interface)\n- Allow to disable \"remember position\" in timelines\n- Allow to disable notification aggregation in settings\n- Icon on media previews if a description is available\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Post loses \"spoiler message\" when adding a media\n- Camera not working on Android 11\n- Notification aggregation\n- Vibrations when fetching new notifications\n- Fix an issue with media timelines\n- Fix some theme issues\n- Some crashes"
+    "note": "Added:\n- Edit messages (if your instance supports that feature)\n- Pin/Unpin messages\n- Set the default language for translations\n- Change app icon (Settings > Interface)\n- Allow to disable \"remember position\" in timelines\n- Allow to disable notification aggregation in settings\n- Icon on media previews if a description is available\n\nChanged:\n- Allow to disable/enable media for notifications\n\nFixed:\n- Post loses \"spoiler message\" when adding a media\n- Camera not working on Android 11\n- Notification aggregation\n- Vibrations when fetching new notifications\n- Fix an issue with media timelines\n- Fix some theme issues\n- Bad behaviours with Art Timelines\n- Some crashes"
   },
   {
     "version": "3.5.3",
