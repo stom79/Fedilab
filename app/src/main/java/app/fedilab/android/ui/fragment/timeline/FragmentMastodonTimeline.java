@@ -622,14 +622,19 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
-        Handler handler = new Handler();
+        /*Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
                 getCachedStatus(direction, fetchingMissing, timelineParams);
             } else {
                 getLiveStatus(direction, fetchingMissing, timelineParams, status);
             }
-        }, slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 ? 0 : 1000);
+        }, slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 ? 0 : 1000);*/
+        if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
+            getCachedStatus(direction, fetchingMissing, timelineParams);
+        } else {
+            getLiveStatus(direction, fetchingMissing, timelineParams, status);
+        }
 
     }
 

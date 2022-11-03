@@ -111,6 +111,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (theme_text_color != -1) {
             holder.binding.statusContent.setTextColor(theme_text_color);
             holder.binding.spoiler.setTextColor(theme_text_color);
+            holder.binding.lastMessageDate.setTextColor(theme_text_color);
         }
 
         //--- Profile Pictures for participants ---
