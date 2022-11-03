@@ -38,5 +38,14 @@
         android:contentDescription="@string/visibility"
         android:src="@drawable/ic_baseline_visibility_24" />
 
-
+    <ImageView
+        android:id="@+id/view_description"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/description"
+        android:src="@drawable/ic_outline_note_alt_24"
+        android:visibility="gone" />
 </RelativeLayout>
