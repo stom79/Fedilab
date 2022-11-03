@@ -1,2 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_about">Um</string>
+    <string name="action_privacy">Friðhelgisstefna</string>
+    <string name="close">Loka</string>
+    <string name="yes">Já</string>
+    <string name="no">Nei</string>
+    <string name="cancel">Hætta við</string>
+    <string name="download">Sækja</string>
+    <string name="download_file">Sækja %1$s</string>
+    <string name="save_over">Efni vistað</string>
+    <string name="download_from" formatted="false">Skrá: %1$s</string>
+    <string name="password">Lykilorð</string>
+    <string name="email">Netfang</string>
+    <string name="accounts">Reikningar</string>
+    <string name="toots">Skilaboð</string>
+    <string name="save">Vista</string>
+    <string name="instance">Tilvik</string>
+    <string name="clipboard">Innihald skilaboðsins hefur verið afritað á klemmuspjaldið</string>
+    <string name="clipboard_url">Vefslóð skilaboðsins hefur verið afritað á klemmuspjaldið</string>
+    <string name="camera">Myndavél</string>
+    <string name="delete_all">Eyða öllu</string>
+    <string name="schedule">Dagskrá</string>
+    <string name="text_size">Stærð texta</string>
+    <string name="icon_size">Stærð tákna</string>
+    <string name="next">Næsta</string>
+    <string name="previous">Fyrra</string>
+    <string name="open_with">Opna með</string>
+    <string name="validate">Staðfesta</string>
+    <string name="username">Notandanafn</string>
+    <string name="drafts">Drög</string>
+    <string name="favourite">Eftirlæti</string>
+    <string name="follow">Nýir fylgjendur</string>
+    <string name="action_about_instance">Um þetta tilvik</string>
+    <string name="add_account">Bæta við reikningi</string>
+    <string name="action_logout">Skrá út</string>
+    <string name="action_cache">Skyndiminni</string>
+    <string name="instance_example">Tilvik: mastodon.social</string>
+    <string name="tags">Merki</string>
+    <string name="toast_account_changed" formatted="false">Virkar nú með reikningnum %1$s</string>
+    <string name="shared_via">Deilt með Fedilab</string>
+    <string name="share_with">Deila með</string>
+    <string name="media">Efni</string>
+    <string name="replies">Svör</string>
+</resources>
