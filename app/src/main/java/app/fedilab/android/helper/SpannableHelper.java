@@ -37,6 +37,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -142,6 +143,7 @@ public class SpannableHelper {
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
+            emails(context, content);
         } else {
             content = new SpannableStringBuilder(text);
         }
@@ -441,6 +443,9 @@ public class SpannableHelper {
 
         for (Map.Entry<String, String> entry : urlDetails.entrySet()) {
             String value = entry.getValue();
+            if (value.startsWith("@") || value.startsWith("#")) {
+                continue;
+            }
             SpannableString contentUrl;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 contentUrl = new SpannableString(Html.fromHtml(value, Html.FROM_HTML_MODE_LEGACY));
@@ -659,6 +664,36 @@ public class SpannableHelper {
         }
     }
 
+
+    private static void emails(Context context, Spannable content) {
+        // --- For all patterns defined in Helper class ---
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        Matcher matcher = pattern.matcher(content);
+
+        while (matcher.find()) {
+            int matchStart = matcher.start();
+            int matchEnd = matcher.end();
+            String email = content.toString().substring(matchStart, matchEnd);
+            if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
+                content.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View textView) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("plain/text");
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+                        context.startActivity(Intent.createChooser(intent, null));
+                    }
+
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(linkColor);
+                    }
+                }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
+        }
+    }
 
     private static void interaction(Context context, Spannable content, List<Mention> mentions) {
         // --- For all patterns defined in Helper class ---
