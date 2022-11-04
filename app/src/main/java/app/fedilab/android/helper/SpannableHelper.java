@@ -115,6 +115,7 @@ public class SpannableHelper {
         HashMap<String, String> urlDetails = new HashMap<>();
         if (convertHtml) {
             Matcher matcherALink = Helper.aLink.matcher(text);
+
             //We stock details
             while (matcherALink.find()) {
                 String urlText = matcherALink.group(3);
@@ -140,6 +141,7 @@ public class SpannableHelper {
             interaction(context, content, mentionList);
             //Make all links
             linkify(context, content, urlDetails);
+            linkifyURL(context, content, urlDetails);
         } else {
             content = new SpannableStringBuilder(text);
         }
@@ -185,6 +187,8 @@ public class SpannableHelper {
         Matcher matcherLink = urlPattern.matcher(content);
 
         int offSetTruncate = 0;
+
+
         while (matcherLink.find()) {
             int matchStart = matcherLink.start() - offSetTruncate;
             int matchEnd = matchStart + matcherLink.group().length();
@@ -432,6 +436,229 @@ public class SpannableHelper {
             }
         }
     }
+
+    private static void linkifyURL(Context context, SpannableStringBuilder content, HashMap<String, String> urlDetails) {
+
+        for (Map.Entry<String, String> entry : urlDetails.entrySet()) {
+            String value = entry.getValue();
+            SpannableString contentUrl;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                contentUrl = new SpannableString(Html.fromHtml(value, Html.FROM_HTML_MODE_LEGACY));
+            else
+                contentUrl = new SpannableString(Html.fromHtml(value));
+
+            Pattern word = Pattern.compile(contentUrl.toString());
+            Matcher matcherLink = word.matcher(content);
+            while (matcherLink.find()) {
+                String url = entry.getKey();
+                int matchStart = matcherLink.start();
+                int matchEnd = matchStart + matcherLink.group().length();
+                if (matchEnd > content.toString().length()) {
+                    matchEnd = content.toString().length();
+                }
+
+                if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
+                    continue;
+                }
+                if (matchEnd <= content.length()) {
+                    content.setSpan(new LongClickableSpan() {
+                        @Override
+                        public void onLongClick(View view) {
+                            Context mContext = view.getContext();
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                            PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
+                            dialogBuilder.setView(popupLinksBinding.getRoot());
+                            AlertDialog alertDialog = dialogBuilder.create();
+                            alertDialog.show();
+                            String finalURl = url;
+                            if (urlDetails.containsValue(url)) {
+                                finalURl = Helper.getKeyByValue(urlDetails, url);
+                            }
+                            String finalURl1 = finalURl;
+                            popupLinksBinding.displayFullLink.setOnClickListener(v -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                                builder.setMessage(finalURl1);
+                                builder.setTitle(context.getString(R.string.display_full_link));
+                                builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                        .show();
+                                alertDialog.dismiss();
+                            });
+                            popupLinksBinding.shareLink.setOnClickListener(v -> {
+                                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                                sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                                sendIntent.putExtra(Intent.EXTRA_TEXT, finalURl1);
+                                sendIntent.setType("text/plain");
+                                sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent intentChooser = Intent.createChooser(sendIntent, context.getString(R.string.share_with));
+                                intentChooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intentChooser);
+                                alertDialog.dismiss();
+                            });
+
+                            popupLinksBinding.openOtherApp.setOnClickListener(v -> {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(finalURl1));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                try {
+                                    context.startActivity(intent);
+                                } catch (Exception e) {
+                                    Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                }
+                                alertDialog.dismiss();
+                            });
+
+                            popupLinksBinding.copyLink.setOnClickListener(v -> {
+                                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, finalURl1);
+                                if (clipboard != null) {
+                                    clipboard.setPrimaryClip(clip);
+                                    Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                                }
+                                alertDialog.dismiss();
+                            });
+
+                            popupLinksBinding.checkRedirect.setOnClickListener(v -> {
+                                try {
+
+                                    URL finalUrlCheck = new URL(finalURl1);
+                                    new Thread(() -> {
+                                        try {
+                                            String redirect = null;
+                                            HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
+                                            httpsURLConnection.setConnectTimeout(10 * 1000);
+                                            httpsURLConnection.setRequestProperty("http.keepAlive", "false");
+                                            httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                            httpsURLConnection.setRequestMethod("HEAD");
+                                            httpsURLConnection.setInstanceFollowRedirects(false);
+                                            if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
+                                                Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
+                                                for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                                                    if (entry.toString().toLowerCase().startsWith("location")) {
+                                                        Matcher matcher = urlPattern.matcher(entry.toString());
+                                                        if (matcher.find()) {
+                                                            redirect = matcher.group(1);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            httpsURLConnection.getInputStream().close();
+                                            if (redirect != null && finalURl1 != null && redirect.compareTo(finalURl1) != 0) {
+                                                URL redirectURL = new URL(redirect);
+                                                String host = redirectURL.getHost();
+                                                String protocol = redirectURL.getProtocol();
+                                                if (protocol == null || host == null) {
+                                                    redirect = null;
+                                                }
+                                            }
+                                            Handler mainHandler = new Handler(context.getMainLooper());
+                                            String finalRedirect = redirect;
+                                            Runnable myRunnable = () -> {
+                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                                                if (finalRedirect != null) {
+                                                    builder1.setMessage(context.getString(R.string.redirect_detected, finalURl1, finalRedirect));
+                                                    builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
+                                                        ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                                        ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
+                                                        if (clipboard1 != null) {
+                                                            clipboard1.setPrimaryClip(clip1);
+                                                            Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                                                        }
+                                                        dialog.dismiss();
+                                                    });
+                                                    builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
+                                                        Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
+                                                        sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                                                        sendIntent1.putExtra(Intent.EXTRA_TEXT, finalURl1);
+                                                        sendIntent1.setType("text/plain");
+                                                        context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
+                                                        dialog.dismiss();
+                                                    });
+                                                } else {
+                                                    builder1.setMessage(R.string.no_redirect);
+                                                }
+                                                builder1.setTitle(context.getString(R.string.check_redirect));
+                                                builder1.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                                        .show();
+
+                                            };
+                                            mainHandler.post(myRunnable);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }).start();
+                                } catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+
+                                alertDialog.dismiss();
+                            });
+
+                        }
+
+                        @Override
+                        public void onClick(@NonNull View textView) {
+                            String finalURl = url;
+                            if (urlDetails.containsValue(url)) {
+                                finalURl = Helper.getKeyByValue(urlDetails, url);
+                            }
+
+                            textView.setTag(CLICKABLE_SPAN);
+                            Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                            Matcher matcherLink = null;
+                            if (finalURl != null) {
+                                matcherLink = link.matcher(finalURl);
+                            }
+                            if (finalURl != null && matcherLink.find() && !finalURl.contains("medium.com")) {
+                                if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+                                    CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalURl, new CrossActionHelper.Callback() {
+                                        @Override
+                                        public void federatedStatus(Status status) {
+                                            Intent intent = new Intent(context, ContextActivity.class);
+                                            intent.putExtra(Helper.ARG_STATUS, status);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void federatedAccount(Account account) {
+                                        }
+                                    });
+                                } else {//It's an account
+                                    CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                                        @Override
+                                        public void federatedStatus(Status status) {
+                                        }
+
+                                        @Override
+                                        public void federatedAccount(Account account) {
+                                            Intent intent = new Intent(context, ProfileActivity.class);
+                                            Bundle b = new Bundle();
+                                            b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                            intent.putExtras(b);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                                }
+                            } else {
+                                Helper.openBrowser(context, finalURl);
+                            }
+
+                        }
+
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setUnderlineText(false);
+                            ds.setColor(linkColor);
+                        }
+                    }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+    }
+
 
     private static void interaction(Context context, Spannable content, List<Mention> mentions) {
         // --- For all patterns defined in Helper class ---
