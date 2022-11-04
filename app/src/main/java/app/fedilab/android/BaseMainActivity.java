@@ -852,103 +852,111 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     boolean fetchSharedMedia = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
                     boolean fetchShareContent = sharedpreferences.getBoolean(getString(R.string.SET_SHARE_DETAILS), true);
                     if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
-                        new Thread(() -> {
-                            if (url[0].startsWith("www."))
-                                url[0] = "http://" + url[0];
-                            Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
-                            String potentialUrl = null;
-                            while (matcherPattern.find()) {
-                                int matchStart = matcherPattern.start(1);
-                                int matchEnd = matcherPattern.end();
-                                if (matchStart < matchEnd && url[0].length() >= matchEnd)
-                                    potentialUrl = url[0].substring(matchStart, matchEnd);
-                            }
-                            // If we actually have a URL then make use of it.
-                            if (potentialUrl != null && potentialUrl.length() > 0) {
-                                Pattern titlePattern = Pattern.compile("<meta [^>]*property=[\"']og:title[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
-                                Pattern descriptionPattern = Pattern.compile("<meta [^>]*property=[\"']og:description[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
-                                Pattern imagePattern = Pattern.compile("<meta [^>]*property=[\"']og:image[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                        if (!url[0].trim().equalsIgnoreCase(sharedText.trim())) {
+                            Bundle b = new Bundle();
+                            b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);
+                            b.putString(Helper.ARG_SHARE_DESCRIPTION, sharedText);
+                            CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                        } else {
+                            new Thread(() -> {
+                                if (url[0].startsWith("www."))
+                                    url[0] = "http://" + url[0];
+                                Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
+                                String potentialUrl = null;
+                                while (matcherPattern.find()) {
+                                    int matchStart = matcherPattern.start(1);
+                                    int matchEnd = matcherPattern.end();
+                                    if (matchStart < matchEnd && url[0].length() >= matchEnd)
+                                        potentialUrl = url[0].substring(matchStart, matchEnd);
+                                }
+                                // If we actually have a URL then make use of it.
+                                if (potentialUrl != null && potentialUrl.length() > 0) {
+                                    Pattern titlePattern = Pattern.compile("<meta [^>]*property=[\"']og:title[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                    Pattern descriptionPattern = Pattern.compile("<meta [^>]*property=[\"']og:description[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
+                                    Pattern imagePattern = Pattern.compile("<meta [^>]*property=[\"']og:image[\"'] [^>]*content=[\"']([^'^\"]+?)[\"'][^>]*>");
 
-                                try {
-                                    OkHttpClient client = new OkHttpClient.Builder()
-                                            .connectTimeout(10, TimeUnit.SECONDS)
-                                            .writeTimeout(10, TimeUnit.SECONDS)
-                                            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                                            .readTimeout(10, TimeUnit.SECONDS).build();
-                                    Request request = new Request.Builder()
-                                            .url(potentialUrl)
-                                            .build();
-                                    client.newCall(request).enqueue(new Callback() {
-                                        @Override
-                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                            e.printStackTrace();
-                                            runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
-                                        }
-
-                                        @Override
-                                        public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                                            if (response.isSuccessful()) {
-                                                try {
-                                                    String data = response.body().string();
-                                                    Matcher matcherTitle;
-                                                    matcherTitle = titlePattern.matcher(data);
-                                                    Matcher matcherDescription = descriptionPattern.matcher(data);
-                                                    Matcher matcherImage = imagePattern.matcher(data);
-                                                    String titleEncoded = null;
-                                                    String descriptionEncoded = null;
-                                                    if (fetchShareContent) {
-                                                        while (matcherTitle.find())
-                                                            titleEncoded = matcherTitle.group(1);
-                                                        while (matcherDescription.find())
-                                                            descriptionEncoded = matcherDescription.group(1);
-                                                    }
-                                                    String image = null;
-                                                    if (fetchSharedMedia) {
-                                                        while (matcherImage.find())
-                                                            image = matcherImage.group(1);
-                                                    }
-                                                    String title = null;
-                                                    String description = null;
-                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                        if (titleEncoded != null)
-                                                            title = Html.fromHtml(titleEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
-                                                        if (descriptionEncoded != null)
-                                                            description = Html.fromHtml(descriptionEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
-                                                    } else {
-                                                        if (titleEncoded != null)
-                                                            title = Html.fromHtml(titleEncoded).toString();
-                                                        if (descriptionEncoded != null)
-                                                            description = Html.fromHtml(descriptionEncoded).toString();
-                                                    }
-                                                    String finalImage = image;
-                                                    String finalTitle = title;
-                                                    String finalDescription = description;
-
-
-                                                    runOnUiThread(() -> {
-                                                        Bundle b = new Bundle();
-                                                        b.putString(Helper.ARG_SHARE_URL, url[0]);
-                                                        b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
-                                                        b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
-                                                        b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
-                                                        b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
-                                                        b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
-                                                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                                                    });
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            } else {
+                                    try {
+                                        OkHttpClient client = new OkHttpClient.Builder()
+                                                .connectTimeout(10, TimeUnit.SECONDS)
+                                                .writeTimeout(10, TimeUnit.SECONDS)
+                                                .proxy(Helper.getProxy(getApplication().getApplicationContext()))
+                                                .readTimeout(10, TimeUnit.SECONDS).build();
+                                        Request request = new Request.Builder()
+                                                .url(potentialUrl)
+                                                .build();
+                                        client.newCall(request).enqueue(new Callback() {
+                                            @Override
+                                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                                e.printStackTrace();
                                                 runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
                                             }
-                                        }
-                                    });
-                                } catch (IndexOutOfBoundsException e) {
-                                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                                }
 
-                            }
-                        }).start();
+                                            @Override
+                                            public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                                                if (response.isSuccessful()) {
+                                                    try {
+                                                        String data = response.body().string();
+                                                        Matcher matcherTitle;
+                                                        matcherTitle = titlePattern.matcher(data);
+                                                        Matcher matcherDescription = descriptionPattern.matcher(data);
+                                                        Matcher matcherImage = imagePattern.matcher(data);
+                                                        String titleEncoded = null;
+                                                        String descriptionEncoded = null;
+                                                        if (fetchShareContent) {
+                                                            while (matcherTitle.find())
+                                                                titleEncoded = matcherTitle.group(1);
+                                                            while (matcherDescription.find())
+                                                                descriptionEncoded = matcherDescription.group(1);
+                                                        }
+                                                        String image = null;
+                                                        if (fetchSharedMedia) {
+                                                            while (matcherImage.find())
+                                                                image = matcherImage.group(1);
+                                                        }
+                                                        String title = null;
+                                                        String description = null;
+                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                            if (titleEncoded != null)
+                                                                title = Html.fromHtml(titleEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                            if (descriptionEncoded != null)
+                                                                description = Html.fromHtml(descriptionEncoded, Html.FROM_HTML_MODE_LEGACY).toString();
+                                                        } else {
+                                                            if (titleEncoded != null)
+                                                                title = Html.fromHtml(titleEncoded).toString();
+                                                            if (descriptionEncoded != null)
+                                                                description = Html.fromHtml(descriptionEncoded).toString();
+                                                        }
+                                                        String finalImage = image;
+                                                        String finalTitle = title;
+                                                        String finalDescription = description;
+
+
+                                                        runOnUiThread(() -> {
+                                                            Bundle b = new Bundle();
+                                                            b.putString(Helper.ARG_SHARE_URL, url[0]);
+                                                            b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                            b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
+                                                            b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
+                                                            b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
+                                                            b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
+                                                            CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                                                        });
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                } else {
+                                                    runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                                }
+                                            }
+                                        });
+                                    } catch (IndexOutOfBoundsException e) {
+                                        Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            }).start();
+                        }
+
                     } else {
                         Bundle b = new Bundle();
                         b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);

@@ -434,7 +434,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         if (description != null && description.trim().length() > 0) {
             statusList.get(position).text += description + "\n\n";
-            if (!description.contains(url)) {
+            if (url != null && !description.contains(url)) {
                 statusList.get(position).text += url;
             }
         } else if (content != null && content.trim().length() > 0) {
