@@ -92,8 +92,8 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-        text = text.replaceAll("(&gt;(.*))<\\s?br\\s?/?>", "<blockquote>$2</blockquote>");
-        text = text.replaceAll("(&gt;(.*))<\\s?/p\\s?/?>", "<blockquote>$2</blockquote>");
+        text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(.*))<\\s?br\\s?/?>", "$2<blockquote>$3</blockquote><br>");
+        text = text.replaceAll("((<\\s?br\\s?/?>)&gt;(.*))<\\s?/p\\s?/?>", "$2<blockquote>$3</blockquote></p>");
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
         Matcher matcherImg = imgPattern.matcher(text);
         HashMap<String, String> imagesToReplace = new LinkedHashMap<>();
