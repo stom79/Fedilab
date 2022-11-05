@@ -1104,14 +1104,17 @@ public class Helper {
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
         if (targetedUrl != null && Helper.isValidContextForGlide(context)) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                RequestBuilder<Drawable> requestBuilder = Glide.with(context)
-                        .asDrawable()
-                        .load(targetedUrl)
-                        .thumbnail(0.1f);
-                if (crop) {
-                    requestBuilder = requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)));
+                try {
+                    RequestBuilder<Drawable> requestBuilder = Glide.with(context)
+                            .asDrawable()
+                            .load(targetedUrl)
+                            .thumbnail(0.1f);
+                    if (crop) {
+                        requestBuilder = requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)));
+                    }
+                    requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
+                } catch (Exception ignored) {
                 }
-                requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             } else {
                 RequestBuilder<GifDrawable> requestBuilder = Glide.with(context)
                         .asGif()

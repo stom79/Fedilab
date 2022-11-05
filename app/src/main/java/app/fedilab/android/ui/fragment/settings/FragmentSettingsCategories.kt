@@ -103,7 +103,7 @@ class FragmentSettingsCategories : PreferenceFragmentCompat() {
         }
 
         val adminPreference = findPreference<Preference>(getString(R.string.pref_category_key_administration))
-        adminPreference?.isVisible = currentAccount.admin
+        adminPreference?.isVisible = currentAccount != null && currentAccount.admin
         adminPreference?.setOnPreferenceClickListener { false }
 
         findPreference<Preference>(getString(R.string.pref_category_key_languages))?.setOnPreferenceClickListener {
