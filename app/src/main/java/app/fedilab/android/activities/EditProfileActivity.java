@@ -19,6 +19,7 @@ import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -191,30 +192,35 @@ public class EditProfileActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_MEDIA_AVATAR && resultCode == RESULT_OK) {
-            binding.avatarProgress.setVisibility(View.VISIBLE);
-            Glide.with(EditProfileActivity.this)
-                    .asDrawable()
-                    .load(data.getData())
-                    .thumbnail(0.1f)
-                    .into(binding.accountPp);
-            accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), AccountsVM.UpdateMediaType.AVATAR)
-                    .observe(EditProfileActivity.this, account -> {
-                        if (account != null) {
-                            sendBroadCast(account);
-                            binding.avatarProgress.setVisibility(View.GONE);
-                            currentAccount.mastodon_account = account;
-                            Helper.recreateMainActivity(EditProfileActivity.this);
-                            new Thread(() -> {
-                                try {
-                                    new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(currentAccount);
-                                } catch (DBException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                        } else {
-                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                        }
-                    });
+            Uri uri = data.getData();
+            if (uri != null) {
+                binding.avatarProgress.setVisibility(View.VISIBLE);
+                Glide.with(EditProfileActivity.this)
+                        .asDrawable()
+                        .load(uri)
+                        .thumbnail(0.1f)
+                        .into(binding.accountPp);
+                accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, uri, AccountsVM.UpdateMediaType.AVATAR)
+                        .observe(EditProfileActivity.this, account -> {
+                            if (account != null) {
+                                sendBroadCast(account);
+                                binding.avatarProgress.setVisibility(View.GONE);
+                                currentAccount.mastodon_account = account;
+                                Helper.recreateMainActivity(EditProfileActivity.this);
+                                new Thread(() -> {
+                                    try {
+                                        new app.fedilab.android.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(currentAccount);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            } else {
+                Toasty.error(EditProfileActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+            }
         } else if (requestCode == PICK_MEDIA_HEADER && resultCode == RESULT_OK) {
             Glide.with(EditProfileActivity.this)
                     .asDrawable()
