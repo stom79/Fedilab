@@ -675,6 +675,13 @@ public class SpannableHelper {
             int matchEnd = matcher.end();
             String email = content.toString().substring(matchStart, matchEnd);
             if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
+                ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+                if (clickableSpans != null) {
+                    for (ClickableSpan clickableSpan : clickableSpans) {
+                        content.removeSpan(clickableSpan);
+                    }
+                }
+                content.removeSpan(clickableSpans);
                 content.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(@NonNull View textView) {
