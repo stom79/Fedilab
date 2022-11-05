@@ -458,6 +458,7 @@ public class ComposeWorker extends Worker {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
                 .setContentTitle(context.getString(R.string.post_message))
                 .setOngoing(true)
+                .setSilent(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_HIGH);
 
