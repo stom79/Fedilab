@@ -36,6 +36,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -90,6 +92,8 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
+        text = text.replaceAll("(&gt;(.*))<\\s?br\\s?/?>", "<blockquote>$2</blockquote>");
+        text = text.replaceAll("(&gt;(.*))<\\s?/p\\s?/?>", "<blockquote>$2</blockquote>");
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
         Matcher matcherImg = imgPattern.matcher(text);
         HashMap<String, String> imagesToReplace = new LinkedHashMap<>();
@@ -144,6 +148,7 @@ public class SpannableHelper {
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
             emails(context, content);
+            replaceQuoteSpans(context, content);
         } else {
             content = new SpannableStringBuilder(text);
         }
@@ -845,6 +850,26 @@ public class SpannableHelper {
             if (!alreadyAdded) {
                 status.media_attachments.add(attachment);
             }
+        }
+    }
+
+
+    private static void replaceQuoteSpans(Context context, Spannable spannable) {
+        QuoteSpan[] quoteSpans = spannable.getSpans(0, spannable.length(), QuoteSpan.class);
+        for (QuoteSpan quoteSpan : quoteSpans) {
+            int start = spannable.getSpanStart(quoteSpan);
+            int end = spannable.getSpanEnd(quoteSpan);
+            int flags = spannable.getSpanFlags(quoteSpan);
+            spannable.removeSpan(quoteSpan);
+            int colord = ContextCompat.getColor(context, R.color.cyanea_accent_reference);
+            spannable.setSpan(new CustomQuoteSpan(
+                            ContextCompat.getColor(context, R.color.transparent),
+                            colord,
+                            10,
+                            20),
+                    start,
+                    end,
+                    flags);
         }
     }
 
