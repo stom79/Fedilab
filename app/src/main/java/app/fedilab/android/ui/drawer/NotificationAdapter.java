@@ -82,23 +82,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         String type = notificationList.get(position).type;
-        switch (type) {
-            case "follow":
-                return TYPE_FOLLOW;
-            case "follow_request":
-                return TYPE_FOLLOW_REQUEST;
-            case "mention":
-                return TYPE_MENTION;
-            case "reblog":
-                return TYPE_REBLOG;
-            case "favourite":
-                return TYPE_FAVOURITE;
-            case "poll":
-                return TYPE_POLL;
-            case "status":
-                return TYPE_STATUS;
-            case "pleroma:emoji_reaction":
-                return TYPE_REACTION;
+        if (type != null) {
+            switch (type) {
+                case "follow":
+                    return TYPE_FOLLOW;
+                case "follow_request":
+                    return TYPE_FOLLOW_REQUEST;
+                case "mention":
+                    return TYPE_MENTION;
+                case "reblog":
+                    return TYPE_REBLOG;
+                case "favourite":
+                    return TYPE_FAVOURITE;
+                case "poll":
+                    return TYPE_POLL;
+                case "status":
+                    return TYPE_STATUS;
+                case "pleroma:emoji_reaction":
+                    return TYPE_REACTION;
+            }
         }
         return super.getItemViewType(position);
     }
@@ -279,7 +281,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
-                if (displayMedia && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {
+                if (displayMedia && notification.status != null && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.VISIBLE);
                 } else {
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);

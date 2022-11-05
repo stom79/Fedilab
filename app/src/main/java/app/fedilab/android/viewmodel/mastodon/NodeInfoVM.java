@@ -66,9 +66,15 @@ public class NodeInfoVM extends AndroidViewModel {
      * @return LiveData<WellKnownNodeinfo.NodeInfo>
      */
     public LiveData<WellKnownNodeinfo.NodeInfo> getNodeInfo(String instance) {
+        nodeInfoMutableLiveData = new MutableLiveData<>();
         if (instance != null) {
-            NodeInfoService nodeInfoService = init(instance);
-            nodeInfoMutableLiveData = new MutableLiveData<>();
+            NodeInfoService nodeInfoService;
+            try {
+                nodeInfoService = init(instance);
+            } catch (Exception e) {
+                nodeInfoMutableLiveData.setValue(null);
+                return nodeInfoMutableLiveData;
+            }
             new Thread(() -> {
                 WellKnownNodeinfo.NodeInfo nodeInfo = null;
 
