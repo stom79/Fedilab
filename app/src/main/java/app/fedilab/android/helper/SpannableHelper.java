@@ -38,7 +38,6 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -92,8 +91,7 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-        text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(.*))<\\s?br\\s?/?>", "$2<blockquote>$3</blockquote><br>");
-        text = text.replaceAll("((<\\s?br\\s?/?>)&gt;(.*))<\\s?/p\\s?/?>", "$2<blockquote>$3</blockquote></p>");
+        text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?\\/?>)&gt;(((?!([<])).)*))", "$2<blockquote>$3</blockquote>");
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
         Matcher matcherImg = imgPattern.matcher(text);
         HashMap<String, String> imagesToReplace = new LinkedHashMap<>();
@@ -672,7 +670,7 @@ public class SpannableHelper {
 
     private static void emails(Context context, Spannable content) {
         // --- For all patterns defined in Helper class ---
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        Pattern pattern = Helper.emailPattern;
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
