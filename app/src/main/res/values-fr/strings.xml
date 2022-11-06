@@ -29,7 +29,7 @@
     <string name="camera">Appareil photo</string>
     <string name="delete_all">Tout effacer</string>
     <string name="schedule">Programmer</string>
-    <string name="text_size">Taille du texte et des icônes</string>
+    <string name="text_size">Tailles des textes</string>
     <string name="next">Suivant</string>
     <string name="previous">Précédent</string>
     <string name="open_with">Ouvrir avec</string>
@@ -767,4 +767,24 @@
     <string name="set_display_counters">Afficher des compteurs</string>
     <string name="set_display_counters_description">Affichera une bulle avec un compteur dans les onglets des fils pour les nouveaux messages</string>
     <string name="view_the_original_message">Ouvrir le message d\'origine</string>
+    <string name="full_date_edited">%1$s a édité %2$s</string>
+    <string name="icon_size">Tailles des icônes</string>
+    <string name="remember_position">Se souvenir de la position dans les fils</string>
+    <string name="aggregate_notifications">Regrouper les notifications</string>
+    <string name="display_media_notification_summary">Les médias seront affichés dans les notifications de partages et de favoris</string>
+    <string name="display_media_notification">Afficher les médias dans les notifications</string>
+    <string name="pickup_logo">Choisissez un logo</string>
+    <string name="change_logo">Changer de logo</string>
+    <string name="change_logo_description">Modifier le logo de l’application sur votre appareil</string>
+    <string name="action_pin">Épingler le message</string>
+    <string name="action_unpin">Détacher le message</string>
+    <string name="toast_unpin">Le message n’est plus épinglé !</string>
+    <string name="toast_pin">Le message a été épinglé</string>
+    <string name="set_live_translate_title">Traduire les messages</string>
+    <string name="set_live_translate">Forcer la traduction dans une langue spécifique. Choisissez la première valeur pour réinitialiser les paramètres de l’appareil</string>
+    <string name="aggregate_notifications_summary">Lors de l’activation, l’application réduira les notifications associées</string>
+    <string name="edit_message">Éditer le message</string>
+    <string name="status_history">Historique du message</string>
+    <string name="edited_message_at">Édité à %1$s</string>
+    <string name="created_message_at">Créé à %1$s</string>
 </resources>
