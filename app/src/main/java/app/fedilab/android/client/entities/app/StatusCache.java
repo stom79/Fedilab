@@ -493,6 +493,26 @@ public class StatusCache {
         }
     }
 
+    /**
+     * delete statuses in db for a user that wrote them
+     *
+     * @param instance     - String instance
+     * @param userid       - String status id
+     * @param targetedUser - String id of the user that wrote them
+     * @throws DBException exception with database
+     */
+    public void deleteStatusForTargetedAccount(String instance, String userid, String targetedUser) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            db.delete(Sqlite.TABLE_STATUS_CACHE,
+                    Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_STATUS + " LIKE ?",
+                    new String[]{userid, instance, "%\"id\":\"" + targetedUser + "\"%" });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Get paginated notifications from db

@@ -67,12 +67,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle b = intent.getExtras();
             if (b != null) {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
+                String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
                 if (receivedStatus != null && notificationAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
@@ -86,10 +88,27 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                             notificationAdapter.notifyItemChanged(position);
                         }
                     }
+                } else if (delete_all_for_account_id != null) {
+                    List<Notification> toRemove = new ArrayList<>();
+                    if (notificationList != null) {
+                        for (int position = 0; position < notificationList.size(); position++) {
+                            if (notificationList.get(position).account.id.equals(delete_all_for_account_id)) {
+                                toRemove.add(notificationList.get(position));
+                            }
+                        }
+                    }
+                    if (toRemove.size() > 0) {
+                        for (int i = 0; i < toRemove.size(); i++) {
+                            int position = getPosition(toRemove.get(i));
+                            notificationList.remove(position);
+                            notificationAdapter.notifyItemRemoved(position);
+                        }
+                    }
                 }
             }
         }
     };
+
     private boolean isViewInitialized;
     private Notifications initialNotifications;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;

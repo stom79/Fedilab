@@ -217,6 +217,7 @@ public class Helper {
 
     public static final String ARG_STATUS_POSTED = "ARG_STATUS_POSTED";
     public static final String ARG_STATUS_ACTION = "ARG_STATUS_ACTION";
+    public static final String ARG_DELETE_ALL_FOR_ACCOUNT_ID = "ARG_DELETE_ALL_FOR_ACCOUNT_ID";
     public static final String ARG_STATUS_ACCOUNT_ID_DELETED = "ARG_STATUS_ACCOUNT_ID_DELETED";
 
     public static final String ARG_STATUS_DRAFT = "ARG_STATUS_DRAFT";

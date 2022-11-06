@@ -14,6 +14,8 @@ package app.fedilab.android.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
+
 import android.app.Application;
 import android.net.Uri;
 import android.os.Handler;
@@ -33,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Accounts;
@@ -50,6 +53,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Token;
+import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import okhttp3.MultipartBody;
@@ -627,6 +631,8 @@ public class AccountsVM extends AndroidViewModel {
                     Response<RelationShip> blockResponse = blockCall.execute();
                     if (blockResponse.isSuccessful()) {
                         relationShip = blockResponse.body();
+                        sendAction(getApplication().getApplicationContext(), Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID, null, id);
+                        new StatusCache(getApplication().getApplicationContext()).deleteStatusForTargetedAccount(MainActivity.currentInstance, MainActivity.currentUserID, id);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

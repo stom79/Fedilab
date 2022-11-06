@@ -89,6 +89,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (b != null) {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
                 Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
@@ -132,6 +133,22 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
                     timelineStatuses.add(0, statusPosted);
                     statusAdapter.notifyItemInserted(0);
+                } else if (delete_all_for_account_id != null) {
+                    List<Status> toRemove = new ArrayList<>();
+                    if (timelineStatuses != null) {
+                        for (int position = 0; position < timelineStatuses.size(); position++) {
+                            if (timelineStatuses.get(position).account.id.equals(delete_all_for_account_id)) {
+                                toRemove.add(timelineStatuses.get(position));
+                            }
+                        }
+                    }
+                    if (toRemove.size() > 0) {
+                        for (int i = 0; i < toRemove.size(); i++) {
+                            int position = getPosition(toRemove.get(i));
+                            timelineStatuses.remove(position);
+                            statusAdapter.notifyItemRemoved(position);
+                        }
+                    }
                 }
             }
         }
