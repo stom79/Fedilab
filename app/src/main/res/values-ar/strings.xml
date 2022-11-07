@@ -29,7 +29,7 @@
     <string name="camera">آلة التصوير</string>
     <string name="delete_all">حذف الكل</string>
     <string name="schedule">برمجة</string>
-    <string name="text_size">حجم الخط والأيقونات</string>
+    <string name="text_size">أحجام النصوص</string>
     <string name="next">التالي</string>
     <string name="previous">العودة</string>
     <string name="open_with">فتح بواسطة</string>
@@ -622,4 +622,8 @@
     <string name="show_content">إظهار المحتوى&gt;</string>
     <string name="stop_recording">إيقاف التسجيل</string>
     <string name="replace_instagram_host">نطاق الواجهة الأمامية لـ Instagram</string>
+    <string name="toots_visibility_title">مدى رؤية الرسائل بشكل افتراضي:</string>
+    <string name="icon_size">أحجام الأيقونات</string>
+    <string name="other">أخرى</string>
+    <string name="add_status">إضافة حالة</string>
 </resources>
