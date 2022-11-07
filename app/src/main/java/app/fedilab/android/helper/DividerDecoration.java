@@ -39,12 +39,20 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
     private final Context _mContext;
     private final List<Status> statusList;
     private final float fontScale;
+    private final int indentationMax;
     private final List<Integer> colorList = Arrays.asList(
             R.color.decoration_1,
             R.color.decoration_2,
             R.color.decoration_3,
             R.color.decoration_4,
-            R.color.decoration_5
+            R.color.decoration_5,
+            R.color.decoration_6,
+            R.color.decoration_7,
+            R.color.decoration_8,
+            R.color.decoration_9,
+            R.color.decoration_10,
+            R.color.decoration_11,
+            R.color.decoration_12
     );
 
     public DividerDecoration(Context context, List<Status> statuses) {
@@ -52,6 +60,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
         statusList = statuses;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(_mContext);
         fontScale = prefs.getFloat(_mContext.getString(R.string.SET_FONT_SCALE), 1.1f);
+        indentationMax = prefs.getInt(_mContext.getString(R.string.SET_MAX_INDENTATION), 5);
     }
 
     @Override
@@ -62,7 +71,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
             Status status = statusAdapter.getItem(position);
 
             int start = (int) Helper.convertDpToPixel(
-                    6 * fontScale * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, colorList.size()),
+                    6 * fontScale * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, indentationMax),
                     _mContext);
 
             if (parent.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
@@ -84,8 +93,8 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                 Status status = statusAdapter.getItem(position);
 
                 int indentation = Math.min(
-                        CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, colorList.size()),
-                        colorList.size());
+                        CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, indentationMax),
+                        indentationMax);
 
                 if (indentation > 0) {
                     Paint paint = new Paint();
@@ -100,9 +109,14 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                             startPx = c.getWidth() - startPx;
 
                         float bottomPx = view.getBottom();
-
-                        paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), colorList.get(j), _mContext.getTheme()));
-                        if (j == colorList.size() - 1) {
+                        int color;
+                        if (j >= colorList.size()) {
+                            color = colorList.get(j - colorList.size());
+                        } else {
+                            color = colorList.get(j);
+                        }
+                        paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), color, _mContext.getTheme()));
+                        if (j == indentationMax - 1) {
                             paint.setPathEffect(new DashPathEffect(
                                     new float[]{Helper.convertDpToPixel(3, _mContext), Helper.convertDpToPixel(3, _mContext)},
                                     0));
@@ -111,8 +125,13 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
                         c.drawLine(startPx, view.getTop() - margin, startPx, bottomPx, paint);
                     }
-
-                    paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), colorList.get(indentation - 1), _mContext.getTheme()));
+                    int color;
+                    if (indentation - 1 >= colorList.size()) {
+                        color = colorList.get(indentation - 1 - colorList.size());
+                    } else {
+                        color = colorList.get(indentation - 1);
+                    }
+                    paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), color, _mContext.getTheme()));
 
                     float startDp = 6 * fontScale * (indentation - 1) + 6 * fontScale;
                     float centerPx = view.getBottom() - view.getHeight() / 2F;

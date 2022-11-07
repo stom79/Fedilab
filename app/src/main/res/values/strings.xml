@@ -969,6 +969,8 @@
     <string name="SET_NOTIF_POLL" translatable="false">SET_NOTIF_POLL</string>
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
+    <string name="SET_MAX_INDENTATION" translatable="false">SET_MAX_INDENTATION</string>
+
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
     <string name="SET_FONT_SCALE_ICON" translatable="false">SET_FONT_SCALE_ICON</string>
     <string name="SET_FONT_SCALE_ICON_INT" translatable="false">SET_FONT_SCALE_ICON_INT</string>
@@ -1560,4 +1562,5 @@
     <string name="status_history">Message history</string>
     <string name="edited_message_at">Edited at %1$s</string>
     <string name="created_message_at">Created at %1$s</string>
+    <string name="max_indentation_thread">Max indentation in threads</string>
 </resources>

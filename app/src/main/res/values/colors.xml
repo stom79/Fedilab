@@ -77,21 +77,18 @@
     <color name="dark_icon_theme">#f3f3f3</color>
 
 
-    <color name="decoration_1">#7986CB</color> <!-- Red 300 -->
-    <color name="decoration_2">#4DB6AC</color> <!-- Purple 300 -->
+    <color name="decoration_1">#7986CB</color> <!-- Indigo  300 -->
+    <color name="decoration_2">#4DB6AC</color> <!-- Teal 300 -->
     <color name="decoration_3">#FFD54F</color> <!-- Amber 300 -->
     <color name="decoration_4">#64B5F6</color> <!-- Blue 300 -->
-    <color name="decoration_5">#9E9E9E</color> <!-- Green 300 -->
-    <!-- Teal 300 -->
-    <!-- Deep Orange 300 -->
-    <!-- Cyan 300 -->
-    <!-- Light Green 300 -->
-    <!-- Deep Purple 300 -->
-    <!-- Orange 300 -->
-    <!-- Light Blue 300 -->
-    <!-- Lime 300 -->
-    <!-- Indigo 300 -->
-    <!-- Gray 500 -->
+    <color name="decoration_5">#DCE775</color> <!-- Lime  300 -->
+    <color name="decoration_6">#E57373</color> <!-- Red   300 -->
+    <color name="decoration_7">#4DD0E1</color> <!-- Cyan  300 -->
+    <color name="decoration_8">#FFF176</color> <!-- Yellow  300 -->
+    <color name="decoration_9">#81C784</color> <!-- Green 300 -->
+    <color name="decoration_10">#A1887F</color> <!-- Brown 300 -->
+    <color name="decoration_11">#AED581</color> <!-- Light Green  300 -->
+    <color name="decoration_12">#FF8A65</color> <!-- Deep Orange  300 -->
 
-
+    <color name="decoration_end">#9E9E9E</color> <!-- Gray  300 -->
 </resources>
