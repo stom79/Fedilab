@@ -413,23 +413,27 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = timelineResponse.body();
                         statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
-                        if (statusList != null && statusList.size() > 0) {
-                            addFetchMore(statusList, timelineStatuses, timelineParams);
-                            for (Status status : statuses.statuses) {
-                                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-                                StatusCache statusCache = new StatusCache();
-                                statusCache.instance = timelineParams.instance;
-                                statusCache.user_id = timelineParams.userId;
-                                statusCache.status = status;
-                                statusCache.type = timelineParams.type;
-                                statusCache.status_id = status.id;
-                                try {
-                                    int inserted = statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
-                                    if (inserted == 0) {
-                                        status.cached = true;
+                        if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                            //Fetch More is added on filtered statuses
+                            addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
+                            //All statuses (even filtered will be added to cache)
+                            if (statusList != null && statusList.size() > 0) {
+                                for (Status status : statusList) {
+                                    StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                    StatusCache statusCache = new StatusCache();
+                                    statusCache.instance = timelineParams.instance;
+                                    statusCache.user_id = timelineParams.userId;
+                                    statusCache.status = status;
+                                    statusCache.type = timelineParams.type;
+                                    statusCache.status_id = status.id;
+                                    try {
+                                        int inserted = statusCacheDAO.insertOrUpdate(statusCache, timelineParams.slug);
+                                        if (inserted == 0) {
+                                            status.cached = true;
+                                        }
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (DBException e) {
-                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -465,7 +469,7 @@ public class TimelinesVM extends AndroidViewModel {
                         //Only not already present statuses are added
                         statusesDb.statuses = notPresentStatuses;
                     }
-                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb.statuses, timelineParams.type, true);
+                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb.statuses, timelineParams.type);
                     if (statuses.statuses != null && statuses.statuses.size() > 0) {
                         addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                         statuses.pagination = new Pagination();

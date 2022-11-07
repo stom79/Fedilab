@@ -60,17 +60,6 @@ public class TimelineHelper {
         return retrofit.create(MastodonAccountsService.class);
     }
 
-    /**
-     * Allows to filter statuses, should be called in API calls (background)
-     *
-     * @param context            - Context
-     * @param statuses           - List of {@link Status}
-     * @param filterTimeLineType - {@link Timeline.TimeLineEnum}
-     * @return filtered List<Status>
-     */
-    public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
-        return filterStatus(context, statuses, filterTimeLineType, false);
-    }
 
     /**
      * Allows to filter statuses, should be called in API calls (background)
@@ -80,7 +69,7 @@ public class TimelineHelper {
      * @param filterTimeLineType - {@link Timeline.TimeLineEnum}
      * @return filtered List<Status>
      */
-    public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType, boolean cached) {
+    public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
         //A security to make sure filters have been fetched before displaying messages
         List<Status> statusesToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
@@ -102,9 +91,6 @@ public class TimelineHelper {
         }
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
-            for (Status status : statuses) {
-                status.cached = cached;
-            }
             for (Filter filter : BaseMainActivity.mainFilters) {
                 if (filter.irreversible) { //Dealt by the server
                     continue;
@@ -200,7 +186,7 @@ public class TimelineHelper {
                 for (String filterContext : filter.context) {
                     if (Timeline.TimeLineEnum.NOTIFICATION.getValue().equalsIgnoreCase(filterContext)) {
                         if (filter.whole_word) {
-                            Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
+                            Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)", Pattern.CASE_INSENSITIVE);
                             for (Notification notification : notifications) {
                                 notification.cached = cached;
                                 if (notification.status != null) {
