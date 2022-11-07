@@ -162,13 +162,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = null;
+        initialNotifications = null;
         route(null, false);
     }
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         flagLoading = false;
         isViewInitialized = Timeline.TimeLineEnum.NOTIFICATION.getValue().compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
@@ -350,7 +350,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (!isAdded()) {
             return;
         }
-
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
 
@@ -369,9 +368,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             timelineParams.maxId = max_id;
         }
         timelineParams.excludeType = getExcludeType();
-
         timelineParams.fetchingMissing = fetchingMissing;
-
         if (useCache) {
             getCachedNotifications(direction, fetchingMissing, timelineParams);
         } else {

@@ -223,21 +223,19 @@ public class NotificationsVM extends AndroidViewModel {
     /**
      * Get a notification for the authenticated account by its id
      *
+     * @param user_id  String - UserId for the api call
      * @param instance String - Instance for the api call
      * @param token    String - Token of the authenticated account
      */
-    public LiveData<Void> clearNotification(@NonNull String instance, String token) {
+    public LiveData<Void> clearNotification(@NonNull String user_id, @NonNull String instance, String token) {
         voidMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Call<Void> voidCall = mastodonNotificationsService.clearAllNotifications(token);
-            try {
-                new StatusCache(getApplication().getApplicationContext()).deleteNotifications();
-            } catch (Exception ignored) {
-            }
             if (voidCall != null) {
                 try {
                     voidCall.execute();
+                    new StatusCache(getApplication().getApplicationContext()).deleteNotifications(user_id, instance);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

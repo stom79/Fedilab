@@ -99,8 +99,10 @@ public class FragmentNotificationContainer extends Fragment {
                 db.setPositiveButton(R.string.delete_all, (dialog, id) -> {
                     changes.set(true);
                     NotificationsVM notificationsVM = new ViewModelProvider(FragmentNotificationContainer.this).get(NotificationsVM.class);
-                    notificationsVM.clearNotification(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
-                            .observe(getViewLifecycleOwner(), unused -> Toasty.info(requireActivity(), R.string.delete_notification_all, Toasty.LENGTH_LONG).show());
+                    notificationsVM.clearNotification(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                            .observe(getViewLifecycleOwner(), unused -> {
+                                Toasty.info(requireActivity(), R.string.delete_notification_all, Toasty.LENGTH_LONG).show();
+                            });
                     dialog.dismiss();
                 });
                 db.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -189,24 +191,8 @@ public class FragmentNotificationContainer extends Fragment {
                     ((MaterialButton) v1).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_expand_less_24, requireContext().getTheme()));
                 }
             });
+            dialogBuilder.setOnDismissListener(dialogInterface -> doAction(changes.get(), excludedCategoriesList));
             dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> {
-                if (changes.get()) {
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    if (excludedCategoriesList.size() > 0) {
-                        StringBuilder cat = new StringBuilder();
-                        for (String category : excludedCategoriesList) {
-                            cat.append(category).append('|');
-                        }
-                        if (cat.toString().endsWith("|")) {
-                            cat.setLength(cat.length() - 1);
-                        }
-                        editor.putString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, cat.toString());
-                    } else {
-                        editor.putString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
-                    }
-                    editor.commit();
-                    ((BaseMainActivity) requireActivity()).refreshFragment();
-                }
                 dialog.dismiss();
             });
             AlertDialog alertDialog = dialogBuilder.create();
@@ -239,6 +225,27 @@ public class FragmentNotificationContainer extends Fragment {
             }
         });
         return binding.getRoot();
+    }
+
+    private void doAction(boolean changed, List<String> excludedCategoriesList) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        if (changed) {
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            if (excludedCategoriesList.size() > 0) {
+                StringBuilder cat = new StringBuilder();
+                for (String category : excludedCategoriesList) {
+                    cat.append(category).append('|');
+                }
+                if (cat.toString().endsWith("|")) {
+                    cat.setLength(cat.length() - 1);
+                }
+                editor.putString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, cat.toString());
+            } else {
+                editor.putString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
+            }
+            editor.commit();
+            ((BaseMainActivity) requireActivity()).refreshFragment();
+        }
     }
 
     @Override

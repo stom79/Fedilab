@@ -227,6 +227,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         binding.swipeContainer.setColorSchemeColors(
                 c1, c1, c1
         );
+        initialConversations = null;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         timelinesVM = new ViewModelProvider(FragmentMastodonConversation.this).get(TimelinesVM.class);
