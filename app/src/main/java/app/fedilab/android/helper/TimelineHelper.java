@@ -100,7 +100,6 @@ public class TimelineHelper {
                 }
             }
         }
-
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
             for (Status status : statuses) {
@@ -113,13 +112,13 @@ public class TimelineHelper {
                 for (String filterContext : filter.context) {
                     if (filterTimeLineType.getValue().equalsIgnoreCase(filterContext)) {
                         if (filter.whole_word) {
-                            Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)");
+                            Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)", Pattern.CASE_INSENSITIVE);
                             for (Status status : statuses) {
                                 String content;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
-                                    content = Html.fromHtml(status.content).toString();
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
                                 Matcher m = p.matcher(content);
                                 if (m.find()) {
                                     statusesToRemove.add(status);
@@ -128,9 +127,9 @@ public class TimelineHelper {
                                 if (status.spoiler_text != null) {
                                     String spoilerText;
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
                                     else
-                                        spoilerText = Html.fromHtml(status.spoiler_text).toString();
+                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
                                     Matcher ms = p.matcher(spoilerText);
                                     if (ms.find()) {
                                         statusesToRemove.add(status);
@@ -141,9 +140,9 @@ public class TimelineHelper {
                             for (Status status : statuses) {
                                 String content;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
-                                    content = Html.fromHtml(status.content).toString();
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
                                 if (content.contains(filter.phrase)) {
                                     statusesToRemove.add(status);
                                     continue;
@@ -152,9 +151,9 @@ public class TimelineHelper {
                                 if (status.spoiler_text != null) {
                                     String spoilerText;
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
                                     else
-                                        spoilerText = Html.fromHtml(status.spoiler_text).toString();
+                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
                                     if (spoilerText.contains(filter.phrase)) {
                                         statusesToRemove.add(status);
                                     }
