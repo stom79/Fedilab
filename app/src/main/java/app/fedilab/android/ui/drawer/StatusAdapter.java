@@ -1003,7 +1003,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.visibility.setImageResource(ressource);
             holder.binding.dateShort.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setVisibility(View.GONE);
+            if (statusToDeal.application != null) {
+                holder.binding.app.setVisibility(View.VISIBLE);
+                holder.binding.app.setText(statusToDeal.application.name);
+                holder.binding.app.setOnClickListener(v -> {
+                    Helper.openBrowser(context, statusToDeal.application.website);
+                });
+            } else {
+                holder.binding.app.setVisibility(View.GONE);
+            }
+
         } else {
+            holder.binding.app.setVisibility(View.GONE);
             holder.binding.editTime.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setImageResource(ressource);
             if (displayCounters && canBeFederated) {
