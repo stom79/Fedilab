@@ -16,10 +16,12 @@ package app.fedilab.android.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +32,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.io.File;
@@ -74,6 +77,9 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         binding.title.setText(R.string.drafts);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+        binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         binding.loader.setVisibility(View.VISIBLE);
         binding.lvStatus.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);

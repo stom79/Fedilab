@@ -16,13 +16,16 @@ package app.fedilab.android.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -53,7 +56,9 @@ public class ScheduledActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+        binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         binding.title.setText(R.string.scheduled);
         binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.toots_server)));

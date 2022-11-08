@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -479,6 +480,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+        binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         statusList = new ArrayList<>();
         Bundle b = getIntent().getExtras();
         if (b != null) {
@@ -565,7 +569,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }).start();
         }
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
         if (MainActivity.instanceInfo == null) {
             String instanceInfo = sharedpreferences.getString(getString(R.string.INSTANCE_INFO) + instance, null);
             if (instanceInfo != null) {

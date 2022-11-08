@@ -18,12 +18,15 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.EmojiInstance;
@@ -57,7 +60,9 @@ public class AnnouncementActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+        binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonAnnouncement(), null, null, null);
         if (emojis == null || !emojis.containsKey(currentInstance)) {
             new Thread(() -> {

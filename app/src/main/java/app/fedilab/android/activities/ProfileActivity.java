@@ -33,6 +33,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,6 +158,9 @@ public class ProfileActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+        binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         binding.toolbar.setPopupTheme(Helper.popupStyle());
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
         if (account != null) {
