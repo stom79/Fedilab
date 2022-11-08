@@ -693,6 +693,9 @@ public class Helper {
      * @param url     String url to open
      */
     public static void openBrowser(Context context, String url) {
+        if (url == null) {
+            return;
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean embedded_browser = sharedpreferences.getBoolean(context.getString(R.string.SET_EMBEDDED_BROWSER), true);
         if (embedded_browser && !url.toLowerCase().startsWith("gemini://")) {
@@ -708,7 +711,7 @@ public class Helper {
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (url != null && !url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
+            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
                 url = "http://" + url;
             }
             intent.setData(Uri.parse(url));

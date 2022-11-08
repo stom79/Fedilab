@@ -1198,6 +1198,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (visibility != null && statusDraft.visibility == null) {
                 statusDraft.visibility = visibility;
             }
+            boolean unlistedReplies = sharedpreferences.getBoolean(context.getString(R.string.SET_UNLISTED_REPLIES), true);
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
@@ -1206,10 +1207,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     statusDraft.visibility = "public";
                 }
-                boolean unlistedReplies = sharedpreferences.getBoolean(context.getString(R.string.SET_UNLISTED_REPLIES), true);
                 if (position == 0 && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
                     statusDraft.visibility = "unlisted";
                 }
+            } else if (position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
+                statusDraft.visibility = "unlisted";
             }
 
             switch (statusDraft.visibility.toLowerCase()) {
