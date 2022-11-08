@@ -1,0 +1,13 @@
+Added:
+- Display client in detailed messages
+- Visual support for quotes starting with ">"
+- Increase indentations for threads (zero to 20, default 5)
+- Visibility for public replies set to unlisted (can be disabled)
+
+Changed:
+- Reduce title size when text size is increased
+
+Fixed:
+- Filters are not applied
+- Blocking an account doesn't remove messages in cache
+- Fix some crashes
