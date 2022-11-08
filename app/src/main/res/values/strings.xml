@@ -997,6 +997,8 @@
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
     <string name="SET_VIDEO_CACHE" translatable="false">SET_VIDEO_CACHE</string>
     <string name="SET_WATERMARK" translatable="false">SET_WATERMARK</string>
+    <string name="SET_UNLISTED_REPLIES" translatable="false">SET_UNLISTED_REPLIES</string>
+
     <string name="SET_WATERMARK_TEXT" translatable="false">SET_WATERMARK_TEXT</string>
     <string name="SET_PROXY_PASSWORD" translatable="false">SET_PROXY_PASSWORD</string>
     <string name="SET_PROXY_LOGIN" translatable="false">SET_PROXY_LOGIN</string>
@@ -1563,4 +1565,6 @@
     <string name="edited_message_at">Edited at %1$s</string>
     <string name="created_message_at">Created at %1$s</string>
     <string name="max_indentation_thread">Max indentation in threads</string>
+    <string name="set_unlisted_replies">Unlisted replies</string>
+    <string name="set_unlisted_replies_indication">It only concerns \"public\" replies. When enabled, your replies will automatically have the visibility \"unlisted\" instead of \"public\"</string>
 </resources>

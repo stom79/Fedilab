@@ -1206,6 +1206,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     statusDraft.visibility = "public";
                 }
+                boolean unlistedReplies = sharedpreferences.getBoolean(context.getString(R.string.SET_UNLISTED_REPLIES), true);
+                if (position == 0 && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
+                    statusDraft.visibility = "unlisted";
+                }
             }
 
             switch (statusDraft.visibility.toLowerCase()) {

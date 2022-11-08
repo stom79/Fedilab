@@ -31,6 +31,14 @@
         app:title="@string/set_resize_video" />
     -->
     <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNLISTED_REPLIES"
+        app:singleLineTitle="false"
+        app:summary="@string/set_unlisted_replies_indication"
+        app:title="@string/set_unlisted_replies" />
+
+    <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_WATERMARK"

@@ -628,6 +628,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 statusDraftList.get(0).mentions.add(mention);
             }
 
+
             //There are other mentions to
             if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                 for (Mention mentionTmp : statusReply.mentions) {
@@ -732,6 +733,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         status.id = Helper.generateIdString();
         status.mentions = statusList.get(position).mentions;
         status.visibility = statusList.get(position).visibility;
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+        boolean unlistedReplies = sharedpreferences.getBoolean(getString(R.string.SET_UNLISTED_REPLIES), true);
+        if (status.visibility.equalsIgnoreCase("public") && unlistedReplies) {
+            status.visibility = "unlisted";
+        }
         status.spoiler_text = statusList.get(position).spoiler_text;
         status.sensitive = statusList.get(position).sensitive;
         statusList.add(status);
