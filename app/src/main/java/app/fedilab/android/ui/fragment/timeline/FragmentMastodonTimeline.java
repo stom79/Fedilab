@@ -164,17 +164,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private PinnedTimeline pinnedTimeline;
     private String ident;
     private String slug;
-    private TimelinesVM.TimelineParams timelineParams;
     private boolean canBeFederated;
     private boolean rememberPosition;
 
     @Override
     public void onResume() {
         super.onResume();
-        if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) != 0
-                && !isViewInitialized) {
+        if (!isViewInitialized) {
             isViewInitialized = true;
-            initializeStatusesCommonView(initialStatuses);
+            if (initialStatuses != null) {
+                initializeStatusesCommonView(initialStatuses);
+            }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);
@@ -229,7 +229,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
         accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
         initialStatuses = null;
@@ -244,22 +243,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
-        if (!isViewInitialized) {
-            if (slug != null) {
-                isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
-            }
-        }
-
         flagLoading = false;
-
         router(null);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
-
         canBeFederated = true;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
@@ -592,14 +589,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
-        if (direction == null && !isViewInitialized && slug != null) {
-            isViewInitialized = slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0;
-        }
+
         if (binding == null || getActivity() == null || !isAdded()) {
             return;
         }
         //Initialize with default params
-        timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
         timelineParams.limit = MastodonHelper.statusesPerCall(requireActivity());
         if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
             timelineParams.maxId = null;
