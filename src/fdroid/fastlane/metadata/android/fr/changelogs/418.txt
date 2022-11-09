@@ -1,0 +1,15 @@
+Ajouté :
+- Changement de l'icône d'application (Paramètres>Interface)
+- Dés/activer "Se souvenir de la position" dans les fils
+- Dés/activer l’agrégation de notifications dans les paramètres
+
+Changé :
+- Dés/activer les media dans les notifications
+
+Résolu :
+- Publication perdant le "spoiler message" en ajoutant un média.
+- Caméra ne fonctionnant pas sur Android 11
+- Agrégation de notifications
+- Vibrations lors de la récupération de nouvelles notifications
+- Fils média
+- Quelques plantages

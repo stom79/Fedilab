@@ -1,0 +1,11 @@
+Ajouté :
+- Dés/épingler les messages
+- Choisir la langue par défaut pour les traductions
+
+Changé :
+- Permettre de dés/activer les médias pour les notifications
+
+Résolu :
+- Mauvaises images dans les fils de notification
+- Bug de double icône
+- Quelques plantages
