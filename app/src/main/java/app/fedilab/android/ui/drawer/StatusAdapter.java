@@ -1932,9 +1932,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     String url;
 
                     if (statusToDeal.uri.startsWith("http"))
-                        url = status.uri;
+                        url = statusToDeal.uri;
                     else
-                        url = status.url;
+                        url = statusToDeal.url;
                     String extra_text;
                     if (share_details) {
                         extra_text = statusToDeal.account.acct;
