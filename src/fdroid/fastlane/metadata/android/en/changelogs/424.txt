@@ -1,0 +1,5 @@
+Fixed:
+- Issue with messages/notifications not correctly displayed
+- Friendica: issues with mentions and tags (open browser)
+- Improve sharing behaviour
+
