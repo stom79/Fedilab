@@ -1567,4 +1567,5 @@
     <string name="max_indentation_thread">Max indentation in threads</string>
     <string name="set_unlisted_replies">Unlisted replies</string>
     <string name="set_unlisted_replies_indication">It only concerns \"public\" replies. When enabled, your replies will automatically have the visibility \"unlisted\" instead of \"public\"</string>
+    <string name="notification_remove_from_cache">Notifications have been removed from cache.</string>
 </resources>
