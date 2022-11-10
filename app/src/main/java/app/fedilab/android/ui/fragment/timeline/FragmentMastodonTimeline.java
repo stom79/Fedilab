@@ -393,10 +393,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
                     flagLoading = true;
-                } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
+                } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0) {
                     max_id = fetched_statuses.pagination.max_id;
                 }
-                if (min_id == null || (fetched_statuses.pagination.min_id != null && fetched_statuses.pagination.min_id.compareTo(min_id) > 0)) {
+                if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
                     min_id = fetched_statuses.pagination.min_id;
                 }
             }
@@ -474,10 +474,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineStatuses.add(statusReport);
         }
         timelineStatuses.addAll(statuses.statuses);
-        if (max_id == null || (statuses.pagination.max_id != null && statuses.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0)) {
             max_id = statuses.pagination.max_id;
         }
-        if (min_id == null || (statuses.pagination.min_id != null && statuses.pagination.min_id.compareTo(min_id) > 0)) {
+        if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
             min_id = statuses.pagination.min_id;
         }
         statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated);
@@ -548,7 +548,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     for (Status statusAlreadyPresent : timelineStatuses) {
                         //We compare the id of each status and we only add status having an id greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        if (statusReceived.id.compareTo(statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
+                        if (Helper.compareTo(statusReceived.id, statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
                             //We add the status to a list of id - thus we know it is already in the timeline
                             if (!timelineStatuses.contains(statusReceived)) {
                                 timelineStatuses.add(position, statusReceived);

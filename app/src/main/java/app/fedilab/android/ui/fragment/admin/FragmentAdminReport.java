@@ -131,10 +131,10 @@ public class FragmentAdminReport extends Fragment {
 
         this.adminReports.addAll(adminReports.adminReports);
 
-        if (max_id == null || (adminReports.pagination.max_id != null && adminReports.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (adminReports.pagination.max_id != null && Helper.compareTo(adminReports.pagination.max_id, max_id) < 0)) {
             max_id = adminReports.pagination.max_id;
         }
-        if (min_id == null || (adminReports.pagination.max_id != null && adminReports.pagination.min_id.compareTo(min_id) > 0)) {
+        if (min_id == null || (adminReports.pagination.max_id != null && Helper.compareTo(adminReports.pagination.min_id, min_id) > 0)) {
             min_id = adminReports.pagination.min_id;
         }
 
@@ -190,10 +190,10 @@ public class FragmentAdminReport extends Fragment {
             int startId = adminReports.size();
             adminReports.addAll(admReports.adminReports);
             statusAdapter.notifyItemRangeInserted(startId, admReports.adminReports.size());
-            if (max_id == null || (admReports.pagination.max_id != null && admReports.pagination.max_id.compareTo(max_id) < 0)) {
+            if (max_id == null || (admReports.pagination.max_id != null && Helper.compareTo(admReports.pagination.max_id, max_id) < 0)) {
                 max_id = admReports.pagination.max_id;
             }
-            if (min_id == null || (admReports.pagination.min_id != null && admReports.pagination.min_id.compareTo(min_id) > 0)) {
+            if (min_id == null || (admReports.pagination.min_id != null && Helper.compareTo(admReports.pagination.min_id, min_id) > 0)) {
                 min_id = admReports.pagination.min_id;
             }
         }

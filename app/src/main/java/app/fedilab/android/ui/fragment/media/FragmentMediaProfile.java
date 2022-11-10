@@ -107,7 +107,7 @@ public class FragmentMediaProfile extends Fragment {
         flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
 
-        if (max_id == null || (statuses.pagination.max_id != null && statuses.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0)) {
             max_id = statuses.pagination.max_id;
         }
         GridLayoutManager gvLayout = new GridLayoutManager(requireActivity(), 3);
@@ -180,7 +180,7 @@ public class FragmentMediaProfile extends Fragment {
             imageAdapter.notifyItemRangeInserted(this.mediaStatuses.size() - added, this.mediaStatuses.size());
             if (fetched_statuses.pagination.max_id == null) {
                 flagLoading = true;
-            } else if (max_id == null || fetched_statuses.pagination.max_id.compareTo(max_id) < 0) {
+            } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0) {
                 max_id = fetched_statuses.pagination.max_id;
             }
         } else {

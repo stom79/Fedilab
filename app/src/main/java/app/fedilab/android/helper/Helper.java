@@ -1882,6 +1882,15 @@ public class Helper {
         }
     }
 
+    public static int compareTo(String value1, String value2) {
+        try {
+            long val1 = Long.parseLong(value1);
+            long val2 = Long.parseLong(value2);
+            return Long.compare(val1, val2);
+        } catch (Exception e) {
+            return value1.compareTo(value2);
+        }
+    }
 
     //Enum that described actions to replace inside a toot content
     public enum PatternType {

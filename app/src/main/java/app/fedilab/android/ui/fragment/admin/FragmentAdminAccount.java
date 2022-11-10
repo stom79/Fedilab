@@ -140,7 +140,7 @@ public class FragmentAdminAccount extends Fragment {
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(adminAccountAdapter);
         //Fetch the relationship
-        if (max_id == null || (adminAccounts.pagination.max_id != null && adminAccounts.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (adminAccounts.pagination.max_id != null && Helper.compareTo(adminAccounts.pagination.max_id, max_id) < 0)) {
             max_id = adminAccounts.pagination.max_id;
         }
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -190,7 +190,7 @@ public class FragmentAdminAccount extends Fragment {
             }
             int position = this.adminAccounts.size();
             this.adminAccounts.addAll(adminAccounts.adminAccounts);
-            if (max_id == null || (adminAccounts.pagination.max_id != null && adminAccounts.pagination.max_id.compareTo(max_id) < 0)) {
+            if (max_id == null || (adminAccounts.pagination.max_id != null && Helper.compareTo(adminAccounts.pagination.max_id, max_id) < 0)) {
                 max_id = adminAccounts.pagination.max_id;
             }
             adminAccountAdapter.notifyItemRangeInserted(startId, adminAccounts.adminAccounts.size());

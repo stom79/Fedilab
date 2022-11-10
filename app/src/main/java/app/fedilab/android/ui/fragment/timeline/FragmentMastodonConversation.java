@@ -40,6 +40,7 @@ import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.ConversationAdapter;
@@ -276,10 +277,10 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         }
         conversationList.addAll(conversations.conversations);
 
-        if (max_id == null || (conversations.pagination.max_id != null && conversations.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (conversations.pagination.max_id != null && Helper.compareTo(conversations.pagination.max_id, max_id) < 0)) {
             max_id = conversations.pagination.max_id;
         }
-        if (min_id == null || (conversations.pagination.min_id != null && conversations.pagination.min_id.compareTo(min_id) > 0)) {
+        if (min_id == null || (conversations.pagination.min_id != null && Helper.compareTo(conversations.pagination.min_id, min_id) > 0)) {
             min_id = conversations.pagination.min_id;
         }
 
@@ -384,10 +385,10 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             if (!fetchingMissing) {
                 if (fetched_conversations.pagination.max_id == null) {
                     flagLoading = true;
-                } else if (max_id == null || fetched_conversations.pagination.max_id.compareTo(max_id) < 0) {
+                } else if (max_id == null || Helper.compareTo(fetched_conversations.pagination.max_id, max_id) < 0) {
                     max_id = fetched_conversations.pagination.max_id;
                 }
-                if (min_id == null || (fetched_conversations.pagination.min_id != null && fetched_conversations.pagination.min_id.compareTo(min_id) > 0)) {
+                if (min_id == null || (fetched_conversations.pagination.min_id != null && Helper.compareTo(fetched_conversations.pagination.min_id, min_id) > 0)) {
                     min_id = fetched_conversations.pagination.min_id;
                 }
             }
@@ -435,7 +436,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                     for (Conversation conversationsAlreadyPresent : conversationList) {
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        if (conversationReceived.id.compareTo(conversationsAlreadyPresent.id) > 0) {
+                        if (Helper.compareTo(conversationReceived.id, conversationsAlreadyPresent.id) > 0) {
                             if (!conversationList.contains(conversationReceived)) {
                                 conversationList.add(position, conversationReceived);
                                 conversationAdapter.notifyItemInserted(position);

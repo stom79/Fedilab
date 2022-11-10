@@ -161,7 +161,7 @@ public class NotificationsHelper {
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
         for (Notification notif : notificationsReceived) {
-            if (max_id == null || notif.id.compareTo(max_id) > 0) {
+            if (max_id == null || Helper.compareTo(notif.id, max_id) > 0) {
                 notifications.add(pos, notif);
                 pos++;
             }
@@ -338,7 +338,7 @@ public class NotificationsHelper {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                if (lastNotif == null || notification.id.compareTo(lastNotif) > 0) {
+                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
@@ -353,7 +353,7 @@ public class NotificationsHelper {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                if (lastNotif == null || notification.id.compareTo(lastNotif) > 0) {
+                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.apply();

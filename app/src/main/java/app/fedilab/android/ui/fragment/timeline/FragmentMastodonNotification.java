@@ -269,10 +269,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         notificationList.addAll(notifications.notifications);
 
-        if (max_id == null || (notifications.pagination.max_id != null && notifications.pagination.max_id.compareTo(max_id) < 0)) {
+        if (max_id == null || (notifications.pagination.max_id != null && Helper.compareTo(notifications.pagination.max_id, max_id) < 0)) {
             max_id = notifications.pagination.max_id;
         }
-        if (min_id == null || (notifications.pagination.min_id != null && notifications.pagination.min_id.compareTo(min_id) > 0)) {
+        if (min_id == null || (notifications.pagination.min_id != null && Helper.compareTo(notifications.pagination.min_id, min_id) > 0)) {
             min_id = notifications.pagination.min_id;
         }
 
@@ -565,10 +565,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (!fetchingMissing) {
                 if (fetched_notifications.pagination.max_id == null) {
                     flagLoading = true;
-                } else if (max_id == null || fetched_notifications.pagination.max_id.compareTo(max_id) < 0) {
+                } else if (max_id == null || Helper.compareTo(fetched_notifications.pagination.max_id, max_id) < 0) {
                     max_id = fetched_notifications.pagination.max_id;
                 }
-                if (min_id == null || (fetched_notifications.pagination.min_id != null && fetched_notifications.pagination.min_id.compareTo(min_id) > 0)) {
+                if (min_id == null || (fetched_notifications.pagination.min_id != null && Helper.compareTo(fetched_notifications.pagination.min_id, min_id) > 0)) {
                     min_id = fetched_notifications.pagination.min_id;
                 }
             }
@@ -596,7 +596,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     for (Notification notificationsAlreadyPresent : notificationList) {
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        if (notificationReceived.id.compareTo(notificationsAlreadyPresent.id) > 0) {
+                        if (Helper.compareTo(notificationReceived.id, notificationsAlreadyPresent.id) > 0) {
                             if (!notificationList.contains(notificationReceived)) {
                                 notificationList.add(position, notificationReceived);
                                 notificationAdapter.notifyItemInserted(position);

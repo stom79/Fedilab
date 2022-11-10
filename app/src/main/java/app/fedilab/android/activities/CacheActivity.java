@@ -70,28 +70,35 @@ public class CacheActivity extends BaseActivity {
 
 
         new Thread(() -> {
-            List<BaseAccount> accounts = new Account(CacheActivity.this).getPushNotificationAccounts();
+            List<BaseAccount> accounts;
             cacheAccounts = new ArrayList<>();
-            for (BaseAccount baseAccount : accounts) {
-                CacheAccount cacheAccount = new CacheAccount();
-                cacheAccount.account = baseAccount;
-                try {
-                    cacheAccount.home_cache_count = new StatusCache(CacheActivity.this).countHome(baseAccount);
-                } catch (DBException e) {
-                    e.printStackTrace();
+            try {
+                accounts = new Account(CacheActivity.this).getAll();
+                for (BaseAccount baseAccount : accounts) {
+                    CacheAccount cacheAccount = new CacheAccount();
+                    cacheAccount.account = baseAccount;
+                    try {
+                        cacheAccount.home_cache_count = new StatusCache(CacheActivity.this).countHome(baseAccount);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        cacheAccount.other_cache_count = new StatusCache(CacheActivity.this).countOther(baseAccount);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        cacheAccount.draft_count = new StatusDraft(CacheActivity.this).count(baseAccount);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    cacheAccounts.add(cacheAccount);
                 }
-                try {
-                    cacheAccount.other_cache_count = new StatusCache(CacheActivity.this).countOther(baseAccount);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    cacheAccount.draft_count = new StatusDraft(CacheActivity.this).count(baseAccount);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-                cacheAccounts.add(cacheAccount);
+            } catch (DBException e) {
+                e.printStackTrace();
             }
+
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
                 cacheAdapter = new CacheAdapter(cacheAccounts);

@@ -759,7 +759,7 @@ public class StatusCache {
         Pagination pagination = new Pagination();
         if (notificationList != null && notificationList.size() > 0) {
             //Status list is inverted, it happens for min_id due to ASC ordering
-            if (notificationList.get(0).id.compareTo(notificationList.get(notificationList.size() - 1).id) < 0) {
+            if (Helper.compareTo(notificationList.get(0).id, notificationList.get(notificationList.size() - 1).id) < 0) {
                 Collections.reverse(notificationList);
                 notifications.notifications = notificationList;
             }
@@ -783,7 +783,7 @@ public class StatusCache {
         Pagination pagination = new Pagination();
         if (conversationList != null && conversationList.size() > 0) {
             //Status list is inverted, it happens for min_id due to ASC ordering
-            if (conversationList.get(0).id.compareTo(conversationList.get(conversationList.size() - 1).id) < 0) {
+            if (Helper.compareTo(conversationList.get(0).id, conversationList.get(conversationList.size() - 1).id) < 0) {
                 Collections.reverse(conversationList);
                 conversations.conversations = conversationList;
             }
@@ -806,7 +806,7 @@ public class StatusCache {
         Pagination pagination = new Pagination();
         if (statusList != null && statusList.size() > 0) {
             //Status list is inverted, it happens for min_id due to ASC ordering
-            if (statusList.get(0).id.compareTo(statusList.get(statusList.size() - 1).id) < 0) {
+            if (Helper.compareTo(statusList.get(0).id, statusList.get(statusList.size() - 1).id) < 0) {
                 Collections.reverse(statusList);
                 statuses.statuses = statusList;
             }
