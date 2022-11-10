@@ -40,6 +40,7 @@ import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -446,7 +447,7 @@ public class SpannableHelper {
 
         for (Map.Entry<String, String> entry : urlDetails.entrySet()) {
             String value = entry.getValue();
-            if (value.startsWith("@") || value.startsWith("#")) {
+            if (value.startsWith("@") || value.startsWith("#") || !URLUtil.isValidUrl(value)) {
                 continue;
             }
             SpannableString contentUrl;

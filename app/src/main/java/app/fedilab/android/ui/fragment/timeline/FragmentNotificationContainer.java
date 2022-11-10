@@ -19,8 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,11 +42,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.databinding.FragmentNotificationContainerBinding;
 import app.fedilab.android.databinding.PopupNotificationSettingsBinding;
-import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.pageadapter.FedilabNotificationPageAdapter;
@@ -98,18 +93,6 @@ public class FragmentNotificationContainer extends Fragment {
 
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(requireActivity()));
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getTrackDrawable()), ThemeHelper.getSwitchCompatTrackDrawable(requireActivity()));
-            //Clear notifications from cache
-            dialogView.clearNotificationCache.setOnClickListener(v2 -> new Thread(() -> {
-                try {
-                    new StatusCache(requireActivity()).deleteNotifications(MainActivity.currentUserID, MainActivity.currentInstance);
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    changes.set(true);
-                    Runnable myRunnable = () -> Toasty.info(requireActivity(), getString(R.string.notification_remove_from_cache), Toasty.LENGTH_SHORT).show();
-                    mainHandler.post(myRunnable);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start());
             dialogView.clearAllNotif.setOnClickListener(v1 -> {
                 AlertDialog.Builder db = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
                 db.setTitle(R.string.delete_notification_ask_all);
