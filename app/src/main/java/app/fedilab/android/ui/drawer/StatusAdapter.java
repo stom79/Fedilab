@@ -16,6 +16,7 @@ package app.fedilab.android.ui.drawer;
 
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.regex_home;
 import static app.fedilab.android.BaseMainActivity.regex_local;
@@ -99,10 +100,10 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.AccountReportActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
@@ -348,7 +349,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
-        if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
+        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
@@ -484,7 +485,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             link_color = sharedpreferences.getInt("theme_link_color", -1);
 
         }
-        if (MainActivity.currentAccount != null && MainActivity.currentAccount.api == Account.API.PLEROMA) {
+        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
             holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
             holder.binding.statusEmoji.setVisibility(View.VISIBLE);
         }
@@ -1725,10 +1726,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
                 stringArrayConf = context.getResources().getStringArray(R.array.more_action_confirm);
             }
-            boolean display_admin_statuses = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_ADMIN_STATUSES) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
-            if (!display_admin_statuses) {
-                popup.getMenu().findItem(R.id.action_admin).setVisible(false);
-            }
+            popup.getMenu().findItem(R.id.action_admin).setVisible(currentAccount.admin);
 
             boolean custom_sharing = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_SHARING), false);
             if (custom_sharing && statusToDeal.visibility.equals("public"))
@@ -1786,11 +1784,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             });
                 } else if (itemId == R.id.action_schedule_boost) {
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
-                } /*else if (itemId == R.id.action_admin) {
+                } else if (itemId == R.id.action_admin) {
                     Intent intent = new Intent(context, AccountReportActivity.class);
                     intent.putExtra(Helper.ARG_ACCOUNT, statusToDeal.account);
                     context.startActivity(intent);
-                } */ else if (itemId == R.id.action_open_browser) {
+                } else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
                 } else if (itemId == R.id.action_remove) {
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());

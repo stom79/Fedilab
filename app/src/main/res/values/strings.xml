@@ -945,7 +945,6 @@
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
     <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
-    <string name="SET_DISPLAY_ADMIN_STATUSES" translatable="false">SET_DISPLAY_ADMIN_STATUSES</string>
     <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
@@ -1568,4 +1567,13 @@
     <string name="set_unlisted_replies">Unlisted replies</string>
     <string name="set_unlisted_replies_indication">It only concerns \"public\" replies. When enabled, your replies will automatically have the visibility \"unlisted\" instead of \"public\"</string>
     <string name="notification_remove_from_cache">Notifications have been removed from cache.</string>
+    <string name="email_status">Email status</string>
+    <string name="login_status">Login status</string>
+    <string name="joined">Joined</string>
+    <string name="recent_ip">Recent IP</string>
+    <string name="allow">Allow</string>
+    <string name="warn">Warn</string>
+    <string name="email_user">Notify the user per e-mail</string>
+    <string name="custom_warning">Custom warning</string>
+    <string name="list_reported_statuses">Reported statuses</string>
 </resources>
