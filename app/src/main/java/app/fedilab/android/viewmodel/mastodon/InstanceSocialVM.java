@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.entities.app.InstanceSocial;
@@ -73,7 +74,17 @@ public class InstanceSocialVM extends AndroidViewModel {
                 Response<InstanceSocial> response = instanceSocialCall.execute();
                 if (response.isSuccessful() && response.body() != null) {
                     Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> instanceSocialMutableLiveData.setValue(response.body());
+                    InstanceSocial instanceSocial = response.body();
+                    InstanceSocial filtered = new InstanceSocial();
+                    filtered.instances = new ArrayList<>();
+                    if (instanceSocial != null && instanceSocial.instances != null) {
+                        for (InstanceSocial.Instance instance : instanceSocial.instances) {
+                            if (instance.up) {
+                                filtered.instances.add(instance);
+                            }
+                        }
+                    }
+                    Runnable myRunnable = () -> instanceSocialMutableLiveData.setValue(filtered);
                     mainHandler.post(myRunnable);
                 }
             } catch (Exception e) {
