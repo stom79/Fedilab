@@ -23,7 +23,7 @@ import retrofit2.http.Query;
 
 public interface InstancesSocialService {
 
-    @GET("instances/search?name=true")
+    @GET("instances/search?name=true&count=50")
     Call<InstanceSocial> getInstances(@Header("Authorization") String token, @Query("q") String search);
 
 }

@@ -238,21 +238,23 @@ public class FragmentLoginMain extends Fragment {
     }
 
     private void retrievesClientId(String instance) {
+        String oldInstance = instance;
         if (!instance.startsWith("http://") && !instance.startsWith("https://")) {
             instance = "https://" + instance;
         }
-        String host = instance;
+        String host;
         try {
             URL url = new URL(instance);
             host = url.getHost();
         } catch (MalformedURLException e) {
+            host = oldInstance;
             e.printStackTrace();
         }
 
         try {
             currentInstanceLogin = URLEncoder.encode(host, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
+            currentInstanceLogin = host;
         }
         String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);

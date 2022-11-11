@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.6.3",
+    "code": "424",
+    "note": "Fixed:\n- Issue with messages/notifications not correctly displayed\n- Friendica: issues with mentions and tags (open browser)\n- Improve sharing behaviour\n"
+  },
+  {
     "version": "3.6.2",
     "code": "423",
     "note": "Fixed:\n- Order of notifications\n- URL when sharing boosted message\n- Blank pages when restarting\n- Fix some crashes"

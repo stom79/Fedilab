@@ -37,8 +37,6 @@ public class WellKnownNodeinfo {
         public Software software;
         @SerializedName("usage")
         public Usage usage;
-        @SerializedName("metadata")
-        public Metadata metadata;
         @SerializedName("openRegistrations")
         public boolean openRegistrations;
 

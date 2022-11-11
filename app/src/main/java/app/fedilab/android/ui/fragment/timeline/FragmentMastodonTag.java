@@ -26,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -89,9 +91,7 @@ public class FragmentMastodonTag extends Fragment {
         } else if (timelineType == Timeline.TimeLineEnum.TREND_TAG) {
             TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonTag.this).get(TimelinesVM.class);
             timelinesVM.getTagsTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
-                    .observe(getViewLifecycleOwner(), tags -> {
-                        initializeTagCommonView(tags);
-                    });
+                    .observe(getViewLifecycleOwner(), this::initializeTagCommonView);
         }
     }
 
@@ -120,10 +120,23 @@ public class FragmentMastodonTag extends Fragment {
             binding.noAction.setVisibility(View.VISIBLE);
             binding.noActionText.setText(R.string.no_tags);
             return;
-        } else {
-            binding.recyclerView.setVisibility(View.VISIBLE);
-            binding.noAction.setVisibility(View.GONE);
         }
+        Collections.sort(tags, (obj1, obj2) -> Integer.compare(obj2.getWeight(), obj1.getWeight()));
+        boolean isInCollection = false;
+        for (Tag tag : tags) {
+            if (tag.name.compareToIgnoreCase(search) == 0) {
+                isInCollection = true;
+                break;
+            }
+        }
+        if (!isInCollection) {
+            Tag tag = new Tag();
+            tag.name = search;
+            tag.history = new ArrayList<>();
+            tags.add(0, tag);
+        }
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.noAction.setVisibility(View.GONE);
         tagAdapter = new TagAdapter(tags);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
