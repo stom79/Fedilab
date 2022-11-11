@@ -21,19 +21,10 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
@@ -43,88 +34,58 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.api.AdminAccount;
+import app.fedilab.android.client.entities.api.Report;
+import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
 public class AccountReportActivity extends BaseActivity implements OnAdminActionInterface {
 
-    TextView permissions, username, email, email_status, login_status, joined, recent_ip, comment_label;
-    Button warn, disable, silence, suspend, allow, reject, assign, status;
+
     private String account_id;
-    private CheckBox email_user;
-    private EditText comment;
     private Report report;
-    private Group allow_reject_group;
-    private TextView email_label, recent_ip_label, joined_label;
+    private ActivityAdminReportBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeHelper.applyThemeBar(this);
+        binding = ActivityAdminReportBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        setTheme(R.style.AppAdminTheme);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+        }
+
         report = null;
-        AccountAdmin targeted_account = null;
+        AdminAccount targeted_account = null;
         Bundle b = getIntent().getExtras();
-
         if (b != null) {
             account_id = b.getString("account_id", null);
             targeted_account = b.getParcelable("targeted_account");
             report = b.getParcelable("report");
         }
 
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-            assert inflater != null;
-            View view = inflater.inflate(R.layout.simple_bar, new LinearLayout(AccountReportActivity.this), false);
-            view.setBackground(new ColorDrawable(ContextCompat.getColor(AccountReportActivity.this, R.color.cyanea_primary)));
-            actionBar.setCustomView(view, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            ImageView toolbar_close = actionBar.getCustomView().findViewById(R.id.toolbar_close);
-            TextView toolbar_title = actionBar.getCustomView().findViewById(R.id.toolbar_title);
-            toolbar_close.setOnClickListener(v -> finish());
-            toolbar_title.setText(String.format(getString(R.string.administration) + " %s", Helper.getLiveInstance(AccountReportActivity.this)));
-        }
-        setContentView(R.layout.activity_admin_report);
 
-        warn = findViewById(R.id.warn);
-        disable = findViewById(R.id.disable);
-        silence = findViewById(R.id.silence);
-        suspend = findViewById(R.id.suspend);
-        allow = findViewById(R.id.allow);
-        reject = findViewById(R.id.reject);
-        status = findViewById(R.id.status);
-        assign = findViewById(R.id.assign);
-        email_label = findViewById(R.id.email_label);
-        allow_reject_group = findViewById(R.id.allow_reject_group);
-        allow_reject_group.setVisibility(View.GONE);
-        allow.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.green_1), PorterDuff.Mode.MULTIPLY);
-        reject.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.red_1), PorterDuff.Mode.MULTIPLY);
-        comment_label = findViewById(R.id.comment_label);
-        permissions = findViewById(R.id.permissions);
-        username = findViewById(R.id.username);
-        email = findViewById(R.id.email);
-        email_status = findViewById(R.id.email_status);
-        login_status = findViewById(R.id.login_status);
-        joined = findViewById(R.id.joined);
-        recent_ip = findViewById(R.id.recent_ip);
-        recent_ip_label = findViewById(R.id.recent_ip_label);
-        joined_label = findViewById(R.id.joined_label);
-        email_user = findViewById(R.id.email_user);
-        comment = findViewById(R.id.comment);
+        binding.allow.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.green_1), PorterDuff.Mode.MULTIPLY);
+        binding.reject.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.red_1), PorterDuff.Mode.MULTIPLY);
+
 
         if (account_id == null && report == null && targeted_account == null) {
             Toasty.error(AccountReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
         }
-        assign.setVisibility(View.GONE);
-        status.setVisibility(View.GONE);
+        binding.assign.setVisibility(View.GONE);
+        binding.status.setVisibility(View.GONE);
+
         if (account_id != null) {
             new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.GET_ONE_ACCOUNT, account_id, null, AccountReportActivity.this);
             return;
         }
+
         if (report != null) {
             targeted_account = report.getTarget_account();
             RecyclerView lv_statuses = findViewById(R.id.lv_statuses);
