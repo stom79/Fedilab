@@ -15,34 +15,21 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.ActivityInstanceProfileBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.drawer.AccountAdapter;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
-import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import es.dmoral.toasty.Toasty;
 
 public class InstanceProfileActivity extends BaseActivity {
@@ -75,40 +62,13 @@ public class InstanceProfileActivity extends BaseActivity {
                 finish();
                 return;
             }
-            binding.name.setText(nodeInfo.metadata != null ? nodeInfo.metadata.nodeName : instance);
+            binding.name.setText(instance);
             SpannableString descriptionSpan;
-            if (nodeInfo.metadata != null && nodeInfo.metadata.nodeDescription != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    descriptionSpan = new SpannableString(Html.fromHtml(nodeInfo.metadata.nodeDescription, FROM_HTML_MODE_LEGACY));
-                else
-                    descriptionSpan = new SpannableString(Html.fromHtml(nodeInfo.metadata.nodeDescription));
-                binding.description.setText(descriptionSpan, TextView.BufferType.SPANNABLE);
-            }
             binding.userCount.setText(Helper.withSuffix((nodeInfo.usage.users.total)));
             binding.statusCount.setText(Helper.withSuffix(((nodeInfo.usage.localPosts))));
             String softwareStr = nodeInfo.software.name + " - ";
             binding.software.setText(softwareStr);
             binding.version.setText(nodeInfo.software.version);
-            if (nodeInfo.metadata != null && nodeInfo.metadata.staffAccounts != null && nodeInfo.metadata.staffAccounts.size() > 0) {
-                SearchVM searchVM = new ViewModelProvider(InstanceProfileActivity.this).get(SearchVM.class);
-                List<Account> accounts = new ArrayList<>();
-                for (String accountURL : nodeInfo.metadata.staffAccounts) {
-                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountURL, null, "accounts", false, true, false, 0, null, null, 1)
-                            .observe(InstanceProfileActivity.this, results -> {
-                                if (results.accounts != null && results.accounts.size() > 0) {
-                                    accounts.add(results.accounts.get(0));
-                                }
-                                if (accounts.size() == nodeInfo.metadata.staffAccounts.size()) {
-                                    AccountAdapter accountsListAdapter = new AccountAdapter(accounts);
-                                    binding.lvAccounts.setAdapter(accountsListAdapter);
-                                    final LinearLayoutManager mLayoutManager;
-                                    mLayoutManager = new LinearLayoutManager(InstanceProfileActivity.this);
-                                    binding.lvAccounts.setLayoutManager(mLayoutManager);
-                                }
-                            });
-
-                }
-            }
             binding.instanceContainer.setVisibility(View.VISIBLE);
             binding.loader.setVisibility(View.GONE);
         });
