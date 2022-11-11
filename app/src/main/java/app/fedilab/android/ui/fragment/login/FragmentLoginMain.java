@@ -246,13 +246,14 @@ public class FragmentLoginMain extends Fragment {
             URL url = new URL(instance);
             host = url.getHost();
         } catch (MalformedURLException e) {
+            host = instance;
             e.printStackTrace();
         }
 
         try {
             currentInstanceLogin = URLEncoder.encode(host, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            Toasty.error(requireActivity(), getString(R.string.client_error), Toast.LENGTH_LONG).show();
+            currentInstanceLogin = host;
         }
         String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
