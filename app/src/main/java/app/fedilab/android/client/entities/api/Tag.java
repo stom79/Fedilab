@@ -27,4 +27,16 @@ public class Tag implements Serializable {
     public String url;
     @SerializedName("history")
     public List<History> history;
+
+
+    public int getWeight() {
+        int weight = 0;
+        for (History h : history) {
+            try {
+                weight += Integer.parseInt(h.accounts);
+            } catch (Exception ignored) {
+            }
+        }
+        return weight;
+    }
 }
