@@ -238,15 +238,16 @@ public class FragmentLoginMain extends Fragment {
     }
 
     private void retrievesClientId(String instance) {
+        String oldInstance = instance;
         if (!instance.startsWith("http://") && !instance.startsWith("https://")) {
             instance = "https://" + instance;
         }
-        String host = instance;
+        String host;
         try {
             URL url = new URL(instance);
             host = url.getHost();
         } catch (MalformedURLException e) {
-            host = instance;
+            host = oldInstance;
             e.printStackTrace();
         }
 
