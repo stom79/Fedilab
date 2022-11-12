@@ -155,6 +155,8 @@ public class AdminActionActivity extends BaseActivity {
                     binding.moderationAll.setChecked(true);
                 }
                 binding.moderation.setOnCheckedChangeListener((group, checkedId) -> {
+                    disabled = null;
+                    silenced = null;
                     if (checkedId == R.id.moderation_all) {
                         active = true;
                         suspended = true;

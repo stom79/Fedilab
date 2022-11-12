@@ -47,7 +47,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -74,6 +73,7 @@ public class AdminAccountActivity extends BaseActivity {
     private ActivityAdminAccountBinding binding;
     private String account_id;
     private AdminVM adminVM;
+    private AdminAccount adminAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class AdminAccountActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
-        AdminAccount adminAccount = null;
+        adminAccount = null;
         if (b != null) {
             adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
@@ -115,6 +115,66 @@ public class AdminAccountActivity extends BaseActivity {
             Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
             finish();
         }
+
+        binding.disableAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
+                        .observe(AdminAccountActivity.this, adminAccountResult -> {
+                            adminAccount.disabled = false;
+                            binding.disableAction.setText(R.string.disable);
+                            binding.disabled.setText(R.string.no);
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "disable ", null, null, null, null);
+                adminAccount.disabled = true;
+                binding.disableAction.setText(R.string.undisable);
+                binding.disabled.setText(R.string.yes);
+            }
+        });
+
+        binding.approveAction.setOnClickListener(v -> {
+            if (adminAccount.approved) {
+                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
+                        .observe(AdminAccountActivity.this, adminAccountResult -> {
+                            adminAccount = adminAccountResult;
+                            initializeView(adminAccount);
+                        });
+            } else {
+                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id);
+                adminAccount.approved = true;
+                initializeView(adminAccount);
+            }
+        });
+
+        binding.silenceAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
+                        .observe(AdminAccountActivity.this, adminAccountResult -> {
+                            adminAccount = adminAccountResult;
+                            initializeView(adminAccount);
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "silence", null, null, null, null);
+                adminAccount.silenced = true;
+                initializeView(adminAccount);
+            }
+        });
+
+        binding.suspendAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
+                        .observe(AdminAccountActivity.this, adminAccountResult -> {
+                            adminAccount = adminAccountResult;
+                            initializeView(adminAccount);
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "suspend", null, null, null, null);
+                adminAccount.suspended = true;
+                initializeView(adminAccount);
+            }
+        });
+
+
     }
 
     private void initializeView(AdminAccount adminAccount) {
@@ -137,7 +197,6 @@ public class AdminAccountActivity extends BaseActivity {
                 binding.title.setVisibility(View.GONE);
             }
         });
-
 
         binding.username.setText(String.format(Locale.getDefault(), "@%s", adminAccount.username));
         binding.domain.setText(adminAccount.domain);
@@ -171,75 +230,6 @@ public class AdminAccountActivity extends BaseActivity {
         binding.suspendAction.setText(adminAccount.suspended ? R.string.unsuspend : R.string.suspend);
 
 
-
-        binding.disableAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
-                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount.disabled = false;
-                            binding.disableAction.setText(R.string.disable);
-                            binding.disabled.setText(R.string.no);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "disable ", null, null, null, null);
-                adminAccount.disabled = true;
-                binding.disableAction.setText(R.string.undisable);
-                binding.disabled.setText(R.string.yes);
-            }
-        });
-
-        binding.approveAction.setOnClickListener(v -> {
-            if (adminAccount.approved) {
-                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount.approved = false;
-                            binding.approveAction.setText(R.string.approve);
-                            binding.approved.setText(R.string.no);
-                        });
-            } else {
-                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id);
-                adminAccount.approved = true;
-                binding.approveAction.setText(R.string.reject);
-                binding.approved.setText(R.string.yes);
-            }
-        });
-
-        binding.silenceAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
-                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount.silenced = false;
-                            binding.silenceAction.setText(R.string.silence);
-                            binding.disabled.setText(R.string.no);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "silence", null, null, null, null);
-                adminAccount.silenced = true;
-                binding.disableAction.setText(R.string.unsilence);
-                binding.disabled.setText(R.string.yes);
-            }
-        });
-
-        binding.suspendAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
-                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount.suspended = false;
-                            binding.suspendAction.setText(R.string.suspend);
-                            binding.suspended.setText(R.string.no);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "suspend", null, null, null, null);
-                adminAccount.suspended = true;
-                binding.disableAction.setText(R.string.unsuspend);
-                binding.suspended.setText(R.string.yes);
-            }
-        });
-
-
-        //Retrieve relationship with the connected account
-        List<String> accountListToCheck = new ArrayList<>();
-        accountListToCheck.add(adminAccount.id);
         //Animate emojis
         if (adminAccount.account.emojis != null && adminAccount.account.emojis.size() > 0) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
