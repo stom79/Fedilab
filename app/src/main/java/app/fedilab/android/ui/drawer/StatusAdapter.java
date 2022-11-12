@@ -100,7 +100,7 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.AccountReportActivity;
+import app.fedilab.android.activities.AdminAccountActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
@@ -1785,7 +1785,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else if (itemId == R.id.action_schedule_boost) {
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
                 } else if (itemId == R.id.action_admin) {
-                    Intent intent = new Intent(context, AccountReportActivity.class);
+                    Intent intent = new Intent(context, AdminAccountActivity.class);
                     intent.putExtra(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
                     context.startActivity(intent);
                 } else if (itemId == R.id.action_open_browser) {

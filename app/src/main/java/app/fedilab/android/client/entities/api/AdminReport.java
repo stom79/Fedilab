@@ -29,7 +29,7 @@ public class AdminReport implements Serializable {
     @SerializedName("action_taken")
     public Boolean action_taken;
     @SerializedName("action_taken_by_account")
-    public String action_taken_by_account;
+    public AdminAccount action_taken_by_account;
     @SerializedName("assigned_account")
     public AdminAccount assigned_account;
     @SerializedName("category")

@@ -57,6 +57,7 @@ public interface MastodonAdminService {
             @Path("id") String id
     );
 
+    @FormUrlEncoded
     @POST("admin/accounts/{account_id}/action")
     Call<Void> performAction(
             @Header("Authorization") String app_token,
@@ -68,35 +69,35 @@ public interface MastodonAdminService {
             @Field("send_email_notification") Boolean send_email_notification
     );
 
-    @FormUrlEncoded
+
     @POST("admin/accounts/{account_id}/approve")
     Call<AdminAccount> approve(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/accounts/{account_id}/reject")
     Call<AdminAccount> reject(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/accounts/{account_id}/enable")
     Call<AdminAccount> enable(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/accounts/{account_id}/unsilence")
     Call<AdminAccount> unsilence(
             @Header("Authorization") String app_token,
             @Path("account_id") String account_id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/accounts/{account_id}/unsuspend")
     Call<AdminAccount> unsuspend(
             @Header("Authorization") String app_token,
@@ -114,35 +115,35 @@ public interface MastodonAdminService {
             @Query("limit") int limit
     );
 
-    @FormUrlEncoded
+
     @GET("admin/reports/{id}")
     Call<AdminReport> getReport(
             @Header("Authorization") String token,
             @Path("id") String id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/reports/{id}/assign_to_self")
     Call<AdminReport> assignToSelf(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/reports/{id}/unassign")
     Call<AdminReport> unassign(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/reports/{id}/resolve")
     Call<AdminReport> resolved(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );
 
-    @FormUrlEncoded
+
     @POST("admin/reports/{id}/reopen")
     Call<AdminReport> reopen(
             @Header("Authorization") String app_token,

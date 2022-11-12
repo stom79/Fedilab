@@ -70,7 +70,6 @@ public class AccountReportActivity extends BaseActivity {
             report = (AdminReport) b.getSerializable(Helper.ARG_REPORT);
         }
 
-
         binding.allow.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.green_1), PorterDuff.Mode.MULTIPLY);
         binding.reject.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.red_1), PorterDuff.Mode.MULTIPLY);
 
@@ -88,7 +87,6 @@ public class AccountReportActivity extends BaseActivity {
         }
 
         if (report != null) {
-
             ArrayList<String> contents = new ArrayList<>();
             for (Status status : report.statuses) {
                 contents.add(status.content);
@@ -96,8 +94,8 @@ public class AccountReportActivity extends BaseActivity {
             binding.lvStatuses.setLayoutManager(new LinearLayoutManager(this));
             StatusReportAdapter adapter = new StatusReportAdapter(contents);
             binding.lvStatuses.setAdapter(adapter);
-
             binding.statusesGroup.setVisibility(View.VISIBLE);
+            targeted_account = report.target_account;
 
         }
         if (targeted_account != null) {
@@ -299,11 +297,13 @@ public class AccountReportActivity extends BaseActivity {
             binding.assign.setOnClickListener(view -> {
                 if (report.assigned_account == null) {
                     adminVM.assignToSelf(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
-
+                        report = adminReport;
+                        fillReport(accountAdmin, null);
                     });
                 } else {
                     adminVM.unassign(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
-
+                        report = adminReport;
+                        fillReport(accountAdmin, null);
                     });
                 }
             });
@@ -315,11 +315,13 @@ public class AccountReportActivity extends BaseActivity {
             binding.status.setOnClickListener(view -> {
                 if (report.action_taken) {
                     adminVM.reopen(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
-
+                        report = adminReport;
+                        fillReport(accountAdmin, null);
                     });
                 } else {
                     adminVM.resolved(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
-
+                        report = adminReport;
+                        fillReport(accountAdmin, null);
                     });
                 }
             });

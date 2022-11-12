@@ -55,7 +55,6 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.AdminAccount;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.ActivityAdminAccountBinding;
@@ -70,11 +69,11 @@ import es.dmoral.toasty.Toasty;
 
 public class AdminAccountActivity extends BaseActivity {
 
-    private AdminAccount adminAccount;
-    private Account account;
+
     private ScheduledExecutorService scheduledExecutorService;
     private ActivityAdminAccountBinding binding;
-
+    private String account_id;
+    private AdminVM adminVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +84,10 @@ public class AdminAccountActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
+        AdminAccount adminAccount = null;
         if (b != null) {
             adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            if (adminAccount != null) {
-                account = adminAccount.account;
-            }
+            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
         }
         postponeEnterTransition();
 
@@ -106,22 +104,27 @@ public class AdminAccountActivity extends BaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
-        if (account != null) {
-            initializeView(account);
+        adminVM = new ViewModelProvider(AdminAccountActivity.this).get(AdminVM.class);
+        if (account_id != null) {
+            adminVM.getAccount(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, this::initializeView);
+            return;
+        }
+        if (adminAccount != null && adminAccount.account != null) {
+            initializeView(adminAccount);
         } else {
             Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
             finish();
         }
     }
 
-    private void initializeView(Account account) {
+    private void initializeView(AdminAccount adminAccount) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(AdminAccountActivity.this);
-        if (account == null) {
+        if (adminAccount == null) {
             Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
-        binding.title.setText(String.format(Locale.getDefault(), "@%s", account.acct));
+        binding.title.setText(String.format(Locale.getDefault(), "@%s", adminAccount.account.acct));
 
         // MastodonHelper.loadPPMastodon(binding.profilePicture, account);
         binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
@@ -141,8 +144,13 @@ public class AdminAccountActivity extends BaseActivity {
         binding.email.setText(adminAccount.email);
         StringBuilder lastActive = new StringBuilder();
         if (adminAccount.ips != null) {
+            int count = 0;
             for (AdminAccount.IP ip : adminAccount.ips) {
                 lastActive.append(Helper.shortDateToString(ip.used_at)).append(" - ").append(ip.ip).append("\r\n");
+                count++;
+                if (count > 4) {
+                    break;
+                }
             }
         }
         if (lastActive.toString().trim().length() == 0) {
@@ -162,18 +170,18 @@ public class AdminAccountActivity extends BaseActivity {
         binding.silenceAction.setText(adminAccount.silenced ? R.string.unsilence : R.string.silence);
         binding.suspendAction.setText(adminAccount.suspended ? R.string.unsuspend : R.string.suspend);
 
-        AdminVM adminVM = new ViewModelProvider(AdminAccountActivity.this).get(AdminVM.class);
+
 
         binding.disableAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.disabled = false;
                             binding.disableAction.setText(R.string.disable);
                             binding.disabled.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "disable ", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "disable ", null, null, null, null);
                 adminAccount.disabled = true;
                 binding.disableAction.setText(R.string.undisable);
                 binding.disabled.setText(R.string.yes);
@@ -182,14 +190,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.approveAction.setOnClickListener(v -> {
             if (adminAccount.approved) {
-                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.approved = false;
                             binding.approveAction.setText(R.string.approve);
                             binding.approved.setText(R.string.no);
                         });
             } else {
-                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id);
+                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id);
                 adminAccount.approved = true;
                 binding.approveAction.setText(R.string.reject);
                 binding.approved.setText(R.string.yes);
@@ -198,14 +206,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.silenceAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.silenced = false;
                             binding.silenceAction.setText(R.string.silence);
                             binding.disabled.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "silence", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "silence", null, null, null, null);
                 adminAccount.silenced = true;
                 binding.disableAction.setText(R.string.unsilence);
                 binding.disabled.setText(R.string.yes);
@@ -214,14 +222,14 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.suspendAction.setOnClickListener(v -> {
             if (adminAccount.disabled) {
-                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount.suspended = false;
                             binding.suspendAction.setText(R.string.suspend);
                             binding.suspended.setText(R.string.no);
                         });
             } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "suspend", null, null, null, null);
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "suspend", null, null, null, null);
                 adminAccount.suspended = true;
                 binding.disableAction.setText(R.string.unsuspend);
                 binding.suspended.setText(R.string.yes);
@@ -231,9 +239,9 @@ public class AdminAccountActivity extends BaseActivity {
 
         //Retrieve relationship with the connected account
         List<String> accountListToCheck = new ArrayList<>();
-        accountListToCheck.add(account.id);
+        accountListToCheck.add(adminAccount.id);
         //Animate emojis
-        if (account.emojis != null && account.emojis.size() > 0) {
+        if (adminAccount.account.emojis != null && adminAccount.account.emojis.size() > 0) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             if (!disableAnimatedEmoji) {
                 scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -244,7 +252,7 @@ public class AdminAccountActivity extends BaseActivity {
         //Tablayout for timelines/following/followers
 
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
-        String targetedUrl = disableGif ? account.avatar_static : account.avatar;
+        String targetedUrl = disableGif ? adminAccount.account.avatar_static : adminAccount.account.avatar;
         Glide.with(AdminAccountActivity.this)
                 .asDrawable()
                 .dontTransform()
@@ -269,10 +277,10 @@ public class AdminAccountActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
-        if (account.locked) {
+        if (adminAccount.account.locked) {
             Drawable img = ContextCompat.getDrawable(AdminAccountActivity.this, R.drawable.ic_baseline_lock_24);
             assert img != null;
             img.setBounds(0, 0, (int) (16 * scale + 0.5f), (int) (16 * scale + 0.5f));
@@ -282,11 +290,11 @@ public class AdminAccountActivity extends BaseActivity {
         }
         //Peertube account watched by a Mastodon account
         //Bot account
-        if (account.bot) {
+        if (adminAccount.account.bot) {
             binding.accountBot.setVisibility(View.VISIBLE);
         }
-        if (account.acct != null) {
-            setTitle(account.acct);
+        if (adminAccount.account.acct != null) {
+            setTitle(adminAccount.account.acct);
         }
 
 
@@ -296,27 +304,27 @@ public class AdminAccountActivity extends BaseActivity {
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         //This account was moved to another one
-        if (account.moved != null) {
+        if (adminAccount.account.moved != null) {
             binding.accountMoved.setVisibility(View.VISIBLE);
             Drawable imgTravel = ContextCompat.getDrawable(AdminAccountActivity.this, R.drawable.ic_baseline_card_travel_24);
             assert imgTravel != null;
             imgTravel.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
             binding.accountMoved.setCompoundDrawables(imgTravel, null, null, null);
             //Retrieves content and make account names clickable
-            SpannableString spannableString = SpannableHelper.moveToText(AdminAccountActivity.this, account);
+            SpannableString spannableString = SpannableHelper.moveToText(AdminAccountActivity.this, adminAccount.account);
             binding.accountMoved.setText(spannableString, TextView.BufferType.SPANNABLE);
             binding.accountMoved.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
 
         binding.accountDn.setText(
-                account.getSpanDisplayName(AdminAccountActivity.this,
+                adminAccount.account.getSpanDisplayName(AdminAccountActivity.this,
                         new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
-        binding.accountUn.setText(String.format("@%s", account.acct));
+        binding.accountUn.setText(String.format("@%s", adminAccount.account.acct));
         binding.accountUn.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            String account_id = account.acct;
+            String account_id = adminAccount.account.acct;
             if (account_id.split("@").length == 1)
                 account_id += "@" + BaseMainActivity.currentInstance;
             ClipData clip = ClipData.newPlainText("mastodon_account_id", "@" + account_id);
@@ -326,15 +334,15 @@ public class AdminAccountActivity extends BaseActivity {
             return false;
         });
 
-        MastodonHelper.loadPPMastodon(binding.accountPp, account);
+        MastodonHelper.loadPPMastodon(binding.accountPp, adminAccount.account);
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(AdminAccountActivity.this, MediaActivity.class);
             Bundle b = new Bundle();
             Attachment attachment = new Attachment();
-            attachment.description = account.acct;
-            attachment.preview_url = account.avatar;
-            attachment.url = account.avatar;
-            attachment.remote_url = account.avatar;
+            attachment.description = adminAccount.account.acct;
+            attachment.preview_url = adminAccount.account.avatar;
+            attachment.url = adminAccount.account.avatar;
+            attachment.remote_url = adminAccount.account.avatar;
             attachment.type = "image";
             ArrayList<Attachment> attachments = new ArrayList<>();
             attachments.add(attachment);
@@ -348,10 +356,10 @@ public class AdminAccountActivity extends BaseActivity {
         });
 
 
-        binding.accountDate.setText(Helper.shortDateToString(account.created_at));
+        binding.accountDate.setText(Helper.shortDateToString(adminAccount.created_at));
         binding.accountDate.setVisibility(View.VISIBLE);
 
-        String[] accountInstanceArray = account.acct.split("@");
+        String[] accountInstanceArray = adminAccount.account.acct.split("@");
         String accountInstance = BaseMainActivity.currentInstance;
         if (accountInstanceArray.length > 1) {
             accountInstance = accountInstanceArray[1];
