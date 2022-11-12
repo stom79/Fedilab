@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/account_pp"
             android:layout_width="60dp"

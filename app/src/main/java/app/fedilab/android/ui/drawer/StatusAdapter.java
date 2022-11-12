@@ -1786,7 +1786,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
                 } else if (itemId == R.id.action_admin) {
                     Intent intent = new Intent(context, AccountReportActivity.class);
-                    intent.putExtra(Helper.ARG_ACCOUNT, statusToDeal.account);
+                    intent.putExtra(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
                     context.startActivity(intent);
                 } else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
