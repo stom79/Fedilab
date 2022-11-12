@@ -1,0 +1,9 @@
+Changed:
+- Tag search ordered by popularity
+
+Fixed:
+- Unable to get client ID on some devices
+- Issue with messages/notifications not correctly displayed
+- Notifications not received
+- Friendica: issues with mentions and tags (open browser)
+- Improve sharing behaviour

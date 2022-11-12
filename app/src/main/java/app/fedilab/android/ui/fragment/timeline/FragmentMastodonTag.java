@@ -121,19 +121,21 @@ public class FragmentMastodonTag extends Fragment {
             binding.noActionText.setText(R.string.no_tags);
             return;
         }
-        Collections.sort(tags, (obj1, obj2) -> Integer.compare(obj2.getWeight(), obj1.getWeight()));
-        boolean isInCollection = false;
-        for (Tag tag : tags) {
-            if (tag.name.compareToIgnoreCase(search) == 0) {
-                isInCollection = true;
-                break;
+        if (search != null) {
+            Collections.sort(tags, (obj1, obj2) -> Integer.compare(obj2.getWeight(), obj1.getWeight()));
+            boolean isInCollection = false;
+            for (Tag tag : tags) {
+                if (tag.name.compareToIgnoreCase(search) == 0) {
+                    isInCollection = true;
+                    break;
+                }
             }
-        }
-        if (!isInCollection) {
-            Tag tag = new Tag();
-            tag.name = search;
-            tag.history = new ArrayList<>();
-            tags.add(0, tag);
+            if (!isInCollection) {
+                Tag tag = new Tag();
+                tag.name = search;
+                tag.history = new ArrayList<>();
+                tags.add(0, tag);
+            }
         }
         binding.recyclerView.setVisibility(View.VISIBLE);
         binding.noAction.setVisibility(View.GONE);
