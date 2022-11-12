@@ -1576,4 +1576,24 @@
     <string name="email_user">Notify the user per e-mail</string>
     <string name="custom_warning">Custom warning</string>
     <string name="list_reported_statuses">Reported statuses</string>
+    <string name="silenced">Silenced</string>
+    <string name="user">User</string>
+    <string name="moderator">Moderator</string>
+    <string name="administrator">Administrator</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="unconfirmed">Unconfirmed</string>
+    <string name="assign_to_me">Assign to me</string>
+    <string name="unassign">Unassign</string>
+    <string name="mark_unresolved">Mark unresolved</string>
+    <string name="mark_resolved">Mark resolved</string>
+    <string name="account_rejected">Account rejected</string>
+    <string name="account_approved">Account approved</string>
+    <string name="account_warned">Account warned</string>
+    <string name="account_unsuspended">Account unsuspended</string>
+    <string name="account_suspended">Account suspended</string>
+    <string name="account_undisabled">Account undisabled</string>
+    <string name="account_disabled">Account disabled</string>
+    <string name="account_unsilenced">Account unsilenced</string>
+    <string name="account_silenced">Account silenced</string>
+    <string name="report">Report</string>
 </resources>

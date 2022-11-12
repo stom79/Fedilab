@@ -16,8 +16,6 @@ package app.fedilab.android.activities;
 
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,28 +23,30 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.AdminAccount;
 import app.fedilab.android.client.entities.api.Report;
+import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.ui.drawer.StatusReportAdapter;
+import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
 
-public class AccountReportActivity extends BaseActivity implements OnAdminActionInterface {
+public class AccountReportActivity extends BaseActivity {
 
 
     private String account_id;
     private Report report;
     private ActivityAdminReportBinding binding;
+    private AdminVM adminVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +64,9 @@ public class AccountReportActivity extends BaseActivity implements OnAdminAction
         AdminAccount targeted_account = null;
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            account_id = b.getString("account_id", null);
-            targeted_account = b.getParcelable("targeted_account");
-            report = b.getParcelable("report");
+            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
+            targeted_account = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
+            report = (Report) b.getSerializable(Helper.ARG_REPORT);
         }
 
 
@@ -80,169 +80,99 @@ public class AccountReportActivity extends BaseActivity implements OnAdminAction
         }
         binding.assign.setVisibility(View.GONE);
         binding.status.setVisibility(View.GONE);
-
+        adminVM = new ViewModelProvider(this).get(AdminVM.class);
         if (account_id != null) {
-            new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.GET_ONE_ACCOUNT, account_id, null, AccountReportActivity.this);
+            adminVM.getAccount(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, null));
             return;
         }
 
         if (report != null) {
-            targeted_account = report.getTarget_account();
-            RecyclerView lv_statuses = findViewById(R.id.lv_statuses);
 
             ArrayList<String> contents = new ArrayList<>();
-            for (Status status : report.getStatuses()) {
-                contents.add(status.getContent());
+            for (Status status : report.statuses) {
+                contents.add(status.content);
             }
-            lv_statuses.setLayoutManager(new LinearLayoutManager(this));
+            binding.lvStatuses.setLayoutManager(new LinearLayoutManager(this));
             StatusReportAdapter adapter = new StatusReportAdapter(contents);
-            lv_statuses.setAdapter(adapter);
+            binding.lvStatuses.setAdapter(adapter);
 
-            Group statuses_group = findViewById(R.id.statuses_group);
-            statuses_group.setVisibility(View.VISIBLE);
-            if (MainActivity.social == UpdateAccountInfoAsyncTask.SOCIAL.PLEROMA) {
-                new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.GET_ONE_ACCOUNT, report.getTarget_account().getUsername(), null, AccountReportActivity.this);
-            }
+            binding.statusesGroup.setVisibility(View.VISIBLE);
 
         }
         if (targeted_account != null) {
-            account_id = targeted_account.getId();
-            fillReport(targeted_account);
-            if (MainActivity.social == UpdateAccountInfoAsyncTask.SOCIAL.PLEROMA) {
-                account_id = targeted_account.getUsername();
-            }
+            account_id = targeted_account.id;
+            fillReport(targeted_account, null);
+            account_id = targeted_account.username;
         }
 
 
     }
 
-    @Override
-    public void onAdminAction(APIResponse apiResponse) {
-        if (apiResponse.getError() != null) {
-            if (apiResponse.getError().getStatusCode() == 403) {
-                SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, android.content.Context.MODE_PRIVATE);
-                int theme = sharedpreferences.getInt(Helper.SET_THEME, Helper.THEME_DARK);
-                int style;
-                if (theme == Helper.THEME_DARK) {
-                    style = R.style.DialogDark;
-                } else if (theme == Helper.THEME_BLACK) {
-                    style = R.style.DialogBlack;
-                } else {
-                    style = R.style.Dialog;
-                }
-                AlertDialog.Builder builderInner;
-                builderInner = new AlertDialog.Builder(AccountReportActivity.this, style);
-                builderInner.setTitle(R.string.reconnect_account);
-                builderInner.setMessage(R.string.reconnect_account_message);
-                builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
-                    Intent intent = new Intent(AccountReportActivity.this, LoginActivity.class);
-                    intent.putExtra("admin", true);
-                    startActivity(intent);
-                });
-                builderInner.show();
-            } else {
-                Toasty.error(AccountReportActivity.this, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
-            }
-            return;
-        }
-        if (apiResponse.getReports() != null && apiResponse.getReports().size() > 0) {
-            report = apiResponse.getReports().get(0);
-            fillReport(report.getTarget_account());
-        } else if (apiResponse.getAccountAdmins() != null && apiResponse.getAccountAdmins().size() > 0) {
-            if (MainActivity.social == UpdateAccountInfoAsyncTask.SOCIAL.PLEROMA) {
-                account_id = apiResponse.getAccountAdmins().get(0).getUsername();
-            }
-            fillReport(apiResponse.getAccountAdmins().get(0));
-        }
-
-    }
-
-    private void fillReport(AccountAdmin accountAdmin) {
+    private void fillReport(AdminAccount accountAdmin, actionType type) {
 
         if (accountAdmin == null) {
             Toasty.error(AccountReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             return;
         }
-        if (!accountAdmin.isApproved() && MainActivity.social != UpdateAccountInfoAsyncTask.SOCIAL.PLEROMA && (accountAdmin.getDomain() == null || accountAdmin.getDomain().equals("null"))) {
-            allow_reject_group.setVisibility(View.VISIBLE);
+        if (!accountAdmin.approved && (accountAdmin.domain == null || accountAdmin.domain.equals("null"))) {
+            binding.allowRejectGroup.setVisibility(View.VISIBLE);
         }
 
-        reject.setOnClickListener(view -> {
-            AdminAction adminAction = new AdminAction();
-            adminAction.setType(REJECT);
-            new PostAdminActionAsyncTask(AccountReportActivity.this, REJECT, account_id, adminAction, AccountReportActivity.this);
-        });
-
-        allow.setOnClickListener(view -> {
-            AdminAction adminAction = new AdminAction();
-            adminAction.setType(APPROVE);
-            new PostAdminActionAsyncTask(AccountReportActivity.this, APPROVE, account_id, adminAction, AccountReportActivity.this);
-        });
-
-        warn.setOnClickListener(view -> {
-            AdminAction adminAction = new AdminAction();
-            adminAction.setType(NONE);
-            adminAction.setSend_email_notification(email_user.isChecked());
-            adminAction.setText(comment.getText().toString().trim());
-            new PostAdminActionAsyncTask(AccountReportActivity.this, NONE, account_id, adminAction, AccountReportActivity.this);
-        });
-
-
-        if (!accountAdmin.isSilenced()) {
-            silence.setText(getString(R.string.silence));
+        if (!accountAdmin.silenced) {
+            binding.silence.setText(getString(R.string.silence));
         } else {
-            silence.setText(getString(R.string.unsilence));
+            binding.silence.setText(getString(R.string.unsilence));
         }
-        silence.setOnClickListener(view -> {
-            if (!accountAdmin.isSilenced()) {
-                AdminAction adminAction = new AdminAction();
-                adminAction.setType(SILENCE);
-                adminAction.setSend_email_notification(email_user.isChecked());
-                adminAction.setText(comment.getText().toString().trim());
-                new PostAdminActionAsyncTask(AccountReportActivity.this, SILENCE, account_id, adminAction, AccountReportActivity.this);
+        if (!accountAdmin.disabled) {
+            binding.disable.setText(getString(R.string.disable));
+        } else {
+            binding.disable.setText(getString(R.string.undisable));
+        }
+        if (!accountAdmin.suspended) {
+            binding.suspend.setText(getString(R.string.suspend));
+        } else {
+            binding.suspend.setText(getString(R.string.unsuspend));
+        }
+
+        binding.reject.setOnClickListener(view -> adminVM.reject(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.REJECT)));
+        binding.allow.setOnClickListener(view -> adminVM.approve(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.APPROVE)));
+        binding.warn.setOnClickListener(view -> {
+            adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "none", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+            fillReport(accountAdmin, actionType.NONE);
+        });
+        binding.silence.setOnClickListener(view -> {
+            if (!accountAdmin.silenced) {
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "silence", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                accountAdmin.silenced = true;
+                fillReport(accountAdmin, actionType.SILENCE);
             } else {
-                new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.UNSILENCE, account_id, null, AccountReportActivity.this);
+                adminVM.unsilence(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.UNSILENCE));
+            }
+        });
+        binding.disable.setOnClickListener(view -> {
+            if (!accountAdmin.disabled) {
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "disable", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                accountAdmin.disabled = true;
+                fillReport(accountAdmin, actionType.DISABLE);
+            } else {
+                adminVM.enable(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.ENABLE));
             }
         });
 
-        if (!accountAdmin.isDisabled()) {
-            disable.setText(getString(R.string.disable));
-        } else {
-            disable.setText(getString(R.string.undisable));
-        }
-        disable.setOnClickListener(view -> {
-            if (!accountAdmin.isDisabled()) {
-                AdminAction adminAction = new AdminAction();
-                adminAction.setType(DISABLE);
-                adminAction.setSend_email_notification(email_user.isChecked());
-                adminAction.setText(comment.getText().toString().trim());
-                new PostAdminActionAsyncTask(AccountReportActivity.this, DISABLE, account_id, adminAction, AccountReportActivity.this);
+        binding.suspend.setOnClickListener(view -> {
+            if (!accountAdmin.suspended) {
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "suspend", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                accountAdmin.suspended = true;
+                fillReport(accountAdmin, actionType.SUSPEND);
             } else {
-                new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.ENABLE, account_id, null, AccountReportActivity.this);
-            }
-        });
-        if (!accountAdmin.isSuspended()) {
-            suspend.setText(getString(R.string.suspend));
-        } else {
-            suspend.setText(getString(R.string.unsuspend));
-        }
-        suspend.setOnClickListener(view -> {
-            if (!accountAdmin.isSuspended()) {
-                AdminAction adminAction = new AdminAction();
-                adminAction.setType(SUSPEND);
-                adminAction.setSend_email_notification(email_user.isChecked());
-                adminAction.setText(comment.getText().toString().trim());
-                new PostAdminActionAsyncTask(AccountReportActivity.this, SUSPEND, account_id, adminAction, AccountReportActivity.this);
-            } else {
-                new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.UNSUSPEND, account_id, null, AccountReportActivity.this);
+                adminVM.unsuspend(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.UNSUSPEND));
             }
         });
 
 
-        if (accountAdmin.getAction() != null) {
+        if (type != null) {
             String message = null;
-            switch (accountAdmin.getAction()) {
+            switch (type) {
                 case SILENCE:
                     message = getString(R.string.account_silenced);
                     break;
@@ -265,139 +195,158 @@ public class AccountReportActivity extends BaseActivity implements OnAdminAction
                     message = getString(R.string.account_warned);
                     break;
                 case APPROVE:
-                    allow_reject_group.setVisibility(View.GONE);
+                    binding.allowRejectGroup.setVisibility(View.GONE);
                     message = getString(R.string.account_approved);
                     break;
                 case REJECT:
-                    allow_reject_group.setVisibility(View.GONE);
+                    binding.allowRejectGroup.setVisibility(View.GONE);
                     message = getString(R.string.account_rejected);
                     break;
             }
             if (message != null) {
                 Toasty.success(AccountReportActivity.this, message, Toast.LENGTH_LONG).show();
             }
-            comment.setText("");
+            binding.comment.setText("");
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             assert imm != null;
-            imm.hideSoftInputFromWindow(comment.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(binding.comment.getWindowToken(), 0);
         }
 
-        if (accountAdmin.getAccount() != null) {
-            username.setText(String.format("@%s", accountAdmin.getAccount().getAcct()));
+        if (accountAdmin.account != null) {
+            binding.username.setText(String.format("@%s", accountAdmin.account.acct));
         }
 
-        email.setText(accountAdmin.getEmail());
+        binding.email.setText(accountAdmin.email);
 
-        if (accountAdmin.getEmail() == null || accountAdmin.getEmail().trim().equals("")) {
-            email.setVisibility(View.GONE);
-            email_label.setVisibility(View.GONE);
+        if (accountAdmin.email == null || accountAdmin.email.trim().equals("")) {
+            binding.email.setVisibility(View.GONE);
+            binding.emailLabel.setVisibility(View.GONE);
         }
-        if (accountAdmin.getIp() == null || accountAdmin.getIp().trim().equals("")) {
-            recent_ip.setVisibility(View.GONE);
-            recent_ip_label.setVisibility(View.GONE);
+        if (accountAdmin.ip == null || accountAdmin.ip.ip.trim().equals("")) {
+            binding.recentIp.setVisibility(View.GONE);
+            binding.recentIpLabel.setVisibility(View.GONE);
         }
-        if (accountAdmin.getCreated_at() == null) {
-            joined.setVisibility(View.GONE);
-            joined_label.setVisibility(View.GONE);
+        if (accountAdmin.created_at == null) {
+            binding.joined.setVisibility(View.GONE);
+            binding.joinedLabel.setVisibility(View.GONE);
         }
-        if (accountAdmin.isDisabled()) {
-            login_status.setText(getString(R.string.disabled));
-        } else if (accountAdmin.isSilenced()) {
-            login_status.setText(getString(R.string.silenced));
-        } else if (accountAdmin.isSuspended()) {
-            login_status.setText(getString(R.string.suspended));
+        if (accountAdmin.disabled) {
+            binding.loginStatus.setText(getString(R.string.disabled));
+        } else if (accountAdmin.silenced) {
+            binding.loginStatus.setText(getString(R.string.silenced));
+        } else if (accountAdmin.suspended) {
+            binding.loginStatus.setText(getString(R.string.suspended));
         } else {
-            login_status.setText(getString(R.string.active));
+            binding.loginStatus.setText(getString(R.string.active));
         }
-        if (accountAdmin.getDomain() == null || accountAdmin.getDomain().equals("null")) {
-            warn.setVisibility(View.VISIBLE);
-            email_user.setVisibility(View.VISIBLE);
-            comment_label.setVisibility(View.VISIBLE);
-            comment.setVisibility(View.VISIBLE);
-            recent_ip.setText(accountAdmin.getIp());
-            disable.setVisibility(View.VISIBLE);
-            suspend.setVisibility(View.VISIBLE);
+        if (accountAdmin.domain == null || accountAdmin.domain.equals("null")) {
+            binding.warn.setVisibility(View.VISIBLE);
+            binding.emailUser.setVisibility(View.VISIBLE);
+            binding.commentLabel.setVisibility(View.VISIBLE);
+            binding.comment.setVisibility(View.VISIBLE);
+            binding.recentIp.setText(accountAdmin.ip != null ? accountAdmin.ip.ip : "");
+            binding.disable.setVisibility(View.VISIBLE);
+            binding.suspend.setVisibility(View.VISIBLE);
         } else {
-            warn.setVisibility(View.GONE);
-            email_user.setVisibility(View.GONE);
-            email_user.setChecked(false);
-            comment.setVisibility(View.GONE);
-            recent_ip.setText("-");
-            permissions.setText("-");
-            email.setText("-");
-            disable.setVisibility(View.GONE);
-            suspend.setVisibility(View.VISIBLE);
-            comment_label.setVisibility(View.GONE);
+            binding.warn.setVisibility(View.GONE);
+            binding.emailUser.setVisibility(View.GONE);
+            binding.emailUser.setChecked(false);
+            binding.comment.setVisibility(View.GONE);
+            binding.recentIp.setText("-");
+            binding.permissions.setText("-");
+            binding.email.setText("-");
+            binding.disable.setVisibility(View.GONE);
+            binding.suspend.setVisibility(View.VISIBLE);
+            binding.commentLabel.setVisibility(View.GONE);
         }
 
-        if (accountAdmin.getRole() != null) {
-            switch (accountAdmin.getRole()) {
+        if (accountAdmin.role != null) {
+            switch (accountAdmin.role) {
                 case "user":
-                    permissions.setText(getString(R.string.user));
+                    binding.permissions.setText(getString(R.string.user));
                     break;
                 case "moderator":
-                    permissions.setText(getString(R.string.moderator));
+                    binding.permissions.setText(getString(R.string.moderator));
                     break;
                 case "admin":
-                    permissions.setText(getString(R.string.administrator));
+                    binding.permissions.setText(getString(R.string.administrator));
                     break;
             }
-            if (accountAdmin.getRole().equals("admin") || accountAdmin.getRole().equals("moderator")) {
-                warn.setVisibility(View.GONE);
-                suspend.setVisibility(View.GONE);
-                silence.setVisibility(View.GONE);
-                disable.setVisibility(View.GONE);
-                email_user.setVisibility(View.GONE);
-                email_user.setChecked(false);
-                comment.setVisibility(View.GONE);
-                comment_label.setVisibility(View.GONE);
+            if (accountAdmin.role.equals("admin") || accountAdmin.role.equals("moderator")) {
+                binding.warn.setVisibility(View.GONE);
+                binding.suspend.setVisibility(View.GONE);
+                binding.silence.setVisibility(View.GONE);
+                binding.disable.setVisibility(View.GONE);
+                binding.emailUser.setVisibility(View.GONE);
+                binding.emailUser.setChecked(false);
+                binding.comment.setVisibility(View.GONE);
+                binding.commentLabel.setVisibility(View.GONE);
             }
-            email_status.setText(accountAdmin.isConfirmed() ? getString(R.string.confirmed) : getString(R.string.unconfirmed));
+            binding.emailStatus.setText(accountAdmin.confirmed ? getString(R.string.confirmed) : getString(R.string.unconfirmed));
         }
 
 
-        joined.setText(Helper.dateToString(accountAdmin.getCreated_at()));
+        binding.joined.setText(Helper.dateToString(accountAdmin.created_at));
         if (report != null) {
-            assign.setVisibility(View.VISIBLE);
-            status.setVisibility(View.VISIBLE);
-            if (report.getAssigned_account() == null) {
-                assign.setText(getString(R.string.assign_to_me));
+            binding.assign.setVisibility(View.VISIBLE);
+            binding.status.setVisibility(View.VISIBLE);
+            if (report.assigned_account == null) {
+                binding.assign.setText(getString(R.string.assign_to_me));
             } else {
-                assign.setText(getString(R.string.unassign));
+                binding.assign.setText(getString(R.string.unassign));
             }
-            assign.setOnClickListener(view -> {
-                if (report.getAssigned_account() == null) {
-                    new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.ASSIGN_TO_SELF, report.getId(), null, AccountReportActivity.this);
+            binding.assign.setOnClickListener(view -> {
+                if (report.assigned_account == null) {
+                    adminVM.assignToSelf(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
+
+                    });
                 } else {
-                    new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.UNASSIGN, report.getId(), null, AccountReportActivity.this);
+                    adminVM.unassign(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
+
+                    });
                 }
             });
-            if (report.isAction_taken()) {
-                status.setText(getString(R.string.mark_unresolved));
+            if (report.action_taken) {
+                binding.status.setText(getString(R.string.mark_unresolved));
             } else {
-                status.setText(getString(R.string.mark_resolved));
+                binding.status.setText(getString(R.string.mark_resolved));
             }
-            status.setOnClickListener(view -> {
-                if (report.isAction_taken()) {
-                    new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.REOPEN, report.getId(), null, AccountReportActivity.this);
+            binding.status.setOnClickListener(view -> {
+                if (report.action_taken) {
+                    adminVM.reopen(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
+
+                    });
                 } else {
-                    new PostAdminActionAsyncTask(AccountReportActivity.this, API.adminAction.RESOLVE, report.getId(), null, AccountReportActivity.this);
+                    adminVM.resolved(MainActivity.currentInstance, MainActivity.currentToken, report.id).observe(this, adminReport -> {
+
+                    });
                 }
             });
 
         } else {
-            assign.setVisibility(View.GONE);
-            status.setVisibility(View.GONE);
-        }
-        if (MainActivity.social == UpdateAccountInfoAsyncTask.SOCIAL.PLEROMA) {
-            email_user.setVisibility(View.GONE);
-            email_user.setChecked(false);
-            comment.setVisibility(View.INVISIBLE);
-            comment_label.setVisibility(View.GONE);
-            warn.setVisibility(View.GONE);
-            silence.setVisibility(View.GONE);
-            assign.setVisibility(View.GONE);
+            binding.assign.setVisibility(View.GONE);
+            binding.status.setVisibility(View.GONE);
         }
 
+    }
+
+    public enum actionType {
+        ENABLE,
+        APPROVE,
+        REJECT,
+        NONE,
+        SILENCE,
+        DISABLE,
+        UNSILENCE,
+        SUSPEND,
+        UNSUSPEND,
+        ASSIGN_TO_SELF,
+        UNASSIGN,
+        REOPEN,
+        RESOLVE,
+        GET_ACCOUNTS,
+        GET_ONE_ACCOUNT,
+        GET_REPORTS,
+        GET_ONE_REPORT
     }
 }

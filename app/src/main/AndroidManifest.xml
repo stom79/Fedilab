@@ -192,6 +192,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
+            android:name=".activities.AdminReportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/report"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".activities.ScheduledActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/scheduled" />

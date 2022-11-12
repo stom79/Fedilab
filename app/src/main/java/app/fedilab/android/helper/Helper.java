@@ -231,6 +231,8 @@ public class Helper {
     public static final String ARG_MENTION_BOOSTER = "ARG_MENTION_BOOSTER";
     public static final String ARG_STATUS_REPLY_ID = "ARG_STATUS_REPLY_ID";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
+    public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
+    public static final String ARG_REPORT = "ARG_REPORT";
     public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
     public static final String ARG_STATUS_REPORT = "ARG_STATUS_REPORT";
