@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.Report;
+import app.fedilab.android.client.entities.api.AdminReport;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
@@ -44,7 +45,7 @@ public class AccountReportActivity extends BaseActivity {
 
 
     private String account_id;
-    private Report report;
+    private AdminReport report;
     private ActivityAdminReportBinding binding;
     private AdminVM adminVM;
 
@@ -66,7 +67,7 @@ public class AccountReportActivity extends BaseActivity {
         if (b != null) {
             account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
             targeted_account = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            report = (Report) b.getSerializable(Helper.ARG_REPORT);
+            report = (AdminReport) b.getSerializable(Helper.ARG_REPORT);
         }
 
 
@@ -328,6 +329,15 @@ public class AccountReportActivity extends BaseActivity {
             binding.status.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public enum actionType {

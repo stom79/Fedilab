@@ -42,7 +42,7 @@ import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 public class AdminActionActivity extends BaseActivity {
 
     public static Boolean local = true, remote = true, active = true, pending = true, disabled = true, silenced = true, suspended = true, staff = null, orderByMostRecent = true;
-    public static Boolean resolved = false, reportLocal = true, reportRemote = true;
+    public static Boolean resolved = null, reportLocal = true, reportRemote = true;
     private ActivityAdminActionsBinding binding;
     private boolean canGoBack;
     private FragmentAdminReport fragmentAdminReport;
@@ -227,7 +227,7 @@ public class AdminActionActivity extends BaseActivity {
                     if (checkedId == R.id.status_resolved) {
                         resolved = true;
                     } else if (checkedId == R.id.status_unresolved) {
-                        resolved = false;
+                        resolved = null;
                     }
                 });
                 if (reportLocal != null && reportRemote == null) {

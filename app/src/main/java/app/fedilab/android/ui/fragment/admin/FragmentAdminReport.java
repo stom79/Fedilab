@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ import app.fedilab.android.client.entities.api.AdminReports;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.drawer.StatusAdapter;
+import app.fedilab.android.ui.drawer.ReportAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 
 
@@ -50,7 +51,7 @@ public class FragmentAdminReport extends Fragment {
     private boolean flagLoading;
     private List<AdminReport> adminReports;
     private String max_id, min_id;
-    private StatusAdapter statusAdapter;
+    private ReportAdapter reportAdapter;
     private LinearLayoutManager mLayoutManager;
     private String viewModelKey;
 
@@ -119,16 +120,15 @@ public class FragmentAdminReport extends Fragment {
         }
         flagLoading = adminReports.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
-        if (statusAdapter != null && this.adminReports != null) {
+        if (reportAdapter != null && this.adminReports != null) {
             int size = this.adminReports.size();
             this.adminReports.clear();
             this.adminReports = new ArrayList<>();
-            statusAdapter.notifyItemRangeRemoved(0, size);
+            reportAdapter.notifyItemRangeRemoved(0, size);
         }
         if (this.adminReports == null) {
             this.adminReports = new ArrayList<>();
         }
-
         this.adminReports.addAll(adminReports.adminReports);
 
         if (max_id == null || (adminReports.pagination.max_id != null && Helper.compareTo(adminReports.pagination.max_id, max_id) < 0)) {
@@ -138,12 +138,14 @@ public class FragmentAdminReport extends Fragment {
             min_id = adminReports.pagination.min_id;
         }
 
-        //    statusAdapter = new StatusAdapter(this.statuses, timelineType, minified);
+        reportAdapter = new ReportAdapter(adminReports.adminReports);
 
         mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
-        binding.recyclerView.setAdapter(statusAdapter);
-
+        binding.recyclerView.setAdapter(reportAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.recyclerView.getContext(),
+                mLayoutManager.getOrientation());
+        binding.recyclerView.addItemDecoration(dividerItemDecoration);
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -189,7 +191,7 @@ public class FragmentAdminReport extends Fragment {
             //There are some adminReports present in the timeline
             int startId = adminReports.size();
             adminReports.addAll(admReports.adminReports);
-            statusAdapter.notifyItemRangeInserted(startId, admReports.adminReports.size());
+            reportAdapter.notifyItemRangeInserted(startId, admReports.adminReports.size());
             if (max_id == null || (admReports.pagination.max_id != null && Helper.compareTo(admReports.pagination.max_id, max_id) < 0)) {
                 max_id = admReports.pagination.max_id;
             }
@@ -199,19 +201,6 @@ public class FragmentAdminReport extends Fragment {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
-
-    /**
-     * Refresh status in list
-     */
-    public void refreshAllAdapters() {
-        if (statusAdapter != null && adminReports != null) {
-            statusAdapter.notifyItemRangeChanged(0, adminReports.size());
-        }
-    }
 
 }

@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -137,6 +138,9 @@ public class FragmentAdminAccount extends Fragment {
         adminAccountAdapter = new AdminAccountAdapter(this.adminAccounts);
         flagLoading = adminAccounts.pagination.max_id == null;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.recyclerView.getContext(),
+                mLayoutManager.getOrientation());
+        binding.recyclerView.addItemDecoration(dividerItemDecoration);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(adminAccountAdapter);
         //Fetch the relationship

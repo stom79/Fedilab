@@ -25,13 +25,13 @@ public class AdminReport implements Serializable {
     @SerializedName("id")
     public String id;
     @SerializedName("account")
-    public Account account;
+    public AdminAccount account;
     @SerializedName("action_taken")
-    public String action_taken;
+    public Boolean action_taken;
     @SerializedName("action_taken_by_account")
     public String action_taken_by_account;
     @SerializedName("assigned_account")
-    public Account assigned_account;
+    public AdminAccount assigned_account;
     @SerializedName("category")
     public String category;
     @SerializedName("comment")
@@ -39,7 +39,7 @@ public class AdminReport implements Serializable {
     @SerializedName("created_at")
     public Date created_at;
     @SerializedName("target_account")
-    public Account target_account;
+    public AdminAccount target_account;
     @SerializedName("statuses")
     public List<Status> statuses;
     @SerializedName("rules")

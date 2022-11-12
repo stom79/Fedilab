@@ -1596,4 +1596,5 @@
     <string name="account_unsilenced">Account unsilenced</string>
     <string name="account_silenced">Account silenced</string>
     <string name="report">Report</string>
+    <string name="state">State</string>
 </resources>
