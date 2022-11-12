@@ -10,5 +10,6 @@
     android:textAlignment="textStart"
     android:textColor="@color/cyanea_accent_dark_reference"
     app:icon="@drawable/ic_baseline_navigate_next_24"
+    app:iconTint="@color/cyanea_accent_dark_reference"
     app:iconGravity="end"
     app:strokeColor="@color/cyanea_accent_dark_reference" />

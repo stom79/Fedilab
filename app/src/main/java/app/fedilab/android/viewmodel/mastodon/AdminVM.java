@@ -17,6 +17,7 @@ package app.fedilab.android.viewmodel.mastodon;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -213,10 +214,13 @@ public class AdminVM extends AndroidViewModel {
             AdminAccount adminAccount = null;
             Call<AdminAccount> approveCall = mastodonAdminService.approve(token, accountId);
             if (approveCall != null) {
+                Log.v(Helper.TAG, "request: " + approveCall.request());
                 try {
                     Response<AdminAccount> approveResponse = approveCall.execute();
                     if (approveResponse.isSuccessful()) {
                         adminAccount = approveResponse.body();
+                    } else {
+                        Log.v(Helper.TAG, "err: " + approveResponse.errorBody().string());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -342,10 +346,13 @@ public class AdminVM extends AndroidViewModel {
             AdminAccount adminAccount = null;
             Call<AdminAccount> unsuspendCall = mastodonAdminService.unsuspend(token, accountId);
             if (unsuspendCall != null) {
+                Log.v(Helper.TAG, "request: " + unsuspendCall.request());
                 try {
                     Response<AdminAccount> unsuspendResponse = unsuspendCall.execute();
                     if (unsuspendResponse.isSuccessful()) {
                         adminAccount = unsuspendResponse.body();
+                    } else {
+                        Log.v(Helper.TAG, "err: " + unsuspendResponse.errorBody().string());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

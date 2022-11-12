@@ -147,7 +147,7 @@ public class AdminAccountActivity extends BaseActivity {
         });
 
         binding.silenceAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
+            if (adminAccount.silenced) {
                 adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount = adminAccountResult;
@@ -161,7 +161,7 @@ public class AdminAccountActivity extends BaseActivity {
         });
 
         binding.suspendAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
+            if (adminAccount.suspended) {
                 adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
                         .observe(AdminAccountActivity.this, adminAccountResult -> {
                             adminAccount = adminAccountResult;
