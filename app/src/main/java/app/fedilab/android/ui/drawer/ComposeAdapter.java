@@ -920,6 +920,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     holder.binding.content.setText(newContent);
                                     updateCharacterCount(holder);
                                     holder.binding.content.setSelection(newPosition);
+                                    statusList.get(holder.getBindingAdapterPosition()).text = newContent;
                                     AccountsSearchAdapter accountsListAdapter1 = new AccountsSearchAdapter(context, new ArrayList<>());
                                     holder.binding.content.setThreshold(1);
                                     holder.binding.content.setAdapter(accountsListAdapter1);
@@ -972,6 +973,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (currentCursorPosition < oldContent.length())
                                             newContent += oldContent.substring(currentCursorPosition);
                                         holder.binding.content.setText(newContent);
+                                        statusList.get(holder.getBindingAdapterPosition()).text = newContent;
                                         updateCharacterCount(holder);
                                         holder.binding.content.setSelection(newPosition);
                                         TagsSearchAdapter tagsSearchAdapter1 = new TagsSearchAdapter(context, new ArrayList<>());
@@ -1030,6 +1032,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (currentCursorPosition < oldContent.length())
                                             newContent += oldContent.substring(currentCursorPosition);
                                         holder.binding.content.setText(newContent);
+                                        statusList.get(holder.getBindingAdapterPosition()).text = newContent;
                                         updateCharacterCount(holder);
                                         holder.binding.content.setSelection(newPosition);
                                         EmojiSearchAdapter emojisSearchAdapter1 = new EmojiSearchAdapter(context, new ArrayList<>());
