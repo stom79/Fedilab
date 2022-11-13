@@ -54,7 +54,6 @@ import es.dmoral.toasty.Toasty;
 
 public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static ProfileActivity.action doAction;
     private final List<Account> accountList;
     private Context context;
 
@@ -82,7 +81,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if (account.relationShip != null) {
 
-            doAction = ProfileActivity.action.FOLLOW;
+            ProfileActivity.action doAction = ProfileActivity.action.FOLLOW;
             accountViewHolder.binding.followAction.setContentDescription(context.getString(R.string.action_follow));
             accountViewHolder.binding.followAction.setVisibility(View.VISIBLE);
             accountViewHolder.binding.followAction.setEnabled(true);
@@ -188,17 +187,18 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             accountViewHolder.binding.followAction.setOnClickListener(null);
+            ProfileActivity.action finalDoAction = doAction;
             accountViewHolder.binding.followAction.setOnClickListener(v -> {
-                if (doAction == ProfileActivity.action.NOTHING) {
+                if (finalDoAction == ProfileActivity.action.NOTHING) {
                     Toasty.info(context, context.getString(R.string.nothing_to_do), Toast.LENGTH_LONG).show();
-                } else if (doAction == ProfileActivity.action.FOLLOW) {
+                } else if (finalDoAction == ProfileActivity.action.FOLLOW) {
                     accountViewHolder.binding.followAction.setEnabled(false);
                     accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
                             .observe((LifecycleOwner) context, relationShip -> {
                                 account.relationShip = relationShip;
                                 adapter.notifyItemChanged(position);
                             });
-                } else if (doAction == ProfileActivity.action.UNFOLLOW) {
+                } else if (finalDoAction == ProfileActivity.action.UNFOLLOW) {
                     boolean confirm_unfollow = sharedpreferences.getBoolean(context.getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                     if (confirm_unfollow) {
                         AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
