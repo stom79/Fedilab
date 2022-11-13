@@ -92,19 +92,19 @@ public class TimelineHelper {
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
             for (Filter filter : BaseMainActivity.mainFilters) {
-                if (filter.irreversible) { //Dealt by the server
-                    continue;
-                }
+
                 for (String filterContext : filter.context) {
                     if (filterTimeLineType.getValue().equalsIgnoreCase(filterContext)) {
                         if (filter.whole_word) {
-                            Pattern p = Pattern.compile("(^" + Pattern.quote(filter.phrase) + "\\b|\\b" + Pattern.quote(filter.phrase) + "$)", Pattern.CASE_INSENSITIVE);
+
+                            Pattern p = Pattern.compile("\\b(" + Pattern.quote(filter.phrase) + ")\\b", Pattern.CASE_INSENSITIVE);
                             for (Status status : statuses) {
                                 String content;
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                     content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
                                     content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+
                                 Matcher m = p.matcher(content);
                                 if (m.find()) {
                                     statusesToRemove.add(status);
