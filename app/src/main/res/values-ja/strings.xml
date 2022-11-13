@@ -29,7 +29,7 @@
     <string name="camera">カメラ</string>
     <string name="delete_all">すべて削除</string>
     <string name="schedule">予約</string>
-    <string name="text_size">テキストとアイコンのサイズ</string>
+    <string name="text_size">文字サイズ</string>
     <string name="next">次へ</string>
     <string name="previous">前へ</string>
     <string name="open_with">他のアプリで開く</string>
@@ -116,7 +116,7 @@
         <item quantity="other">%d日</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_select_image_error">メディアの選択中にエラーが発生しました。</string>
+    <string name="toot_select_image_error">メディアの選択中にエラーが発生しました！</string>
     <string name="toot_delete_media">このメディアを削除しますか？</string>
     <string name="toot_error_no_content">メッセージが入力されていません！</string>
     <string name="toot_sent">投稿しました！</string>
@@ -156,7 +156,7 @@
     <!-- Notifications -->
     <string name="no_notifications">通知はありません</string>
     <string name="notif_mention">にメンションされました</string>
-    <string name="notif_status">wrote a new message</string>
+    <string name="notif_status">が投稿しました</string>
     <string name="notif_reblog">がブーストしました</string>
     <string name="notif_favourite">がお気に入りに登録しました</string>
     <string name="notif_follow">があなたをフォローしました</string>
@@ -166,10 +166,10 @@
     <!-- HEADER -->
     <string name="followers">フォロワー</string>
     <!-- TOAST -->
-    <string name="client_error">クライアントIDを取得できませんでした。</string>
+    <string name="client_error">クライアントIDを取得できませんでした！</string>
     <string name="toast_block">アカウントをブロックしました！</string>
     <string name="toast_unblock">このアカウントのブロックを解除しました！</string>
-    <string name="toast_mute">アカウントはミュートされました。</string>
+    <string name="toast_mute">アカウントはミュートされました！</string>
     <string name="toast_unmute">このアカウントのミュートを解除しました！</string>
     <string name="toast_follow">アカウントをフォローしました！</string>
     <string name="toast_unfollow">アカウントのフォローを解除しました！</string>
@@ -192,7 +192,7 @@
     <string name="set_notif_follow_add">トゥートがお気に入りに追加されたときに通知する</string>
     <string name="set_notif_follow_mention">メンションを受け取ったときに通知する</string>
     <string name="set_notif_follow_poll">投票が終了したら通知する</string>
-    <string name="set_notif_status">Notify for new posts</string>
+    <string name="set_notif_status">新しい投稿を通知する</string>
     <string name="set_share_validation">ブースト前に確認ダイアログを表示する</string>
     <string name="set_share_validation_fav">お気に入りに追加する前に確認ダイアログを表示する</string>
     <string name="set_notify">通知する</string>
@@ -283,7 +283,7 @@
     <string name="context_public">公開タイムライン</string>
     <string name="context_notification">通知</string>
     <string name="context_conversation">会話</string>
-    <string name="filter_keyword_explanations">テキストの大文字/小文字や、投稿の閲覧注意に関係なくマッチングされます</string>
+    <string name="filter_keyword_explanations">テキストの大文字/小文字や、投稿の閲覧注意に関係なく含まれます</string>
     <string name="context_drop">非表示ではなく除外</string>
     <string name="context_drop_explanations">フィルターが後で削除されても、除外された投稿は元に戻せなくなります</string>
     <string name="context_whole_word_explanations">キーワードまたはフレーズが英数字のみの場合、単語全体と一致する場合のみ適用されるようになります</string>
@@ -301,7 +301,7 @@
     <string name="channel_notif_mention">新しいメンション</string>
     <string name="channel_notif_poll">投票終了</string>
     <string name="channel_notif_backup">投稿のバックアップ</string>
-    <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_status">新しい投稿</string>
     <string name="channel_notif_media">メディアのダウンロード</string>
     <string name="select_sound">音の選択</string>
     <string name="set_enable_time_slot">時間帯管理を有効化</string>
@@ -406,7 +406,7 @@
     <string name="label_filter">フィルター</string>
     <string name="label_brush">ブラシ</string>
     <string name="discard">破棄</string>
-    <string name="saving">保存中...</string>
+    <string name="saving">保存中…</string>
     <string name="image_saved">画像が正常に保存されました！</string>
     <string name="save_image_failed">画像を保存できませんでした</string>
     <string name="add_poll_item">アンケートの項目を追加</string>
@@ -463,7 +463,7 @@
     <string name="unsuspend">再開</string>
     <string name="audio">このアプリは音声の録音へのアクセス許可が必要です</string>
     <string name="voice_message">ボイスメッセージ</string>
-    <string name="set_enable_time_slot_indication">指定された時間帯に、アプリは通知を送信します。右のスピンボタンを押すと、設定を反転することができます。(指定された時間に非通知)</string>
+    <string name="set_enable_time_slot_indication">アプリは指定された時間帯に通知を送信します。右のスピンボタンを押して設定を反転する(指定された時間帯に非通知にする)ことができます。</string>
     <string name="set_fit_preview_indication">タイムライン上のプレビューは切り取られません</string>
     <string name="set_capitalize_indication">最初の文字を大文字にするために、メンションの後に自動的に改行を挿入します</string>
     <string name="settings_title_custom_sharing_indication">コンテンツの作成者がRSSフィードにトゥートを共有できるようになります</string>
@@ -498,10 +498,10 @@
     <string name="set_clear_cache_exit_indication">アプリケーションの終了時にキャッシュ(メディア、キャッシュされたメッセージ、ビルトインブラウザのデータ)が自動的に消去されます。</string>
     <string name="unfollow_confirm">このアカウントのフォローを解除しますか？</string>
     <string name="set_unfollow_validation">フォローを解除する前に確認を表示する</string>
-    <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
-    <string name="replace_medium_host">Default: scribe.rip</string>
-    <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
+    <string name="replace_medium">Medium</string>
+    <string name="replace_medium_description">Mediumの代替フロントエンドを使用する</string>
+    <string name="replace_medium_host">Mediumフロントエンドのドメイン</string>
+    <string name="set_push_notifications">プッシュ通知システムを使用してリアルタイムに通知を取得します。</string>
     <string name="action_add_notes">メモを追加</string>
     <string name="note_for_account">このアカウントのメモ</string>
     <string name="set_resize_picture_indication">大きな画像を非常に少ない無視できる程度の損失で小さい画像に圧縮できます。</string>
@@ -563,9 +563,12 @@
     <string name="set_video_cache">MB単位での動画キャッシュ、0でキャッシュしません。</string>
     <string name="set_watermark">ウォーターマーク</string>
     <string name="set_watermark_indication">画像の下部に自動的にウォーターマークを追加します。テキストはアカウントごとにカスタマイズできます。</string>
-    <string name="no_distributors_found">No distributors found!</string>
-    <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
-    <string name="select_distributors">Select a distributor</string>
+    <string name="no_distributors_found">ディストリビューターが見つかりません！</string>
+    <string name="no_distributors_explanation">プッシュ通知を受信するにはディストリビューターが必要です。
+\n詳細は%1$sから確認できます。
+\n
+\nまた、そのメッセージを無視するように設定からプッシュ通知を無効にすることもできます。</string>
+    <string name="select_distributors">ディストリビューターを選択</string>
     <string name="hide_content">コンテンツを非表示にする &lt;</string>
     <string name="stop_recording">レコーディングを停止</string>
     <string name="report_title">%1$sを報告しています</string>
@@ -646,9 +649,9 @@
     <string name="notifications_are">この時間帯</string>
     <string name="pref_theme_base_summary">ベースとするテーマをライトかダークから選択してください</string>
     <string name="pref_custom_theme_new_summary">カスタムテーマの作成を許可する</string>
-    <string name="pref_contributor">第三者によるテーマ</string>
+    <string name="pref_contributor">コントリビューターによるテーマ</string>
     <string name="select_a_theme">テーマを選択</string>
-    <string name="pref_contributor_summary">第三者により作成されたテーマのピックアップ</string>
+    <string name="pref_contributor_summary">コントリビューターにより作成されたピックアップテーマ</string>
     <string name="toots_visibility_title">デフォルトの投稿公開範囲:</string>
     <string name="toast_bookmark">投稿をブックマークに追加しました！</string>
     <string name="toast_unbookmark">投稿をブックマークから削除しました！</string>
@@ -733,10 +736,76 @@
     <string name="set_push_notifications_delay">新しい投稿を読み込む間隔を設定する</string>
     <string name="refresh_every">通知を次の時間ごとに取得する:</string>
     <string name="type_of_notifications_delay_title">通知取得間隔</string>
-    <string name="export_settings">エクスポート設定</string>
-    <string name="import_settings">インポート設定</string>
+    <string name="export_settings">設定のエクスポート</string>
+    <string name="import_settings">設定のインポート</string>
     <string name="permission_missing">権限が許可されていません！</string>
     <string name="load_settings">エクスポートされた設定を読み込む</string>
     <string name="push_distributors">プッシュ通知のプロバイダー</string>
     <string name="my_app">マイアプリ</string>
+    <string name="change_logo_description">アプリのアイコンを変更します</string>
+    <string name="change_logo">アイコンを変更</string>
+    <string name="toast_unpin">この投稿のピン留めは解除されています！</string>
+    <string name="toast_pin">この投稿はピン留めされています</string>
+    <string name="set_live_translate_title">投稿を翻訳</string>
+    <string name="set_live_translate">特定の言語に強制的に翻訳します。1つ目の値を選択すると端末の設定に従うようリセットされます</string>
+    <string name="max_indentation_thread">スレッドのインデント(ぶら下がり)の最大値</string>
+    <string name="icon_size">アイコンサイズ</string>
+    <string name="display_media">メディアを表示</string>
+    <string name="cached_messages">キャッシュされた投稿</string>
+    <string name="display_options">表示設定</string>
+    <string name="fetch_notifications">通知の取得</string>
+    <string name="set_display_counters">カウンターを表示</string>
+    <string name="set_display_counters_description">新しい投稿があるときにタブのタイムラインに円形のカウンターを表示します</string>
+    <string name="set_use_cache">キャッシュを使用</string>
+    <string name="reply">返信</string>
+    <string name="view_the_original_message">元の投稿を開く</string>
+    <string name="remember_position">タイムラインの位置を記憶する</string>
+    <string name="display_media_notification">通知にメディアを表示する</string>
+    <string name="pickup_logo">アイコンを選択</string>
+    <string name="notification_remove_from_cache">通知がキャッシュから消去されます。</string>
+    <string name="email_status">メールの状態</string>
+    <string name="warn">警告</string>
+    <string name="email_user">ユーザーにメールで通知</string>
+    <string name="custom_warning">カスタム警告文</string>
+    <string name="list_reported_statuses">通報された投稿</string>
+    <string name="mark_resolved">解決済みとしてマーク</string>
+    <string name="account_rejected">アカウントが拒否されました</string>
+    <string name="account_unsuspended">アカウントの凍結を解除しました</string>
+    <string name="account_suspended">アカウントを凍結しました</string>
+    <string name="account_disabled">アカウントを無効化しました</string>
+    <string name="account_silenced">アカウントをサイレンスしました</string>
+    <string name="report">報告</string>
+    <string name="state">状態</string>
+    <string name="load_media_type_title">メディアのサムネイルを読み込む</string>
+    <string name="set_use_cache_indication">タイムラインがキャッシュされるのでアプリが高速になります。</string>
+    <string name="display_media_notification_summary">ブーストとお気に入りの通知のメディアを表示します</string>
+    <string name="aggregate_notifications_summary">有効にすると、関連のある通知を折りたたみます</string>
+    <string name="aggregate_notifications">通知をまとめる</string>
+    <string name="set_unlisted_replies">未収載の返信</string>
+    <string name="recent_ip">最近のIP</string>
+    <string name="set_unlisted_replies_indication">「公開」の返信にのみ影響します。有効にすると、返信の公開範囲がデフォルトで「公開」の代わりに「未収載」になります</string>
+    <string name="allow">許可</string>
+    <string name="unconfirmed">未確認</string>
+    <string name="account_warned">アカウントが警告されました</string>
+    <string name="login_status">ログインの状態</string>
+    <string name="joined">登録日</string>
+    <string name="confirmed">確認済み</string>
+    <string name="administrator">管理者</string>
+    <string name="unassign">割り当てを解除</string>
+    <string name="silenced">サイレンス済み</string>
+    <string name="user">ユーザー</string>
+    <string name="moderator">モデレーター</string>
+    <string name="assign_to_me">自分に割り当て</string>
+    <string name="mark_unresolved">未解決としてマーク</string>
+    <string name="account_approved">アカウントが承認されました</string>
+    <string name="account_unsilenced">アカウントのサイレンスを解除しました</string>
+    <string name="account_undisabled">アカウントの無効化を解除しました</string>
+    <string name="display_timelines">タイムラインを表示</string>
+    <string name="action_pin">投稿をピン留め</string>
+    <string name="action_unpin">投稿のピン留めを解除</string>
+    <string name="edit_message">投稿の編集</string>
+    <string name="full_date_edited">%1$sが%2$sを編集しました</string>
+    <string name="status_history">投稿履歴</string>
+    <string name="edited_message_at">編集日時: %1$s</string>
+    <string name="created_message_at">投稿日時: %1$s</string>
 </resources>
