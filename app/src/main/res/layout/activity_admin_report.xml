@@ -326,7 +326,7 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="warn,disable,silence" />
 
-        <androidx.appcompat.widget.AppCompatCheckedTextView
+        <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/email_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

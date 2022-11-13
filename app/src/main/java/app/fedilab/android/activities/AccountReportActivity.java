@@ -238,7 +238,7 @@ public class AccountReportActivity extends BaseActivity {
         } else {
             binding.loginStatus.setText(getString(R.string.active));
         }
-        if (accountAdmin.domain == null || accountAdmin.domain.equals("null")) {
+        if (accountAdmin.domain == null || accountAdmin.domain.trim().equalsIgnoreCase("null")) {
             binding.warn.setVisibility(View.VISIBLE);
             binding.emailUser.setVisibility(View.VISIBLE);
             binding.commentLabel.setVisibility(View.VISIBLE);
