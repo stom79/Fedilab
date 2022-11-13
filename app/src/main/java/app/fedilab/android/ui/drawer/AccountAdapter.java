@@ -83,7 +83,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (account.relationShip != null) {
 
             doAction = ProfileActivity.action.FOLLOW;
-            accountViewHolder.binding.followAction.setText(R.string.action_follow);
+            accountViewHolder.binding.followAction.setContentDescription(context.getString(R.string.action_follow));
             accountViewHolder.binding.followAction.setVisibility(View.VISIBLE);
             accountViewHolder.binding.followAction.setEnabled(true);
 
@@ -108,6 +108,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setEnabled(false);
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
             } else {
+                accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
                 accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
 
