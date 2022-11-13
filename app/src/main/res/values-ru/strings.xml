@@ -580,4 +580,5 @@
     <string name="no_distributors_found">Дистрибьюторы не найдены!</string>
     <string name="no_distributors_explanation">Вам нужен дистрибьютор для получения push-уведомлений.\nВы найдете более подробную информацию по адресу %1$s.\n\nВы также можете отключить push-уведомления в настройках для игнорирования этого сообщения.</string>
     <string name="select_distributors">Выберите дистрибьютора</string>
+    <string name="icon_size">Размер значков</string>
 </resources>
