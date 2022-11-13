@@ -1,0 +1,9 @@
+Added:
+- Two new Light themes
+- More moderation features
+
+Fixed:
+- Filter not working
+- Crash with trends
+- Some content lost when sending messages (mentions)
+- Some other fixes

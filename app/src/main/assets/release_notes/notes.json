@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.6.5",
+    "code": "426",
+    "note": "- Two new Light themes\n- More moderation features\n\nFixed:\n- Filter not working\n- Crash with trends\n- Some content lost when sending messages (mentions)\n- Some other fixes"
+  },
+  {
     "version": "3.6.4",
     "code": "425",
     "note": "Changed:\n- Tag search ordered by popularity\n\nFixed:\n- Unable to get client ID on some devices\n- Issue with messages/notifications not correctly displayed\n- Notifications not received\n- Friendica: issues with mentions and tags (open browser)\n- Improve sharing behaviour"
