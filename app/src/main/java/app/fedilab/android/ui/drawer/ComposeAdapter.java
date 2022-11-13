@@ -895,7 +895,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.binding.content.setAdapter(accountsListAdapter);
                         final String oldContent = holder.binding.content.getText().toString();
                         if (oldContent.length() >= currentCursorPosition) {
-                            String[] searchA = oldContent.substring(0, currentCursorPosition).split("\\s+@|^@");
+                            String[] searchA = oldContent.substring(0, currentCursorPosition).split("\\s+@|^@|\\(+@");
                             if (searchA.length > 0) {
                                 final String search = searchA[searchA.length - 1];
                                 holder.binding.content.setOnItemClickListener((parent, view, position, id) -> {
