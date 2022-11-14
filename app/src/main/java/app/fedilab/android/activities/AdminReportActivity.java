@@ -109,7 +109,7 @@ public class AdminReportActivity extends BaseActivity {
         if (account != null) {
             initializeView(account);
         } else {
-            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
+            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -117,7 +117,7 @@ public class AdminReportActivity extends BaseActivity {
     private void initializeView(Account account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(AdminReportActivity.this);
         if (account == null) {
-            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
+            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
             return;
         }

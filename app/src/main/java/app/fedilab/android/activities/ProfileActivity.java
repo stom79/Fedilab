@@ -176,12 +176,12 @@ public class ProfileActivity extends BaseActivity {
                     account = accounts.get(0);
                     initializeView(account);
                 } else {
-                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
+                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                     finish();
                 }
             });
         } else {
-            Toasty.error(ProfileActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
+            Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
         }
         LocalBroadcastManager.getInstance(ProfileActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
@@ -190,7 +190,7 @@ public class ProfileActivity extends BaseActivity {
     private void initializeView(Account account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         if (account == null) {
-            Toasty.error(ProfileActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
+            Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
