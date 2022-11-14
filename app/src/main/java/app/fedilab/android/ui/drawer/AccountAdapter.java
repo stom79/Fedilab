@@ -48,6 +48,7 @@ import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
@@ -110,6 +111,10 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
                 accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
+            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.block);
+            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.mute);
+            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteNotification);
+            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteTimed);
 
 
             if (account.relationShip.blocking) {

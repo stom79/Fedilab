@@ -363,7 +363,7 @@ public class ThemeHelper {
                 new int[]{-android.R.attr.state_checked},
         };
         int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference), 0xee);
-        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0xaa);
+        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0xee);
         int[] colors = new int[]{
                 alphaColor,
                 alphaColorUnchecked
@@ -408,6 +408,36 @@ public class ThemeHelper {
         };
         return new ColorStateList(states, colors);
     }
+
+
+    public static void changeColorOutlineButton(Context context, MaterialButton materialButton) {
+        if (materialButton != null) {
+            materialButton.setStrokeColor(ThemeHelper.getButtonOutlineColorStateList(context));
+            materialButton.setRippleColor(ThemeHelper.getButtonOutlineColorStateList(context));
+            materialButton.setIconTint(ThemeHelper.getButtonOutlineColorStateList(context));
+            materialButton.setTextColor(ThemeHelper.getButtonOutlineColorStateList(context));
+        }
+    }
+
+    /**
+     * Allow to set colors for Material buttons inside a toggle group
+     *
+     * @param context - Context
+     * @return - ColorStateList
+     */
+    public static ColorStateList getButtonOutlineColorStateList(Context context) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_checked},
+                new int[]{-android.R.attr.state_checked},
+        };
+        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0xaa);
+        int[] colors = new int[]{
+                ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference),
+                alphaColorUnchecked
+        };
+        return new ColorStateList(states, colors);
+    }
+
 
     /**
      * Allow to set background colors for Material buttons inside a toggle group

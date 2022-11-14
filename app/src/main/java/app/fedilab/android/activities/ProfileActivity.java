@@ -486,12 +486,7 @@ public class ProfileActivity extends BaseActivity {
         if (currentAccount == null || account == null) {
             return;
         }
-        //The value for account is from same server so id can be used
-        if (account.id.equals(currentAccount.user_id)) {
-            binding.accountFollow.setVisibility(View.GONE);
-            binding.headerEditProfile.setVisibility(View.VISIBLE);
-            binding.headerEditProfile.bringToFront();
-        }
+
         //Manage indentity proofs if not yet displayed
 
         if (identityProofList != null && identityProofList.size() > 0) {
@@ -515,7 +510,7 @@ public class ProfileActivity extends BaseActivity {
             }
         }
         binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
-        binding.headerEditProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
+
         binding.accountFollow.setEnabled(true);
         //Visibility depending of the relationship
         if (relationship != null) {
@@ -556,6 +551,14 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_follow));
             }
+            //The value for account is from same server so id can be used
+
+            if (account.id.equals(currentAccount.user_id)) {
+                binding.accountFollow.setVisibility(View.GONE);
+                binding.headerEditProfile.setVisibility(View.VISIBLE);
+                binding.headerEditProfile.bringToFront();
+            }
+            binding.headerEditProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
             if (!relationship.following) {
                 binding.accountNotification.setVisibility(View.GONE);
             } else {

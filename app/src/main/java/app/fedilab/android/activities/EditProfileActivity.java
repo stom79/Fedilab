@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -181,6 +182,17 @@ public class EditProfileActivity extends BaseActivity {
                 binding.addField.setVisibility(View.GONE);
             }
         });
+
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPublic);
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityUnlisted);
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPrivate);
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityDirect);
+        DrawableCompat.setTintList(DrawableCompat.wrap(binding.bot.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
+        DrawableCompat.setTintList(DrawableCompat.wrap(binding.discoverable.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
+        DrawableCompat.setTintList(DrawableCompat.wrap(binding.sensitive.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.locked);
+        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.unlocked);
+
         //Actions with the activity
         accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);
         binding.headerSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_HEADER));
