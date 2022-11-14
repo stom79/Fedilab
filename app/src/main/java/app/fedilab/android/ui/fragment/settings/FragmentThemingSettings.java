@@ -338,6 +338,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (launch_custom_theme != null) {
             launch_custom_theme.setOnPreferenceClickListener(preference -> {
                 startActivity(new Intent(requireActivity(), CyaneaSettingsActivity.class));
+                shouldRestart = true;
                 return false;
             });
 
@@ -456,6 +457,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                             ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                     return true;
                 }
+                shouldRestart = true;
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
@@ -476,6 +478,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                     createPref();
 
                 });
+                shouldRestart = true;
                 dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
                 AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.setCancelable(false);
@@ -514,12 +517,18 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             int theme_statuses_color = appPref.getInt("theme_statuses_color", -1);
             int theme_link_color = appPref.getInt("theme_link_color", -1);
             int theme_icons_color = appPref.getInt("theme_icons_color", -1);
-            int pref_color_background = cyneaPref.getInt("pref_color_background", -1);
+            int pref_color_background;
+            if (cyneaPref.getString("base_theme", "DARK").compareTo("DARK") == 0) {
+                pref_color_background = cyneaPref.getInt("background_dark", -1);
+            } else {
+                pref_color_background = cyneaPref.getInt("background_light", -1);
+            }
+
             boolean pref_color_navigation_bar = cyneaPref.getBoolean("pref_color_navigation_bar", true);
             boolean pref_color_status_bar = cyneaPref.getBoolean("pref_color_status_bar", true);
-            int theme_accent = cyneaPref.getInt("theme_accent", -1);
+            int theme_accent = cyneaPref.getInt("accent", -1);
             int theme_text_color = appPref.getInt("theme_text_color", -1);
-            int theme_primary = cyneaPref.getInt("theme_primary", -1);
+            int theme_primary = cyneaPref.getInt("primary", -1);
 
             int theme = appPref.getInt(getString(R.string.SET_THEME), 0);
 

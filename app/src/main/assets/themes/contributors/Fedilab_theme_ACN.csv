@@ -1,4 +1,4 @@
-base_theme,0
+base_theme,1
 author,acn128
 name,ACN
 theme_boost_header_color,-727060
@@ -10,6 +10,6 @@ theme_icons_color,-15395562
 pref_color_background,-1
 pref_color_navigation_bar,true
 pref_color_status_bar,true
-theme_accent,-1
+theme_accent,-14059009
 theme_text_color,-13027015
 theme_primary,-1
