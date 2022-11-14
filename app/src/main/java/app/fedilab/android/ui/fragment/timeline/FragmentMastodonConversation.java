@@ -61,6 +61,21 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private boolean isViewInitialized;
     private Conversations initialConversations;
 
+    //Allow to recreate data when detaching/attaching fragment
+    public void recreate() {
+        initialConversations = null;
+        if (conversationList != null && conversationList.size() > 0) {
+            int count = conversationList.size();
+            conversationList.clear();
+            conversationList = new ArrayList<>();
+            if (conversationAdapter != null) {
+                conversationAdapter.notifyItemRangeRemoved(0, count);
+                max_id = null;
+                flagLoading = false;
+                route(null, false);
+            }
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

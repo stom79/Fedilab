@@ -170,9 +170,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;
-        int count = 0;
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
-            count = timelineStatuses.size();
+            int count = timelineStatuses.size();
             timelineStatuses.clear();
             timelineStatuses = new ArrayList<>();
             if (statusAdapter != null) {
@@ -200,6 +199,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             isViewInitialized = true;
             if (initialStatuses != null) {
                 initializeStatusesCommonView(initialStatuses);
+            } else {
+                recreate();
             }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {

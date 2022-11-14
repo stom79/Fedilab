@@ -64,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -384,26 +385,41 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         } else if (item.getItemId() == R.id.action_language) {
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
-            List<Languages.Language> languages = Languages.get(ComposeActivity.this);
+            Set<String> storedLanguages = sharedpreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
+
             String[] codesArr = new String[0];
             String[] languagesArr = new String[0];
-
             String currentCode = sharedpreferences.getString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
             int selection = 0;
-
-            if (languages != null) {
-                codesArr = new String[languages.size()];
-                languagesArr = new String[languages.size()];
+            if (storedLanguages != null && storedLanguages.size() > 0) {
                 int i = 0;
-                for (Languages.Language language : languages) {
-                    codesArr[i] = language.code;
-                    languagesArr[i] = language.language;
-                    if (currentCode != null && currentCode.equalsIgnoreCase(language.code)) {
+                codesArr = new String[storedLanguages.size()];
+                languagesArr = new String[storedLanguages.size()];
+                for (String language : storedLanguages) {
+                    codesArr[i] = language;
+                    languagesArr[i] = language;
+                    if (currentCode != null && currentCode.equalsIgnoreCase(language)) {
                         selection = i;
                     }
                     i++;
                 }
+            } else {
+                List<Languages.Language> languages = Languages.get(ComposeActivity.this);
+                if (languages != null) {
+                    codesArr = new String[languages.size()];
+                    languagesArr = new String[languages.size()];
+                    int i = 0;
+                    for (Languages.Language language : languages) {
+                        codesArr[i] = language.code;
+                        languagesArr[i] = language.language;
+                        if (currentCode != null && currentCode.equalsIgnoreCase(language.code)) {
+                            selection = i;
+                        }
+                        i++;
+                    }
+                }
             }
+
             SharedPreferences.Editor editor = sharedpreferences.edit();
             AlertDialog.Builder builder = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
             builder.setTitle(getString(R.string.message_language));

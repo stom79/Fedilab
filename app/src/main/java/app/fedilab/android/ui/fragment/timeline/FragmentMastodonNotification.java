@@ -113,6 +113,22 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;
 
+    //Allow to recreate data when detaching/attaching fragment
+    public void recreate() {
+        initialNotifications = null;
+        if (notificationList != null && notificationList.size() > 0) {
+            int count = notificationList.size();
+            notificationList.clear();
+            notificationList = new ArrayList<>();
+            if (notificationAdapter != null) {
+                notificationAdapter.notifyItemRangeRemoved(0, count);
+                max_id = null;
+                flagLoading = false;
+                route(null, false);
+            }
+        }
+    }
+
     /**
      * Return the position of the status in the ArrayList
      *
@@ -324,6 +340,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             isViewInitialized = true;
             if (initialNotifications != null) {
                 initializeNotificationView(initialNotifications);
+            } else {
+                recreate();
             }
         }
     }

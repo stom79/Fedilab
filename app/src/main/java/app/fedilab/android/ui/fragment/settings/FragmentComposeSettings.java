@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.EditTextPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
@@ -45,6 +46,11 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             String val = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             SET_WATERMARK_TEXT.setText(val);
         }
+        MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
+        if (SET_SELECTED_LANGUAGE != null) {
+            SET_SELECTED_LANGUAGE.getContext().setTheme(Helper.dialogStyle());
+        }
+
     }
 
     @Override
