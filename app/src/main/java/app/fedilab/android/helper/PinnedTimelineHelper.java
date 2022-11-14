@@ -798,6 +798,7 @@ public class PinnedTimelineHelper {
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
+
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(activity.getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
                     editor.commit();
@@ -813,6 +814,7 @@ public class PinnedTimelineHelper {
                         FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
                         fragTransaction2.attach(fragmentMastodonTimeline);
                         fragTransaction2.commit();
+                        ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
                     }
                 }
             }
@@ -1057,6 +1059,7 @@ public class PinnedTimelineHelper {
             FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
             fragTransaction2.attach(fragmentMastodonTimeline);
             fragTransaction2.commit();
+            fragmentMastodonTimeline.recreate();
             popup.getMenu().close();
             return false;
         });
@@ -1108,6 +1111,7 @@ public class PinnedTimelineHelper {
                     FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
                     fragTransaction2.attach(fragmentMastodonTimeline);
                     fragTransaction2.commit();
+                    fragmentMastodonTimeline.recreate();
                     return false;
                 });
             }
@@ -1187,6 +1191,7 @@ public class PinnedTimelineHelper {
                 FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
                 fragTransaction2.attach(fragmentMastodonTimeline);
                 fragTransaction2.commit();
+                fragmentMastodonTimeline.recreate();
             }
         });
 
@@ -1256,6 +1261,7 @@ public class PinnedTimelineHelper {
             FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
             fragTransaction2.attach(fragmentMastodonTimeline);
             fragTransaction2.commit();
+            fragmentMastodonTimeline.recreate();
         });
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();

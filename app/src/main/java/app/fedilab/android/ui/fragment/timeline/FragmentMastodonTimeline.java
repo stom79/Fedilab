@@ -167,6 +167,32 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean canBeFederated;
     private boolean rememberPosition;
 
+    //Allow to recreate data when detaching/attaching fragment
+    public void recreate() {
+        initialStatuses = null;
+        int count = 0;
+        if (timelineStatuses != null && timelineStatuses.size() > 0) {
+            count = timelineStatuses.size();
+            timelineStatuses.clear();
+            timelineStatuses = new ArrayList<>();
+            if (statusAdapter != null) {
+                statusAdapter.notifyItemRangeRemoved(0, count);
+                max_id = statusReport != null ? statusReport.id : null;
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+                //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+                if (max_id == null && !isViewInitialized && rememberPosition) {
+                    max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+                }
+                //Only fragment in main view pager should not have the view initialized
+                //AND Only the first fragment will initialize its view
+                flagLoading = false;
+                router(null);
+            }
+        }
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -250,12 +276,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         timelineType = Timeline.TimeLineEnum.HOME;
         canBeFederated = true;
         if (getArguments() != null) {
@@ -589,7 +613,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
-
         if (binding == null || getActivity() == null || !isAdded()) {
             return;
         }
@@ -809,7 +832,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
                 if (direction == null) {
                     timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                            .observe(getViewLifecycleOwner(), nitterStatuses -> {
+                                initialStatuses = nitterStatuses;
+                                initializeStatusesCommonView(nitterStatuses);
+                            });
                 } else if (direction == DIRECTION.BOTTOM) {
                     timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, max_id)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
@@ -992,6 +1018,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         SCROLL_TOP,
         FETCH_NEW
     }
+
 
     public interface UpdateCounters {
         void onUpdate(int count, Timeline.TimeLineEnum type, String slug);
