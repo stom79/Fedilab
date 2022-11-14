@@ -224,9 +224,10 @@ public class StatusCache {
             throw new DBException("db is null. Wrong initialization.");
         }
         Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
-                + " where " + Sqlite.COL_TYPE + " = '" + Timeline.TimeLineEnum.HOME.getValue() + "'"
-                + " AND " + Sqlite.COL_INSTANCE + " = '" + baseAccount.instance + "'"
-                + " AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "'", null);
+                        + " where " + Sqlite.COL_TYPE + " = ?"
+                        + " AND " + Sqlite.COL_INSTANCE + " = ?"
+                        + " AND " + Sqlite.COL_USER_ID + "= ?",
+                new String[]{Timeline.TimeLineEnum.HOME.getValue(), baseAccount.instance, baseAccount.user_id});
         mCount.moveToFirst();
         int count = mCount.getInt(0);
         mCount.close();
@@ -457,14 +458,35 @@ public class StatusCache {
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long deleteForAccount(BaseAccount account) throws DBException {
+    public long deleteHomeForAccount(BaseAccount account) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
             return db.delete(Sqlite.TABLE_STATUS_CACHE,
-                    Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
-                    new String[]{account.user_id, account.instance});
+                    Sqlite.COL_TYPE + " = ? AND " + Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{Timeline.TimeLineEnum.HOME.getValue(), account.user_id, account.instance});
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    /**
+     * delete all cache for an account
+     *
+     * @param account - Account
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long deleteOthersForAccount(BaseAccount account) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            return db.delete(Sqlite.TABLE_STATUS_CACHE,
+                    Sqlite.COL_TYPE + " != ? AND " + Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{Timeline.TimeLineEnum.HOME.getValue(), account.user_id, account.instance});
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

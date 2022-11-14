@@ -15,18 +15,24 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.CacheAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.exception.DBException;
 
 public class CacheHelper {
@@ -112,10 +118,29 @@ public class CacheHelper {
                     deleteDir(dir);
                 }
             }
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
             for (CacheAccount cacheAccount : cacheAccounts) {
                 if (cacheAccount.clear_home) {
                     try {
-                        new StatusCache(context).deleteForAccount(cacheAccount.account);
+                        new StatusCache(context).deleteHomeForAccount(cacheAccount.account);
+                        editor.putString(context.getString(R.string.SET_INNER_MARKER) + cacheAccount.account.user_id + cacheAccount.account.instance + Timeline.TimeLineEnum.HOME.getValue(), null);
+                        editor.apply();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (cacheAccount.clear_other) {
+                    try {
+                        new StatusCache(context).deleteOthersForAccount(cacheAccount.account);
+                        Map<String, ?> keys = sharedpreferences.getAll();
+
+                        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                            if (entry.getKey().startsWith(context.getString(R.string.SET_INNER_MARKER) + cacheAccount.account.user_id + cacheAccount.account.instance) && !entry.getKey().endsWith(Timeline.TimeLineEnum.HOME.getValue())) {
+                                editor.putString(entry.getKey(), null);
+                                editor.apply();
+                            }
+                        }
                     } catch (DBException e) {
                         e.printStackTrace();
                     }

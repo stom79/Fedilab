@@ -30,6 +30,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -1892,6 +1893,20 @@ public class Helper {
         } catch (Exception e) {
             return value1.compareTo(value2);
         }
+    }
+
+    /**
+     * Restart the app
+     *
+     * @param context
+     */
+    public static void restart(Context context) {
+        Context ctx = context.getApplicationContext();
+        PackageManager pm = ctx.getPackageManager();
+        Intent intent = pm.getLaunchIntentForPackage(ctx.getPackageName());
+        Intent mainIntent = Intent.makeRestartActivityTask(intent.getComponent());
+        ctx.startActivity(mainIntent);
+        Runtime.getRuntime().exit(0);
     }
 
     //Enum that described actions to replace inside a toot content

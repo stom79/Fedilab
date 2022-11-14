@@ -133,7 +133,17 @@ public class CacheActivity extends BaseActivity {
                         size = size / 1000000.0f;
                     }
                     binding.fileCacheSize.setText(String.format("%s %s", String.format(Locale.getDefault(), "%.2f", size), getString(R.string.cache_units)));
-                    cacheAdapter.notifyDataSetChanged();
+                    AlertDialog.Builder restartBuilder = new AlertDialog.Builder(CacheActivity.this, Helper.dialogStyle());
+                    restartBuilder.setMessage(getString(R.string.restart_the_app));
+                    restartBuilder.setNegativeButton(R.string.no, (dialogRestart, whichRestart) -> {
+                        recreate();
+                        dialogRestart.dismiss();
+                    });
+                    restartBuilder.setPositiveButton(R.string.restart, (dialogRestart, whichRestart) -> {
+                        dialogRestart.dismiss();
+                        Helper.restart(CacheActivity.this);
+                    });
+                    restartBuilder.create().show();
                 }));
                 dialog.dismiss();
             });

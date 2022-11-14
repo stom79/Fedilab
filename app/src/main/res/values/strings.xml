@@ -1597,4 +1597,6 @@
     <string name="account_silenced">Account silenced</string>
     <string name="report">Report</string>
     <string name="state">State</string>
+    <string name="restart_the_app">Restart the app?</string>
+    <string name="restart">Restart</string>
 </resources>
