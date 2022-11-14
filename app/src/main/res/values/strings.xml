@@ -1599,4 +1599,5 @@
     <string name="state">State</string>
     <string name="restart_the_app">Restart the app?</string>
     <string name="restart">Restart</string>
+    <string name="restart_the_app_theme">You should restart the application to apply changes.</string>
 </resources>

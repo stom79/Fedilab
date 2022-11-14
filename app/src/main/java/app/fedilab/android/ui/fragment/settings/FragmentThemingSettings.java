@@ -63,6 +63,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.databinding.PopupStatusThemeBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -75,6 +76,8 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
     private List<LinkedHashMap<String, String>> listOfThemes;
     private SharedPreferences appPref;
     private SharedPreferences cyneaPref;
+    public ActionTheming actionTheming;
+    private boolean shouldRestart;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -82,6 +85,8 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         appPref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         createPref();
         listOfThemes = ThemeHelper.getContributorsTheme(requireActivity());
+        shouldRestart = false;
+        actionTheming = (SettingsActivity) requireActivity();
     }
 
 
@@ -101,6 +106,9 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
+        if (shouldRestart && actionTheming != null) {
+            actionTheming.restart();
+        }
     }
 
     @Override
@@ -109,7 +117,12 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (key.equals("use_custom_theme")) {
             createPref();
         }
+        shouldRestart = true;
         Helper.recreateMainActivity(requireActivity());
+    }
+
+    public interface ActionTheming {
+        void restart();
     }
 
 
