@@ -221,10 +221,15 @@ public class TimelinesVM extends AndroidViewModel {
         SharedPreferences sharedpreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+        if (instance.trim().equals("")) {
+            instance = context.getString(R.string.DEFAULT_NITTER_HOST);
+        }
         MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
         accountsStr = accountsStr.replaceAll("\\s", ",");
+
         statusesMutableLiveData = new MutableLiveData<>();
         String finalAccountsStr = accountsStr;
+        String finalInstance = instance;
         new Thread(() -> {
             Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(finalAccountsStr, max_position);
             Statuses statuses = new Statuses();
@@ -238,7 +243,7 @@ public class TimelinesVM extends AndroidViewModel {
                         if (rssResponse != null && rssResponse.mFeedItems != null) {
                             for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
                                 if (!feedItem.title.startsWith("RT by")) {
-                                    Status status = Nitter.convert(getApplication(), instance, feedItem);
+                                    Status status = Nitter.convert(getApplication(), finalInstance, feedItem);
                                     statusList.add(status);
                                 }
                             }
