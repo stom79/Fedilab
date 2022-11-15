@@ -243,7 +243,7 @@
     <string name="keywords_hint_custom_sharing">Paràulas crae…</string>
     <!-- ACTIVITY CACHE -->
     <string name="v_public">Pùblicu</string>
-    <string name="v_unlisted">Esclùidu de sa lista</string>
+    <string name="v_unlisted">No allistadu</string>
     <string name="v_private">Privadu</string>
     <string name="v_direct">Deretu</string>
     <!-- PRIVACY -->
@@ -774,8 +774,47 @@
     <string name="set_live_translate_title">Borta sos messàgios</string>
     <string name="set_live_translate">Fortza sa tradutzione a una limba ispetzificada. Issèbera su primu valore pro torrare a is cunfiguratziones de su dispositivu</string>
     <string name="edit_message">Modìfica su messàgiu</string>
-    <string name="full_date_edited">%1$s modificadu %2$s</string>
+    <string name="full_date_edited">%1$s at modificadu %2$s</string>
     <string name="status_history">Cronologia de su messàgiu</string>
     <string name="created_message_at">Creadu: %1$s</string>
     <string name="edited_message_at">Modificadu: %1$s</string>
+    <string name="set_unlisted_replies">Rispostas no allistadas</string>
+    <string name="notification_remove_from_cache">Is notìficas sunt istadas bogadas dae sa memòria temporànea.</string>
+    <string name="custom_warning">Avisu personalizadu</string>
+    <string name="list_reported_statuses">Istados sinnalados</string>
+    <string name="warn">Avisa</string>
+    <string name="email_user">Notìfica s\'utente tràmite sa posta eletrònica</string>
+    <string name="administrator">Amministradore</string>
+    <string name="confirmed">Cunfirmadu</string>
+    <string name="assign_to_me">Assigna·lu a mie</string>
+    <string name="unassign">Boga s\'assignamentu</string>
+    <string name="mark_unresolved">Marca comente non risoltu</string>
+    <string name="account_undisabled">Contu torradu a abilitare</string>
+    <string name="account_disabled">Contu inabilitadu</string>
+    <string name="account_unsuspended">Contu torradu a ativare</string>
+    <string name="account_suspended">Contu suspèndidu</string>
+    <string name="account_silenced">Contu postu a sa muda</string>
+    <string name="report">Signala</string>
+    <string name="state">Istadu</string>
+    <string name="account_unsilenced">Contu bogadu dae sa modalidade a sa muda</string>
+    <string name="account_approved">Contu aprovadu</string>
+    <string name="restart_the_app">Torrare a allùghere s\'aplicatzione\?</string>
+    <string name="restart">Torra a allùghere</string>
+    <string name="restart_the_app_theme">Depes torrare a allùghere s\'aplicatzione pro aplicare is modìficas.</string>
+    <string name="max_indentation_thread">Indentatzione màssima in is discussiones</string>
+    <string name="email_status">Istadu de sa posta eletrònica</string>
+    <string name="login_status">Istadu de intrada</string>
+    <string name="joined">Auni·du</string>
+    <string name="recent_ip">IP reghente</string>
+    <string name="allow">Permite</string>
+    <string name="silenced">Postu a sa muda</string>
+    <string name="user">Utente</string>
+    <string name="moderator">Moderadore</string>
+    <string name="unconfirmed">Non cunfirmadu</string>
+    <string name="mark_resolved">Marca comente risoltu</string>
+    <string name="account_rejected">Contu refudadu</string>
+    <string name="account_warned">Contu avisadu</string>
+    <string name="set_language_picker_title">Limbas in su seletzionadore</string>
+    <string name="set_unlisted_replies_indication">Custu pertocat a is rispostas \"pùblicas\" ebbia. Cando est abilitadu is rispostas tuas ant a tènnere sa visibilidade \"no allistadu\" in càmbiu de \"pùblicu\"</string>
+    <string name="set_language_picker">Permite de minimare sa lista de limbas in su seletzionadore cando ses cumponende unu messàgiu.</string>
 </resources>
