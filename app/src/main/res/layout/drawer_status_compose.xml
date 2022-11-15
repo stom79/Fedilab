@@ -57,14 +57,46 @@
 
         <app.fedilab.android.helper.FedilabAutoCompleteTextView
             android:id="@+id/content"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
             android:focusable="true"
             android:gravity="top|start"
             android:inputType="textMultiLine|textCapSentences"
             android:minLines="6"
+            app:layout_constraintEnd_toStartOf="@+id/emoji_container"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_spoiler" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/emoji_container"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/content">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_emoji"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/emoji_picker"
+                android:src="@drawable/ic_compose_emoji" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_emoji_one"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/emoji_picker"
+                android:src="@drawable/ic_baseline_insert_emoticon_24"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/sensitive_media"
@@ -137,29 +169,22 @@
             app:layout_constraintStart_toEndOf="@id/button_sensitive"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button_emoji"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/button_language"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_marginTop="6dp"
-            android:contentDescription="@string/emoji_picker"
-            android:src="@drawable/ic_compose_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/button_visibility"
             app:layout_constraintStart_toEndOf="@id/button_visibility"
-            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button_emoji_one"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="6dp"
-            android:contentDescription="@string/emoji_picker"
-            android:src="@drawable/ic_baseline_insert_emoticon_24"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@id/button_emoji"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider"
-            tools:visibility="visible" />
+            tools:text="EN" />
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/character_count"
@@ -169,7 +194,7 @@
             android:text="0"
             app:layout_constraintBottom_toTopOf="@id/character_progress"
             app:layout_constraintEnd_toStartOf="@id/button_post"
-            app:layout_constraintStart_toEndOf="@id/button_emoji_one"
+            app:layout_constraintStart_toEndOf="@id/button_language"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider"
             app:layout_constraintVertical_chainStyle="packed"
             tools:ignore="HardcodedText" />
@@ -182,7 +207,7 @@
             android:layout_height="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button_post"
-            app:layout_constraintStart_toEndOf="@id/button_emoji_one"
+            app:layout_constraintStart_toEndOf="@id/button_language"
             app:layout_constraintTop_toBottomOf="@id/character_count" />
 
         <androidx.appcompat.widget.AppCompatImageButton
