@@ -1974,4 +1974,13 @@
     <string name="restart_the_app_theme">You should restart the application to apply changes.</string>
     <string name="set_language_picker_title">Languages in picker</string>
     <string name="set_language_picker">Allow to reduce the list of languages in the picker when composing a message.</string>
+    <string name="action_followed_tag_empty">You don\'t follow any tags!</string>
+    <string name="action_unfollow_tag">Unfollow tag</string>
+    <string name="action_unfollow_tag_confirm">Are you sure you want to unfollow this tag?</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="action_tag_follow">Follow a tag</string>
+    <string name="write_the_tag_to_follow">Write the tag to follow</string>
+    <string name="not_valid_tag_name">Tag name is not valid!</string>
+    <string name="followed_tags">Followed tags</string>
+    <string name="follow_tag">Follow tag</string>
 </resources>

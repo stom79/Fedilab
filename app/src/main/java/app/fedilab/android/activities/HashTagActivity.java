@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.viewmodel.mastodon.ReorderVM;
+import app.fedilab.android.viewmodel.mastodon.TagVM;
 import es.dmoral.toasty.Toasty;
 
 
@@ -53,6 +56,9 @@ public class HashTagActivity extends BaseActivity {
 
     public static int position;
     private String tag;
+    private boolean pinnedTag;
+    private boolean followedTag;
+    private TagVM tagVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +73,8 @@ public class HashTagActivity extends BaseActivity {
         }
         if (tag == null)
             finish();
-
+        pinnedTag = false;
+        followedTag = false;
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         //Remove title
@@ -80,6 +87,29 @@ public class HashTagActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        tagVM = new ViewModelProvider(HashTagActivity.this).get(TagVM.class);
+        tagVM.getTag(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+            if (returnedTag != null) {
+                followedTag = returnedTag.following;
+                invalidateOptionsMenu();
+            }
+        });
+        ReorderVM reorderVM = new ViewModelProvider(HashTagActivity.this).get(ReorderVM.class);
+        reorderVM.getAllPinned().observe(HashTagActivity.this, pinned -> {
+            if (pinned != null) {
+                if (pinned.pinnedTimelines != null) {
+                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                        if (pinnedTimeline.tagTimeline != null) {
+                            if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(tag)) {
+                                pinnedTag = true;
+                                invalidateOptionsMenu();
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
@@ -151,10 +181,19 @@ public class HashTagActivity extends BaseActivity {
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                     intentBD.putExtras(b);
                     LocalBroadcastManager.getInstance(HashTagActivity.this).sendBroadcast(intentBD);
+                    pinnedTag = true;
+                    invalidateOptionsMenu();
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
             }).start();
+        } else if (item.getItemId() == R.id.action_follow_tag) {
+            tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+                if (returnedTag != null) {
+                    followedTag = returnedTag.following;
+                    invalidateOptionsMenu();
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,7 +202,15 @@ public class HashTagActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_reorder, menu);
+        getMenuInflater().inflate(R.menu.menu_hashtag, menu);
+        MenuItem pin = menu.findItem(R.id.action_add_timeline);
+        MenuItem follow = menu.findItem(R.id.action_follow_tag);
+        if (pinnedTag && pin != null) {
+            pin.setVisible(false);
+        }
+        if (followedTag && follow != null) {
+            follow.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

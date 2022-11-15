@@ -28,8 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonTagService;
 import app.fedilab.android.client.entities.api.Pagination;
-import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Tags;
 import app.fedilab.android.helper.Helper;
@@ -76,19 +74,15 @@ public class TagVM extends AndroidViewModel {
     /**
      * Return followed tags with pagination
      *
-     * @return {@link LiveData} containing a {@link Statuses}. Note: Not to be confused with {@link Status}
+     * @return {@link LiveData} containing a {@link Tags}. Note: Not to be confused with {@link Tag}
      */
-    public LiveData<Tags> followedTags(@NonNull String instance, String token,
-                                       String maxId,
-                                       String sinceId,
-                                       String minId,
-                                       int count) {
+    public LiveData<Tags> followedTags(@NonNull String instance, String token) {
         tagsMutableLiveData = new MutableLiveData<>();
         MastodonTagService mastodonTagService = init(instance);
         new Thread(() -> {
             List<Tag> tagList = null;
             Pagination pagination = null;
-            Call<List<Tag>> followedTagsListCall = mastodonTagService.getFollowedTags(token, maxId, sinceId, minId, count);
+            Call<List<Tag>> followedTagsListCall = mastodonTagService.getFollowedTags(token);
             if (followedTagsListCall != null) {
                 try {
                     Response<List<Tag>> tagsResponse = followedTagsListCall.execute();
@@ -110,6 +104,37 @@ public class TagVM extends AndroidViewModel {
         }).start();
         return tagsMutableLiveData;
     }
+
+    /**
+     * Return tag
+     *
+     * @return {@link LiveData} containing a {@link Tag}
+     */
+    public LiveData<Tag> getTag(@NonNull String instance, String token,
+                                String tagName) {
+        tagMutableLiveData = new MutableLiveData<>();
+        MastodonTagService mastodonTagService = init(instance);
+        new Thread(() -> {
+            Tag tag = null;
+            Call<Tag> tagCall = mastodonTagService.getTag(token, tagName);
+            if (tagCall != null) {
+                try {
+                    Response<Tag> tagResponse = tagCall.execute();
+                    if (tagResponse.isSuccessful()) {
+                        tag = tagResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Tag finalTag = tag;
+            Runnable myRunnable = () -> tagMutableLiveData.setValue(finalTag);
+            mainHandler.post(myRunnable);
+        }).start();
+        return tagMutableLiveData;
+    }
+
 
     /**
      * Follow a tag

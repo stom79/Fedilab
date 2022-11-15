@@ -252,6 +252,11 @@
             android:label="@string/action_lists"
             android:theme="@style/AppThemeBar" />
         <activity
+            android:name=".activities.FollowedTagActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/followed_tags"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".activities.SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/settings"

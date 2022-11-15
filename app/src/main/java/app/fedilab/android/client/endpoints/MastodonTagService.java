@@ -23,18 +23,21 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface MastodonTagService {
 
     //Get followed tags
     @GET("followed_tags")
     Call<List<Tag>> getFollowedTags(
+            @Header("Authorization") String token
+    );
+
+
+    //Get followed tags
+    @GET("tags/{name}")
+    Call<Tag> getTag(
             @Header("Authorization") String token,
-            @Query("max_id") String max_id,
-            @Query("since_id") String since_id,
-            @Query("min_id") String min_id,
-            @Query("limit") int limit
+            @Path("name") String name
     );
 
     //Follow tag

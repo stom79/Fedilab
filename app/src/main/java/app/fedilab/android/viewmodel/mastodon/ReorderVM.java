@@ -112,6 +112,25 @@ public class ReorderVM extends AndroidViewModel {
     }
 
 
+    public LiveData<Pinned> getAllPinned() {
+        pinnedMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Pinned pinned = null;
+            try {
+                pinned = new Pinned(getApplication().getApplicationContext()).getAllPinned(currentAccount);
+
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Pinned finalPinned = pinned;
+            Runnable myRunnable = () -> pinnedMutableLiveData.setValue(finalPinned);
+            mainHandler.post(myRunnable);
+        }).start();
+        return pinnedMutableLiveData;
+    }
+
+
     public LiveData<BottomMenu> getBottomMenu() {
         bottomMenuMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {

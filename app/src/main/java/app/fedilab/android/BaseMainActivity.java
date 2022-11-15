@@ -103,6 +103,7 @@ import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.DraftActivity;
 import app.fedilab.android.activities.FilterActivity;
 import app.fedilab.android.activities.FollowRequestActivity;
+import app.fedilab.android.activities.FollowedTagActivity;
 import app.fedilab.android.activities.InstanceActivity;
 import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
@@ -358,6 +359,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_list) {
                 Intent intent = new Intent(this, MastodonListActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_followed_tags) {
+                Intent intent = new Intent(this, FollowedTagActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_settings) {
                 Intent intent = new Intent(this, SettingsActivity.class);

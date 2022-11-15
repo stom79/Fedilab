@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_follow_tag"
+        android:icon="@drawable/ic_baseline_post_add_24"
+        android:title="@string/follow_tag"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add_timeline"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/add_instances"
+        app:showAsAction="ifRoom" />
+</menu>
