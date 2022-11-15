@@ -1423,12 +1423,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                     editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
                     editor.apply();
+                    statusDraft.language = finalCodesArr[selectedPosition];
                     notifyItemChanged(holder.getLayoutPosition());
                     dialog.dismiss();
                 });
                 builder.setNegativeButton(R.string.reset, (dialog, which) -> {
                     editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
                     editor.apply();
+                    statusDraft.language = null;
                     notifyItemChanged(holder.getLayoutPosition());
                     dialog.dismiss();
                 });
