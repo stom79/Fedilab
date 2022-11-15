@@ -18,6 +18,7 @@ package app.fedilab.android.helper;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.USER_AGENT;
 import static app.fedilab.android.helper.Helper.urlPattern;
+import static app.fedilab.android.helper.Helper.urlPatternSimple;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
 
 import android.content.ClipData;
@@ -190,7 +191,7 @@ public class SpannableHelper {
 
     private static void linkify(Context context, SpannableStringBuilder content, HashMap<String, String> urlDetails) {
         //--- URLs ----
-        Matcher matcherLink = urlPattern.matcher(content);
+        Matcher matcherLink = urlPatternSimple.matcher(content);
 
         int offSetTruncate = 0;
 
