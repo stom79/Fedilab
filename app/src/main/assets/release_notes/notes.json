@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.7.0",
+    "code": "427",
+    "note": "Added:\n- Follow tags (dedicated entry in menu)\n- Reduce the list of languages when composing (Settings > Compose)\n- Language indicator when composing\n- Replies are automatically set to first message language\n- Two new Light themes\n- More moderation features\n- List name can be edited\n\nFixed:\n- Filter not working\n- Crash with trends\n- Issue with themes\n- Some content lost when sending messages (mentions)\n- Fix freezes in timelines\n- Some other fixes"
+  },
+  {
     "version": "3.6.5",
     "code": "426",
     "note": "- Two new Light themes\n- More moderation features\n\nFixed:\n- Filter not working\n- Crash with trends\n- Some content lost when sending messages (mentions)\n- Some other fixes"
