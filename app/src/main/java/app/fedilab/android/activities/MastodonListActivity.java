@@ -45,11 +45,13 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.MastodonList;
+import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityListBinding;
 import app.fedilab.android.databinding.PopupAddListBinding;
 import app.fedilab.android.databinding.PopupManageAccountsListBinding;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AccountListAdapter;
@@ -289,6 +291,73 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                                 b.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
                                 intentBD.putExtras(b);
                                 LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
+                            });
+                    dialog.dismiss();
+                } else {
+                    popupAddListBinding.addList.setError(getString(R.string.not_valid_list_name));
+                }
+
+            });
+            dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+            dialogBuilder.create().show();
+        } else if (item.getItemId() == R.id.action_edit) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            PopupAddListBinding popupAddListBinding = PopupAddListBinding.inflate(getLayoutInflater());
+            dialogBuilder.setView(popupAddListBinding.getRoot());
+            popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
+            popupAddListBinding.addList.setText(mastodonList.title);
+            popupAddListBinding.addList.setSelection(popupAddListBinding.addList.getText().length());
+            dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
+                    timelinesVM.updateList(
+                                    BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id,
+                                    popupAddListBinding.addList.getText().toString().trim(), null)
+                            .observe(MastodonListActivity.this, newMastodonList -> {
+                                if (mastodonListList != null && newMastodonList != null) {
+                                    int position = 0;
+                                    for (MastodonList mastodonList : mastodonListList) {
+                                        if (newMastodonList.id.equalsIgnoreCase(mastodonList.id)) {
+                                            ReorderVM reorderVM = new ViewModelProvider(MastodonListActivity.this).get(ReorderVM.class);
+                                            int finalPosition = position;
+                                            reorderVM.getAllPinned().observe(MastodonListActivity.this, pinned -> {
+                                                if (pinned != null) {
+                                                    if (pinned.pinnedTimelines != null) {
+                                                        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                                                            if (pinnedTimeline.mastodonList != null) {
+                                                                if (pinnedTimeline.mastodonList.id.equalsIgnoreCase(newMastodonList.id)) {
+                                                                    if (!newMastodonList.title.equalsIgnoreCase(pinnedTimeline.mastodonList.title)) {
+                                                                        pinnedTimeline.mastodonList.title = newMastodonList.title;
+                                                                        setTitle(newMastodonList.title);
+                                                                        mastodonListList.get(finalPosition).title = newMastodonList.title;
+                                                                        mastodonListAdapter.notifyItemChanged(finalPosition);
+                                                                        new Thread(() -> {
+                                                                            try {
+                                                                                new Pinned(MastodonListActivity.this).updatePinned(pinned);
+                                                                                Bundle b = new Bundle();
+                                                                                b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                                                                                Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+                                                                                intentBD.putExtras(b);
+                                                                                LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
+                                                                            } catch (DBException e) {
+                                                                                e.printStackTrace();
+                                                                            }
+                                                                        }).start();
+                                                                    }
+
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        position++;
+                                    }
+                                } else {
+                                    Toasty.error(MastodonListActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                }
+
                             });
                     dialog.dismiss();
                 } else {

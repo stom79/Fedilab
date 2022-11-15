@@ -1983,4 +1983,5 @@
     <string name="not_valid_tag_name">Tag name is not valid!</string>
     <string name="followed_tags">Followed tags</string>
     <string name="follow_tag">Follow tag</string>
+    <string name="action_lists_edit">Edit list</string>
 </resources>

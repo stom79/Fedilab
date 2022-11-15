@@ -243,6 +243,17 @@ public class PinnedTimelineHelper {
                     for (MastodonList mastodonList : mastodonLists) {
                         if (mastodonList.id.compareTo(pinnedTimeline.mastodonList.id) == 0) {
                             present = true;
+                            if (!mastodonList.title.equalsIgnoreCase(pinnedTimeline.mastodonList.title)) {
+                                pinnedTimeline.mastodonList.title = mastodonList.title;
+                                Pinned finalPinned1 = pinned;
+                                new Thread(() -> {
+                                    try {
+                                        new Pinned(activity).updatePinned(finalPinned1);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
                             break;
                         }
                     }
