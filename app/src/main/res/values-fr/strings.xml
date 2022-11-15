@@ -791,4 +791,15 @@
     <string name="set_unlisted_replies">Réponses non-listées</string>
     <string name="notification_remove_from_cache">Les notifications ont été retirées du cache.</string>
     <string name="set_unlisted_replies_indication">Cela ne concerne que les réponses \"publiques\". Une fois activé, vos réponses seront marquées comme \"non-listée\" au lieu de \"publique\"</string>
+    <string name="administrator">Administrateur⋅ice</string>
+    <string name="confirmed">Confirmé</string>
+    <string name="mark_unresolved"></string>
+    <string name="recent_ip">IP récente</string>
+    <string name="custom_warning">Avertissement personnalisé</string>
+    <string name="warn">Avertir</string>
+    <string name="email_user">Notifier l\'utilisateur⋅ice par courriel</string>
+    <string name="user">Utilisateur⋅ice</string>
+    <string name="moderator">Modérateur⋅ice</string>
+    <string name="email_status">État du courriel</string>
+    <string name="allow">Autoriser</string>
 </resources>
