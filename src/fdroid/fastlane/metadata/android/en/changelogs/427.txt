@@ -12,4 +12,5 @@ Fixed:
 - Crash with trends
 - Issue with themes
 - Some content lost when sending messages (mentions)
+- Fix freezes in timelines
 - Some other fixes

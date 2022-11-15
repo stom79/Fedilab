@@ -134,7 +134,14 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
                                 if (tagList == null) {
                                     tagList = new ArrayList<>();
                                 }
-                                if (newTag != null && followedTagAdapter != null) {
+                                if (followedTagAdapter == null) {
+                                    followedTagAdapter = new FollowedTagAdapter(tagList);
+                                    followedTagAdapter.actionOnTag = this;
+                                    binding.notContent.setVisibility(View.GONE);
+                                    binding.recyclerView.setAdapter(followedTagAdapter);
+                                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(FollowedTagActivity.this));
+                                }
+                                if (newTag != null) {
                                     tagList.add(0, newTag);
                                     followedTagAdapter.notifyItemInserted(0);
                                 } else {
