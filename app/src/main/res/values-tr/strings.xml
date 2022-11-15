@@ -818,4 +818,9 @@
     <string name="account_undisabled">Hesabın devre dışı bırakılması kaldırıldı</string>
     <string name="account_disabled">Hesap devre dışı bırakıldı</string>
     <string name="account_silenced">Hesap susturuldu</string>
+    <string name="restart_the_app">Uygulama yeniden başlatılsın mı\?</string>
+    <string name="restart">Yeniden başlat</string>
+    <string name="restart_the_app_theme">Değişiklikleri uygulamak için uygulamayı yeniden başlatmanız gerekir.</string>
+    <string name="set_language_picker">Mesaj oluştururken seçicideki dil listesinin azaltılmasına izin ver.</string>
+    <string name="set_language_picker_title">Seçicideki diller</string>
 </resources>
