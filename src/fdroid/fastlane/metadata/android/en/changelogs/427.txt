@@ -2,7 +2,7 @@ Added:
 - Follow tags (dedicated entry in menu)
 - Reduce the list of languages when composing (Settings > Compose)
 - Language indicator when composing
-- Replies are automatically set to first language message
+- Replies are automatically set to first message language
 - Two new Light themes
 - More moderation features
 - List name can be edited
@@ -10,5 +10,6 @@ Added:
 Fixed:
 - Filter not working
 - Crash with trends
+- Issue with themes
 - Some content lost when sending messages (mentions)
 - Some other fixes
