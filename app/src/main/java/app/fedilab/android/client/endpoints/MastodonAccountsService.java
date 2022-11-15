@@ -153,6 +153,7 @@ public interface MastodonAccountsService {
             @Path("id") String id
     );
 
+
     //Get Identity proofs
     @GET("accounts/{id}/identity_proofs")
     Call<List<IdentityProof>> getIdentityProofs(

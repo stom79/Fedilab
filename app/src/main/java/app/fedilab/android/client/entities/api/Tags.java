@@ -1,5 +1,5 @@
 package app.fedilab.android.client.entities.api;
-/* Copyright 2021 Thomas Schneider
+/* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -14,30 +14,9 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 import java.util.List;
 
-public class Tag implements Serializable {
-
-    @SerializedName("name")
-    public String name;
-    @SerializedName("url")
-    public String url;
-    @SerializedName("history")
-    public List<History> history;
-    @SerializedName("following")
-    public boolean following = false;
-
-    public int getWeight() {
-        int weight = 0;
-        for (History h : history) {
-            try {
-                weight += Integer.parseInt(h.accounts);
-            } catch (Exception ignored) {
-            }
-        }
-        return weight;
-    }
+public class Tags {
+    public Pagination pagination = new Pagination();
+    public List<Tag> tags;
 }
