@@ -14,7 +14,7 @@ package app.fedilab.android.client.entities.app;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -32,9 +32,9 @@ public class Languages implements Serializable {
     @SerializedName("languages")
     public List<Language> languages;
 
-    public static List<Language> get(AppCompatActivity activity) {
+    public static List<Language> get(Context context) {
         try {
-            InputStream is = activity.getAssets().open("languages/iso_639_1.json");
+            InputStream is = context.getAssets().open("languages/iso_639_1.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

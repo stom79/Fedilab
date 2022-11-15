@@ -87,6 +87,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,6 +102,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.Languages;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
@@ -745,6 +747,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 int currentLength = MastodonHelper.countLength(holder);
+                statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 //Copy/past
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
                 if (currentLength > max_car) {
@@ -760,7 +763,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     buttonVisibility(holder);
                 }
                 //Update cursor position
-                statusList.get(holder.getBindingAdapterPosition()).cursorPosition = holder.binding.content.getSelectionStart();
+                //statusList.get(holder.getBindingAdapterPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 if (autocomplete) {
                     holder.binding.content.removeTextChangedListener(this);
                     Thread thread = new Thread() {
@@ -1276,6 +1279,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Last compose drawer
             buttonVisibility(holder);
 
+
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 try {
                     displayEmojiPicker(holder);
@@ -1360,6 +1364,75 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.submitted = true;
                 notifyItemChanged(position);
                 manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id));
+            });
+
+
+            if (statusDraft.language == null || statusDraft.language.isEmpty()) {
+                String currentCode = sharedpreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, Locale.getDefault().getLanguage());
+                if (currentCode == null || currentCode.isEmpty()) {
+                    currentCode = "EN";
+                }
+                statusDraft.language = currentCode;
+            }
+            holder.binding.buttonLanguage.setText(statusDraft.language);
+
+
+            holder.binding.buttonLanguage.setOnClickListener(v -> {
+                Set<String> storedLanguages = sharedpreferences.getStringSet(context.getString(R.string.SET_SELECTED_LANGUAGE), null);
+                String[] codesArr = new String[0];
+                String[] languagesArr = new String[0];
+
+                int selection = 0;
+                if (storedLanguages != null && storedLanguages.size() > 0) {
+                    int i = 0;
+                    codesArr = new String[storedLanguages.size()];
+                    languagesArr = new String[storedLanguages.size()];
+                    for (String language : storedLanguages) {
+                        codesArr[i] = language;
+                        languagesArr[i] = language;
+                        if (statusDraft.language.equalsIgnoreCase(language)) {
+                            selection = i;
+                        }
+                        i++;
+                    }
+                } else {
+
+                    List<Languages.Language> languages = Languages.get(context);
+                    if (languages != null) {
+                        codesArr = new String[languages.size()];
+                        languagesArr = new String[languages.size()];
+                        int i = 0;
+                        for (Languages.Language language : languages) {
+                            codesArr[i] = language.code;
+                            languagesArr[i] = language.language;
+                            if (statusDraft.language.equalsIgnoreCase(language.code)) {
+                                selection = i;
+                            }
+                            i++;
+                        }
+                    }
+                }
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                builder.setTitle(context.getString(R.string.message_language));
+
+                builder.setSingleChoiceItems(languagesArr, selection, null);
+                String[] finalCodesArr = codesArr;
+                builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                    int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                    editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
+                    editor.apply();
+                    notifyItemChanged(holder.getLayoutPosition());
+                    dialog.dismiss();
+                });
+                builder.setNegativeButton(R.string.reset, (dialog, which) -> {
+                    editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+                    editor.apply();
+                    notifyItemChanged(holder.getLayoutPosition());
+                    dialog.dismiss();
+                });
+                builder.create().show();
             });
         }
 

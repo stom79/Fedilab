@@ -12,11 +12,6 @@
         android:title="@string/contact"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_language"
-        android:icon="@drawable/ic_language"
-        android:title="@string/languages"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_microphone"
         android:icon="@drawable/ic_baseline_mic_24"
         android:title="@string/voice_message"
