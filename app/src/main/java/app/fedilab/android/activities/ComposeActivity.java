@@ -222,6 +222,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
             });
             alt_bld.setNegativeButton(R.string.no, (dialog, id) -> {
+                try {
+                    new StatusDraft(ComposeActivity.this).removeDraft(statusDraft);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
                 dialog.dismiss();
                 finish();
             });

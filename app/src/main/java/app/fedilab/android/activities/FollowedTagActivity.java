@@ -145,7 +145,7 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
                                     tagList.add(0, newTag);
                                     followedTagAdapter.notifyItemInserted(0);
                                 } else {
-                                    Toasty.error(FollowedTagActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                    Toasty.error(FollowedTagActivity.this, getString(R.string.toast_feature_not_supported), Toasty.LENGTH_LONG).show();
                                 }
                             });
                     dialog.dismiss();
