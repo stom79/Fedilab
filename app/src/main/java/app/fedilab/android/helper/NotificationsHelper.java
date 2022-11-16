@@ -42,7 +42,6 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +116,7 @@ public class NotificationsHelper {
                         }
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -145,19 +144,23 @@ public class NotificationsHelper {
     }
 
     public static void onRetrieveNotifications(Context context, Notifications newNotifications, final BaseAccount account) {
-        List<Notification> notificationsReceived = newNotifications.notifications;
-        if (notificationsReceived == null || notificationsReceived.size() == 0 || account == null)
+        if (newNotifications == null || newNotifications.notifications == null || newNotifications.notifications.size() == 0 || account == null) {
             return;
+        }
+        List<Notification> notificationsReceived = newNotifications.notifications;
         String key = account.user_id + "@" + account.instance;
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
+
         boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
         boolean notif_mention = prefs.getBoolean(context.getString(R.string.SET_NOTIF_MENTION), true);
         boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
         boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
         boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
         boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
+
         final String max_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + key, null);
+
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
         for (Notification notif : notificationsReceived) {
@@ -166,8 +169,10 @@ public class NotificationsHelper {
                 pos++;
             }
         }
-        if (notifications.size() == 0)
+
+        if (notifications.size() == 0) {
             return;
+        }
         //No previous notifications in cache, so no notification will be sent
 
         for (Notification notification : notifications) {

@@ -140,6 +140,11 @@ public class CacheHelper {
                                 editor.putString(entry.getKey(), null);
                                 editor.apply();
                             }
+                            //Delete last notification ref
+                            if (entry.getKey().startsWith(context.getString(R.string.LAST_NOTIFICATION_ID) + cacheAccount.account.user_id + cacheAccount.account.instance) && !entry.getKey().endsWith(Timeline.TimeLineEnum.HOME.getValue())) {
+                                editor.putString(entry.getKey(), null);
+                                editor.apply();
+                            }
                         }
                     } catch (DBException e) {
                         e.printStackTrace();
