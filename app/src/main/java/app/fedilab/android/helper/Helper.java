@@ -26,11 +26,13 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -53,6 +55,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
@@ -1913,6 +1916,32 @@ public class Helper {
         ctx.startActivity(mainIntent);
         Runtime.getRuntime().exit(0);
     }
+
+
+    public static void forwardToBrowser(Activity activity, Intent i) {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setDataAndType(i.getData(), i.getType());
+        List<ResolveInfo> activities = activity.getPackageManager().queryIntentActivities(intent, 0);
+        ArrayList<Intent> targetIntents = new ArrayList<>();
+        String thisPackageName = activity.getPackageName();
+        for (ResolveInfo currentInfo : activities) {
+            String packageName = currentInfo.activityInfo.packageName;
+            if (!thisPackageName.equals(packageName)) {
+                Intent targetIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                targetIntent.setDataAndType(intent.getData(), intent.getType());
+                targetIntent.setPackage(intent.getPackage());
+                targetIntent.setComponent(new ComponentName(packageName, currentInfo.activityInfo.name));
+                targetIntents.add(targetIntent);
+            }
+        }
+        if (targetIntents.size() > 0) {
+            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), activity.getString(R.string.open_with));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+            activity.startActivity(chooserIntent);
+        }
+    }
+
 
     //Enum that described actions to replace inside a toot content
     public enum PatternType {

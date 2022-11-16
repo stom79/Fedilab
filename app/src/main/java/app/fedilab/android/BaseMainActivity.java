@@ -88,6 +88,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -998,8 +999,77 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
             }
-        }
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            String url = intent.getDataString();
 
+            if (url == null) {
+                intent.replaceExtras(new Bundle());
+                intent.setAction("");
+                intent.setData(null);
+                intent.setFlags(0);
+                return;
+            }
+            Matcher matcher;
+            matcher = Patterns.WEB_URL.matcher(url);
+            boolean isUrl = false;
+            while (matcher.find()) {
+                isUrl = true;
+            }
+            if (!isUrl) {
+                intent.replaceExtras(new Bundle());
+                intent.setAction("");
+                intent.setData(null);
+                intent.setFlags(0);
+                return;
+            }
+            //Here we know that the intent contains a valid URL
+            if (!url.contains("medium.com")) {
+                Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                Matcher matcherLink = null;
+                matcherLink = link.matcher(url);
+                if (matcherLink.find()) {
+                    if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+                        CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, currentAccount, url, new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                                Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                intent.putExtra(Helper.ARG_STATUS, status);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                            }
+                        });
+                    } else {//It's an account
+                        CrossActionHelper.fetchRemoteAccount(BaseMainActivity.this, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                            }
+
+                            @Override
+                            public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                                Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                intent.putExtras(b);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                } else {
+                    Helper.forwardToBrowser(BaseMainActivity.this, intent);
+                }
+            } else {
+                Helper.forwardToBrowser(BaseMainActivity.this, intent);
+            }
+        }
+        intent.replaceExtras(new Bundle());
+        intent.setAction("");
+        intent.setData(null);
+        intent.setFlags(0);
     }
 
     private void manageFilters(int position) {

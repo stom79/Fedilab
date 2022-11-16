@@ -56,6 +56,18 @@
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- The app is a good candidate for URL in https://domain.name/@xxxxxx-->
+                <!-- It should cover every URLs for statuses but some others not related to mastodon matching this scheme -->
+                <data
+                    android:host="*"
+                    android:pathPrefix="/@"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
 
         <activity-alias
