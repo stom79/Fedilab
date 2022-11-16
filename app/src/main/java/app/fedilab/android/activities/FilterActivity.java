@@ -120,6 +120,9 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                         case "thread":
                             popupAddFilterBinding.contextConversation.setChecked(true);
                             break;
+                        case "account":
+                            popupAddFilterBinding.contextProfiles.setChecked(true);
+                            break;
                     }
                 }
             popupAddFilterBinding.contextWholeWord.setChecked(filter.whole_word);
@@ -137,7 +140,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     popupAddFilterBinding.addPhrase.setError(context.getString(R.string.cannot_be_empty));
                     return;
                 }
-                if (!popupAddFilterBinding.contextConversation.isChecked() && !popupAddFilterBinding.contextHome.isChecked() && !popupAddFilterBinding.contextPublic.isChecked() && !popupAddFilterBinding.contextNotification.isChecked()) {
+                if (!popupAddFilterBinding.contextConversation.isChecked() && !popupAddFilterBinding.contextHome.isChecked() && !popupAddFilterBinding.contextPublic.isChecked() && !popupAddFilterBinding.contextNotification.isChecked() && !popupAddFilterBinding.contextProfiles.isChecked()) {
                     popupAddFilterBinding.contextDescription.setError(context.getString(R.string.cannot_be_empty));
                     return;
                 }
@@ -152,6 +155,8 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                         contextFilter.add("notifications");
                     if (popupAddFilterBinding.contextConversation.isChecked())
                         contextFilter.add("thread");
+                    if (popupAddFilterBinding.contextProfiles.isChecked())
+                        contextFilter.add("account");
                     filterSent.context = contextFilter;
                     filterSent.expires_at_sent = expire[0];
                     filterSent.phrase = popupAddFilterBinding.addPhrase.getText().toString();

@@ -109,6 +109,20 @@
                     android:text="@string/context_conversation"
                     app:buttonTint="@color/cyanea_accent_dark_reference" />
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/context_profiles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/profiles"
+                    app:buttonTint="@color/cyanea_accent_dark_reference" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.checkbox.MaterialCheckBox

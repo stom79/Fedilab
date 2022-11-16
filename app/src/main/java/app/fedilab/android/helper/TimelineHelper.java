@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -91,63 +92,76 @@ public class TimelineHelper {
         }
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
+
+            //Loop through filters
             for (Filter filter : BaseMainActivity.mainFilters) {
+                if (filter.expires_at != null && filter.expires_at.before(new Date())) {
+                    //Expired filter
+                    continue;
+                }
 
-                for (String filterContext : filter.context) {
-                    if (filterTimeLineType.getValue().equalsIgnoreCase(filterContext)) {
-                        if (filter.whole_word) {
+                if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
+                    if (!filter.context.contains("home")) continue;
+                } else if (filterTimeLineType == Timeline.TimeLineEnum.NOTIFICATION) {
+                    if (!filter.context.contains("notification")) continue;
+                } else if (filterTimeLineType == Timeline.TimeLineEnum.CONTEXT) {
+                    if (!filter.context.contains("thread")) continue;
+                } else if (filterTimeLineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
+                    if (!filter.context.contains("account")) continue;
+                } else {
+                    if (!filter.context.contains("public")) continue;
+                }
 
-                            Pattern p = Pattern.compile("\\b(" + Pattern.quote(filter.phrase) + ")\\b", Pattern.CASE_INSENSITIVE);
-                            for (Status status : statuses) {
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
-
-                                Matcher m = p.matcher(content);
-                                if (m.find()) {
-                                    statusesToRemove.add(status);
-                                    continue;
-                                }
-                                if (status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
-                                    Matcher ms = p.matcher(spoilerText);
-                                    if (ms.find()) {
-                                        statusesToRemove.add(status);
-                                    }
-                                }
+                if (filter.whole_word) {
+                    Pattern p = Pattern.compile("(^|\\W)(" + Pattern.quote(filter.phrase) + ")($|\\W)", Pattern.CASE_INSENSITIVE);
+                    for (Status status : statuses) {
+                        String content;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                        else
+                            content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                        Matcher m = p.matcher(content);
+                        if (m.find()) {
+                            statusesToRemove.add(status);
+                            continue;
+                        }
+                        if (status.spoiler_text != null) {
+                            String spoilerText;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                            else
+                                spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
+                            Matcher ms = p.matcher(spoilerText);
+                            if (ms.find()) {
+                                statusesToRemove.add(status);
                             }
-                        } else {
-                            for (Status status : statuses) {
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
-                                if (content.contains(filter.phrase)) {
-                                    statusesToRemove.add(status);
-                                    continue;
-                                }
+                        }
+                    }
+                } else {
+                    for (Status status : statuses) {
+                        String content;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                        else
+                            content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                        if (content.contains(filter.phrase)) {
+                            statusesToRemove.add(status);
+                            continue;
+                        }
 
-                                if (status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
-                                    if (spoilerText.contains(filter.phrase)) {
-                                        statusesToRemove.add(status);
-                                    }
-                                }
+                        if (status.spoiler_text != null) {
+                            String spoilerText;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                            else
+                                spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
+                            if (spoilerText.contains(filter.phrase)) {
+                                statusesToRemove.add(status);
                             }
                         }
                     }
                 }
+
             }
         }
         if (statuses != null) {
