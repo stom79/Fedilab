@@ -142,6 +142,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
+    public promptDraftListener promptDraftListener;
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
@@ -151,6 +152,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.visibility = visibility;
         this.editMessageId = editMessageId;
 
+    }
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position int - position of the drawer that added a media
+     * @param uris     List<Uri> - uris of the media
+     */
+    public void addAttachment(int position, List<Uri> uris) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        Helper.createAttachmentFromUri(context, uris, attachment -> {
+            statusList.get(finalPosition).media_attachments.add(attachment);
+            notifyItemChanged(finalPosition);
+        });
     }
 
     private static void updateCharacterCount(ComposeViewHolder composeViewHolder) {
@@ -392,327 +417,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     /**
-     * Add an attachment from ComposeActivity
-     *
-     * @param position int - position of the drawer that added a media
-     * @param uris     List<Uri> - uris of the media
-     */
-    public void addAttachment(int position, List<Uri> uris) {
-        if (position == -1) {
-            position = statusList.size() - 1;
-        }
-        // position = statusCount-1+position;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
-        }
-        int finalPosition = position;
-        Helper.createAttachmentFromUri(context, uris, attachment -> {
-            statusList.get(finalPosition).media_attachments.add(attachment);
-            notifyItemChanged(finalPosition);
-        });
-    }
-
-    /**
-     * Add a shared element
-     * If title and description are empty, it will use subject and content coming from the intent
-     *
-     * @param url         - String url that is shared
-     * @param title       - String title gather from the URL
-     * @param description - String description gathered from the URL
-     * @param subject     - String subject (title) comming from the shared elements
-     * @param content     - String content (description) coming from the shared elements
-     */
-    public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
-
-        if (description == null && content == null) {
-            return;
-        }
-        int position = statusList.size() - 1;
-        statusList.get(position).text = "";
-        if (title != null && title.trim().length() > 0) {
-            statusList.get(position).text += title + "\n\n";
-        } else if (subject != null && subject.trim().length() > 0) {
-            statusList.get(position).text += subject + "\n\n";
-        }
-        if (description != null && description.trim().length() > 0) {
-            statusList.get(position).text += description + "\n\n";
-            if (url != null && !description.contains(url)) {
-                statusList.get(position).text += url;
-            }
-        } else if (content != null && content.trim().length() > 0) {
-            statusList.get(position).text += content + "\n\n";
-            if (!content.contains(url)) {
-                statusList.get(position).text += url;
-            }
-        } else {
-            statusList.get(position).text += url;
-        }
-        if (saveFilePath != null) {
-            Attachment attachment = new Attachment();
-            attachment.mimeType = "image/*";
-            String extension = "jpg";
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_", Locale.getDefault());
-            attachment.local_path = saveFilePath;
-            Date now = new Date();
-            attachment.filename = formatter.format(now) + "." + extension;
-            if (statusList.get(position).media_attachments == null) {
-                statusList.get(position).media_attachments = new ArrayList<>();
-            }
-            statusList.get(position).media_attachments.add(attachment);
-        }
-        notifyItemChanged(position);
-    }
-
-    //<------ Manage contact from compose activity
-    //It only targets last message in a thread
-    //Return content of last compose message
-    public String getLastComposeContent() {
-        return statusList.get(statusList.size() - 1).text != null ? statusList.get(statusList.size() - 1).text : "";
-    }
-    //------- end contact ----->
-
-    //Used to write contact when composing
-    public void updateContent(boolean checked, String acct) {
-        if (checked) {
-            if (!statusList.get(statusList.size() - 1).text.contains(acct))
-                statusList.get(statusList.size() - 1).text = String.format("%s %s", acct, statusList.get(statusList.size() - 1).text);
-        } else {
-            statusList.get(statusList.size() - 1).text = statusList.get(statusList.size() - 1).text.replaceAll("\\s*" + acct, "");
-        }
-        notifyItemChanged(statusList.size() - 1);
-    }
-
-    //Put cursor to the end after changing contacts
-    public void putCursor() {
-        statusList.get(statusList.size() - 1).setCursorToEnd = true;
-        notifyItemChanged(statusList.size() - 1);
-    }
-
-    /**
-     * Display attachment for a holder
-     *
-     * @param holder                - view related to a compose element {@link ComposeViewHolder}
-     * @param position              - int position of the message in the thread
-     * @param scrollToMediaPosition - int the position to scroll to media
-     */
-    private void displayAttachments(ComposeViewHolder holder, int position, int scrollToMediaPosition) {
-        if (statusList.size() > position && statusList.get(position).media_attachments != null) {
-            holder.binding.attachmentsList.removeAllViews();
-            List<Attachment> attachmentList = statusList.get(position).media_attachments;
-            if (attachmentList != null && attachmentList.size() > 0) {
-                holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
-                if (!statusList.get(position).sensitive) {
-                    if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-                        holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
-                        statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
-                    } else {
-                        statusList.get(position).sensitive = false;
-                    }
-                }
-
-                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
-                int mediaPosition = 0;
-                for (Attachment attachment : attachmentList) {
-                    ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                    composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
-                    String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
-                    if (attachment.type != null || attachment.mimeType != null) {
-                        if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
-                            Glide.with(composeAttachmentItemBinding.preview.getContext())
-                                    .load(attachmentPath)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .into(composeAttachmentItemBinding.preview);
-                        } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("video")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("video"))) {
-                            composeAttachmentItemBinding.buttonPlay.setVisibility(View.VISIBLE);
-                            long interval = 2000;
-                            RequestOptions options = new RequestOptions().frame(interval);
-                            Glide.with(composeAttachmentItemBinding.preview.getContext()).asBitmap()
-                                    .load(attachmentPath)
-                                    .apply(options)
-                                    .into(composeAttachmentItemBinding.preview);
-                        } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("audio")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("audio"))) {
-                            Glide.with(composeAttachmentItemBinding.preview.getContext())
-                                    .load(R.drawable.ic_baseline_audio_file_24)
-                                    .into(composeAttachmentItemBinding.preview);
-                        } else {
-                            Glide.with(composeAttachmentItemBinding.preview.getContext())
-                                    .load(R.drawable.ic_baseline_insert_drive_file_24)
-                                    .into(composeAttachmentItemBinding.preview);
-                        }
-                    } else {
-                        Glide.with(composeAttachmentItemBinding.preview.getContext())
-                                .load(R.drawable.ic_baseline_insert_drive_file_24)
-                                .into(composeAttachmentItemBinding.preview);
-                    }
-                    if (mediaPosition == 0) {
-                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                    } else {
-                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.VISIBLE);
-                    }
-                    if (mediaPosition == attachmentList.size() - 1) {
-                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
-                    } else {
-                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.VISIBLE);
-                    }
-                    //Remote attachments when deleting/redrafting can't be ordered
-                    if (attachment.local_path == null) {
-                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
-                    }
-                    int finalMediaPosition = mediaPosition;
-                    composeAttachmentItemBinding.editPreview.setOnClickListener(v -> {
-                        Intent intent = new Intent(context, EditImageActivity.class);
-                        Bundle b = new Bundle();
-                        intent.putExtra("imageUri", attachment.local_path);
-                        intent.putExtras(b);
-                        context.startActivity(intent);
-                    });
-                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
-                        builderInner.setTitle(R.string.upload_form_description);
-                        PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
-                        builderInner.setView(popupMediaDescriptionBinding.getRoot());
-
-                        popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
-                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
-                        Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
-                                .asBitmap()
-                                .load(attachmentPath)
-                                .into(new CustomTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                                        popupMediaDescriptionBinding.mediaPicture.setImageBitmap(resource);
-                                    }
-
-                                    @Override
-                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                    }
-                                });
-                        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                        if (attachment.description != null) {
-                            popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
-                            popupMediaDescriptionBinding.mediaDescription.setSelection(popupMediaDescriptionBinding.mediaDescription.getText().length());
-                        }
-                        builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
-                            attachment.description = popupMediaDescriptionBinding.mediaDescription.getText().toString();
-                            displayAttachments(holder, position, finalMediaPosition);
-                            dialog.dismiss();
-                        });
-                        AlertDialog alertDialog = builderInner.create();
-                        Objects.requireNonNull(alertDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        alertDialog.show();
-                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
-
-                    });
-
-                    composeAttachmentItemBinding.buttonOrderUp.setOnClickListener(v -> {
-                        if (finalMediaPosition > 0 && attachmentList.size() > 1) {
-                            Attachment at1 = attachmentList.get(finalMediaPosition);
-                            Attachment at2 = attachmentList.get(finalMediaPosition - 1);
-                            attachmentList.set(finalMediaPosition - 1, at1);
-                            attachmentList.set(finalMediaPosition, at2);
-                            displayAttachments(holder, position, finalMediaPosition - 1);
-                        }
-                    });
-                    composeAttachmentItemBinding.buttonOrderDown.setOnClickListener(v -> {
-                        if (finalMediaPosition < (attachmentList.size() - 1) && attachmentList.size() > 1) {
-                            Attachment at1 = attachmentList.get(finalMediaPosition);
-                            Attachment at2 = attachmentList.get(finalMediaPosition + 1);
-                            attachmentList.set(finalMediaPosition, at2);
-                            attachmentList.set(finalMediaPosition + 1, at1);
-                            displayAttachments(holder, position, finalMediaPosition + 1);
-                        }
-                    });
-                    composeAttachmentItemBinding.buttonRemove.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
-                        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                        builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
-                            attachmentList.remove(attachment);
-                            displayAttachments(holder, position, finalMediaPosition);
-                            new Thread(() -> {
-                                if (attachment.local_path != null) {
-                                    File fileToDelete = new File(attachment.local_path);
-                                    if (fileToDelete.exists()) {
-                                        //noinspection ResultOfMethodCallIgnored
-                                        fileToDelete.delete();
-                                    }
-                                }
-                            }).start();
-
-                        });
-                        builderInner.setMessage(R.string.toot_delete_media);
-                        builderInner.show();
-                    });
-                    composeAttachmentItemBinding.preview.setOnClickListener(v -> displayAttachments(holder, position, finalMediaPosition));
-                    if (attachment.description == null || attachment.description.trim().isEmpty()) {
-                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_warning_24);
-                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getNoDescriptionColorStateList(context));
-                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.no_description));
-                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_warning_24, ContextCompat.getColor(context, R.color.no_description));
-                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getNoDescriptionColorStateList(context));
-                    } else {
-                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getHavingDescriptionColorStateList(context));
-                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_check_circle_24);
-                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.having_description));
-                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getHavingDescriptionColorStateList(context));
-                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_check_circle_24, ContextCompat.getColor(context, R.color.having_description));
-                    }
-                    holder.binding.attachmentsList.addView(composeAttachmentItemBinding.getRoot());
-                    mediaPosition++;
-                }
-                holder.binding.attachmentsList.setVisibility(View.VISIBLE);
-                if (scrollToMediaPosition >= 0 && holder.binding.attachmentsList.getChildCount() < scrollToMediaPosition) {
-                    holder.binding.attachmentsList.requestChildFocus(holder.binding.attachmentsList.getChildAt(scrollToMediaPosition), holder.binding.attachmentsList.getChildAt(scrollToMediaPosition));
-                }
-            } else {
-                holder.binding.attachmentsList.setVisibility(View.GONE);
-                holder.binding.sensitiveMedia.setVisibility(View.GONE);
-            }
-        } else {
-            holder.binding.attachmentsList.setVisibility(View.GONE);
-            holder.binding.sensitiveMedia.setVisibility(View.GONE);
-        }
-        buttonState(holder);
-    }
-
-    /**
-     * Manage state of media and poll button
-     *
-     * @param holder ComposeViewHolder
-     */
-    private void buttonState(ComposeViewHolder holder) {
-        if (BaseMainActivity.software == null || BaseMainActivity.software.toUpperCase().compareTo("MASTODON") == 0) {
-            if (holder.getBindingAdapterPosition() > 0) {
-                Status statusDraft = statusList.get(holder.getBindingAdapterPosition());
-                if (statusDraft.poll == null) {
-                    holder.binding.buttonAttachImage.setEnabled(true);
-                    holder.binding.buttonAttachVideo.setEnabled(true);
-                    holder.binding.buttonAttachAudio.setEnabled(true);
-                    holder.binding.buttonAttachManual.setEnabled(true);
-                } else {
-                    holder.binding.buttonAttachImage.setEnabled(false);
-                    holder.binding.buttonAttachVideo.setEnabled(false);
-                    holder.binding.buttonAttachAudio.setEnabled(false);
-                    holder.binding.buttonAttachManual.setEnabled(false);
-                    holder.binding.buttonPoll.setEnabled(true);
-                }
-                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() <= 0);
-            }
-        }
-    }
-
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemCount() {
-        return statusList.size();
-    }
-
-    /**
      * Initialize text watcher for content writing
      * It will allow to complete autocomplete edit text while starting words with @, #, : etc.
      *
@@ -747,6 +451,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 int currentLength = MastodonHelper.countLength(holder);
+                if (promptDraftListener != null) {
+                    promptDraftListener.promptDraft();
+                }
                 statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 //Copy/past
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
@@ -1060,6 +767,306 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return textw;
     }
 
+    /**
+     * Add a shared element
+     * If title and description are empty, it will use subject and content coming from the intent
+     *
+     * @param url         - String url that is shared
+     * @param title       - String title gather from the URL
+     * @param description - String description gathered from the URL
+     * @param subject     - String subject (title) comming from the shared elements
+     * @param content     - String content (description) coming from the shared elements
+     */
+    public void addSharing(String url, String title, String description, String subject, String content, String saveFilePath) {
+
+        if (description == null && content == null) {
+            return;
+        }
+        int position = statusList.size() - 1;
+        statusList.get(position).text = "";
+        if (title != null && title.trim().length() > 0) {
+            statusList.get(position).text += title + "\n\n";
+        } else if (subject != null && subject.trim().length() > 0) {
+            statusList.get(position).text += subject + "\n\n";
+        }
+        if (description != null && description.trim().length() > 0) {
+            statusList.get(position).text += description + "\n\n";
+            if (url != null && !description.contains(url)) {
+                statusList.get(position).text += url;
+            }
+        } else if (content != null && content.trim().length() > 0) {
+            statusList.get(position).text += content + "\n\n";
+            if (!content.contains(url)) {
+                statusList.get(position).text += url;
+            }
+        } else {
+            statusList.get(position).text += url;
+        }
+        if (saveFilePath != null) {
+            Attachment attachment = new Attachment();
+            attachment.mimeType = "image/*";
+            String extension = "jpg";
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_", Locale.getDefault());
+            attachment.local_path = saveFilePath;
+            Date now = new Date();
+            attachment.filename = formatter.format(now) + "." + extension;
+            if (statusList.get(position).media_attachments == null) {
+                statusList.get(position).media_attachments = new ArrayList<>();
+            }
+            statusList.get(position).media_attachments.add(attachment);
+        }
+        notifyItemChanged(position);
+    }
+
+    //<------ Manage contact from compose activity
+    //It only targets last message in a thread
+    //Return content of last compose message
+    public String getLastComposeContent() {
+        return statusList.get(statusList.size() - 1).text != null ? statusList.get(statusList.size() - 1).text : "";
+    }
+    //------- end contact ----->
+
+    //Used to write contact when composing
+    public void updateContent(boolean checked, String acct) {
+        if (checked) {
+            if (!statusList.get(statusList.size() - 1).text.contains(acct))
+                statusList.get(statusList.size() - 1).text = String.format("%s %s", acct, statusList.get(statusList.size() - 1).text);
+        } else {
+            statusList.get(statusList.size() - 1).text = statusList.get(statusList.size() - 1).text.replaceAll("\\s*" + acct, "");
+        }
+        notifyItemChanged(statusList.size() - 1);
+    }
+
+    //Put cursor to the end after changing contacts
+    public void putCursor() {
+        statusList.get(statusList.size() - 1).setCursorToEnd = true;
+        notifyItemChanged(statusList.size() - 1);
+    }
+
+    /**
+     * Display attachment for a holder
+     *
+     * @param holder                - view related to a compose element {@link ComposeViewHolder}
+     * @param position              - int position of the message in the thread
+     * @param scrollToMediaPosition - int the position to scroll to media
+     */
+    private void displayAttachments(ComposeViewHolder holder, int position, int scrollToMediaPosition) {
+        if (statusList.size() > position && statusList.get(position).media_attachments != null) {
+            holder.binding.attachmentsList.removeAllViews();
+            List<Attachment> attachmentList = statusList.get(position).media_attachments;
+            if (attachmentList != null && attachmentList.size() > 0) {
+                holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
+                if (!statusList.get(position).sensitive) {
+                    if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
+                        holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
+                        statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
+                    } else {
+                        statusList.get(position).sensitive = false;
+                    }
+                }
+
+                holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
+                int mediaPosition = 0;
+                for (Attachment attachment : attachmentList) {
+                    ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
+                    composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
+                    String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
+                    if (attachment.type != null || attachment.mimeType != null) {
+                        if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
+                            Glide.with(composeAttachmentItemBinding.preview.getContext())
+                                    .load(attachmentPath)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .into(composeAttachmentItemBinding.preview);
+                        } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("video")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("video"))) {
+                            composeAttachmentItemBinding.buttonPlay.setVisibility(View.VISIBLE);
+                            long interval = 2000;
+                            RequestOptions options = new RequestOptions().frame(interval);
+                            Glide.with(composeAttachmentItemBinding.preview.getContext()).asBitmap()
+                                    .load(attachmentPath)
+                                    .apply(options)
+                                    .into(composeAttachmentItemBinding.preview);
+                        } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("audio")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("audio"))) {
+                            Glide.with(composeAttachmentItemBinding.preview.getContext())
+                                    .load(R.drawable.ic_baseline_audio_file_24)
+                                    .into(composeAttachmentItemBinding.preview);
+                        } else {
+                            Glide.with(composeAttachmentItemBinding.preview.getContext())
+                                    .load(R.drawable.ic_baseline_insert_drive_file_24)
+                                    .into(composeAttachmentItemBinding.preview);
+                        }
+                    } else {
+                        Glide.with(composeAttachmentItemBinding.preview.getContext())
+                                .load(R.drawable.ic_baseline_insert_drive_file_24)
+                                .into(composeAttachmentItemBinding.preview);
+                    }
+                    if (mediaPosition == 0) {
+                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
+                    } else {
+                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.VISIBLE);
+                    }
+                    if (mediaPosition == attachmentList.size() - 1) {
+                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
+                    } else {
+                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.VISIBLE);
+                    }
+                    //Remote attachments when deleting/redrafting can't be ordered
+                    if (attachment.local_path == null) {
+                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
+                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
+                    }
+                    int finalMediaPosition = mediaPosition;
+                    composeAttachmentItemBinding.editPreview.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, EditImageActivity.class);
+                        Bundle b = new Bundle();
+                        intent.putExtra("imageUri", attachment.local_path);
+                        intent.putExtras(b);
+                        context.startActivity(intent);
+                    });
+                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        builderInner.setTitle(R.string.upload_form_description);
+                        PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
+                        builderInner.setView(popupMediaDescriptionBinding.getRoot());
+
+                        popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
+                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
+                        Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
+                                .asBitmap()
+                                .load(attachmentPath)
+                                .into(new CustomTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                                        popupMediaDescriptionBinding.mediaPicture.setImageBitmap(resource);
+                                    }
+
+                                    @Override
+                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                    }
+                                });
+                        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                        if (attachment.description != null) {
+                            popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
+                            popupMediaDescriptionBinding.mediaDescription.setSelection(popupMediaDescriptionBinding.mediaDescription.getText().length());
+                        }
+                        builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
+                            attachment.description = popupMediaDescriptionBinding.mediaDescription.getText().toString();
+                            displayAttachments(holder, position, finalMediaPosition);
+                            dialog.dismiss();
+                        });
+                        AlertDialog alertDialog = builderInner.create();
+                        Objects.requireNonNull(alertDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        alertDialog.show();
+                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
+
+                    });
+
+                    composeAttachmentItemBinding.buttonOrderUp.setOnClickListener(v -> {
+                        if (finalMediaPosition > 0 && attachmentList.size() > 1) {
+                            Attachment at1 = attachmentList.get(finalMediaPosition);
+                            Attachment at2 = attachmentList.get(finalMediaPosition - 1);
+                            attachmentList.set(finalMediaPosition - 1, at1);
+                            attachmentList.set(finalMediaPosition, at2);
+                            displayAttachments(holder, position, finalMediaPosition - 1);
+                        }
+                    });
+                    composeAttachmentItemBinding.buttonOrderDown.setOnClickListener(v -> {
+                        if (finalMediaPosition < (attachmentList.size() - 1) && attachmentList.size() > 1) {
+                            Attachment at1 = attachmentList.get(finalMediaPosition);
+                            Attachment at2 = attachmentList.get(finalMediaPosition + 1);
+                            attachmentList.set(finalMediaPosition, at2);
+                            attachmentList.set(finalMediaPosition + 1, at1);
+                            displayAttachments(holder, position, finalMediaPosition + 1);
+                        }
+                    });
+                    composeAttachmentItemBinding.buttonRemove.setOnClickListener(v -> {
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                        builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
+                            attachmentList.remove(attachment);
+                            displayAttachments(holder, position, finalMediaPosition);
+                            new Thread(() -> {
+                                if (attachment.local_path != null) {
+                                    File fileToDelete = new File(attachment.local_path);
+                                    if (fileToDelete.exists()) {
+                                        //noinspection ResultOfMethodCallIgnored
+                                        fileToDelete.delete();
+                                    }
+                                }
+                            }).start();
+
+                        });
+                        builderInner.setMessage(R.string.toot_delete_media);
+                        builderInner.show();
+                    });
+                    composeAttachmentItemBinding.preview.setOnClickListener(v -> displayAttachments(holder, position, finalMediaPosition));
+                    if (attachment.description == null || attachment.description.trim().isEmpty()) {
+                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_warning_24);
+                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getNoDescriptionColorStateList(context));
+                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.no_description));
+                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_warning_24, ContextCompat.getColor(context, R.color.no_description));
+                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getNoDescriptionColorStateList(context));
+                    } else {
+                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getHavingDescriptionColorStateList(context));
+                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_check_circle_24);
+                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.having_description));
+                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getHavingDescriptionColorStateList(context));
+                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_check_circle_24, ContextCompat.getColor(context, R.color.having_description));
+                    }
+                    holder.binding.attachmentsList.addView(composeAttachmentItemBinding.getRoot());
+                    mediaPosition++;
+                }
+                holder.binding.attachmentsList.setVisibility(View.VISIBLE);
+                if (scrollToMediaPosition >= 0 && holder.binding.attachmentsList.getChildCount() < scrollToMediaPosition) {
+                    holder.binding.attachmentsList.requestChildFocus(holder.binding.attachmentsList.getChildAt(scrollToMediaPosition), holder.binding.attachmentsList.getChildAt(scrollToMediaPosition));
+                }
+            } else {
+                holder.binding.attachmentsList.setVisibility(View.GONE);
+                holder.binding.sensitiveMedia.setVisibility(View.GONE);
+            }
+        } else {
+            holder.binding.attachmentsList.setVisibility(View.GONE);
+            holder.binding.sensitiveMedia.setVisibility(View.GONE);
+        }
+        buttonState(holder);
+    }
+
+    /**
+     * Manage state of media and poll button
+     *
+     * @param holder ComposeViewHolder
+     */
+    private void buttonState(ComposeViewHolder holder) {
+        if (BaseMainActivity.software == null || BaseMainActivity.software.toUpperCase().compareTo("MASTODON") == 0) {
+            if (holder.getBindingAdapterPosition() > 0) {
+                Status statusDraft = statusList.get(holder.getBindingAdapterPosition());
+                if (statusDraft.poll == null) {
+                    holder.binding.buttonAttachImage.setEnabled(true);
+                    holder.binding.buttonAttachVideo.setEnabled(true);
+                    holder.binding.buttonAttachAudio.setEnabled(true);
+                    holder.binding.buttonAttachManual.setEnabled(true);
+                } else {
+                    holder.binding.buttonAttachImage.setEnabled(false);
+                    holder.binding.buttonAttachVideo.setEnabled(false);
+                    holder.binding.buttonAttachAudio.setEnabled(false);
+                    holder.binding.buttonAttachManual.setEnabled(false);
+                    holder.binding.buttonPoll.setEnabled(true);
+                }
+                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() <= 0);
+            }
+        }
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return statusList.size();
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
@@ -1339,6 +1346,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    if (promptDraftListener != null) {
+                        promptDraftListener.promptDraft();
+                    }
                     int currentLength = MastodonHelper.countLength(holder);
                     int max_car = MastodonHelper.getInstanceMaxChars(context);
                     if (currentLength > max_car) {
@@ -1438,40 +1448,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         }
 
-    }
-
-
-    /**
-     * Display the emoji picker in the current message
-     *
-     * @param holder - view for the message {@link ComposeViewHolder}
-     * @throws DBException
-     */
-    private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
-        int paddingPixel = 15;
-        float density = context.getResources().getDisplayMetrics().density;
-        int paddingDp = (int) (paddingPixel * density);
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.setTitle(R.string.insert_emoji);
-        if (emojis != null && emojis.size() > 0) {
-            GridView gridView = new GridView(context);
-            gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
-            gridView.setNumColumns(5);
-            gridView.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(BaseMainActivity.currentInstance).get(position).shortcode + ": ");
-                alertDialogEmoji.dismiss();
-            });
-            gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-            builder.setView(gridView);
-        } else {
-            TextView textView = new TextView(context);
-            textView.setText(context.getString(R.string.no_emoji));
-            textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-            builder.setView(textView);
-        }
-        alertDialogEmoji = builder.show();
     }
 
     /**
@@ -1655,7 +1631,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             expire = 864000;
                     }
                     statusDraft.poll.expire_in = expire;
-
+                    if (promptDraftListener != null) {
+                        promptDraftListener.promptDraft();
+                    }
                     List<Poll.PollItem> pollItems = new ArrayList<>();
                     int childCount = composePollBinding.optionsList.getChildCount();
                     for (int i = 0; i < childCount; i++) {
@@ -1687,6 +1665,44 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
 
         alertPollDiaslog.show();
+    }
+
+
+    /**
+     * Display the emoji picker in the current message
+     *
+     * @param holder - view for the message {@link ComposeViewHolder}
+     * @throws DBException
+     */
+    private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        int paddingPixel = 15;
+        float density = context.getResources().getDisplayMetrics().density;
+        int paddingDp = (int) (paddingPixel * density);
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        builder.setTitle(R.string.insert_emoji);
+        if (emojis != null && emojis.size() > 0) {
+            GridView gridView = new GridView(context);
+            gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
+            gridView.setNumColumns(5);
+            gridView.setOnItemClickListener((parent, view, position, id) -> {
+                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(BaseMainActivity.currentInstance).get(position).shortcode + ": ");
+                alertDialogEmoji.dismiss();
+            });
+            gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
+            builder.setView(gridView);
+        } else {
+            TextView textView = new TextView(context);
+            textView.setText(context.getString(R.string.no_emoji));
+            textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
+            builder.setView(textView);
+        }
+        alertDialogEmoji = builder.show();
+    }
+
+    public interface promptDraftListener {
+        void promptDraft();
     }
 
     public interface ManageDrafts {

@@ -97,7 +97,7 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 import es.dmoral.toasty.Toasty;
 
-public class ComposeActivity extends BaseActivity implements ComposeAdapter.ManageDrafts, AccountsReplyAdapter.ActionDone {
+public class ComposeActivity extends BaseActivity implements ComposeAdapter.ManageDrafts, AccountsReplyAdapter.ActionDone, ComposeAdapter.promptDraftListener {
 
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 754;
@@ -109,6 +109,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
+    private boolean promptSaveDraft;
 
 
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
@@ -213,25 +214,34 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusDraft = prepareDraft(statusList, composeAdapter, account.instance, account.user_id);
         }
         if (canBeSent(statusDraft)) {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
-            alt_bld.setMessage(R.string.save_draft);
-            alt_bld.setPositiveButton(R.string.save, (dialog, id) -> {
-                dialog.dismiss();
-                storeDraft(false);
-                finish();
+            if (promptSaveDraft) {
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
+                alt_bld.setMessage(R.string.save_draft);
+                alt_bld.setPositiveButton(R.string.save, (dialog, id) -> {
+                    dialog.dismiss();
+                    storeDraft(false);
+                    finish();
 
-            });
-            alt_bld.setNegativeButton(R.string.no, (dialog, id) -> {
+                });
+                alt_bld.setNegativeButton(R.string.no, (dialog, id) -> {
+                    try {
+                        new StatusDraft(ComposeActivity.this).removeDraft(statusDraft);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                    finish();
+                });
+                AlertDialog alert = alt_bld.create();
+                alert.show();
+            } else {
                 try {
                     new StatusDraft(ComposeActivity.this).removeDraft(statusDraft);
+                    finish();
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
-                dialog.dismiss();
-                finish();
-            });
-            AlertDialog alert = alt_bld.create();
-            alert.show();
+            }
         } else {
             finish();
         }
@@ -278,6 +288,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusList.add(initialStatus);
         statusList.add(statusDraft.statusDraftList.get(0));
         composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility, editMessageId);
+        composeAdapter.promptDraftListener = this;
         composeAdapter.manageDrafts = this;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
         binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -434,6 +445,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding = ActivityPaginationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+        promptSaveDraft = false;
         ActionBar actionBar = getSupportActionBar();
         //Remove title
         if (actionBar != null) {
@@ -572,6 +584,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusList.addAll(statusDraft.statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
+            composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
             binding.recyclerView.setAdapter(composeAdapter);
@@ -627,6 +640,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusList.addAll(statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
+            composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
             binding.recyclerView.setAdapter(composeAdapter);
@@ -637,6 +651,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusList.addAll(statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility, editMessageId);
             composeAdapter.manageDrafts = this;
+            composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
             binding.recyclerView.setLayoutManager(mLayoutManager);
             binding.recyclerView.setAdapter(composeAdapter);
@@ -653,7 +668,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    storeDraft(false);
+                    if (promptSaveDraft) {
+                        storeDraft(false);
+                    }
                 }
             }, 0, 10000);
         }
@@ -870,6 +887,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     public void onContactClick(boolean isChecked, String acct) {
         composeAdapter.updateContent(isChecked, acct);
+    }
+
+    @Override
+    public void promptDraft() {
+        promptSaveDraft = true;
     }
 
 
