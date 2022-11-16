@@ -8,7 +8,7 @@
 [<img alt="Donate using Liberapay" src="https://img.shields.io/liberapay/patrons/tom79.svg?logo=liberapay"/>](https://liberapay.com/tom79/donate)
 
 
-<script src="https://opencollective.com/fedilab/:verb/button.js" color="blue"></script>
+<script src="https://opencollective.com/fedilab/contribute/button.js" color="blue"></script>
 
 ## Download
 
@@ -25,4 +25,4 @@
 Lead developer: [toot.fedilab.app/@apps](https://toot.fedilab.app/@apps)
 
 
-<script src="https://opencollective.com/:collectiveSlug/banner.js"></script>
+<script src="https://opencollective.com/fedilab/banner.js"></script>
