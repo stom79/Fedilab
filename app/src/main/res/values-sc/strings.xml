@@ -562,7 +562,7 @@
     <string name="verified_user">Identidade verificada</string>
     <string name="verified_by">Verificada dae %1$s (%2$s)</string>
     <string name="action_disabled">Atzione disabilitada</string>
-    <string name="action_unfollow">Acaba de sighire</string>
+    <string name="action_unfollow">Agabba de sighire</string>
     <string name="error_destination_path">B\'at àpidu carchi problema. Controlla sa cartella de iscarrigamentu tua in is cunfiguratziones.</string>
     <string name="action_announcements">Annùntzios</string>
     <string name="no_announcements">Perunu annùntziu!</string>
@@ -817,4 +817,14 @@
     <string name="set_language_picker_title">Limbas in su seletzionadore</string>
     <string name="set_unlisted_replies_indication">Custu pertocat a is rispostas \"pùblicas\" ebbia. Cando est abilitadu is rispostas tuas ant a tènnere sa visibilidade \"no allistadu\" in càmbiu de \"pùblicu\"</string>
     <string name="set_language_picker">Permite de minimare sa lista de limbas in su seletzionadore cando ses cumponende unu messàgiu.</string>
+    <string name="action_followed_tag_empty">Non sighis peruna eticheta!</string>
+    <string name="action_unfollow_tag">Non sigas prus s\'eticheta</string>
+    <string name="unfollow">Agabba de sighire</string>
+    <string name="action_tag_follow">Sighi un\'eticheta</string>
+    <string name="write_the_tag_to_follow">Iscrie s\'eticheta de sighire</string>
+    <string name="not_valid_tag_name">Su nùmene de s\'eticheta no est vàlidu!</string>
+    <string name="follow_tag">Sighi s\'eticheta</string>
+    <string name="followed_tags">Etichetas sighidas</string>
+    <string name="action_unfollow_tag_confirm">Ses seguru chi boles a agabbare de sighire custa eticheta\?</string>
+    <string name="action_lists_edit">Modìfica sa lista</string>
 </resources>
