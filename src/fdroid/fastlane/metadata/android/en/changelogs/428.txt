@@ -1,0 +1,14 @@
+Added:
+- Support to open links containing /@display_name/ in their path (works on older devices)
+- Display reply count when counters are enabled
+- Add support for filtering profile messages
+
+Changed:
+- Compose view takes the whole width even in threads
+- Reset push notification marker when clearing cache
+
+Fixed:
+- Draft stored when replying "no" or dialog prompted without changes
+- Filters not working with tags
+- Add a specific error message for followed tags
+- Empty pages when starting the app
