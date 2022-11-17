@@ -55,7 +55,10 @@ public interface MastodonTimelinesService {
 
 
     @GET("trends/statuses")
-    Call<List<Status>> getStatusTrends(@Header("Authorization") String token);
+    Call<List<Status>> getStatusTrends(
+            @Header("Authorization") String token,
+            @Query("offset") String offset,
+            @Query("limit") Integer limit);
 
 
     @GET("trends/tags")

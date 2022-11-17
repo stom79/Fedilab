@@ -641,7 +641,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.card.setVisibility(View.GONE);
         }
-        if (!canBeFederated) {
+        if (!canBeFederated && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
             holder.binding.actionShareContainer.setVisibility(View.VISIBLE);
             holder.binding.actionShare.setOnClickListener(v -> {
                 Intent sendIntent = new Intent(Intent.ACTION_SEND);

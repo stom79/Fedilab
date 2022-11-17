@@ -160,28 +160,29 @@ public class TimelinesVM extends AndroidViewModel {
         return retrofit.create(MastodonTimelinesService.class);
     }
 
-    public LiveData<List<Status>> getStatusTrends(String token, @NonNull String instance) {
+    public LiveData<Statuses> getStatusTrends(String token, @NonNull String instance, String max_id, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        statusListMutableLiveData = new MutableLiveData<>();
+        statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            Call<List<Status>> publicTlCall = mastodonTimelinesService.getStatusTrends(token);
-            List<Status> statusList = null;
+            Call<List<Status>> publicTlCall = mastodonTimelinesService.getStatusTrends(token, max_id, limit);
+            Statuses statuses = new Statuses();
             if (publicTlCall != null) {
                 try {
                     Response<List<Status>> publicTlResponse = publicTlCall.execute();
                     if (publicTlResponse.isSuccessful()) {
-                        statusList = publicTlResponse.body();
+                        List<Status> statusList = publicTlResponse.body();
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, Timeline.TimeLineEnum.TREND_MESSAGE);
+                        statuses.pagination = MastodonHelper.getOffSetPagination(publicTlResponse.headers());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<Status> finalStatusList = statusList;
-            Runnable myRunnable = () -> statusListMutableLiveData.setValue(finalStatusList);
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
             mainHandler.post(myRunnable);
         }).start();
-        return statusListMutableLiveData;
+        return statusesMutableLiveData;
     }
 
     public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance) {

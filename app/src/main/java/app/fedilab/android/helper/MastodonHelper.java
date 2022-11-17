@@ -147,6 +147,26 @@ public class MastodonHelper {
         return pagination;
     }
 
+
+    /**
+     * Retrieve pagination from header
+     *
+     * @param headers Headers
+     * @return Pagination
+     */
+    public static Pagination getOffSetPagination(Headers headers) {
+        String link = headers.get("Link");
+        Pagination pagination = new Pagination();
+        if (link != null) {
+            Pattern patternMaxId = Pattern.compile("offset=([0-9a-zA-Z]+)\\s?>\\s?;\\s?rel=\"next\"");
+            Matcher matcherMaxId = patternMaxId.matcher(link);
+            if (matcherMaxId.find()) {
+                pagination.max_id = matcherMaxId.group(1);
+            }
+        }
+        return pagination;
+    }
+
     /*public static Pagination getPaginationNotification(List<Notification> notificationList) {
         Pagination pagination = new Pagination();
         if (notificationList == null || notificationList.size() == 0) {

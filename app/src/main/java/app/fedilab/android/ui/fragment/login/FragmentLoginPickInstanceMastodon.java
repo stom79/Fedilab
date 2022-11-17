@@ -140,9 +140,8 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
         if (joinMastodonInstanceList != null) {
             JoinMastodonInstance clickedInstance = joinMastodonInstanceList.get(position);
             Bundle args = new Bundle();
-            args.putBoolean(Helper.ARG_MINIFIED, true);
             args.putSerializable(Helper.ARG_REMOTE_INSTANCE_STRING, clickedInstance.domain);
-            args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE);
+            args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC);
 
             Helper.addFragment(
                     getParentFragmentManager(), android.R.id.content, new FragmentMastodonTimeline(),

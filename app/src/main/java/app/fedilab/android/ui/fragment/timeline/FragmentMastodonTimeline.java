@@ -299,6 +299,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     canBeFederated = false;
                 }
             }
+            if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
+                canBeFederated = false;
+            }
             publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
@@ -360,7 +363,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
 
-
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             try {
                 if (statusToUpdate != null) {
@@ -407,7 +409,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
             //Update the timeline with new statuses
-            int insertedStatus = updateStatusListWith(fetched_statuses.statuses);
+            int insertedStatus;
+            if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
+                insertedStatus = updateStatusListWith(fetched_statuses.statuses);
+            } else { //Trends cannot be ordered by id
+                insertedStatus = fetched_statuses.statuses.size();
+                int fromPosition = timelineStatuses.size();
+                timelineStatuses.addAll(fetched_statuses.statuses);
+                statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
+            }
             //For these directions, the app will display counters for new messages
             if (insertedStatus >= 0 && update != null && direction != DIRECTION.FETCH_NEW && !fetchingMissing) {
                 update.onUpdate(insertedStatus, timelineType, slug);
@@ -420,7 +430,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
                     flagLoading = true;
-                } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0) {
+                } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0 || timelineType.getValue().startsWith("TREND_")) {
                     max_id = fetched_statuses.pagination.max_id;
                 }
                 if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
@@ -501,7 +511,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineStatuses.add(statusReport);
         }
         timelineStatuses.addAll(statuses.statuses);
-        if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0)) {
+        if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
             max_id = statuses.pagination.max_id;
         }
         if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
@@ -977,29 +987,23 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         } else if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE) {
             if (direction == null) {
-                timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
-                        .observe(getViewLifecycleOwner(), statusesTrends -> {
-                            Statuses statuses = new Statuses();
-                            statuses.statuses = new ArrayList<>();
-                            if (statusesTrends != null) {
-                                statuses.statuses.addAll(statusesTrends);
-                            }
-                            statuses.pagination = new Pagination();
-                            initializeStatusesCommonView(statuses);
-                        });
+                timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+            } else if (direction == DIRECTION.BOTTOM) {
+                timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
+            } else {
+                flagLoading = false;
             }
-        } else if (timelineType == Timeline.TimeLineEnum.PUBLIC_TREND_MESSAGE) {
+        } else if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
             if (direction == null) {
-                timelinesVM.getStatusTrends(null, publicTrendsDomain)
-                        .observe(getViewLifecycleOwner(), statusesTrends -> {
-                            Statuses statuses = new Statuses();
-                            statuses.statuses = new ArrayList<>();
-                            if (statusesTrends != null) {
-                                statuses.statuses.addAll(statusesTrends);
-                            }
-                            statuses.pagination = new Pagination();
-                            initializeStatusesCommonView(statuses);
-                        });
+                timelinesVM.getStatusTrends(null, publicTrendsDomain, null, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+            } else if (direction == DIRECTION.BOTTOM) {
+                timelinesVM.getStatusTrends(null, publicTrendsDomain, max_id, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
+            } else {
+                flagLoading = false;
             }
         }
 

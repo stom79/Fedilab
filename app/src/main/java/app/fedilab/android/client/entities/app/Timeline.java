@@ -379,7 +379,7 @@ public class Timeline {
         @SerializedName("TREND_MESSAGE")
         TREND_MESSAGE("TREND_MESSAGE"),
         @SerializedName("PUBLIC_TREND_MESSAGE")
-        PUBLIC_TREND_MESSAGE("PUBLIC_TREND_MESSAGE"),
+        TREND_MESSAGE_PUBLIC("TREND_MESSAGE_PUBLIC"),
         @SerializedName("STATUS_HISTORY")
         STATUS_HISTORY("STATUS_HISTORY"),
         @SerializedName("ACCOUNT_TIMELINE")
@@ -394,6 +394,8 @@ public class Timeline {
         FAVOURITE_TIMELINE("FAVOURITE_TIMELINE"),
         @SerializedName("REBLOG_TIMELINE")
         REBLOG_TIMELINE("REBLOG_TIMELINE"),
+        @SerializedName("STATUS_REPORT")
+        STATUS_REPORT("STATUS_REPORT"),
         @SerializedName("SCHEDULED_TOOT_SERVER")
         SCHEDULED_TOOT_SERVER("SCHEDULED_TOOT_SERVER"),
         @SerializedName("SCHEDULED_TOOT_CLIENT")
