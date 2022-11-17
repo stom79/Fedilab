@@ -283,8 +283,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusToDeal.bookmarked = statusReturned.bookmarked;
 
             if (!remote) {
-                statusToDeal.reblogs_count = statusReturned.reblogs_count;
-                statusToDeal.favourites_count = statusReturned.favourites_count;
+                if (statusReturned.reblog != null) {
+                    statusToDeal.reblogs_count = statusReturned.reblog.reblogs_count;
+                    statusToDeal.favourites_count = statusReturned.reblog.favourites_count;
+                } else {
+                    statusToDeal.reblogs_count = statusReturned.reblogs_count;
+                    statusToDeal.favourites_count = statusReturned.favourites_count;
+                }
             } else {
                 switch (typeOfAction) {
                     case REBLOG_ACTION:
