@@ -92,6 +92,8 @@ public class Status implements Serializable, Cloneable {
     public Card card;
     @SerializedName("poll")
     public Poll poll;
+    @SerializedName("filtered")
+    public Filter.FilterResult filtered;
     @SerializedName("pleroma")
     public Pleroma pleroma;
     @SerializedName("cached")

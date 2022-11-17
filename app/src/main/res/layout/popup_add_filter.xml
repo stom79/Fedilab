@@ -25,21 +25,10 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:labelFor="@+id/add_phrase"
-            android:text="@string/filter_keyword" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/filter_keyword_explanations"
-            android:textColor="@color/cyanea_accent_dark_reference"
-            android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/add_phrase"
+            android:id="@+id/add_title"
+            android:hint="@string/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:importantForAutofill="noExcludeDescendants"
@@ -76,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/context_home"
+                    android:text="@string/context_home_list"
                     app:buttonTint="@color/cyanea_accent_dark_reference" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -125,23 +114,70 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/context_drop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/context_drop"
-            app:buttonTint="@color/cyanea_accent_dark_reference" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/context_drop_explanations"
+            android:text="@string/filter_action"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/actionDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_action_explanations"
             android:textColor="@color/cyanea_accent_dark_reference"
             android:textSize="12sp" />
+
+        <RadioGroup
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/action_hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_with_warning"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/val1_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/hide_with_warning_description" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/action_remove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_completely"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/hide_completely_description" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </RadioGroup>
+
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/context_whole_word"

@@ -1989,4 +1989,12 @@
     <string name="watch_trends_for_instance">Watch trends for this instance</string>
     <string name="notif_update">Edited a message</string>
     <string name="notif_display_updates">Updates</string>
+    <string name="filter_action">Filter action</string>
+    <string name="filter_action_explanations">Chose which action to perform when a post matches the filter</string>
+    <string name="hide_with_warning">Hide with a warning</string>
+    <string name="hide_completely">Hide completely</string>
+    <string name="hide_with_warning_description">Hide the filtered content behind a warning mentioning the filter\'s title</string>
+    <string name="hide_completely_description">Completely hide the filtered content, behaving as if it did not exist</string>
+    <string name="context_home_list">Home and lists</string>
+    <string name="title">Title</string>
 </resources>

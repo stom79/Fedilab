@@ -2,10 +2,11 @@ package app.fedilab.android.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/* Copyright 2021 Thomas Schneider
+/* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -20,7 +21,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-public class Filter {
+public class Filter implements Serializable {
     @SerializedName("id")
     public String id;
     @SerializedName("phrase")
@@ -31,8 +32,50 @@ public class Filter {
     public boolean whole_word;
     @SerializedName("expires_at")
     public Date expires_at;
-    @SerializedName("expires_at_sent")
-    public long expires_at_sent;
-    @SerializedName("irreversible")
-    public boolean irreversible;
+    @SerializedName("filter_action")
+    public String filter_action;
+    @SerializedName("keywords")
+    public List<FilterKeyword> keywords;
+
+    public static class FilterKeyword implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("keyword")
+        public String keyword;
+        @SerializedName("whole_word")
+        public boolean whole_word;
+    }
+
+    public static class FilterResult implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("phrase")
+        public String phrase;
+        @SerializedName("context")
+        public List<String> context;
+        @SerializedName("whole_word")
+        public boolean whole_word;
+        @SerializedName("expires_at")
+        public Date expires_at;
+        @SerializedName("filter_action")
+        public String filter_action;
+    }
+
+    public static class Keyword {
+        @SerializedName("keyword")
+        public String keyword;
+        @SerializedName("whole_word")
+        public boolean whole_word;
+    }
+
+    public static class KeywordsAttributes {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("keyword")
+        public String keyword;
+        @SerializedName("whole_word")
+        public boolean whole_word;
+        @SerializedName("_destroy")
+        public boolean _destroy;
+    }
 }

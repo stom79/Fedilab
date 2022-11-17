@@ -19,7 +19,6 @@ import java.util.List;
 
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.FeaturedTag;
-import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.IdentityProof;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Preferences;
@@ -40,7 +39,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -320,48 +318,6 @@ public interface MastodonAccountsService {
             @Field("domain") String domain
     );
 
-    //Get filters
-    @GET("filters")
-    Call<List<Filter>> getFilters(
-            @Header("Authorization") String token);
-
-    //Get a filter with its id
-    @GET("filters/{id}")
-    Call<Filter> getFilter(
-            @Header("Authorization") String token,
-            @Path("id") String id);
-
-    //Add a filter
-    @FormUrlEncoded
-    @POST("filters")
-    Call<Filter> addFilter(
-            @Header("Authorization") String token,
-            @Field("phrase") String phrase,
-            @Field("context[]") List<String> context,
-            @Field("irreversible") boolean irreversible,
-            @Field("whole_word") boolean whole_word,
-            @Field("expires_in") String expires_in
-    );
-
-    //Edit a filter
-    @FormUrlEncoded
-    @PUT("filters/{id}")
-    Call<Filter> editFilter(
-            @Header("Authorization") String token,
-            @Path("id") String id,
-            @Field("phrase") String phrase,
-            @Field("context[]") List<String> context,
-            @Field("irreversible") boolean irreversible,
-            @Field("whole_word") boolean whole_word,
-            @Field("expires_in") String expires_in
-    );
-
-    //Remove a filter
-    @DELETE("filters/{id}")
-    Call<Void> removeFilter(
-            @Header("Authorization") String token,
-            @Path("id") String id
-    );
 
     //Post a report
     @Headers({"Accept: application/json"})

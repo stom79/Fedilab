@@ -126,9 +126,22 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     }
                 }
             popupAddFilterBinding.contextWholeWord.setChecked(filter.whole_word);
-            popupAddFilterBinding.contextDrop.setChecked(filter.irreversible);
+            if (filter.irreversible) {
+                popupAddFilterBinding.actionRemove.setChecked(true);
+                popupAddFilterBinding.actionHide.setChecked(false);
+            } else {
+                popupAddFilterBinding.actionRemove.setChecked(false);
+                popupAddFilterBinding.actionHide.setChecked(true);
+            }
         }
-
+        popupAddFilterBinding.actionRemove.setOnClickListener(v -> {
+            popupAddFilterBinding.actionHide.setChecked(false);
+            popupAddFilterBinding.actionRemove.setChecked(true);
+        });
+        popupAddFilterBinding.actionHide.setOnClickListener(v -> {
+            popupAddFilterBinding.actionRemove.setChecked(false);
+            popupAddFilterBinding.actionHide.setChecked(true);
+        });
 
         AlertDialog alertDialog = dialogBuilder.setPositiveButton(R.string.validate, null)
                 .setNegativeButton(R.string.cancel, null).create();
@@ -161,7 +174,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     filterSent.expires_at_sent = expire[0];
                     filterSent.phrase = popupAddFilterBinding.addPhrase.getText().toString();
                     filterSent.whole_word = popupAddFilterBinding.contextWholeWord.isChecked();
-                    filterSent.irreversible = popupAddFilterBinding.contextDrop.isChecked();
+                    filterSent.irreversible = popupAddFilterBinding.actionRemove.isChecked();
                     if (filter != null) {
                         accountsVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filter.id, filterSent.phrase, filterSent.context, filterSent.irreversible, filterSent.whole_word, filterSent.expires_at_sent)
                                 .observe((LifecycleOwner) context, listener::callback);
