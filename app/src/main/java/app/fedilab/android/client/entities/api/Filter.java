@@ -59,14 +59,14 @@ public class Filter implements Serializable {
         public String filter_action;
     }
 
-    public static class Keyword {
+    public static class Keyword implements Serializable {
         @SerializedName("keyword")
         public String keyword;
         @SerializedName("whole_word")
         public boolean whole_word;
     }
 
-    public static class KeywordsAttributes {
+    public static class KeywordsAttributes implements Serializable {
         @SerializedName("id")
         public String id;
         @SerializedName("keyword")

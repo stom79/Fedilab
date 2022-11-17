@@ -53,7 +53,7 @@ public interface MastodonFiltersService {
             @Field("expires_at") Date expires_at,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
-            @Field("keywords_attributes") List<Filter.KeywordsAttributes> keywordsAttributes
+            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywordsAttributes
     );
 
     //Edit a filter
@@ -66,7 +66,7 @@ public interface MastodonFiltersService {
             @Field("expires_at") Date expires_at,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
-            @Field("keywords_attributes") List<Filter.KeywordsAttributes> keywordsAttributes
+            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywordsAttributes
     );
 
     //Remove a filter
