@@ -15,6 +15,7 @@ package app.fedilab.android.client.endpoints;
  * see <http://www.gnu.org/licenses>. */
 
 
+import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.Filter;
@@ -49,7 +50,7 @@ public interface MastodonFiltersService {
     Call<Filter> addFilter(
             @Header("Authorization") String token,
             @Field("title") String title,
-            @Field("expires_in") Integer expires_in,
+            @Field("expires_at") Date expires_at,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
             @Field("keywords_attributes") List<Filter.KeywordsAttributes> keywordsAttributes
@@ -62,7 +63,7 @@ public interface MastodonFiltersService {
             @Header("Authorization") String token,
             @Path("id") String id,
             @Field("title") String title,
-            @Field("expires_in") Integer expires_in,
+            @Field("expires_at") Date expires_at,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
             @Field("keywords_attributes") List<Filter.KeywordsAttributes> keywordsAttributes

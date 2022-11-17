@@ -35,6 +35,24 @@
             android:inputType="text"
             android:singleLine="true" />
 
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_expire" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/filter_expire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/hide_completely"
                     android:textSize="16sp"
+                    android:checked="true"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -178,41 +197,47 @@
 
         </RadioGroup>
 
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/context_whole_word"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/context_whole_word"
-            app:buttonTint="@color/cyanea_accent_dark_reference" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/context_whole_word_explanations"
-            android:textColor="@color/cyanea_accent_dark_reference"
-            android:textSize="12sp" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/keyword_or_phrase" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="116dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/context_whole_word" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/keywords_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_keyword"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_expire" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/filter_expire"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:text="@string/add_keyword"
+                android:textColor="@color/cyanea_accent_dark_reference"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:iconTint="@color/cyanea_primary_dark_reference"
+                app:strokeColor="@color/cyanea_accent_dark_reference" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

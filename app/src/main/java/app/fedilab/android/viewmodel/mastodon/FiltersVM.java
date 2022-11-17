@@ -25,6 +25,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -129,24 +130,15 @@ public class FiltersVM extends AndroidViewModel {
     /**
      * Create a filter
      *
-     * @param phrase        Text to be filtered
-     * @param filterContext Array of enumerable strings "home", "notifications", "public", "thread". At least one context must be specified.
-     * @param irreversible  Should the server irreversibly drop matching entities from home and notifications?
-     * @param wholeWord     Consider word boundaries?
-     * @param expiresIn     Number of seconds from now the filter should expire. Otherwise, null for a filter that doesn't expire.
      * @return {@link LiveData} containing a {@link Filter}
      */
     public LiveData<Filter> addFilter(@NonNull String instance, String token,
-                                      @NonNull String phrase,
-                                      @NonNull List<String> filterContext,
-                                      boolean irreversible,
-                                      boolean wholeWord,
-                                      int expiresIn) {
+                                      @NonNull String title, Date expires_at, @NonNull List<String> filterContext, String filter_action, List<Filter.KeywordsAttributes> keywordsAttributes) {
         filterMutableLiveData = new MutableLiveData<>();
         MastodonFiltersService mastodonFiltersService = initV2(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, phrase, filterContext, irreversible, wholeWord, expiresIn == -1 ? null : expiresIn);
+            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, title, expires_at, filter_action, filterContext, keywordsAttributes);
             if (addFilterCall != null) {
                 try {
                     Response<Filter> addFiltersResponse = addFilterCall.execute();
@@ -168,20 +160,14 @@ public class FiltersVM extends AndroidViewModel {
     /**
      * Update a filter
      *
-     * @param id            ID of the filter
-     * @param phrase        Text to be filtered
-     * @param filterContext Array of enumerable strings "home", "notifications", "public", "thread". At least one context must be specified.
-     * @param irreversible  Should the server irreversibly drop matching entities from home and notifications?
-     * @param wholeWord     Consider word boundaries?
-     * @param expiresIn     Number of seconds from now the filter should expire. Otherwise, null for a filter that doesn't expire.
      * @return {@link LiveData} containing a {@link Filter}
      */
-    public LiveData<Filter> editFilter(@NonNull String instance, String token, @NonNull String id, @NonNull String phrase, @NonNull List<String> filterContext, boolean irreversible, boolean wholeWord, int expiresIn) {
+    public LiveData<Filter> editFilter(@NonNull String instance, String token, @NonNull String id, @NonNull String title, Date expires_at, @NonNull List<String> filterContext, String filter_action, List<Filter.KeywordsAttributes> keywordsAttributes) {
         filterMutableLiveData = new MutableLiveData<>();
         MastodonFiltersService mastodonFiltersService = initV2(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> editFilterCall = mastodonFiltersService.editFilter(token, id, phrase, filterContext, irreversible, wholeWord, expiresIn == -1 ? null : expiresIn);
+            Call<Filter> editFilterCall = mastodonFiltersService.editFilter(token, id, title, expires_at, filter_action, filterContext, keywordsAttributes);
             if (editFilterCall != null) {
                 Log.v(Helper.TAG, "request: " + editFilterCall.request());
                 try {

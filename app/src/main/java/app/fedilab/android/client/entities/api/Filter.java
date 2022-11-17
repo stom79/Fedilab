@@ -24,12 +24,10 @@ import java.util.List;
 public class Filter implements Serializable {
     @SerializedName("id")
     public String id;
-    @SerializedName("phrase")
-    public String phrase;
+    @SerializedName("title")
+    public String title;
     @SerializedName("context")
     public List<String> context;
-    @SerializedName("whole_word")
-    public boolean whole_word;
     @SerializedName("expires_at")
     public Date expires_at;
     @SerializedName("filter_action")

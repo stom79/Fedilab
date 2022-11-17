@@ -1997,4 +1997,7 @@
     <string name="hide_completely_description">Completely hide the filtered content, behaving as if it did not exist</string>
     <string name="context_home_list">Home and lists</string>
     <string name="title">Title</string>
+    <string name="keyword_or_phrase">Keyword or phrase</string>
+    <string name="delete_keyword">Delete keyword</string>
+    <string name="add_keyword">Add keyword</string>
 </resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/keyword_phrase"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/keyword_or_phrase" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/whole_word"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/delete_keyword"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/delete_keyword"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_delete_24" />
+</androidx.appcompat.widget.LinearLayoutCompat>

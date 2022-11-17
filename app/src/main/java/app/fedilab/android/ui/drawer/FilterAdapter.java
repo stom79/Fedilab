@@ -33,7 +33,7 @@ import app.fedilab.android.activities.FilterActivity;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.DrawerFilterBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterViewHolder> {
@@ -69,8 +69,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
     @Override
     public void onBindViewHolder(@NonNull FilterViewHolder holder, int position) {
         Filter filter = filters.get(position);
-        if (filter.phrase != null) {
-            holder.binding.filterWord.setText(filter.phrase);
+        if (filter.title != null) {
+            holder.binding.filterWord.setText(filter.title);
         }
         StringBuilder contextString = new StringBuilder();
         if (filter.context != null)
@@ -79,10 +79,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
         holder.binding.filterContext.setText(contextString.toString());
         holder.binding.editFilter.setOnClickListener(v -> FilterActivity.addEditFilter(context, filter, filter1 -> {
             if (filter1 != null) {
-                BaseMainActivity.mainFilters.get(position).phrase = filter1.phrase;
                 BaseMainActivity.mainFilters.get(position).context = filter1.context;
-                BaseMainActivity.mainFilters.get(position).whole_word = filter1.whole_word;
-                BaseMainActivity.mainFilters.get(position).irreversible = filter1.irreversible;
                 BaseMainActivity.mainFilters.get(position).expires_at = filter1.expires_at;
             }
             filterAdapter.notifyItemChanged(position);
@@ -93,8 +90,8 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             builder.setMessage(R.string.action_lists_confirm_delete);
             builder.setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(R.string.yes, (dialog, which) -> {
-                        AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-                        accountsVM.removeFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filter.id);
+                        FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                        filtersVM.removeFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filter.id);
                         filters.remove(filter);
                         if (filters.size() == 0) {
                             delete.allFiltersDeleted();

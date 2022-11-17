@@ -147,6 +147,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import app.fedilab.android.viewmodel.mastodon.TopBarVM;
@@ -691,7 +692,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             editor.apply();
                         });
                 //Retrieve filters
-                new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getFilters(currentInstance, currentToken)
+                new ViewModelProvider(BaseMainActivity.this).get(FiltersVM.class).getFilters(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, filters -> mainFilters = filters);
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
