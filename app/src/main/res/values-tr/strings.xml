@@ -833,4 +833,6 @@
     <string name="followed_tags">Takip edilen etiketler</string>
     <string name="follow_tag">Etiketi takip et</string>
     <string name="action_lists_edit">Listeyi düzenle</string>
+    <string name="profiles">Profiller</string>
+    <string name="toast_feature_not_supported">Sunucunuz bu özelliği desteklemiyor gibi görünüyor!</string>
 </resources>

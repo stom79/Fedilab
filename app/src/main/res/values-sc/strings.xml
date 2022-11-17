@@ -827,4 +827,6 @@
     <string name="followed_tags">Etichetas sighidas</string>
     <string name="action_unfollow_tag_confirm">Ses seguru chi boles a agabbare de sighire custa eticheta\?</string>
     <string name="action_lists_edit">Modìfica sa lista</string>
+    <string name="profiles">Profilos</string>
+    <string name="toast_feature_not_supported">S\'istàntzia tua non paret chi suportet custa funtzionalidade!</string>
 </resources>
