@@ -2161,30 +2161,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onGlobalLayout() {
                         holder.bindingArt.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        float viewWidth = holder.bindingArt.artMedia.getWidth();
-                        ConstraintLayout.LayoutParams lp;
-                        float mediaH = status.art_attachment.meta.small.height;
-                        float mediaW = status.art_attachment.meta.small.width;
-                        float ratio = 1.0f;
-                        if (mediaW != 0) {
-                            ratio = viewWidth / mediaW;
+                        if (status.art_attachment.meta != null) {
+                            float viewWidth = holder.bindingArt.artMedia.getWidth();
+                            ConstraintLayout.LayoutParams lp;
+                            float mediaH = status.art_attachment.meta.small.height;
+                            float mediaW = status.art_attachment.meta.small.width;
+                            float ratio = 1.0f;
+                            if (mediaW != 0) {
+                                ratio = viewWidth / mediaW;
+                            }
+                            lp = new ConstraintLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                            holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            holder.bindingArt.artMedia.setLayoutParams(lp);
                         }
-                        lp = new ConstraintLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
-                        holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                        holder.bindingArt.artMedia.setLayoutParams(lp);
+
                     }
                 });
-                float viewWidth = holder.bindingArt.artMedia.getWidth();
-                ConstraintLayout.LayoutParams lp;
-                float mediaH = status.art_attachment.meta.small.height;
-                float mediaW = status.art_attachment.meta.small.width;
-                float ratio = 1.0f;
-                if (mediaW != 0) {
-                    ratio = viewWidth / mediaW;
+                if (status.art_attachment.meta != null) {
+                    float viewWidth = holder.bindingArt.artMedia.getWidth();
+                    ConstraintLayout.LayoutParams lp;
+                    float mediaH = status.art_attachment.meta.small.height;
+                    float mediaW = status.art_attachment.meta.small.width;
+                    float ratio = 1.0f;
+                    if (mediaW != 0) {
+                        ratio = viewWidth / mediaW;
+                    }
+                    lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                    holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    holder.bindingArt.artMedia.setLayoutParams(lp);
                 }
-                lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
-                holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                holder.bindingArt.artMedia.setLayoutParams(lp);
                 Glide.with(holder.bindingArt.artMedia.getContext())
                         .load(status.art_attachment.preview_url)
                         .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))

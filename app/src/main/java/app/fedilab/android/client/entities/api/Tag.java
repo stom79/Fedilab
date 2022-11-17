@@ -32,10 +32,12 @@ public class Tag implements Serializable {
 
     public int getWeight() {
         int weight = 0;
-        for (History h : history) {
-            try {
-                weight += Integer.parseInt(h.accounts);
-            } catch (Exception ignored) {
+        if (history != null && history.size() > 0) {
+            for (History h : history) {
+                try {
+                    weight += Integer.parseInt(h.accounts);
+                } catch (Exception ignored) {
+                }
             }
         }
         return weight;
