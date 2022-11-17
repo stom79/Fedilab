@@ -83,6 +83,9 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
                 case 6:
                     bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FOLLOWS);
                     break;
+                case 7:
+                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.UPDATES);
+                    break;
             }
         }
         fragmentMastodonNotification.setArguments(bundle);
@@ -91,6 +94,6 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return extended ? 7 : 2;
+        return extended ? 8 : 2;
     }
 }

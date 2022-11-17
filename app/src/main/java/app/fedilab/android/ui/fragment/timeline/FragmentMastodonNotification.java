@@ -230,6 +230,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             excludeType.remove("reblog");
         } else if (notificationType == NotificationTypeEnum.POLLS) {
             excludeType.remove("poll");
+        } else if (notificationType == NotificationTypeEnum.UPDATES) {
+            excludeType.remove("update");
         } else if (notificationType == NotificationTypeEnum.TOOTS) {
             excludeType.remove("status");
         } else if (notificationType == NotificationTypeEnum.FOLLOWS) {
@@ -477,7 +479,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (i != refPosition) {
                 //Loop through notifications, only fav and boost will be aggregated if they are just bellow
                 if (notifications.get(i).type != null && notifications.get(refPosition).type != null && notifications.get(i).type.equals(notifications.get(refPosition).type)
-                        && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog"))
+                        && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog") || notifications.get(i).type.equals("update"))
                         && notifications.get(i).status != null && notifications.get(refPosition).status != null && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
                 ) {
                     if (notificationList.size() > 0) {
@@ -676,6 +678,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         @SerializedName("FAVOURITES")
         FAVOURITES("FAVOURITES"),
         @SerializedName("REBLOGS")
+        UPDATES("UPDATES"),
+        @SerializedName("UPDATES")
         REBLOGS("REBLOGS"),
         @SerializedName("POLLS")
         POLLS("POLLS"),

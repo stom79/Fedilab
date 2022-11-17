@@ -102,6 +102,13 @@
                 android:text="@string/notif_display_follows"
                 app:icon="@drawable/ic_baseline_person_add_alt_1_24" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_updates"
+                style="@style/Widget.App.Button.IconOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_updates"
+                app:icon="@drawable/ic_baseline_edit_24" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
 

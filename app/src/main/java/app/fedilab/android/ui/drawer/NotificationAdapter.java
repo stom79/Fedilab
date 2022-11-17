@@ -64,6 +64,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_POLL = 5;
     private final int TYPE_STATUS = 6;
     private final int TYPE_REACTION = 8;
+    private final int TYPE_UPDATE = 9;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
@@ -92,6 +93,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return TYPE_MENTION;
                 case "reblog":
                     return TYPE_REBLOG;
+                case "update":
+                    return TYPE_UPDATE;
                 case "favourite":
                     return TYPE_FAVOURITE;
                 case "poll":
@@ -227,6 +230,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
             } else if (getItemViewType(position) == TYPE_REBLOG) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
+            } else if (getItemViewType(position) == TYPE_UPDATE) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_edit_24);
             } else if (getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
             } else if (getItemViewType(position) == TYPE_POLL) {
@@ -292,6 +297,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
                 } else if (getItemViewType(position) == TYPE_REBLOG) {
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
+                } else if (getItemViewType(position) == TYPE_UPDATE) {
+                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
                 } else if (getItemViewType(position) == TYPE_POLL) {
                     title = context.getString(R.string.notif_poll);
                 }

@@ -76,6 +76,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_poll_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_edit_24));
             binding.viewpagerNotificationContainer.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), true));
         }
         AtomicBoolean changes = new AtomicBoolean(false);
@@ -90,6 +91,7 @@ public class FragmentNotificationContainer extends Fragment {
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayPollResults);
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayUpdatesFromPeople);
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayFollows);
+            ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayUpdates);
 
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(requireActivity()));
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getTrackDrawable()), ThemeHelper.getSwitchCompatTrackDrawable(requireActivity()));
@@ -125,6 +127,7 @@ public class FragmentNotificationContainer extends Fragment {
             dialogView.displayPollResults.setChecked(true);
             dialogView.displayUpdatesFromPeople.setChecked(true);
             dialogView.displayFollows.setChecked(true);
+            dialogView.displayUpdates.setChecked(true);
             String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
             List<String> excludedCategoriesList = new ArrayList<>();
             if (excludedCategories != null) {
@@ -155,6 +158,10 @@ public class FragmentNotificationContainer extends Fragment {
                             excludedCategoriesList.add("follow");
                             dialogView.displayFollows.setChecked(false);
                             break;
+                        case "update":
+                            excludedCategoriesList.add("update");
+                            dialogView.displayUpdates.setChecked(false);
+                            break;
                     }
                 }
             }
@@ -173,6 +180,8 @@ public class FragmentNotificationContainer extends Fragment {
                     notificationType = "status";
                 } else if (checkedId == R.id.display_follows) {
                     notificationType = "follow";
+                } else if (checkedId == R.id.display_updates) {
+                    notificationType = "update";
                 }
                 if (isChecked) {
                     excludedCategoriesList.remove(notificationType);
