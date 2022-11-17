@@ -281,9 +281,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusToDeal.favourited = statusReturned.favourited;
             statusToDeal.reblogged = statusReturned.reblogged;
             statusToDeal.bookmarked = statusReturned.bookmarked;
-            statusToDeal.reblogs_count = statusReturned.reblogs_count;
-            statusToDeal.favourites_count = statusReturned.favourites_count;
 
+            if (!remote) {
+                statusToDeal.reblogs_count = statusReturned.reblogs_count;
+                statusToDeal.favourites_count = statusReturned.favourites_count;
+            } else {
+                switch (typeOfAction) {
+                    case REBLOG_ACTION:
+                        statusToDeal.reblogs_count++;
+                        break;
+                    case FAVOURITE_ACTION:
+                        statusToDeal.favourites_count++;
+                        break;
+                    case UNREBLOG_ACTION:
+                        statusToDeal.reblogs_count--;
+                        break;
+                    case UNFAVOURITE_ACTION:
+                        statusToDeal.favourites_count--;
+                        break;
+                }
+            }
         }
         //Update status in cache if not a remote instance
         if (!remote) {
