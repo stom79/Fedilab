@@ -46,6 +46,8 @@
         android:layout_margin="5dp"
         android:contentDescription="@string/action_update_filter"
         android:padding="6dp"
+        app:iconTint="@color/cyanea_accent_dark_reference"
+        app:strokeColor="@color/cyanea_accent_dark_reference"
         app:icon="@drawable/ic_baseline_edit_24" />
 
     <com.google.android.material.button.MaterialButton
@@ -56,5 +58,7 @@
         android:layout_margin="5dp"
         android:contentDescription="@string/action_filter_delete"
         android:padding="6dp"
+        app:iconTint="@color/cyanea_accent_dark_reference"
+        app:strokeColor="@color/cyanea_accent_dark_reference"
         app:icon="@drawable/ic_baseline_delete_24" />
 </LinearLayout>

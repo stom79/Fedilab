@@ -109,7 +109,8 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
 
         popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
             KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v2 -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.deleteKeyword));
+            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v2 -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
+            keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
             popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
         });
 
@@ -140,14 +141,22 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
                     keywordsLayoutBinding.keywordPhrase.setText(filterKeyword.keyword);
                     keywordsLayoutBinding.wholeWord.setChecked(filterKeyword.whole_word);
-                    keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.deleteKeyword));
+                    keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
+                    keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
                     popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
                 }
+            }
+            if (popupAddFilterBinding.keywordsContainer.getChildCount() == 0) {
+                KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
+                keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
+                keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
+                popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
             }
         } else {
             //Add at least a view
             KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.deleteKeyword));
+            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
+            keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
             popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
         }
         popupAddFilterBinding.actionRemove.setOnClickListener(v -> {
@@ -186,7 +195,10 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                         keywordsAttributes.add(keywordsAttr);
                     }
                 }
-
+                if (popupAddFilterBinding.addTitle.getText().toString().trim().isEmpty()) {
+                    popupAddFilterBinding.addTitle.setError(context.getString(R.string.cannot_be_empty));
+                    canBeSent = false;
+                }
                 if (!popupAddFilterBinding.contextConversation.isChecked() && !popupAddFilterBinding.contextHome.isChecked() && !popupAddFilterBinding.contextPublic.isChecked() && !popupAddFilterBinding.contextNotification.isChecked() && !popupAddFilterBinding.contextProfiles.isChecked()) {
                     popupAddFilterBinding.contextDescription.setError(context.getString(R.string.cannot_be_empty));
                     canBeSent = false;
@@ -212,6 +224,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     } else {
                         filterSent.expires_at = null;
                     }
+                    filterSent.title = popupAddFilterBinding.addTitle.getText().toString().trim();
                     filterSent.filter_action = popupAddFilterBinding.actionHide.isChecked() ? "hide" : "warn";
                     if (filter != null) {
                         filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filter.id, filterSent.title, filterSent.expires_at, filterSent.context, filterSent.filter_action, keywordsAttributes)

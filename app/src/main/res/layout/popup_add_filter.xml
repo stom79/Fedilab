@@ -133,6 +133,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/filter_action"
@@ -152,7 +153,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -162,15 +162,14 @@
                     android:id="@+id/action_hide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/hide_with_warning"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:text="@string/hide_with_warning" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/val1_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
+                    android:textSize="12sp"
                     android:text="@string/hide_with_warning_description" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -184,20 +183,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hide_completely"
-                    android:textSize="16sp"
-                    android:checked="true"
-                    android:textStyle="bold" />
+                    android:checked="true" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
+                    android:textSize="12sp"
                     android:text="@string/hide_completely_description" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </RadioGroup>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -235,7 +234,7 @@
                 android:text="@string/add_keyword"
                 android:textColor="@color/cyanea_accent_dark_reference"
                 app:icon="@drawable/ic_baseline_add_24"
-                app:iconTint="@color/cyanea_primary_dark_reference"
+                app:iconTint="@color/cyanea_accent_dark_reference"
                 app:strokeColor="@color/cyanea_accent_dark_reference" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
