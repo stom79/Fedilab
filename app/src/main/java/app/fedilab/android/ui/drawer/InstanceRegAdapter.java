@@ -38,9 +38,28 @@ import app.fedilab.android.helper.Helper;
 
 public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<JoinMastodonInstance> joinMastodonInstanceList;
-    public RecyclerViewClickListener itemListener;
     private Context context;
-    private ViewHolder holder;
+    public ActionClick actionClick;
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        JoinMastodonInstance joinMastodonInstance = joinMastodonInstanceList.get(position);
+
+        ViewHolder holder = (ViewHolder) viewHolder;
+        holder.binding.instanceCountUser.setText(context.getString(R.string.users, Helper.withSuffix(joinMastodonInstance.total_users)));
+        holder.binding.instanceDescription.setText(joinMastodonInstance.description);
+        holder.binding.instanceHost.setText(joinMastodonInstance.domain);
+        holder.binding.instanceVersion.setText(String.format("%s - %s", joinMastodonInstance.categories, joinMastodonInstance.version));
+        Glide.with(context)
+                .load(joinMastodonInstance.proxied_thumbnail)
+                .apply(new RequestOptions().transform(new FitCenter(), new RoundedCorners(10)))
+                .into(holder.binding.instancePp);
+
+        holder.binding.getRoot().setOnClickListener(v -> actionClick.instance(position));
+
+        holder.binding.watchTrendig.setOnClickListener(v -> actionClick.trends(position));
+    }
+
 
     public InstanceRegAdapter(List<JoinMastodonInstance> joinMastodonInstanceList) {
         this.joinMastodonInstanceList = joinMastodonInstanceList;
@@ -62,21 +81,10 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return new ViewHolder(itemBinding);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        JoinMastodonInstance joinMastodonInstance = joinMastodonInstanceList.get(position);
+    public interface ActionClick {
+        void instance(int position);
 
-        holder = (ViewHolder) viewHolder;
-        holder.binding.instanceCountUser.setText(context.getString(R.string.users, Helper.withSuffix(joinMastodonInstance.total_users)));
-        holder.binding.instanceDescription.setText(joinMastodonInstance.description);
-        holder.binding.instanceHost.setText(joinMastodonInstance.domain);
-        holder.binding.instanceVersion.setText(String.format("%s - %s", joinMastodonInstance.categories, joinMastodonInstance.version));
-        Glide.with(context)
-                .load(joinMastodonInstance.proxied_thumbnail)
-                .apply(new RequestOptions().transform(new FitCenter(), new RoundedCorners(10)))
-                .into(holder.binding.instancePp);
-
-        holder.binding.getRoot().setOnClickListener(v -> itemListener.recyclerViewListClicked(v, position));
+        void trends(int position);
     }
 
     public long getItemId(int position) {

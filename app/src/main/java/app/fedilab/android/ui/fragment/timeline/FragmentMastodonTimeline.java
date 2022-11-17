@@ -166,6 +166,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String slug;
     private boolean canBeFederated;
     private boolean rememberPosition;
+    private String publicTrendsDomain;
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -298,6 +299,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     canBeFederated = false;
                 }
             }
+            publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
@@ -976,6 +978,19 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE) {
             if (direction == null) {
                 timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
+                        .observe(getViewLifecycleOwner(), statusesTrends -> {
+                            Statuses statuses = new Statuses();
+                            statuses.statuses = new ArrayList<>();
+                            if (statusesTrends != null) {
+                                statuses.statuses.addAll(statusesTrends);
+                            }
+                            statuses.pagination = new Pagination();
+                            initializeStatusesCommonView(statuses);
+                        });
+            }
+        } else if (timelineType == Timeline.TimeLineEnum.PUBLIC_TREND_MESSAGE) {
+            if (direction == null) {
+                timelinesVM.getStatusTrends(null, publicTrendsDomain)
                         .observe(getViewLifecycleOwner(), statusesTrends -> {
                             Statuses statuses = new Statuses();
                             statuses.statuses = new ArrayList<>();

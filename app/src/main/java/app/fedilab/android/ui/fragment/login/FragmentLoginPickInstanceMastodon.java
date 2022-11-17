@@ -31,12 +31,14 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.JoinMastodonInstance;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentLoginPickInstanceMastodonBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.InstanceRegAdapter;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.viewmodel.mastodon.JoinInstancesVM;
 
-public class FragmentLoginPickInstanceMastodon extends Fragment implements InstanceRegAdapter.RecyclerViewClickListener {
+public class FragmentLoginPickInstanceMastodon extends Fragment implements InstanceRegAdapter.ActionClick {
 
 
     private List<JoinMastodonInstance> joinMastodonInstanceList;
@@ -94,7 +96,7 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
                         joinMastodonInstanceList = instances;
                         if (instances != null) {
                             InstanceRegAdapter instanceRegAdapter = new InstanceRegAdapter(instances);
-                            instanceRegAdapter.itemListener = currentFragment;
+                            instanceRegAdapter.actionClick = currentFragment;
                             LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
                             binding.regCategoryView.setLayoutManager(mLayoutManager);
                             binding.regCategoryView.setNestedScrollingEnabled(false);
@@ -122,13 +124,28 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
 
 
     @Override
-    public void recyclerViewListClicked(View v, int position) {
+    public void instance(int position) {
         if (joinMastodonInstanceList != null) {
             JoinMastodonInstance clickedInstance = joinMastodonInstanceList.get(position);
             Bundle args = new Bundle();
             args.putString("instance", clickedInstance.domain);
             Helper.addFragment(
                     getParentFragmentManager(), android.R.id.content, new FragmentLoginRegisterMastodon(),
+                    args, null, FragmentLoginRegisterMastodon.class.getName());
+        }
+    }
+
+    @Override
+    public void trends(int position) {
+        if (joinMastodonInstanceList != null) {
+            JoinMastodonInstance clickedInstance = joinMastodonInstanceList.get(position);
+            Bundle args = new Bundle();
+            args.putBoolean(Helper.ARG_MINIFIED, true);
+            args.putSerializable(Helper.ARG_REMOTE_INSTANCE_STRING, clickedInstance.domain);
+            args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE);
+
+            Helper.addFragment(
+                    getParentFragmentManager(), android.R.id.content, new FragmentMastodonTimeline(),
                     args, null, FragmentLoginRegisterMastodon.class.getName());
         }
     }
