@@ -29,7 +29,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/instance_pp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/instance_logo"
@@ -38,7 +38,7 @@
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/instance_host"
