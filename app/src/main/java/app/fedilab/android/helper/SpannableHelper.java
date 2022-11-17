@@ -17,8 +17,6 @@ package app.fedilab.android.helper;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.Helper.USER_AGENT;
-import static app.fedilab.android.helper.Helper.urlPattern;
-import static app.fedilab.android.helper.Helper.urlPatternSimple;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
 
 import android.content.ClipData;
@@ -39,6 +37,7 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -191,7 +190,7 @@ public class SpannableHelper {
 
     private static void linkify(Context context, SpannableStringBuilder content, HashMap<String, String> urlDetails) {
         //--- URLs ----
-        Matcher matcherLink = urlPatternSimple.matcher(content);
+        Matcher matcherLink = Patterns.WEB_URL.matcher(content);
 
         int offSetTruncate = 0;
 
@@ -315,7 +314,7 @@ public class SpannableHelper {
                                             Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
                                             for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                                                 if (entry.toString().toLowerCase().startsWith("location")) {
-                                                    Matcher matcher = urlPattern.matcher(entry.toString());
+                                                    Matcher matcher = Patterns.WEB_URL.matcher(entry.toString());
                                                     if (matcher.find()) {
                                                         redirect = matcher.group(1);
                                                     }
@@ -544,7 +543,7 @@ public class SpannableHelper {
                                                 Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
                                                 for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                                                     if (entry.toString().toLowerCase().startsWith("location")) {
-                                                        Matcher matcher = urlPattern.matcher(entry.toString());
+                                                        Matcher matcher = Patterns.WEB_URL.matcher(entry.toString());
                                                         if (matcher.find()) {
                                                             redirect = matcher.group(1);
                                                         }
