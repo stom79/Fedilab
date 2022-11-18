@@ -45,6 +45,7 @@ import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerFollowBinding;
+import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.helper.Helper;
@@ -65,6 +66,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_STATUS = 6;
     private final int TYPE_REACTION = 8;
     private final int TYPE_UPDATE = 9;
+    private final int TYPE_FILERED = 10;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
@@ -82,6 +84,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+
+        if (notificationList.get(position).filteredByApp != null) {
+            return TYPE_FILERED;
+        }
         String type = notificationList.get(position).type;
         if (type != null) {
             switch (type) {
@@ -115,6 +121,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST) {
             DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new ViewHolderFollow(itemBinding);
+        } else if (viewType == TYPE_FILERED) {
+            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
         } else {
             DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusAdapter.StatusViewHolder(itemBinding);
@@ -218,6 +227,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderFollow.binding.cacheIndicator.setVisibility(View.GONE);
             }
+        } else if (getItemViewType(position) == TYPE_FILERED) {
+            StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
+            holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
+            holder.bindingFiltered.displayButton.setOnClickListener(v -> {
+                notification.filteredByApp = null;
+                notifyItemChanged(position);
+            });
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);

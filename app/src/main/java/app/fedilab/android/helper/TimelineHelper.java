@@ -33,6 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonFiltersService;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Notification;
@@ -99,11 +100,10 @@ public class TimelineHelper {
                     //Expired filter
                     continue;
                 }
-
                 if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
                     if (!filter.context.contains("home")) continue;
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.NOTIFICATION) {
-                    if (!filter.context.contains("notification")) continue;
+                    if (!filter.context.contains("notifications")) continue;
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.CONTEXT) {
                     if (!filter.context.contains("thread")) continue;
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
@@ -113,15 +113,18 @@ public class TimelineHelper {
                 }
                 if (filter.keywords != null && filter.keywords.size() > 0) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
-                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
-                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
                         Pattern p;
                         if (filterKeyword.whole_word) {
-                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
                         } else {
                             p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
                         }
                         for (Status status : statuses) {
+                            if (status.account.id.equals(MainActivity.currentUserID)) {
+                                continue;
+                            }
                             String content;
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                 content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
@@ -129,6 +132,7 @@ public class TimelineHelper {
                                 content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
                             Matcher m = p.matcher(content);
                             if (m.find()) {
+
                                 if (filter.filter_action.equalsIgnoreCase("warn")) {
                                     status.filteredByApp = filter;
                                 } else {
@@ -170,9 +174,10 @@ public class TimelineHelper {
      * @param notifications - List of {@link Notification}
      * @return filtered List<Status>
      */
-    public static List<Notification> filterNotification(Context context, List<Notification> notifications, boolean cached) {
+    public static List<Notification> filterNotification(Context context, List<Notification> notifications) {
         //A security to make sure filters have been fetched before displaying messages
         List<Notification> notificationToRemove = new ArrayList<>();
+
         if (!BaseMainActivity.filterFetched) {
             try {
                 FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
@@ -189,25 +194,32 @@ public class TimelineHelper {
 
             //Loop through filters
             for (Filter filter : BaseMainActivity.mainFilters) {
+
                 if (filter.expires_at != null && filter.expires_at.before(new Date())) {
                     //Expired filter
                     continue;
                 }
-                if (!filter.context.contains("notification")) continue;
+
+                if (!filter.context.contains("notifications")) continue;
                 if (filter.keywords != null && filter.keywords.size() > 0) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
-                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
-                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
                         Pattern p;
                         if (filterKeyword.whole_word) {
-                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
                         } else {
                             p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
                         }
+
                         for (Notification notification : notifications) {
                             if (notification.status == null) {
                                 continue;
                             }
+                            if (notification.status.account.id.equals(MainActivity.currentUserID)) {
+                                continue;
+                            }
+
                             String content;
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                                 content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content, Html.FROM_HTML_MODE_LEGACY).toString();

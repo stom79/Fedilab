@@ -111,7 +111,7 @@ public class NotificationsVM extends AndroidViewModel {
                     Response<List<Notification>> notificationsResponse = notificationsCall.execute();
                     if (notificationsResponse.isSuccessful()) {
                         List<Notification> notFiltered = notificationsResponse.body();
-                        notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered, false);
+                        notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered);
                         addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
 
@@ -166,7 +166,7 @@ public class NotificationsVM extends AndroidViewModel {
                             //Only not already present statuses are added
                             notifications.notifications = notPresentNotifications;
                         }
-                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications, true);
+                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
                         if (notifications.notifications.size() > 0) {
                             addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                             notifications.pagination = new Pagination();
