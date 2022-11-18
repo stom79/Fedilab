@@ -39,7 +39,7 @@ public class Notification {
     public Status status;
     @SerializedName("cached")
     public boolean cached;
-
+    public Filter filteredByApp;
     public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public transient List<Notification> relatedNotifications;
     public boolean isFetchMore;

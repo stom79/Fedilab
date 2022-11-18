@@ -92,8 +92,8 @@ public class Status implements Serializable, Cloneable {
     public Card card;
     @SerializedName("poll")
     public Poll poll;
-    /*  @SerializedName("filtered")
-      public Filter.FilterResult filtered;*/
+    @SerializedName("filtered")
+    public List<Filter.FilterResult> filtered;
     @SerializedName("pleroma")
     public Pleroma pleroma;
     @SerializedName("cached")
@@ -114,7 +114,7 @@ public class Status implements Serializable, Cloneable {
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
     public transient boolean spoilerChecked = false;
-
+    public Filter filteredByApp;
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;

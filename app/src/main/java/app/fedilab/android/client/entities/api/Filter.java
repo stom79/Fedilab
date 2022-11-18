@@ -65,7 +65,7 @@ public class Filter implements Serializable {
         public List<String> context;
         @SerializedName("whole_word")
         public boolean whole_word;
-        @SerializedName("expires_in")
+        @SerializedName("expires_at")
         public Date expires_at;
         @SerializedName("filter_action")
         public String filter_action;

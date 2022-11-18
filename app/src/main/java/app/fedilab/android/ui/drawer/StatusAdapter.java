@@ -119,6 +119,7 @@ import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
+import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
@@ -147,6 +148,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_HIDDEN = 0;
     public static final int STATUS_VISIBLE = 1;
     public static final int STATUS_ART = 2;
+    public static final int STATUS_FILTERED = 3;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -2102,7 +2104,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (timelineType == Timeline.TimeLineEnum.ART) {
             return STATUS_ART;
         } else {
-            return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+            if (statusList.get(position).filteredByApp != null) {
+                return STATUS_FILTERED;
+            } else {
+                return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+            }
+
         }
     }
 
@@ -2115,6 +2122,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return new StatusViewHolder(itemBinding);
         } else if (viewType == STATUS_ART) { //Art statuses
             DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED) { //Art statuses
+            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
         } else { //Classic statuses
             if (!minified) {
@@ -2152,6 +2162,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated, fetchMoreCallBack);
+        } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
+            holder.bindingFiltered.displayButton.setOnClickListener(v -> {
+                status.filteredByApp = null;
+                notifyItemChanged(position);
+            });
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
@@ -2251,6 +2268,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusReportBinding bindingReport;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
+        DrawerStatusFilteredBinding bindingFiltered;
 
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
@@ -2278,6 +2296,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         StatusViewHolder(DrawerStatusArtBinding itemView) {
             super(itemView.getRoot());
             bindingArt = itemView;
+        }
+
+        StatusViewHolder(DrawerStatusFilteredBinding itemView) {
+            super(itemView.getRoot());
+            bindingFiltered = itemView;
         }
     }
 

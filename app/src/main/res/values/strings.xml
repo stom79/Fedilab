@@ -2000,4 +2000,6 @@
     <string name="keyword_or_phrase">Keyword or phrase</string>
     <string name="delete_keyword">Delete keyword</string>
     <string name="add_keyword">Add keyword</string>
+    <string name="show_anyway">Show aniway</string>
+    <string name="filtered_by">Filtered: %1$s</string>
 </resources>

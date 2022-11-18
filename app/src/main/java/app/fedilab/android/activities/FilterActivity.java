@@ -156,6 +156,9 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                 popupAddFilterBinding.actionRemove.setChecked(true);
             }
         }
+        if (filterParams.keywords == null) {
+            filterParams.keywords = new ArrayList<>();
+        }
 
         KeywordAdapter keywordAdapter = new KeywordAdapter(filterParams.keywords);
         popupAddFilterBinding.lvKeywords.setAdapter(keywordAdapter);

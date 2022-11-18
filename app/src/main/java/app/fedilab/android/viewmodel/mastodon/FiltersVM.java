@@ -136,7 +136,7 @@ public class FiltersVM extends AndroidViewModel {
         MastodonFiltersService mastodonFiltersService = initV2(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, filterParams.title, filterParams.expires_in, filterParams.filter_action, filterParams.context, filterParams.keywords);
+            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, filterParams);
             if (addFilterCall != null) {
                 try {
                     Response<Filter> addFiltersResponse = addFilterCall.execute();

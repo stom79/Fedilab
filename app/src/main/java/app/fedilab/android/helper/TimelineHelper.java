@@ -113,50 +113,40 @@ public class TimelineHelper {
                 }
                 if (filter.keywords != null && filter.keywords.size() > 0) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
+                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        Pattern p;
                         if (filterKeyword.whole_word) {
-                            Pattern p = Pattern.compile("(^|\\W)(" + Pattern.quote(filterKeyword.keyword) + ")($|\\W)", Pattern.CASE_INSENSITIVE);
-                            for (Status status : statuses) {
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
-                                Matcher m = p.matcher(content);
-                                if (m.find()) {
-                                    statusesToRemove.add(status);
-                                    continue;
-                                }
-                                if (status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
-                                    Matcher ms = p.matcher(spoilerText);
-                                    if (ms.find()) {
-                                        statusesToRemove.add(status);
-                                    }
-                                }
-                            }
+                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
                         } else {
-                            for (Status status : statuses) {
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
-                                if (content.contains(filterKeyword.keyword)) {
+                            p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
+                        }
+                        for (Status status : statuses) {
+                            String content;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                            else
+                                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                            Matcher m = p.matcher(content);
+                            if (m.find()) {
+                                if (filter.filter_action.equalsIgnoreCase("warn")) {
+                                    status.filteredByApp = filter;
+                                } else {
                                     statusesToRemove.add(status);
-                                    continue;
                                 }
-
-                                if (status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
-                                    if (spoilerText.contains(filterKeyword.keyword)) {
+                                continue;
+                            }
+                            if (status.spoiler_text != null) {
+                                String spoilerText;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                else
+                                    spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
+                                Matcher ms = p.matcher(spoilerText);
+                                if (ms.find()) {
+                                    if (filter.filter_action.equalsIgnoreCase("warn")) {
+                                        status.filteredByApp = filter;
+                                    } else {
                                         statusesToRemove.add(status);
                                     }
                                 }
@@ -203,60 +193,46 @@ public class TimelineHelper {
                     //Expired filter
                     continue;
                 }
-
                 if (!filter.context.contains("notification")) continue;
                 if (filter.keywords != null && filter.keywords.size() > 0) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
+                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).matches() ? "\\b" : "";
+                        Pattern p;
                         if (filterKeyword.whole_word) {
-                            Pattern p = Pattern.compile("(^|\\W)(" + Pattern.quote(filterKeyword.keyword) + ")($|\\W)", Pattern.CASE_INSENSITIVE);
-                            for (Notification notification : notifications) {
-                                if (notification.status == null) {
-                                    continue;
-                                }
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content).toString();
-                                Matcher m = p.matcher(content);
-                                if (m.find()) {
-                                    notificationToRemove.add(notification);
-                                    continue;
-                                }
-                                if (notification.status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text).toString();
-                                    Matcher ms = p.matcher(spoilerText);
-                                    if (ms.find()) {
-                                        notificationToRemove.add(notification);
-                                    }
-                                }
-                            }
+                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
                         } else {
-                            for (Notification notification : notifications) {
-                                if (notification.status == null) {
-                                    continue;
-                                }
-                                String content;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content).toString();
-                                if (content.contains(filterKeyword.keyword)) {
+                            p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
+                        }
+                        for (Notification notification : notifications) {
+                            if (notification.status == null) {
+                                continue;
+                            }
+                            String content;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                            else
+                                content = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.content : notification.status.content).toString();
+                            Matcher m = p.matcher(content);
+                            if (m.find()) {
+                                if (filter.filter_action.equalsIgnoreCase("warn")) {
+                                    notification.filteredByApp = filter;
+                                } else {
                                     notificationToRemove.add(notification);
-                                    continue;
                                 }
-
-                                if (notification.status.spoiler_text != null) {
-                                    String spoilerText;
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text).toString();
-                                    if (spoilerText.contains(filterKeyword.keyword)) {
+                                continue;
+                            }
+                            if (notification.status.spoiler_text != null) {
+                                String spoilerText;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+                                else
+                                    spoilerText = Html.fromHtml(notification.status.reblog != null ? notification.status.reblog.spoiler_text : notification.status.spoiler_text).toString();
+                                Matcher ms = p.matcher(spoilerText);
+                                if (ms.find()) {
+                                    if (filter.filter_action.equalsIgnoreCase("warn")) {
+                                        notification.filteredByApp = filter;
+                                    } else {
                                         notificationToRemove.add(notification);
                                     }
                                 }

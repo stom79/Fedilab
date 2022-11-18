@@ -46,15 +46,11 @@ public interface MastodonFiltersService {
             @Path("id") String id);
 
     //Add a filter
-    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
     @POST("filters")
     Call<Filter> addFilter(
             @Header("Authorization") String token,
-            @Field("title") String title,
-            @Field("expires_in") Long expires_in,
-            @Field("filter_action") String filter_action,
-            @Field("context[]") List<String> context,
-            @Field("keywords_attributes[]") List<Filter.KeywordsParams> keywordsAttributes
+            @Body Filter.FilterParams filter
     );
 
     //Edit a filter
@@ -64,15 +60,6 @@ public interface MastodonFiltersService {
             @Header("Authorization") String token,
             @Path("id") String id,
             @Body Filter.FilterParams filter
-            /*@Path("id") String id,
-            @Field("title") String title,
-            @Field("expires_in") Date expires_in,
-            @Field("filter_action") String filter_action,
-            @Field("context[]") List<String> context,
-            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywords
-            @Field("keywords_attributes[][id]") List<String> keywordId,
-            @Field("keywords_attributes[][keyword]") List<String> keywords,
-            @Field("keywords_attributes[][whole_word]") List<Boolean> wholeWords*/
     );
 
     //Remove a filter
