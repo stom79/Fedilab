@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.7.2",
+    "code": "429",
+    "note": "Added:\n- Full support to new filters for Mastodon 4"
+  },
+  {
     "version": "3.7.1",
     "code": "428",
     "note": "Added:\n- Support to open links containing /@display_name/ in their path (works on older devices)\n- Display reply count when counters are enabled\n- Add support for filtering profile messages\n\nChanged:\n- Compose view takes the whole width even in threads\n- Reset push notification marker when clearing cache\n\nFixed:\n- Draft stored when replying \"no\" or dialog prompted without changes\n- Filters not working with tags\n- Add a specific error message for followed tags\n- Empty pages when starting the app"

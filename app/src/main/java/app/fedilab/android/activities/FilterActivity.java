@@ -189,7 +189,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
 
                 boolean canBeSent = true;
                 for (int i = 0; i < filterParams.keywords.size(); i++) {
-                    if (filterParams.keywords.get(i).keyword.trim().isEmpty() && !filterParams.keywords.get(i)._destroy) {
+                    if (filterParams.keywords.get(i).keyword == null || (filterParams.keywords.get(i).keyword.trim().isEmpty() && filterParams.keywords.get(i)._destroy != null && !filterParams.keywords.get(i)._destroy)) {
                         canBeSent = false;
                     }
                 }

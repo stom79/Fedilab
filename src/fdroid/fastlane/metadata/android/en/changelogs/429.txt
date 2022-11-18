@@ -1,0 +1,2 @@
+Added:
+- Full support to new filters for Mastodon 4
