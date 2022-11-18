@@ -18,14 +18,12 @@ package app.fedilab.android.viewmodel.mastodon;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -60,7 +58,8 @@ public class FiltersVM extends AndroidViewModel {
     private MastodonFiltersService initV2(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v2/")
-                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                //    .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonFiltersService.class);
@@ -132,13 +131,12 @@ public class FiltersVM extends AndroidViewModel {
      *
      * @return {@link LiveData} containing a {@link Filter}
      */
-    public LiveData<Filter> addFilter(@NonNull String instance, String token,
-                                      @NonNull String title, Date expires_at, @NonNull List<String> filterContext, String filter_action, List<Filter.KeywordsAttributes> keywordsAttributes) {
+    public LiveData<Filter> addFilter(@NonNull String instance, String token, @NonNull Filter.FilterParams filterParams) {
         filterMutableLiveData = new MutableLiveData<>();
         MastodonFiltersService mastodonFiltersService = initV2(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, title, expires_at, filter_action, filterContext, keywordsAttributes);
+            Call<Filter> addFilterCall = mastodonFiltersService.addFilter(token, filterParams.title, filterParams.expires_in, filterParams.filter_action, filterParams.context, filterParams.keywords);
             if (addFilterCall != null) {
                 try {
                     Response<Filter> addFiltersResponse = addFilterCall.execute();
@@ -162,14 +160,22 @@ public class FiltersVM extends AndroidViewModel {
      *
      * @return {@link LiveData} containing a {@link Filter}
      */
-    public LiveData<Filter> editFilter(@NonNull String instance, String token, @NonNull String id, @NonNull String title, Date expires_at, @NonNull List<String> filterContext, String filter_action, List<Filter.KeywordsAttributes> keywordsAttributes) {
+    public LiveData<Filter> editFilter(@NonNull String instance, String token, @NonNull Filter.FilterParams filterParams) {
         filterMutableLiveData = new MutableLiveData<>();
         MastodonFiltersService mastodonFiltersService = initV2(instance);
         new Thread(() -> {
             Filter filter = null;
-            Call<Filter> editFilterCall = mastodonFiltersService.editFilter(token, id, title, expires_at, filter_action, filterContext, keywordsAttributes);
+           /* List<String> keywordsId = new ArrayList<>();
+            List<String> keywords = new ArrayList<>();
+            List<Boolean> whole_words = new ArrayList<>();
+            for(Filter.KeywordsAttributes attributes: keywordsAttributes) {
+                keywordsId.add(attributes.id);
+                keywords.add(attributes.keyword);
+                whole_words.add(attributes.whole_word);
+            }*/
+
+            Call<Filter> editFilterCall = mastodonFiltersService.editFilter(token, filterParams.id, filterParams);
             if (editFilterCall != null) {
-                Log.v(Helper.TAG, "request: " + editFilterCall.request());
                 try {
                     Response<Filter> editFiltersResponse = editFilterCall.execute();
                     if (editFiltersResponse.isSuccessful()) {

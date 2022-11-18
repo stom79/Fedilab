@@ -218,11 +218,10 @@
                     android:hint="@string/context_whole_word" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/keywords_container"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lv_keywords"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_keyword"

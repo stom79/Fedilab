@@ -15,16 +15,17 @@ package app.fedilab.android.client.endpoints;
  * see <http://www.gnu.org/licenses>. */
 
 
-import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.Filter;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -50,23 +51,28 @@ public interface MastodonFiltersService {
     Call<Filter> addFilter(
             @Header("Authorization") String token,
             @Field("title") String title,
-            @Field("expires_at") Date expires_at,
+            @Field("expires_in") Long expires_in,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
-            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywordsAttributes
+            @Field("keywords_attributes[]") List<Filter.KeywordsParams> keywordsAttributes
     );
 
     //Edit a filter
-    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
     @PUT("filters/{id}")
     Call<Filter> editFilter(
             @Header("Authorization") String token,
             @Path("id") String id,
+            @Body Filter.FilterParams filter
+            /*@Path("id") String id,
             @Field("title") String title,
-            @Field("expires_at") Date expires_at,
+            @Field("expires_in") Date expires_in,
             @Field("filter_action") String filter_action,
             @Field("context[]") List<String> context,
-            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywordsAttributes
+            @Field("keywords_attributes[]") List<Filter.KeywordsAttributes> keywords
+            @Field("keywords_attributes[][id]") List<String> keywordId,
+            @Field("keywords_attributes[][keyword]") List<String> keywords,
+            @Field("keywords_attributes[][whole_word]") List<Boolean> wholeWords*/
     );
 
     //Remove a filter
@@ -77,7 +83,7 @@ public interface MastodonFiltersService {
     );
 
 
-    //Get a filter with its id
+    //Get a keywords for a filter
     @GET("filters/{id}/keywords")
     Call<List<Filter.KeywordsAttributes>> getKeywordFilter(
             @Header("Authorization") String token,
@@ -90,21 +96,20 @@ public interface MastodonFiltersService {
             @Header("Authorization") String token,
             @Path("filter_id") String filter_id,
             @Path("id") String id,
-            @Field("keyword") Filter.Keyword keyword
+            @Field("keyword") Filter.KeywordsAttributes keyword
     );
 
     //Edit a keyword for a filter
     @FormUrlEncoded
-    @PUT("filters/{filter_id}/keywords/{id}")
+    @PUT("filter_keywords/{id}")
     Call<Filter.KeywordsAttributes> editKeywordFilter(
             @Header("Authorization") String token,
-            @Path("filter_id") String filter_id,
             @Path("id") String id,
-            @Field("keyword") Filter.Keyword keyword
+            @Field("keyword") Filter.KeywordsAttributes keyword
     );
 
     //Remove a keyword for a filter
-    @DELETE("filters/keywords/{id}")
+    @DELETE("filter_keywords/{id}")
     Call<Void> removeKeywordFilter(
             @Header("Authorization") String token,
             @Path("id") String id

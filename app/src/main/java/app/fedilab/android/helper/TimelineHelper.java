@@ -112,7 +112,7 @@ public class TimelineHelper {
                     if (!filter.context.contains("public")) continue;
                 }
                 if (filter.keywords != null && filter.keywords.size() > 0) {
-                    for (Filter.FilterKeyword filterKeyword : filter.keywords) {
+                    for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
                         if (filterKeyword.whole_word) {
                             Pattern p = Pattern.compile("(^|\\W)(" + Pattern.quote(filterKeyword.keyword) + ")($|\\W)", Pattern.CASE_INSENSITIVE);
                             for (Status status : statuses) {
@@ -206,7 +206,7 @@ public class TimelineHelper {
 
                 if (!filter.context.contains("notification")) continue;
                 if (filter.keywords != null && filter.keywords.size() > 0) {
-                    for (Filter.FilterKeyword filterKeyword : filter.keywords) {
+                    for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
                         if (filterKeyword.whole_word) {
                             Pattern p = Pattern.compile("(^|\\W)(" + Pattern.quote(filterKeyword.keyword) + ")($|\\W)", Pattern.CASE_INSENSITIVE);
                             for (Notification notification : notifications) {

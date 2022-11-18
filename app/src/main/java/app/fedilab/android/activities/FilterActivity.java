@@ -28,8 +28,6 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,7 +35,6 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,11 +42,11 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.ActivityFiltersBinding;
-import app.fedilab.android.databinding.KeywordsLayoutBinding;
 import app.fedilab.android.databinding.PopupAddFilterBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.FilterAdapter;
+import app.fedilab.android.ui.drawer.KeywordAdapter;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 
 public class FilterActivity extends BaseActivity implements FilterAdapter.Delete {
@@ -74,6 +71,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                 R.array.filter_expire, android.R.layout.simple_spinner_dropdown_item);
         popupAddFilterBinding.filterExpire.setAdapter(adapterResize);
         final int[] expire = {-1};
+        Filter.FilterParams filterParams = new Filter.FilterParams();
         popupAddFilterBinding.filterExpire.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent1, View view, int position1, long id) {
@@ -107,16 +105,29 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
             }
         });
 
-        popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
-            KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v2 -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
-            keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-            popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
-        });
+
 
         if (filter != null) {
+
+            filterParams.filter_action = filter.filter_action;
+            filterParams.title = filter.title;
+            // filterParams.expires_in = filter.expires_at;
+            filterParams.context = filter.context;
+            filterParams.id = filter.id;
+            if (filter.keywords != null && filter.keywords.size() > 0) {
+                filterParams.keywords = new ArrayList<>();
+                for (Filter.KeywordsAttributes keywordsAttributes : filter.keywords) {
+                    Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+                    keywordsParams._destroy = null;
+                    keywordsParams.id = keywordsAttributes.id;
+                    keywordsParams.keyword = keywordsAttributes.keyword;
+                    keywordsParams.whole_word = keywordsAttributes.whole_word;
+                    filterParams.keywords.add(keywordsParams);
+                }
+            }
+
             popupAddFilterBinding.addTitle.setText(filter.title);
-            if (filter.context != null)
+            if (filter.context != null) {
                 for (String val : filter.context) {
                     switch (val) {
                         case "home":
@@ -136,29 +147,25 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                             break;
                     }
                 }
-            if (filter.keywords != null && filter.keywords.size() > 0) {
-                for (Filter.FilterKeyword filterKeyword : filter.keywords) {
-                    KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-                    keywordsLayoutBinding.keywordPhrase.setText(filterKeyword.keyword);
-                    keywordsLayoutBinding.wholeWord.setChecked(filterKeyword.whole_word);
-                    keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
-                    keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-                    popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
-                }
             }
-            if (popupAddFilterBinding.keywordsContainer.getChildCount() == 0) {
-                KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-                keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
-                keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-                popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
+            if (filter.filter_action.equalsIgnoreCase("warn")) {
+                popupAddFilterBinding.actionHide.setChecked(true);
+                popupAddFilterBinding.actionRemove.setChecked(false);
+            } else {
+                popupAddFilterBinding.actionHide.setChecked(false);
+                popupAddFilterBinding.actionRemove.setChecked(true);
             }
-        } else {
-            //Add at least a view
-            KeywordsLayoutBinding keywordsLayoutBinding = KeywordsLayoutBinding.inflate(LayoutInflater.from(context));
-            keywordsLayoutBinding.deleteKeyword.setOnClickListener(v -> popupAddFilterBinding.keywordsContainer.removeView(keywordsLayoutBinding.getRoot()));
-            keywordsLayoutBinding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-            popupAddFilterBinding.keywordsContainer.addView(keywordsLayoutBinding.getRoot());
         }
+
+        KeywordAdapter keywordAdapter = new KeywordAdapter(filterParams.keywords);
+        popupAddFilterBinding.lvKeywords.setAdapter(keywordAdapter);
+        popupAddFilterBinding.lvKeywords.setLayoutManager(new LinearLayoutManager(context));
+
+        popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
+            filterParams.keywords.add(new Filter.KeywordsParams());
+            keywordAdapter.notifyItemInserted(filterParams.keywords.size() - 1);
+        });
+
         popupAddFilterBinding.actionRemove.setOnClickListener(v -> {
             popupAddFilterBinding.actionHide.setChecked(false);
             popupAddFilterBinding.actionRemove.setChecked(true);
@@ -170,29 +177,16 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
 
         AlertDialog alertDialog = dialogBuilder.setPositiveButton(R.string.validate, null)
                 .setNegativeButton(R.string.cancel, null).create();
+
         alertDialog.setOnShowListener(dialogInterface -> {
 
             Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view -> {
 
-                int keywordsItem = popupAddFilterBinding.keywordsContainer.getChildCount();
-                List<Filter.KeywordsAttributes> keywordsAttributes = null;
                 boolean canBeSent = true;
-
-                for (int i = 0; i < keywordsItem; i++) {
-                    View itemView = popupAddFilterBinding.keywordsContainer.getChildAt(i);
-                    AppCompatEditText keyword = itemView.findViewById(R.id.keyword_phrase);
-                    AppCompatCheckBox whole_word = itemView.findViewById(R.id.whole_word);
-                    keywordsAttributes = new ArrayList<>();
-                    if (keyword != null && whole_word != null) {
-                        Filter.KeywordsAttributes keywordsAttr = new Filter.KeywordsAttributes();
-                        keywordsAttr.keyword = keyword.getText().toString();
-                        keywordsAttr.whole_word = whole_word.isChecked();
-                        if (keywordsAttr.keyword.trim().isEmpty()) {
-                            keyword.setError(context.getString(R.string.cannot_be_empty));
-                            canBeSent = false;
-                        }
-                        keywordsAttributes.add(keywordsAttr);
+                for (int i = 0; i < filterParams.keywords.size(); i++) {
+                    if (filterParams.keywords.get(i).keyword.trim().isEmpty() && !filterParams.keywords.get(i)._destroy) {
+                        canBeSent = false;
                     }
                 }
                 if (popupAddFilterBinding.addTitle.getText().toString().trim().isEmpty()) {
@@ -204,33 +198,29 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
                     canBeSent = false;
                 }
                 if (canBeSent) {
-                    Filter filterSent = new Filter();
-                    ArrayList<String> contextFilter = new ArrayList<>();
+                    filterParams.context = new ArrayList<>();
                     if (popupAddFilterBinding.contextHome.isChecked())
-                        contextFilter.add("home");
+                        filterParams.context.add("home");
                     if (popupAddFilterBinding.contextPublic.isChecked())
-                        contextFilter.add("public");
+                        filterParams.context.add("public");
                     if (popupAddFilterBinding.contextNotification.isChecked())
-                        contextFilter.add("notifications");
+                        filterParams.context.add("notifications");
                     if (popupAddFilterBinding.contextConversation.isChecked())
-                        contextFilter.add("thread");
+                        filterParams.context.add("thread");
                     if (popupAddFilterBinding.contextProfiles.isChecked())
-                        contextFilter.add("account");
-                    filterSent.context = contextFilter;
+                        filterParams.context.add("account");
                     if (expire[0] != -1) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.add(Calendar.SECOND, expire[0]);
-                        filterSent.expires_at = calendar.getTime();
+                        filterParams.expires_in = (long) expire[0];
                     } else {
-                        filterSent.expires_at = null;
+                        filterParams.expires_in = null;
                     }
-                    filterSent.title = popupAddFilterBinding.addTitle.getText().toString().trim();
-                    filterSent.filter_action = popupAddFilterBinding.actionHide.isChecked() ? "hide" : "warn";
-                    if (filter != null) {
-                        filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filter.id, filterSent.title, filterSent.expires_at, filterSent.context, filterSent.filter_action, keywordsAttributes)
+                    filterParams.title = popupAddFilterBinding.addTitle.getText().toString().trim();
+                    filterParams.filter_action = popupAddFilterBinding.actionRemove.isChecked() ? "hide" : "warn";
+                    if (filterParams.id != null) {
+                        filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
                                 .observe((LifecycleOwner) context, listener::callback);
                     } else {
-                        filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterSent.title, filterSent.expires_at, filterSent.context, filterSent.filter_action, keywordsAttributes)
+                        filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
                                 .observe((LifecycleOwner) context, listener::callback);
                     }
                     alertDialog.dismiss();
