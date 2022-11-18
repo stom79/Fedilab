@@ -159,6 +159,7 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
 
         KeywordAdapter keywordAdapter = new KeywordAdapter(filterParams.keywords);
         popupAddFilterBinding.lvKeywords.setAdapter(keywordAdapter);
+        popupAddFilterBinding.lvKeywords.setNestedScrollingEnabled(false);
         popupAddFilterBinding.lvKeywords.setLayoutManager(new LinearLayoutManager(context));
 
         popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
