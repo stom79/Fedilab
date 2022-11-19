@@ -143,7 +143,8 @@ public class MediaHelper {
                     public void onResourceReady(@NotNull File file, Transition<? super File> transition) {
                         final String fileName = URLUtil.guessFileName(url, null, null);
 
-                        final String targeted_folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/" + context.getString(R.string.app_name);
+                        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        final String targeted_folder = path + "/" + context.getString(R.string.app_name);
                         if (!new File(targeted_folder).exists()) {
                             new File(targeted_folder).mkdir();
                         }
