@@ -74,6 +74,7 @@ public class TimelinesVM extends AndroidViewModel {
 
 
     private MutableLiveData<List<Account>> accountListMutableLiveData;
+    private MutableLiveData<Boolean> booleanMutableLiveData;
     private MutableLiveData<List<StatusDraft>> statusDraftListMutableLiveData;
     private MutableLiveData<Status> statusMutableLiveData;
     private MutableLiveData<Statuses> statusesMutableLiveData;
@@ -838,18 +839,26 @@ public class TimelinesVM extends AndroidViewModel {
      * @param listId     ID of the list
      * @param accountIds Array of account IDs to add to the list.
      */
-    public void addAccountsList(@NonNull String instance, String token, @NonNull String listId, @NonNull List<String> accountIds) {
+    public LiveData<Boolean> addAccountsList(@NonNull String instance, String token, @NonNull String listId, @NonNull List<String> accountIds) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
+        booleanMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            Call<Void> addAccountsListCall = mastodonTimelinesService.addAccountsList(token, listId, accountIds);
+            Call<Boolean> addAccountsListCall = mastodonTimelinesService.addAccountsList(token, listId, accountIds);
+            Boolean reply = null;
             if (addAccountsListCall != null) {
                 try {
-                    addAccountsListCall.execute();
+                    Response<Boolean> response = addAccountsListCall.execute();
+                    reply = response.isSuccessful();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Boolean finalReply = reply;
+            Runnable myRunnable = () -> booleanMutableLiveData.setValue(finalReply);
+            mainHandler.post(myRunnable);
         }).start();
+        return booleanMutableLiveData;
     }
 
     /**
