@@ -115,6 +115,7 @@ public class ProfileActivity extends BaseActivity {
     private String account_id;
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
+    private boolean checkRemotely;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -141,10 +142,12 @@ public class ProfileActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
+        checkRemotely = false;
         if (b != null) {
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
+            checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
         postponeEnterTransition();
 

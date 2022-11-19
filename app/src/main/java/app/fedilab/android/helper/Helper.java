@@ -272,6 +272,7 @@ public class Helper {
     public static final String ARG_SHOW_PINNED = "ARG_SHOW_PINNED";
     public static final String ARG_SHOW_MEDIA_ONY = "ARG_SHOW_MEDIA_ONY";
     public static final String ARG_MENTION = "ARG_MENTION";
+    public static final String ARG_CHECK_REMOTELY = "ARG_CHECK_REMOTELY";
     public static final String ARG_USER_ID = "ARG_USER_ID";
     public static final String ARG_MEDIA_ARRAY = "ARG_MEDIA_ARRAY";
     public static final String ARG_VISIBILITY = "ARG_VISIBILITY";
