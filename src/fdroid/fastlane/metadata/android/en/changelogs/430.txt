@@ -1,0 +1,5 @@
+Added:
+- Visit profiles without being authenticated / Allow to display all their messages
+
+Fixed:
+- Saving media fails on some devices
