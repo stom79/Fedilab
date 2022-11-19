@@ -1900,4 +1900,5 @@
     <string name="filtered_by">Filtered: %1$s</string>
     <string name="toast_error_add_to_list">The app failed to add the account into the list!</string>
     <string name="display_remote_profile">Display remote profile</string>
+    <string name="toast_fetch_error">The app cannot find remote data!</string>
 </resources>

@@ -930,7 +930,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
             String tempToken;
             String tempInstance;
-            String accountId = null;
+            String accountId;
             if (checkRemotely) {
                 tempToken = null;
                 tempInstance = remoteInstance;
@@ -948,14 +948,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
-                                                    if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
-                                                        for (Status status : pinnedStatuses.statuses) {
-                                                            status.pinned = true;
+                                                    if (otherStatuses != null && otherStatuses.statuses != null) {
+                                                        if (pinnedStatuses != null && pinnedStatuses.statuses != null) {
+                                                            for (Status status : pinnedStatuses.statuses) {
+                                                                status.pinned = true;
+                                                            }
+                                                            otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
                                                         }
-                                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
-                                                        initializeStatusesCommonView(otherStatuses);
                                                     }
+                                                    initializeStatusesCommonView(otherStatuses);
                                                 }));
+                            } else {
+                                Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
                             }
                         }
                     });
