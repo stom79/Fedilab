@@ -142,13 +142,14 @@ public class ProfileActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
-        checkRemotely = false;
+        checkRemotely = true;
         if (b != null) {
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
             checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
+        checkRemotely = true;
         postponeEnterTransition();
 
         //Remove title
@@ -242,7 +243,7 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account);
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account, checkRemotely);
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));

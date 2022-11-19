@@ -37,12 +37,13 @@ public class FragmentProfileTimeline extends Fragment {
 
     private Account account;
     private FragmentProfileTimelinesBinding binding;
-
+    private boolean checkRemotely;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         if (getArguments() != null) {
             account = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -57,7 +58,7 @@ public class FragmentProfileTimeline extends Fragment {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.media)));
         binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
         binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
-        binding.viewpager.setAdapter(new FedilabProfilePageAdapter(getChildFragmentManager(), account));
+        binding.viewpager.setAdapter(new FedilabProfilePageAdapter(getChildFragmentManager(), account, checkRemotely));
         binding.viewpager.setOffscreenPageLimit(3);
         binding.viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -45,6 +45,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Pagination;
@@ -57,6 +58,7 @@ import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -81,6 +83,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
+    private boolean checkRemotely;
+    private String accountIDInRemoteInstance;
+
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -307,12 +312,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
             show_pinned = getArguments().getBoolean(Helper.ARG_SHOW_PINNED, false);
             exclude_reblogs = !getArguments().getBoolean(Helper.ARG_SHOW_REBLOGS, true);
             media_only = getArguments().getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
+        }
+        //When visiting a profile without being authenticated
+        if (checkRemotely) {
+            String[] acctArray = accountTimeline.acct.split("@");
+            if (acctArray.length > 1) {
+                remoteInstance = acctArray[1];
+            }
         }
         if (tagTimeline != null) {
             ident = "@T@" + tagTimeline.name;
@@ -321,7 +334,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         } else if (list_id != null) {
             ident = "@l@" + list_id;
-        } else if (remoteInstance != null) {
+        } else if (remoteInstance != null && !checkRemotely) {
             if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
                 ident = "@R@" + pinnedTimeline.remoteInstance.host;
             } else {
@@ -915,10 +928,52 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (timelineType == Timeline.TimeLineEnum.TAG || timelineType == Timeline.TimeLineEnum.ART) { //TAG TIMELINE
             routeCommon(direction, fetchingMissing, statusToUpdate);
         } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
-            if (direction == null) {
+            String tempToken;
+            String tempInstance;
+            String accountId = null;
+            if (checkRemotely) {
+                tempToken = null;
+                tempInstance = remoteInstance;
+                accountId = accountIDInRemoteInstance;
+                if (accountIDInRemoteInstance == null) {
+                    CrossActionHelper.fetchAccountInRemoteInstance(requireActivity(), accountTimeline.acct, tempInstance, new CrossActionHelper.Callback() {
+                        @Override
+                        public void federatedStatus(Status status) {
+                        }
+
+                        @Override
+                        public void federatedAccount(Account account) {
+                            if (account != null) {
+                                accountIDInRemoteInstance = account.id;
+                                accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
+                                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                                .observe(getViewLifecycleOwner(), otherStatuses -> {
+                                                    if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
+                                                        for (Status status : pinnedStatuses.statuses) {
+                                                            status.pinned = true;
+                                                        }
+                                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                                        initializeStatusesCommonView(otherStatuses);
+                                                    }
+                                                }));
+                            }
+                        }
+                    });
+                } else {
+                    accountId = accountIDInRemoteInstance;
+                }
+            } else {
+                tempToken = MainActivity.currentToken;
+                tempInstance = currentInstance;
+                accountId = accountTimeline.id;
+            }
+            if (accountId == null) {
+                accountId = accountTimeline.id;
+            }
+            if (direction == null && !checkRemotely) {
                 if (show_pinned) {
                     //Fetch pinned statuses to display them at the top
-                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
+                    accountsVM.getAccountStatuses(currentInstance, MainActivity.currentToken, accountId, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), otherStatuses -> {
                                         if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
@@ -930,11 +985,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                         }
                                     }));
                 } else {
-                    accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                    accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 }
             } else if (direction == DIRECTION.BOTTOM) {
-                accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false));
             } else {
                 flagLoading = false;
