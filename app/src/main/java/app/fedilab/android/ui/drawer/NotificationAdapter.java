@@ -259,7 +259,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (notification.status != null) {
                 notification.status.cached = notification.cached;
             }
-            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, null);
+            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {

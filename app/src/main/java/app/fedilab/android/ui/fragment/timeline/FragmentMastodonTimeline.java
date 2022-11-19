@@ -530,7 +530,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
             min_id = statuses.pagination.min_id;
         }
-        statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated);
+        statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated, checkRemotely);
         statusAdapter.fetchMoreCallBack = this;
         if (statusReport != null) {
             scrollToTop();

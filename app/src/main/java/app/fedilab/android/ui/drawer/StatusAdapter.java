@@ -153,14 +153,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
     private final boolean canBeFederated;
+    private final boolean checkRemotely;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
-    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated) {
+    public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated, boolean checkRemotely) {
         this.statusList = statuses;
         this.timelineType = timelineType;
         this.minified = minified;
         this.canBeFederated = canBeFederated;
+        this.checkRemotely = checkRemotely;
     }
 
 
@@ -349,14 +351,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         List<Status> statusList,
                                         Status status,
                                         Timeline.TimeLineEnum timelineType,
-                                        boolean minified, boolean canBeFederated,
+                                        boolean minified, boolean canBeFederated, boolean checkRemotely,
                                         FetchMoreCallBack fetchMoreCallBack) {
         if (status == null) {
             return;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE;
+        boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
 
         Status statusToDeal = status.reblog != null ? status.reblog : status;
 
@@ -2161,7 +2163,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated, fetchMoreCallBack);
+            statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
