@@ -1311,12 +1311,12 @@
     <string name="SET_MAX_INSTANCE_CHAR" translatable="false">SET_MAX_INSTANCE_CHAR</string>
     <string name="SET_POPUP_RELEASE_NOTES" translatable="false">SET_POPUP_RELEASE_NOTES</string>
     <string name="type_of_notifications">Type of notifications</string>
-    <string name="type_of_notifications_title">Chose the type of notifications</string>
+    <string name="type_of_notifications_title">Choose the type of notifications</string>
     <string name="notification_sounds">Notification sounds</string>
     <string name="disable_notifications">Disable notifications</string>
     <string name="notifications_are">During this time slot</string>
     <string name="pref_theme_base">Base of the theme</string>
-    <string name="pref_theme_base_summary">Chose if the base of the theme should be dark or light</string>
+    <string name="pref_theme_base_summary">Choose if the base of the theme should be dark or light</string>
     <string name="pref_custom_theme_new_summary">Allow to create your custom theme</string>
     <string name="customize_timelines">Customize timelines</string>
     <string name="pref_contributor">Themes from contributors</string>
@@ -1886,7 +1886,7 @@
     <string name="notif_update">Edited a message</string>
     <string name="notif_display_updates">Updates</string>
     <string name="filter_action">Filter action</string>
-    <string name="filter_action_explanations">Chose which action to perform when a post matches the filter</string>
+    <string name="filter_action_explanations">Choose which action to perform when a post matches the filter</string>
     <string name="hide_with_warning">Hide with a warning</string>
     <string name="hide_completely">Hide completely</string>
     <string name="hide_with_warning_description">Hide the filtered content behind a warning mentioning the filter\'s title</string>
