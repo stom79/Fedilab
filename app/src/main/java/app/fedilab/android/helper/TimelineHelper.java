@@ -100,7 +100,7 @@ public class TimelineHelper {
                     //Expired filter
                     continue;
                 }
-                if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
+                if (filterTimeLineType == Timeline.TimeLineEnum.HOME || filterTimeLineType == Timeline.TimeLineEnum.LIST) {
                     if (!filter.context.contains("home")) continue;
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.NOTIFICATION) {
                     if (!filter.context.contains("notifications")) continue;
