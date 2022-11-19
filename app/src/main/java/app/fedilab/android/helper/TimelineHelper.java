@@ -119,7 +119,7 @@ public class TimelineHelper {
                         if (filterKeyword.whole_word) {
                             p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
                         } else {
-                            p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
+                            p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
                         }
                         for (Status status : statuses) {
                             if (status.account.id.equals(MainActivity.currentUserID)) {

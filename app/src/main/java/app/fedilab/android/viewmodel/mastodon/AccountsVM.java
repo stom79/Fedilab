@@ -53,8 +53,10 @@ import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Token;
 import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.TimelineHelper;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -908,7 +910,8 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Status>> bookmarksResponse = bookmarksCall.execute();
                     if (bookmarksResponse.isSuccessful()) {
                         statusList = bookmarksResponse.body();
-                        statuses.statuses = statusList;
+                        // TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, Timeline.TimeLineEnum.PUBLIC);
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = MastodonHelper.getPagination(bookmarksResponse.headers());
                     }
                 } catch (Exception e) {
