@@ -325,18 +325,39 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/info" />
                 <!-- End Fields container -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/warning_message"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/warning_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/disclaimer_full"
-                    android:textColor="@color/dark_text"
+                    android:orientation="horizontal"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fields_container" />
+                    app:layout_constraintTop_toBottomOf="@+id/fields_container"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/warning_message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/disclaimer_full"
+                        android:textColor="@color/dark_text" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/open_remote_profile"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:contentDescription="@string/display_remote_profile"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_baseline_manage_search_24" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
