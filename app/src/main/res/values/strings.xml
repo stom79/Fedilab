@@ -1,12 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Fedilab</string>
-
     <string name="action_about">About</string>
     <string name="action_about_instance">About the instance</string>
     <string name="action_privacy">Privacy</string>
     <string name="action_cache">Cache</string>
     <string name="action_logout">Logout</string>
-
     <!-- common -->
     <string name="close">Close</string>
     <string name="yes">Yes</string>
@@ -64,17 +63,13 @@
     <string name="disclaimer_full">Information below may reflect the user\'s profile incompletely.</string>
     <string name="insert_emoji">Insert emoji</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
-
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">No message to display</string>
-
-
     <string name="favourite_add">Add this message to your favourites?</string>
     <string name="favourite_remove">Remove this message from your favourites?</string>
     <string name="reblog_add">Boost this message?</string>
     <string name="reblog_remove">Unboost this message?</string>
-
     <string name="more_action_1">Mute</string>
     <string name="more_action_2">Block</string>
     <string name="more_action_3">Report</string>
@@ -92,29 +87,24 @@
         <item>Unmute this account?</item>
         <item>Unblock this account?</item>
     </string-array>
-
     <string-array name="action_notification">
         <item>Notify</item>
         <item>Silent</item>
     </string-array>
-
     <string-array name="more_action_owner_confirm">
         <item>Delete this message?</item>
         <item>Delete &amp; re-draft this message?</item>
     </string-array>
-
     <string name="bookmarks">Bookmarks</string>
     <string name="bookmark_add">Add to bookmarks</string>
     <string name="bookmark_remove">Remove bookmark</string>
     <string name="status_bookmarked">Status has been added to bookmarks!</string>
     <string name="status_unbookmarked">Status was removed from bookmarks!</string>
-
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d m</string>
     <string name="date_hours">%d h</string>
     <string name="date_day">%d d</string>
-
     <plurals name="date_seconds_polls">
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
@@ -127,12 +117,10 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
-
     <plurals name="date_day_polls">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
-
     <!-- TOOT -->
     <string name="toot_select_image_error">An error occurred while selecting the media!</string>
     <string name="toot_delete_media">Remove this media?</string>
@@ -140,16 +128,13 @@
     <string name="toots_visibility_title">Visibility of the messages by default: </string>
     <string name="toot_sent">The message has been sent!</string>
     <string name="toot_sensitive">Sensitive content?</string>
-
     <string name="no_draft">No drafts!</string>
     <string name="choose_accounts">Choose an account</string>
     <string name="select_accounts">Select some accounts</string>
     <string name="remove_draft">Delete draft?</string>
-
     <string name="upload_form_description">Describe for the visually impaired</string>
     <!-- Instance -->
     <string name="instance_no_description">No description available!</string>
-
     <!-- About -->
     <string name="about_vesrion">Release %1$s</string>
     <string name="about_developer">Developer:</string>
@@ -160,7 +145,6 @@
     <string name="about_thekinrar">Search instances:</string>
     <string name="about_thekinrar_action" translatable="false">instances.social</string>
     <!-- Conversation -->
-
     <!-- Accounts -->
     <string name="no_accounts">No account to display</string>
     <string name="no_follow_request">No follow request</string>
@@ -168,8 +152,6 @@
     <string name="following_cnt">Following \n %1$s</string>
     <string name="followers_cnt">Followers \n %1$s</string>
     <string name="reject">Reject</string>
-
-
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">No scheduled messages to display!</string>
     <string name="remove_scheduled">Delete scheduled message?</string>
@@ -216,7 +198,6 @@
     <string name="set_toots_page">Number of messages per load</string>
     <string name="set_accounts_page">Number of accounts per load</string>
     <string name="set_notifications_page">Number of notifications per load</string>
-
     <string name="set_disable_gif">Disable GIF avatars</string>
     <string name="set_notif_follow">Notify when someone follows you</string>
     <string name="set_notif_follow_share">Notify when someone boosts your status</string>
@@ -231,20 +212,16 @@
     <string name="set_nsfw_timeout">NSFW view timeout (seconds, 0 means off)</string>
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_custom_sharing">Custom sharing</string>
-    <string name="settings_custom_sharing_url">Your custom sharing URL&#8230;</string>
+    <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
     <string name="set_lock_account">Lock account</string>
     <string name="set_save_changes">Save changes</string>
     <string name="set_fit_preview">Fit preview images</string>
-
     <string name="settings_time_from">Between</string>
     <string name="settings_time_to">and</string>
     <string name="embedded_browser">Use the built-in browser</string>
     <string name="custom_tabs">Custom tabs</string>
     <string name="expand_cw">Automatically expand cw</string>
-
-
     <string name="set_led_colour">Set LED colour:</string>
-
     <string-array name="led_colours">
         <item>Blue</item>
         <item>Cyan</item>
@@ -254,7 +231,6 @@
         <item>Yellow</item>
         <item>White</item>
     </string-array>
-
     <string name="action_follow">Follow</string>
     s
     <string name="action_unblock">Unblock</string>
@@ -262,37 +238,28 @@
     <string name="action_unmute">Unmute</string>
     <string name="request_sent">Request sent</string>
     <string name="followed_by">Follows you</string>
-
     <string name="set_capitalize">First letter in capital for replies</string>
     <string name="set_resize_picture">Resize pictures</string>
     <string name="set_resize_video">Resize videos</string>
-
     <!-- Quick settings for notifications -->
     <!-- CACHE -->
     <string name="cache_units">Mb</string>
-
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Title</string>
-    <string name="title_hint_custom_sharing">Title&#8230;</string>
+    <string name="title_hint_custom_sharing">Title…</string>
     <string name="description_header_custom_sharing">Description</string>
     <string name="keywords_header_custom_sharing">Keywords</string>
-    <string name="keywords_hint_custom_sharing">Keywords&#8230;</string>
-
+    <string name="keywords_hint_custom_sharing">Keywords…</string>
     <!-- ACTIVITY CACHE -->
     <string name="v_public">Public</string>
     <string name="v_unlisted">Unlisted</string>
     <string name="v_private">Private</string>
     <string name="v_direct">Direct</string>
-
     <!-- PRIVACY -->
-
-
     <string name="filter_regex">Filter out by regular expressions</string>
     <string name="search">Search</string>
     <string name="delete">Delete</string>
-
     <!-- About lists -->
-
     <string name="action_lists">Lists</string>
     <string name="action_lists_confirm_delete">Are you sure you want to permanently delete this list?</string>
     <string name="action_lists_add_to">Add to list</string>
@@ -302,9 +269,7 @@
     <string name="action_lists_empty">You don\'t have any lists yet!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s has moved to %2$s</string>
-
     <string name="media_ready">Media has been loaded. Tap here to display it.</string>
-
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Enable proxy?</string>
@@ -320,7 +285,6 @@
     <string name="toast_instance_already_added">You already follow this instance!</string>
     <string name="about_partnership" translatable="false"><b>Masto.host</b> is our Mastodon hosting partner.\n\nWith this partnership they provide me free hosting for <a href="https://toot.fedilab.app">Fedilab\'s instance</a> and in exchange I promote them in here.\n\nTo be clear, there is no money involved or tracking of users. I needed an instance for testing, we talked and agreed on this.\n\n<a href="https://masto.host">Go check them out</a> if you want to run your own Mastodon instance.</string>
     <string name="action_partnership">Partnerships</string>
-
     <string name="hide_boost">Hide boosts from %s</string>
     <string name="endorse">Feature on profile</string>
     <string name="show_boost">Show boosts from %s</string>
@@ -345,13 +309,10 @@
     <string name="action_update_filter">Update filter</string>
     <string name="action_list_add">You have not created a list yet. Tap on the \"+\" button to add a new one.</string>
     <string name="expand_image">Automatically expand hidden media</string>
-
-
     <string-array name="proxy_type_choice" translatable="false">
         <item>HTTP</item>
         <item>SOCKS</item>
     </string-array>
-
     <string name="channel_notif_follow">New follow</string>
     <string name="channel_notif_boost">New Boost</string>
     <string name="channel_notif_fav">New Favourite</string>
@@ -390,7 +351,6 @@
     <string name="custom_emoji_picker">Custom emoji picker</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Add description for media (for the visually impaired)</string>
-
     <string-array name="filter_expire">
         <item>Never</item>
         <item>30 minutes</item>
@@ -400,11 +360,8 @@
         <item>1 day</item>
         <item>1 week</item>
     </string-array>
-
-
     <!-- languages not translated -->
     <string name="languages">Languages</string>
-
     <string name="show_media_only">Media only</string>
     <string name="show_media_nsfw">Show NSFW</string>
     <string name="bot">Bot</string>
@@ -428,7 +385,6 @@
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
-
     <string name="toot_select_file_error">An error occurred when selecting the backup file!</string>
     <string name="action_logout_account">Logout account</string>
     <string name="all">All</string>
@@ -440,7 +396,6 @@
     <string name="no_tags">No tags</string>
     <string name="set_retrieve_metadata_share_from_extras">Attach an image when sharing a URL</string>
     <!-- end languages -->
-
     <string name="create_poll">Create a poll</string>
     <string name="poll_choice_s">Choice %d</string>
     <string name="poll_invalid_choices">You need two choices at least for the poll!</string>
@@ -543,7 +498,6 @@
     <string name="visibility">Visibility</string>
     <string name="set_disable_animated_emoji">Disable custom animated emojis</string>
     <string name="report_account">Report account</string>
-
     <plurals name="number_of_voters">
         <item quantity="one">%d voter</item>
         <item quantity="other">%d voters</item>
@@ -561,34 +515,27 @@
         <item>3 days</item>
         <item>7 days</item>
     </string-array>
-
     <string name="poll_duplicated_entry">Your poll can\'t have duplicated options!</string>
     <string name="set_clear_cache_exit">Clear cache when leaving</string>
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
-
     <!-- Settings: Privacy -->
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">Use an alternative frontend for YouTube</string>
     <string name="replace_youtube_host">YouTube frontend domain</string>
-
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Use an alternative frontend for Twitter</string>
     <string name="replace_twitter_host">Twitter  frontend domain</string>
-
     <string name="replace_instagram">Instagram</string>
     <string name="replace_instagram_description">Use an alternative frontend for Instagram</string>
     <string name="replace_instagram_host">Instagram frontend domain</string>
-
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Use an alternative frontend for Reddit</string>
     <string name="replace_reddit_host">Reddit frontend domain</string>
-
     <string name="replace_medium">Medium</string>
     <string name="replace_medium_description">Use an alternative frontend for Medium</string>
     <string name="replace_medium_host">Medium frontend domain</string>
-
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
     <string name="note_for_account">Notes for the account</string>
@@ -626,8 +573,6 @@
     <string name="export_theme">Export the theme</string>
     <string name="export_theme_title">Tap here to export the current theme</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
-
-
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
     <string name="instance_count">Instance count</string>
@@ -680,8 +625,6 @@
     <string name="show_content"><![CDATA[Show content >]]></string>
     <string name="hide_content"><![CDATA[Hide content <]]></string>
     <string name="stop_recording">Stop recording</string>
-
-
     <!--- Reports -->
     <string name="report_title">Reporting %1$s</string>
     <string name="report_indication_title_status">Tell us what\'s going with this post</string>
@@ -694,7 +637,6 @@
     <string name="report_val_more3">You are aware that it breaks specific rules</string>
     <string name="report_val4">It\'s something else</string>
     <string name="report_val_more4">The issue does not fit into other categories</string>
-
     <string name="report_1_title">Don\'t want to see this?</string>
     <string name="report_1_title_more">Here are your options for controlling what you see on Mastodon:</string>
     <string name="report_1_unfollow_title">Unfollow %1$s</string>
@@ -705,9 +647,7 @@
     <string name="report_1_block">You will not see their posts. They will not be able to see your posts or follow you. They will be able to tell that they are blocked.</string>
     <string name="report_2_title">Are there any posts that back up this report?</string>
     <string name="report_3_title">Which rules are being violated?</string>
-
     <string name="report_all_more">Select all that apply</string>
-
     <string name="report_more">Is there anything else you think we should know?</string>
     <string name="report_more_additional">Additional comments</string>
     <string name="report_more_remote">The account is from another server. Send an anonymized copy of the report there as well?</string>
@@ -741,13 +681,11 @@
     <string name="not_valid_list_name">List name is not valid!</string>
     <string name="no_account_in_list">No accounts found for this list!</string>
     <string name="scheduled">Scheduled</string>
-
     <string-array name="set_notification_type_value">
         <item>Push notifications</item>
         <item>Fetch at fixed times</item>
         <item>No notifications</item>
     </string-array>
-
     <string-array name="set_logo_type_value" translatable="false">
         <item>Fedilab</item>
         <item>Fediverse</item>
@@ -756,7 +694,6 @@
         <item>BrainCrash</item>
         <item>Mastalab</item>
     </string-array>
-
     <string-array name="SET_LOGO_TYPE_VALUE" translatable="false">
         <item>Bubbles</item>
         <item>Fediverse</item>
@@ -765,13 +702,11 @@
         <item>BrainCrash</item>
         <item>Mastalab</item>
     </string-array>
-
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
         <item>Ask</item>
     </string-array>
-
     <string-array name="set_notification_delay_values">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -780,7 +715,6 @@
         <item>6 hours</item>
         <item>12 hours</item>
     </string-array>
-
     <string name="SET_COOKIES" translatable="false">SET_COOKIES</string>
     <string name="SET_PROXY_ENABLED" translatable="false">SET_PROXY_ENABLED</string>
     <string name="SET_PROXY_TYPE" translatable="false">SET_PROXY_TYPE</string>
@@ -795,22 +729,18 @@
     <string name="SET_NSFW_TIMEOUT" translatable="false">SET_NSFW_TIMEOUT</string>
     <string name="SET_NOTIFICATION_TYPE" translatable="false">SET_NOTIFICATION_TYPE</string>
     <string name="SET_LOAD_MEDIA_TYPE" translatable="false">SET_LOAD_MEDIA_TYPE</string>
-
     <string name="SET_NOTIFICATION_DELAY_VALUE" translatable="false">SET_NOTIFICATION_DELAY_VALUE</string>
     <string name="SET_PUSH_DISTRIBUTOR" translatable="false">SET_PUSH_DISTRIBUTOR</string>
-
     <string-array name="SET_NOTIFICATION_TYPE_VALUE" translatable="false">
         <item>PUSH_NOTIFICATIONS</item>
         <item>REPEAT_NOTIFICATIONS</item>
         <item>NO_NOTIFICATIONS</item>
     </string-array>
-
     <string-array name="SET_LOAD_MEDIA_TYPE_VALUE" translatable="false">
         <item>ALWAYS</item>
         <item>WIFI</item>
         <item>ASK</item>
     </string-array>
-
     <string-array name="SET_NOTIFICATION_DELAYS_VALUES" translatable="false">
         <item>15</item>
         <item>30</item>
@@ -836,7 +766,6 @@
     <string name="SET_FEATURED_TAGS" translatable="false">SET_FEATURED_TAGS</string>
     <string name="SET_FEATURED_TAG_ACTION" translatable="false">SET_FEATURED_TAG_ACTION</string>
     <string name="SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL" translatable="false">SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL</string>
-
     <string name="SET_TRANSLATE_VALUES_RESET" translatable="false">SET_TRANSLATE_VALUES_RESET</string>
     <string-array name="SET_TRANSLATE_ENTRIES" translatable="false">
         <item>en</item>
@@ -863,8 +792,6 @@
         <item>szl</item>
         <item>sc</item>
     </string-array>
-
-
     <string-array name="SET_SELECTED_LANGUAGE_ENTRIES" translatable="false">
         <item>aa</item>
         <item>ab</item>
@@ -1049,7 +976,6 @@
         <item>zh</item>
         <item>zu</item>
     </string-array>
-
     <string-array name="SET_SELECTED_LANGUAGE_VALUES" translatable="false">
         <item>Afaraf</item>
         <item>аҧсуа бызшәа</item>
@@ -1234,7 +1160,6 @@
         <item>中文</item>
         <item>isiZulu</item>
     </string-array>
-
     <string-array name="SET_LIVE_TRANSLATE_ENTRIES" translatable="false">
         <item>default</item>
         <item>en</item>
@@ -1250,8 +1175,6 @@
         <item>uk</item>
         <item>ru</item>
     </string-array>
-
-
     <string-array name="SET_LIVE_TRANSLATE_VALUES" translatable="false">
         <item>-----</item>
         <item>English</item>
@@ -1267,7 +1190,6 @@
         <item>Українська</item>
         <item>Русский</item>
     </string-array>
-
     <string-array name="SET_TRANSLATE_VALUES" translatable="false">
         <item>English</item>
         <item>Français</item>
@@ -1293,7 +1215,6 @@
         <item>ślůnski</item>
         <item>Sardu</item>
     </string-array>
-
     <string-array name="SET_LED_COLOUR_VALUES" translatable="false">
         <item>0</item>
         <item>1</item>
@@ -1303,13 +1224,10 @@
         <item>5</item>
         <item>6</item>
     </string-array>
-
     <string-array name="SET_ACTION_NOTIFICATION_VALUE" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>
-
-
     <string name="SET_LONG_PRESS_STORE_MEDIA" translatable="false">SET_LONG_PRESS_STORE_MEDIA</string>
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
@@ -1330,7 +1248,6 @@
     <string name="SET_MED_DESC_TIMEOUT" translatable="false">SET_MED_DESC_TIMEOUT</string>
     <string name="SET_COMPOSE_LANGUAGE" translatable="false">SET_COMPOSE_LANGUAGE</string>
     <string name="SET_LOGO_LAUNCHER" translatable="false">SET_LOGO_LAUNCHER</string>
-
     <string name="SET_NOTIF_FOLLOW" translatable="false">SET_NOTIF_FOLLOW</string>
     <string name="SET_NOTIF_MENTION" translatable="false">SET_NOTIF_MENTION</string>
     <string name="SET_NOTIF_SHARE" translatable="false">SET_NOTIF_SHARE</string>
@@ -1339,11 +1256,9 @@
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_MAX_INDENTATION" translatable="false">SET_MAX_INDENTATION</string>
-
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
     <string name="SET_FONT_SCALE_ICON" translatable="false">SET_FONT_SCALE_ICON</string>
     <string name="SET_FONT_SCALE_ICON_INT" translatable="false">SET_FONT_SCALE_ICON_INT</string>
-
     <string name="SET_FILTER_REGEX_HOME" translatable="false">SET_FILTER_REGEX_HOME</string>
     <string name="SET_FILTER_REGEX_LOCAL" translatable="false">SET_FILTER_REGEX_LOCAL</string>
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
@@ -1352,24 +1267,19 @@
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
-
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
-
     <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
     <string name="SET_EXPAND_CW" translatable="false">SET_EXPAND_CW</string>
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
     <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
-
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
     <string name="SET_VIDEO_CACHE" translatable="false">SET_VIDEO_CACHE</string>
     <string name="SET_WATERMARK" translatable="false">SET_WATERMARK</string>
     <string name="SET_UNLISTED_REPLIES" translatable="false">SET_UNLISTED_REPLIES</string>
     <string name="SET_SELECTED_LANGUAGE" translatable="false">SET_SELECTED_LANGUAGE</string>
-
-
     <string name="SET_WATERMARK_TEXT" translatable="false">SET_WATERMARK_TEXT</string>
     <string name="SET_PROXY_PASSWORD" translatable="false">SET_PROXY_PASSWORD</string>
     <string name="SET_PROXY_LOGIN" translatable="false">SET_PROXY_LOGIN</string>
@@ -1380,33 +1290,26 @@
     <string name="SET_INVIDIOUS" translatable="false">SET_INVIDIOUS</string>
     <string name="SET_INVIDIOUS_HOST" translatable="false">SET_INVIDIOUS_HOST</string>
     <string name="DEFAULT_INVIDIOUS_HOST" translatable="false">invidious.snopyta.org</string>
-
     <string name="SET_FILTER_UTM" translatable="false">SET_FILTER_UTM</string>
     <string name="SET_NITTER" translatable="false">SET_NITTER</string>
     <string name="SET_NITTER_HOST" translatable="false">SET_NITTER_HOST</string>
     <string name="DEFAULT_NITTER_HOST" translatable="false">nitter.net</string>
     <string name="SET_USE_CACHE" translatable="false">SET_USE_CACHE</string>
-
     <string name="SET_BIBLIOGRAM" translatable="false">SET_BIBLIOGRAM</string>
     <string name="SET_BIBLIOGRAM_HOST" translatable="false">SET_BIBLIOGRAM_HOST</string>
     <string name="DEFAULT_BIBLIOGRAM_HOST" translatable="false">bibliogram.art</string>
-
     <string name="SET_LIBREDDIT" translatable="false">SET_LIBREDDIT</string>
     <string name="SET_LIBREDDIT_HOST" translatable="false">SET_LIBREDDIT_HOST</string>
     <string name="DEFAULT_LIBREDDIT_HOST" translatable="false">libredd.it</string>
-
     <string name="REPLACE_MEDIUM" translatable="false">REPLACE_MEDIUM</string>
     <string name="REPLACE_MEDIUM_HOST" translatable="false">REPLACE_MEDIUM_HOST</string>
     <string name="DEFAULT_REPLACE_MEDIUM_HOST" translatable="false">scribe.rip</string>
-
     <string name="REPLACE_WIKIPEDIA" translatable="false">REPLACE_WIKIPEDIA</string>
     <string name="REPLACE_WIKIPEDIA_HOST" translatable="false">REPLACE_WIKIPEDIA_HOST</string>
     <string name="DEFAULT_REPLACE_WIKIPEDIA_HOST" translatable="false">wikiless.org</string>
     <string name="LAST_NOTIFICATION_ID" translatable="false">LAST_NOTIFICATION_ID</string>
     <string name="SET_MAX_INSTANCE_CHAR" translatable="false">SET_MAX_INSTANCE_CHAR</string>
     <string name="SET_POPUP_RELEASE_NOTES" translatable="false">SET_POPUP_RELEASE_NOTES</string>
-
-
     <string name="type_of_notifications">Type of notifications</string>
     <string name="type_of_notifications_title">Chose the type of notifications</string>
     <string name="notification_sounds">Notification sounds</string>
@@ -1419,7 +1322,6 @@
     <string name="pref_contributor">Themes from contributors</string>
     <string name="pref_contributor_summary">Pick-up a theme that has been built by contributors</string>
     <string name="select_a_theme">Select a theme</string>
-
     <string name="lorem_ipsum_text_card" translatable="false">Etiam congue dictum urna, eget dapibus arcu pellentesque sit amet. Ut at nulla placerat, aliquet turpis sit amet, finibus lacus. Aenean eget eros in risus feugiat ornare. Aenean mi massa, ornare nec molestie in, varius ac nisl. Vestibulum molestie, nulla nec elementum rhoncus, sapien nulla suscipit felis, ac auctor est.</string>
     <string name="lorem_ipsum_text" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis odio malesuada enim dignissim consectetur. Nunc nec tincidunt ipsum. Aliquam bibendum id felis at pulvinar. Etiam tincidunt ante elit, eu tristique mauris aliquam id. Nulla eget sapien sit amet augue aliquet porttitor eget quis urna.</string>
     <string name="more_actions">More Actions</string>
@@ -1447,13 +1349,10 @@
     <string name="status">Status</string>
     <string name="resolved">Resolved</string>
     <string name="fetch_more_messages">Fetch more messages…</string>
-
-
     <string name="label_shape">Shape</string>
     <string name="label_oval">Oval</string>
     <string name="label_rectangle">Rectangle</string>
     <string name="label_line">Line</string>
-
     <string name="label_eraser_mode">Eraser Mode</string>
     <string name="msg_save_image">Are you want to exit without saving image ?</string>
     <string name="tap_here_to_refresh_poll">Tap here to refresh poll</string>
@@ -1478,7 +1377,6 @@
     <string name="set_push_notifications_delay">Set the delay between each new fetch</string>
     <string name="refresh_every">Fetch notifications every:</string>
     <string name="type_of_notifications_delay_title">Notifications fetch time</string>
-
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
         <item>u+1f604</item>
@@ -1881,7 +1779,6 @@
         <item>u+1f4cd</item>
         <item>u+1f6a9</item>
     </string-array>
-
     <string name="pref_category_key_account" translatable="false">pref_category_account</string>
     <string name="pref_category_key_timeline" translatable="false">pref_category_timeline</string>
     <string name="pref_category_key_notifications" translatable="false">pref_category_notifications</string>
@@ -1893,7 +1790,6 @@
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
     <string name="pref_export_settings" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings" translatable="false">pref_import_settings</string>
-
     <string name="export_settings">Export settings</string>
     <string name="import_settings">Import settings</string>
     <string name="permission_missing">Permission not granted!</string>
@@ -2000,6 +1896,6 @@
     <string name="keyword_or_phrase">Keyword or phrase</string>
     <string name="delete_keyword">Delete keyword</string>
     <string name="add_keyword">Add keyword</string>
-    <string name="show_anyway">Show aniway</string>
+    <string name="show_anyway">Show anyway</string>
     <string name="filtered_by">Filtered: %1$s</string>
 </resources>

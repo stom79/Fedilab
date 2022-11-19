@@ -838,4 +838,17 @@
     <string name="watch_trends_for_instance">Bu sunucu için trendleri izle</string>
     <string name="notif_update">Bir mesaj düzenlendi</string>
     <string name="notif_display_updates">Güncellemeler</string>
+    <string name="hide_with_warning">Bir uyarı ile gizle</string>
+    <string name="hide_completely">Tamamen gizle</string>
+    <string name="hide_with_warning_description">Filtrelenen içeriği, filtrenin başlığını belirten bir uyarının arkasına gizle</string>
+    <string name="hide_completely_description">Filtrelenen içeriği tamamen gizleyerek yokmuş gibi davran</string>
+    <string name="context_home_list">Ana sayfa ve listeler</string>
+    <string name="title">Başlık</string>
+    <string name="delete_keyword">Anahtar sözcüğü sil</string>
+    <string name="add_keyword">Anahtar sözcük ekle</string>
+    <string name="show_anyway">Yine de göster</string>
+    <string name="filtered_by">Filtrelendi: %1$s</string>
+    <string name="filter_action">Filtre eylemi</string>
+    <string name="filter_action_explanations">Bir gönderi filtreyle eşleştiğinde hangi eylemin gerçekleştirileceğini seçin</string>
+    <string name="keyword_or_phrase">Anahtar sözcük veya ifade</string>
 </resources>

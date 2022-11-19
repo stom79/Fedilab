@@ -825,4 +825,22 @@
     <string name="restart_the_app_theme">Vous devez redémarrer l\'application pour appliquer les changements.</string>
     <string name="toast_feature_not_supported">Votre instance ne semble pas supporter cette fonctionnalité !</string>
     <string name="set_language_picker">Permet de réduire la liste des langues dans le sélecteur lors de la composition d\'un message.</string>
+    <string name="mark_unresolved">Marquer comme non résolu</string>
+    <string name="joined">Inscrit</string>
+    <string name="account_rejected">Compte rejeté</string>
+    <string name="account_undisabled">Compte non activé</string>
+    <string name="account_disabled">Compte désactivé</string>
+    <string name="notif_display_updates">Mises à jour</string>
+    <string name="context_home_list">Accueil et listes</string>
+    <string name="title">Titre</string>
+    <string name="keyword_or_phrase">Mot-clé ou expression</string>
+    <string name="add_keyword">Ajouter le mot-clé</string>
+    <string name="show_anyway">Afficher quand même</string>
+    <string name="filtered_by">Filtré : %1$s</string>
+    <string name="notif_update">A édité un message</string>
+    <string name="account_warned">Compte averti</string>
+    <string name="watch_trends_for_instance">Voir les tendances pour cette instance</string>
+    <string name="hide_with_warning">Masquer avec un avertissement</string>
+    <string name="hide_completely">Masquer complètement</string>
+    <string name="delete_keyword">Supprimer le mot-clé</string>
 </resources>
