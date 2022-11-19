@@ -846,7 +846,7 @@
     <string name="title">Başlık</string>
     <string name="delete_keyword">Anahtar sözcüğü sil</string>
     <string name="add_keyword">Anahtar sözcük ekle</string>
-    <string name="show_anyway">Yine de göster</string>
+    <string name="show_anyway">Göster</string>
     <string name="filtered_by">Filtrelendi: %1$s</string>
     <string name="filter_action">Filtre eylemi</string>
     <string name="filter_action_explanations">Bir gönderi filtreyle eşleştiğinde hangi eylemin gerçekleştirileceğini seçin</string>
