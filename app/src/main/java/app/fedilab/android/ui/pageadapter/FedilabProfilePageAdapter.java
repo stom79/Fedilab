@@ -31,10 +31,12 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
     private final Account account;
     private Fragment mCurrentFragment;
+    private final boolean checkRemotely;
 
-    public FedilabProfilePageAdapter(FragmentManager fm, Account account) {
+    public FedilabProfilePageAdapter(FragmentManager fm, Account account, boolean remotely) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.account = account;
+        this.checkRemotely = remotely;
     }
 
     public Fragment getCurrentFragment() {
@@ -62,6 +64,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, true);
+                bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 1:
@@ -71,11 +74,13 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
+                bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 2:
                 FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentMediaProfile.setArguments(bundle);
                 return fragmentMediaProfile;
             default:

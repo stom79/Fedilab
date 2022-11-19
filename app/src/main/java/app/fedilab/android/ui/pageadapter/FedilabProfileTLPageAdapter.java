@@ -31,10 +31,12 @@ import app.fedilab.android.ui.fragment.timeline.FragmentProfileTimeline;
 public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     private final Account account;
     private Fragment mCurrentFragment;
+    private final boolean checkRemotely;
 
-    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account) {
+    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account, boolean remotely) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.account = account;
+        this.checkRemotely = remotely;
     }
 
     public Fragment getCurrentFragment() {
@@ -57,6 +59,7 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
                 FragmentProfileTimeline fragmentProfileTimeline = new FragmentProfileTimeline();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putSerializable(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
             case 1:
@@ -64,6 +67,7 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
                 FragmentMastodonAccount fragmentMastodonAccount = new FragmentMastodonAccount();
                 bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putSerializable(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
                 bundle.putSerializable(Helper.ARG_FOLLOW_TYPE, position == 1 ? follow_type.FOLLOWING : follow_type.FOLLOWERS);
                 fragmentMastodonAccount.setArguments(bundle);

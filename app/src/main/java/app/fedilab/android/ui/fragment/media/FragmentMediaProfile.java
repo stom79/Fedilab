@@ -30,15 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
+import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.ui.drawer.ImageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class FragmentMediaProfile extends Fragment {
@@ -50,6 +53,10 @@ public class FragmentMediaProfile extends Fragment {
     private List<Status> mediaStatuses;
     private String max_id;
     private ImageAdapter imageAdapter;
+    String tempToken;
+    String tempInstance;
+    private boolean checkRemotely;
+    private String accountId;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class FragmentMediaProfile extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
         return binding.getRoot();
     }
@@ -68,8 +76,37 @@ public class FragmentMediaProfile extends Fragment {
         flagLoading = false;
         accountsVM = new ViewModelProvider(FragmentMediaProfile.this).get(AccountsVM.class);
         mediaStatuses = new ArrayList<>();
-        accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
-                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+
+        if (checkRemotely) {
+            tempToken = null;
+            String[] acctArray = accountTimeline.acct.split("@");
+            if (acctArray.length > 1) {
+                tempInstance = acctArray[1];
+            }
+            CrossActionHelper.fetchAccountInRemoteInstance(requireActivity(), accountTimeline.acct, tempInstance, new CrossActionHelper.Callback() {
+                @Override
+                public void federatedStatus(Status status) {
+                }
+
+                @Override
+                public void federatedAccount(Account account) {
+                    if (account != null) {
+                        accountId = account.id;
+                        accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                .observe(getViewLifecycleOwner(), statuses -> initializeStatusesCommonView(statuses));
+                    } else {
+                        Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            tempToken = BaseMainActivity.currentToken;
+            tempInstance = BaseMainActivity.currentInstance;
+            accountId = accountTimeline.id;
+            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+        }
+
     }
 
     /**
@@ -133,7 +170,7 @@ public class FragmentMediaProfile extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+                            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), newStatuses -> dealWithPagination(newStatuses));
                         }
                     } else {

@@ -115,6 +115,7 @@ public class ProfileActivity extends BaseActivity {
     private String account_id;
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
+    private boolean checkRemotely;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -141,10 +142,12 @@ public class ProfileActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
+        checkRemotely = false;
         if (b != null) {
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
+            checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
         postponeEnterTransition();
 
@@ -239,7 +242,7 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account);
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account, checkRemotely);
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
         binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));
@@ -339,11 +342,25 @@ public class ProfileActivity extends BaseActivity {
             binding.accountMoved.setMovementMethod(LinkMovementMethod.getInstance());
         }
         if (account.acct != null && account.acct.contains("@"))
-            binding.warningMessage.setVisibility(View.VISIBLE);
+            binding.warningContainer.setVisibility(View.VISIBLE);
         else
-            binding.warningMessage.setVisibility(View.GONE);
+            binding.warningContainer.setVisibility(View.GONE);
 
-
+        binding.openRemoteProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
+        if (checkRemotely) {
+            binding.openRemoteProfile.setVisibility(View.GONE);
+        }
+        binding.openRemoteProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable(Helper.ARG_ACCOUNT, account);
+            b.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
+            intent.putExtras(b);
+            ActivityOptionsCompat options = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(ProfileActivity.this, binding.profilePicture, getString(R.string.activity_porfile_pp));
+            startActivity(intent, options.toBundle());
+            finish();
+        });
         //Fields for profile
         List<Field> fields = account.fields;
         if (fields != null && fields.size() > 0) {
