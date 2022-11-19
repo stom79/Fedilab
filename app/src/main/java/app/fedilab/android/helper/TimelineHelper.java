@@ -209,7 +209,7 @@ public class TimelineHelper {
                         if (filterKeyword.whole_word) {
                             p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
                         } else {
-                            p = Pattern.compile("#" + Pattern.quote(filterKeyword.keyword), Pattern.CASE_INSENSITIVE);
+                            p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
                         }
 
                         for (Notification notification : notifications) {
