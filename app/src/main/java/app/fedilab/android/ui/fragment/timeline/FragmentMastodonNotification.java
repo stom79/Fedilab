@@ -176,7 +176,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.recyclerView.setVisibility(View.GONE);
         max_id = null;
         initialNotifications = null;
-        route(null, false);
+
     }
 
 
@@ -213,6 +213,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("mention");
         excludeType.add("update");
         excludeType.add("status");
+        excludeType.add("admin.sign_up");
+        excludeType.add("admin.report");
         if (notificationType == NotificationTypeEnum.ALL) {
             aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
             if (excludedCategories != null) {
@@ -234,6 +236,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             excludeType.remove("update");
         } else if (notificationType == NotificationTypeEnum.TOOTS) {
             excludeType.remove("status");
+        } else if (notificationType == NotificationTypeEnum.ADMIN_SIGNUP) {
+            excludeType.remove("admin.sign_up");
+        } else if (notificationType == NotificationTypeEnum.ADMIN_REPORT) {
+            excludeType.remove("admin.report");
         } else if (notificationType == NotificationTypeEnum.FOLLOWS) {
             excludeType.remove("follow");
             excludeType.remove("follow_request");
@@ -343,7 +349,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (initialNotifications != null) {
                 initializeNotificationView(initialNotifications);
             } else {
-                recreate();
+                route(null, false);
             }
         }
     }
@@ -684,6 +690,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         REBLOGS("REBLOGS"),
         @SerializedName("POLLS")
         POLLS("POLLS"),
+        @SerializedName("ADMIN_SIGNUP")
+        ADMIN_SIGNUP("ADMIN_SIGNUP"),
+        @SerializedName("ADMIN_REPORT")
+        ADMIN_REPORT("ADMIN_REPORT"),
         @SerializedName("TOOTS")
         TOOTS("TOOTS"),
         @SerializedName("FOLLOWS")

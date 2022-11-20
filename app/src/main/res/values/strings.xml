@@ -1902,4 +1902,6 @@
     <string name="display_remote_profile">Display remote profile</string>
     <string name="toast_fetch_error">The app cannot find remote data!</string>
     <string name="delete_timeline">Delete timeline</string>
+    <string name="notif_submitted_report">Submitted a report</string>
+    <string name="notif_signed_up">Signed up</string>
 </resources>

@@ -103,6 +103,8 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             isViewInitialized = true;
             if (initialConversations != null) {
                 initializeConversationCommonView(initialConversations);
+            } else {
+                route(null, false);
             }
         }
     }
@@ -247,7 +249,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         binding.recyclerView.setVisibility(View.GONE);
         timelinesVM = new ViewModelProvider(FragmentMastodonConversation.this).get(TimelinesVM.class);
         max_id = null;
-        route(null, false);
+
     }
 
     /**

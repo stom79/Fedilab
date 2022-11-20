@@ -67,6 +67,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_REACTION = 8;
     private final int TYPE_UPDATE = 9;
     private final int TYPE_FILERED = 10;
+    private final int TYPE_ADMIN_SIGNUP = 11;
+    private final int TYPE_ADMIN_REPORT = 12;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
@@ -107,6 +109,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return TYPE_POLL;
                 case "status":
                     return TYPE_STATUS;
+                case "admin.sign_up":
+                    return TYPE_ADMIN_SIGNUP;
+                case "admin.report":
+                    return TYPE_ADMIN_REPORT;
                 case "pleroma:emoji_reaction":
                     return TYPE_REACTION;
             }
@@ -118,7 +124,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST) {
+        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST || viewType == TYPE_ADMIN_REPORT || viewType == TYPE_ADMIN_SIGNUP) {
             DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new ViewHolderFollow(itemBinding);
         } else if (viewType == TYPE_FILERED) {
@@ -133,7 +139,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Notification notification = notificationList.get(position);
-        if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
+        if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST || getItemViewType(position) == TYPE_ADMIN_REPORT || getItemViewType(position) == TYPE_ADMIN_SIGNUP) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
             holderFollow.binding.displayName.setText(
@@ -157,13 +163,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderFollow.binding.username.setTextColor(theme_text_color);
                 holderFollow.binding.title.setTextColor(theme_text_color);
             }
+            holderFollow.binding.rejectButton.setVisibility(View.GONE);
+            holderFollow.binding.acceptButton.setVisibility(View.GONE);
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
                 holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
                 holderFollow.binding.acceptButton.setVisibility(View.VISIBLE);
                 holderFollow.binding.title.setText(R.string.follow_request);
+            } else if (getItemViewType(position) == TYPE_ADMIN_REPORT) {
+                holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_submitted_report)));
+            } else if (getItemViewType(position) == TYPE_ADMIN_SIGNUP) {
+                holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up)));
             } else {
-                holderFollow.binding.rejectButton.setVisibility(View.GONE);
-                holderFollow.binding.acceptButton.setVisibility(View.GONE);
                 holderFollow.binding.title.setText(R.string.follow);
             }
             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
@@ -315,6 +325,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                 } else if (getItemViewType(position) == TYPE_UPDATE) {
                     title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
+                } else if (getItemViewType(position) == TYPE_POLL) {
+                    title = context.getString(R.string.notif_poll);
                 } else if (getItemViewType(position) == TYPE_POLL) {
                     title = context.getString(R.string.notif_poll);
                 }
