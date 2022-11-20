@@ -393,7 +393,7 @@
     <string name="settings_category_notif_categories">Categorias</string>
     <string name="move_timeline">Move sa lìnia de tempus</string>
     <string name="hide_timeline">Cua sa lìnia de su tempus</string>
-    <string name="reorder_timelines">Torra a ordinare is lìnias de su tempus</string>
+    <string name="reorder_timelines">Manìgia is lìnias de su tempus</string>
     <string name="reorder_list_deleted">Lista cantzellada definitivamente</string>
     <string name="reorder_instance_removed">Istàntzia sighida bogada</string>
     <string name="reorder_tag_removed">Eticheta apicada bogada</string>
@@ -703,7 +703,7 @@
     <string name="notification_sounds">Sonos de notìfica</string>
     <string name="disable_notifications">Disabìlita is notìficas</string>
     <string name="pref_theme_base">Base de su tema</string>
-    <string name="pref_theme_base_summary">Sèbera si sa base de su tema diat dèpere èssere iscura o crara</string>
+    <string name="pref_theme_base_summary">Sèbera si sa base de su tema depat èssere iscura o crara</string>
     <string name="fetch_more_messages">Recùpera prus messàgios…</string>
     <string name="label_line">Lìnia</string>
     <string name="msg_save_image">Boles essire chene sarvare s\'immàgine\?</string>
@@ -846,4 +846,7 @@
     <string name="show_anyway">Ammustra su matessi</string>
     <string name="toast_error_add_to_list">S\'aplicatzione no est resèssida a annànghere su contu a sa lista!</string>
     <string name="add_keyword">Annanghe sa paràula crae</string>
+    <string name="display_remote_profile">Mustra su profilu remotu</string>
+    <string name="toast_fetch_error">S\'aplicatzione non resesset a agatare datos remotos!</string>
+    <string name="delete_timeline">Iscantzella sa lìnia de tempus</string>
 </resources>

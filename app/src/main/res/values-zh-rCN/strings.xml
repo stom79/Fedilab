@@ -391,7 +391,7 @@
     <string name="settings_category_notif_categories">类别</string>
     <string name="move_timeline">移动时间线</string>
     <string name="hide_timeline">隐藏时间线</string>
-    <string name="reorder_timelines">记录时间线</string>
+    <string name="reorder_timelines">管理时间线</string>
     <string name="reorder_list_deleted">列表永久性地被删除</string>
     <string name="reorder_instance_removed">所关注的实例已被移除</string>
     <string name="reorder_tag_removed">钉住标签已被移除</string>
@@ -568,4 +568,5 @@
     <string name="no_distributors_found">没有找到分发商！</string>
     <string name="no_distributors_explanation">要接收推送通知你需要一个分发商。\n你将在%1$s找到更多详情。\n\n你也可以在设置中禁用推送通知，以忽略该消息。</string>
     <string name="select_distributors">选择一个分发商</string>
+    <string name="show_anyway">仍要显示</string>
 </resources>
