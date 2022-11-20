@@ -852,4 +852,6 @@
     <string name="filter_action_explanations">Bir gönderi filtreyle eşleştiğinde hangi eylemin gerçekleştirileceğini seçin</string>
     <string name="keyword_or_phrase">Anahtar sözcük veya ifade</string>
     <string name="toast_error_add_to_list">Uygulama, hesabı listeye ekleyemedi!</string>
+    <string name="display_remote_profile">Uzak profili görüntüle</string>
+    <string name="toast_fetch_error">Uygulama uzak verileri bulamıyor!</string>
 </resources>

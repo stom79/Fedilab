@@ -835,7 +835,7 @@
     <string name="title">Titre</string>
     <string name="keyword_or_phrase">Mot-clé ou expression</string>
     <string name="add_keyword">Ajouter le mot-clé</string>
-    <string name="show_anyway">Afficher quand même</string>
+    <string name="show_anyway">Afficher quand-même</string>
     <string name="filtered_by">Filtré : %1$s</string>
     <string name="notif_update">A édité un message</string>
     <string name="account_warned">Compte averti</string>
@@ -843,4 +843,18 @@
     <string name="hide_with_warning">Masquer avec un avertissement</string>
     <string name="hide_completely">Masquer complètement</string>
     <string name="delete_keyword">Supprimer le mot-clé</string>
+    <string name="assign_to_me">Me l’attribuer</string>
+    <string name="unassign">Annuler l’affectation</string>
+    <string name="list_reported_statuses">Statuts signalés</string>
+    <string name="silenced">Réduit au silence</string>
+    <string name="account_unsilenced">Compte non silencieux</string>
+    <string name="account_silenced">Compte réduit au silence</string>
+    <string name="filter_action_explanations">Choisir l’action à effectuer lorsqu’une publication correspond au filtre</string>
+    <string name="hide_with_warning_description">Cacher le contenu filtré derrière un avertissement mentionnant le titre du filtre</string>
+    <string name="filter_action">Action du filtre</string>
+    <string name="hide_completely_description">Cacher complètement le contenu filtré, se comporter comme s’il n’existait pas</string>
+    <string name="toast_error_add_to_list">L\'application n\'a pas réussi à ajouter le compte à la liste !</string>
+    <string name="login_status">Statut de la connexion</string>
+    <string name="display_remote_profile">Afficher le profil distant</string>
+    <string name="toast_fetch_error">L\'application ne trouve pas de données distantes !</string>
 </resources>

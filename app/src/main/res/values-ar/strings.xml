@@ -70,7 +70,7 @@
     <string name="reblog_remove">هل تود إلغاء إعادة مشاركة هذه الرسالة؟</string>
     <string name="more_action_1">كتم</string>
     <string name="more_action_2">حظر</string>
-    <string name="more_action_3">الإبلاغ</string>
+    <string name="more_action_3">الإبلاغ عنه</string>
     <string name="more_action_4">حذف</string>
     <string name="more_action_5">نسخ</string>
     <string name="more_action_6">شارك</string>
@@ -176,7 +176,7 @@
     <!-- Notifications -->
     <string name="no_notifications">لا توجد هناك إخطارات للعرض</string>
     <string name="notif_mention">أشار إليك</string>
-    <string name="notif_status">أنشىء رسالة جديدة</string>
+    <string name="notif_status">أنشأ رسالة جديدة</string>
     <string name="notif_reblog">رقى تبويقك</string>
     <string name="notif_favourite">أُعجِب بتبويقك</string>
     <string name="notif_follow">يتابعك</string>
@@ -239,7 +239,7 @@
         <item>أصفر</item>
         <item>أبيض</item>
     </string-array>
-    <string name="action_follow">اتبع</string>
+    <string name="action_follow">متابعة</string>
     <string name="action_unblock">إلغاء الحظر</string>
     <string name="action_mute">كتم</string>
     <string name="action_unmute">إلغاء الكتم</string>
@@ -288,7 +288,7 @@
     <string name="support_the_app_on_liberapay">ادعم التطبيق على ليبيراباي</string>
     <string name="alert_regex">هناك خطأ في العبارة المنطقية!</string>
     <string name="toast_instance_unavailable">لم يتم العثور على أي خيط زمني في مثيل الخادم هذا!</string>
-    <string name="follow_instance">اتبع مثيل الخادم</string>
+    <string name="follow_instance">متابعة مثيل الخادم</string>
     <string name="toast_instance_already_added">إنّك مُتابِع لمثيل الخادم هذا!</string>
     <string name="action_partnership">الشراكات</string>
     <string name="hide_boost">إخفاء ترقيات %s</string>
@@ -390,7 +390,7 @@
     <string name="toot_select_file_error">حدث خطأ عند اختيار ملف النسخ الاحتياطي!</string>
     <string name="action_logout_account">الخروج مِن الحساب</string>
     <string name="all">الكل</string>
-    <string name="copy_link">انسخ الرابط</string>
+    <string name="copy_link">نسخ الرابط</string>
     <string name="calls_blocked">طلبات الـ http التي حجبها التطبيق</string>
     <string name="list_of_blocked_domains">قائمة الطلبات المحجوبة</string>
     <string name="submit">إرسال</string>
@@ -430,7 +430,7 @@
     <string name="image_saved">تم حفظ الصورة بنجاح!</string>
     <string name="save_image_failed">فشل في حفظ الصورة</string>
     <string name="add_poll_item">إضافة خيار إلى الاستطلاع</string>
-    <string name="mute_conversation">اكتم المحادثة</string>
+    <string name="mute_conversation">كتم المحادثة</string>
     <string name="unmute_conversation">ألغِ كتم المحادثة</string>
     <string name="toast_unmute_conversation">لقد تم إلغاء الكتم عن هذه المحادثة!</string>
     <string name="toast_mute_conversation">المحادثة مكتومة</string>
@@ -475,7 +475,7 @@
     <string name="suspended">تم تعليقه</string>
     <string name="permissions">التصريحات</string>
     <string name="disable">تعطيل</string>
-    <string name="silence">اكتمه</string>
+    <string name="silence">كتم</string>
     <string name="account">الحساب</string>
     <string name="unsilence">إلغاء الكتم</string>
     <string name="undisable">إلغاء التعطيل</string>
@@ -715,4 +715,7 @@
     <string name="save_changes">حفظ التعديلات</string>
     <string name="most_recent">الأحدث</string>
     <string name="set_display_counter">إظهار عداد الرسائل</string>
+    <string name="my_instance">مَثيل خادمي</string>
+    <string name="my_app">تطبيقي</string>
+    <string name="my_account">حسابي</string>
 </resources>
