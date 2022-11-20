@@ -1,0 +1,14 @@
+Added:
+- Full support to new filters for Mastodon 4
+- Visit profiles without being authenticated / Allow to display all their messages
+
+Changed:
+- Compose view takes the whole width even in threads
+- Accounts can be timed-mute from their profile
+
+Fixed:
+- Draft stored when replying "no" or dialog prompted without changes
+- Empty pages when starting the app
+- Saving and sharing media fails on some devices
+- Add support for admin notifications
+- Copying content of a message

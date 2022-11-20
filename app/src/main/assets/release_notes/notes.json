@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.7.4",
+    "code": "431",
+    "note": "Added:\n- Full support to new filters for Mastodon 4\n- Visit profiles without being authenticated / Allow to display all their messages\n\nChanged:\n- Compose view takes the whole width even in threads\n- Accounts can be timed-mute from their profile\n\nFixed:\n- Draft stored when replying \"no\" or dialog prompted without changes\n- Empty pages when starting the app\n- Saving and sharing media fails on some devices\n- Add support for admin notifications\n- Copying content of a message"
+  },
+  {
     "version": "3.7.3",
     "code": "430",
     "note": "Added:\n- Visit profiles without being authenticated / Allow to display all their messages\n\nFixed:\n- Saving media fails on some devices"
