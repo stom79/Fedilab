@@ -646,6 +646,7 @@ public class ProfileActivity extends BaseActivity {
                 menu.findItem(R.id.action_block).setVisible(false);
                 menu.findItem(R.id.action_report).setVisible(false);
                 menu.findItem(R.id.action_mute).setVisible(false);
+                menu.findItem(R.id.action_timed_mute).setVisible(false);
                 menu.findItem(R.id.action_mention).setVisible(false);
                 menu.findItem(R.id.action_follow_instance).setVisible(false);
                 menu.findItem(R.id.action_block_instance).setVisible(false);
@@ -656,6 +657,7 @@ public class ProfileActivity extends BaseActivity {
             } else {
                 menu.findItem(R.id.action_block).setVisible(true);
                 menu.findItem(R.id.action_mute).setVisible(true);
+                menu.findItem(R.id.action_timed_mute).setVisible(true);
                 menu.findItem(R.id.action_mention).setVisible(true);
             }
             //Update menu title depending of relationship
@@ -933,6 +935,12 @@ public class ProfileActivity extends BaseActivity {
                 doActionAccount = action.NOTHING;
             }
 
+        } else if (itemId == R.id.action_timed_mute) {
+            MastodonHelper.scheduleBoost(ProfileActivity.this, MastodonHelper.ScheduleType.TIMED_MUTED, null, account, rs -> {
+                this.relationship = rs;
+                updateAccount();
+            });
+            return true;
         } else if (itemId == R.id.action_report) {
             builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
             builderInner.setTitle(R.string.report_account);

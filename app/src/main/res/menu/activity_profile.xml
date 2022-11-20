@@ -22,6 +22,11 @@
         android:title="@string/more_action_1"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_timed_mute"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/more_action_8"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_block"
         android:icon="@drawable/ic_baseline_block_24"
         android:title="@string/more_action_2"
