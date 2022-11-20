@@ -146,7 +146,8 @@ public class TagVM extends AndroidViewModel {
         tagMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Tag tag = null;
-            Call<Tag> tagCall = mastodonTagService.follow(token, name);
+            String filteredValue = name.replaceAll("\\#", "");
+            Call<Tag> tagCall = mastodonTagService.follow(token, filteredValue);
             if (tagCall != null) {
                 try {
                     Response<Tag> appResponse = tagCall.execute();
