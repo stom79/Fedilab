@@ -206,7 +206,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (initialStatuses != null) {
                 initializeStatusesCommonView(initialStatuses);
             } else {
-                recreate();
+                router(null);
             }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
@@ -277,7 +277,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
         flagLoading = false;
-        router(null);
+
     }
 
     @Override
