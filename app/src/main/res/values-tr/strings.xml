@@ -395,7 +395,7 @@
     <string name="settings_category_notif_categories">Kategoriler</string>
     <string name="move_timeline">Zaman çizelgesini taşı</string>
     <string name="hide_timeline">Zaman çizelgesini gizle</string>
-    <string name="reorder_timelines">Zaman çizelgelerini yeniden sırala</string>
+    <string name="reorder_timelines">Zaman çizelgelerini yönet</string>
     <string name="reorder_list_deleted">Liste kalıcı olarak silindi</string>
     <string name="reorder_instance_removed">Sunucu takipten çıkarıldı</string>
     <string name="reorder_tag_removed">Sabitlenmiş etiket kaldırıldı</string>
@@ -854,4 +854,7 @@
     <string name="toast_error_add_to_list">Uygulama, hesabı listeye ekleyemedi!</string>
     <string name="display_remote_profile">Uzak profili görüntüle</string>
     <string name="toast_fetch_error">Uygulama uzak verileri bulamıyor!</string>
+    <string name="delete_timeline">Zaman çizelgesini sil</string>
+    <string name="notif_submitted_report">Rapor gönderildi</string>
+    <string name="notif_signed_up">Kaydoldu</string>
 </resources>
