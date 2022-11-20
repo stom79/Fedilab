@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -160,7 +161,19 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
             return false;
         });
-
+        PinnedTimeline item = pinned.pinnedTimelines.get(position);
+        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
+            holder.binding.delete.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.delete.setVisibility(View.GONE);
+        }
+        holder.binding.delete.setOnClickListener(v -> {
+            if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
+                mUndoListener.onUndo(item, position);
+                pinned.pinnedTimelines.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
     }
 
     @Override

@@ -29,6 +29,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
+
         <ImageView
             android:id="@+id/hide"
             android:layout_width="40dp"
@@ -37,6 +38,17 @@
             android:contentDescription="@string/hide_timeline"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_visibility_off_24"
+            tools:ignore="RtlHardcoded" />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/delete_timeline"
+            android:scaleType="center"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:visibility="gone"
             tools:ignore="RtlHardcoded" />
 
         <ImageView
