@@ -208,6 +208,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else {
                 router(null);
             }
+        } else {
+            router(null);
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);

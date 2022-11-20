@@ -79,7 +79,12 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // start the new activity
             context.startActivity(intent, options.toBundle());
         });
-
+        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.block);
+        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.mute);
+        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteNotification);
+        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteTimed);
+        accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
+        accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
         if (account.relationShip != null) {
 
             ProfileActivity.action doAction = ProfileActivity.action.FOLLOW;
@@ -111,10 +116,6 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
                 accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
-            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.block);
-            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.mute);
-            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteNotification);
-            ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteTimed);
 
 
             if (account.relationShip.blocking) {

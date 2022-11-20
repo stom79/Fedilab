@@ -33,11 +33,13 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Accounts;
+import app.fedilab.android.client.entities.api.RelationShip;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityStatusInfoBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AccountAdapter;
+import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 
 
@@ -115,6 +117,8 @@ public class StatusInfoActivity extends BaseActivity {
     private void manageView(Accounts accounts) {
         binding.loadingNextAccounts.setVisibility(View.GONE);
         if (accountList != null && accounts != null && accounts.accounts != null) {
+            int position = this.accountList.size();
+            fetchRelationShip(accounts.accounts, position);
             int startId = 0;
             //There are some statuses present in the timeline
             if (accountList.size() > 0) {
@@ -125,6 +129,27 @@ public class StatusInfoActivity extends BaseActivity {
             flagLoading = accounts.pagination.max_id == null;
             accountAdapter.notifyItemRangeInserted(startId, accounts.accounts.size());
         }
+    }
+
+    private void fetchRelationShip(List<Account> accounts, int position) {
+        List<String> ids = new ArrayList<>();
+        for (Account account : accounts) {
+            ids.add(account.id);
+        }
+        AccountsVM accountsVM = new ViewModelProvider(StatusInfoActivity.this).get(AccountsVM.class);
+        accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
+                .observe(StatusInfoActivity.this, relationShips -> {
+                    if (relationShips != null) {
+                        for (RelationShip relationShip : relationShips) {
+                            for (Account account : accounts) {
+                                if (account.id.compareToIgnoreCase(relationShip.id) == 0) {
+                                    account.relationShip = relationShip;
+                                }
+                            }
+                        }
+                        accountAdapter.notifyItemRangeChanged(position, accounts.size());
+                    }
+                });
     }
 
     @Override
