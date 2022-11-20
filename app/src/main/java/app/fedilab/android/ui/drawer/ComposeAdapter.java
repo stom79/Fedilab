@@ -178,6 +178,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
     }
 
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position   int - position of the drawer that added a media
+     * @param attachment Attachment - media attachment
+     */
+    public void addAttachment(int position, Attachment attachment) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        statusList.get(finalPosition).media_attachments.add(attachment);
+        notifyItemChanged(finalPosition);
+
+    }
+
     private static void updateCharacterCount(ComposeViewHolder composeViewHolder) {
         int charCount = MastodonHelper.countLength(composeViewHolder);
         composeViewHolder.binding.characterCount.setText(String.valueOf(charCount));
