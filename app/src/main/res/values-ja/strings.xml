@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_about">このアプリついて</string>
-    <string name="action_about_instance">このインスタンスについて</string>
+    <string name="action_about_instance">このサーバーについて</string>
     <string name="action_privacy">プライバシー</string>
     <string name="action_cache">キャッシュ</string>
     <string name="action_logout">ログアウト</string>
@@ -13,15 +13,15 @@
     <string name="download">ダウンロード</string>
     <string name="download_file">ダウンロード: %1$s</string>
     <string name="save_over">メディアを保存しました</string>
-    <string name="download_from" formatted="false">ファイル：%1$s</string>
+    <string name="download_from" formatted="false">ファイル: %1$s</string>
     <string name="password">パスワード</string>
     <string name="email">メールアドレス</string>
     <string name="accounts">アカウント</string>
     <string name="toots">投稿</string>
     <string name="tags">タグ</string>
     <string name="save">保存</string>
-    <string name="instance">インスタンス</string>
-    <string name="instance_example">インスタンス：mastodon.social</string>
+    <string name="instance">サーバー</string>
+    <string name="instance_example">サーバー: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">アカウント %1$s に切り替えました</string>
     <string name="add_account">アカウントを追加</string>
     <string name="clipboard">投稿の内容をクリップボードにコピーしました</string>
@@ -96,8 +96,8 @@
     <string name="bookmarks">ブックマーク</string>
     <string name="bookmark_add">ブックマークに追加する</string>
     <string name="bookmark_remove">ブックマークを削除</string>
-    <string name="status_bookmarked">トゥートがブックマークに追加されました！</string>
-    <string name="status_unbookmarked">トゥートがブックマークから削除されました！</string>
+    <string name="status_bookmarked">投稿をブックマークに追加しました！</string>
+    <string name="status_unbookmarked">投稿をブックマークから削除しました！</string>
     <!-- Date -->
     <string name="date_seconds">%d 秒</string>
     <string name="date_minutes">%d 分</string>
@@ -130,11 +130,11 @@
     <string name="instance_no_description">説明はありません！</string>
     <!-- About -->
     <string name="about_vesrion">リリース %1$s</string>
-    <string name="about_developer">開発者：</string>
-    <string name="about_license">ライセンス： </string>
+    <string name="about_developer">開発者:</string>
+    <string name="about_license">ライセンス:</string>
     <string name="about_license_action">GNU GPL V3</string>
-    <string name="about_code">ソースコード： </string>
-    <string name="about_thekinrar">インスタンスを検索：</string>
+    <string name="about_code">ソースコード:</string>
+    <string name="about_thekinrar">サーバーを検索:</string>
     <!-- Conversation -->
     <!-- Accounts -->
     <string name="no_accounts">アカウントがありません</string>
@@ -178,8 +178,8 @@
     <string name="toast_favourite">投稿をお気に入りに追加しました！</string>
     <string name="toast_unfavourite">投稿をお気に入りから削除しました！</string>
     <string name="toast_error">エラーが発生しました！</string>
-    <string name="toast_code_error">エラーが発生しました！ インスタンスは認証コードを返しませんでした！</string>
-    <string name="toast_error_instance">インスタンスのドメインが有効ではないようです！</string>
+    <string name="toast_code_error">エラーが発生しました！ サーバーは認証コードを返しませんでした！</string>
+    <string name="toast_error_instance">サーバーのドメインが無効なようです！</string>
     <string name="toast_error_loading_account">アカウントの切り替え中にエラーが発生しました！</string>
     <string name="toast_error_search">検索中にエラーが発生しました！</string>
     <string name="nothing_to_do">何もすることはできません</string>
@@ -187,9 +187,9 @@
     <!-- Settings -->
     <string name="set_toots_page">一回あたりに読み込む投稿数</string>
     <string name="set_disable_gif">GIFアバターを無効にする</string>
-    <string name="set_notif_follow">フォローされたときに通知</string>
-    <string name="set_notif_follow_share">トゥートがブーストされたときに通知する</string>
-    <string name="set_notif_follow_add">トゥートがお気に入りに追加されたときに通知する</string>
+    <string name="set_notif_follow">フォローされたときに通知する</string>
+    <string name="set_notif_follow_share">投稿がブーストされたときに通知する</string>
+    <string name="set_notif_follow_add">投稿がお気に入りに追加されたときに通知する</string>
     <string name="set_notif_follow_mention">メンションを受け取ったときに通知する</string>
     <string name="set_notif_follow_poll">投票が終了したら通知する</string>
     <string name="set_notif_status">新しい投稿を通知する</string>
@@ -203,13 +203,13 @@
     <string name="settings_custom_sharing_url">カスタム共有URL…</string>
     <string name="set_lock_account">アカウントをロック</string>
     <string name="set_save_changes">変更内容を保存</string>
-    <string name="set_fit_preview">プレビュー画像をフィットさせる</string>
-    <string name="settings_time_from">期間:</string>
-    <string name="settings_time_to">から</string>
+    <string name="set_fit_preview">画像のプレビューを元の比率で表示する</string>
+    <string name="settings_time_from">開始</string>
+    <string name="settings_time_to">終了</string>
     <string name="embedded_browser">アプリ内ブラウザを使用する</string>
     <string name="custom_tabs">カスタムタブ</string>
     <string name="expand_cw">CWを自動的に展開する</string>
-    <string name="set_led_colour">LEDの色：</string>
+    <string name="set_led_colour">LEDの色:</string>
     <string-array name="led_colours">
         <item>青</item>
         <item>シアン</item>
@@ -259,7 +259,7 @@
     <string name="media_ready">メディアが読み込まれました。ここをタップして表示します。</string>
     <!-- Proxy -->
     <string name="proxy_set">プロキシ</string>
-    <string name="proxy_enable">プロキシの有効化</string>
+    <string name="proxy_enable">プロキシを有効化しますか？</string>
     <string name="poxy_host">ホスト</string>
     <string name="poxy_port">ポート</string>
     <string name="poxy_login">ログイン</string>
@@ -267,9 +267,9 @@
     <string name="set_share_details">共有時に投稿の詳細を付加する</string>
     <string name="support_the_app_on_liberapay">Liberapayでアプリを支援</string>
     <string name="alert_regex">正規表現に誤りがあります！</string>
-    <string name="toast_instance_unavailable">このインスタンスにタイムラインが見つかりませんでした！</string>
-    <string name="follow_instance">インスタンスをフォロー</string>
-    <string name="toast_instance_already_added">既にこのインスタンスをフォローしています！</string>
+    <string name="toast_instance_unavailable">このサーバーにタイムラインが見つかりませんでした！</string>
+    <string name="follow_instance">サーバーをフォロー</string>
+    <string name="toast_instance_already_added">既にこのサーバーをフォローしています！</string>
     <string name="action_partnership">パートナーシップ</string>
     <string name="hide_boost">%s からのブーストを非表示</string>
     <string name="endorse">プロフィールで紹介</string>
@@ -303,12 +303,12 @@
     <string name="channel_notif_backup">投稿のバックアップ</string>
     <string name="channel_notif_status">新しい投稿</string>
     <string name="channel_notif_media">メディアのダウンロード</string>
-    <string name="select_sound">音の選択</string>
-    <string name="set_enable_time_slot">時間帯管理を有効化</string>
+    <string name="select_sound">音を選択します</string>
+    <string name="set_enable_time_slot">時間帯管理を有効化する</string>
     <string name="block_domain_confirm_message">%s をブロックしますか？\n\nそのドメインのコンテンツをパブリックタイムラインや通知で見ることができなくなります。また、そのドメイン上のユーザーからのフォローは解除されます。</string>
     <string name="block_domain">ドメインをブロック</string>
     <string name="toast_block_domain">ドメインはブロックされました</string>
-    <string name="retrieve_remote_status">リモートステータスを取得中</string>
+    <string name="retrieve_remote_status">リモートの状態を取得中</string>
     <string name="peertube_instance">Peertubeインスタンス</string>
     <string name="set_display_emoji">Emoji Oneを使用する</string>
     <string name="information">情報</string>
@@ -326,7 +326,7 @@
     <string name="open_menu">メニューを開く</string>
     <string name="profile_picture">プロフィールの写真</string>
     <string name="profile_banner">プロフィールのバナー</string>
-    <string name="contact_instance_admin">このインスタンスの運営者に連絡する</string>
+    <string name="contact_instance_admin">このサーバーの管理者に連絡する</string>
     <string name="mastohost_logo">MastoHostのロゴ</string>
     <string name="emoji_picker">絵文字ピッカー</string>
     <string name="expand_conversation">会話を展開する</string>
@@ -348,7 +348,7 @@
     <string name="show_media_nsfw">NSFWを表示</string>
     <string name="bot">ボット</string>
     <string name="pixelfed_instance">Pixelfedインスタンス</string>
-    <string name="mastodon_instance">Mastodonインスタンス</string>
+    <string name="mastodon_instance">Mastodonサーバー</string>
     <string name="any_tags">いずれか含む</string>
     <string name="all_tags">すべてを含む</string>
     <string name="none_tags">すべて除外</string>
@@ -356,7 +356,7 @@
     <string name="some_words_all">含める単語(スペースで区切り)</string>
     <string name="some_tags">フィルターする単語を追加(スペースで区切り)</string>
     <string name="change_tag_column">カラムの名前を変更</string>
-    <string name="misskey_instance">Misskeyインスタンス</string>
+    <string name="misskey_instance">Misskeyサーバー</string>
     <string name="trending">トレンド</string>
     <string name="local">ローカル</string>
     <string name="category">カテゴリ</string>
@@ -391,7 +391,7 @@
     <string name="hide_timeline">タイムラインを非表示にする</string>
     <string name="reorder_timelines">タイムラインの並び替え</string>
     <string name="reorder_list_deleted">削除されたリスト</string>
-    <string name="reorder_instance_removed">フォローされたインスタンスの削除</string>
+    <string name="reorder_instance_removed">フォローしたサーバーを削除</string>
     <string name="reorder_tag_removed">ピン留めされたタグの削除</string>
     <string name="undo">元に戻す</string>
     <string name="warning_main_timeline">メインタイムラインは非表示にしかできません！</string>
@@ -422,16 +422,16 @@
     <string name="category_tech">テクノロジー</string>
     <string name="category_furry">ふわふわ</string>
     <string name="category_food">食べ物</string>
-    <string name="instance_logo">インスタンスのロゴ</string>
+    <string name="instance_logo">サーバーのロゴ</string>
     <string name="join_mastodon">Mastodonに参加</string>
-    <string name="pickup_instance_category">カテゴリーを選択してインスタンスを選択し、チェックボタンをタップしてください。</string>
+    <string name="pickup_instance_category">カテゴリーを選択するとサーバーの一覧が表示されるので、気に入ったサーバーをタップしてください。</string>
     <string name="users">%1$s人のユーザー</string>
     <string name="password_confirm">パスワードの確認</string>
     <string name="agreement_check">%1$sと%2$sに同意する</string>
     <string name="server_rules">サーバーのルール</string>
     <string name="tos">利用規約</string>
     <string name="sign_up">新規登録</string>
-    <string name="validation_needed">このインスタンスは招待制です。アカウントが利用可能になるには、管理者から手動で承認を受ける必要があります。</string>
+    <string name="validation_needed">このサーバーは招待制です。管理者が手動で承認した後、あなたのアカウントは使用可能となります。</string>
     <string name="password_error">パスワードが一致しません！</string>
     <string name="email_error">このメールアドレスは無効です！</string>
     <string name="email_indicator">確認メールを送信しました</string>
@@ -439,11 +439,13 @@
     <string name="password_too_short">パスワードは8文字以上必要です</string>
     <string name="username_error">ユーザー名にはアルファベット、数字、アンダーバーのみ含めることができます</string>
     <string name="account_created">アカウントを作成しました！</string>
-    <string name="account_created_message">アカウントを作成しました！\n\n
-        48時間以内にメールアドレスを確認してください。\n\n
-        最初の欄に<b>%1$s</b>と記入し、<b>接続</b>をタップするとアカウントに繋がります。\n\n
-        <b>重要</b>:インスタンスが認証を要求する場合、一度確認のメールが送信されます！
-    </string>
+    <string name="account_created_message">アカウントを作成しました！
+\n
+\n 48時間以内にメールアドレスを確認してください。
+\n
+\n 最初のフィールドに<b>%1$s</b>と記入し、<b>接続</b>をタップするとアカウントに接続します。
+\n
+\n <b>重要</b>: サーバーが認証を要求する場合、一度確認のためのメールが届きます！ </string>
     <string name="save_draft">メッセージを下書きに保存しますか？</string>
     <string name="administration">管理</string>
     <string name="reports">報告</string>
@@ -466,10 +468,10 @@
     <string name="set_enable_time_slot_indication">アプリは指定された時間帯に通知を送信します。右のスピンボタンを押して設定を反転する(指定された時間帯に非通知にする)ことができます。</string>
     <string name="set_fit_preview_indication">タイムライン上のプレビューは切り取られません</string>
     <string name="set_capitalize_indication">最初の文字を大文字にするために、メンションの後に自動的に改行を挿入します</string>
-    <string name="settings_title_custom_sharing_indication">コンテンツの作成者がRSSフィードにトゥートを共有できるようになります</string>
+    <string name="settings_title_custom_sharing_indication">コンテンツの作成者のRSSフィードに投稿を共有できるようになります</string>
     <string name="compose">トゥートの作成</string>
     <string name="select">選択</string>
-    <string name="add_instances">インスタンスを追加</string>
+    <string name="add_instances">サーバーを追加</string>
     <string name="set_enable_crash_report">クラッシュレポートを有効にする</string>
     <string name="set_enable_crash_report_indication">有効にすると、ローカルでクラッシュレポートが作成され、共有できるようになります。</string>
     <string name="crash_title">Fedilabは停止しました :(</string>
@@ -495,7 +497,7 @@
     </string-array>
     <string name="poll_duplicated_entry">アンケートに重複した選択肢を作ることはできません！</string>
     <string name="set_clear_cache_exit">終了時にキャッシュを消去する</string>
-    <string name="set_clear_cache_exit_indication">アプリケーションの終了時にキャッシュ(メディア、キャッシュされたメッセージ、ビルトインブラウザのデータ)が自動的に消去されます。</string>
+    <string name="set_clear_cache_exit_indication">アプリの終了時にキャッシュ(メディア、キャッシュされた投稿、ビルトインブラウザのデータ)が自動的に消去されます。</string>
     <string name="unfollow_confirm">このアカウントのフォローを解除しますか？</string>
     <string name="set_unfollow_validation">フォローを解除する前に確認を表示する</string>
     <string name="replace_medium">Medium</string>
@@ -510,23 +512,23 @@
     <string name="link_color_title">リンク</string>
     <string name="link_color">メッセージ内のリンク(URL、メンション、タグなど)の色を変更します</string>
     <string name="boost_header_color_title">ブーストヘッダー</string>
-    <string name="displayname_title">メッセージ一番上の表示名の色を変更します</string>
-    <string name="username_title">メッセージ一番上のユーザー名の色を変更します</string>
+    <string name="displayname_title">投稿の一番上の表示名の色を変更します</string>
+    <string name="username_title">投稿の一番上のユーザー名の色を変更します</string>
     <string name="boost_header_color">ブーストのヘッダーの色を変更します</string>
     <string name="background_status_title">投稿</string>
-    <string name="background_status">タイムライン上の投稿の背景色</string>
+    <string name="background_status">タイムライン上の投稿の背景色を変更します</string>
     <string name="reset_color">色をリセット</string>
     <string name="clik_reset">ここをタップしてすべての色のカスタマイズをリセットします</string>
     <string name="reset">リセット</string>
     <string name="icons_color_title">アイコン</string>
-    <string name="icons_color">投稿下部にあるアイコンの色</string>
-    <string name="logo_of_the_instance">インスタンスのロゴ</string>
+    <string name="icons_color">投稿下部にあるアイコンの色を変更します</string>
+    <string name="logo_of_the_instance">サーバーのロゴ</string>
     <string name="edit_profile">プロフィールを編集</string>
     <string name="make_an_action">アクションを作成</string>
     <string name="translation">翻訳</string>
     <string name="text_color_title">テキストの色</string>
     <string name="text_color">投稿内のテキストの色を変更します</string>
-    <string name="pref_custom_theme">カスタムテーマの使用</string>
+    <string name="pref_custom_theme">カスタムテーマを使用する</string>
     <string name="theming">テーマ設定</string>
     <string name="data_export_theme">テーマをエクスポートしました</string>
     <string name="data_export_theme_success">テーマをCSVファイルにエクスポートしました</string>
@@ -536,17 +538,17 @@
     <string name="export_theme_title">ここをタップして現在のテーマをエクスポートします</string>
     <string name="theme_file_error">テーマファイルの選択中にエラーが発生しました</string>
     <string name="user_count">ユーザー数</string>
-    <string name="status_count">トゥート数</string>
-    <string name="instance_count">インスタンス数</string>
+    <string name="status_count">投稿数</string>
+    <string name="instance_count">サーバー数</string>
     <string name="poll_finish_in">%sで終了</string>
-    <string name="no_instance_reccord">このインスタンスは https://instances.social 上で利用できません</string>
+    <string name="no_instance_reccord">このサーバーは https://instances.social 上で利用できません</string>
     <string name="display_full_link">リンクを省略せずに表示</string>
     <string name="share_link">リンクを共有</string>
     <string name="open_other_app">別のアプリで開く</string>
     <string name="check_redirect">リダイレクト先を確認する</string>
     <string name="no_redirect">このURLはリダイレクトではありません</string>
     <string name="redirect_detected">%1$s\n\nは\n\n%2$sにリダイレクトしています</string>
-    <string name="set_utm_parameters">UTMパラメータを削除</string>
+    <string name="set_utm_parameters">UTMパラメータを削除する</string>
     <string name="set_utm_parameters_indication">リンクを開く前に自動的にURLからUTMパラメータを取り除きます。</string>
     <string name="talking_about">%d人が話題にしています</string>
     <string name="twitter_accounts">Twitterアカウント(via Nitter)</string>
@@ -602,8 +604,8 @@
     <string name="interactions">相互</string>
     <string name="save_changes">変更を保存</string>
     <string name="set_bot_content">ボットアカウント</string>
-    <string name="set_discoverable_content">アカウントを検索可能</string>
-    <string name="delete_field_confirm">この欄を削除しますか？</string>
+    <string name="set_discoverable_content">アカウントを検索可能にする</string>
+    <string name="delete_field_confirm">この項目を削除しますか？</string>
     <string name="profiled_updated">プロフィールを保存しました！</string>
     <string name="not_valid_list_name">リストの名前が無効です！</string>
     <string name="no_account_in_list">このリストのアカウントは見つかりませんでした！</string>
@@ -623,12 +625,12 @@
     <string name="other">その他</string>
     <string name="eg_sensitive_content">例: 閲覧注意のコンテンツ</string>
     <string name="remove_status">ステータスを削除</string>
-    <string name="post_message">メッセージを送信中…</string>
-    <string name="post_message_text">メッセージを送信中 %d/%d</string>
+    <string name="post_message">投稿中…</string>
+    <string name="post_message_text">投稿を送信中 %d/%d</string>
     <string name="instance_health_checkedat">%sでチェック</string>
-    <string name="instance_health_uptime">Uptime: %,.2f</string>
+    <string name="instance_health_uptime">稼働時間: %,.2f</string>
     <string name="show_content">コンテンツを表示 &gt;</string>
-    <string name="is_up">提供されています！</string>
+    <string name="is_up">稼働しています！</string>
     <string name="report_val1">この投稿が嫌いです</string>
     <string name="report_1_block_title">%1$sをブロックする</string>
     <string name="report_1_mute_title">%1$sをミュートする</string>
@@ -639,9 +641,9 @@
     <string name="notif_display_mentions">メンション</string>
     <string name="notif_display_follows">フォロー</string>
     <string name="add_filter">フィルターを追加</string>
-    <string name="unlocked">ロックは解除されています</string>
-    <string name="locked">ロックされています</string>
-    <string name="add_field">欄を追加</string>
+    <string name="unlocked">ロックしない</string>
+    <string name="locked">ロックする</string>
+    <string name="add_field">項目を追加</string>
     <string name="type_of_notifications">通知の種類</string>
     <string name="type_of_notifications_title">通知の種類を選択</string>
     <string name="notification_sounds">通知音</string>
@@ -656,7 +658,7 @@
     <string name="toast_bookmark">投稿をブックマークに追加しました！</string>
     <string name="toast_unbookmark">投稿をブックマークから削除しました！</string>
     <string name="set_accounts_page">1回あたりに読み込むアカウントの数</string>
-    <string name="cannot_be_empty">この欄は空欄にできません！</string>
+    <string name="cannot_be_empty">この項目は空欄にできません！</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">YouTubeの代替フロントエンドを使用する</string>
     <string name="replace_youtube_host">YouTubeフロントエンドのドメイン</string>
@@ -665,22 +667,22 @@
     <string name="replace_instagram_description">Instagramの代替フロントエンドを使用する</string>
     <string name="followers_only">フォロワーのみ</string>
     <string name="add_status">ステータスを追加</string>
-    <string name="instance_not_valid">このインスタンスは無効です！</string>
+    <string name="instance_not_valid">このサーバーは無効なようです！</string>
     <string name="instance_health_indication">バージョン: %s
 \n%s人 - %s 件の投稿</string>
     <string name="report_val_more3">私は特定のルールに違反していることを認識しています</string>
     <string name="report_1_title_more">Mastodonで表示される内容をコントロールするオプション:</string>
     <string name="report_1_mute">これらのユーザーの投稿は表示されなくなります。これらのユーザーは引き続きあなたをフォローしたり、あなたの投稿を見たりできますが、あなたがミュートしていることを知ることはできません。</string>
     <string name="report_sent">レポートを送信しました！</string>
-    <string name="delete_field">欄を削除</string>
+    <string name="delete_field">項目を削除</string>
     <string name="is_down">ダウンしています！</string>
     <string name="customize_timelines">タイムラインをカスタマイズ</string>
     <string name="pref_theme_base">テーマのベース</string>
     <string name="bottom_menu">ボトムメニュー</string>
     <string name="origin_report">報告されたアカウントのサーバー</string>
     <string name="resolved">解決済み</string>
-    <string name="fetch_more_messages">さらにメッセージを読み込む…</string>
-    <string name="messages_in_cache_for_home">ホームのメッセージのキャッシュ</string>
+    <string name="fetch_more_messages">さらに投稿を読み込む…</string>
+    <string name="messages_in_cache_for_home">ホームの投稿のキャッシュ</string>
     <string name="types_of_notifications_to_display">表示する通知の種類</string>
     <string name="set_display_bookmark_indication">ブックマークボタンを常に表示する</string>
     <string name="also_boosted_by">次のユーザーにもブーストされています:</string>
@@ -694,7 +696,7 @@
     <string name="admin_scope">私はモデレーターです</string>
     <string name="label_oval">楕円</string>
     <string name="action_announcement_from_to">アナウンス・%1$s - %2$s</string>
-    <string name="messages_in_cache_for_other_timelines">他のタイムラインのメッセージのキャッシュ</string>
+    <string name="messages_in_cache_for_other_timelines">他のタイムラインの投稿のキャッシュ</string>
     <string name="messages_stored_in_drafts">下書きのメッセージ</string>
     <string name="files_cache_size">ファイルキャッシュのサイズ</string>
     <string name="clear_cache">キャッシュを消去</string>
@@ -706,7 +708,7 @@
     <string name="display">表示</string>
     <string name="more_actions">他の操作</string>
     <string name="set_unfollow_validation_title">フォロー解除の確認</string>
-    <string name="message_has_been_sent">メッセージが送信されました！</string>
+    <string name="message_has_been_sent">投稿しました！</string>
     <string name="poll_type">アンケートの種類:</string>
     <string name="poll_duration">アンケートの期間:</string>
     <string name="top_menu">トップバーメニュー</string>
@@ -723,7 +725,7 @@
     <string name="set_timelines_in_a_list">有効にすると、全てのピン留めされたタイムラインがドロップダウンメニューに表示されるようになります</string>
     <string name="set_display_counter">投稿の数を表示する</string>
     <string name="delete_cache_message">本当にキャッシュを削除しますか？メディアを添付した下書きがある場合、添付したメディアは失われます。</string>
-    <string name="default_system_language">システムデフォルトの言語を使用する</string>
+    <string name="default_system_language">システムデフォルトの言語を使用します</string>
     <string name="message_language">投稿の言語</string>
     <string name="release_notes">更新履歴</string>
     <string name="toast_token">トークンの取得に失敗しました</string>
@@ -740,13 +742,13 @@
     <string name="import_settings">設定のインポート</string>
     <string name="permission_missing">権限が許可されていません！</string>
     <string name="load_settings">エクスポートされた設定を読み込む</string>
-    <string name="push_distributors">プッシュ通知のプロバイダー</string>
+    <string name="push_distributors">プッシュ通知のディストリビューター</string>
     <string name="my_app">マイアプリ</string>
     <string name="change_logo_description">アプリのアイコンを変更します</string>
-    <string name="change_logo">アイコンを変更</string>
+    <string name="change_logo">アイコンを変更する</string>
     <string name="toast_unpin">この投稿のピン留めは解除されています！</string>
     <string name="toast_pin">この投稿はピン留めされています</string>
-    <string name="set_live_translate_title">投稿を翻訳</string>
+    <string name="set_live_translate_title">投稿の翻訳先</string>
     <string name="set_live_translate">特定の言語に強制的に翻訳します。1つ目の値を選択すると端末の設定に従うようリセットされます</string>
     <string name="max_indentation_thread">スレッドのインデント(ぶら下がり)の最大値</string>
     <string name="icon_size">アイコンサイズ</string>
@@ -754,9 +756,9 @@
     <string name="cached_messages">キャッシュされた投稿</string>
     <string name="display_options">表示設定</string>
     <string name="fetch_notifications">通知の取得</string>
-    <string name="set_display_counters">カウンターを表示</string>
+    <string name="set_display_counters">カウンターを表示する</string>
     <string name="set_display_counters_description">新しい投稿があるときにタブのタイムラインに円形のカウンターを表示します</string>
-    <string name="set_use_cache">キャッシュを使用</string>
+    <string name="set_use_cache">キャッシュを使用する</string>
     <string name="reply">返信</string>
     <string name="view_the_original_message">元の投稿を開く</string>
     <string name="remember_position">タイムラインの位置を記憶する</string>
@@ -781,9 +783,9 @@
     <string name="display_media_notification_summary">ブーストとお気に入りの通知のメディアを表示します</string>
     <string name="aggregate_notifications_summary">有効にすると、関連のある通知を折りたたみます</string>
     <string name="aggregate_notifications">通知をまとめる</string>
-    <string name="set_unlisted_replies">未収載の返信</string>
+    <string name="set_unlisted_replies">返信を未収載にする</string>
     <string name="recent_ip">最近のIP</string>
-    <string name="set_unlisted_replies_indication">「公開」の返信にのみ影響します。有効にすると、返信の公開範囲がデフォルトで「公開」の代わりに「未収載」になります</string>
+    <string name="set_unlisted_replies_indication">「公開」の返信にのみ影響します。有効にすると、返信の公開範囲がデフォルトで「公開」の代わりに「未収載」が使用されます</string>
     <string name="allow">許可</string>
     <string name="unconfirmed">未確認</string>
     <string name="account_warned">アカウントが警告されました</string>
@@ -808,4 +810,40 @@
     <string name="status_history">投稿履歴</string>
     <string name="edited_message_at">編集日時: %1$s</string>
     <string name="created_message_at">投稿日時: %1$s</string>
+    <string name="restart_the_app">アプリを再起動しますか？</string>
+    <string name="restart">再起動</string>
+    <string name="set_language_picker_title">言語リスト</string>
+    <string name="set_language_picker">投稿の作成時に言語リスト内に表示される言語を減らすことができます。</string>
+    <string name="action_followed_tag_empty">タグをフォローしていません！</string>
+    <string name="action_unfollow_tag">タグのフォローを解除</string>
+    <string name="action_unfollow_tag_confirm">このタグのフォローを解除しますか？</string>
+    <string name="unfollow">フォロー解除</string>
+    <string name="action_tag_follow">タグをフォロー</string>
+    <string name="write_the_tag_to_follow">フォローするタグを入力してください</string>
+    <string name="not_valid_tag_name">タグの名前が無効です！</string>
+    <string name="followed_tags">フォローしたタグ</string>
+    <string name="follow_tag">タグをフォロー</string>
+    <string name="action_lists_edit">リストを編集</string>
+    <string name="profiles">プロフィール</string>
+    <string name="toast_feature_not_supported">このサーバーではこの機能はサポートされていないようです！</string>
+    <string name="watch_trends_for_instance">このサーバーのトレンドを監視する</string>
+    <string name="filter_action">アクションをフィルター</string>
+    <string name="filter_action_explanations">投稿がフィルターに一致した時に行うアクションを選択する</string>
+    <string name="hide_with_warning">警告して非表示にする</string>
+    <string name="hide_completely">完全に非表示にする</string>
+    <string name="hide_completely_description">フィルターされたコンテンツを完全に非表示にして、存在しないのと同じ扱いをします</string>
+    <string name="hide_with_warning_description">フィルターされたコンテンツを非表示にして、警告(フィルターのタイトル)で折りたたみます</string>
+    <string name="context_home_list">ホームとリスト</string>
+    <string name="title">タイトル</string>
+    <string name="keyword_or_phrase">キーワードまたは単語</string>
+    <string name="delete_keyword">キーワードを削除</string>
+    <string name="add_keyword">キーワードを追加</string>
+    <string name="filtered_by">%1$sがフィルターされました</string>
+    <string name="toast_fetch_error">リモートのデータが見つかりませんでした！</string>
+    <string name="toast_error_add_to_list">アカウントをリストに追加できませんでした！</string>
+    <string name="restart_the_app_theme">設定を反映させるにはアプリを再起動してください。</string>
+    <string name="notif_update">投稿を編集しました</string>
+    <string name="notif_display_updates">更新</string>
+    <string name="show_anyway">強制的に表示する</string>
+    <string name="display_remote_profile">リモートのプロフィールを表示</string>
 </resources>
