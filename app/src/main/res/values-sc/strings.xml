@@ -832,4 +832,18 @@
     <string name="notif_display_updates">Atualizatziones</string>
     <string name="notif_update">At modificadu unu messàgiu</string>
     <string name="watch_trends_for_instance">Pòmpia sas tendèntzias pro custa istàntzia</string>
+    <string name="filter_action">Atzione de filtru</string>
+    <string name="filter_action_explanations">Issèbera ite atzione fàghere cando una publicatzione currispondet a su filtru</string>
+    <string name="hide_with_warning">Cua cun un\'avisu</string>
+    <string name="hide_completely">Cua de su totu</string>
+    <string name="hide_with_warning_description">Cua su cuntenutu filtradu in palas de un\'avisu chi mentovat su tìtulu de su filtru</string>
+    <string name="hide_completely_description">Cua su cuntenutu filtradu de su totu, comente chi no esistat</string>
+    <string name="context_home_list">Pàgina printzipale e listas</string>
+    <string name="title">Tìtulu</string>
+    <string name="keyword_or_phrase">Paràula o frase crae</string>
+    <string name="delete_keyword">Cantzella sa paràula crae</string>
+    <string name="filtered_by">Filtradu: %1$s</string>
+    <string name="show_anyway">Ammustra su matessi</string>
+    <string name="toast_error_add_to_list">S\'aplicatzione no est resèssida a annànghere su contu a sa lista!</string>
+    <string name="add_keyword">Annanghe sa paràula crae</string>
 </resources>
