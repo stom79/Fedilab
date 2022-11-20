@@ -1934,7 +1934,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(intent);
                 } else if (itemId == R.id.action_copy) {
                     ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, status.text);
+                    String content;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        content = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                    else
+                        content = Html.fromHtml(statusToDeal.content).toString();
+                    ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
                     if (clipboard != null) {
                         clipboard.setPrimaryClip(clip);
                         Toasty.info(context, context.getString(R.string.clipboard), Toast.LENGTH_LONG).show();
