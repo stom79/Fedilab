@@ -67,7 +67,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/list_action"
-            style="@style/MyButtonColored"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginStart="12dp"
