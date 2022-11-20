@@ -179,7 +179,7 @@ public interface MastodonTimelinesService {
     //Add account in a list
     @FormUrlEncoded
     @POST("lists/{id}/accounts")
-    Call<Boolean> addAccountsList(
+    Call<Void> addAccountsList(
             @Header("Authorization") String token,
             @Path("id") String id,
             @Field("account_ids[]") List<String> account_ids

@@ -843,14 +843,15 @@ public class TimelinesVM extends AndroidViewModel {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         booleanMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            Call<Boolean> addAccountsListCall = mastodonTimelinesService.addAccountsList(token, listId, accountIds);
+            Call<Void> addAccountsListCall = mastodonTimelinesService.addAccountsList(token, listId, accountIds);
             Boolean reply = null;
             if (addAccountsListCall != null) {
                 try {
-                    Response<Boolean> response = addAccountsListCall.execute();
+                    Response<Void> response = addAccountsListCall.execute();
                     reply = response.isSuccessful();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    reply = false;
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
