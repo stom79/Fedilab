@@ -949,7 +949,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     runOnUiThread(() -> {
                                                         Bundle b = new Bundle();
                                                         b.putString(Helper.ARG_SHARE_URL, url[0]);
-                                                        b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        if (fetchSharedMedia) {
+                                                            b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        }
                                                         b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
                                                         b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
                                                         b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
