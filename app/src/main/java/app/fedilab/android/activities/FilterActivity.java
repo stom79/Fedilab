@@ -106,7 +106,6 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
         });
 
 
-
         if (filter != null) {
 
             filterParams.filter_action = filter.filter_action;
@@ -166,7 +165,9 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
         popupAddFilterBinding.lvKeywords.setLayoutManager(new LinearLayoutManager(context));
 
         popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
-            filterParams.keywords.add(new Filter.KeywordsParams());
+            Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+            keywordsParams.whole_word = true;
+            filterParams.keywords.add(keywordsParams);
             keywordAdapter.notifyItemInserted(filterParams.keywords.size() - 1);
         });
 
