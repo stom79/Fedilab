@@ -1904,4 +1904,5 @@
     <string name="delete_timeline">Delete timeline</string>
     <string name="notif_submitted_report">Submitted a report</string>
     <string name="notif_signed_up">Signed up</string>
+    <string name="Suggestions">Suggestions</string>
 </resources>

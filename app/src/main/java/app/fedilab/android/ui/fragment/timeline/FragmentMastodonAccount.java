@@ -143,6 +143,14 @@ public class FragmentMastodonAccount extends Fragment {
                 accountsVM.getBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
+        } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_SUGGESTION) {
+            if (firstLoad) {
+                accountsVM.getSuggestions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null)
+                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            } else {
+                accountsVM.getSuggestions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id)
+                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            }
         }
     }
 

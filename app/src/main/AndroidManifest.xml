@@ -243,7 +243,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
-
+        <activity
+            android:name=".activities.SuggestionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/Suggestions"
+            android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.PartnerShipActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

@@ -26,9 +26,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +47,8 @@ import app.fedilab.android.client.entities.api.Report;
 import app.fedilab.android.client.entities.api.Source;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.api.Suggestion;
+import app.fedilab.android.client.entities.api.Suggestions;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Token;
 import app.fedilab.android.client.entities.app.StatusCache;
@@ -75,6 +74,7 @@ public class AccountsVM extends AndroidViewModel {
 
     private MutableLiveData<Account> accountMutableLiveData;
     private MutableLiveData<List<Account>> accountListMutableLiveData;
+    private MutableLiveData<Suggestions> suggestionsMutableLiveData;
     private MutableLiveData<Statuses> statusesMutableLiveData;
     private MutableLiveData<Accounts> accountsMutableLiveData;
     private MutableLiveData<List<Status>> statusListMutableLiveData;
@@ -97,9 +97,17 @@ public class AccountsVM extends AndroidViewModel {
     }
 
     private MastodonAccountsService init(String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonAccountsService.class);
+    }
+
+    private MastodonAccountsService initv2(String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -1393,28 +1401,28 @@ public class AccountsVM extends AndroidViewModel {
      * @param limit Maximum number of results to return. Defaults to 40.
      * @return {@link LiveData} containing a {@link List} of {@link Account}s
      */
-    public LiveData<List<Account>> getSuggestions(@NonNull String instance, String token, String limit) {
-        accountListMutableLiveData = new MutableLiveData<>();
-        MastodonAccountsService mastodonAccountsService = init(instance);
+    public LiveData<Suggestions> getSuggestions(@NonNull String instance, String token, String limit) {
+        suggestionsMutableLiveData = new MutableLiveData<>();
+        MastodonAccountsService mastodonAccountsService = initv2(instance);
         new Thread(() -> {
-            List<Account> accountList = null;
-            Call<List<Account>> suggestionsCall = mastodonAccountsService.getSuggestions(token, limit);
+            Call<List<Suggestion>> suggestionsCall = mastodonAccountsService.getSuggestions(token, limit);
+            Suggestions suggestions = new Suggestions();
             if (suggestionsCall != null) {
                 try {
-                    Response<List<Account>> suggestionsResponse = suggestionsCall.execute();
+                    Response<List<Suggestion>> suggestionsResponse = suggestionsCall.execute();
                     if (suggestionsResponse.isSuccessful()) {
-                        accountList = suggestionsResponse.body();
+                        suggestions.pagination = MastodonHelper.getOffSetPagination(suggestionsResponse.headers());
+                        suggestions.suggestions = suggestionsResponse.body();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<Account> finalAccountList = accountList;
-            Runnable myRunnable = () -> accountListMutableLiveData.setValue(finalAccountList);
+            Runnable myRunnable = () -> suggestionsMutableLiveData.setValue(suggestions);
             mainHandler.post(myRunnable);
         }).start();
-        return accountListMutableLiveData;
+        return suggestionsMutableLiveData;
     }
 
     /**
