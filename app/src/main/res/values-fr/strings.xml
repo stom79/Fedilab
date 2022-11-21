@@ -420,9 +420,9 @@
     <string name="image_saved">Image enregistrée avec succès !</string>
     <string name="save_image_failed">Échec de l\'enregistrement de l\'image</string>
     <string name="add_poll_item">Ajouter un élément de sondage</string>
-    <string name="mute_conversation">Mettre la conversation en sourdine</string>
+    <string name="mute_conversation">Masquer la conversation</string>
     <string name="unmute_conversation">Enlever la sourdine de la discussion</string>
-    <string name="toast_unmute_conversation">La conversation n\'est plus mise en sourdine !</string>
+    <string name="toast_unmute_conversation">La conversation n’est plus masquée !</string>
     <string name="toast_mute_conversation">La conversation est mise en sourdine</string>
     <string name="category_general">Général</string>
     <string name="category_regional">Régional</string>
