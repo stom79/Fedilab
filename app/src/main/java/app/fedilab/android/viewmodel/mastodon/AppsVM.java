@@ -57,7 +57,7 @@ public class AppsVM extends AndroidViewModel {
         super(application);
     }
 
-    private MastodonAppsService init(String instance) {
+    private MastodonAppsService init(String instance) throws IllegalArgumentException {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
@@ -81,7 +81,13 @@ public class AppsVM extends AndroidViewModel {
                                    String scopes,
                                    String website) {
         appMutableLiveData = new MutableLiveData<>();
-        MastodonAppsService mastodonAppsService = init(instance);
+        MastodonAppsService mastodonAppsService;
+        try {
+            mastodonAppsService = init(instance);
+        } catch (IllegalArgumentException e) {
+            appMutableLiveData.setValue(null);
+            return appMutableLiveData;
+        }
         new Thread(() -> {
             App app = null;
             Call<App> appCall = mastodonAppsService.createApp(client_name, redirect_uris, scopes, website);
