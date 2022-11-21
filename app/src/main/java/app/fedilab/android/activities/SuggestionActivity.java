@@ -23,11 +23,10 @@ import androidx.core.content.ContextCompat;
 import org.jetbrains.annotations.NotNull;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivitySuggestionsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonSuggestion;
 
 
 public class SuggestionActivity extends BaseActivity {
@@ -37,7 +36,7 @@ public class SuggestionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ThemeHelper.applyThemeBar(this);
-        app.fedilab.android.databinding.ActivitySuggestionsBinding binding = ActivitySuggestionsBinding.inflate(getLayoutInflater());
+        ActivitySuggestionsBinding binding = ActivitySuggestionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
@@ -46,9 +45,7 @@ public class SuggestionActivity extends BaseActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_SUGGESTION);
-        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonAccount(), bundle, null, null);
+        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_suggestions, new FragmentMastodonSuggestion(), null, null, null);
     }
 
 

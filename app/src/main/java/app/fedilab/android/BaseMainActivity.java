@@ -117,6 +117,7 @@ import app.fedilab.android.activities.ReorderTimelinesActivity;
 import app.fedilab.android.activities.ScheduledActivity;
 import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
+import app.fedilab.android.activities.SuggestionActivity;
 import app.fedilab.android.activities.TrendsActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
 import app.fedilab.android.client.entities.api.Emoji;
@@ -390,6 +391,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_trends) {
                 Intent intent = new Intent(this, TrendsActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_suggestions) {
+                Intent intent = new Intent(this, SuggestionActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_cache) {
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
