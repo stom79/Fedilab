@@ -1190,7 +1190,7 @@ public class Helper {
             return null;
         }
         Proxy proxy = new Proxy(type == 0 ? Proxy.Type.HTTP : Proxy.Type.SOCKS,
-                new InetSocketAddress(hostVal, portVal));
+                InetSocketAddress.createUnresolved(hostVal, portVal));
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

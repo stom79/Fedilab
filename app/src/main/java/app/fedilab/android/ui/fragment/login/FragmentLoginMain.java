@@ -75,7 +75,7 @@ public class FragmentLoginMain extends Fragment {
 
         binding = FragmentLoginMainBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        InstanceSocialVM instanceSocialVM = new ViewModelProvider(FragmentLoginMain.this).get(InstanceSocialVM.class);
         binding.menuIcon.setOnClickListener(this::showMenu);
         binding.loginInstance.setOnItemClickListener((parent, view, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
         binding.loginInstance.addTextChangedListener(new TextWatcher() {
@@ -101,7 +101,7 @@ public class FragmentLoginMain extends Fragment {
                     }
                     if (oldSearch == null || !oldSearch.equals(s.toString().trim())) {
                         searchInstanceRunning = true;
-                        InstanceSocialVM instanceSocialVM = new ViewModelProvider(FragmentLoginMain.this).get(InstanceSocialVM.class);
+
                         instanceSocialVM.getInstances(query).observe(requireActivity(), instanceSocialList -> {
                             binding.loginInstance.setAdapter(null);
                             if (instanceSocialList.instances.isEmpty()) {
