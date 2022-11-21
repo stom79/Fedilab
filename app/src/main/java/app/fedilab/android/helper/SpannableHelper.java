@@ -249,8 +249,8 @@ public class SpannableHelper {
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.show();
-                        String finalURl = url;
-                        String uniqueUrl = url.endsWith("…") ? url : url + "…";
+                        String finalURl = newURL;
+                        String uniqueUrl = newURL.endsWith("…") ? newURL : newURL + "…";
                         if (urlDetails.containsValue(uniqueUrl)) {
                             finalURl = Helper.getKeyByValue(urlDetails, uniqueUrl);
                         }
@@ -872,24 +872,6 @@ public class SpannableHelper {
         }
     }
 
-    /**
-     * Convert HTML content to text. Also, it handles click on link
-     * This needs to be run asynchronously
-     *
-     * @param text String - text to convert, it can be content, spoiler, poll items, etc.
-     * @return Spannable string
-     */
-    public static Spannable convertNitter(String text) {
-        SpannableString initialContent;
-        if (text == null) {
-            return null;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        else
-            initialContent = new SpannableString(Html.fromHtml(text));
-        return initialContent;
-    }
 
 
     /**

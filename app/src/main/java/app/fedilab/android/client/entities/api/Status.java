@@ -127,11 +127,7 @@ public class Status implements Serializable, Cloneable {
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
         return SpannableHelper.convert(context, content, this, null, null, true, viewWeakReference);
     }
-    //Some extra spannable element - They will be filled automatically when fetching the status
 
-    public Spannable getSpanContentNitter() {
-        return SpannableHelper.convertNitter(content);
-    }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
         return SpannableHelper.convert(context, spoiler_text, this, null, null, true, viewWeakReference);

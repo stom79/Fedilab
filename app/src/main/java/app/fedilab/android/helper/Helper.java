@@ -745,39 +745,56 @@ public class Helper {
      */
     public static String transformURL(Context context, String url) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Matcher matcher = Helper.nitterPattern.matcher(url);
+        Matcher matcher;
         boolean nitter = Helper.getSharedValue(context, context.getString(R.string.SET_NITTER));
         if (nitter) {
+            matcher = Helper.nitterPattern.matcher(url);
             if (matcher.find()) {
                 final String nitter_directory = matcher.group(2);
                 String nitterHost = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                if (nitterHost.trim().isEmpty()) {
+                    nitterHost = context.getString(R.string.DEFAULT_NITTER_HOST);
+                }
                 return "https://" + nitterHost + nitter_directory;
             }
         }
-        matcher = Helper.bibliogramPattern.matcher(url);
+
         boolean bibliogram = Helper.getSharedValue(context, context.getString(R.string.SET_BIBLIOGRAM));
+
         if (bibliogram) {
+            matcher = Helper.bibliogramPattern.matcher(url);
             if (matcher.find()) {
                 final String bibliogram_directory = matcher.group(2);
                 String bibliogramHost = sharedpreferences.getString(context.getString(R.string.SET_BIBLIOGRAM_HOST), context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST)).toLowerCase();
+                if (bibliogramHost.trim().isEmpty()) {
+                    bibliogramHost = context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST);
+                }
                 return "https://" + bibliogramHost + bibliogram_directory;
             }
         }
-        matcher = Helper.libredditPattern.matcher(url);
+
         boolean libreddit = Helper.getSharedValue(context, context.getString(R.string.SET_LIBREDDIT));
         if (libreddit) {
+            matcher = Helper.libredditPattern.matcher(url);
             if (matcher.find()) {
                 final String libreddit_directory = matcher.group(3);
                 String libreddit_host = sharedpreferences.getString(context.getString(R.string.SET_LIBREDDIT_HOST), context.getString(R.string.DEFAULT_LIBREDDIT_HOST)).toLowerCase();
+                if (libreddit_host.trim().isEmpty()) {
+                    libreddit_host = context.getString(R.string.DEFAULT_LIBREDDIT_HOST);
+                }
                 return "https://" + libreddit_host + "/" + libreddit_directory;
             }
         }
-        matcher = Helper.youtubePattern.matcher(url);
+
         boolean invidious = Helper.getSharedValue(context, context.getString(R.string.SET_INVIDIOUS));
         if (invidious) {
+            matcher = Helper.youtubePattern.matcher(url);
             if (matcher.find()) {
                 final String youtubeId = matcher.group(3);
                 String invidiousHost = sharedpreferences.getString(context.getString(R.string.SET_INVIDIOUS_HOST), context.getString(R.string.DEFAULT_INVIDIOUS_HOST)).toLowerCase();
+                if (invidiousHost.trim().isEmpty()) {
+                    invidiousHost = context.getString(R.string.DEFAULT_INVIDIOUS_HOST);
+                }
                 if (matcher.group(2) != null && Objects.equals(matcher.group(2), "youtu.be")) {
                     return "https://" + invidiousHost + "/watch?v=" + youtubeId + "&local=true";
                 } else {
@@ -785,9 +802,10 @@ public class Helper {
                 }
             }
         }
-        matcher = Helper.mediumPattern.matcher(url);
+
         boolean medium = Helper.getSharedValue(context, context.getString(R.string.REPLACE_MEDIUM));
         if (medium) {
+            matcher = Helper.mediumPattern.matcher(url);
             if (matcher.find()) {
                 String path = matcher.group(2);
                 String user = matcher.group(1);
@@ -795,12 +813,16 @@ public class Helper {
                     path = user + "/" + path;
                 }
                 String mediumReplaceHost = sharedpreferences.getString(context.getString(R.string.REPLACE_MEDIUM_HOST), context.getString(R.string.DEFAULT_REPLACE_MEDIUM_HOST)).toLowerCase();
+                if (mediumReplaceHost.trim().isEmpty()) {
+                    mediumReplaceHost = context.getString(R.string.DEFAULT_REPLACE_MEDIUM_HOST);
+                }
                 return "https://" + mediumReplaceHost + "/" + path;
             }
         }
-        matcher = Helper.wikipediaPattern.matcher(url);
+
         boolean wikipedia = Helper.getSharedValue(context, context.getString(R.string.REPLACE_WIKIPEDIA));
         if (wikipedia) {
+            matcher = Helper.wikipediaPattern.matcher(url);
             if (matcher.find()) {
                 String subdomain = matcher.group(1);
                 String path = matcher.group(2);
@@ -809,6 +831,9 @@ public class Helper {
                 if (path != null && subdomain != null && !subdomain.equals("www")) {
                     lang = (path.contains("?")) ? TextUtils.htmlEncode("&") : "?";
                     lang = lang + "lang=" + subdomain;
+                }
+                if (wikipediaReplaceHost.trim().isEmpty()) {
+                    wikipediaReplaceHost = context.getString(R.string.DEFAULT_REPLACE_WIKIPEDIA_HOST);
                 }
                 return "https://" + wikipediaReplaceHost + "/" + path + lang;
             }
