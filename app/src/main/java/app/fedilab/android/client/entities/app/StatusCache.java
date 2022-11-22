@@ -24,18 +24,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Conversation;
-import app.fedilab.android.client.entities.api.Conversations;
 import app.fedilab.android.client.entities.api.Notification;
-import app.fedilab.android.client.entities.api.Notifications;
-import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.api.Statuses;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -266,36 +261,21 @@ public class StatusCache {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
+        String query = "select count(*) from " + Sqlite.TABLE_STATUS_CACHE
                 + " where " + Sqlite.COL_STATUS_ID + " = '" + statusCache.status_id + "'"
                 + " AND " + Sqlite.COL_INSTANCE + " = '" + statusCache.instance + "'"
-                + " AND " + Sqlite.COL_USER_ID + "= '" + statusCache.user_id + "'", null);
+                + " AND " + Sqlite.COL_USER_ID + "= '" + statusCache.user_id + "'";
+        if (statusCache.type != null) {
+            query += " AND " + Sqlite.COL_TYPE + " = '" + statusCache.type.getValue() + "'";
+        }
+
+        Cursor mCount = db.rawQuery(query, null);
         mCount.moveToFirst();
         int count = mCount.getInt(0);
         mCount.close();
         return (count > 0);
     }
 
-    /**
-     * Check if a status exists in db
-     *
-     * @param status Status {@link Status}
-     * @return boolean - StatusCache exists
-     * @throws DBException Exception
-     */
-    public boolean statusExist(Status status) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
-                + " where " + Sqlite.COL_STATUS_ID + " = '" + status.id + "'"
-                + " AND " + Sqlite.COL_INSTANCE + " = '" + MainActivity.currentInstance + "'"
-                + " AND " + Sqlite.COL_USER_ID + "= '" + MainActivity.currentUserID + "'", null);
-        mCount.moveToFirst();
-        int count = mCount.getInt(0);
-        mCount.close();
-        return (count > 0);
-    }
 
     /**
      * Insert a status in db
@@ -313,7 +293,9 @@ public class StatusCache {
         values.put(Sqlite.COL_INSTANCE, statusCache.instance);
         values.put(Sqlite.COL_SLUG, slug);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
-        values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
+        if (type != null) {
+            values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
+        }
         if (statusCache.status != null) {
             values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         }
@@ -345,8 +327,6 @@ public class StatusCache {
             throw new DBException("db is null. Wrong initialization.");
         }
         ContentValues values = new ContentValues();
-        values.put(Sqlite.COL_USER_ID, statusCache.user_id);
-        values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
         if (statusCache.status != null) {
             values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         }
@@ -360,8 +340,8 @@ public class StatusCache {
         //Inserts token
         try {
             return db.update(Sqlite.TABLE_STATUS_CACHE,
-                    values, Sqlite.COL_STATUS_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
-                    new String[]{statusCache.status_id, statusCache.instance});
+                    values, Sqlite.COL_STATUS_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_TYPE + " =? AND " + Sqlite.COL_USER_ID + " =?",
+                    new String[]{statusCache.status_id, statusCache.instance, statusCache.type != null ? statusCache.type.getValue() : "", statusCache.user_id});
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -543,10 +523,10 @@ public class StatusCache {
      * @param user_id  String - us
      * @param max_id   String - status having max id
      * @param min_id   String - status having min id
-     * @return Statuses
+     * @return List<Notification>
      * @throws DBException - throws a db exception
      */
-    public Notifications getNotifications(List<String> exclude_type, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+    public List<Notification> getNotifications(List<String> exclude_type, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -573,7 +553,7 @@ public class StatusCache {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
-            return createNotificationReply(cursorToListOfNotifications(c));
+            return cursorToListOfNotifications(c);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -588,10 +568,10 @@ public class StatusCache {
      * @param user_id  String - us
      * @param max_id   String - status having max id
      * @param min_id   String - status having min id
-     * @return Statuses
+     * @return List<Conversation>
      * @throws DBException - throws a db exception
      */
-    public Conversations getConversations(String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+    public List<Conversation> getConversations(String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -607,10 +587,9 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
             limit = null;
         }
-
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
-            return createConversationReply(cursorToListOfConversations(c));
+            return cursorToListOfConversations(c);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -625,10 +604,10 @@ public class StatusCache {
      * @param user_id  String - us
      * @param max_id   String - status having max id
      * @param min_id   String - status having min id
-     * @return Statuses
+     * @return List<Status>
      * @throws DBException - throws a db exception
      */
-    public Statuses geStatuses(String slug, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
+    public List<Status> geStatuses(String slug, String instance, String user_id, String max_id, String min_id, String since_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -646,7 +625,7 @@ public class StatusCache {
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
-            return createStatusReply(cursorToListOfStatuses(c));
+            return cursorToListOfStatuses(c);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -769,75 +748,6 @@ public class StatusCache {
         return conversationList;
     }
 
-    /**
-     * Create a reply from db in the same way than API call
-     *
-     * @param notificationList List<Notification>
-     * @return Notifications (with pagination)
-     */
-    private Notifications createNotificationReply(List<Notification> notificationList) {
-        Notifications notifications = new Notifications();
-        notifications.notifications = notificationList;
-        Pagination pagination = new Pagination();
-        if (notificationList != null && notificationList.size() > 0) {
-            //Status list is inverted, it happens for min_id due to ASC ordering
-            if (Helper.compareTo(notificationList.get(0).id, notificationList.get(notificationList.size() - 1).id) < 0) {
-                Collections.reverse(notificationList);
-                notifications.notifications = notificationList;
-            }
-            pagination.max_id = notificationList.get(0).id;
-            pagination.min_id = notificationList.get(notificationList.size() - 1).id;
-        }
-        notifications.pagination = pagination;
-        return notifications;
-    }
-
-
-    /**
-     * Create a reply from db in the same way than API call
-     *
-     * @param conversationList List<Conversation>
-     * @return Conversations (with pagination)
-     */
-    private Conversations createConversationReply(List<Conversation> conversationList) {
-        Conversations conversations = new Conversations();
-        conversations.conversations = conversationList;
-        Pagination pagination = new Pagination();
-        if (conversationList != null && conversationList.size() > 0) {
-            //Status list is inverted, it happens for min_id due to ASC ordering
-            if (Helper.compareTo(conversationList.get(0).id, conversationList.get(conversationList.size() - 1).id) < 0) {
-                Collections.reverse(conversationList);
-                conversations.conversations = conversationList;
-            }
-            pagination.max_id = conversationList.get(0).id;
-            pagination.min_id = conversationList.get(conversationList.size() - 1).id;
-        }
-        conversations.pagination = pagination;
-        return conversations;
-    }
-
-    /**
-     * Create a reply from db in the same way than API call
-     *
-     * @param statusList List<Status>
-     * @return Statuses (with pagination)
-     */
-    private Statuses createStatusReply(List<Status> statusList) {
-        Statuses statuses = new Statuses();
-        statuses.statuses = statusList;
-        Pagination pagination = new Pagination();
-        if (statusList != null && statusList.size() > 0) {
-            //Status list is inverted, it happens for min_id due to ASC ordering
-            if (Helper.compareTo(statusList.get(0).id, statusList.get(statusList.size() - 1).id) < 0) {
-                Collections.reverse(statusList);
-                statuses.statuses = statusList;
-            }
-            pagination.max_id = statusList.get(0).id;
-            pagination.min_id = statusList.get(statusList.size() - 1).id;
-        }
-        statuses.pagination = pagination;
-        return statuses;
-    }
 
     /**
      * Read cursor and hydrate without closing it
