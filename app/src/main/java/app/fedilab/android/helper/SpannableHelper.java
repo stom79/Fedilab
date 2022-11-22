@@ -147,6 +147,7 @@ public class SpannableHelper {
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
             emails(context, content);
+            gemini(context, content);
             replaceQuoteSpans(context, content);
         } else {
             content = new SpannableStringBuilder(text);
@@ -668,6 +669,38 @@ public class SpannableHelper {
         }
     }
 
+    private static void gemini(Context context, Spannable content) {
+        // --- For all patterns defined in Helper class ---
+        Pattern pattern = Helper.geminiPattern;
+        Matcher matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            int matchStart = matcher.start();
+            int matchEnd = matcher.end();
+            String geminiLink = content.toString().substring(matchStart, matchEnd);
+            if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
+                ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+                if (clickableSpans != null) {
+                    for (ClickableSpan clickableSpan : clickableSpans) {
+                        content.removeSpan(clickableSpan);
+                    }
+                }
+                content.removeSpan(clickableSpans);
+                content.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View textView) {
+                        Helper.openBrowser(context, geminiLink);
+                    }
+
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setUnderlineText(false);
+                        ds.setColor(linkColor);
+                    }
+                }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
+        }
+    }
 
     private static void emails(Context context, Spannable content) {
         // --- For all patterns defined in Helper class ---
