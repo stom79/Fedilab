@@ -1910,4 +1910,5 @@
     <string name="unblock_domain">Unblock domain</string>
     <string name="no_blocked_domains">You have not blocked domains</string>
     <string name="unblock_domain_confirm">Are you sure to unblock %1$s?</string>
+    <string name="action_privacy_policy">Privacy policy</string>
 </resources>
