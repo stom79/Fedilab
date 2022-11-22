@@ -293,7 +293,7 @@ public class StatusCache {
         values.put(Sqlite.COL_INSTANCE, statusCache.instance);
         values.put(Sqlite.COL_SLUG, slug);
         values.put(Sqlite.COL_STATUS_ID, statusCache.status_id);
-        if (type != null) {
+        if (statusCache.type != null) {
             values.put(Sqlite.COL_TYPE, statusCache.type.getValue());
         }
         if (statusCache.status != null) {
