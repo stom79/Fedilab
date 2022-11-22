@@ -619,7 +619,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 matcherEmoji = emojiPattern.matcher(searchIn);
                 if (matcherMention.matches()) {
                     String searchGroup = matcherMention.group();
-                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 10, true, false).observe((LifecycleOwner) context, accounts -> {
+                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 5, false, false).observe((LifecycleOwner) context, accounts -> {
                         if (accounts == null) {
                             return;
                         }
