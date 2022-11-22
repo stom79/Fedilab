@@ -242,7 +242,6 @@ public class StatusCache {
         }
         Cursor mCount = db.rawQuery("select count(*) from " + Sqlite.TABLE_STATUS_CACHE
                 + " where " + Sqlite.COL_TYPE + " != '" + Timeline.TimeLineEnum.HOME.getValue() + "'"
-                + " AND " + Sqlite.COL_INSTANCE + " = '" + baseAccount.instance + "'"
                 + " AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "'", null);
         mCount.moveToFirst();
         int count = mCount.getInt(0);
@@ -465,8 +464,8 @@ public class StatusCache {
         }
         try {
             return db.delete(Sqlite.TABLE_STATUS_CACHE,
-                    Sqlite.COL_TYPE + " != ? AND " + Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
-                    new String[]{Timeline.TimeLineEnum.HOME.getValue(), account.user_id, account.instance});
+                    Sqlite.COL_TYPE + " != ? AND " + Sqlite.COL_USER_ID + " =  ?",
+                    new String[]{Timeline.TimeLineEnum.HOME.getValue(), account.user_id});
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -552,7 +551,7 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_SLUG + " NOT IN (" + exclude + ") ";
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
             return cursorToListOfNotifications(c);
         } catch (Exception e) {
             e.printStackTrace();
@@ -588,7 +587,7 @@ public class StatusCache {
             limit = null;
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
             return cursorToListOfConversations(c);
         } catch (Exception e) {
             e.printStackTrace();
@@ -624,7 +623,7 @@ public class StatusCache {
             limit = null;
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
             return cursorToListOfStatuses(c);
         } catch (Exception e) {
             e.printStackTrace();
