@@ -143,7 +143,11 @@ public class CacheActivity extends BaseActivity {
                         dialogRestart.dismiss();
                         Helper.restart(CacheActivity.this);
                     });
-                    restartBuilder.create().show();
+                    AlertDialog alertDialog = restartBuilder.create();
+                    if (!isFinishing()) {
+                        alertDialog.show();
+                    }
+
                 }));
                 dialog.dismiss();
             });
