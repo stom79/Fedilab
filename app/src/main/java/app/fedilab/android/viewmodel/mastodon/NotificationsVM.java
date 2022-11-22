@@ -112,24 +112,24 @@ public class NotificationsVM extends AndroidViewModel {
                     if (notificationsResponse.isSuccessful()) {
                         List<Notification> notFiltered = notificationsResponse.body();
                         notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered);
-                        addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
                         notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
-
                         if (notifications.notifications != null && notifications.notifications.size() > 0) {
                             addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
-                            for (Notification notification : notifications.notifications) {
-                                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-                                StatusCache statusCache = new StatusCache();
-                                statusCache.instance = timelineParams.instance;
-                                statusCache.user_id = timelineParams.userId;
-                                statusCache.notification = notification;
-                                statusCache.slug = notification.type;
-                                statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
-                                statusCache.status_id = notification.id;
-                                try {
-                                    statusCacheDAO.insertOrUpdate(statusCache, notification.type);
-                                } catch (DBException e) {
-                                    e.printStackTrace();
+                            if (notFiltered != null && notFiltered.size() > 0) {
+                                for (Notification notification : notFiltered) {
+                                    StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                    StatusCache statusCache = new StatusCache();
+                                    statusCache.instance = timelineParams.instance;
+                                    statusCache.user_id = timelineParams.userId;
+                                    statusCache.notification = notification;
+                                    statusCache.slug = notification.type;
+                                    statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
+                                    statusCache.status_id = notification.id;
+                                    try {
+                                        statusCacheDAO.insertOrUpdate(statusCache, notification.type);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
@@ -146,41 +146,39 @@ public class NotificationsVM extends AndroidViewModel {
         return notificationsMutableLiveData;
     }
 
-    public LiveData<Notifications> getNotificationCache(List<Notification> notificationList, TimelinesVM.TimelineParams timelineParams) {
+    public LiveData<Notifications> getNotificationCache(List<Notification> timelineNotification, TimelinesVM.TimelineParams timelineParams) {
         notificationsMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-            Notifications notifications = null;
+            Notifications notifications = new Notifications();
+            List<Notification> notificationsDb;
             try {
-                notifications = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
-                if (notifications != null) {
-                    if (notifications.notifications != null && notifications.notifications.size() > 0) {
-                        if (notificationList != null) {
-                            List<Notification> notPresentNotifications = new ArrayList<>();
-                            for (Notification notification : notifications.notifications) {
-                                if (!notificationList.contains(notification)) {
-                                    notification.cached = true;
-                                    notPresentNotifications.add(notification);
-                                }
+                notificationsDb = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
+                if (notificationsDb != null && notificationsDb.size() > 0) {
+                    if (timelineNotification != null) {
+                        List<Notification> notPresentNotifications = new ArrayList<>();
+                        for (Notification notification : notificationsDb) {
+                            if (!timelineNotification.contains(notification)) {
+                                notification.cached = true;
+                                notPresentNotifications.add(notification);
                             }
-                            //Only not already present statuses are added
-                            notifications.notifications = notPresentNotifications;
                         }
-                        TimelineHelper.filterNotification(getApplication().getApplicationContext(), notifications.notifications);
-                        if (notifications.notifications.size() > 0) {
-                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
-                            notifications.pagination = new Pagination();
-                            notifications.pagination.min_id = notifications.notifications.get(0).id;
-                            notifications.pagination.max_id = notifications.notifications.get(notifications.notifications.size() - 1).id;
-                        }
+                        //Only not already present statuses are added
+                        notificationsDb = notPresentNotifications;
+                    }
+                    notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notificationsDb);
+                    if (notifications.notifications.size() > 0) {
+                        addFetchMoreNotifications(notifications.notifications, timelineNotification, timelineParams);
+                        notifications.pagination = new Pagination();
+                        notifications.pagination.min_id = notifications.notifications.get(0).id;
+                        notifications.pagination.max_id = notifications.notifications.get(notifications.notifications.size() - 1).id;
                     }
                 }
             } catch (DBException e) {
                 e.printStackTrace();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Notifications finalNotifications = notifications;
-            Runnable myRunnable = () -> notificationsMutableLiveData.setValue(finalNotifications);
+            Runnable myRunnable = () -> notificationsMutableLiveData.setValue(notifications);
             mainHandler.post(myRunnable);
         }).start();
         return notificationsMutableLiveData;

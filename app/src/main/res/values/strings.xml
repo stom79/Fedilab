@@ -1906,4 +1906,5 @@
     <string name="notif_signed_up">Signed up</string>
     <string name="Suggestions">Suggestions</string>
     <string name="not_interested">Not interested</string>
+    <string name="blocked_domains">Blocked domains</string>
 </resources>
