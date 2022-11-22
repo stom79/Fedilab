@@ -857,4 +857,7 @@
     <string name="delete_timeline">Zaman çizelgesini sil</string>
     <string name="notif_submitted_report">Rapor gönderildi</string>
     <string name="notif_signed_up">Kaydoldu</string>
+    <string name="Suggestions">Öneriler</string>
+    <string name="not_interested">İlgilenmiyor</string>
+    <string name="blocked_domains">Engellenen etki alanları</string>
 </resources>
