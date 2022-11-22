@@ -316,7 +316,7 @@ public interface MastodonAccountsService {
     @DELETE("domain_blocks")
     Call<Void> removeDomainBlocks(
             @Header("Authorization") String token,
-            @Field("domain") String domain
+            @Query("domain") String domain
     );
 
 

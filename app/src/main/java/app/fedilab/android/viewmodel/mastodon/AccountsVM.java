@@ -35,6 +35,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Accounts;
+import app.fedilab.android.client.entities.api.Domains;
 import app.fedilab.android.client.entities.api.FeaturedTag;
 import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.client.entities.api.Filter;
@@ -89,7 +90,7 @@ public class AccountsVM extends AndroidViewModel {
     private MutableLiveData<List<Tag>> tagListMutableLiveData;
     private MutableLiveData<Preferences> preferencesMutableLiveData;
     private MutableLiveData<Token> tokenMutableLiveData;
-    private MutableLiveData<List<String>> stringListMutableLiveData;
+    private MutableLiveData<Domains> domainsMutableLiveData;
     private MutableLiveData<Report> reportMutableLiveData;
 
     public AccountsVM(@NonNull Application application) {
@@ -1029,11 +1030,12 @@ public class AccountsVM extends AndroidViewModel {
      * View domains the user has blocked.
      *
      * @param limit Maximum number of results. Defaults to 40.
-     * @return {@link LiveData} containing a {@link List} of {@link String}s
+     * @return {@link LiveData} containing {@link Domains}
      */
-    public LiveData<List<String>> getDomainBlocks(@NonNull String instance, String token, String limit, String maxId, String sinceId) {
-        stringListMutableLiveData = new MutableLiveData<>();
+    public LiveData<Domains> getDomainBlocks(@NonNull String instance, String token, String limit, String maxId, String sinceId) {
+        domainsMutableLiveData = new MutableLiveData<>();
         MastodonAccountsService mastodonAccountsService = init(instance);
+        Domains domains = new Domains();
         new Thread(() -> {
             List<String> stringList = null;
             Call<List<String>> getDomainBlocksCall = mastodonAccountsService.getDomainBlocks(token, limit, maxId, sinceId);
@@ -1041,18 +1043,18 @@ public class AccountsVM extends AndroidViewModel {
                 try {
                     Response<List<String>> getDomainBlocksResponse = getDomainBlocksCall.execute();
                     if (getDomainBlocksResponse.isSuccessful()) {
-                        stringList = getDomainBlocksResponse.body();
+                        domains.domains = getDomainBlocksResponse.body();
+                        domains.pagination = MastodonHelper.getPagination(getDomainBlocksResponse.headers());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<String> finalStringList = stringList;
-            Runnable myRunnable = () -> stringListMutableLiveData.setValue(finalStringList);
+            Runnable myRunnable = () -> domainsMutableLiveData.setValue(domains);
             mainHandler.post(myRunnable);
         }).start();
-        return stringListMutableLiveData;
+        return domainsMutableLiveData;
     }
 
     /**

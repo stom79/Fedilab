@@ -29,6 +29,7 @@ import app.fedilab.android.databinding.ActivityActionsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
+import app.fedilab.android.ui.fragment.timeline.FragmentMastodonDomainBlock;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 
 public class ActionActivity extends BaseActivity {
@@ -37,6 +38,7 @@ public class ActionActivity extends BaseActivity {
     private boolean canGoBack;
     private FragmentMastodonTimeline fragmentMastodonTimeline;
     private FragmentMastodonAccount fragmentMastodonAccount;
+    private FragmentMastodonDomainBlock fragmentMastodonDomainBlock;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class ActionActivity extends BaseActivity {
         binding.bookmarks.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BOOKMARK_TIMELINE));
         binding.muted.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.MUTED_TIMELINE));
         binding.blocked.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_TIMELINE));
+        binding.domainBlock.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_DOMAIN_TIMELINE));
     }
 
     private void displayTimeline(Timeline.TimeLineEnum type) {
@@ -73,6 +76,15 @@ public class ActionActivity extends BaseActivity {
                 fragmentTransaction.commit();
             });
 
+        } else if (type == Timeline.TimeLineEnum.BLOCKED_DOMAIN_TIMELINE) {
+            ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
+                fragmentMastodonDomainBlock = new FragmentMastodonDomainBlock();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction =
+                        fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonDomainBlock);
+                fragmentTransaction.commit();
+            });
         } else {
 
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
@@ -102,6 +114,9 @@ public class ActionActivity extends BaseActivity {
             case BOOKMARK_TIMELINE:
                 setTitle(R.string.bookmarks);
                 break;
+            case BLOCKED_DOMAIN_TIMELINE:
+                setTitle(R.string.blocked_domains);
+                break;
         }
     }
 
@@ -115,6 +130,9 @@ public class ActionActivity extends BaseActivity {
                 }
                 if (fragmentMastodonAccount != null) {
                     fragmentMastodonAccount.onDestroyView();
+                }
+                if (fragmentMastodonDomainBlock != null) {
+                    fragmentMastodonDomainBlock.onDestroyView();
                 }
             });
             setTitle(R.string.interactions);
