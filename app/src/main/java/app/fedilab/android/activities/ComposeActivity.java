@@ -110,6 +110,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
     private boolean promptSaveDraft;
+    private boolean restoredDraft;
 
 
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
@@ -235,12 +236,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 AlertDialog alert = alt_bld.create();
                 alert.show();
             } else {
-                try {
-                    new StatusDraft(ComposeActivity.this).removeDraft(statusDraft);
-                    finish();
-                } catch (DBException e) {
-                    e.printStackTrace();
+                if (!restoredDraft) {
+                    try {
+                        new StatusDraft(ComposeActivity.this).removeDraft(statusDraft);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
+                finish();
             }
         } else {
             finish();
@@ -446,6 +449,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         promptSaveDraft = false;
+        restoredDraft = false;
         ActionBar actionBar = getSupportActionBar();
         //Remove title
         if (actionBar != null) {
@@ -576,6 +580,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         }
                     });
         } else if (statusDraft != null) {//Restore a draft with all messages
+            restoredDraft = true;
             if (statusDraft.statusReplyList != null) {
                 statusList.addAll(statusDraft.statusReplyList);
                 binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
