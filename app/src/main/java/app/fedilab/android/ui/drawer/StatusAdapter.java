@@ -1240,8 +1240,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     layoutMediaBinding.media.setOnClickListener(v -> {
                         if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
                             statusToDeal.isMediaObfuscated = false;
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            int position = holder.getBindingAdapterPosition();
+                            adapter.notifyItemChanged(position);
                             final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+
                             if (timeout > 0) {
                                 new CountDownTimer((timeout * 1000L), 1000) {
                                     public void onTick(long millisUntilFinished) {
@@ -1249,7 +1251,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                                     public void onFinish() {
                                         status.isMediaObfuscated = true;
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(position);
                                     }
                                 }.start();
                             }
