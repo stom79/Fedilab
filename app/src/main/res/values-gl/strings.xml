@@ -4,7 +4,7 @@
     <string name="action_about_instance">Acerca da instancia</string>
     <string name="action_privacy">Intimidade</string>
     <string name="action_cache">Caché</string>
-    <string name="action_logout">Desconectar</string>
+    <string name="action_logout">Pechar sesión</string>
     <!-- common -->
     <string name="close">Pechar</string>
     <string name="yes">Si</string>
@@ -61,7 +61,7 @@
     <string name="disclaimer_full">A información inferior sobre a usuaria podería estar incompleta.</string>
     <string name="insert_emoji">Incrustar emoji</string>
     <string name="no_emoji">Polo momento a app non permite emojis personalizados.</string>
-    <string name="logout_account_confirmation">Tes a certeza de querer desconectar @%1$s@%2$s?</string>
+    <string name="logout_account_confirmation">Tes a certeza de querer pechar a sesión @%1$s@%2$s\?</string>
     <!-- Status -->
     <string name="no_status">Non hai mensaxes a mostrar</string>
     <string name="favourite_add">Engadir esta publicación a favoritos\?</string>
@@ -266,7 +266,7 @@
     <string name="proxy_enable">Activar proxy?</string>
     <string name="poxy_host">Host</string>
     <string name="poxy_port">Porto</string>
-    <string name="poxy_login">Conectar</string>
+    <string name="poxy_login">Acceder</string>
     <string name="poxy_password">Contrasinal</string>
     <string name="set_share_details">Engadir detalles da mensaxe ao compartir</string>
     <string name="support_the_app_on_liberapay">Axude a app en Liberapay</string>
@@ -374,7 +374,7 @@
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contactos</string>
     <string name="toot_select_file_error">Algo fallou ao seleccionar o ficheiro de respaldo!</string>
-    <string name="action_logout_account">Desconectar conta</string>
+    <string name="action_logout_account">Pechar sesión da conta</string>
     <string name="all">Todo</string>
     <string name="copy_link">Copiar ligazón</string>
     <string name="calls_blocked">peticións http bloqueadas pola aplicación</string>
@@ -445,11 +445,13 @@
     <string name="password_too_short">O contrasinal debe conter ao menos 8 caracteres</string>
     <string name="username_error">O nome de usuaria debería ter só letras, números e guión baixo</string>
     <string name="account_created">Conta creada!</string>
-    <string name="account_created_message">        Xa ten unha conta!\n\n
-        Lembre validar o correo-e nas seguintes48 horas.\n\n
-        Xa pode conectar coa súa conta escribindo <b>%1$s</b> no primeiro campo e pulsando <b>Conectar</b>.\n\n
-        <b>Importante</b>: se a súa instancia require validación, recibirá un correo unha vez sexa validada!
-    </string>
+    <string name="account_created_message"> Xa tes unha conta!
+\n
+\n Lembra validar o email nas seguintes 48 horas.
+\n
+\n Xa podes acceder coa túa conta escribindo <b>%1$s</b> no primeiro campo e premendo <b>Acceder</b>.
+\n
+\n <b>Importante</b>: se a túa instancia require validación, recibirás un correo unha vez sexa validada! </string>
     <string name="save_draft">¿Gardar mensaxe en borradores?</string>
     <string name="administration">Administración</string>
     <string name="reports">Informes</string>
@@ -762,4 +764,100 @@
     <string name="export_settings">Exportar axustes</string>
     <string name="label_line">Liña</string>
     <string name="message_language">Idioma das mensaxes</string>
+    <string name="restart_the_app_theme">Debes reiniciar a app para aplicar os cambios.</string>
+    <string name="unconfirmed">Sen confirmar</string>
+    <string name="mark_resolved">Marcar como resolta</string>
+    <string name="toast_fetch_error">A non pode atopar os datos remotos!</string>
+    <string name="notif_submitted_report">Enviou unha denuncia</string>
+    <string name="action_privacy_policy">Política de privacidade</string>
+    <string name="blocked_domains">Dominios bloqueados</string>
+    <string name="edited_message_at">Editada o %1$s</string>
+    <string name="unblock_domain">Desbloquear dominio</string>
+    <string name="no_blocked_domains">Non tes dominios bloqueados</string>
+    <string name="unblock_domain_confirm">Tes a certeza de desbloquear %1$s\?</string>
+    <string name="pickup_logo">Elixe un logo</string>
+    <string name="change_logo">Cambiar logo</string>
+    <string name="change_logo_description">Cambia o logo da app no teu dispositivo</string>
+    <string name="action_pin">Fixar mensaxe</string>
+    <string name="set_live_translate_title">Traducir mensaxes</string>
+    <string name="set_live_translate">Forzar a tradución a un idioma concreto. Elixe o primeiro valor para restablecer aos axustes do sistema</string>
+    <string name="created_message_at">Creada o %1$s</string>
+    <string name="max_indentation_thread">Indentación máx. nos fíos</string>
+    <string name="set_unlisted_replies">Respostas non listadas</string>
+    <string name="Suggestions">Suxestións</string>
+    <string name="not_interested">Non interesada</string>
+    <string name="set_unlisted_replies_indication">Só aplica a respostas \"públicas\". Ao activalo, as respostas terán automáticamente visibilidade \"non listada\" no lugar de \"pública\"</string>
+    <string name="toast_unpin">A mensaxe xa non está fixada!</string>
+    <string name="toast_pin">Fixouse a mensaxe</string>
+    <string name="notification_remove_from_cache">Eliminadas da caché as notificacións.</string>
+    <string name="email_status">Estado do email</string>
+    <string name="login_status">Estado da sesión</string>
+    <string name="assign_to_me">Asignarma</string>
+    <string name="unassign">Retirar asignación</string>
+    <string name="account_warned">Conta con avisos</string>
+    <string name="account_unsuspended">Retirada a suspensión da conta</string>
+    <string name="account_suspended">Conta suspendida</string>
+    <string name="account_silenced">Conta acalada</string>
+    <string name="report">Denunciar</string>
+    <string name="action_unpin">Desafixar mensaxe</string>
+    <string name="joined">Uniuse</string>
+    <string name="recent_ip">IP recente</string>
+    <string name="allow">Permitir</string>
+    <string name="warn">Avisar</string>
+    <string name="email_user">Notificar á usuaria por email</string>
+    <string name="custom_warning">Aviso personalizado</string>
+    <string name="list_reported_statuses">Estados denunciados</string>
+    <string name="silenced">Acalada</string>
+    <string name="user">Usuaria</string>
+    <string name="moderator">Moderadora</string>
+    <string name="administrator">Administradora</string>
+    <string name="confirmed">Confirmada</string>
+    <string name="mark_unresolved">Macar como non resolta</string>
+    <string name="account_rejected">Conta rexeitada</string>
+    <string name="account_approved">Conta aprobada</string>
+    <string name="account_undisabled">Conta reactivada</string>
+    <string name="account_disabled">Conta desactivada</string>
+    <string name="account_unsilenced">Conta restablecida</string>
+    <string name="state">Estado</string>
+    <string name="restart_the_app">Reiniciar a app\?</string>
+    <string name="restart">Reiniciar</string>
+    <string name="set_language_picker_title">Idiomas no selector</string>
+    <string name="set_language_picker">Permite reducir a lista de idiomas no selector ao escribir unha mensaxe.</string>
+    <string name="action_followed_tag_empty">Non segues ningún cancelo!</string>
+    <string name="action_unfollow_tag">Non seguir cancelo</string>
+    <string name="action_unfollow_tag_confirm">Queres deixar de seguir este cancelo\?</string>
+    <string name="unfollow">Non seguir</string>
+    <string name="action_tag_follow">Seguir un cancelo</string>
+    <string name="write_the_tag_to_follow">Escribe o cancelo a seguir</string>
+    <string name="not_valid_tag_name">O nome do cancelo non é válido!</string>
+    <string name="followed_tags">Cancelos seguidos</string>
+    <string name="follow_tag">Seguir cancelo</string>
+    <string name="display_media_notification">Mostrar multimedia nas notificacións</string>
+    <string name="display_media_notification_summary">Mostrarase o multimedia nas notificacións de RT e FAV</string>
+    <string name="action_lists_edit">Editar lista</string>
+    <string name="profiles">Perfís</string>
+    <string name="toast_feature_not_supported">A túa instancia non ten soporte para esta función!</string>
+    <string name="watch_trends_for_instance">Mira os temas en voga na instancia</string>
+    <string name="notif_update">Editou unha mensaxe</string>
+    <string name="notif_display_updates">Actualizacións</string>
+    <string name="edit_message">Editar mensaxe</string>
+    <string name="full_date_edited">%1$s editou %2$s</string>
+    <string name="status_history">Historial da mensaxe</string>
+    <string name="filter_action">Acción do filtro</string>
+    <string name="filter_action_explanations">Elixe que acción debe realizar o filtro ao atopar unha concordancia</string>
+    <string name="hide_with_warning">Agochar cun aviso</string>
+    <string name="hide_completely">Agochar completamente</string>
+    <string name="hide_with_warning_description">Agochar o contido filtrado detrás dun aviso que menciona o título do filtro</string>
+    <string name="hide_completely_description">Agochar completamente o contido filtrado, como se non tivese existido</string>
+    <string name="context_home_list">Inicio e listas</string>
+    <string name="title">Título</string>
+    <string name="keyword_or_phrase">Palabra ou frase a filtrar</string>
+    <string name="delete_keyword">Eliminar palabra</string>
+    <string name="add_keyword">Engadir palabra</string>
+    <string name="filtered_by">Filtrado %1$s</string>
+    <string name="show_anyway">Mostrar igualmente</string>
+    <string name="display_remote_profile">Mostrar perfil remoto</string>
+    <string name="toast_error_add_to_list">A app non puido engadir a conta á lista!</string>
+    <string name="delete_timeline">Eliminar cronoloxía</string>
+    <string name="notif_signed_up">Rexistrada</string>
 </resources>

@@ -17,19 +17,19 @@
     <string name="password">Heslo</string>
     <string name="email">Email</string>
     <string name="accounts">Účty</string>
-    <string name="toots">Tooty</string>
+    <string name="toots">Zprávy</string>
     <string name="tags">Štítky</string>
     <string name="save">Uložit</string>
     <string name="instance">Instance</string>
     <string name="instance_example">Instance: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Nyní používáte účet %1$s</string>
     <string name="add_account">Přidat účet</string>
-    <string name="clipboard">Obsah tootu byl zkopírován do schránky</string>
-    <string name="clipboard_url">Adresa tootu byla zkopírována do schránky</string>
+    <string name="clipboard">Obsah zprávy byl zkopírován do schránky</string>
+    <string name="clipboard_url">Adresa zprávy byla zkopírována do schránky</string>
     <string name="camera">Fotoaparát</string>
     <string name="delete_all">Smazat všechno</string>
     <string name="schedule">Naplánovat</string>
-    <string name="text_size">Velikost textu a ikony</string>
+    <string name="text_size">Velikost textu</string>
     <string name="next">Další</string>
     <string name="previous">Předchozí</string>
     <string name="open_with">Otevřít čím</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Žádost o sledování</string>
     <string name="settings">Nastavení</string>
     <string name="send_email">Poslat e-mail</string>
-    <string name="scheduled_toots">Naplánované tooty</string>
+    <string name="scheduled_toots">Naplánované zprávy</string>
     <string name="disclaimer_full">Níže uvedené informace mohou popisovat uživatelský profil neúplně.</string>
     <string name="insert_emoji">Vložit smajlík</string>
     <string name="no_emoji">Aplikace prozatím nenačetla uživatelské smajlíky.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Žádné tooty k zobrazení</string>
-    <string name="favourite_add">Přidat tento toot k oblíbeným?</string>
-    <string name="favourite_remove">Odstranit tento toot z oblíbených?</string>
-    <string name="reblog_add">Boostnout tento toot?</string>
-    <string name="reblog_remove">Zrušit boost?</string>
+    <string name="no_status">Žádné zprávy k zobrazení</string>
+    <string name="favourite_add">Přidat tuto zprávu k oblíbeným\?</string>
+    <string name="favourite_remove">Odstranit tuto zprávu z oblíbených\?</string>
+    <string name="reblog_add">Boostnout tuto zprávu\?</string>
+    <string name="reblog_remove">Zrušit boost\?</string>
     <string name="more_action_1">Ztlumit</string>
     <string name="more_action_2">Blokovat</string>
     <string name="more_action_3">Nahlásit</string>
@@ -130,8 +130,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Nastala chyba při výběru média!</string>
     <string name="toot_delete_media">Smazat médium?</string>
-    <string name="toot_error_no_content">Váš toot je prázdný!</string>
-    <string name="toot_sent">Toot byl odeslán!</string>
+    <string name="toot_error_no_content">Vaše zpráva je prázdná!</string>
+    <string name="toot_sent">Zpráva byla odeslána!</string>
     <string name="toot_sensitive">Citlivý obsah?</string>
     <string name="no_draft">Žádné koncepty!</string>
     <string name="choose_accounts">Vyberte účet</string>
@@ -151,14 +151,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Žádný účet k zobrazení</string>
     <string name="no_follow_request">Není požadavek ke sledování</string>
-    <string name="status_cnt">Tooty \n %1$s</string>
+    <string name="status_cnt">Zprávy
+\n %1$s</string>
     <string name="following_cnt">Sleduji \n %1$s</string>
     <string name="followers_cnt">Sledující \n %1$s</string>
     <string name="reject">Odmítnout</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Žádné naplánované tooty k zobrazení!</string>
-    <string name="remove_scheduled">Odstranit naplánovaný toot?</string>
-    <string name="toot_scheduled">Toot byl naplánován!</string>
+    <string name="no_scheduled_toots">Žádné naplánované zprávy k zobrazení!</string>
+    <string name="remove_scheduled">Odstranit naplánovanou zprávu\?</string>
+    <string name="toot_scheduled">Zpráva byla naplánována!</string>
     <string name="toot_scheduled_date">Plánované datum musí být vyšší než aktuální hodina!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Časový interval pro ztlumení musí být vyšší než jedna minuta.</string>
@@ -184,10 +185,10 @@
     <string name="toast_unmute">Účet není nadále ztlumen!</string>
     <string name="toast_follow">Účet je sledován!</string>
     <string name="toast_unfollow">Účet není nadále sledován!</string>
-    <string name="toast_reblog">Toot byl boostnut!</string>
-    <string name="toast_unreblog">Toot již není boostnut!</string>
-    <string name="toast_favourite">Toot byl přidán k oblíbeným!</string>
-    <string name="toast_unfavourite">Toot byl odstraněn z oblíbených!</string>
+    <string name="toast_reblog">Zpráva byla boostnuta!</string>
+    <string name="toast_unreblog">Zpráva již není boostnuta!</string>
+    <string name="toast_favourite">Zpráva byla přidána k oblíbeným!</string>
+    <string name="toast_unfavourite">Zpráva byla odstraněna z oblíbených!</string>
     <string name="toast_error">Oops! Došlo k chybě!</string>
     <string name="toast_code_error">Došlo k chybě! Instance nevrátila autorizační kód!</string>
     <string name="toast_error_instance">Tato doména není platná!</string>
@@ -196,7 +197,7 @@
     <string name="nothing_to_do">Nelze vykonat akci</string>
     <string name="toast_error_translate">Při překladu došlo k chybě!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Počet tootů pro jedno nahrání</string>
+    <string name="set_toots_page">Počet zpráv pro jedno nahrání</string>
     <string name="set_disable_gif">Zakázat GIF avatary</string>
     <string name="set_notif_follow">Oznámení v případě sledování</string>
     <string name="set_notif_follow_share">Oznámení v případě boostnutí vašeho tootu</string>
@@ -275,7 +276,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Přihlašovací jméno</string>
     <string name="poxy_password">Heslo</string>
-    <string name="set_share_details">Přidat podrobnosti tootu při sdílení</string>
+    <string name="set_share_details">Přidat podrobnosti zprávy při sdílení</string>
     <string name="support_the_app_on_liberapay">Podpořit aplikaci na Liberapay</string>
     <string name="alert_regex">Chyba v regulárním výrazu!</string>
     <string name="toast_instance_unavailable">Časová osa nenalezena na této instanci!</string>
@@ -296,7 +297,7 @@
     <string name="context_conversation">Konverzace</string>
     <string name="filter_keyword_explanations">Velikost písmen ani varování o obsahu nebudou brána v potaz</string>
     <string name="context_drop">Zahodit místo skrytí</string>
-    <string name="context_drop_explanations">Filtrované tooty zmizí nezvratně i v případě, že je filtr později odstraněn</string>
+    <string name="context_drop_explanations">Filtrované zprávy zmizí nezvratně i v případě, že je filtr později odstraněn</string>
     <string name="context_whole_word_explanations">V případě, že klíčové slovo nebo fráze je pouze alfanumerické, filtr se uplatní pouze pokud odpovídá celému slovu</string>
     <string name="context_whole_word">Celé slovo</string>
     <string name="filter_context">Kontext filtru</string>
@@ -311,7 +312,7 @@
     <string name="channel_notif_fav">Nové oblíbení</string>
     <string name="channel_notif_mention">Nová zmínka</string>
     <string name="channel_notif_poll">Anketa skončila</string>
-    <string name="channel_notif_backup">Záloha tootů</string>
+    <string name="channel_notif_backup">Záloha zpráv</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Stahování médií</string>
     <string name="select_sound">Vybrat tón</string>
@@ -323,11 +324,11 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Použít Emoji One</string>
     <string name="information">Informace</string>
-    <string name="set_display_card">Zobrazit náhled ve všech tootech</string>
+    <string name="set_display_card">Zobrazit náhled ve všech zprávách</string>
     <string name="account_id_clipbloard">Identifikátor účtu byl zkopírován do schránky!</string>
     <string name="set_change_locale">Změna jazyka</string>
-    <string name="truncate_long_toots">Ořezat dlouhé tooty</string>
-    <string name="set_truncate_toot">Ořezat tooty delší než \'x\' řádků. 0 znamená vypnuto.</string>
+    <string name="truncate_long_toots">Ořezat dlouhé zprávy</string>
+    <string name="set_truncate_toot">Ořezat zprávy delší než \'x\' řádků. 0 znamená vypnuto.</string>
     <string name="display_toot_truncate">Zobrazit více</string>
     <string name="hide_toot_truncate">Zobrazit méně</string>
     <string name="tags_already_stored">Štítek již existuje!</string>
@@ -373,8 +374,8 @@
     <string name="category">Kategorie</string>
     <string name="description">Popis</string>
     <string name="share">Sdílet</string>
-    <string name="toots_server">Tooty (Server)</string>
-    <string name="toots_client">Tooty (zařízení)</string>
+    <string name="toots_server">Zprávy (Server)</string>
+    <string name="toots_client">Zprávy (Zařízení)</string>
     <string name="settings_category_label_timelines">Časové osi</string>
     <string name="settings_category_label_interface">Rozhraní</string>
     <string name="contact">Kontakty</string>
@@ -400,7 +401,7 @@
     <string name="settings_category_notif_categories">Kategorie</string>
     <string name="move_timeline">Přesunout časovou osu</string>
     <string name="hide_timeline">Skrýt časovou osu</string>
-    <string name="reorder_timelines">Změnit pořadí časových os</string>
+    <string name="reorder_timelines">Spravovat časové osy</string>
     <string name="reorder_list_deleted">Seznam trvale smazán</string>
     <string name="reorder_instance_removed">Sledovaná instance odstraněna</string>
     <string name="reorder_tag_removed">Připnuté značky odstraněny</string>
@@ -725,4 +726,14 @@
     <string name="permission_missing">Oprávnění nebylo uděleno!</string>
     <string name="delete_cache_message">Opravdu chcete vymazat cache\? Pokud máte koncepty s médii, budou přiložená média ztracena.</string>
     <string name="set_timelines_in_a_list_title">Časové osy v seznamu</string>
+    <string name="post_message">Odesílání zprávy…</string>
+    <string name="post_message_text">Odesílání zprávy %d/%d</string>
+    <string name="is_up">Běží!</string>
+    <string name="is_down">Neběží!</string>
+    <string name="instance_health_indication">verze: %s
+\n %s uživatelů - %s statusů</string>
+    <string name="remove_status">Odebrat status</string>
+    <string name="report_indication_title_status_more">Vybrat nejlepší shodu</string>
+    <string name="instance_health_checkedat">Zkontrolováno: %s</string>
+    <string name="add_status">Přidat status</string>
 </resources>
