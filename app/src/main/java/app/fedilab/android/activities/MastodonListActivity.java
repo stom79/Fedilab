@@ -279,8 +279,15 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                                 if (mastodonListList == null) {
                                     mastodonListList = new ArrayList<>();
                                 }
-                                if (newMastodonList != null && mastodonListAdapter != null) {
+                                if (newMastodonList != null) {
                                     mastodonListList.add(0, newMastodonList);
+                                    if (mastodonListAdapter == null) {
+                                        mastodonListAdapter = new MastodonListAdapter(mastodonListList);
+                                        mastodonListAdapter.actionOnList = MastodonListActivity.this;
+                                        binding.notContent.setVisibility(View.GONE);
+                                        binding.recyclerView.setAdapter(mastodonListAdapter);
+                                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
+                                    }
                                     mastodonListAdapter.notifyItemInserted(0);
                                 } else {
                                     Toasty.error(MastodonListActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
