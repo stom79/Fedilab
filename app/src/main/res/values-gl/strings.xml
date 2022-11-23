@@ -508,7 +508,7 @@
     <string name="unfollow_confirm">Queres deixar de seguir esta conta?</string>
     <string name="set_unfollow_validation">Mostrar cadro de confirmación antes de deixar de seguir</string>
     <string name="replace_medium">Substituír ligazóns a Medium</string>
-    <string name="replace_medium_description">Substituír as ligazóns a medium.com cunha interface de código aberto alternativa centrada na privacidade.</string>
+    <string name="replace_medium_description">Usar unha interface alternativa para Medium</string>
     <string name="replace_medium_host">Por defecto: scribe.rip</string>
     <string name="set_push_notifications">Usar un sistema de notificacións push para ter notificacións en tempo real.</string>
     <string name="action_add_notes">Engadir notas</string>
