@@ -1610,8 +1610,11 @@ public class Helper {
                 .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
+
         notificationManager.notify(notificationId++, notificationBuilder.build());
-        notificationManager.notify(0, summaryNotification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            notificationManager.notify(0, summaryNotification);
+        }
     }
 
     public static void transfertIfExist(Context context) {
