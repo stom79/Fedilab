@@ -21,14 +21,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ReorderTimelinesActivity;
 import app.fedilab.android.client.entities.app.Pinned;
@@ -36,11 +39,11 @@ import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerReorderBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperAdapter;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperViewHolder;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
-import app.fedilab.android.helper.itemtouchhelper.OnUndoListener;
-import es.dmoral.toasty.Toasty;
+import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
 
 /**
@@ -52,13 +55,11 @@ import es.dmoral.toasty.Toasty;
 public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
-    private final OnUndoListener mUndoListener;
     private final Pinned pinned;
     private Context context;
 
-    public ReorderTabAdapter(Pinned pinned, OnStartDragListener dragStartListener, OnUndoListener undoListener) {
+    public ReorderTabAdapter(Pinned pinned, OnStartDragListener dragStartListener) {
         this.mDragStartListener = dragStartListener;
-        this.mUndoListener = undoListener;
         this.pinned = pinned;
     }
 
@@ -169,26 +170,61 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         holder.binding.delete.setOnClickListener(v -> {
             if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-                mUndoListener.onUndo(item, position);
-                if (position < pinned.pinnedTimelines.size()) {
-                    pinned.pinnedTimelines.remove(position);
-                    notifyItemRemoved(position);
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                String title = "";
+                String message = "";
+                alt_bld.setTitle(R.string.action_lists_delete);
+                alt_bld.setMessage(R.string.action_lists_confirm_delete);
+                switch (item.type) {
+                    case TAG:
+                    case REMOTE:
+                        title = context.getString(R.string.action_pinned_delete);
+                        message = context.getString(R.string.unpin_timeline_description);
+                        break;
+                    case LIST:
+                        title = context.getString(R.string.action_lists_delete);
+                        message = context.getString(R.string.action_lists_confirm_delete);
+                        break;
                 }
+                alt_bld.setTitle(title);
+                alt_bld.setMessage(message);
+
+                alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
+                    //change position of pinned that are after the removed item
+                    if (position < pinned.pinnedTimelines.size()) {
+                        for (int i = item.position + 1; i < pinned.pinnedTimelines.size(); i++) {
+                            pinned.pinnedTimelines.get(i).position -= 1;
+                        }
+                        pinned.pinnedTimelines.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemChanged(position, pinned.pinnedTimelines.size() - position);
+                        try {
+                            new Pinned(context).updatePinned(pinned);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (item.type == Timeline.TimeLineEnum.LIST) {
+                        TimelinesVM timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
+                        timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, item.mastodonList.id);
+                    }
+
+
+                    ((ReorderTimelinesActivity) context).setChanges(true);
+                    dialog.dismiss();
+
+                });
+                alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                AlertDialog alert = alt_bld.create();
+                alert.show();
+
             }
         });
     }
 
     @Override
     public void onItemDismiss(int position) {
-        PinnedTimeline item = pinned.pinnedTimelines.get(position);
-        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-            mUndoListener.onUndo(item, position);
-            pinned.pinnedTimelines.remove(position);
-            notifyItemRemoved(position);
-        } else {
-            notifyItemChanged(position);
-            Toasty.info(context, context.getString(R.string.warning_main_timeline), Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

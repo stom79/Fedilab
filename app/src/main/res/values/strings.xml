@@ -1911,4 +1911,7 @@
     <string name="no_blocked_domains">You have not blocked domains</string>
     <string name="unblock_domain_confirm">Are you sure to unblock %1$s?</string>
     <string name="action_privacy_policy">Privacy policy</string>
+    <string name="unpin_timeline">Remove pinned timeline?</string>
+    <string name="unpin_timeline_description">Are you sure to unpin that timeline?</string>
+    <string name="action_pinned_delete">Delete the pinned timelines?</string>
 </resources>
