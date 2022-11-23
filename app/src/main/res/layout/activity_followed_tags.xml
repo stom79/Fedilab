@@ -22,7 +22,6 @@
         android:text="@string/action_followed_tag_empty"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:typeface="serif"
         android:visibility="gone" />
 
     <androidx.fragment.app.FragmentContainerView
