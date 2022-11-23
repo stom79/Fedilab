@@ -1029,7 +1029,7 @@ public class Helper {
             final Activity activity = (Activity) context;
             return !activity.isDestroyed() && !activity.isFinishing();
         }
-        return true;
+        return false;
     }
 
     /**

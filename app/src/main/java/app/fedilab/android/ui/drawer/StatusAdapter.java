@@ -1611,7 +1611,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 .observe((LifecycleOwner) context, poll -> {
                                                     int i = 0;
                                                     for (Poll.PollItem item : statusToDeal.poll.options) {
-                                                        poll.options.get(i).span_title = item.span_title;
+                                                        if (item.span_title != null) {
+                                                            poll.options.get(i).span_title = item.span_title;
+                                                        } else {
+                                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                                        }
                                                         i++;
                                                     }
                                                     statusToDeal.poll = poll;
@@ -1627,7 +1631,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (poll != null) {
                                         int i = 0;
                                         for (Poll.PollItem item : statusToDeal.poll.options) {
-                                            poll.options.get(i).span_title = item.span_title;
+                                            if (item.span_title != null) {
+                                                poll.options.get(i).span_title = item.span_title;
+                                            } else {
+                                                poll.options.get(i).span_title = new SpannableString(item.title);
+                                            }
                                             i++;
                                         }
                                         statusToDeal.poll = poll;
@@ -1642,7 +1650,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         //Store span elements
                         int i = 0;
                         for (Poll.PollItem item : statusToDeal.poll.options) {
-                            poll.options.get(i).span_title = item.span_title;
+                            if (item.span_title != null) {
+                                poll.options.get(i).span_title = item.span_title;
+                            } else {
+                                poll.options.get(i).span_title = new SpannableString(item.title);
+                            }
                             i++;
                         }
                         statusToDeal.poll = poll;

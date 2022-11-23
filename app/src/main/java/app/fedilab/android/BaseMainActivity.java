@@ -586,7 +586,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null) {
+                if (currentAccount == null || currentAccount.mastodon_account == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
                     startActivity(myIntent);
@@ -701,16 +701,18 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            currentAccount.mastodon_account = mastodonAccount;
-                            displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
-                            new Thread(() -> {
-                                try {
-                                    //Update account in db
-                                    new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
-                                } catch (DBException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
+                            if (mastodonAccount != null) {
+                                currentAccount.mastodon_account = mastodonAccount;
+                                displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
+                                new Thread(() -> {
+                                    try {
+                                        //Update account in db
+                                        new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
                         });
 
             };
@@ -1035,6 +1037,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Matcher matcherLink = null;
                 matcherLink = link.matcher(url);
                 if (matcherLink.find()) {
+                    if (currentAccount == null) {
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                        if (currentToken == null || currentToken.trim().isEmpty()) {
+                            currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                        }
+                        try {
+                            currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
                         CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, currentAccount, url, new CrossActionHelper.Callback() {
                             @Override

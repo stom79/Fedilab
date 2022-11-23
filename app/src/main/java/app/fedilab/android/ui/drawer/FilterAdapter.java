@@ -78,14 +78,14 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
                 contextString.append(ct).append(" ");
         holder.binding.filterContext.setText(contextString.toString());
         holder.binding.editFilter.setOnClickListener(v -> FilterActivity.addEditFilter(context, filter, filter1 -> {
-            if (filter1 != null) {
+            if (filter1 != null && BaseMainActivity.mainFilters.size() > position) {
                 BaseMainActivity.mainFilters.get(position).context = filter1.context;
                 BaseMainActivity.mainFilters.get(position).expires_at = filter1.expires_at;
                 BaseMainActivity.mainFilters.get(position).filter_action = filter1.filter_action;
                 BaseMainActivity.mainFilters.get(position).keywords = filter1.keywords;
                 BaseMainActivity.mainFilters.get(position).title = filter1.title;
+                filterAdapter.notifyItemChanged(position);
             }
-            filterAdapter.notifyItemChanged(position);
         }));
         holder.binding.deleteFilter.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());

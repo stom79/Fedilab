@@ -277,7 +277,11 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
 
         binding.addFilter.setOnClickListener(v -> addEditFilter(FilterActivity.this, null, filter -> {
             if (filter != null) {
+                if (MainActivity.mainFilters == null) {
+                    MainActivity.mainFilters = new ArrayList<>();
+                }
                 filterList.add(0, filter);
+                MainActivity.mainFilters.add(filter);
                 if (filterAdapter != null) {
                     filterAdapter.notifyItemInserted(0);
                 } else {
