@@ -860,4 +860,8 @@
     <string name="Suggestions">Öneriler</string>
     <string name="not_interested">İlgilenmiyor</string>
     <string name="blocked_domains">Engellenen etki alanları</string>
+    <string name="no_blocked_domains">Etki alanlarını engellemediniz</string>
+    <string name="unblock_domain">Etki alanının engelini kaldır</string>
+    <string name="unblock_domain_confirm">%1$s engellemesini kaldırmak istediğinizden emin misiniz\?</string>
+    <string name="action_privacy_policy">Gizlilik politikası</string>
 </resources>
