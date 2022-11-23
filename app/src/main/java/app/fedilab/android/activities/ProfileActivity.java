@@ -870,7 +870,7 @@ public class ProfileActivity extends BaseActivity {
                                         i++;
                                     }
                                     builderSingle.setMultiChoiceItems(listsArray, presentArray, (dialog, which, isChecked) -> {
-                                        if (!relationship.following) {
+                                        if (relationship == null || !relationship.following) {
                                             accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
                                                     .observe(ProfileActivity.this, newRelationShip -> {
                                                         relationship = newRelationShip;

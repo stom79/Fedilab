@@ -654,13 +654,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
-                Helper.loadPP(binding.profilePicture, currentAccount);
+                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
                 if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
-                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount, false);
+                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
                 MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;

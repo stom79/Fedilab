@@ -170,8 +170,10 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.binding.delete.setOnClickListener(v -> {
             if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
                 mUndoListener.onUndo(item, position);
-                pinned.pinnedTimelines.remove(position);
-                notifyItemRemoved(position);
+                if (position < pinned.pinnedTimelines.size()) {
+                    pinned.pinnedTimelines.remove(position);
+                    notifyItemRemoved(position);
+                }
             }
         });
     }

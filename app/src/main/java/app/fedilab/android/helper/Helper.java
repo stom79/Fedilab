@@ -1132,8 +1132,8 @@ public class Helper {
      * @param view    ImageView - the view where the image will be loaded
      * @param account - {@link Account}
      */
-    public static void loadPP(ImageView view, BaseAccount account) {
-        loadPP(view, account, false);
+    public static void loadPP(Activity activity, ImageView view, BaseAccount account) {
+        loadPP(activity, view, account, false);
     }
 
     /**
@@ -1142,15 +1142,14 @@ public class Helper {
      * @param view    ImageView - the view where the image will be loaded
      * @param account - {@link Account}
      */
-    public static void loadPP(ImageView view, BaseAccount account, boolean crop) {
-        Context context = view.getContext();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
+    public static void loadPP(Activity activity, ImageView view, BaseAccount account, boolean crop) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean disableGif = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (targetedUrl != null && Helper.isValidContextForGlide(context)) {
+        if (targetedUrl != null && Helper.isValidContextForGlide(activity)) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
                 try {
-                    RequestBuilder<Drawable> requestBuilder = Glide.with(context)
+                    RequestBuilder<Drawable> requestBuilder = Glide.with(activity)
                             .asDrawable()
                             .load(targetedUrl)
                             .thumbnail(0.1f);
@@ -1161,7 +1160,7 @@ public class Helper {
                 } catch (Exception ignored) {
                 }
             } else {
-                RequestBuilder<GifDrawable> requestBuilder = Glide.with(context)
+                RequestBuilder<GifDrawable> requestBuilder = Glide.with(activity)
                         .asGif()
                         .load(targetedUrl)
                         .thumbnail(0.1f);
@@ -1170,8 +1169,8 @@ public class Helper {
                 }
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             }
-        } else if (Helper.isValidContextForGlide(context)) {
-            Glide.with(context)
+        } else if (Helper.isValidContextForGlide(activity)) {
+            Glide.with(activity)
                     .asDrawable()
                     .load(R.drawable.ic_person)
                     .thumbnail(0.1f)
