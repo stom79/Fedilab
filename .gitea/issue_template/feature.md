@@ -1,4 +1,14 @@
-### Describe the improvement
+---
+
+name: "Feature"
+about: "A new feature or an enhancement to an existing feature"
+labels:
+
+- Feature
+
+---
+
+## # Describe the improvement
 
 <!-- Your social network -->
 <!-- Put a x between brackets like: - [x] Mastodon -->

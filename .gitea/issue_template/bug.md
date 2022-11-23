@@ -1,8 +1,16 @@
-### Issue
+---
+
+name: "Bug"
+about: "Something isn't working"
+labels:
+
+- Bug
+
+---
 
 <!-- Please, describe the issue here -->
 
-### Steps for reproducing the issue
+## # Steps for reproducing the issue
 
 <!-- Step, to reproduce it -->
 
