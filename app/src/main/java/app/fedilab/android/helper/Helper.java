@@ -1528,6 +1528,18 @@ public class Helper {
                 channelId = "channel_status";
                 channelTitle = context.getString(R.string.channel_notif_status);
                 break;
+            case UPDATE:
+                channelId = "channel_update";
+                channelTitle = context.getString(R.string.channel_notif_update);
+                break;
+            case SIGN_UP:
+                channelId = "channel_signup";
+                channelTitle = context.getString(R.string.channel_notif_signup);
+                break;
+            case REPORT:
+                channelId = "channel_report";
+                channelTitle = context.getString(R.string.channel_notif_report);
+                break;
             default:
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
@@ -1989,6 +2001,9 @@ public class Helper {
         BOOST,
         FAV,
         POLL,
+        UPDATE,
+        SIGN_UP,
+        REPORT,
         STATUS,
         BACKUP,
         STORE,

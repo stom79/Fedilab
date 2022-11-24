@@ -320,6 +320,9 @@
     <string name="channel_notif_poll">Poll Ended</string>
     <string name="channel_notif_backup">Messages Backup</string>
     <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_update">New update</string>
+    <string name="channel_notif_signup">New sign-up</string>
+    <string name="channel_notif_report">New report</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
     <string name="set_enable_time_slot">Enable time slot</string>
@@ -404,6 +407,9 @@
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
     <string name="notif_poll_self">A poll you published has ended</string>
+    <string name="notif_update_push">A message you shared has been edited</string>
+    <string name="notif_sign_up">A user signed-up</string>
+    <string name="notif_report">A user sent a report</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
@@ -449,7 +455,8 @@
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>
     <string name="tos">terms of service</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">Sign-up</string>
+    <string name="sign_ups">Sign-ups</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
     <string name="cannot_be_empty">This field cannot be empty!</string>
     <string name="password_error">Passwords don\'t match!</string>
@@ -1254,6 +1261,9 @@
     <string name="SET_NOTIF_FAVOURITE" translatable="false">SET_NOTIF_FAVOURITE</string>
     <string name="SET_NOTIF_POLL" translatable="false">SET_NOTIF_POLL</string>
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
+    <string name="SET_NOTIF_UPDATE" translatable="false">SET_NOTIF_UPDATE</string>
+    <string name="SET_NOTIF_ADMIN_SIGNUP" translatable="false">SET_NOTIF_ADMIN_SIGNUP</string>
+    <string name="SET_NOTIF_ADMIN_REPORT" translatable="false">SET_NOTIF_ADMIN_REPORT</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_MAX_INDENTATION" translatable="false">SET_MAX_INDENTATION</string>
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
@@ -1904,6 +1914,7 @@
     <string name="delete_timeline">Delete timeline</string>
     <string name="notif_submitted_report">Submitted a report</string>
     <string name="notif_signed_up">Signed up</string>
+    <string name="notif_reported">sent a report</string>
     <string name="Suggestions">Suggestions</string>
     <string name="not_interested">Not interested</string>
     <string name="blocked_domains">Blocked domains</string>
@@ -1916,4 +1927,7 @@
     <string name="action_pinned_delete">Delete the pinned timelines?</string>
     <string name="domains">Domains</string>
     <string name="keep_notifications">Keep notifications</string>
+    <string name="set_notif_update">Notify for updates</string>
+    <string name="set_notif_user_sign_up">New sign-up (moderators)</string>
+    <string name="set_notif_admin_report">New report (moderators)</string>
 </resources>
