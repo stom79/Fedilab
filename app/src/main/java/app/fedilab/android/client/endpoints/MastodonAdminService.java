@@ -18,13 +18,16 @@ package app.fedilab.android.client.endpoints;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.client.entities.api.admin.AdminReport;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -115,6 +118,7 @@ public interface MastodonAdminService {
             @Query("limit") int limit
     );
 
+    //***************** ADMIN REPORTS **************
 
     @GET("admin/reports/{id}")
     Call<AdminReport> getReport(
@@ -146,6 +150,55 @@ public interface MastodonAdminService {
 
     @POST("admin/reports/{id}/reopen")
     Call<AdminReport> reopen(
+            @Header("Authorization") String app_token,
+            @Path("id") String id
+    );
+
+
+    //*************** ADMIN DOMAINS ****************
+
+    @GET("admin/domain_blocks")
+    Call<List<AdminDomainBlock>> getDomainBlocks(
+            @Header("Authorization") String token,
+            @Query("max_id") String max_id,
+            @Query("limit") int limit
+    );
+
+    @GET("admin/domain_blocks/{id}")
+    Call<AdminDomainBlock> getDomainBlock(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
+
+
+    @FormUrlEncoded
+    @POST("admin/domain_blocks")
+    Call<AdminDomainBlock> blockDomain(
+            @Header("Authorization") String app_token,
+            @Path("domain") String domain,
+            @Field("severity") String severity,
+            @Field("reject_media") Boolean reject_media,
+            @Field("reject_reports") Boolean reject_reports,
+            @Field("private_comment") String private_comment,
+            @Field("public_comment") String public_comment,
+            @Field("obfuscate") Boolean obfuscate
+    );
+
+    @FormUrlEncoded
+    @PUT("admin/domain_blocks")
+    Call<AdminDomainBlock> updateBlockDomain(
+            @Header("Authorization") String app_token,
+            @Path("domain") String domain,
+            @Field("severity") String severity,
+            @Field("reject_media") Boolean reject_media,
+            @Field("reject_reports") Boolean reject_reports,
+            @Field("private_comment") String private_comment,
+            @Field("public_comment") String public_comment,
+            @Field("obfuscate") Boolean obfuscate
+    );
+
+    @DELETE("admin/domain_blocks/{id}")
+    Call<Void> deleteBlockDomain(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );

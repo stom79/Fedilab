@@ -29,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 import app.fedilab.android.client.endpoints.MastodonAdminService;
 import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.client.entities.api.admin.AdminAccounts;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlocks;
 import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.client.entities.api.admin.AdminReports;
 import app.fedilab.android.helper.Helper;
@@ -51,6 +53,9 @@ public class AdminVM extends AndroidViewModel {
     private MutableLiveData<AdminAccounts> adminAccountsListMutableLiveData;
     private MutableLiveData<AdminReport> adminReportMutableLiveData;
     private MutableLiveData<AdminReports> adminReporstListMutableLiveData;
+    private MutableLiveData<AdminDomainBlock> adminDomainBlockMutableLiveData;
+    private MutableLiveData<AdminDomainBlocks> adminDomainBlockListMutableLiveData;
+
 
     public AdminVM(@NonNull Application application) {
         super(application);
@@ -555,5 +560,74 @@ public class AdminVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return adminReportMutableLiveData;
+    }
+
+
+    /**
+     * View all domains blocked.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlocks> getDomainBlocks(@NonNull String instance,
+                                                       String token,
+                                                       String max_id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            List<AdminDomainBlock> adminDomainBlockList;
+            Call<List<AdminDomainBlock>> getDomainBlocks = mastodonAdminService.getDomainBlocks(token, max_id, MastodonHelper.statusesPerCall(getApplication()));
+            AdminDomainBlocks adminDomainBlocks = new AdminDomainBlocks();
+            if (getDomainBlocks != null) {
+                try {
+                    Response<List<AdminDomainBlock>> getDomainBlocksResponse = getDomainBlocks.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlocks.adminDomainBlocks = getDomainBlocksResponse.body();
+                        adminDomainBlocks.pagination = MastodonHelper.getPagination(getDomainBlocksResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> adminDomainBlockListMutableLiveData.setValue(adminDomainBlocks);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockListMutableLiveData;
+    }
+
+
+    /**
+     * View a single blocked domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> getDomainBlock(@NonNull String instance,
+                                                     String token,
+                                                     String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock adminDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock = mastodonAdminService.getDomainBlock(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlock = getDomainBlocksResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = adminDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
     }
 }
