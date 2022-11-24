@@ -1863,14 +1863,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.account.acct);
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
+                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
                             .observe((LifecycleOwner) context, relationShip -> {
                                 sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
                                 Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
                             }));
                     builderInner.show();
-
                 } else if (itemId == R.id.action_mute_conversation) {
                     if (statusToDeal.muted) {
                         statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());

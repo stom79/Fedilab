@@ -695,7 +695,6 @@ public class ProfileActivity extends BaseActivity {
             splitAcct = account.acct.split("@");
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
-        AlertDialog.Builder builderInner = null;
         final boolean isOwner = account != null && account.id != null && BaseMainActivity.currentUserID != null && account.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0;
         final String[] stringArrayConf;
         if (isOwner) {
@@ -920,21 +919,43 @@ public class ProfileActivity extends BaseActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_mute) {
-
+            AlertDialog.Builder builderInner;
             if (relationship != null) {
-                if (relationship.muting) {
-                    builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-                    builderInner.setTitle(stringArrayConf[4]);
-                    doActionAccount = action.UNMUTE;
+                String target;
+                if (item.getItemId() == R.id.action_block_instance) {
+                    target = account.acct.split("@")[1];
                 } else {
-                    builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-                    builderInner.setTitle(stringArrayConf[0]);
-                    doActionAccount = action.MUTE;
+                    target = account.id;
                 }
-            } else {
-                doActionAccount = action.NOTHING;
-            }
+                if (relationship.muting) {
+                    accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                    return true;
+                }
+                builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                builderInner.setTitle(stringArrayConf[0]);
 
+                builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> {
+                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, false, 0)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                });
+                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> {
+                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                    dialog.dismiss();
+                });
+                builderInner.show();
+            }
         } else if (itemId == R.id.action_timed_mute) {
             MastodonHelper.scheduleBoost(ProfileActivity.this, MastodonHelper.ScheduleType.TIMED_MUTED, null, account, rs -> {
                 this.relationship = rs;
@@ -942,7 +963,7 @@ public class ProfileActivity extends BaseActivity {
             });
             return true;
         } else if (itemId == R.id.action_report) {
-            builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
             builderInner.setTitle(R.string.report_account);
             //Text for report
             EditText input = new EditText(ProfileActivity.this);
@@ -962,7 +983,7 @@ public class ProfileActivity extends BaseActivity {
             builderInner.show();
             return true;
         } else if (itemId == R.id.action_block) {
-            builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
             if (relationship != null) {
                 if (relationship.blocking) {
                     builderInner.setTitle(stringArrayConf[5]);
@@ -974,15 +995,6 @@ public class ProfileActivity extends BaseActivity {
             } else {
                 doActionAccount = action.NOTHING;
             }
-        } else if (itemId == R.id.action_block_instance) {
-            builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
-            doActionAccount = action.BLOCK_DOMAIN;
-            String domain = account.acct.split("@")[1];
-            builderInner.setMessage(getString(R.string.block_domain_confirm_message, domain));
-        } else {
-            return true;
-        }
-        if (doAction != action.NOTHING && builderInner != null) {
             builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
                 String target;
@@ -992,20 +1004,6 @@ public class ProfileActivity extends BaseActivity {
                     target = account.id;
                 }
                 switch (doActionAccount) {
-                    case MUTE:
-                        accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
-                                .observe(ProfileActivity.this, relationShip -> {
-                                    this.relationship = relationShip;
-                                    updateAccount();
-                                });
-                        break;
-                    case UNMUTE:
-                        accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                                .observe(ProfileActivity.this, relationShip -> {
-                                    this.relationship = relationShip;
-                                    updateAccount();
-                                });
-                        break;
                     case BLOCK:
                         accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
                                 .observe(ProfileActivity.this, relationShip -> {
@@ -1020,13 +1018,28 @@ public class ProfileActivity extends BaseActivity {
                                     updateAccount();
                                 });
                         break;
-                    case BLOCK_DOMAIN:
-                        accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target);
-                        break;
                 }
                 dialog.dismiss();
             });
             builderInner.show();
+        } else if (itemId == R.id.action_block_instance) {
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            String domain = account.acct.split("@")[1];
+            builderInner.setMessage(getString(R.string.block_domain_confirm_message, domain));
+            builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
+                String target;
+                if (item.getItemId() == R.id.action_block_instance) {
+                    target = account.acct.split("@")[1];
+                } else {
+                    target = account.id;
+                }
+                accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target);
+                dialog.dismiss();
+            });
+            builderInner.show();
+        } else {
+            return true;
         }
         return true;
     }

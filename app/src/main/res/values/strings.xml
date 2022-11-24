@@ -1915,4 +1915,5 @@
     <string name="unpin_timeline_description">Are you sure to unpin that timeline?</string>
     <string name="action_pinned_delete">Delete the pinned timelines?</string>
     <string name="domains">Domains</string>
+    <string name="keep_notifications">Keep notifications</string>
 </resources>
