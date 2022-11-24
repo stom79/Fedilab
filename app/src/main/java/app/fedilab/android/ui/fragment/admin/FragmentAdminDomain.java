@@ -33,83 +33,72 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.admin.AdminActionActivity;
-import app.fedilab.android.client.entities.api.admin.AdminAccount;
-import app.fedilab.android.client.entities.api.admin.AdminAccounts;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlocks;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.drawer.admin.AdminAccountAdapter;
+import app.fedilab.android.ui.drawer.admin.AdminDomainAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 
 
-public class FragmentAdminAccount extends Fragment {
+public class FragmentAdminDomain extends Fragment {
 
 
-    String byDomain, username, displayName, email, ip;
     private FragmentPaginationBinding binding;
     private AdminVM adminVM;
     private boolean flagLoading;
-    private List<AdminAccount> adminAccounts;
-    private String max_id;
-    private AdminAccountAdapter adminAccountAdapter;
+    private List<AdminDomainBlock> adminDomainBlocks;
+    private String max_id, min_id;
+    private AdminDomainAdapter adminDomainAdapter;
+    private LinearLayoutManager mLayoutManager;
     private String viewModelKey;
+
+    public void scrollToTop() {
+        if (binding != null) {
+            binding.recyclerView.scrollToPosition(0);
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         if (getArguments() != null) {
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
         }
-        flagLoading = false;
+
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
-        return binding.getRoot();
-    }
 
-    private void fetchAccount(Callback callback) {
-        adminVM.getAccounts(
-                        BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
-                        AdminActionActivity.local,
-                        AdminActionActivity.remote,
-                        byDomain,
-                        AdminActionActivity.active,
-                        AdminActionActivity.pending,
-                        AdminActionActivity.disabled,
-                        AdminActionActivity.silenced,
-                        AdminActionActivity.suspended,
-                        username, displayName, email, ip,
-                        AdminActionActivity.staff, max_id, null,
-                        MastodonHelper.statusesPerCall(requireActivity()))
-                .observe(requireActivity(), callback::accountFetched);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         int c1 = getResources().getColor(R.color.cyanea_accent_reference);
         binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
         binding.swipeContainer.setColorSchemeColors(
                 c1, c1, c1
         );
+
+        adminVM = new ViewModelProvider(FragmentAdminDomain.this).get(viewModelKey, AdminVM.class);
+
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
-        adminVM = new ViewModelProvider(FragmentAdminAccount.this).get(viewModelKey, AdminVM.class);
-        max_id = null;
-        fetchAccount(this::initializeAccountCommonView);
+        flagLoading = false;
+        adminVM.getDomainBlocks(
+                        BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null)
+                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+        return binding.getRoot();
     }
 
-    public void scrollToTop() {
-        binding.recyclerView.setAdapter(adminAccountAdapter);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     /**
-     * Intialize the view for accounts
+     * Intialize the common view for domain block on different timelines
      *
-     * @param adminAccounts {@link AdminAccounts}
+     * @param adminDomainBlocks {@link AdminDomainBlocks}
      */
-    private void initializeAccountCommonView(final AdminAccounts adminAccounts) {
-        if (binding == null) {
+    private void initializeStatusesCommonView(final AdminDomainBlocks adminDomainBlocks) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loader.setVisibility(View.GONE);
@@ -117,36 +106,45 @@ public class FragmentAdminAccount extends Fragment {
         binding.swipeContainer.setRefreshing(false);
         binding.swipeContainer.setOnRefreshListener(() -> {
             binding.swipeContainer.setRefreshing(true);
-            flagLoading = false;
             max_id = null;
-            fetchAccount(this::initializeAccountCommonView);
+            flagLoading = false;
+            adminVM.getDomainBlocks(
+                            BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null)
+                    .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         });
-        if (adminAccounts == null || adminAccounts.adminAccounts == null || adminAccounts.adminAccounts.size() == 0) {
+
+        if (adminDomainBlocks == null || adminDomainBlocks.adminDomainBlocks == null || adminDomainBlocks.adminDomainBlocks.size() == 0) {
             binding.noAction.setVisibility(View.VISIBLE);
-            binding.noActionText.setText(R.string.no_accounts);
             return;
         }
+        flagLoading = adminDomainBlocks.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
-        if (adminAccountAdapter != null && this.adminAccounts != null) {
-            int size = this.adminAccounts.size();
-            this.adminAccounts.clear();
-            this.adminAccounts = new ArrayList<>();
-            adminAccountAdapter.notifyItemRangeRemoved(0, size);
+        if (adminDomainAdapter != null && this.adminDomainBlocks != null) {
+            int size = this.adminDomainBlocks.size();
+            this.adminDomainBlocks.clear();
+            this.adminDomainBlocks = new ArrayList<>();
+            adminDomainAdapter.notifyItemRangeRemoved(0, size);
+        }
+        if (this.adminDomainBlocks == null) {
+            this.adminDomainBlocks = new ArrayList<>();
+        }
+        this.adminDomainBlocks.addAll(adminDomainBlocks.adminDomainBlocks);
+
+        if (max_id == null || (adminDomainBlocks.pagination.max_id != null && Helper.compareTo(adminDomainBlocks.pagination.max_id, max_id) < 0)) {
+            max_id = adminDomainBlocks.pagination.max_id;
+        }
+        if (min_id == null || (adminDomainBlocks.pagination.max_id != null && Helper.compareTo(adminDomainBlocks.pagination.min_id, min_id) > 0)) {
+            min_id = adminDomainBlocks.pagination.min_id;
         }
 
-        this.adminAccounts = adminAccounts.adminAccounts;
-        adminAccountAdapter = new AdminAccountAdapter(this.adminAccounts);
-        flagLoading = adminAccounts.pagination.max_id == null;
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
+        adminDomainAdapter = new AdminDomainAdapter(adminDomainBlocks.adminDomainBlocks);
+
+        mLayoutManager = new LinearLayoutManager(requireActivity());
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setAdapter(adminDomainAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.recyclerView.getContext(),
                 mLayoutManager.getOrientation());
         binding.recyclerView.addItemDecoration(dividerItemDecoration);
-        binding.recyclerView.setLayoutManager(mLayoutManager);
-        binding.recyclerView.setAdapter(adminAccountAdapter);
-        //Fetch the relationship
-        if (max_id == null || (adminAccounts.pagination.max_id != null && Helper.compareTo(adminAccounts.pagination.max_id, max_id) < 0)) {
-            max_id = adminAccounts.pagination.max_id;
-        }
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -164,13 +162,14 @@ public class FragmentAdminAccount extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            fetchAccount(adminAccounts1 -> dealWithPagination(adminAccounts1));
+                            adminVM.getDomainAllows(
+                                            BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id)
+                                    .observe(getViewLifecycleOwner(), adminDomainBlocks1 -> dealWithPagination(adminDomainBlocks1));
                         }
                     } else {
                         binding.loadingNextElements.setVisibility(View.GONE);
                     }
                 }
-
             }
         });
     }
@@ -178,30 +177,28 @@ public class FragmentAdminAccount extends Fragment {
     /**
      * Update view and pagination when scrolling down
      *
-     * @param adminAccounts AdminAccounts
+     * @param admDomainBlocks AdminDomainBlocks
      */
-    private void dealWithPagination(AdminAccounts adminAccounts) {
+    private void dealWithPagination(AdminDomainBlocks admDomainBlocks) {
+
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
-        if (this.adminAccounts != null && adminAccounts != null && adminAccounts.adminAccounts != null) {
-            flagLoading = adminAccounts.pagination.max_id == null;
-            int startId = 0;
-            //There are some statuses present in the timeline
-            if (this.adminAccounts.size() > 0) {
-                startId = this.adminAccounts.size();
+        if (this.adminDomainBlocks != null && admDomainBlocks != null && admDomainBlocks.adminDomainBlocks != null && admDomainBlocks.adminDomainBlocks.size() > 0) {
+            flagLoading = admDomainBlocks.pagination.max_id == null;
+            //There are some adminDomainBlocks present in the timeline
+            int startId = this.adminDomainBlocks.size();
+            this.adminDomainBlocks.addAll(admDomainBlocks.adminDomainBlocks);
+            adminDomainAdapter.notifyItemRangeInserted(startId, admDomainBlocks.adminDomainBlocks.size());
+            if (max_id == null || (admDomainBlocks.pagination.max_id != null && Helper.compareTo(admDomainBlocks.pagination.max_id, max_id) < 0)) {
+                max_id = admDomainBlocks.pagination.max_id;
             }
-            int position = this.adminAccounts.size();
-            this.adminAccounts.addAll(adminAccounts.adminAccounts);
-            if (max_id == null || (adminAccounts.pagination.max_id != null && Helper.compareTo(adminAccounts.pagination.max_id, max_id) < 0)) {
-                max_id = adminAccounts.pagination.max_id;
+            if (min_id == null || (admDomainBlocks.pagination.min_id != null && Helper.compareTo(admDomainBlocks.pagination.min_id, min_id) > 0)) {
+                min_id = admDomainBlocks.pagination.min_id;
             }
-            adminAccountAdapter.notifyItemRangeInserted(startId, adminAccounts.adminAccounts.size());
         }
     }
 
-    interface Callback {
-        void accountFetched(AdminAccounts adminAccounts);
-    }
+
 }

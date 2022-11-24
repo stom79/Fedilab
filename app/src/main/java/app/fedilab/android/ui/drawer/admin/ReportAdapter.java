@@ -1,4 +1,4 @@
-package app.fedilab.android.ui.drawer;
+package app.fedilab.android.ui.drawer.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab

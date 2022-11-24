@@ -95,7 +95,6 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.ActionActivity;
-import app.fedilab.android.activities.AdminActionActivity;
 import app.fedilab.android.activities.AnnouncementActivity;
 import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.CacheActivity;
@@ -119,6 +118,7 @@ import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.activities.SuggestionActivity;
 import app.fedilab.android.activities.TrendsActivity;
+import app.fedilab.android.activities.admin.AdminActionActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.EmojiInstance;

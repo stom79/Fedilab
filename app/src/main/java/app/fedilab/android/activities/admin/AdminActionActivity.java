@@ -1,4 +1,4 @@
-package app.fedilab.android.activities;
+package app.fedilab.android.activities.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -14,7 +14,9 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.activities.AdminActionActivity.AdminEnum.REPORT;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.ACCOUNT;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.DOMAIN;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.REPORT;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,12 +33,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterReportsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminAccount;
+import app.fedilab.android.ui.fragment.admin.FragmentAdminDomain;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 
 public class AdminActionActivity extends BaseActivity {
@@ -47,6 +51,7 @@ public class AdminActionActivity extends BaseActivity {
     private boolean canGoBack;
     private FragmentAdminReport fragmentAdminReport;
     private FragmentAdminAccount fragmentAdminAccount;
+    private FragmentAdminDomain fragmentAdminDomain;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,13 +66,13 @@ public class AdminActionActivity extends BaseActivity {
         }
         canGoBack = false;
         binding.reports.setOnClickListener(v -> displayTimeline(REPORT));
-        binding.accounts.setOnClickListener(v -> displayTimeline(AdminEnum.ACCOUNT));
+        binding.accounts.setOnClickListener(v -> displayTimeline(ACCOUNT));
+        binding.domains.setOnClickListener(v -> displayTimeline(DOMAIN));
     }
 
     private void displayTimeline(AdminEnum type) {
         canGoBack = true;
         if (type == REPORT) {
-
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
                 fragmentAdminReport = new FragmentAdminReport();
                 Bundle bundle = new Bundle();
@@ -80,9 +85,7 @@ public class AdminActionActivity extends BaseActivity {
                 fragmentTransaction.replace(R.id.fragment_container, fragmentAdminReport);
                 fragmentTransaction.commit();
             });
-
-        } else {
-
+        } else if (type == ACCOUNT) {
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
                 fragmentAdminAccount = new FragmentAdminAccount();
                 Bundle bundle = new Bundle();
@@ -95,7 +98,19 @@ public class AdminActionActivity extends BaseActivity {
                 fragmentTransaction.replace(R.id.fragment_container, fragmentAdminAccount);
                 fragmentTransaction.commit();
             });
-
+        } else if (type == DOMAIN) {
+            ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
+                fragmentAdminDomain = new FragmentAdminDomain();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+                fragmentAdminDomain.setArguments(bundle);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction =
+                        fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragmentAdminDomain);
+                fragmentTransaction.commit();
+            });
         }
         switch (type) {
             case REPORT:
@@ -103,6 +118,9 @@ public class AdminActionActivity extends BaseActivity {
                 break;
             case ACCOUNT:
                 setTitle(R.string.accounts);
+                break;
+            case DOMAIN:
+                setTitle(R.string.domains);
                 break;
         }
         invalidateOptionsMenu();
@@ -283,6 +301,9 @@ public class AdminActionActivity extends BaseActivity {
                 if (fragmentAdminAccount != null) {
                     fragmentAdminAccount.onDestroyView();
                 }
+                if (fragmentAdminDomain != null) {
+                    fragmentAdminDomain.onDestroyView();
+                }
                 setTitle(R.string.administration);
                 invalidateOptionsMenu();
             });
@@ -296,8 +317,9 @@ public class AdminActionActivity extends BaseActivity {
         @SerializedName("REPORT")
         REPORT("REPORT"),
         @SerializedName("ACCOUNT")
-        ACCOUNT("ACCOUNT");
-
+        ACCOUNT("ACCOUNT"),
+        @SerializedName("DOMAIN")
+        DOMAIN("DOMAIN");
         private final String value;
 
         AdminEnum(String value) {

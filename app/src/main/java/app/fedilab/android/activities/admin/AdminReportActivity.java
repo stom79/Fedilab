@@ -1,4 +1,4 @@
-package app.fedilab.android.activities;
+package app.fedilab.android.activities.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -47,6 +47,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -54,8 +55,13 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.InstanceProfileActivity;
+import app.fedilab.android.activities.MediaActivity;
+import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminIp;
 import app.fedilab.android.databinding.ActivityAdminAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -66,14 +72,13 @@ import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class AdminAccountActivity extends BaseActivity {
+public class AdminReportActivity extends BaseActivity {
 
-
+    private AdminAccount adminAccount;
+    private Account account;
     private ScheduledExecutorService scheduledExecutorService;
     private ActivityAdminAccountBinding binding;
-    private String account_id;
-    private AdminVM adminVM;
-    private AdminAccount adminAccount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +89,11 @@ public class AdminAccountActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         Bundle b = getIntent().getExtras();
-        adminAccount = null;
         if (b != null) {
             adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
+            if (adminAccount != null) {
+                account = adminAccount.account;
+            }
         }
         postponeEnterTransition();
 
@@ -104,87 +110,22 @@ public class AdminAccountActivity extends BaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         binding.toolbar.setPopupTheme(Helper.popupStyle());
-        adminVM = new ViewModelProvider(AdminAccountActivity.this).get(AdminVM.class);
-        if (account_id != null) {
-            adminVM.getAccount(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, this::initializeView);
-            return;
-        }
-        if (adminAccount != null && adminAccount.account != null) {
-            initializeView(adminAccount);
+        if (account != null) {
+            initializeView(account);
         } else {
-            Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
         }
-
-        binding.disableAction.setOnClickListener(v -> {
-            if (adminAccount.disabled) {
-                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount.disabled = false;
-                            binding.disableAction.setText(R.string.disable);
-                            binding.disabled.setText(R.string.no);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "disable ", null, null, null, null);
-                adminAccount.disabled = true;
-                binding.disableAction.setText(R.string.undisable);
-                binding.disabled.setText(R.string.yes);
-            }
-        });
-
-        binding.approveAction.setOnClickListener(v -> {
-            if (adminAccount.approved) {
-                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount = adminAccountResult;
-                            initializeView(adminAccount);
-                        });
-            } else {
-                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id);
-                adminAccount.approved = true;
-                initializeView(adminAccount);
-            }
-        });
-
-        binding.silenceAction.setOnClickListener(v -> {
-            if (adminAccount.silenced) {
-                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount = adminAccountResult;
-                            initializeView(adminAccount);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "silence", null, null, null, null);
-                adminAccount.silenced = true;
-                initializeView(adminAccount);
-            }
-        });
-
-        binding.suspendAction.setOnClickListener(v -> {
-            if (adminAccount.suspended) {
-                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id)
-                        .observe(AdminAccountActivity.this, adminAccountResult -> {
-                            adminAccount = adminAccountResult;
-                            initializeView(adminAccount);
-                        });
-            } else {
-                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, adminAccount.id, "suspend", null, null, null, null);
-                adminAccount.suspended = true;
-                initializeView(adminAccount);
-            }
-        });
-
-
     }
 
-    private void initializeView(AdminAccount adminAccount) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(AdminAccountActivity.this);
-        if (adminAccount == null) {
-            Toasty.error(AdminAccountActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+    private void initializeView(Account account) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(AdminReportActivity.this);
+        if (account == null) {
+            Toasty.error(AdminReportActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
             return;
         }
-        binding.title.setText(String.format(Locale.getDefault(), "@%s", adminAccount.account.acct));
+        binding.title.setText(String.format(Locale.getDefault(), "@%s", account.acct));
 
         // MastodonHelper.loadPPMastodon(binding.profilePicture, account);
         binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
@@ -198,18 +139,14 @@ public class AdminAccountActivity extends BaseActivity {
             }
         });
 
+
         binding.username.setText(String.format(Locale.getDefault(), "@%s", adminAccount.username));
         binding.domain.setText(adminAccount.domain);
         binding.email.setText(adminAccount.email);
         StringBuilder lastActive = new StringBuilder();
         if (adminAccount.ips != null) {
-            int count = 0;
-            for (AdminAccount.IP ip : adminAccount.ips) {
+            for (AdminIp ip : adminAccount.ips) {
                 lastActive.append(Helper.shortDateToString(ip.used_at)).append(" - ").append(ip.ip).append("\r\n");
-                count++;
-                if (count > 4) {
-                    break;
-                }
             }
         }
         if (lastActive.toString().trim().length() == 0) {
@@ -229,9 +166,96 @@ public class AdminAccountActivity extends BaseActivity {
         binding.silenceAction.setText(adminAccount.silenced ? R.string.unsilence : R.string.silence);
         binding.suspendAction.setText(adminAccount.suspended ? R.string.unsuspend : R.string.suspend);
 
+        AdminVM adminVM = new ViewModelProvider(AdminReportActivity.this).get(AdminVM.class);
 
+        binding.disableAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.enable(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                        .observe(AdminReportActivity.this, adminAccountResult -> {
+                            if (adminAccountResult != null) {
+                                adminAccount.disabled = false;
+                                binding.disableAction.setText(R.string.disable);
+                                binding.disabled.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "disable ", null, null, null, null);
+                adminAccount.disabled = true;
+                binding.disableAction.setText(R.string.undisable);
+                binding.disabled.setText(R.string.yes);
+            }
+        });
+
+        binding.approveAction.setOnClickListener(v -> {
+            if (adminAccount.approved) {
+                adminVM.reject(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                        .observe(AdminReportActivity.this, adminAccountResult -> {
+                            if (adminAccountResult != null) {
+                                adminAccount.approved = false;
+                                binding.approveAction.setText(R.string.approve);
+                                binding.approved.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+
+                        });
+            } else {
+                adminVM.approve(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id);
+                adminAccount.approved = true;
+                binding.approveAction.setText(R.string.reject);
+                binding.approved.setText(R.string.yes);
+            }
+        });
+
+        binding.silenceAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.unsilence(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                        .observe(AdminReportActivity.this, adminAccountResult -> {
+                            if (adminAccountResult != null) {
+                                adminAccount.silenced = false;
+                                binding.silenceAction.setText(R.string.silence);
+                                binding.disabled.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "silence", null, null, null, null);
+                adminAccount.silenced = true;
+                binding.disableAction.setText(R.string.unsilence);
+                binding.disabled.setText(R.string.yes);
+            }
+        });
+
+        binding.suspendAction.setOnClickListener(v -> {
+            if (adminAccount.disabled) {
+                adminVM.unsuspend(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                        .observe(AdminReportActivity.this, adminAccountResult -> {
+                            if (adminAccountResult != null) {
+                                adminAccount.suspended = false;
+                                binding.suspendAction.setText(R.string.suspend);
+                                binding.suspended.setText(R.string.no);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            } else {
+                adminVM.performAction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, "suspend", null, null, null, null);
+                adminAccount.suspended = true;
+                binding.disableAction.setText(R.string.unsuspend);
+                binding.suspended.setText(R.string.yes);
+            }
+        });
+
+
+        //Retrieve relationship with the connected account
+        List<String> accountListToCheck = new ArrayList<>();
+        accountListToCheck.add(account.id);
         //Animate emojis
-        if (adminAccount.account.emojis != null && adminAccount.account.emojis.size() > 0) {
+        if (account.emojis != null && account.emojis.size() > 0) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             if (!disableAnimatedEmoji) {
                 scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -242,8 +266,8 @@ public class AdminAccountActivity extends BaseActivity {
         //Tablayout for timelines/following/followers
 
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
-        String targetedUrl = disableGif ? adminAccount.account.avatar_static : adminAccount.account.avatar;
-        Glide.with(AdminAccountActivity.this)
+        String targetedUrl = disableGif ? account.avatar_static : account.avatar;
+        Glide.with(AdminReportActivity.this)
                 .asDrawable()
                 .dontTransform()
                 .load(targetedUrl).into(
@@ -267,11 +291,11 @@ public class AdminAccountActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
-        if (adminAccount.account.locked) {
-            Drawable img = ContextCompat.getDrawable(AdminAccountActivity.this, R.drawable.ic_baseline_lock_24);
+        if (account.locked) {
+            Drawable img = ContextCompat.getDrawable(AdminReportActivity.this, R.drawable.ic_baseline_lock_24);
             assert img != null;
             img.setBounds(0, 0, (int) (16 * scale + 0.5f), (int) (16 * scale + 0.5f));
             binding.accountUn.setCompoundDrawables(null, null, img, null);
@@ -280,59 +304,58 @@ public class AdminAccountActivity extends BaseActivity {
         }
         //Peertube account watched by a Mastodon account
         //Bot account
-        if (adminAccount.account.bot) {
+        if (account.bot) {
             binding.accountBot.setVisibility(View.VISIBLE);
         }
-        if (adminAccount.account.acct != null) {
-            setTitle(adminAccount.account.acct);
+        if (account.acct != null) {
+            setTitle(account.acct);
         }
 
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AdminAccountActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AdminReportActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         //This account was moved to another one
-        if (adminAccount.account.moved != null) {
+        if (account.moved != null) {
             binding.accountMoved.setVisibility(View.VISIBLE);
-            Drawable imgTravel = ContextCompat.getDrawable(AdminAccountActivity.this, R.drawable.ic_baseline_card_travel_24);
+            Drawable imgTravel = ContextCompat.getDrawable(AdminReportActivity.this, R.drawable.ic_baseline_card_travel_24);
             assert imgTravel != null;
             imgTravel.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
             binding.accountMoved.setCompoundDrawables(imgTravel, null, null, null);
             //Retrieves content and make account names clickable
-            SpannableString spannableString = SpannableHelper.moveToText(AdminAccountActivity.this, adminAccount.account);
+            SpannableString spannableString = SpannableHelper.moveToText(AdminReportActivity.this, account);
             binding.accountMoved.setText(spannableString, TextView.BufferType.SPANNABLE);
             binding.accountMoved.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-
         binding.accountDn.setText(
-                adminAccount.account.getSpanDisplayName(AdminAccountActivity.this,
+                account.getSpanDisplayName(AdminReportActivity.this,
                         new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
-        binding.accountUn.setText(String.format("@%s", adminAccount.account.acct));
+        binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            String account_id = adminAccount.account.acct;
+            String account_id = account.acct;
             if (account_id.split("@").length == 1)
                 account_id += "@" + BaseMainActivity.currentInstance;
             ClipData clip = ClipData.newPlainText("mastodon_account_id", "@" + account_id);
-            Toasty.info(AdminAccountActivity.this, getString(R.string.account_id_clipbloard), Toast.LENGTH_SHORT).show();
+            Toasty.info(AdminReportActivity.this, getString(R.string.account_id_clipbloard), Toast.LENGTH_SHORT).show();
             assert clipboard != null;
             clipboard.setPrimaryClip(clip);
             return false;
         });
 
-        MastodonHelper.loadPPMastodon(binding.accountPp, adminAccount.account);
+        MastodonHelper.loadPPMastodon(binding.accountPp, account);
         binding.accountPp.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminAccountActivity.this, MediaActivity.class);
+            Intent intent = new Intent(AdminReportActivity.this, MediaActivity.class);
             Bundle b = new Bundle();
             Attachment attachment = new Attachment();
-            attachment.description = adminAccount.account.acct;
-            attachment.preview_url = adminAccount.account.avatar;
-            attachment.url = adminAccount.account.avatar;
-            attachment.remote_url = adminAccount.account.avatar;
+            attachment.description = account.acct;
+            attachment.preview_url = account.avatar;
+            attachment.url = account.avatar;
+            attachment.remote_url = account.avatar;
             attachment.type = "image";
             ArrayList<Attachment> attachments = new ArrayList<>();
             attachments.add(attachment);
@@ -340,30 +363,30 @@ public class AdminAccountActivity extends BaseActivity {
             b.putInt(Helper.ARG_MEDIA_POSITION, 1);
             intent.putExtras(b);
             ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(AdminAccountActivity.this, binding.accountPp, attachment.url);
+                    .makeSceneTransitionAnimation(AdminReportActivity.this, binding.accountPp, attachment.url);
             // start the new activity
             startActivity(intent, options.toBundle());
         });
 
 
-        binding.accountDate.setText(Helper.shortDateToString(adminAccount.created_at));
+        binding.accountDate.setText(Helper.shortDateToString(account.created_at));
         binding.accountDate.setVisibility(View.VISIBLE);
 
-        String[] accountInstanceArray = adminAccount.account.acct.split("@");
+        String[] accountInstanceArray = account.acct.split("@");
         String accountInstance = BaseMainActivity.currentInstance;
         if (accountInstanceArray.length > 1) {
             accountInstance = accountInstanceArray[1];
         }
 
-        NodeInfoVM nodeInfoVM = new ViewModelProvider(AdminAccountActivity.this).get(NodeInfoVM.class);
+        NodeInfoVM nodeInfoVM = new ViewModelProvider(AdminReportActivity.this).get(NodeInfoVM.class);
         String finalAccountInstance = accountInstance;
-        nodeInfoVM.getNodeInfo(accountInstance).observe(AdminAccountActivity.this, nodeInfo -> {
+        nodeInfoVM.getNodeInfo(accountInstance).observe(AdminReportActivity.this, nodeInfo -> {
             if (nodeInfo != null && nodeInfo.software != null) {
                 binding.instanceInfo.setText(nodeInfo.software.name);
                 binding.instanceInfo.setVisibility(View.VISIBLE);
 
                 binding.instanceInfo.setOnClickListener(v -> {
-                    Intent intent = new Intent(AdminAccountActivity.this, InstanceProfileActivity.class);
+                    Intent intent = new Intent(AdminReportActivity.this, InstanceProfileActivity.class);
                     Bundle b = new Bundle();
                     b.putString(Helper.ARG_INSTANCE, finalAccountInstance);
                     intent.putExtras(b);

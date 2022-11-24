@@ -630,4 +630,72 @@ public class AdminVM extends AndroidViewModel {
         }).start();
         return adminDomainBlockMutableLiveData;
     }
+
+
+    /**
+     * View all allowed domains.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlocks> getDomainAllows(@NonNull String instance,
+                                                       String token,
+                                                       String max_id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            List<AdminDomainBlock> adminDomainBlockList;
+            Call<List<AdminDomainBlock>> getDomainBlocks = mastodonAdminService.getDomainAllows(token, max_id, MastodonHelper.statusesPerCall(getApplication()));
+            AdminDomainBlocks adminDomainBlocks = new AdminDomainBlocks();
+            if (getDomainBlocks != null) {
+                try {
+                    Response<List<AdminDomainBlock>> getDomainBlocksResponse = getDomainBlocks.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlocks.adminDomainBlocks = getDomainBlocksResponse.body();
+                        adminDomainBlocks.pagination = MastodonHelper.getPagination(getDomainBlocksResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> adminDomainBlockListMutableLiveData.setValue(adminDomainBlocks);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockListMutableLiveData;
+    }
+
+    /**
+     * View a single allowed domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> getDomainAllow(@NonNull String instance,
+                                                     String token,
+                                                     String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock adminDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock = mastodonAdminService.getDomainAllow(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlock = getDomainBlocksResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = adminDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
+    }
 }

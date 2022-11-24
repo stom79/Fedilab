@@ -164,8 +164,21 @@ public interface MastodonAdminService {
             @Query("limit") int limit
     );
 
+    @GET("admin/domain_allows")
+    Call<List<AdminDomainBlock>> getDomainAllows(
+            @Header("Authorization") String token,
+            @Query("max_id") String max_id,
+            @Query("limit") int limit
+    );
+
     @GET("admin/domain_blocks/{id}")
     Call<AdminDomainBlock> getDomainBlock(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
+
+    @GET("admin/domain_allows/{id}")
+    Call<AdminDomainBlock> getDomainAllow(
             @Header("Authorization") String token,
             @Path("id") String id
     );
@@ -185,6 +198,13 @@ public interface MastodonAdminService {
     );
 
     @FormUrlEncoded
+    @POST("admin/domain_allows")
+    Call<AdminDomainBlock> allowDomain(
+            @Header("Authorization") String app_token,
+            @Path("domain") String domain
+    );
+
+    @FormUrlEncoded
     @PUT("admin/domain_blocks")
     Call<AdminDomainBlock> updateBlockDomain(
             @Header("Authorization") String app_token,
@@ -199,6 +219,13 @@ public interface MastodonAdminService {
 
     @DELETE("admin/domain_blocks/{id}")
     Call<Void> deleteBlockDomain(
+            @Header("Authorization") String app_token,
+            @Path("id") String id
+    );
+
+
+    @DELETE("admin/domain_allows/{id}")
+    Call<Void> deleteAllowDomain(
             @Header("Authorization") String app_token,
             @Path("id") String id
     );

@@ -1,4 +1,4 @@
-package app.fedilab.android.ui.drawer;
+package app.fedilab.android.ui.drawer.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Locale;
 
-import app.fedilab.android.activities.AdminAccountActivity;
+import app.fedilab.android.activities.admin.AdminAccountActivity;
 import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
 import app.fedilab.android.helper.Helper;

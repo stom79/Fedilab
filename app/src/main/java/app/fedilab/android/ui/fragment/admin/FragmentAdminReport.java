@@ -33,13 +33,13 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.AdminActionActivity;
+import app.fedilab.android.activities.admin.AdminActionActivity;
 import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.client.entities.api.admin.AdminReports;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
-import app.fedilab.android.ui.drawer.ReportAdapter;
+import app.fedilab.android.ui.drawer.admin.ReportAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 
 
