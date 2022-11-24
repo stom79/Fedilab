@@ -31,9 +31,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.ArrayList;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.AdminReport;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;

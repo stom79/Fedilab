@@ -17,8 +17,8 @@ package app.fedilab.android.client.endpoints;
 
 import java.util.List;
 
-import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.AdminReport;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

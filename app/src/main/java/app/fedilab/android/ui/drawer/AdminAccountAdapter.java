@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import app.fedilab.android.activities.AdminAccountActivity;
-import app.fedilab.android.client.entities.api.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;

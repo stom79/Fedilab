@@ -1,4 +1,4 @@
-package app.fedilab.android.client.entities.api;
+package app.fedilab.android.client.entities.api.admin;
 /* Copyright 2021 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -17,8 +17,10 @@ package app.fedilab.android.client.entities.api;
 
 import java.util.List;
 
-public class AdminReports {
+import app.fedilab.android.client.entities.api.Pagination;
+
+public class AdminAccounts {
 
     public Pagination pagination = new Pagination();
-    public List<AdminReport> adminReports;
+    public List<AdminAccount> adminAccounts;
 }

@@ -1,4 +1,4 @@
-package app.fedilab.android.client.entities.api;
+package app.fedilab.android.client.entities.api.admin;
 /* Copyright 2021 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import app.fedilab.android.client.entities.api.Account;
 
 public class AdminAccount implements Serializable {
 
@@ -74,7 +76,7 @@ public class AdminAccount implements Serializable {
     @SerializedName("approved")
     public boolean approved;
     @SerializedName("ips")
-    public List<IP> ips;
+    public List<AdminIp> ips;
     @SerializedName("account")
     public Account account;
     @SerializedName("created_by_application_id")
@@ -82,13 +84,6 @@ public class AdminAccount implements Serializable {
     @SerializedName("invited_by_account_id")
     public String invited_by_account_id;
 
-
-    public static class IP implements Serializable {
-        @SerializedName("ip")
-        public String ip;
-        @SerializedName("used_at")
-        public Date used_at;
-    }
 
     @SerializedName("locale")
     public String locale;

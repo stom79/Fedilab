@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonAdminService;
-import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.AdminAccounts;
-import app.fedilab.android.client.entities.api.AdminReport;
-import app.fedilab.android.client.entities.api.AdminReports;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminAccounts;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
+import app.fedilab.android.client.entities.api.admin.AdminReports;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import okhttp3.OkHttpClient;
