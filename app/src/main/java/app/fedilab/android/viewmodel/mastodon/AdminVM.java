@@ -23,9 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -60,9 +57,17 @@ public class AdminVM extends AndroidViewModel {
     }
 
     private MastodonAdminService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonAdminService.class);
+    }
+
+    private MastodonAdminService initv2(@NonNull String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -107,7 +112,7 @@ public class AdminVM extends AndroidViewModel {
                                                String maxId,
                                                String sinceId,
                                                Integer limit) {
-        MastodonAdminService mastodonAdminService = init(instance);
+        MastodonAdminService mastodonAdminService = initv2(instance);
         adminAccountsListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<List<AdminAccount>> getAccountsCall = mastodonAdminService.getAccounts(

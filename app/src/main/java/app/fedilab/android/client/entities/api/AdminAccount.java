@@ -18,6 +18,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class AdminAccount implements Serializable {
@@ -32,26 +33,48 @@ public class AdminAccount implements Serializable {
     public Date created_at;
     @SerializedName("email")
     public String email;
+    public static LinkedHashMap<Integer, String> permissions;
+
+    static {
+        permissions = new LinkedHashMap<>();
+        permissions.put(1, "Administrator");
+        permissions.put(2, "Devops");
+        permissions.put(4, "View Audit Log");
+        permissions.put(8, "View Dashboard");
+        permissions.put(10, "Manage Reports");
+        permissions.put(20, "Manage Federation");
+        permissions.put(40, "Manage Settings");
+        permissions.put(80, "Manage Blocks");
+        permissions.put(100, "Manage Taxonomies");
+        permissions.put(200, "Manage Appeals");
+        permissions.put(400, "Manage Users");
+        permissions.put(800, "Manage Invites");
+        permissions.put(1000, "Manage Rules");
+        permissions.put(2000, "Manage Announcements");
+        permissions.put(4000, "Manage Custom Emojis");
+        permissions.put(8000, "Manage Webhooks");
+        permissions.put(10000, "Invite Users");
+        permissions.put(20000, "Manage Roles");
+        permissions.put(40000, "Manage User Access");
+        permissions.put(80000, "Delete User Data");
+    }
+
     @SerializedName("ip")
-    public IP ip;
-    @SerializedName("ips")
-    public List<IP> ips;
-    @SerializedName("locale")
-    public String locale;
-    @SerializedName("invite_request")
-    public String invite_request;
+    public String ip;
     @SerializedName("role")
-    public String role;
+    public Role role;
     @SerializedName("confirmed")
     public boolean confirmed;
-    @SerializedName("approved")
-    public boolean approved;
-    @SerializedName("disabled")
-    public boolean disabled;
-    @SerializedName("silenced")
-    public boolean silenced;
     @SerializedName("suspended")
     public boolean suspended;
+    @SerializedName("silenced")
+    public boolean silenced;
+    @SerializedName("disabled")
+    public boolean disabled;
+    @SerializedName("approved")
+    public boolean approved;
+    @SerializedName("ips")
+    public List<IP> ips;
     @SerializedName("account")
     public Account account;
     @SerializedName("created_by_application_id")
@@ -65,7 +88,30 @@ public class AdminAccount implements Serializable {
         public String ip;
         @SerializedName("used_at")
         public Date used_at;
-        @SerializedName("user_id")
-        public String user_id;
     }
+
+    @SerializedName("locale")
+    public String locale;
+    @SerializedName("invite_request")
+    public String invite_request;
+
+    public static class Role implements Serializable {
+        @SerializedName("ip")
+        public String ip;
+        @SerializedName("name")
+        public String name;
+        @SerializedName("color")
+        public String color;
+        @SerializedName("position")
+        public long position;
+        @SerializedName("permissions")
+        public int permissions;
+        @SerializedName("highlighted")
+        public boolean highlighted;
+        @SerializedName("created_at")
+        public Date created_at;
+        @SerializedName("updated_at")
+        public Date updated_at;
+    }
+
 }
