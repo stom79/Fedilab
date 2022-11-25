@@ -24,6 +24,7 @@ import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
+import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,6 +39,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -103,6 +106,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
@@ -114,6 +118,7 @@ import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -2011,6 +2016,54 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     b.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
                     intent.putExtras(b);
                     context.startActivity(intent);
+                } else if (itemId == R.id.action_open_with) {
+                    new Thread(() -> {
+                        try {
+                            List<BaseAccount> accounts = new Account(context).getCrossAccounts();
+                            if (accounts.size() > 1) {
+                                List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
+                                for (BaseAccount account : accounts) {
+                                    accountList.add(account.mastodon_account);
+                                }
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+                                Runnable myRunnable = () -> {
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                    builderSingle.setTitle(context.getString(R.string.choose_accounts));
+                                    final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
+                                    final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
+                                    int i = 0;
+                                    for (BaseAccount account : accounts) {
+                                        accountArray[i] = account;
+                                        i++;
+                                    }
+                                    builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                                    builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
+                                        BaseAccount account = accountArray[which];
+
+                                        Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                        BaseMainActivity.currentToken = account.token;
+                                        BaseMainActivity.currentUserID = account.user_id;
+                                        BaseMainActivity.currentInstance = account.instance;
+                                        MainActivity.currentAccount = account;
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString(PREF_USER_TOKEN, account.token);
+                                        editor.commit();
+                                        Intent mainActivity = new Intent(context, MainActivity.class);
+                                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                        mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                        context.startActivity(mainActivity);
+                                        ((Activity) context).finish();
+                                        dialog.dismiss();
+                                    });
+                                    builderSingle.show();
+                                };
+                                mainHandler.post(myRunnable);
+                            }
+
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
                 }
                 return true;
             });

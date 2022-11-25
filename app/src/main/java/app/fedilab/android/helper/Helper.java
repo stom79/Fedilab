@@ -302,12 +302,14 @@ public class Helper {
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";
     public static final String PREF_KEY_ID = "PREF_KEY_ID";
+    public static final String PREF_MESSAGE_URL = "PREF_MESSAGE_URL";
     public static final String PREF_INSTANCE = "PREF_INSTANCE";
 
     public static final String SET_SECURITY_PROVIDER = "SET_SECURITY_PROVIDER";
 
     public static final int NOTIFICATION_INTENT = 1;
     public static final int OPEN_NOTIFICATION = 2;
+    public static final int OPEN_WITH_ANOTHER_ACCOUNT = 3;
     public static final String INTENT_TARGETED_ACCOUNT = "INTENT_TARGETED_ACCOUNT";
     public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
     public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";

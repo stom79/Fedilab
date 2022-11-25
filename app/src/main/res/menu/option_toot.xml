@@ -83,5 +83,8 @@
         android:id="@+id/action_mention"
         android:title="@string/more_action_7"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/action_open_with"
+        android:title="@string/open_with_account"
+        app:showAsAction="never" />
 </menu>

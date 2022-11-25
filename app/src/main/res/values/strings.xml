@@ -1930,4 +1930,5 @@
     <string name="set_notif_update">Notify for updates</string>
     <string name="set_notif_user_sign_up">New sign-up (moderators)</string>
     <string name="set_notif_admin_report">New report (moderators)</string>
+    <string name="open_with_account">Open with another account</string>
 </resources>

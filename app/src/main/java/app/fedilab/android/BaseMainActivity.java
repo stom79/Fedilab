@@ -811,10 +811,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         String action = intent.getAction();
         String type = intent.getType();
         Bundle extras = intent.getExtras();
-        String userIdIntent, instanceIntent;
+        String userIdIntent, instanceIntent, urlOfMessage;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
             userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
             instanceIntent = extras.getString(Helper.PREF_INSTANCE);
+            urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
                 if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
                     openNotifications(intent);
@@ -840,6 +841,23 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
                 openNotifications(intent);
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_WITH_ANOTHER_ACCOUNT) {
+                CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, MainActivity.currentAccount, urlOfMessage, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        if (status != null) {
+                            Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
+                            intent.putExtra(Helper.ARG_STATUS, status);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+
+                    }
+                });
             }
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
