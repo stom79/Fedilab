@@ -849,4 +849,16 @@
     <string name="display_remote_profile">Mustra su profilu remotu</string>
     <string name="toast_fetch_error">S\'aplicatzione non resesset a agatare datos remotos!</string>
     <string name="delete_timeline">Iscantzella sa lìnia de tempus</string>
+    <string name="action_privacy_policy">Polìtica de riservadesa</string>
+    <string name="unpin_timeline">Bogare sa lìnia de tempus apicada\?</string>
+    <string name="unpin_timeline_description">Ses seguru de bòlere isblocare cussa lìnia de tempus\?</string>
+    <string name="action_pinned_delete">Iscantzellare is lìnias de tempus apicadas\?</string>
+    <string name="blocked_domains">Domìnios blocados</string>
+    <string name="unblock_domain">Isbloca su domìniu</string>
+    <string name="no_blocked_domains">Non tenes domìnios blocados</string>
+    <string name="unblock_domain_confirm">Ses seguru de bòlere isblocare %1$s\?</string>
+    <string name="Suggestions">Cussìgios</string>
+    <string name="not_interested">No interessadu</string>
+    <string name="notif_submitted_report">At imbiadu un\'informe</string>
+    <string name="notif_signed_up">S\'est registradu</string>
 </resources>
