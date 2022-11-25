@@ -15,8 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.helper.PinnedTimelineHelper.sortListPositionAsc;
-
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -78,6 +77,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
     private boolean flagLoading;
     private String max_id;
     private FragmentMastodonTimeline fragmentMastodonTimeline;
+    private boolean orderASC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         flagLoading = false;
+        orderASC = true;
         max_id = null;
         accountsVM = new ViewModelProvider(MastodonListActivity.this).get(AccountsVM.class);
         timelinesVM = new ViewModelProvider(MastodonListActivity.this).get(TimelinesVM.class);
@@ -114,7 +115,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                                     }
                                 }
                             }
-                            sortListPositionAsc(mastodonListList);
+                            sortAsc(mastodonListList);
                             mastodonListAdapter = new MastodonListAdapter(mastodonListList);
                             mastodonListAdapter.actionOnList = this;
                             binding.notContent.setVisibility(View.GONE);
@@ -125,6 +126,19 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
                         }
                     });
                 });
+    }
+
+
+    private void sortAsc(List<MastodonList> mastodonLists) {
+        Collections.sort(mastodonLists, (obj1, obj2) -> obj1.title.compareToIgnoreCase(obj2.title));
+        orderASC = true;
+        invalidateOptionsMenu();
+    }
+
+    private void sortDesc(List<MastodonList> mastodonLists) {
+        Collections.sort(mastodonLists, (obj1, obj2) -> obj2.title.compareToIgnoreCase(obj1.title));
+        orderASC = false;
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -374,6 +388,16 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             });
             dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             dialogBuilder.create().show();
+        } else if (item.getItemId() == R.id.action_order) {
+            if (mastodonListList != null && mastodonListList.size() > 0 && mastodonListAdapter != null) {
+                if (orderASC) {
+                    sortDesc(mastodonListList);
+                } else {
+                    sortAsc(mastodonListList);
+                }
+                invalidateOptionsMenu();
+                mastodonListAdapter.notifyItemRangeChanged(0, mastodonListList.size());
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -403,6 +427,14 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         if (!canGoBack) {
             getMenuInflater().inflate(R.menu.menu_main_list, menu);
+            MenuItem order = menu.findItem(R.id.action_order);
+            if (order != null) {
+                if (orderASC) {
+                    order.setIcon(R.drawable.ic_baseline_filter_asc_24);
+                } else {
+                    order.setIcon(R.drawable.ic_baseline_filter_desc_24);
+                }
+            }
         } else {
             getMenuInflater().inflate(R.menu.menu_list, menu);
         }
