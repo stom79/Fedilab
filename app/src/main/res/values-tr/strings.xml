@@ -864,4 +864,20 @@
     <string name="unblock_domain">Etki alanının engelini kaldır</string>
     <string name="unblock_domain_confirm">%1$s engellemesini kaldırmak istediğinizden emin misiniz\?</string>
     <string name="action_privacy_policy">Gizlilik politikası</string>
+    <string name="action_pinned_delete">Sabitlenen zaman çizelgeleri silinsin mi\?</string>
+    <string name="unpin_timeline_description">Bu zaman çizelgesinin sabitlemesini kaldırmak istediğinizden emin misiniz\?</string>
+    <string name="unpin_timeline">Sabitlenen zaman çizelgesi kaldırılsın mı\?</string>
+    <string name="channel_notif_report">Yeni rapor</string>
+    <string name="domains">Etki alanları</string>
+    <string name="set_notif_update">Güncellemeler için bildir</string>
+    <string name="set_notif_user_sign_up">Yeni kayıt (moderatörler)</string>
+    <string name="channel_notif_update">Yeni güncelleme</string>
+    <string name="notif_reported">bir rapor gönderdi</string>
+    <string name="channel_notif_signup">Yeni kayıt</string>
+    <string name="notif_update_push">Paylaştığınız bir mesaj düzenlendi</string>
+    <string name="notif_sign_up">Bir kullanıcı kaydoldu</string>
+    <string name="notif_report">Bir kullanıcı bir rapor gönderdi</string>
+    <string name="keep_notifications">Bildirimleri sakla</string>
+    <string name="set_notif_admin_report">Yeni rapor (moderatörler)</string>
+    <string name="sign_ups">Kayıtlar</string>
 </resources>
