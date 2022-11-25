@@ -18,6 +18,10 @@ import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum
 import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.DOMAIN;
 import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.REPORT;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,11 +33,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterReportsBinding;
@@ -53,13 +59,32 @@ public class AdminActionActivity extends BaseActivity {
     private FragmentAdminAccount fragmentAdminAccount;
     private FragmentAdminDomain fragmentAdminDomain;
 
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                AdminDomainBlock adminDomainBlock = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK);
+                AdminDomainBlock adminDomainBlockDelete = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE);
+                if (adminDomainBlock != null && adminDomainBlock.domain != null && fragmentAdminDomain != null) {
+                    fragmentAdminDomain.update(adminDomainBlock);
+                }
+                if (adminDomainBlockDelete != null && fragmentAdminDomain != null) {
+                    fragmentAdminDomain.delete(adminDomainBlockDelete);
+                }
+            }
+
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ThemeHelper.applyThemeBar(this);
         binding = ActivityAdminActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
@@ -68,6 +93,7 @@ public class AdminActionActivity extends BaseActivity {
         binding.reports.setOnClickListener(v -> displayTimeline(REPORT));
         binding.accounts.setOnClickListener(v -> displayTimeline(ACCOUNT));
         binding.domains.setOnClickListener(v -> displayTimeline(DOMAIN));
+
     }
 
     private void displayTimeline(AdminEnum type) {
@@ -288,6 +314,14 @@ public class AdminActionActivity extends BaseActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        }
     }
 
     @Override

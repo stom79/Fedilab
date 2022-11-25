@@ -15,15 +15,22 @@ package app.fedilab.android.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.Helper.BROADCAST_DATA;
+
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BaseActivity;
@@ -104,10 +111,18 @@ public class AdminDomainBlockActivity extends BaseActivity {
                                 } else {
                                     Toasty.error(AdminDomainBlockActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
-
+                                Intent intent = new Intent(BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
+                                LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
+                                finish();
                             }
                     );
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_admin_domain, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -116,6 +131,27 @@ public class AdminDomainBlockActivity extends BaseActivity {
         if (itemId == android.R.id.home) {
             finish();
             return true;
+        } else if (itemId == R.id.action_delete) {
+            if (adminDomainBlock.id != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdminDomainBlockActivity.this, Helper.dialogStyle());
+                builder.setMessage(getString(R.string.unblock_domain_confirm, adminDomainBlock.domain));
+                builder
+                        .setPositiveButton(R.string.unblock_domain, (dialog, which) -> {
+                            adminVM.deleteDomain(MainActivity.currentInstance, MainActivity.currentToken, adminDomainBlock.id)
+                                    .observe(AdminDomainBlockActivity.this, adminDomainBlockResult -> {
+                                                Intent intent = new Intent(BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
+                                                LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
+                                                finish();
+                                            }
+                                    );
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .show();
+            } else {
+                finish();
+            }
+
         }
         return true;
     }

@@ -17,7 +17,6 @@ package app.fedilab.android.viewmodel.mastodon;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -56,6 +55,7 @@ public class AdminVM extends AndroidViewModel {
     private MutableLiveData<AdminReports> adminReporstListMutableLiveData;
     private MutableLiveData<AdminDomainBlock> adminDomainBlockMutableLiveData;
     private MutableLiveData<AdminDomainBlocks> adminDomainBlockListMutableLiveData;
+    private MutableLiveData<Boolean> booleanMutableLiveData;
 
 
     public AdminVM(@NonNull Application application) {
@@ -658,11 +658,8 @@ public class AdminVM extends AndroidViewModel {
                     Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
                     if (getDomainBlocksResponse.isSuccessful()) {
                         admDomainBlock = getDomainBlocksResponse.body();
-                    } else {
-                        Log.v(Helper.TAG, "errr: " + getDomainBlocksResponse.errorBody().string());
                     }
                 } catch (Exception e) {
-                    Log.v(Helper.TAG, "e: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -707,6 +704,29 @@ public class AdminVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return adminDomainBlockListMutableLiveData;
+    }
+
+    public LiveData<Boolean> deleteDomain(@NonNull String instance,
+                                          String token,
+                                          String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        booleanMutableLiveData = new MutableLiveData<>();
+        final boolean[] successReply = {false};
+        new Thread(() -> {
+            Call<Void> getDomainBlock = mastodonAdminService.deleteBlockDomain(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<Void> response = getDomainBlock.execute();
+                    successReply[0] = response.isSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> booleanMutableLiveData.setValue(successReply[0]);
+            mainHandler.post(myRunnable);
+        }).start();
+        return booleanMutableLiveData;
     }
 
     /**

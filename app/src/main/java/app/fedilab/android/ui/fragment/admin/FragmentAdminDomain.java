@@ -62,6 +62,48 @@ public class FragmentAdminDomain extends Fragment {
         }
     }
 
+    public void delete(AdminDomainBlock adminDomainBlock) {
+        int position = 0;
+        for (AdminDomainBlock adminDomainBlockPresent : adminDomainBlocks) {
+            if (adminDomainBlockPresent.id.equals(adminDomainBlock.id)) {
+                adminDomainBlocks.remove(position);
+                adminDomainAdapter.notifyItemRemoved(position);
+                break;
+            }
+            position++;
+        }
+    }
+
+    public void update(AdminDomainBlock adminDomainBlock) {
+        if (adminDomainBlocks == null) {
+            AdminDomainBlocks adminDomainBlocks = new AdminDomainBlocks();
+            adminDomainBlocks.adminDomainBlocks = new ArrayList<>();
+            adminDomainBlocks.adminDomainBlocks.add(adminDomainBlock);
+            initializeStatusesCommonView(adminDomainBlocks);
+        }
+        int position = 0;
+        boolean find = false;
+        for (AdminDomainBlock adminDomainBlockPresent : adminDomainBlocks) {
+            if (adminDomainBlockPresent.id.equals(adminDomainBlock.id)) {
+                adminDomainBlocks.get(position).private_comment = adminDomainBlock.private_comment;
+                adminDomainBlocks.get(position).public_comment = adminDomainBlock.public_comment;
+                adminDomainBlocks.get(position).severity = adminDomainBlock.severity;
+                adminDomainBlocks.get(position).reject_reports = adminDomainBlock.reject_reports;
+                adminDomainBlocks.get(position).reject_media = adminDomainBlock.reject_media;
+                adminDomainBlocks.get(position).obfuscate = adminDomainBlock.obfuscate;
+                adminDomainAdapter.notifyItemChanged(position);
+                find = true;
+                break;
+            }
+            position++;
+        }
+        if (!find) {
+            adminDomainBlocks.add(0, adminDomainBlock);
+            adminDomainAdapter.notifyItemInserted(0);
+        }
+    }
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
