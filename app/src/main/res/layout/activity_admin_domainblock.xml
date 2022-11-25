@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 20222 Thomas Schneider
+
+    This file is a part of Fedilab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with Fedilab; if not,
+    see <http://www.gnu.org/licenses>.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/domain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/domain"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_domain"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/severity" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/severity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_severity"
+            android:textSize="12sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/reject_media"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="@string/admin_reject_media"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_reject_media"
+            android:textSize="12sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/reject_reports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="@string/admin_reject_reports"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_reject_reports"
+            android:textSize="12sp" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/obfuscate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="@string/admin_reject_obfuscate"
+            app:buttonTint="@color/cyanea_accent_dark_reference" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_reject_obfuscate"
+            android:textSize="12sp" />
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/private_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/private_comment"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_private_comment"
+            android:textSize="12sp" />
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/public_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/public_comment"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_domainblock_public_comment"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_changes"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:text="@string/save_changes"
+            android:textColor="@color/cyanea_accent_dark_reference"
+            app:icon="@drawable/ic_check_white_24dp"
+            app:iconTint="@color/cyanea_accent_dark_reference"
+            app:strokeColor="@color/cyanea_accent_dark_reference" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.core.widget.NestedScrollView>

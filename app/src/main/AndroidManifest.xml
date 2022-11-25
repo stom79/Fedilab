@@ -244,6 +244,11 @@
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
         <activity
+            android:name=".activities.admin.AdminDomainBlockActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/blocked_domains"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".activities.SuggestionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/Suggestions"

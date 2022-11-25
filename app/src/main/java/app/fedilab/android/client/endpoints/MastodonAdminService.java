@@ -188,7 +188,7 @@ public interface MastodonAdminService {
     @POST("admin/domain_blocks")
     Call<AdminDomainBlock> blockDomain(
             @Header("Authorization") String app_token,
-            @Path("domain") String domain,
+            @Field("domain") String domain,
             @Field("severity") String severity,
             @Field("reject_media") Boolean reject_media,
             @Field("reject_reports") Boolean reject_reports,
@@ -205,10 +205,10 @@ public interface MastodonAdminService {
     );
 
     @FormUrlEncoded
-    @PUT("admin/domain_blocks")
+    @PUT("admin/domain_blocks/{id}")
     Call<AdminDomainBlock> updateBlockDomain(
             @Header("Authorization") String app_token,
-            @Path("domain") String domain,
+            @Path("id") String id,
             @Field("severity") String severity,
             @Field("reject_media") Boolean reject_media,
             @Field("reject_reports") Boolean reject_reports,

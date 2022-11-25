@@ -354,6 +354,13 @@
     <string name="custom_emoji_picker">Custom emoji picker</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Add description for media (for the visually impaired)</string>
+
+    <string-array name="admin_block_severity">
+        <item>Silence</item>
+        <item>Suspend</item>
+        <item>None</item>
+    </string-array>
+
     <string-array name="filter_expire">
         <item>Never</item>
         <item>30 minutes</item>
@@ -1932,4 +1939,21 @@
     <string name="set_notif_admin_report">New report (moderators)</string>
     <string name="open_with_account">Open with another account</string>
     <string name="order_lists">Order lists</string>
+    <string name="reject_media">Reject media</string>
+    <string name="reject_reports">Reject reports</string>
+    <string name="admin_domainblock_domain">The domain block will not prevent creation of account entries in the database, but will retroactively and automatically apply specific moderation methods on those accounts.</string>
+    <string name="severity">Severity</string>
+    <string name="admin_domainblock_severity">Silence will make the account\'s posts invisible to anyone who isn\'t following them. Suspend will remove all of the account\'s content, media, and profile data. Use None if you just want to reject media files.</string>
+    <string name="admin_reject_media">Reject media files</string>
+    <string name="admin_domainblock_reject_media">Ignore all reports coming from this domain. Irrelevant for suspensions</string>
+    <string name="admin_reject_reports">Reject reports</string>
+    <string name="admin_domainblock_reject_reports">Ignore all reports coming from this domain. Irrelevant for suspensions</string>
+    <string name="admin_reject_obfuscate">Obfuscate domain name</string>
+    <string name="admin_domainblock_reject_obfuscate">Partially obfuscate the domain name in the list if advertising the list of domain limitations is enabled</string>
+    <string name="private_comment">Private comment</string>
+    <string name="admin_domainblock_private_comment">Comment about this domain limitation for internal use by the moderators.</string>
+    <string name="public_comment">Public comment</string>
+    <string name="admin_domainblock_public_comment">Comment about this domain limitation for the general public, if advertising the list of domain limitations is enabled.</string>
+    <string name="saved_changes">Changes have been saved!</string>
+    <string name="create_domain_block">Create domain block</string>
 </resources>

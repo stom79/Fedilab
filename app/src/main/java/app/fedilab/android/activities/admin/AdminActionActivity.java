@@ -128,7 +128,7 @@ public class AdminActionActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        if (canGoBack) {
+        if (canGoBack && fragmentAdminAccount != null) {
             getMenuInflater().inflate(R.menu.menu_admin_account, menu);
         }
         return super.onCreateOptionsMenu(menu);
@@ -297,12 +297,15 @@ public class AdminActionActivity extends BaseActivity {
             ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.buttonContainer, () -> {
                 if (fragmentAdminReport != null) {
                     fragmentAdminReport.onDestroyView();
+                    fragmentAdminReport = null;
                 }
                 if (fragmentAdminAccount != null) {
                     fragmentAdminAccount.onDestroyView();
+                    fragmentAdminAccount = null;
                 }
                 if (fragmentAdminDomain != null) {
                     fragmentAdminDomain.onDestroyView();
+                    fragmentAdminDomain = null;
                 }
                 setTitle(R.string.administration);
                 invalidateOptionsMenu();

@@ -15,6 +15,8 @@ package app.fedilab.android.ui.drawer.admin;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -25,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import app.fedilab.android.R;
+import app.fedilab.android.activities.admin.AdminDomainBlockActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.DrawerAdminDomainBinding;
 import app.fedilab.android.helper.Helper;
@@ -55,14 +59,21 @@ public class AdminDomainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         holder.binding.date.setText(Helper.shortDateToString(adminDomainBlock.created_at));
         holder.binding.title.setText(adminDomainBlock.domain);
-        holder.binding.severity.setText(adminDomainBlock.severity);
-        /*holder.binding.mainContainer.setOnClickListener(view -> {
-            Intent intent = new Intent(context, AccountReportActivity.class);
+        String text = adminDomainBlock.severity;
+        if (adminDomainBlock.reject_media) {
+            text += " - " + context.getString(R.string.reject_media);
+        }
+        if (adminDomainBlock.reject_reports) {
+            text += " - " + context.getString(R.string.reject_reports);
+        }
+        holder.binding.severity.setText(text);
+        holder.binding.mainContainer.setOnClickListener(view -> {
+            Intent intent = new Intent(context, AdminDomainBlockActivity.class);
             Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_REPORT, report);
+            b.putSerializable(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlock);
             intent.putExtras(b);
             context.startActivity(intent);
-        });*/
+        });
 
     }
 

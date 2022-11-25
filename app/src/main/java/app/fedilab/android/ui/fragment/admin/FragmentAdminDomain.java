@@ -15,6 +15,7 @@ package app.fedilab.android.ui.fragment.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.admin.AdminDomainBlockActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlocks;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
@@ -84,6 +86,13 @@ public class FragmentAdminDomain extends Fragment {
         adminVM.getDomainBlocks(
                         BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null)
                 .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+        binding.addAction.setVisibility(View.VISIBLE);
+        binding.addAction.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), AdminDomainBlockActivity.class);
+            Bundle b = new Bundle();
+            intent.putExtras(b);
+            startActivity(intent);
+        });
         return binding.getRoot();
     }
 

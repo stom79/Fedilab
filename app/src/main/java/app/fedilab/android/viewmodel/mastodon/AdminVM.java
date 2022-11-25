@@ -17,6 +17,7 @@ package app.fedilab.android.viewmodel.mastodon;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -625,6 +626,48 @@ public class AdminVM extends AndroidViewModel {
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             AdminDomainBlock finalAdminDomainBlock = adminDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
+    }
+
+
+    /**
+     * View a single blocked domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> createOrUpdateDomainBlock(@NonNull String instance,
+                                                                String token,
+                                                                AdminDomainBlock adminDomainBlock) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock admDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock;
+            if (adminDomainBlock.id == null) {
+                getDomainBlock = mastodonAdminService.blockDomain(token, adminDomainBlock.domain, adminDomainBlock.severity, adminDomainBlock.reject_media, adminDomainBlock.reject_reports, adminDomainBlock.private_comment, adminDomainBlock.public_comment, adminDomainBlock.obfuscate);
+            } else {
+                getDomainBlock = mastodonAdminService.updateBlockDomain(token, adminDomainBlock.id, adminDomainBlock.severity, adminDomainBlock.reject_media, adminDomainBlock.reject_reports, adminDomainBlock.private_comment, adminDomainBlock.public_comment, adminDomainBlock.obfuscate);
+            }
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        admDomainBlock = getDomainBlocksResponse.body();
+                    } else {
+                        Log.v(Helper.TAG, "errr: " + getDomainBlocksResponse.errorBody().string());
+                    }
+                } catch (Exception e) {
+                    Log.v(Helper.TAG, "e: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = admDomainBlock;
             Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
             mainHandler.post(myRunnable);
         }).start();
