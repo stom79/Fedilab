@@ -880,4 +880,6 @@
     <string name="keep_notifications">Bildirimleri sakla</string>
     <string name="set_notif_admin_report">Yeni rapor (moderatörler)</string>
     <string name="sign_ups">Kayıtlar</string>
+    <string name="open_with_account">Başka bir hesapla aç</string>
+    <string name="order_lists">Listeleri sırala</string>
 </resources>
