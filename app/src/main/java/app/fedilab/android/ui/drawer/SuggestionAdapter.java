@@ -93,6 +93,9 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         });
         holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
         holder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
+        if (account == null) {
+            return;
+        }
         holder.binding.displayName.setText(
                 account.getSpanDisplayName(context,
                         new WeakReference<>(holder.binding.displayName)),
