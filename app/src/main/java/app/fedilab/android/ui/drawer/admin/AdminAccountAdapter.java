@@ -1,4 +1,4 @@
-package app.fedilab.android.ui.drawer;
+package app.fedilab.android.ui.drawer.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -27,8 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Locale;
 
-import app.fedilab.android.activities.AdminAccountActivity;
-import app.fedilab.android.client.entities.api.AdminAccount;
+import app.fedilab.android.activities.admin.AdminAccountActivity;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
@@ -78,8 +78,7 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.binding.followersCount.setText(String.valueOf(adminAccount.account.followers_count));
         holder.binding.email.setText(adminAccount.email);
         if (adminAccount.ip != null) {
-            holder.binding.lastActive.setText(Helper.shortDateToString(adminAccount.ip.used_at));
-            holder.binding.ip.setText(adminAccount.ip.ip);
+            holder.binding.ip.setText(adminAccount.ip);
         } else if (adminAccount.ips != null && adminAccount.ips.size() > 0) {
             holder.binding.lastActive.setText(Helper.shortDateToString(adminAccount.ips.get(0).used_at));
             holder.binding.ip.setText(adminAccount.ips.get(0).ip);

@@ -238,6 +238,9 @@ public class Helper {
     public static final String ARG_STATUS_REPLY_ID = "ARG_STATUS_REPLY_ID";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
     public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
+    public static final String ARG_ADMIN_DOMAINBLOCK = "ARG_ADMIN_DOMAINBLOCK";
+    public static final String ARG_ADMIN_DOMAINBLOCK_DELETE = "ARG_ADMIN_DOMAINBLOCK_DELETE";
+
     public static final String ARG_REPORT = "ARG_REPORT";
     public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
@@ -302,12 +305,14 @@ public class Helper {
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";
     public static final String PREF_KEY_ID = "PREF_KEY_ID";
+    public static final String PREF_MESSAGE_URL = "PREF_MESSAGE_URL";
     public static final String PREF_INSTANCE = "PREF_INSTANCE";
 
     public static final String SET_SECURITY_PROVIDER = "SET_SECURITY_PROVIDER";
 
     public static final int NOTIFICATION_INTENT = 1;
     public static final int OPEN_NOTIFICATION = 2;
+    public static final int OPEN_WITH_ANOTHER_ACCOUNT = 3;
     public static final String INTENT_TARGETED_ACCOUNT = "INTENT_TARGETED_ACCOUNT";
     public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
     public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";
@@ -334,6 +339,8 @@ public class Helper {
     public static final Pattern bibliogramPattern = Pattern.compile("(m\\.|www\\.)?instagram.com(/p/[\\w-/]+)");
     public static final Pattern libredditPattern = Pattern.compile("(www\\.|m\\.)?(reddit\\.com|preview\\.redd\\.it|i\\.redd\\.it|redd\\.it)/(((?!([\"'<])).)*)");
     public static final Pattern ouichesPattern = Pattern.compile("https?://ouich\\.es/tag/(\\w+)");
+
+    public static final Pattern geminiPattern = Pattern.compile("(gemini://.*)\\b");
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     public static final Pattern peertubePattern = Pattern.compile("(https?://([\\da-z.-]+\\.[a-z.]{2,10}))/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})$");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([/\\w-]+)");
@@ -745,39 +752,56 @@ public class Helper {
      */
     public static String transformURL(Context context, String url) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Matcher matcher = Helper.nitterPattern.matcher(url);
+        Matcher matcher;
         boolean nitter = Helper.getSharedValue(context, context.getString(R.string.SET_NITTER));
         if (nitter) {
+            matcher = Helper.nitterPattern.matcher(url);
             if (matcher.find()) {
                 final String nitter_directory = matcher.group(2);
                 String nitterHost = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                if (nitterHost.trim().isEmpty()) {
+                    nitterHost = context.getString(R.string.DEFAULT_NITTER_HOST);
+                }
                 return "https://" + nitterHost + nitter_directory;
             }
         }
-        matcher = Helper.bibliogramPattern.matcher(url);
+
         boolean bibliogram = Helper.getSharedValue(context, context.getString(R.string.SET_BIBLIOGRAM));
+
         if (bibliogram) {
+            matcher = Helper.bibliogramPattern.matcher(url);
             if (matcher.find()) {
                 final String bibliogram_directory = matcher.group(2);
                 String bibliogramHost = sharedpreferences.getString(context.getString(R.string.SET_BIBLIOGRAM_HOST), context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST)).toLowerCase();
+                if (bibliogramHost.trim().isEmpty()) {
+                    bibliogramHost = context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST);
+                }
                 return "https://" + bibliogramHost + bibliogram_directory;
             }
         }
-        matcher = Helper.libredditPattern.matcher(url);
+
         boolean libreddit = Helper.getSharedValue(context, context.getString(R.string.SET_LIBREDDIT));
         if (libreddit) {
+            matcher = Helper.libredditPattern.matcher(url);
             if (matcher.find()) {
                 final String libreddit_directory = matcher.group(3);
                 String libreddit_host = sharedpreferences.getString(context.getString(R.string.SET_LIBREDDIT_HOST), context.getString(R.string.DEFAULT_LIBREDDIT_HOST)).toLowerCase();
+                if (libreddit_host.trim().isEmpty()) {
+                    libreddit_host = context.getString(R.string.DEFAULT_LIBREDDIT_HOST);
+                }
                 return "https://" + libreddit_host + "/" + libreddit_directory;
             }
         }
-        matcher = Helper.youtubePattern.matcher(url);
+
         boolean invidious = Helper.getSharedValue(context, context.getString(R.string.SET_INVIDIOUS));
         if (invidious) {
+            matcher = Helper.youtubePattern.matcher(url);
             if (matcher.find()) {
                 final String youtubeId = matcher.group(3);
                 String invidiousHost = sharedpreferences.getString(context.getString(R.string.SET_INVIDIOUS_HOST), context.getString(R.string.DEFAULT_INVIDIOUS_HOST)).toLowerCase();
+                if (invidiousHost.trim().isEmpty()) {
+                    invidiousHost = context.getString(R.string.DEFAULT_INVIDIOUS_HOST);
+                }
                 if (matcher.group(2) != null && Objects.equals(matcher.group(2), "youtu.be")) {
                     return "https://" + invidiousHost + "/watch?v=" + youtubeId + "&local=true";
                 } else {
@@ -785,9 +809,10 @@ public class Helper {
                 }
             }
         }
-        matcher = Helper.mediumPattern.matcher(url);
+
         boolean medium = Helper.getSharedValue(context, context.getString(R.string.REPLACE_MEDIUM));
         if (medium) {
+            matcher = Helper.mediumPattern.matcher(url);
             if (matcher.find()) {
                 String path = matcher.group(2);
                 String user = matcher.group(1);
@@ -795,12 +820,16 @@ public class Helper {
                     path = user + "/" + path;
                 }
                 String mediumReplaceHost = sharedpreferences.getString(context.getString(R.string.REPLACE_MEDIUM_HOST), context.getString(R.string.DEFAULT_REPLACE_MEDIUM_HOST)).toLowerCase();
+                if (mediumReplaceHost.trim().isEmpty()) {
+                    mediumReplaceHost = context.getString(R.string.DEFAULT_REPLACE_MEDIUM_HOST);
+                }
                 return "https://" + mediumReplaceHost + "/" + path;
             }
         }
-        matcher = Helper.wikipediaPattern.matcher(url);
+
         boolean wikipedia = Helper.getSharedValue(context, context.getString(R.string.REPLACE_WIKIPEDIA));
         if (wikipedia) {
+            matcher = Helper.wikipediaPattern.matcher(url);
             if (matcher.find()) {
                 String subdomain = matcher.group(1);
                 String path = matcher.group(2);
@@ -809,6 +838,9 @@ public class Helper {
                 if (path != null && subdomain != null && !subdomain.equals("www")) {
                     lang = (path.contains("?")) ? TextUtils.htmlEncode("&") : "?";
                     lang = lang + "lang=" + subdomain;
+                }
+                if (wikipediaReplaceHost.trim().isEmpty()) {
+                    wikipediaReplaceHost = context.getString(R.string.DEFAULT_REPLACE_WIKIPEDIA_HOST);
                 }
                 return "https://" + wikipediaReplaceHost + "/" + path + lang;
             }
@@ -1105,8 +1137,8 @@ public class Helper {
      * @param view    ImageView - the view where the image will be loaded
      * @param account - {@link Account}
      */
-    public static void loadPP(ImageView view, BaseAccount account) {
-        loadPP(view, account, false);
+    public static void loadPP(Activity activity, ImageView view, BaseAccount account) {
+        loadPP(activity, view, account, false);
     }
 
     /**
@@ -1115,15 +1147,14 @@ public class Helper {
      * @param view    ImageView - the view where the image will be loaded
      * @param account - {@link Account}
      */
-    public static void loadPP(ImageView view, BaseAccount account, boolean crop) {
-        Context context = view.getContext();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
+    public static void loadPP(Activity activity, ImageView view, BaseAccount account, boolean crop) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean disableGif = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
-        if (targetedUrl != null && Helper.isValidContextForGlide(context)) {
+        if (targetedUrl != null && Helper.isValidContextForGlide(activity)) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
                 try {
-                    RequestBuilder<Drawable> requestBuilder = Glide.with(context)
+                    RequestBuilder<Drawable> requestBuilder = Glide.with(activity)
                             .asDrawable()
                             .load(targetedUrl)
                             .thumbnail(0.1f);
@@ -1134,7 +1165,7 @@ public class Helper {
                 } catch (Exception ignored) {
                 }
             } else {
-                RequestBuilder<GifDrawable> requestBuilder = Glide.with(context)
+                RequestBuilder<GifDrawable> requestBuilder = Glide.with(activity)
                         .asGif()
                         .load(targetedUrl)
                         .thumbnail(0.1f);
@@ -1143,8 +1174,8 @@ public class Helper {
                 }
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10))).into(view);
             }
-        } else if (Helper.isValidContextForGlide(context)) {
-            Glide.with(context)
+        } else if (Helper.isValidContextForGlide(activity)) {
+            Glide.with(activity)
                     .asDrawable()
                     .load(R.drawable.ic_person)
                     .thumbnail(0.1f)
@@ -1165,7 +1196,7 @@ public class Helper {
             return null;
         }
         Proxy proxy = new Proxy(type == 0 ? Proxy.Type.HTTP : Proxy.Type.SOCKS,
-                new InetSocketAddress(hostVal, portVal));
+                InetSocketAddress.createUnresolved(hostVal, portVal));
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -1502,6 +1533,18 @@ public class Helper {
                 channelId = "channel_status";
                 channelTitle = context.getString(R.string.channel_notif_status);
                 break;
+            case UPDATE:
+                channelId = "channel_update";
+                channelTitle = context.getString(R.string.channel_notif_update);
+                break;
+            case SIGN_UP:
+                channelId = "channel_signup";
+                channelTitle = context.getString(R.string.channel_notif_signup);
+                break;
+            case REPORT:
+                channelId = "channel_report";
+                channelTitle = context.getString(R.string.channel_notif_report);
+                break;
             default:
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
@@ -1584,8 +1627,11 @@ public class Helper {
                 .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
+
         notificationManager.notify(notificationId++, notificationBuilder.build());
-        notificationManager.notify(0, summaryNotification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            notificationManager.notify(0, summaryNotification);
+        }
     }
 
     public static void transfertIfExist(Context context) {
@@ -1960,6 +2006,9 @@ public class Helper {
         BOOST,
         FAV,
         POLL,
+        UPDATE,
+        SIGN_UP,
+        REPORT,
         STATUS,
         BACKUP,
         STORE,

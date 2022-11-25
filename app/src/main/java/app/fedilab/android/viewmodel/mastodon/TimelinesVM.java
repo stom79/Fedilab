@@ -463,21 +463,21 @@ public class TimelinesVM extends AndroidViewModel {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Statuses statuses = new Statuses();
             try {
-                Statuses statusesDb = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
-                if (statusesDb != null && statusesDb.statuses != null && statusesDb.statuses.size() > 0) {
+                List<Status> statusesDb = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
+                if (statusesDb != null && statusesDb.size() > 0) {
                     if (timelineStatuses != null) {
                         List<Status> notPresentStatuses = new ArrayList<>();
-                        for (Status status : statusesDb.statuses) {
+                        for (Status status : statusesDb) {
                             if (!timelineStatuses.contains(status)) {
                                 status.cached = true;
                                 notPresentStatuses.add(status);
                             }
                         }
                         //Only not already present statuses are added
-                        statusesDb.statuses = notPresentStatuses;
+                        statusesDb = notPresentStatuses;
                     }
-                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb.statuses, timelineParams.type);
-                    if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                    statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb, timelineParams.type);
+                    if (statuses.statuses.size() > 0) {
                         addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
@@ -528,21 +528,16 @@ public class TimelinesVM extends AndroidViewModel {
         conversationListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
-            Conversations conversations = null;
+            Conversations conversations = new Conversations();
             Call<List<Conversation>> conversationsCall = mastodonTimelinesService.getConversations(timelineParams.token, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
             if (conversationsCall != null) {
-                conversations = new Conversations();
                 try {
                     Response<List<Conversation>> conversationsResponse = conversationsCall.execute();
                     if (conversationsResponse.isSuccessful()) {
-                        List<Conversation> conversationList = conversationsResponse.body();
-                        conversations.conversations = conversationList;
+                        conversations.conversations = conversationsResponse.body();
                         conversations.pagination = MastodonHelper.getPagination(conversationsResponse.headers());
-
-                        if (conversationList != null && conversationList.size() > 0) {
-
-                            addFetchMoreConversation(conversationList, conversationsTimeline, timelineParams);
-
+                        if (conversations.conversations != null && conversations.conversations.size() > 0) {
+                            addFetchMoreConversation(conversations.conversations, conversationsTimeline, timelineParams);
                             for (Conversation conversation : conversations.conversations) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -564,8 +559,7 @@ public class TimelinesVM extends AndroidViewModel {
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Conversations finalConversations = conversations;
-            Runnable myRunnable = () -> conversationListMutableLiveData.setValue(finalConversations);
+            Runnable myRunnable = () -> conversationListMutableLiveData.setValue(conversations);
             mainHandler.post(myRunnable);
         }).start();
 
@@ -577,36 +571,34 @@ public class TimelinesVM extends AndroidViewModel {
         conversationListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-            Conversations conversations = null;
+            Conversations conversations = new Conversations();
             try {
-                conversations = statusCacheDAO.getConversations(timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
-                if (conversations != null) {
-                    if (conversations.conversations != null && conversations.conversations.size() > 0) {
-                        if (timelineConversations != null) {
-                            List<Conversation> notPresentConversations = new ArrayList<>();
-                            for (Conversation conversation : conversations.conversations) {
-                                if (!timelineConversations.contains(conversation)) {
-                                    conversation.cached = true;
-                                    timelineConversations.add(conversation);
-                                }
+                List<Conversation> conversationsDb = statusCacheDAO.getConversations(timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
+                if (conversationsDb != null && conversationsDb.size() > 0) {
+                    if (timelineConversations != null) {
+                        List<Conversation> notPresentConversations = new ArrayList<>();
+                        for (Conversation conversation : conversationsDb) {
+                            if (!timelineConversations.contains(conversation)) {
+                                conversation.cached = true;
+                                timelineConversations.add(conversation);
                             }
-                            //Only not already present statuses are added
-                            conversations.conversations = notPresentConversations;
                         }
-                        if (conversations.conversations.size() > 0) {
-                            addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
-                            conversations.pagination = new Pagination();
-                            conversations.pagination.min_id = conversations.conversations.get(0).id;
-                            conversations.pagination.max_id = conversations.conversations.get(conversations.conversations.size() - 1).id;
-                        }
+                        //Only not already present statuses are added
+                        conversationsDb = notPresentConversations;
+                    }
+                    conversations.conversations = conversationsDb;
+                    if (conversations.conversations.size() > 0) {
+                        addFetchMoreConversation(conversations.conversations, timelineConversations, timelineParams);
+                        conversations.pagination = new Pagination();
+                        conversations.pagination.min_id = conversations.conversations.get(0).id;
+                        conversations.pagination.max_id = conversations.conversations.get(conversations.conversations.size() - 1).id;
                     }
                 }
             } catch (DBException e) {
                 e.printStackTrace();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Conversations finalConversations = conversations;
-            Runnable myRunnable = () -> conversationListMutableLiveData.setValue(finalConversations);
+            Runnable myRunnable = () -> conversationListMutableLiveData.setValue(conversations);
             mainHandler.post(myRunnable);
         }).start();
         return conversationListMutableLiveData;
@@ -669,22 +661,24 @@ public class TimelinesVM extends AndroidViewModel {
     public LiveData<List<MastodonList>> getLists(@NonNull String instance, String token) {
         mastodonListListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
+        List<MastodonList> mastodonListList = new ArrayList<>();
         new Thread(() -> {
-            List<MastodonList> mastodonListList = null;
             Call<List<MastodonList>> getListsCall = mastodonTimelinesService.getLists(token);
             if (getListsCall != null) {
                 try {
                     Response<List<MastodonList>> getListsResponse = getListsCall.execute();
                     if (getListsResponse.isSuccessful()) {
-                        mastodonListList = getListsResponse.body();
+                        List<MastodonList> mastodonLists = getListsResponse.body();
+                        if (mastodonLists != null) {
+                            mastodonListList.addAll(mastodonLists);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            List<MastodonList> finalMastodonListList = mastodonListList;
-            Runnable myRunnable = () -> mastodonListListMutableLiveData.setValue(finalMastodonListList);
+            Runnable myRunnable = () -> mastodonListListMutableLiveData.setValue(mastodonListList);
             mainHandler.post(myRunnable);
         }).start();
         return mastodonListListMutableLiveData;

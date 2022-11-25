@@ -23,17 +23,16 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.client.endpoints.MastodonAdminService;
-import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.AdminAccounts;
-import app.fedilab.android.client.entities.api.AdminReport;
-import app.fedilab.android.client.entities.api.AdminReports;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminAccounts;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlocks;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
+import app.fedilab.android.client.entities.api.admin.AdminReports;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import okhttp3.OkHttpClient;
@@ -54,15 +53,27 @@ public class AdminVM extends AndroidViewModel {
     private MutableLiveData<AdminAccounts> adminAccountsListMutableLiveData;
     private MutableLiveData<AdminReport> adminReportMutableLiveData;
     private MutableLiveData<AdminReports> adminReporstListMutableLiveData;
+    private MutableLiveData<AdminDomainBlock> adminDomainBlockMutableLiveData;
+    private MutableLiveData<AdminDomainBlocks> adminDomainBlockListMutableLiveData;
+    private MutableLiveData<Boolean> booleanMutableLiveData;
+
 
     public AdminVM(@NonNull Application application) {
         super(application);
     }
 
     private MastodonAdminService init(@NonNull String instance) {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + instance + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonAdminService.class);
+    }
+
+    private MastodonAdminService initv2(@NonNull String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + instance + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -107,7 +118,7 @@ public class AdminVM extends AndroidViewModel {
                                                String maxId,
                                                String sinceId,
                                                Integer limit) {
-        MastodonAdminService mastodonAdminService = init(instance);
+        MastodonAdminService mastodonAdminService = initv2(instance);
         adminAccountsListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<List<AdminAccount>> getAccountsCall = mastodonAdminService.getAccounts(
@@ -550,5 +561,204 @@ public class AdminVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return adminReportMutableLiveData;
+    }
+
+
+    /**
+     * View all domains blocked.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlocks> getDomainBlocks(@NonNull String instance,
+                                                       String token,
+                                                       String max_id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            List<AdminDomainBlock> adminDomainBlockList;
+            Call<List<AdminDomainBlock>> getDomainBlocks = mastodonAdminService.getDomainBlocks(token, max_id, MastodonHelper.statusesPerCall(getApplication()));
+            AdminDomainBlocks adminDomainBlocks = new AdminDomainBlocks();
+            if (getDomainBlocks != null) {
+                try {
+                    Response<List<AdminDomainBlock>> getDomainBlocksResponse = getDomainBlocks.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlocks.adminDomainBlocks = getDomainBlocksResponse.body();
+                        adminDomainBlocks.pagination = MastodonHelper.getPagination(getDomainBlocksResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> adminDomainBlockListMutableLiveData.setValue(adminDomainBlocks);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockListMutableLiveData;
+    }
+
+
+    /**
+     * View a single blocked domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> getDomainBlock(@NonNull String instance,
+                                                     String token,
+                                                     String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock adminDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock = mastodonAdminService.getDomainBlock(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlock = getDomainBlocksResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = adminDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
+    }
+
+
+    /**
+     * View a single blocked domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> createOrUpdateDomainBlock(@NonNull String instance,
+                                                                String token,
+                                                                AdminDomainBlock adminDomainBlock) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock admDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock;
+            if (adminDomainBlock.id == null) {
+                getDomainBlock = mastodonAdminService.blockDomain(token, adminDomainBlock.domain, adminDomainBlock.severity, adminDomainBlock.reject_media, adminDomainBlock.reject_reports, adminDomainBlock.private_comment, adminDomainBlock.public_comment, adminDomainBlock.obfuscate);
+            } else {
+                getDomainBlock = mastodonAdminService.updateBlockDomain(token, adminDomainBlock.id, adminDomainBlock.severity, adminDomainBlock.reject_media, adminDomainBlock.reject_reports, adminDomainBlock.private_comment, adminDomainBlock.public_comment, adminDomainBlock.obfuscate);
+            }
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        admDomainBlock = getDomainBlocksResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = admDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
+    }
+
+
+    /**
+     * View all allowed domains.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlocks> getDomainAllows(@NonNull String instance,
+                                                       String token,
+                                                       String max_id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            List<AdminDomainBlock> adminDomainBlockList;
+            Call<List<AdminDomainBlock>> getDomainBlocks = mastodonAdminService.getDomainAllows(token, max_id, MastodonHelper.statusesPerCall(getApplication()));
+            AdminDomainBlocks adminDomainBlocks = new AdminDomainBlocks();
+            if (getDomainBlocks != null) {
+                try {
+                    Response<List<AdminDomainBlock>> getDomainBlocksResponse = getDomainBlocks.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlocks.adminDomainBlocks = getDomainBlocksResponse.body();
+                        adminDomainBlocks.pagination = MastodonHelper.getPagination(getDomainBlocksResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> adminDomainBlockListMutableLiveData.setValue(adminDomainBlocks);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockListMutableLiveData;
+    }
+
+    public LiveData<Boolean> deleteDomain(@NonNull String instance,
+                                          String token,
+                                          String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        booleanMutableLiveData = new MutableLiveData<>();
+        final boolean[] successReply = {false};
+        new Thread(() -> {
+            Call<Void> getDomainBlock = mastodonAdminService.deleteBlockDomain(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<Void> response = getDomainBlock.execute();
+                    successReply[0] = response.isSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> booleanMutableLiveData.setValue(successReply[0]);
+            mainHandler.post(myRunnable);
+        }).start();
+        return booleanMutableLiveData;
+    }
+
+    /**
+     * View a single allowed domain
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing a {@link List} of {@link AdminDomainBlocks}s
+     */
+    public LiveData<AdminDomainBlock> getDomainAllow(@NonNull String instance,
+                                                     String token,
+                                                     String id) {
+        MastodonAdminService mastodonAdminService = init(instance);
+        adminDomainBlockMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            AdminDomainBlock adminDomainBlock = null;
+            Call<AdminDomainBlock> getDomainBlock = mastodonAdminService.getDomainAllow(token, id);
+            if (getDomainBlock != null) {
+                try {
+                    Response<AdminDomainBlock> getDomainBlocksResponse = getDomainBlock.execute();
+                    if (getDomainBlocksResponse.isSuccessful()) {
+                        adminDomainBlock = getDomainBlocksResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            AdminDomainBlock finalAdminDomainBlock = adminDomainBlock;
+            Runnable myRunnable = () -> adminDomainBlockMutableLiveData.setValue(finalAdminDomainBlock);
+            mainHandler.post(myRunnable);
+        }).start();
+        return adminDomainBlockMutableLiveData;
     }
 }

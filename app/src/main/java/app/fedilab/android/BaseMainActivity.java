@@ -95,7 +95,6 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.ActionActivity;
-import app.fedilab.android.activities.AdminActionActivity;
 import app.fedilab.android.activities.AnnouncementActivity;
 import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.CacheActivity;
@@ -117,7 +116,9 @@ import app.fedilab.android.activities.ReorderTimelinesActivity;
 import app.fedilab.android.activities.ScheduledActivity;
 import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.activities.SettingsActivity;
+import app.fedilab.android.activities.SuggestionActivity;
 import app.fedilab.android.activities.TrendsActivity;
+import app.fedilab.android.activities.admin.AdminActionActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.EmojiInstance;
@@ -391,6 +392,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_trends) {
                 Intent intent = new Intent(this, TrendsActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_suggestions) {
+                Intent intent = new Intent(this, SuggestionActivity.class);
+                startActivity(intent);
             } else if (id == R.id.nav_cache) {
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
                 startActivity(intent);
@@ -582,7 +586,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null) {
+                if (currentAccount == null || currentAccount.mastodon_account == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
                     startActivity(myIntent);
@@ -650,13 +654,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
-                Helper.loadPP(binding.profilePicture, currentAccount);
+                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
                 if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
-                Helper.loadPP(headerMainBinding.accountProfilePicture, currentAccount, false);
+                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
                 MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
@@ -697,16 +701,18 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            currentAccount.mastodon_account = mastodonAccount;
-                            displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
-                            new Thread(() -> {
-                                try {
-                                    //Update account in db
-                                    new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
-                                } catch (DBException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
+                            if (mastodonAccount != null) {
+                                currentAccount.mastodon_account = mastodonAccount;
+                                displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
+                                new Thread(() -> {
+                                    try {
+                                        //Update account in db
+                                        new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
                         });
 
             };
@@ -805,10 +811,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         String action = intent.getAction();
         String type = intent.getType();
         Bundle extras = intent.getExtras();
-        String userIdIntent, instanceIntent;
+        String userIdIntent, instanceIntent, urlOfMessage;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
             userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
             instanceIntent = extras.getString(Helper.PREF_INSTANCE);
+            urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
                 if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
                     openNotifications(intent);
@@ -834,6 +841,23 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
                 openNotifications(intent);
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_WITH_ANOTHER_ACCOUNT) {
+                CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, MainActivity.currentAccount, urlOfMessage, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        if (status != null) {
+                            Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
+                            intent.putExtra(Helper.ARG_STATUS, status);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+
+                    }
+                });
             }
         } else if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
@@ -949,7 +973,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     runOnUiThread(() -> {
                                                         Bundle b = new Bundle();
                                                         b.putString(Helper.ARG_SHARE_URL, url[0]);
-                                                        b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        if (fetchSharedMedia) {
+                                                            b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        }
                                                         b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
                                                         b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
                                                         b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
@@ -1029,6 +1055,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Matcher matcherLink = null;
                 matcherLink = link.matcher(url);
                 if (matcherLink.find()) {
+                    if (currentAccount == null) {
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                        if (currentToken == null || currentToken.trim().isEmpty()) {
+                            currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                        }
+                        try {
+                            currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
                         CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, currentAccount, url, new CrossActionHelper.Callback() {
                             @Override

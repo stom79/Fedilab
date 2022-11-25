@@ -1,0 +1,13 @@
+Added:
+- List of blocked domains (allow to unblock)
+- Support gemini links
+- Suggested followers
+
+Changed:
+- Allow search term to be edited
+
+Fixed:
+- Drafts deleted with no warning
+- App crashes when proxy is set
+- Filter not synced after being edited
+- Some crashes

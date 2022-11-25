@@ -1,4 +1,4 @@
-package app.fedilab.android.activities;
+package app.fedilab.android.activities.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -14,8 +14,14 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.activities.AdminActionActivity.AdminEnum.REPORT;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.ACCOUNT;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.DOMAIN;
+import static app.fedilab.android.activities.admin.AdminActionActivity.AdminEnum.REPORT;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,16 +33,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterReportsBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminAccount;
+import app.fedilab.android.ui.fragment.admin.FragmentAdminDomain;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 
 public class AdminActionActivity extends BaseActivity {
@@ -47,6 +57,26 @@ public class AdminActionActivity extends BaseActivity {
     private boolean canGoBack;
     private FragmentAdminReport fragmentAdminReport;
     private FragmentAdminAccount fragmentAdminAccount;
+    private FragmentAdminDomain fragmentAdminDomain;
+
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                AdminDomainBlock adminDomainBlock = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK);
+                AdminDomainBlock adminDomainBlockDelete = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE);
+                if (adminDomainBlock != null && adminDomainBlock.domain != null && fragmentAdminDomain != null) {
+                    fragmentAdminDomain.update(adminDomainBlock);
+                }
+                if (adminDomainBlockDelete != null && fragmentAdminDomain != null) {
+                    fragmentAdminDomain.delete(adminDomainBlockDelete);
+                }
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,20 +84,21 @@ public class AdminActionActivity extends BaseActivity {
         ThemeHelper.applyThemeBar(this);
         binding = ActivityAdminActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         canGoBack = false;
         binding.reports.setOnClickListener(v -> displayTimeline(REPORT));
-        binding.accounts.setOnClickListener(v -> displayTimeline(AdminEnum.ACCOUNT));
+        binding.accounts.setOnClickListener(v -> displayTimeline(ACCOUNT));
+        binding.domains.setOnClickListener(v -> displayTimeline(DOMAIN));
+
     }
 
     private void displayTimeline(AdminEnum type) {
         canGoBack = true;
         if (type == REPORT) {
-
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
                 fragmentAdminReport = new FragmentAdminReport();
                 Bundle bundle = new Bundle();
@@ -80,9 +111,7 @@ public class AdminActionActivity extends BaseActivity {
                 fragmentTransaction.replace(R.id.fragment_container, fragmentAdminReport);
                 fragmentTransaction.commit();
             });
-
-        } else {
-
+        } else if (type == ACCOUNT) {
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
                 fragmentAdminAccount = new FragmentAdminAccount();
                 Bundle bundle = new Bundle();
@@ -95,7 +124,19 @@ public class AdminActionActivity extends BaseActivity {
                 fragmentTransaction.replace(R.id.fragment_container, fragmentAdminAccount);
                 fragmentTransaction.commit();
             });
-
+        } else if (type == DOMAIN) {
+            ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
+                fragmentAdminDomain = new FragmentAdminDomain();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+                fragmentAdminDomain.setArguments(bundle);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction =
+                        fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragmentAdminDomain);
+                fragmentTransaction.commit();
+            });
         }
         switch (type) {
             case REPORT:
@@ -104,13 +145,16 @@ public class AdminActionActivity extends BaseActivity {
             case ACCOUNT:
                 setTitle(R.string.accounts);
                 break;
+            case DOMAIN:
+                setTitle(R.string.domains);
+                break;
         }
         invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        if (canGoBack) {
+        if (canGoBack && fragmentAdminAccount != null) {
             getMenuInflater().inflate(R.menu.menu_admin_account, menu);
         }
         return super.onCreateOptionsMenu(menu);
@@ -273,15 +317,29 @@ public class AdminActionActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (canGoBack) {
             canGoBack = false;
             ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.buttonContainer, () -> {
                 if (fragmentAdminReport != null) {
                     fragmentAdminReport.onDestroyView();
+                    fragmentAdminReport = null;
                 }
                 if (fragmentAdminAccount != null) {
                     fragmentAdminAccount.onDestroyView();
+                    fragmentAdminAccount = null;
+                }
+                if (fragmentAdminDomain != null) {
+                    fragmentAdminDomain.onDestroyView();
+                    fragmentAdminDomain = null;
                 }
                 setTitle(R.string.administration);
                 invalidateOptionsMenu();
@@ -296,8 +354,9 @@ public class AdminActionActivity extends BaseActivity {
         @SerializedName("REPORT")
         REPORT("REPORT"),
         @SerializedName("ACCOUNT")
-        ACCOUNT("ACCOUNT");
-
+        ACCOUNT("ACCOUNT"),
+        @SerializedName("DOMAIN")
+        DOMAIN("DOMAIN");
         private final String value;
 
         AdminEnum(String value) {

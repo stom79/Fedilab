@@ -399,7 +399,7 @@
     <string name="settings_category_notif_categories">Catégories</string>
     <string name="move_timeline">Déplacer le fil</string>
     <string name="hide_timeline">Cacher le fil</string>
-    <string name="reorder_timelines">Réorganiser les fils</string>
+    <string name="reorder_timelines">Gérer les fils</string>
     <string name="reorder_list_deleted">Liste supprimée définitivement</string>
     <string name="reorder_instance_removed">Instance suivie supprimée</string>
     <string name="reorder_tag_removed">Balise épinglée supprimée</string>
@@ -420,9 +420,9 @@
     <string name="image_saved">Image enregistrée avec succès !</string>
     <string name="save_image_failed">Échec de l\'enregistrement de l\'image</string>
     <string name="add_poll_item">Ajouter un élément de sondage</string>
-    <string name="mute_conversation">Mettre la conversation en sourdine</string>
+    <string name="mute_conversation">Masquer la conversation</string>
     <string name="unmute_conversation">Enlever la sourdine de la discussion</string>
-    <string name="toast_unmute_conversation">La conversation n\'est plus mise en sourdine !</string>
+    <string name="toast_unmute_conversation">La conversation n’est plus masquée !</string>
     <string name="toast_mute_conversation">La conversation est mise en sourdine</string>
     <string name="category_general">Général</string>
     <string name="category_regional">Régional</string>
@@ -857,4 +857,11 @@
     <string name="login_status">Statut de la connexion</string>
     <string name="display_remote_profile">Afficher le profil distant</string>
     <string name="toast_fetch_error">L\'application ne trouve pas de données distantes !</string>
+    <string name="notif_report">Un⋅e utilisateur⋅ice a envoyé un signalement</string>
+    <string name="sign_ups">Inscriptions</string>
+    <string name="channel_notif_update">Nouvelle mise à jour</string>
+    <string name="channel_notif_signup">Nouvel abonnement</string>
+    <string name="channel_notif_report">Nouveau signalement</string>
+    <string name="notif_update_push">Un message que vous avez partagé a été édité</string>
+    <string name="notif_sign_up">Un⋅e utilisateur⋅ice s\'est abonné⋅e</string>
 </resources>

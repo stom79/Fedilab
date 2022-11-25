@@ -1,4 +1,4 @@
-package app.fedilab.android.ui.drawer;
+package app.fedilab.android.ui.drawer.admin;
 /* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -31,7 +31,7 @@ import java.util.List;
 
 import app.fedilab.android.activities.AccountReportActivity;
 import app.fedilab.android.client.entities.api.Account;
-import app.fedilab.android.client.entities.api.AdminReport;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.databinding.DrawerReportBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;

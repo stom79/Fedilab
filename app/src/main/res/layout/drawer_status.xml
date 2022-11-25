@@ -148,7 +148,7 @@
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
                             android:ellipsize="end"
-                            android:maxLines="1"
+                            android:singleLine="true"
                             tools:text="@tools:sample/full_names" />
 
                         <androidx.appcompat.widget.AppCompatImageView

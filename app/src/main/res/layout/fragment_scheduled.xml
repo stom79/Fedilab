@@ -46,8 +46,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/no_scheduled_toots"
-            android:textSize="20sp"
-            android:typeface="serif" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
     <!-- Main Loader -->

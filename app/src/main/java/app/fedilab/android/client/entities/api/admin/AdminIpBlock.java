@@ -1,5 +1,5 @@
-package app.fedilab.android.client.entities.api;
-/* Copyright 2021 Thomas Schneider
+package app.fedilab.android.client.entities.api.admin;
+/* Copyright 2022 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -14,36 +14,24 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-public class AdminReport implements Serializable {
+public class AdminIpBlock implements Serializable {
 
     @SerializedName("id")
     public String id;
-    @SerializedName("account")
-    public AdminAccount account;
-    @SerializedName("action_taken")
-    public Boolean action_taken;
-    @SerializedName("action_taken_by_account")
-    public AdminAccount action_taken_by_account;
-    @SerializedName("assigned_account")
-    public AdminAccount assigned_account;
-    @SerializedName("category")
-    public String category;
+    @SerializedName("ip")
+    public String ip;
+    @SerializedName("severity")
+    public String severity;
     @SerializedName("comment")
     public String comment;
     @SerializedName("created_at")
     public Date created_at;
-    @SerializedName("target_account")
-    public AdminAccount target_account;
-    @SerializedName("statuses")
-    public List<Status> statuses;
-    @SerializedName("rules")
-    public List<Instance.Rule> rules;
-    @SerializedName("updated_at")
-    public Date updated_at;
+    @SerializedName("expires_at")
+    public Date expires_at;
 }

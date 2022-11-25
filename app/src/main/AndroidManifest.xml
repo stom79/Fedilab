@@ -201,7 +201,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
-            android:name=".activities.AdminAccountActivity"
+            android:name=".activities.admin.AdminAccountActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
@@ -210,7 +210,7 @@
             android:label="@string/account"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.AdminReportActivity"
+            android:name=".activities.admin.AdminReportActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/report"
             android:theme="@style/AppThemeBar" />
@@ -243,7 +243,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
-
+        <activity
+            android:name=".activities.admin.AdminDomainBlockActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/blocked_domains"
+            android:theme="@style/AppThemeBar" />
+        <activity
+            android:name=".activities.SuggestionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/Suggestions"
+            android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.PartnerShipActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -255,7 +264,7 @@
             android:label="@string/interactions"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.AdminActionActivity"
+            android:name=".activities.admin.AdminActionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/administration"
             android:theme="@style/AppThemeBar" />

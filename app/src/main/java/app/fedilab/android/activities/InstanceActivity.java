@@ -22,12 +22,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -39,6 +44,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.databinding.ActivityInstanceBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 
@@ -61,6 +67,22 @@ public class InstanceActivity extends BaseActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(InstanceActivity.this);
+
+
+        final SpannableString contentAbout = new SpannableString(getString(R.string.action_about_instance));
+        contentAbout.setSpan(new UnderlineSpan(), 0, contentAbout.length(), 0);
+        contentAbout.setSpan(new ForegroundColorSpan(ContextCompat.getColor(InstanceActivity.this, R.color.cyanea_accent_reference)), 0, contentAbout.length(),
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        binding.tos.setText(contentAbout);
+
+        final SpannableString contentPrivacy = new SpannableString(getString(R.string.action_privacy_policy));
+        contentPrivacy.setSpan(new UnderlineSpan(), 0, contentPrivacy.length(), 0);
+        contentPrivacy.setSpan(new ForegroundColorSpan(ContextCompat.getColor(InstanceActivity.this, R.color.cyanea_accent_reference)), 0, contentPrivacy.length(),
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        binding.privacy.setText(contentPrivacy);
+
+        binding.tos.setOnClickListener(v -> Helper.openBrowser(InstanceActivity.this, "https://" + MainActivity.currentInstance + "/about"));
+        binding.privacy.setOnClickListener(v -> Helper.openBrowser(InstanceActivity.this, "https://" + MainActivity.currentInstance + "/privacy-policy"));
         binding.close.setOnClickListener(
 
                 view -> {

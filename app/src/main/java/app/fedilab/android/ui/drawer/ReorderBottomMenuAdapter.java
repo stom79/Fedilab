@@ -20,7 +20,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +35,6 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperAdapter;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperViewHolder;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
-import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -130,8 +128,6 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onItemDismiss(int position) {
-        notifyItemChanged(position);
-        Toasty.info(context, context.getString(R.string.warning_main_timeline), Toast.LENGTH_SHORT).show();
     }
 
     @Override

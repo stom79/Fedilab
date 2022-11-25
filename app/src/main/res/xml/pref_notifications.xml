@@ -77,6 +77,24 @@
             app:key="@string/SET_NOTIF_STATUS"
             app:singleLineTitle="false"
             app:title="@string/set_notif_status" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_UPDATE"
+            app:singleLineTitle="false"
+            app:title="@string/set_notif_update" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_ADMIN_SIGNUP"
+            app:singleLineTitle="false"
+            app:title="@string/set_notif_user_sign_up" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_ADMIN_REPORT"
+            app:singleLineTitle="false"
+            app:title="@string/set_notif_admin_report" />
     </PreferenceCategory>
 
     <PreferenceCategory

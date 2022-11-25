@@ -320,6 +320,9 @@
     <string name="channel_notif_poll">Poll Ended</string>
     <string name="channel_notif_backup">Messages Backup</string>
     <string name="channel_notif_status">New posts</string>
+    <string name="channel_notif_update">New update</string>
+    <string name="channel_notif_signup">New sign-up</string>
+    <string name="channel_notif_report">New report</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
     <string name="set_enable_time_slot">Enable time slot</string>
@@ -351,6 +354,13 @@
     <string name="custom_emoji_picker">Custom emoji picker</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Add description for media (for the visually impaired)</string>
+
+    <string-array name="admin_block_severity">
+        <item>Silence</item>
+        <item>Suspend</item>
+        <item>None</item>
+    </string-array>
+
     <string-array name="filter_expire">
         <item>Never</item>
         <item>30 minutes</item>
@@ -404,6 +414,9 @@
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
     <string name="notif_poll_self">A poll you published has ended</string>
+    <string name="notif_update_push">A message you shared has been edited</string>
+    <string name="notif_sign_up">A user signed-up</string>
+    <string name="notif_report">A user sent a report</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
@@ -449,7 +462,8 @@
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>
     <string name="tos">terms of service</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">Sign-up</string>
+    <string name="sign_ups">Sign-ups</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
     <string name="cannot_be_empty">This field cannot be empty!</string>
     <string name="password_error">Passwords don\'t match!</string>
@@ -1254,6 +1268,9 @@
     <string name="SET_NOTIF_FAVOURITE" translatable="false">SET_NOTIF_FAVOURITE</string>
     <string name="SET_NOTIF_POLL" translatable="false">SET_NOTIF_POLL</string>
     <string name="SET_NOTIF_STATUS" translatable="false">SET_NOTIF_STATUS</string>
+    <string name="SET_NOTIF_UPDATE" translatable="false">SET_NOTIF_UPDATE</string>
+    <string name="SET_NOTIF_ADMIN_SIGNUP" translatable="false">SET_NOTIF_ADMIN_SIGNUP</string>
+    <string name="SET_NOTIF_ADMIN_REPORT" translatable="false">SET_NOTIF_ADMIN_REPORT</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_MAX_INDENTATION" translatable="false">SET_MAX_INDENTATION</string>
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
@@ -1904,4 +1921,39 @@
     <string name="delete_timeline">Delete timeline</string>
     <string name="notif_submitted_report">Submitted a report</string>
     <string name="notif_signed_up">Signed up</string>
+    <string name="notif_reported">sent a report</string>
+    <string name="Suggestions">Suggestions</string>
+    <string name="not_interested">Not interested</string>
+    <string name="blocked_domains">Blocked domains</string>
+    <string name="unblock_domain">Unblock domain</string>
+    <string name="no_blocked_domains">You have not blocked domains</string>
+    <string name="unblock_domain_confirm">Are you sure to unblock %1$s?</string>
+    <string name="action_privacy_policy">Privacy policy</string>
+    <string name="unpin_timeline">Remove pinned timeline?</string>
+    <string name="unpin_timeline_description">Are you sure to unpin that timeline?</string>
+    <string name="action_pinned_delete">Delete the pinned timelines?</string>
+    <string name="domains">Domains</string>
+    <string name="keep_notifications">Keep notifications</string>
+    <string name="set_notif_update">Notify for updates</string>
+    <string name="set_notif_user_sign_up">New sign-up (moderators)</string>
+    <string name="set_notif_admin_report">New report (moderators)</string>
+    <string name="open_with_account">Open with another account</string>
+    <string name="order_lists">Order lists</string>
+    <string name="reject_media">Reject media</string>
+    <string name="reject_reports">Reject reports</string>
+    <string name="admin_domainblock_domain">The domain block will not prevent creation of account entries in the database, but will retroactively and automatically apply specific moderation methods on those accounts.</string>
+    <string name="severity">Severity</string>
+    <string name="admin_domainblock_severity">Silence will make the account\'s posts invisible to anyone who isn\'t following them. Suspend will remove all of the account\'s content, media, and profile data. Use None if you just want to reject media files.</string>
+    <string name="admin_reject_media">Reject media files</string>
+    <string name="admin_domainblock_reject_media">Ignore all reports coming from this domain. Irrelevant for suspensions</string>
+    <string name="admin_reject_reports">Reject reports</string>
+    <string name="admin_domainblock_reject_reports">Ignore all reports coming from this domain. Irrelevant for suspensions</string>
+    <string name="admin_reject_obfuscate">Obfuscate domain name</string>
+    <string name="admin_domainblock_reject_obfuscate">Partially obfuscate the domain name in the list if advertising the list of domain limitations is enabled</string>
+    <string name="private_comment">Private comment</string>
+    <string name="admin_domainblock_private_comment">Comment about this domain limitation for internal use by the moderators.</string>
+    <string name="public_comment">Public comment</string>
+    <string name="admin_domainblock_public_comment">Comment about this domain limitation for the general public, if advertising the list of domain limitations is enabled.</string>
+    <string name="saved_changes">Changes have been saved!</string>
+    <string name="create_domain_block">Create domain block</string>
 </resources>

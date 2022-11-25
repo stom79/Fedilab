@@ -622,8 +622,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     for (Notification notificationsAlreadyPresent : notificationList) {
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        //if (Helper.compareTo(notificationReceived.id, notificationsAlreadyPresent.id) > 0) {
-                        if (notificationReceived.created_at.after(notificationsAlreadyPresent.created_at)) {
+                        if (Helper.compareTo(notificationReceived.id, notificationsAlreadyPresent.id) > 0) {
                             if (!notificationList.contains(notificationReceived)) {
                                 notificationList.add(position, notificationReceived);
                                 notificationAdapter.notifyItemInserted(position);

@@ -63,8 +63,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="10dp"
-                android:textSize="20sp"
-                android:typeface="serif" />
+                android:textSize="20sp" />
 
         </RelativeLayout>
 

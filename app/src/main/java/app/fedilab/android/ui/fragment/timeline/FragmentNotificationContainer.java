@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -56,10 +57,15 @@ public class FragmentNotificationContainer extends Fragment {
     public static UpdateCounters update;
     private FragmentNotificationContainerBinding binding;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentNotificationContainerBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean display_all_notification = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_ALL_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
         if (!display_all_notification) {
@@ -77,6 +83,8 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_edit_24));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_report_24));
             binding.viewpagerNotificationContainer.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), true));
         }
         AtomicBoolean changes = new AtomicBoolean(false);
@@ -92,6 +100,8 @@ public class FragmentNotificationContainer extends Fragment {
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayUpdatesFromPeople);
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayFollows);
             ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayUpdates);
+            ThemeHelper.changeButtonColor(requireActivity(), dialogView.displaySignups);
+            ThemeHelper.changeButtonColor(requireActivity(), dialogView.displayReports);
 
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(requireActivity()));
             DrawableCompat.setTintList(DrawableCompat.wrap(dialogView.displayAllCategories.getTrackDrawable()), ThemeHelper.getSwitchCompatTrackDrawable(requireActivity()));
@@ -128,6 +138,8 @@ public class FragmentNotificationContainer extends Fragment {
             dialogView.displayUpdatesFromPeople.setChecked(true);
             dialogView.displayFollows.setChecked(true);
             dialogView.displayUpdates.setChecked(true);
+            dialogView.displaySignups.setChecked(true);
+            dialogView.displayReports.setChecked(true);
             String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
             List<String> excludedCategoriesList = new ArrayList<>();
             if (excludedCategories != null) {
@@ -162,6 +174,14 @@ public class FragmentNotificationContainer extends Fragment {
                             excludedCategoriesList.add("update");
                             dialogView.displayUpdates.setChecked(false);
                             break;
+                        case "admin.sign_up":
+                            excludedCategoriesList.add("admin.sign_up");
+                            dialogView.displaySignups.setChecked(false);
+                            break;
+                        case "admin.report":
+                            excludedCategoriesList.add("admin.report");
+                            dialogView.displayReports.setChecked(false);
+                            break;
                     }
                 }
             }
@@ -182,6 +202,10 @@ public class FragmentNotificationContainer extends Fragment {
                     notificationType = "follow";
                 } else if (checkedId == R.id.display_updates) {
                     notificationType = "update";
+                } else if (checkedId == R.id.display_signups) {
+                    notificationType = "admin.sign_up";
+                } else if (checkedId == R.id.display_reports) {
+                    notificationType = "admin.report";
                 }
                 if (isChecked) {
                     excludedCategoriesList.remove(notificationType);
@@ -234,8 +258,8 @@ public class FragmentNotificationContainer extends Fragment {
                 }
             }
         });
-        return binding.getRoot();
     }
+
 
     private void doAction(boolean changed, List<String> excludedCategoriesList) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());

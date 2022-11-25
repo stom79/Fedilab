@@ -25,6 +25,7 @@ import app.fedilab.android.client.entities.api.Preferences;
 import app.fedilab.android.client.entities.api.RelationShip;
 import app.fedilab.android.client.entities.api.Report;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Suggestion;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Token;
 import okhttp3.MultipartBody;
@@ -315,7 +316,7 @@ public interface MastodonAccountsService {
     @DELETE("domain_blocks")
     Call<Void> removeDomainBlocks(
             @Header("Authorization") String token,
-            @Field("domain") String domain
+            @Query("domain") String domain
     );
 
 
@@ -391,7 +392,7 @@ public interface MastodonAccountsService {
 
     //Get user suggestions
     @GET("suggestions")
-    Call<List<Account>> getSuggestions(
+    Call<List<Suggestion>> getSuggestions(
             @Header("Authorization") String token,
             @Query("limit") String limit
     );

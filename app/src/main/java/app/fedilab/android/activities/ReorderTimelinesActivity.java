@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -43,8 +42,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +59,6 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
-import app.fedilab.android.helper.itemtouchhelper.OnUndoListener;
 import app.fedilab.android.helper.itemtouchhelper.SimpleItemTouchHelperCallback;
 import app.fedilab.android.ui.drawer.ReorderBottomMenuAdapter;
 import app.fedilab.android.ui.drawer.ReorderTabAdapter;
@@ -78,7 +74,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class ReorderTimelinesActivity extends BaseActivity implements OnStartDragListener, OnUndoListener {
+public class ReorderTimelinesActivity extends BaseActivity implements OnStartDragListener {
 
 
     private ItemTouchHelper touchHelper;
@@ -132,7 +128,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
                 update = false;
             }
             sortPositionAsc(this.pinned.pinnedTimelines);
-            reorderTabAdapter = new ReorderTabAdapter(this.pinned, ReorderTimelinesActivity.this, ReorderTimelinesActivity.this);
+            reorderTabAdapter = new ReorderTabAdapter(this.pinned, ReorderTimelinesActivity.this);
             ItemTouchHelper.Callback callback =
                     new SimpleItemTouchHelperCallback(reorderTabAdapter);
             touchHelper = new ItemTouchHelper(callback);
@@ -392,51 +388,6 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
         touchHelper.startDrag(viewHolder);
     }
 
-
-    @Override
-    public void onUndo(PinnedTimeline pinnedTimeline, int position) {
-
-        String text = "";
-        switch (pinnedTimeline.type) {
-            case TAG:
-                text = getString(R.string.reorder_tag_removed);
-                break;
-            case REMOTE:
-                text = getString(R.string.reorder_instance_removed);
-                break;
-            case LIST:
-                text = getString(R.string.reorder_list_deleted);
-                break;
-        }
-
-
-        Runnable runnable = () -> {
-            //change position of pinned that are after the removed item
-            for (int i = pinnedTimeline.position + 1; i < pinned.pinnedTimelines.size(); i++) {
-                pinned.pinnedTimelines.get(i).position -= 1;
-            }
-            pinned.pinnedTimelines.remove(pinnedTimeline);
-            reorderTabAdapter.notifyItemRemoved(position);
-            try {
-                new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);
-                changes = true;
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-        };
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, 4000);
-        Snackbar.make(binding.getRoot(), text, 4000)
-                .setAction(getString(R.string.undo), view -> {
-                    pinned.pinnedTimelines.add(position, pinnedTimeline);
-                    reorderTabAdapter.notifyItemInserted(position);
-                    handler.removeCallbacks(runnable);
-                })
-                .setTextColor(ThemeHelper.getAttColor(ReorderTimelinesActivity.this, R.attr.mTextColor))
-                .setActionTextColor(ContextCompat.getColor(ReorderTimelinesActivity.this, R.color.cyanea_accent_reference))
-                .setBackgroundTint(ContextCompat.getColor(ReorderTimelinesActivity.this, R.color.cyanea_primary_dark_reference))
-                .show();
-    }
 
     @Override
     public void onStop() {

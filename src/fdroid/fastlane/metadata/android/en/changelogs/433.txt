@@ -1,0 +1,18 @@
+Added:
+- List of blocked domains (allow to unblock)
+- Support gemini links
+- Suggested followers
+- Mod/Adm: Manage instance blocked domains
+- Open messages with another account
+- Allow to disable notifications for admins
+- Sort lists
+
+Changed:
+- Allow search term to be edited
+
+Fixed:
+- Drafts deleted with no warning
+- Remove lists from "Manage timelines"
+- App crashes when proxy is set
+- Filter not synced after being edited
+- Some crashes / improvements

@@ -177,7 +177,6 @@ public class TimelineHelper {
     public static List<Notification> filterNotification(Context context, List<Notification> notifications) {
         //A security to make sure filters have been fetched before displaying messages
         List<Notification> notificationToRemove = new ArrayList<>();
-
         if (!BaseMainActivity.filterFetched) {
             try {
                 FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);

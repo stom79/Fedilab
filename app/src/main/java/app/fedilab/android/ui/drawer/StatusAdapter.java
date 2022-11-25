@@ -24,6 +24,7 @@ import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
+import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -38,6 +39,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -100,20 +103,22 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.AdminAccountActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.CustomSharingActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.activities.ReportActivity;
 import app.fedilab.android.activities.StatusHistoryActivity;
 import app.fedilab.android.activities.StatusInfoActivity;
+import app.fedilab.android.activities.admin.AdminAccountActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Poll;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -1240,8 +1245,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     layoutMediaBinding.media.setOnClickListener(v -> {
                         if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
                             statusToDeal.isMediaObfuscated = false;
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            int position = holder.getBindingAdapterPosition();
+                            adapter.notifyItemChanged(position);
                             final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+
                             if (timeout > 0) {
                                 new CountDownTimer((timeout * 1000L), 1000) {
                                     public void onTick(long millisUntilFinished) {
@@ -1249,7 +1256,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                                     public void onFinish() {
                                         status.isMediaObfuscated = true;
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(position);
                                     }
                                 }.start();
                             }
@@ -1609,7 +1616,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 .observe((LifecycleOwner) context, poll -> {
                                                     int i = 0;
                                                     for (Poll.PollItem item : statusToDeal.poll.options) {
-                                                        poll.options.get(i).span_title = item.span_title;
+                                                        if (item.span_title != null) {
+                                                            poll.options.get(i).span_title = item.span_title;
+                                                        } else {
+                                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                                        }
                                                         i++;
                                                     }
                                                     statusToDeal.poll = poll;
@@ -1625,7 +1636,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (poll != null) {
                                         int i = 0;
                                         for (Poll.PollItem item : statusToDeal.poll.options) {
-                                            poll.options.get(i).span_title = item.span_title;
+                                            if (item.span_title != null) {
+                                                poll.options.get(i).span_title = item.span_title;
+                                            } else {
+                                                poll.options.get(i).span_title = new SpannableString(item.title);
+                                            }
                                             i++;
                                         }
                                         statusToDeal.poll = poll;
@@ -1640,7 +1655,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         //Store span elements
                         int i = 0;
                         for (Poll.PollItem item : statusToDeal.poll.options) {
-                            poll.options.get(i).span_title = item.span_title;
+                            if (item.span_title != null) {
+                                poll.options.get(i).span_title = item.span_title;
+                            } else {
+                                poll.options.get(i).span_title = new SpannableString(item.title);
+                            }
                             i++;
                         }
                         statusToDeal.poll = poll;
@@ -1849,14 +1868,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.account.acct);
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
+                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
                             .observe((LifecycleOwner) context, relationShip -> {
                                 sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
                                 Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
                             }));
                     builderInner.show();
-
                 } else if (itemId == R.id.action_mute_conversation) {
                     if (statusToDeal.muted) {
                         statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
@@ -1993,6 +2016,54 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     b.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
                     intent.putExtras(b);
                     context.startActivity(intent);
+                } else if (itemId == R.id.action_open_with) {
+                    new Thread(() -> {
+                        try {
+                            List<BaseAccount> accounts = new Account(context).getCrossAccounts();
+                            if (accounts.size() > 1) {
+                                List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
+                                for (BaseAccount account : accounts) {
+                                    accountList.add(account.mastodon_account);
+                                }
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+                                Runnable myRunnable = () -> {
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                    builderSingle.setTitle(context.getString(R.string.choose_accounts));
+                                    final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
+                                    final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
+                                    int i = 0;
+                                    for (BaseAccount account : accounts) {
+                                        accountArray[i] = account;
+                                        i++;
+                                    }
+                                    builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                                    builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
+                                        BaseAccount account = accountArray[which];
+
+                                        Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                        BaseMainActivity.currentToken = account.token;
+                                        BaseMainActivity.currentUserID = account.user_id;
+                                        BaseMainActivity.currentInstance = account.instance;
+                                        MainActivity.currentAccount = account;
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString(PREF_USER_TOKEN, account.token);
+                                        editor.commit();
+                                        Intent mainActivity = new Intent(context, MainActivity.class);
+                                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                        mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                        context.startActivity(mainActivity);
+                                        ((Activity) context).finish();
+                                        dialog.dismiss();
+                                    });
+                                    builderSingle.show();
+                                };
+                                mainHandler.post(myRunnable);
+                            }
+
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
                 }
                 return true;
             });

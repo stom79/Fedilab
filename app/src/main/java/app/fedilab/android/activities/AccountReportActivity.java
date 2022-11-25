@@ -31,9 +31,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.ArrayList;
 
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.AdminAccount;
-import app.fedilab.android.client.entities.api.AdminReport;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -221,7 +221,7 @@ public class AccountReportActivity extends BaseActivity {
             binding.email.setVisibility(View.GONE);
             binding.emailLabel.setVisibility(View.GONE);
         }
-        if (accountAdmin.ip == null || accountAdmin.ip.ip.trim().equals("")) {
+        if (accountAdmin.ip == null || accountAdmin.ip.trim().equals("")) {
             binding.recentIp.setVisibility(View.GONE);
             binding.recentIpLabel.setVisibility(View.GONE);
         }
@@ -243,7 +243,7 @@ public class AccountReportActivity extends BaseActivity {
             binding.emailUser.setVisibility(View.VISIBLE);
             binding.commentLabel.setVisibility(View.VISIBLE);
             binding.comment.setVisibility(View.VISIBLE);
-            binding.recentIp.setText(accountAdmin.ip != null ? accountAdmin.ip.ip : "");
+            binding.recentIp.setText(accountAdmin.ip != null ? accountAdmin.ip : "");
             binding.disable.setVisibility(View.VISIBLE);
             binding.suspend.setVisibility(View.VISIBLE);
         } else {
@@ -260,18 +260,9 @@ public class AccountReportActivity extends BaseActivity {
         }
 
         if (accountAdmin.role != null) {
-            switch (accountAdmin.role) {
-                case "user":
-                    binding.permissions.setText(getString(R.string.user));
-                    break;
-                case "moderator":
-                    binding.permissions.setText(getString(R.string.moderator));
-                    break;
-                case "admin":
-                    binding.permissions.setText(getString(R.string.administrator));
-                    break;
-            }
-            if (accountAdmin.role.equals("admin") || accountAdmin.role.equals("moderator")) {
+            binding.permissions.setText(AdminAccount.permissions.get(accountAdmin.role.permissions));
+            binding.permissions.setText(getString(R.string.user));
+            if (accountAdmin.role.permissions == 1 || accountAdmin.role.permissions == 400) {
                 binding.warn.setVisibility(View.GONE);
                 binding.suspend.setVisibility(View.GONE);
                 binding.silence.setVisibility(View.GONE);

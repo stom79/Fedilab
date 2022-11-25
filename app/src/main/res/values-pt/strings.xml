@@ -17,19 +17,19 @@
     <string name="password">Senha</string>
     <string name="email">E-mail</string>
     <string name="accounts">Contas</string>
-    <string name="toots">Toots</string>
+    <string name="toots">Mensagens</string>
     <string name="tags">Tags</string>
     <string name="save">Salvar</string>
     <string name="instance">Instância</string>
     <string name="instance_example">Instância: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Usando a conta %1$s agora</string>
     <string name="add_account">Adicionar conta</string>
-    <string name="clipboard">O conteúdo do toot foi copiado para a área de transferência</string>
-    <string name="clipboard_url">O link do toot foi copiado para a área de transferência</string>
+    <string name="clipboard">O conteúdo da mensagem foi copiado para a área de transferência</string>
+    <string name="clipboard_url">O link da mensagem foi copiado para a área de transferência</string>
     <string name="camera">Câmera</string>
     <string name="delete_all">Excluir tudo</string>
     <string name="schedule">Agendar</string>
-    <string name="text_size">Tamanho dos textos e ícones</string>
+    <string name="text_size">Tamanho dos textos</string>
     <string name="next">Próximo</string>
     <string name="previous">Anterior</string>
     <string name="open_with">Abrir com</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Seguidores pendentes</string>
     <string name="settings">Configurações</string>
     <string name="send_email">Mandar um e-mail</string>
-    <string name="scheduled_toots">Toots agendados</string>
+    <string name="scheduled_toots">Mensagens agendadas</string>
     <string name="disclaimer_full">As informações abaixo podem refletir incompletamente o perfil do usuário.</string>
     <string name="insert_emoji">Inserir emoji</string>
     <string name="no_emoji">O aplicativo não achou emojis personalizados no momento.</string>
     <string name="logout_account_confirmation">Tem a certeza que quer sair @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Sem toots</string>
-    <string name="favourite_add">Favoritar toot?</string>
-    <string name="favourite_remove">Desfavoritar toot?</string>
-    <string name="reblog_add">Dar boost?</string>
-    <string name="reblog_remove">Desfazer boost?</string>
+    <string name="no_status">Sem mensagens para mostrar</string>
+    <string name="favourite_add">Favoritar essa mensagem\?</string>
+    <string name="favourite_remove">Desfavoritar essa mensagem\?</string>
+    <string name="reblog_add">Dar boost\?</string>
+    <string name="reblog_remove">Desfazer boost\?</string>
     <string name="more_action_1">Silenciar</string>
     <string name="more_action_2">Bloquear</string>
     <string name="more_action_3">Denunciar</string>
@@ -105,25 +105,29 @@
     <string name="date_day">%d d</string>
     <plurals name="date_seconds_polls">
         <item quantity="one">%d segundo</item>
+        <item quantity="many">%d segundos</item>
         <item quantity="other">%d segundos</item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="one">%d minuto</item>
+        <item quantity="many">%d minutos</item>
         <item quantity="other">%d minutos</item>
     </plurals>
     <plurals name="date_hours_polls">
         <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
         <item quantity="other">%d horas</item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="one">%d dia</item>
+        <item quantity="many">%d dias</item>
         <item quantity="other">%d dias</item>
     </plurals>
     <!-- TOOT -->
     <string name="toot_select_image_error">Ocorreu um erro ao selecionar a mídia!</string>
     <string name="toot_delete_media">Remover mídia?</string>
-    <string name="toot_error_no_content">Toot vazio!</string>
-    <string name="toot_sent">Toot enviado!</string>
+    <string name="toot_error_no_content">Sua mensagem está vazia!</string>
+    <string name="toot_sent">Mensagem enviada!</string>
     <string name="toot_sensitive">Conteúdo sensível?</string>
     <string name="no_draft">Sem rascunhos!</string>
     <string name="choose_accounts">Escolha uma conta</string>
@@ -143,14 +147,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Sem conta</string>
     <string name="no_follow_request">Sem seguidores pendentes</string>
-    <string name="status_cnt">Toots \n %1$s</string>
+    <string name="status_cnt">Mensagens
+\n %1$s</string>
     <string name="following_cnt">Seguindo \n %1$s</string>
     <string name="followers_cnt">Seguidores \n %1$s</string>
     <string name="reject">Recusar</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Sem toots agendados!</string>
-    <string name="remove_scheduled">Excluir toot agendado?</string>
-    <string name="toot_scheduled">Toot agendado!</string>
+    <string name="no_scheduled_toots">Sem mensagens agendadas!</string>
+    <string name="remove_scheduled">Excluir mensagem agendada\?</string>
+    <string name="toot_scheduled">Mensagem agendada!</string>
     <string name="toot_scheduled_date">A data de agendamento deve ser após o horário atual!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">O tempo de silêncio deve ser maior do que um minuto.</string>
@@ -176,10 +181,10 @@
     <string name="toast_unmute">Silêncio desativado!</string>
     <string name="toast_follow">Você seguiu a conta!</string>
     <string name="toast_unfollow">Você deixou de seguir a conta!</string>
-    <string name="toast_reblog">Toot compartilhado!</string>
+    <string name="toast_reblog">Mensagem compartilhada!</string>
     <string name="toast_unreblog">Boost desfeito!</string>
-    <string name="toast_favourite">Toot favoritado!</string>
-    <string name="toast_unfavourite">Toot desfavoritado!</string>
+    <string name="toast_favourite">Mensagem adicionada aos favoritos!</string>
+    <string name="toast_unfavourite">A mensagem foi removida dos seus favoritos!</string>
     <string name="toast_error">Oops! Ocorreu um erro!</string>
     <string name="toast_code_error">Ocorreu um erro! A instância não retornou um código de autorização!</string>
     <string name="toast_error_instance">Parece que o domínio da instância não é válido!</string>
@@ -188,7 +193,7 @@
     <string name="nothing_to_do">A ação não pode ser feita ou não é suportada</string>
     <string name="toast_error_translate">Ocorreu um erro na tradução!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Número de toots por vez</string>
+    <string name="set_toots_page">Número de mensagens por vez</string>
     <string name="set_disable_gif">Desativar GIF</string>
     <string name="set_notif_follow">Notificar quando alguém te seguir</string>
     <string name="set_notif_follow_share">Notificar quando alguém der boost nos seus toots</string>
@@ -200,7 +205,7 @@
     <string name="set_share_validation_fav">Mostrar diálogo antes de favoritar</string>
     <string name="set_notify">Notificar?</string>
     <string name="set_notif_silent">Silenciar notificações</string>
-    <string name="set_nsfw_timeout">Segundos para expirar a prévia de mídia sensível, 0 para desativar.</string>
+    <string name="set_nsfw_timeout">Segundos para expirar a prévia de mídia sensível, 0 para desativar</string>
     <string name="set_med_desc_timeout">Tempo limite da descrição de ficheiros multimédia (segundos, 0 significa desligado)</string>
     <string name="settings_title_custom_sharing">Compartilhamento externo personalizado</string>
     <string name="settings_custom_sharing_url">Seu link de compartilhamento externo…</string>
@@ -267,7 +272,7 @@
     <string name="poxy_port">Porta</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Senha</string>
-    <string name="set_share_details">Adicionar detalhes do toot ao compartilhar</string>
+    <string name="set_share_details">Adicionar detalhes da mensagem ao compartilhar</string>
     <string name="support_the_app_on_liberapay">Apoie o aplicativo no Liberapay</string>
     <string name="alert_regex">Há um erro na expressão regular!</string>
     <string name="toast_instance_unavailable">Nenhuma timeline foi encontrada nesta instância!</string>
@@ -286,9 +291,9 @@
     <string name="context_public">Timelines públicas</string>
     <string name="context_notification">Notificações</string>
     <string name="context_conversation">Conversas</string>
-    <string name="filter_keyword_explanations">Serão correspondidas independente de maiúsculas ou minúsculas no texto ou no aviso de conteúdo de um toot</string>
+    <string name="filter_keyword_explanations">Serão correspondidas independente de maiúsculas ou minúsculas no texto ou no aviso de conteúdo de uma mensagem</string>
     <string name="context_drop">Apagar em vez de ocultar</string>
-    <string name="context_drop_explanations">Os toots filtrados desaparecerão irreversivelmente, mesmo se o filtro for removido mais tarde</string>
+    <string name="context_drop_explanations">As mensagens filtradas desaparecerão irreversivelmente, mesmo se o filtro for removido mais tarde</string>
     <string name="context_whole_word_explanations">Quando a palavra-chave ou frase só tem alfanuméricos, ela será aplicada somente se combinar com a palavra inteira</string>
     <string name="context_whole_word">Palavra inteira</string>
     <string name="filter_context">Contextos do filtro</string>
@@ -303,7 +308,7 @@
     <string name="channel_notif_fav">Novo favorito</string>
     <string name="channel_notif_mention">Nova menção</string>
     <string name="channel_notif_poll">Sondagem terminada</string>
-    <string name="channel_notif_backup">Backup de Toots</string>
+    <string name="channel_notif_backup">Backup de Mensagens</string>
     <string name="channel_notif_status">Novas publicações</string>
     <string name="channel_notif_media">Baixar mídia</string>
     <string name="select_sound">Selecionar toque</string>
@@ -315,11 +320,11 @@
     <string name="peertube_instance">Instância Peertube</string>
     <string name="set_display_emoji">Usar Emoji One</string>
     <string name="information">Informação</string>
-    <string name="set_display_card">Mostrar pré-visualizações em todos os toots</string>
+    <string name="set_display_card">Mostrar pré-visualizações em todas as mensagens</string>
     <string name="account_id_clipbloard">O nome de utilizador foi copiado para a área de transferência!</string>
     <string name="set_change_locale">Mudar o idioma</string>
-    <string name="truncate_long_toots">Cortar toots longos</string>
-    <string name="set_truncate_toot">Limitar toots por \'x\' linhas. Zero significa desativar.</string>
+    <string name="truncate_long_toots">Cortar mensagens longas</string>
+    <string name="set_truncate_toot">Limitar mensagens por \'x\' linhas. Zero significa desativar.</string>
     <string name="display_toot_truncate">Mostrar mais</string>
     <string name="hide_toot_truncate">Mostrar menos</string>
     <string name="tags_already_stored">A tag já existe!</string>
@@ -365,8 +370,8 @@
     <string name="category">Categoria</string>
     <string name="description">Descrição</string>
     <string name="share">Compartilhar</string>
-    <string name="toots_server">Toots (Servidor)</string>
-    <string name="toots_client">Toots (Disp)</string>
+    <string name="toots_server">Mensagens (Servidor)</string>
+    <string name="toots_client">Mensagens (Dispositivo)</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contatos</string>
@@ -570,4 +575,64 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">Necessita de um distribuidor para receber notificações instantâneas. \nVai encontrar mais detalhes em %1$s.\n\nPode desactivar as mensagens instantâneas nas configurações para ignorar esta mensagem.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="notification_sounds">Sons de notificação</string>
+    <string name="replace_twitter_description">Usar um frontend alternativo para Twitter</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="replace_twitter_host">Domínio do frontend para Twitter</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="replace_instagram_description">Usar um frontend alternativo para Instagram</string>
+    <string name="replace_instagram_host">Domínio do frontend para Instagram</string>
+    <string name="category_custom">Personalizado</string>
+    <string name="instance_not_valid">A instância não parece ser válida!</string>
+    <string name="boosted_by">Recebeu boost de</string>
+    <string name="remove_status">Remover status</string>
+    <string name="post_message">Publicando mensagem…</string>
+    <string name="type_of_notifications_title">Escolha o tipo de notificação</string>
+    <string name="type_of_notifications">Tipo de notificação</string>
+    <string name="select_a_theme">Escolha um tema</string>
+    <string name="replace_youtube_host">Domínio do frontend para YouTube</string>
+    <string name="replace_reddit_description">Usar um frontend alternativo para o Reddit</string>
+    <string name="keepon">Continuar</string>
+    <string name="other">Outro</string>
+    <string name="eg_sensitive_content">Ex.: Conteúdo Sensível</string>
+    <string name="is_down">Está inoperante!</string>
+    <string name="instance_health_indication">versão: %s
+\n%s users - %s status</string>
+    <string name="instance_health_uptime">Em atividade há: %,.2f %%</string>
+    <string name="icon_size">Tamanho dos ícones</string>
+    <string name="toast_bookmark">A mensagem foi adicionada aos seus favoritos!</string>
+    <string name="toast_unbookmark">A mensagem foi removida dos seus favoritos!</string>
+    <string name="set_notifications_page">Número de notificações por vez</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="replace_youtube_description">Usar um frontend alternativo para o YouTube</string>
+    <string name="stop_recording">Parar de gravar</string>
+    <string name="report_title">Relatório %1$s</string>
+    <string name="hide_content">Esconder conteúdo &lt;</string>
+    <string name="toots_visibility_title">Visibilidade padrão das mensagens:</string>
+    <string name="set_accounts_page">Número de contas por vez</string>
+    <string name="cannot_be_empty">Esse campo não pode ser vazio!</string>
+    <string name="replace_reddit_host">Domínio do frontend para Reddit</string>
+    <string name="is_up">Está ativo!</string>
+    <string name="pref_theme_base">Base do tema</string>
+    <string name="notifications_are">Durante esse momento</string>
+    <string name="disable_notifications">Desabilitar notificações</string>
+    <string name="pref_custom_theme_new_summary">Permite criar seu tema personalizado</string>
+    <string name="more_actions">Mais Ações</string>
+    <string name="pref_theme_base_summary">Escolha se a base do tema será dark ou light</string>
+    <string name="pref_contributor_summary">Escolha um tema que foi criado por colaboradores</string>
+    <string name="pref_contributor">Temas de colaboradores</string>
+    <string name="customize_timelines">Personalizar timelines</string>
+    <string name="types_of_notifications_to_display">Tipos de notificação para mostrar</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="data_import_settings_success">As configurações foram importadas com sucesso</string>
+    <string name="instance_health_checkedat">Verificado em: %s</string>
+    <string name="show_content">Mostrar conteúdo &gt;</string>
+    <string name="category_music">Música</string>
+    <string name="data_export_settings">As configurações foram exportadas</string>
+    <string name="data_export_settings_success">Configurações foram exportadas com sucesso</string>
+    <string name="favourited_by">Favoritada por</string>
+    <string name="followers_only">Apenas seguidores</string>
+    <string name="report_indication_title_status">Diga-nos o que está havendo com este post</string>
+    <string name="add_status">Adicionar status</string>
+    <string name="post_message_text">Enviando mensagem %d/%d</string>
 </resources>

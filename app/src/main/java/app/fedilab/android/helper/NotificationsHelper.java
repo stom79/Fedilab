@@ -158,6 +158,9 @@ public class NotificationsHelper {
         boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
         boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
         boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
+        boolean notif_update = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
+        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
+        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
 
         final String max_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + key, null);
 
@@ -232,18 +235,18 @@ public class NotificationsHelper {
                             title = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                         else
                             title = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_reblog));
-                    }
-                    if (notification.status != null) {
-                        if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
-                        } else {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                        if (notification.status != null) {
+                            if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                            }
                         }
                     }
                     break;
@@ -254,18 +257,18 @@ public class NotificationsHelper {
                             title = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
                         else
                             title = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_favourite));
-                    }
-                    if (notification.status != null) {
-                        if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
-                        } else {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                        if (notification.status != null) {
+                            if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                            }
                         }
                     }
                     break;
@@ -298,19 +301,60 @@ public class NotificationsHelper {
                             title = context.getString(R.string.notif_poll_self);
                         else
                             title = context.getString(R.string.notif_poll);
-                    }
-                    if (notification.status != null) {
-                        if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
-                        } else {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
-                            else
-                                message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                        if (notification.status != null) {
+                            if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                            }
                         }
+                    }
+                    break;
+                case "update":
+                    notifType = Helper.NotifType.UPDATE;
+                    if (notif_update) {
+                        title = context.getString(R.string.notif_update_push);
+                        if (notification.status != null) {
+                            if (notification.status.spoiler_text != null && notification.status.spoiler_text.length() > 0) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.spoiler_text)).toString();
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    message = new SpannableString(Html.fromHtml(notification.status.content, FROM_HTML_MODE_LEGACY)).toString();
+                                else
+                                    message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
+                            }
+                        }
+                    }
+                    break;
+                case "admin.sign_up":
+                    notifType = Helper.NotifType.SIGN_UP;
+                    if (notif_signup) {
+                        title = context.getString(R.string.notif_sign_up);
+                        if (notification.account.display_name != null && notification.account.display_name.length() > 0)
+                            message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up));
+                        else
+                            message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_signed_up));
+                        targeted_account = notification.account.id;
+                    }
+                    break;
+                case "admin.report":
+                    notifType = Helper.NotifType.REPORT;
+                    if (notif_report) {
+                        title = context.getString(R.string.notif_report);
+                        if (notification.account.display_name != null && notification.account.display_name.length() > 0)
+                            message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reported));
+                        else
+                            message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_reported));
+                        targeted_account = notification.account.id;
                     }
                     break;
                 default:
@@ -321,7 +365,7 @@ public class NotificationsHelper {
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
                 intent.putExtra(Helper.PREF_KEY_ID, account.user_id);
-                if (targeted_account != null && notifType == Helper.NotifType.FOLLLOW)
+                if (targeted_account != null)
                     intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
                 intent.putExtra(Helper.PREF_INSTANCE, account.instance);
                 notificationUrl = notification.account.avatar;

@@ -58,7 +58,11 @@
                         android:icon="@drawable/ic_baseline_trending_up_24"
                         android:title="@string/trending"
                         android:visible="true" />
-
+                    <item
+                        android:id="@+id/nav_suggestions"
+                        android:icon="@drawable/ic_baseline_account_circle_24"
+                        android:title="@string/Suggestions"
+                        android:visible="true" />
                     <item
                         android:id="@+id/nav_about_instance"
                         android:icon="@drawable/ic_info_outline_white_24dp"
