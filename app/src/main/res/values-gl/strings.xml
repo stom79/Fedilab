@@ -860,4 +860,7 @@
     <string name="toast_error_add_to_list">A app non puido engadir a conta á lista!</string>
     <string name="delete_timeline">Eliminar cronoloxía</string>
     <string name="notif_signed_up">Rexistrada</string>
+    <string name="action_pinned_delete">Eliminar as cronoloxías fixadas\?</string>
+    <string name="unpin_timeline">Eliminar a cronoloxía fixada\?</string>
+    <string name="unpin_timeline_description">Tes a certeza de desafixar a cronoloxía\?</string>
 </resources>
