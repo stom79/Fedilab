@@ -143,6 +143,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
     public promptDraftListener promptDraftListener;
+    private boolean unlisted_changed = false;
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
@@ -1244,10 +1245,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     statusDraft.visibility = "public";
                 }
-                if (position == 0 && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
+                if (!unlisted_changed && position == 0 && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
                     statusDraft.visibility = "unlisted";
                 }
-            } else if (position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
+            } else if (!unlisted_changed && position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
                 statusDraft.visibility = "unlisted";
             }
 
@@ -1277,6 +1278,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_direct);
                 statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
+
             });
             holder.binding.buttonVisibilityPrivate.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
@@ -1292,6 +1294,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
+                unlisted_changed = true;
             });
             if (statusDraft.spoilerChecked) {
                 holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
