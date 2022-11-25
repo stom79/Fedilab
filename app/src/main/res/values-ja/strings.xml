@@ -389,7 +389,7 @@
     <string name="settings_category_notif_categories">カテゴリ</string>
     <string name="move_timeline">タイムラインの移動</string>
     <string name="hide_timeline">タイムラインを非表示にする</string>
-    <string name="reorder_timelines">タイムラインの並び替え</string>
+    <string name="reorder_timelines">タイムラインの管理</string>
     <string name="reorder_list_deleted">削除されたリスト</string>
     <string name="reorder_instance_removed">フォローしたサーバーを削除</string>
     <string name="reorder_tag_removed">ピン留めされたタグの削除</string>
@@ -601,7 +601,7 @@
     <string name="mark_all_as_read">全ての通知を既読にする</string>
     <string name="display_all_categories">全てのカテゴリーを表示する</string>
     <string name="delete_notification_all_warning">全ての通知を削除しますか？この操作は取り消せません。</string>
-    <string name="interactions">相互</string>
+    <string name="interactions">交流</string>
     <string name="save_changes">変更を保存</string>
     <string name="set_bot_content">ボットアカウント</string>
     <string name="set_discoverable_content">アカウントを検索可能にする</string>
@@ -698,7 +698,7 @@
     <string name="action_announcement_from_to">アナウンス・%1$s - %2$s</string>
     <string name="messages_in_cache_for_other_timelines">他のタイムラインの投稿のキャッシュ</string>
     <string name="messages_stored_in_drafts">下書きのメッセージ</string>
-    <string name="files_cache_size">ファイルキャッシュのサイズ</string>
+    <string name="files_cache_size">キャッシュファイルのサイズ</string>
     <string name="clear_cache">キャッシュを消去</string>
     <string name="most_recent">直近</string>
     <string name="filter">フィルター</string>
@@ -846,4 +846,17 @@
     <string name="notif_display_updates">更新</string>
     <string name="show_anyway">強制的に表示する</string>
     <string name="display_remote_profile">リモートのプロフィールを表示</string>
+    <string name="action_privacy_policy">プライバシーポリシー</string>
+    <string name="unpin_timeline">ピン留めしたタイムラインを削除しますか？</string>
+    <string name="action_pinned_delete">ピン留めされたタイムラインを削除しますか？</string>
+    <string name="unpin_timeline_description">このタイムラインのピン留めを解除しますか？</string>
+    <string name="blocked_domains">ブロックしたドメイン</string>
+    <string name="unblock_domain">ドメインのブロックを解除</string>
+    <string name="no_blocked_domains">ブロックしているドメインはありません</string>
+    <string name="unblock_domain_confirm">%1$sのブロックを解除しますか？</string>
+    <string name="Suggestions">サジェスト</string>
+    <string name="not_interested">興味なし</string>
+    <string name="delete_timeline">タイムラインの削除</string>
+    <string name="notif_submitted_report">レポートを送信しました</string>
+    <string name="notif_signed_up">登録しました</string>
 </resources>
