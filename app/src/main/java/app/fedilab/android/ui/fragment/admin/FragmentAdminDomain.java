@@ -122,6 +122,7 @@ public class FragmentAdminDomain extends Fragment {
 
         adminVM = new ViewModelProvider(FragmentAdminDomain.this).get(viewModelKey, AdminVM.class);
 
+        binding.noActionText.setText(R.string.no_blocked_domains);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         flagLoading = false;

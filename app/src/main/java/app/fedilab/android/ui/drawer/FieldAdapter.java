@@ -38,10 +38,11 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHol
 
     private final List<Field> fields;
     private Context context;
-    private Account account;
+    private final Account account;
 
-    public FieldAdapter(List<Field> fields) {
+    public FieldAdapter(List<Field> fields, Account account) {
         this.fields = fields;
+        this.account = account;
     }
 
     @Override
@@ -68,12 +69,18 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHol
         if (field.verified_at != null) {
             holder.binding.value.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context, R.drawable.ic_baseline_verified_24), null);
         }
+
         holder.binding.value.setText(
                 field.getValueSpan(context, account,
                         new WeakReference<>(holder.binding.value)),
                 TextView.BufferType.SPANNABLE);
         holder.binding.value.setMovementMethod(LinkMovementMethod.getInstance());
-        holder.binding.label.setText(field.name);
+
+        holder.binding.label.setText(
+                field.getValueSpan(context, account,
+                        new WeakReference<>(holder.binding.label)),
+                TextView.BufferType.SPANNABLE);
+        holder.binding.label.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

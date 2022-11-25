@@ -52,12 +52,11 @@ public class CustomEmoji extends ReplacementSpan {
         if (imageDrawable != null) {
             canvas.save();
             int emojiSize = (int) (paint.getTextSize() * scale);
-            Drawable drawable = imageDrawable;
-            drawable.setBounds(0, 0, emojiSize, emojiSize);
-            int transY = bottom - drawable.getBounds().bottom;
+            imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
+            int transY = bottom - imageDrawable.getBounds().bottom;
             transY -= paint.getFontMetrics().descent / 2;
             canvas.translate(x, (float) transY);
-            drawable.draw(canvas);
+            imageDrawable.draw(canvas);
             canvas.restore();
         }
     }

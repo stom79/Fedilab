@@ -364,7 +364,7 @@ public class ProfileActivity extends BaseActivity {
         //Fields for profile
         List<Field> fields = account.fields;
         if (fields != null && fields.size() > 0) {
-            FieldAdapter fieldAdapter = new FieldAdapter(fields);
+            FieldAdapter fieldAdapter = new FieldAdapter(fields, account);
             binding.fieldsContainer.setAdapter(fieldAdapter);
             binding.fieldsContainer.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
         }
