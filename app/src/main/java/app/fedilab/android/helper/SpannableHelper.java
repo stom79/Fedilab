@@ -255,6 +255,12 @@ public class SpannableHelper {
                         if (urlDetails.containsValue(uniqueUrl)) {
                             finalURl = Helper.getKeyByValue(urlDetails, uniqueUrl);
                         }
+                        if (finalURl == null) {
+                            return;
+                        }
+                        if (finalURl.startsWith("http://")) {
+                            finalURl = finalURl.replace("http://", "https://");
+                        }
                         String finalURl1 = finalURl;
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
