@@ -291,7 +291,7 @@ public class ProfileActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(ProfileActivity.this, binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
         if (account.locked) {

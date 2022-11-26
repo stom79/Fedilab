@@ -160,6 +160,7 @@ public class FragmentLoginMain extends Fragment {
                         case "PIXELFED":
                             apiLogin = Account.API.PIXELFED;
                             break;
+                        case "AKKOMA":
                         case "PLEROMA":
                             apiLogin = Account.API.PLEROMA;
                             break;

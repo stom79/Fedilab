@@ -92,8 +92,8 @@ dependencies {
     implementation 'com.vanniktech:emoji-one:0.6.0'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
     implementation 'org.framagit.tom79:SparkButton:1.0.13'
-    implementation "com.github.bumptech.glide:glide:4.12.0"
-    implementation "com.github.bumptech.glide:okhttp3-integration:4.12.0"
+    implementation "com.github.bumptech.glide:glide:4.14.2"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.14.2"
 
     implementation "org.jsoup:jsoup:1.15.1"
 
@@ -102,12 +102,11 @@ dependencies {
     implementation project(path: ':ratethisapp')
 
 
-
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
     implementation project(path: ':cropper')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.22.0'
+    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'

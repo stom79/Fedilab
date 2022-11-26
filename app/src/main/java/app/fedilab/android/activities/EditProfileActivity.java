@@ -89,7 +89,7 @@ public class EditProfileActivity extends BaseActivity {
     @SuppressWarnings("deprecation")
     private void initializeView() {
         //Hydrate values
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(EditProfileActivity.this, binding.bannerPp, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
         MastodonHelper.loadPPMastodon(binding.accountPp, currentAccount.mastodon_account);
         binding.displayName.setText(currentAccount.mastodon_account.display_name);
         binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", currentAccount.mastodon_account.acct, BaseMainActivity.currentInstance));

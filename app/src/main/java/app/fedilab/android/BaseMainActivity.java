@@ -661,7 +661,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
                 Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
-                MastodonHelper.loadProfileMediaMastodon(headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+                MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 /*
                  * Some general data are loaded when the app starts such;
                  *  - Pinned timelines (in app feature)

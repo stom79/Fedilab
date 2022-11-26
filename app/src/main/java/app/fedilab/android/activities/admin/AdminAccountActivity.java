@@ -272,7 +272,7 @@ public class AdminAccountActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(AdminAccountActivity.this, binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
         if (adminAccount.account.locked) {
