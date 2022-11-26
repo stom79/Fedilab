@@ -581,7 +581,7 @@
     <string name="eg_sensitive_content">Z. B.: Sensibler Inhalt</string>
     <string name="add_status">Status hinzufügen</string>
     <string name="remove_status">Status entfernen</string>
-    <string name="instance_health_checkedat">Überprüft um: %s</string>
+    <string name="instance_health_checkedat">Überprüft am: %s</string>
     <string name="show_content">Inhalt anzeigen &gt;</string>
     <string name="stop_recording">Aufnahme anhalten</string>
     <string name="report_val1">Ich mag es nicht</string>
@@ -659,7 +659,7 @@
     <string name="is_down">Ist derzeit nicht erreichbar!</string>
     <string name="post_message">Versende Nachricht…</string>
     <string name="instance_health_indication">Version: %s
-\n%s Benutzer - %s Statuse</string>
+\n%s Benutzer – %s Status</string>
     <string name="report_val_more2">Bösartige Links, gefälschtes Engagement oder sich wiederholende Antworten</string>
     <string name="report_indication_title_status">Sage uns, was es mit diesem Beitrag auf sich hat</string>
     <string name="report_1_mute_title">Stummschalten %1$s</string>
