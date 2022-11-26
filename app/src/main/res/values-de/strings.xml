@@ -870,4 +870,20 @@
     <string name="set_language_picker_title">Sprachen in der Auswahl</string>
     <string name="set_language_picker">Erlaube die Liste der Sprachen in der Auswahl beim Verfassen einer Nachricht zu reduzieren.</string>
     <string name="not_valid_tag_name">Bezeichnung des Tags ist nicht zulässig!</string>
+    <string name="severity">Schweregrad</string>
+    <string name="reject_media">Medien ablehnen</string>
+    <string name="admin_reject_media">Mediendateien ablehnen</string>
+    <string name="admin_domainblock_reject_media">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
+    <string name="admin_reject_reports">Berichte ablehnen</string>
+    <string name="admin_reject_obfuscate">Namen der Domäne verschleiern</string>
+    <string name="private_comment">Privater Kommentar</string>
+    <string name="admin_domainblock_private_comment">Kommentar zu dieser Domänen-Beschränkung für den internen Gebrauch durch Moderatoren.</string>
+    <string name="public_comment">Öffentlicher Kommentar</string>
+    <string name="saved_changes">Änderungen wurden gespeichert!</string>
+    <string name="create_domain_block">Domänen-Blockierung erstellen</string>
+    <string name="open_with_account">Mit einem anderen Konto öffnen</string>
+    <string name="reject_reports">Berichte ablehnen</string>
+    <string name="admin_domainblock_domain">Die Sperrung der Domäne verhindert nicht die Erstellung von Konto-Einträgen in der Datenbank, sondern wendet rückwirkend und automatisch bestimmte Moderations-Methoden auf diese Konten an.</string>
+    <string name="admin_domainblock_reject_reports">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
+    <string name="admin_domainblock_severity">Stummschalten macht die Beiträge des Kontos für alle die ihm nicht folgen unsichtbar. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur Mediendateien ablehnen möchtest.</string>
 </resources>
