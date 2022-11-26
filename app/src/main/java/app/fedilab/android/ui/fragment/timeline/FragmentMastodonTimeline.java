@@ -172,6 +172,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean canBeFederated;
     private boolean rememberPosition;
     private String publicTrendsDomain;
+    private int lockForResumeCall;
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -206,15 +207,19 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (initialStatuses != null) {
                 initializeStatusesCommonView(initialStatuses);
             } else {
+
                 router(null);
             }
         } else {
-            router(null);
+            if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE && lockForResumeCall == 0) {
+                router(null);
+                lockForResumeCall++;
+            } else if (timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
+                router(null);
+            }
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
-            if (timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
-                route(DIRECTION.FETCH_NEW, true);
-            }
+            route(DIRECTION.FETCH_NEW, true);
         }
     }
 
@@ -269,6 +274,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
         accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
         initialStatuses = null;
+        lockForResumeCall = 0;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = statusReport != null ? statusReport.id : null;
