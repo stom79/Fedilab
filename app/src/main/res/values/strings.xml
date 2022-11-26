@@ -1956,4 +1956,5 @@
     <string name="admin_domainblock_public_comment">Comment about this domain limitation for the general public, if advertising the list of domain limitations is enabled.</string>
     <string name="saved_changes">Changes have been saved!</string>
     <string name="create_domain_block">Create domain block</string>
+    <string name="mute_tag">Are you sure to mute the tag %1$s?</string>
 </resources>

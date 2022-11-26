@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_baseline_add_24"
         android:title="@string/add_instances"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mute"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/mute_tag"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -34,7 +34,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
@@ -46,6 +48,7 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.viewmodel.mastodon.ReorderVM;
 import app.fedilab.android.viewmodel.mastodon.TagVM;
 import es.dmoral.toasty.Toasty;
@@ -58,7 +61,9 @@ public class HashTagActivity extends BaseActivity {
     private String tag;
     private boolean pinnedTag;
     private boolean followedTag;
+    private boolean mutedTag;
     private TagVM tagVM;
+    private Filter fedilabFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,7 @@ public class HashTagActivity extends BaseActivity {
             finish();
         pinnedTag = false;
         followedTag = false;
+        mutedTag = true;
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         //Remove title
@@ -110,6 +116,26 @@ public class HashTagActivity extends BaseActivity {
                 }
             }
         });
+        if (MainActivity.filterFetched && MainActivity.mainFilters != null) {
+            for (Filter filter : MainActivity.mainFilters) {
+                if (filter.title.equalsIgnoreCase(Helper.FEDILAB_MUTED_HASHTAGS)) {
+                    fedilabFilter = filter;
+                    String fetch = tag.startsWith("#") ? tag : "#" + tag;
+                    for (Filter.KeywordsAttributes keywordsAttributes : filter.keywords) {
+                        if (fetch.equalsIgnoreCase(keywordsAttributes.keyword)) {
+                            mutedTag = true;
+                            invalidateOptionsMenu();
+                            break;
+                        }
+                    }
+                    mutedTag = false;
+                    invalidateOptionsMenu();
+                    break;
+                }
+            }
+        } else {
+            mutedTag = true;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
@@ -194,6 +220,21 @@ public class HashTagActivity extends BaseActivity {
                     invalidateOptionsMenu();
                 }
             });
+        } else if (item.getItemId() == R.id.action_mute) {
+            Filter.FilterParams filterParams = new Filter.FilterParams();
+            filterParams.id = fedilabFilter.id;
+            filterParams.keywords = new ArrayList<>();
+            Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+            keywordsParams.whole_word = true;
+            keywordsParams.keyword = tag.startsWith("#") ? tag : "#" + tag;
+            filterParams.keywords.add(keywordsParams);
+            filterParams.context = fedilabFilter.context;
+            FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
+            filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                    .observe(HashTagActivity.this, filter -> {
+                        mutedTag = true;
+                        invalidateOptionsMenu();
+                    });
         }
 
         return super.onOptionsItemSelected(item);
@@ -205,12 +246,14 @@ public class HashTagActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_hashtag, menu);
         MenuItem pin = menu.findItem(R.id.action_add_timeline);
         MenuItem follow = menu.findItem(R.id.action_follow_tag);
+        MenuItem mute = menu.findItem(R.id.action_mute);
         if (pinnedTag && pin != null) {
             pin.setVisible(false);
         }
         if (followedTag && follow != null) {
             follow.setVisible(false);
         }
+        mute.setVisible(!mutedTag);
         return super.onCreateOptionsMenu(menu);
     }
 

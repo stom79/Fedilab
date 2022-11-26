@@ -240,7 +240,7 @@ public class Helper {
     public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
     public static final String ARG_ADMIN_DOMAINBLOCK = "ARG_ADMIN_DOMAINBLOCK";
     public static final String ARG_ADMIN_DOMAINBLOCK_DELETE = "ARG_ADMIN_DOMAINBLOCK_DELETE";
-
+    public static final String FEDILAB_MUTED_HASHTAGS = "Fedilab muted hashtags";
     public static final String ARG_REPORT = "ARG_REPORT";
     public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
     public static final String ARG_MINIFIED = "ARG_MINIFIED";

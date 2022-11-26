@@ -46,6 +46,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -65,17 +68,21 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.HashTagActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.PopupLinksBinding;
+import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import es.dmoral.toasty.Toasty;
 
 public class SpannableHelper {
@@ -764,7 +771,47 @@ public class SpannableHelper {
                 if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
                     URLSpan[] span = content.getSpans(matchStart, matchEnd, URLSpan.class);
                     content.removeSpan(span);
-                    content.setSpan(new ClickableSpan() {
+                    content.setSpan(new LongClickableSpan() {
+                        @Override
+                        public void onLongClick(View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            if (patternType == Helper.PatternType.TAG && BaseMainActivity.filterFetched && MainActivity.mainFilters != null) {
+                                String tag = word.trim();
+                                if (!tag.startsWith("#")) {
+                                    tag = "#" + tag;
+                                }
+                                Filter fedilabFilter = null;
+                                for (Filter filter : MainActivity.mainFilters) {
+                                    if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
+                                        fedilabFilter = filter;
+                                        break;
+                                    }
+                                }
+                                //Filter for Fedilab doesn't exist we have to create it
+                                if (fedilabFilter == null) {
+                                    Filter.FilterParams filterParams = new Filter.FilterParams();
+                                    filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
+                                    filterParams.filter_action = "hide";
+                                    filterParams.context = new ArrayList<>();
+                                    filterParams.context.add("home");
+                                    filterParams.context.add("public");
+                                    filterParams.context.add("thread");
+                                    filterParams.context.add("account");
+                                    String finalTag = tag;
+                                    FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                                    filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                                            .observe((LifecycleOwner) context, filter -> {
+                                                if (filter != null) {
+                                                    MainActivity.mainFilters.add(filter);
+                                                    addTagToFilter(context, finalTag, filter);
+                                                }
+                                            });
+                                } else {
+                                    addTagToFilter(context, tag, fedilabFilter);
+                                }
+                            }
+                        }
+
                         @Override
                         public void onClick(@NonNull View textView) {
                             textView.setTag(CLICKABLE_SPAN);
@@ -848,10 +895,37 @@ public class SpannableHelper {
                             ds.setUnderlineText(false);
                             ds.setColor(linkColor);
                         }
+
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
             }
         }
+    }
+
+    public static void addTagToFilter(Context context, String tag, Filter filter) {
+        for (Filter.KeywordsAttributes keywords : filter.keywords) {
+            if (keywords.keyword.equalsIgnoreCase(tag)) {
+                return;
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        builder.setMessage(context.getString(R.string.mute_tag, tag));
+        builder
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    Filter.FilterParams filterParams = new Filter.FilterParams();
+                    filterParams.id = filter.id;
+                    filterParams.keywords = new ArrayList<>();
+                    Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+                    keywordsParams.whole_word = true;
+                    keywordsParams.keyword = tag;
+                    filterParams.keywords.add(keywordsParams);
+                    filterParams.context = filter.context;
+                    FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                    filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams);
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     /**
