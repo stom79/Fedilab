@@ -80,7 +80,7 @@ public class HashTagActivity extends BaseActivity {
             finish();
         pinnedTag = false;
         followedTag = false;
-        mutedTag = true;
+        mutedTag = false;
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         //Remove title
@@ -221,25 +221,55 @@ public class HashTagActivity extends BaseActivity {
                 }
             });
         } else if (item.getItemId() == R.id.action_mute) {
-            Filter.FilterParams filterParams = new Filter.FilterParams();
-            filterParams.id = fedilabFilter.id;
-            filterParams.keywords = new ArrayList<>();
-            Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
-            keywordsParams.whole_word = true;
-            keywordsParams.keyword = tag.startsWith("#") ? tag : "#" + tag;
-            filterParams.keywords.add(keywordsParams);
-            filterParams.context = fedilabFilter.context;
-            FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
-            filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
-                    .observe(HashTagActivity.this, filter -> {
-                        mutedTag = true;
-                        invalidateOptionsMenu();
-                    });
+
+            if (MainActivity.mainFilters == null || fedilabFilter == null) {
+                MainActivity.mainFilters = new ArrayList<>();
+                Filter.FilterParams filterParams = new Filter.FilterParams();
+                filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
+                filterParams.filter_action = "hide";
+                filterParams.context = new ArrayList<>();
+                filterParams.context.add("home");
+                filterParams.context.add("public");
+                filterParams.context.add("thread");
+                filterParams.context.add("account");
+                String finalTag = tag;
+                FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
+                filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                        .observe(HashTagActivity.this, filter -> {
+                            if (filter != null) {
+                                MainActivity.mainFilters.add(filter);
+                                mutedTag = false;
+                                fedilabFilter = filter;
+                                muteTags();
+                                invalidateOptionsMenu();
+                            }
+                        });
+            } else {
+                muteTags();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void muteTags() {
+        Filter.FilterParams filterParams = new Filter.FilterParams();
+        filterParams.id = fedilabFilter.id;
+        filterParams.keywords = new ArrayList<>();
+        Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+        keywordsParams.whole_word = true;
+        keywordsParams.keyword = tag.startsWith("#") ? tag : "#" + tag;
+        filterParams.keywords.add(keywordsParams);
+        filterParams.context = fedilabFilter.context;
+        FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
+        filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                .observe(HashTagActivity.this, filter -> {
+                    mutedTag = true;
+                    invalidateOptionsMenu();
+                });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
