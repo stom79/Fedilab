@@ -24,6 +24,8 @@ import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
+import static app.fedilab.android.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
@@ -2047,9 +2049,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         MainActivity.currentAccount = account;
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(PREF_USER_TOKEN, account.token);
+                                        editor.putString(PREF_USER_INSTANCE, account.instance);
+                                        editor.putString(PREF_USER_ID, account.user_id);
                                         editor.commit();
                                         Intent mainActivity = new Intent(context, MainActivity.class);
                                         mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                        mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
                                         context.startActivity(mainActivity);
                                         ((Activity) context).finish();
