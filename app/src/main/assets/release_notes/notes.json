@@ -2,7 +2,7 @@
   {
     "version": "3.8.1",
     "code": "434",
-    "note": "Added:\n- Mute tags with long press in timelines\n\nFixed:\n- Open with another account\n- Fix jumps in profiles\n- Media not displayed in album -> force indexation\n- Built-in browser does not give admin scope\n- Some crashes"
+    "note": "Added:\n- Mute tags with long press in timelines\n\nChanged:\n- Muted account messages are now removed from cache\n\nFixed:\n- Open with another account\n- Fix jumps in profiles\n- Media not displayed in album -> force indexation\n- Built-in browser does not give admin scope\n- Some crashes"
   },
   {
     "version": "3.8.0",
