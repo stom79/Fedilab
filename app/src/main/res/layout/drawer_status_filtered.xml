@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/container_fetchmore"
             app:layout_constraintEnd_toStartOf="@+id/display_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,10 +51,29 @@
             android:layout_height="wrap_content"
             android:text="@string/show_anyway"
             android:textColor="@color/cyanea_accent_dark_reference"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/container_fetchmore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/filtered_text"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/cyanea_accent_dark_reference" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/container_fetchmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/filtered_text">
+
+            <include
+                android:id="@+id/layout_fetch_more"
+                layout="@layout/drawer_fetch_more"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/filtered_text"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -127,6 +127,7 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
+import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
@@ -156,6 +157,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_VISIBLE = 1;
     public static final int STATUS_ART = 2;
     public static final int STATUS_FILTERED = 3;
+    public static final int STATUS_FILTERED_HIDE = 4;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -2188,7 +2190,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return STATUS_ART;
         } else {
             if (statusList.get(position).filteredByApp != null) {
-                return STATUS_FILTERED;
+                if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
+                    return STATUS_FILTERED;
+                } else { //These messages should not be displayed unless they contain a fetch more button
+                    if (!statusList.get(position).isFetchMore) {
+                        return STATUS_HIDDEN;
+                    } else {
+                        return STATUS_FILTERED_HIDE;
+                    }
+                }
             } else {
                 return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
             }
@@ -2206,8 +2216,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewType == STATUS_ART) { //Art statuses
             DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_FILTERED) { //Art statuses
+        } else if (viewType == STATUS_FILTERED) { //Filtered warn
             DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED_HIDE) { //Filtered hide
+            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
         } else { //Classic statuses
             if (!minified) {
@@ -2245,13 +2258,80 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
+        } else if (viewHolder.getItemViewType() == STATUS_FILTERED_HIDE) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+
+            if (status.isFetchMore && fetchMoreCallBack != null) {
+                holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                    status.isFetchMore = false;
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                    if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                        String fromId;
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                            fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                        } else {
+                            fromId = status.id;
+                        }
+                        fetchMoreCallBack.onClickMinId(fromId, status);
+                    }
+                });
+                holder.bindingFilteredHide.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                    //We hide the button
+                    status.isFetchMore = false;
+                    String fromId;
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                        fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                    } else {
+                        fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                    }
+                    fetchMoreCallBack.onClickMaxId(fromId, status);
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                });
+            } else {
+                holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+            }
+
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
+
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 status.filteredByApp = null;
                 notifyItemChanged(position);
             });
+
+            if (status.isFetchMore && fetchMoreCallBack != null) {
+                holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                    status.isFetchMore = false;
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                    if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                        String fromId;
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                            fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                        } else {
+                            fromId = status.id;
+                        }
+                        fetchMoreCallBack.onClickMinId(fromId, status);
+                    }
+                });
+                holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                    //We hide the button
+                    status.isFetchMore = false;
+                    String fromId;
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                        fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                    } else {
+                        fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                    }
+                    fetchMoreCallBack.onClickMaxId(fromId, status);
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                });
+            } else {
+                holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+            }
+
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
@@ -2352,7 +2432,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
         DrawerStatusFilteredBinding bindingFiltered;
-
+        DrawerStatusFilteredHideBinding bindingFilteredHide;
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
@@ -2384,6 +2464,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         StatusViewHolder(DrawerStatusFilteredBinding itemView) {
             super(itemView.getRoot());
             bindingFiltered = itemView;
+        }
+
+        StatusViewHolder(DrawerStatusFilteredHideBinding itemView) {
+            super(itemView.getRoot());
+            bindingFilteredHide = itemView;
         }
     }
 
