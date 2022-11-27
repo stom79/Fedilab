@@ -703,6 +703,8 @@ public class AccountsVM extends AndroidViewModel {
                     Response<RelationShip> muteResponse = muteCall.execute();
                     if (muteResponse.isSuccessful()) {
                         relationShip = muteResponse.body();
+                        sendAction(getApplication().getApplicationContext(), Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID, null, id);
+                        new StatusCache(getApplication().getApplicationContext()).deleteStatusForTargetedAccount(MainActivity.currentInstance, MainActivity.currentUserID, id);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
