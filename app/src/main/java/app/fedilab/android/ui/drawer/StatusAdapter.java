@@ -2295,11 +2295,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
                         .into(holder.bindingArt.artMedia);
             }
-            holder.bindingArt.artAcct.setText(
+            holder.bindingArt.artUsername.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.bindingArt.artAcct)),
+                            new WeakReference<>(holder.bindingArt.artUsername)),
                     TextView.BufferType.SPANNABLE);
-            holder.bindingArt.artUsername.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
+            holder.bindingArt.artAcct.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
             holder.bindingArt.artPp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle b = new Bundle();
