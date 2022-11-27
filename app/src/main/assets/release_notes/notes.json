@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.8.1",
+    "code": "434",
+    "note": "Added:\n- Mute tags with long press in timelines\n\nFixed:\n- Open with another account\n- Fix jumps in profiles\n- Media not displayed in album -> force indexation\n- Built-in browser does not give admin scope\n- Some crashes"
+  },
+  {
     "version": "3.8.0",
     "code": "433",
     "note": "Added:\n- List of blocked domains (allow to unblock)\n- Support gemini links\n- Suggested followers\n- Mod/Adm: Manage instance blocked domains\n- Open messages with another account\n- Allow to disable notifications for admins\n- Sort lists\n\nChanged:\n- Allow search term to be edited\n\nFixed:\n- Drafts deleted with no warning\n- Remove lists from \"Manage timelines\"\n- App crashes when proxy is set\n- Filter not synced after being edited\n- Some crashes / improvements"
