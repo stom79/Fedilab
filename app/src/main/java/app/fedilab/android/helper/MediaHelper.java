@@ -154,7 +154,7 @@ public class MediaHelper {
                         FileChannel in = null;
                         FileChannel out = null;
                         try {
-                            File backupFile = new File(targeted_folder + "/" + fileName);
+                            File backupFile = new File(targeted_folder.getAbsolutePath() + "/" + fileName);
                             //noinspection ResultOfMethodCallIgnored
                             backupFile.createNewFile();
                             fis = new FileInputStream(file);
