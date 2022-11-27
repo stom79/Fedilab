@@ -16,7 +16,6 @@ package app.fedilab.android.helper;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
-import static app.fedilab.android.helper.Helper.USER_AGENT;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
 
 import android.content.ClipData;
@@ -321,7 +320,7 @@ public class SpannableHelper {
                                         HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
                                         httpsURLConnection.setConnectTimeout(10 * 1000);
                                         httpsURLConnection.setRequestProperty("http.keepAlive", "false");
-                                        httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                       // httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                                         httpsURLConnection.setRequestMethod("HEAD");
                                         httpsURLConnection.setInstanceFollowRedirects(false);
                                         if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
@@ -550,7 +549,7 @@ public class SpannableHelper {
                                             HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
                                             httpsURLConnection.setConnectTimeout(10 * 1000);
                                             httpsURLConnection.setRequestProperty("http.keepAlive", "false");
-                                            httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                            //httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                                             httpsURLConnection.setRequestMethod("HEAD");
                                             httpsURLConnection.setInstanceFollowRedirects(false);
                                             if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {

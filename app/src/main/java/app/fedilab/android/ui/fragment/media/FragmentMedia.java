@@ -245,8 +245,8 @@ public class FragmentMedia extends Fragment {
                 webview_video.setWebChromeClient(fedilabWebChromeClient);
                 webview_video.getSettings().setDomStorageEnabled(true);
                 webview_video.getSettings().setAppCacheEnabled(true);
-                String user_agent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
-                webview_video.getSettings().setUserAgentString(user_agent);
+                //   String user_agent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
+                //   webview_video.getSettings().setUserAgentString(user_agent);
                 webview_video.getSettings().setMediaPlaybackRequiresUserGesture(false);
                 webview_video.setWebViewClient(new FedilabWebViewClient(requireActivity()));
                 webview_video.loadUrl(attachment.url);

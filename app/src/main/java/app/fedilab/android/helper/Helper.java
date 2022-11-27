@@ -287,7 +287,7 @@ public class Helper {
 
     public static final String VALUE_TRENDS = "VALUE_TRENDS";
 
-    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0";
+    //public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0";
     public static final String REDIRECT_CONTENT_WEB = "fedilab://backtofedilab";
     public static final String REDIRECT_CONTENT = "urn:ietf:wg:oauth:2.0:oob";
     public static final String APP_OAUTH_SCOPES = "read write";
@@ -439,8 +439,8 @@ public class Helper {
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setSupportMultipleWindows(false);
         webView.getSettings().setMediaPlaybackRequiresUserGesture(true);
-        String user_agent = sharedpreferences.getString(activity.getString(R.string.SET_CUSTOM_USER_AGENT), USER_AGENT);
-        webView.getSettings().setUserAgentString(user_agent);
+        //String user_agent = sharedpreferences.getString(activity.getString(R.string.SET_CUSTOM_USER_AGENT), USER_AGENT);
+        //   webView.getSettings().setUserAgentString(user_agent);
         boolean cookies = sharedpreferences.getBoolean(activity.getString(R.string.SET_COOKIES), false);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptThirdPartyCookies(webView, cookies);
@@ -1761,7 +1761,7 @@ public class Helper {
                     httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
                 else
                     httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                // httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                 int responseCode = httpURLConnection.getResponseCode();
 
                 // always check HTTP response code first

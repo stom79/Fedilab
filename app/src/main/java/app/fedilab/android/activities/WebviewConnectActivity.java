@@ -136,8 +136,8 @@ public class WebviewConnectActivity extends BaseActivity {
 
         clearCookies(WebviewConnectActivity.this);
         binding.webviewConnect.getSettings().setJavaScriptEnabled(true);
-        String user_agent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
-        binding.webviewConnect.getSettings().setUserAgentString(user_agent);
+        //  String user_agent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
+        //  binding.webviewConnect.getSettings().setUserAgentString(user_agent);
         binding.webviewConnect.getSettings().setDomStorageEnabled(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(binding.webviewConnect, true);
 
