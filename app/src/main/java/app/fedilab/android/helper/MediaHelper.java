@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -168,6 +169,7 @@ public class MediaHelper {
                             intent.setAction(Intent.ACTION_VIEW);
                             Uri uri = Uri.fromFile(backupFile);
                             intent.setDataAndType(uri, mime);
+                            MediaScannerConnection.scanFile(context, new String[]{backupFile.getAbsolutePath()}, null, null);
                             if (!share) {
                                 notify_user(context, currentAccount, intent, BitmapFactory.decodeResource(context.getResources(),
                                         getMainLogo(context)), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
