@@ -17,6 +17,7 @@ package app.fedilab.android.helper;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.helper.ThemeHelper.linkColor;
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -148,7 +149,7 @@ public class SpannableHelper {
                 content.removeSpan(span);
             }
             //Make tags, mentions, groups
-            interaction(context, content, mentionList);
+            interaction(context, content, status, mentionList);
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
@@ -751,7 +752,7 @@ public class SpannableHelper {
         }
     }
 
-    private static void interaction(Context context, Spannable content, List<Mention> mentions) {
+    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions) {
         // --- For all patterns defined in Helper class ---
         for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
             Helper.PatternType patternType = entry.getKey();
@@ -802,11 +803,11 @@ public class SpannableHelper {
                                             .observe((LifecycleOwner) context, filter -> {
                                                 if (filter != null) {
                                                     MainActivity.mainFilters.add(filter);
-                                                    addTagToFilter(context, finalTag, filter);
+                                                    addTagToFilter(context, finalTag, status, filter);
                                                 }
                                             });
                                 } else {
-                                    addTagToFilter(context, tag, fedilabFilter);
+                                    addTagToFilter(context, tag, status, fedilabFilter);
                                 }
                             }
                         }
@@ -901,7 +902,7 @@ public class SpannableHelper {
         }
     }
 
-    public static void addTagToFilter(Context context, String tag, Filter filter) {
+    public static void addTagToFilter(Context context, String tag, Status status, Filter filter) {
         for (Filter.KeywordsAttributes keywords : filter.keywords) {
             if (keywords.keyword.equalsIgnoreCase(tag)) {
                 return;
@@ -921,6 +922,10 @@ public class SpannableHelper {
                     filterParams.context = filter.context;
                     FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
                     filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams);
+                    if (status != null) {
+                        status.filteredByApp = filter;
+                    }
+                    sendAction(context, Helper.ARG_TIMELINE_REFRESH_ALL, null, null);
                     dialog.dismiss();
                 })
                 .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())

@@ -24,6 +24,7 @@ import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
+import static app.fedilab.android.helper.Helper.ARG_TIMELINE_REFRESH_ALL;
 import static app.fedilab.android.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
@@ -2177,6 +2178,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (id != null) {
             b.putSerializable(type, id);
+        }
+        if (type == ARG_TIMELINE_REFRESH_ALL) {
+            b.putSerializable(ARG_TIMELINE_REFRESH_ALL, true);
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
         intentBC.putExtras(b);
