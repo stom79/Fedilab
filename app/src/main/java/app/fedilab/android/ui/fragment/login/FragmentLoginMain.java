@@ -19,6 +19,7 @@ import static app.fedilab.android.activities.LoginActivity.apiLogin;
 import static app.fedilab.android.activities.LoginActivity.client_idLogin;
 import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
 import android.content.Intent;
@@ -49,7 +50,6 @@ import java.net.URLEncoder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.ProxyActivity;
 import app.fedilab.android.activities.WebviewConnectActivity;
 import app.fedilab.android.client.entities.app.Account;
@@ -190,7 +190,7 @@ public class FragmentLoginMain extends Fragment {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
         customTabItem.setChecked(!embedded_browser);
-        adminTabItem.setChecked(((LoginActivity) requireActivity()).requestedAdmin());
+        adminTabItem.setChecked(requestedAdmin);
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
@@ -216,9 +216,9 @@ public class FragmentLoginMain extends Fragment {
                 });
                 editor.apply();
             } else if (itemId == R.id.action_request_admin) {
-                boolean checked = !((LoginActivity) requireActivity()).requestedAdmin();
-                ((LoginActivity) requireActivity()).setAdmin(checked);
+
                 item.setChecked(!item.isChecked());
+                requestedAdmin = item.isChecked();
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
                 item.setActionView(new View(requireContext()));
                 item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
@@ -257,7 +257,7 @@ public class FragmentLoginMain extends Fragment {
         } catch (UnsupportedEncodingException e) {
             currentInstanceLogin = host;
         }
-        String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+        String scopes = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
         appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
                 Helper.REDIRECT_CONTENT_WEB,
@@ -267,13 +267,13 @@ public class FragmentLoginMain extends Fragment {
             if (app != null) {
                 client_idLogin = app.client_id;
                 client_secretLogin = app.client_secret;
-                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, ((LoginActivity) requireActivity()).requestedAdmin());
+                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
                 if (embedded_browser) {
                     Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
                     i.putExtra("login_url", redirectUrl);
-                    i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
+                    i.putExtra("requestedAdmin", requestedAdmin);
                     startActivity(i);
                     requireActivity().finish();
                 } else {

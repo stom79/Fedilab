@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity {
     public static Account.API apiLogin;
     public static String currentInstanceLogin, client_idLogin, client_secretLogin, softwareLogin;
     private final int PICK_IMPORT = 5557;
-    private boolean requestedAdmin;
+    public static boolean requestedAdmin;
 
     private void manageItent(Intent intent) {
 
@@ -114,19 +114,11 @@ public class LoginActivity extends BaseActivity {
         setContentView(new FrameLayout(this));
         FragmentLoginMain fragmentLoginMain = new FragmentLoginMain();
         Helper.addFragment(getSupportFragmentManager(), android.R.id.content, fragmentLoginMain, null, null, null);
-        requestedAdmin = false;
         //The activity handles a redirect URI, it will extract token code and will proceed to authentication
         //That happens when the user wants to use an external browser
         manageItent(getIntent());
     }
 
-    public boolean requestedAdmin() {
-        return requestedAdmin;
-    }
-
-    public boolean setAdmin(boolean askAdmin) {
-        return requestedAdmin = askAdmin;
-    }
 
     @Override
     protected void onResume() {

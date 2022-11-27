@@ -20,6 +20,7 @@ import static app.fedilab.android.activities.LoginActivity.apiLogin;
 import static app.fedilab.android.activities.LoginActivity.client_idLogin;
 import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 
@@ -69,7 +70,6 @@ public class WebviewConnectActivity extends BaseActivity {
     private ActivityWebviewConnectBinding binding;
     private AlertDialog alert;
     private String login_url;
-    private boolean requestedAdmin;
 
 
     @SuppressWarnings("deprecation")
