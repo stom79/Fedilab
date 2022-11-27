@@ -586,7 +586,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null || currentAccount.mastodon_account == null) {
+                if (currentToken == null) {
+                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                }
+                if (currentAccount == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
                     startActivity(myIntent);

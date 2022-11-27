@@ -2341,7 +2341,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onGlobalLayout() {
                         holder.bindingArt.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (status.art_attachment.meta != null) {
+                        if (status.art_attachment.meta != null && status.art_attachment.meta.small != null) {
                             float viewWidth = holder.bindingArt.artMedia.getWidth();
                             ConstraintLayout.LayoutParams lp;
                             float mediaH = status.art_attachment.meta.small.height;
@@ -2357,7 +2357,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     }
                 });
-                if (status.art_attachment.meta != null) {
+                if (status.art_attachment.meta != null && status.art_attachment.meta.small != null) {
                     float viewWidth = holder.bindingArt.artMedia.getWidth();
                     ConstraintLayout.LayoutParams lp;
                     float mediaH = status.art_attachment.meta.small.height;

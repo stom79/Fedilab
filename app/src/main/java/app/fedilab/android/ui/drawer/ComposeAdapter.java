@@ -941,6 +941,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                     }
                     int finalMediaPosition = mediaPosition;
+                    if (attachment.local_path.endsWith("png") || attachment.local_path.endsWith("jpg") || attachment.local_path.endsWith("jpeg")) {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.VISIBLE);
+                    } else {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
+                    }
                     composeAttachmentItemBinding.editPreview.setOnClickListener(v -> {
                         Intent intent = new Intent(context, EditImageActivity.class);
                         Bundle b = new Bundle();
