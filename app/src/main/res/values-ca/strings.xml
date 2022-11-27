@@ -24,8 +24,8 @@
     <string name="instance_example">Instància: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Ara funciona amb el compte %1$s</string>
     <string name="add_account">Afegeix un compte</string>
-    <string name="clipboard">El contingut del bram s\'ha copiat al porta-retalls</string>
-    <string name="clipboard_url">L\'adreça web del bram s\'ha copiat al porta-retalls</string>
+    <string name="clipboard">El contingut de la publicació s\'ha copiat al porta-retalls</string>
+    <string name="clipboard_url">L\'adreça web de la publicació s\'ha copiat al porta-retalls</string>
     <string name="camera">Càmera</string>
     <string name="delete_all">Suprimeix-ho tot</string>
     <string name="schedule">Temporitza</string>
@@ -57,16 +57,16 @@
     <string name="follow_request">Peticions de seguiment</string>
     <string name="settings">Configuració</string>
     <string name="send_email">Envia un correu electrònic</string>
-    <string name="scheduled_toots">Brams temporitzats</string>
+    <string name="scheduled_toots">Publicacions programades</string>
     <string name="disclaimer_full">Aquesta informació d\'usuària pot estar incompleta.</string>
     <string name="insert_emoji">Inserir emoji</string>
     <string name="no_emoji">L\'app no ha recollit emojis personalitzats de moment.</string>
     <string name="logout_account_confirmation">Estàs segura que vols tancar la sessió @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Cap bram per mostrar</string>
-    <string name="favourite_add">Afegir aquest bram als preferits\?</string>
-    <string name="favourite_remove">Eliminar aquest bram d\'entre els preferits\?</string>
-    <string name="reblog_add">Vols difondre aquest bram\?</string>
+    <string name="no_status">No hi ha cap publicació per mostrar</string>
+    <string name="favourite_add">Voleu afegir aquesta publicació als teus preferits\?</string>
+    <string name="favourite_remove">Voleu suprimir aquesta publicació dels teus preferits\?</string>
+    <string name="reblog_add">Voleu impulsar aquesta publicació\?</string>
     <string name="reblog_remove">Desdifondre el bram\?</string>
     <string name="more_action_1">Silencia</string>
     <string name="more_action_2">Bloca</string>
@@ -771,4 +771,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="import_settings">Configuració d\'importació</string>
     <string name="toast_token">L\'aplicació no ha pogut obtenir una mostra</string>
     <string name="permission_missing">Permís denegat!</string>
+    <string name="channel_notif_signup">Nou registre</string>
+    <string name="channel_notif_update">Nova actualització</string>
+    <string name="channel_notif_report">Nova incidència</string>
 </resources>
