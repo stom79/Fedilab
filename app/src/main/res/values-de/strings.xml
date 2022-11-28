@@ -893,4 +893,5 @@
     <string name="mute_tag">Bist Du sicher den Tag %1$s stumm zu schalten\?</string>
     <string name="max_indentation_thread">Max Einzug in Threads</string>
     <string name="account_undisabled">Konto wieder aktiviert</string>
+    <string name="state">Status</string>
 </resources>
