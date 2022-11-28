@@ -80,7 +80,6 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/make_an_action"
             android:scaleType="fitCenter"
-            android:tint="@color/white"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/avatar_container"
             app:layout_constraintTop_toBottomOf="@id/banner_container"

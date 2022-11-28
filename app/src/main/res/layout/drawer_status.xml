@@ -549,13 +549,13 @@
             android:gravity="end"
             android:visibility="gone">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_share"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/ic_baseline_share_24" />
+                app:icon="@drawable/ic_baseline_share_24" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include

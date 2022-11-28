@@ -34,14 +34,15 @@
         android:orientation="vertical"
         android:paddingBottom="6dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/add_remove_status"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:contentDescription="@string/add_status"
             android:padding="0dp"
-            android:src="@drawable/ic_compose_thread_add_status"
+            app:icon="@drawable/ic_compose_thread_add_status"
+            app:strokeColor="?colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,23 +79,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/content">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_emoji"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="6dp"
                 android:contentDescription="@string/emoji_picker"
-                android:src="@drawable/ic_compose_emoji" />
+                app:icon="@drawable/ic_compose_emoji" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_emoji_one"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="6dp"
                 android:contentDescription="@string/emoji_picker"
-                android:src="@drawable/ic_baseline_insert_emoticon_24"
+                app:icon="@drawable/ic_baseline_insert_emoticon_24"
                 android:visibility="gone"
                 tools:visibility="visible" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -138,34 +139,34 @@
             android:layout_marginHorizontal="6dp"
             app:layout_constraintTop_toBottomOf="@id/attachments_list_container" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_attach"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="6dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/ic_compose_attach"
+            app:icon="@drawable/ic_compose_attach"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_sensitive"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/ic_compose_sensitive"
+            app:icon="@drawable/ic_compose_sensitive"
             app:layout_constraintStart_toEndOf="@id/button_attach"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_visibility"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/ic_compose_visibility_public"
+            app:icon="@drawable/ic_compose_visibility_public"
             app:layout_constraintStart_toEndOf="@id/button_sensitive"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 
@@ -174,6 +175,7 @@
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
+            android:textColor="?colorPrimary"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
@@ -208,14 +210,15 @@
             app:layout_constraintStart_toEndOf="@id/button_language"
             app:layout_constraintTop_toBottomOf="@id/character_count" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_post"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
-            android:src="@drawable/ic_compose_post"
+            app:icon="@drawable/ic_compose_post"
+            app:iconTint="?colorControlNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 

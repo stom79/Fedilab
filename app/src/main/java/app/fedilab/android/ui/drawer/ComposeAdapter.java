@@ -395,14 +395,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder.getLayoutPosition() == (getItemCount() - 1)) {
             if (statusList.size() > statusCount + 1) {
                 if (canBeRemoved(statusList.get(statusList.size() - 1))) {
-                    holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_remove_status);
+                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_remove_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.remove_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
                         manageDrafts.onItemDraftDeleted(statusList.get(holder.getLayoutPosition()), holder.getLayoutPosition());
                         notifyItemChanged((getItemCount() - 1));
                     });
                 } else {
-                    holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_add_status);
+                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
                         manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
@@ -410,7 +410,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
                 }
             } else {
-                holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_add_status);
+                holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                 holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                 holder.binding.addRemoveStatus.setOnClickListener(v -> {
                     manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
@@ -1251,19 +1251,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             switch (statusDraft.visibility.toLowerCase()) {
                 case "public":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                     statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                     break;
                 case "unlisted":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_unlisted);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                     statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
                     break;
                 case "private":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_private);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                     statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
                     break;
                 case "direct":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_direct);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                     statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
                     break;
             }
@@ -1273,23 +1273,23 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonCloseVisibilityPanel.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibilityDirect.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_direct);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                 statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
 
             });
             holder.binding.buttonVisibilityPrivate.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_private);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                 statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
             });
             holder.binding.buttonVisibilityUnlisted.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_unlisted);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                 statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
             });
             holder.binding.buttonVisibilityPublic.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                 unlisted_changed = true;
             });

@@ -10,10 +10,12 @@
 
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:id="@+id/fetch_more_max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        app:strokeColor="?colorPrimary"
         android:contentDescription="@string/fetch_more_messages"
         app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24" />
 
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
 
-        android:textColor="?colorAccent"
+        android:textColor="?colorPrimary"
         android:text="@string/fetch_more_messages"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
@@ -33,7 +35,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_min"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_gravity="center"
+        app:strokeColor="?colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/fetch_more_messages"
