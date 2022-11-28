@@ -22,9 +22,10 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
-    android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="1dp">
+    app:cardElevation="5dp"
+    android:clipChildren="false"
+    app:strokeWidth="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main_container"

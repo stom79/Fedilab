@@ -508,7 +508,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int theme_text_header_1_line = -1;
         int theme_text_header_2_line = -1;
         int link_color = -1;
-        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
+       /* if (sharedpreferences.getBoolean("use_custom_theme", false)) {
             //Getting custom colors
             theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
             theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
@@ -519,7 +519,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
             link_color = sharedpreferences.getInt("theme_link_color", -1);
 
-        }
+        }*/
         if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
             holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
             holder.binding.statusEmoji.setVisibility(View.VISIBLE);
