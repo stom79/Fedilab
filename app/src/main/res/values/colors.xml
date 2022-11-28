@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PrivateResource">
 
+
+    <color name="mastodon_dark_background">#191b22</color>
+    <color name="mastodon_dark_background_light">#606984</color>
+    <color name="mastodon_accent_dark">#595aff</color>
+    <color name="mastodon_accent_light">#8c8dff</color>
+
+
+    <color name="dark_link_toot">#8c8dff</color>
+    <color name="light_link_toot">#595aff</color>
+
+
     <color name="my_app_primary_color">#6200EE</color>
     <color name="my_app_secondary_color">#03DAC6</color>
     <color name="my_app_background_color">#000</color>
@@ -48,10 +59,6 @@
     <!-- Header boosted/header -->
 
     <!-- Card border -->
-
-
-    <color name="dark_link_toot">#27a7fc</color>
-    <color name="light_link_toot">#27a7fc</color>
 
 
     <!-- COLOR PICKER -->

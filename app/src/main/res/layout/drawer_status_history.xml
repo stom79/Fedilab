@@ -24,6 +24,7 @@
     android:layout_marginTop="12dp"
     android:clipChildren="false"
     android:clipToPadding="false"
+    app:cardBackgroundColor="?carViewBackground"
     app:cardElevation="5dp"
     app:strokeWidth="0dp">
 
