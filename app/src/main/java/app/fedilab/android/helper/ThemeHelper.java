@@ -60,6 +60,19 @@ public class ThemeHelper {
         return typedValue.data;
     }
 
+    public static void initiliazeColors(Activity activity) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = activity.getTheme();
+        theme.resolveAttribute(R.attr.linkColor, typedValue, true);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        linkColor = -1;
+        if (prefs.getBoolean("use_custom_theme", false)) {
+            linkColor = prefs.getInt("theme_link_color", -1);
+        }
+        if (linkColor == -1) {
+            linkColor = typedValue.data;
+        }
+    }
 
     public static int fetchAccentColor(Context context) {
         TypedValue typedValue = new TypedValue();

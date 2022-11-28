@@ -1,4 +1,5 @@
 <resources>
+    <attr name="linkColor" type="color" />
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/deep_purple_700</item>
@@ -9,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/indigo_900</item>
         <item name="colorOnSecondary">@color/white</item>
 
-
+        <item name="linkColor">@color/light_link_toot</item>
         <item name="colorError">@color/red_900</item>
         <item name="windowNoTitle">true</item>
 
@@ -31,7 +32,7 @@
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
         <item name="colorOnSecondary">@color/indigo_600</item>
-
+        <item name="linkColor">@color/dark_link_toot</item>
         <item name="colorError">@color/red_900</item>
         <item name="windowNoTitle">true</item>
         <!-- specify enter and exit transitions -->
@@ -52,7 +53,7 @@
         <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryVariant">@color/deep_purple_900</item>
         <item name="colorOnPrimary">@color/white</item>
-
+        <item name="linkColor">@color/light_link_toot</item>
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
         <item name="colorOnSecondary">@color/white</item>
@@ -66,7 +67,7 @@
         <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryVariant">@color/deep_purple_900</item>
         <item name="colorOnPrimary">@color/white</item>
-
+        <item name="linkColor">@color/dark_link_toot</item>
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
         <item name="colorOnSecondary">@color/white</item>

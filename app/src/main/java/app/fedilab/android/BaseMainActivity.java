@@ -139,6 +139,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
@@ -301,7 +302,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
-
+        ThemeHelper.initiliazeColors(BaseMainActivity.this);
 
         mamageNewIntent(getIntent());
         filterFetched = false;
