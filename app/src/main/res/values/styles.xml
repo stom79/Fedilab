@@ -3,11 +3,11 @@
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryVariant">@color/deep_purple_900</item>
-        <item name="colorOnPrimary">@color/deep_purple_600</item>
+        <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
-        <item name="colorOnSecondary">@color/indigo_600</item>
+        <item name="colorOnSecondary">@color/white</item>
 
 
         <item name="colorError">@color/red_900</item>
@@ -51,11 +51,11 @@
 
         <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryVariant">@color/deep_purple_900</item>
-        <item name="colorOnPrimary">@color/deep_purple_600</item>
+        <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
-        <item name="colorOnSecondary">@color/indigo_600</item>
+        <item name="colorOnSecondary">@color/white</item>
 
 
         <item name="colorError">@color/red_900</item>
@@ -65,11 +65,11 @@
     <style name="AppThemeBarDark" parent="Theme.Material3.Dark">
         <item name="colorPrimary">@color/deep_purple_700</item>
         <item name="colorPrimaryVariant">@color/deep_purple_900</item>
-        <item name="colorOnPrimary">@color/deep_purple_600</item>
+        <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/indigo_700</item>
         <item name="colorSecondaryVariant">@color/indigo_900</item>
-        <item name="colorOnSecondary">@color/indigo_600</item>
+        <item name="colorOnSecondary">@color/white</item>
 
 
         <item name="colorError">@color/red_900</item>
