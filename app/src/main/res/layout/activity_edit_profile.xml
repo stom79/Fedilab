@@ -63,7 +63,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/header_select"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select"
@@ -113,7 +113,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/avatar_select"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
@@ -176,7 +176,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_field"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -193,7 +193,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/toots_visibility_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 app:layout_constraintTop_toBottomOf="@id/fields" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -278,7 +278,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/set_lock_account"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 app:layout_constraintTop_toBottomOf="@id/discoverable" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup

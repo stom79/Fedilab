@@ -64,7 +64,7 @@ public class PartnerShipActivity extends BaseActivity {
         });
         binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(PartnerShipActivity.this));
         setTitle(R.string.action_partnership);
-        binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+        binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         CrossActionHelper.fetchRemoteAccount(PartnerShipActivity.this, "@mastohost@mastodon.social", new CrossActionHelper.Callback() {
             @Override
             public void federatedStatus(Status status) {

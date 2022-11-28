@@ -170,7 +170,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/button_language"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         android:text="@string/v_direct"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -348,7 +348,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:text="@string/followers_only"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -373,7 +373,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:text="@string/v_unlisted"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -398,7 +398,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:text="@string/v_public"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button" />
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

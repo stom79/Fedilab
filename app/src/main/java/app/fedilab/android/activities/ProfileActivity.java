@@ -527,7 +527,7 @@ public class ProfileActivity extends BaseActivity {
         //Visibility depending of the relationship
         if (relationship != null) {
             if (relationship.blocked_by) {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setEnabled(false);
                 binding.accountFollow.setContentDescription(getString(R.string.action_disabled));
@@ -535,7 +535,7 @@ public class ProfileActivity extends BaseActivity {
 
             if (relationship.requested) {
                 binding.accountFollowRequest.setVisibility(View.VISIBLE);
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_hourglass_full_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.follow_request));
                 doAction = action.UNFOLLOW;
@@ -546,19 +546,19 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountFollowedBy.setVisibility(View.GONE);
             }
             if (relationship.following) {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_remove_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_remove_24);
                 binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
                 doAction = action.UNFOLLOW;
                 binding.accountFollow.setContentDescription(getString(R.string.action_unfollow));
                 binding.accountFollow.setVisibility(View.VISIBLE);
             } else if (relationship.blocking) {
                 binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_lock_open_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_lock_open_24);
                 doAction = action.UNBLOCK;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_unblock));
             } else {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
                 doAction = action.FOLLOW;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_follow));
@@ -577,9 +577,9 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountNotification.setVisibility(View.VISIBLE);
             }
             if (relationship.notifying) {
-                binding.accountNotification.setImageResource(R.drawable.ic_baseline_notifications_active_24);
+                binding.accountNotification.setIconResource(R.drawable.ic_baseline_notifications_active_24);
             } else {
-                binding.accountNotification.setImageResource(R.drawable.ic_baseline_notifications_off_24);
+                binding.accountNotification.setIconResource(R.drawable.ic_baseline_notifications_off_24);
             }
             binding.accountNotification.setOnClickListener(v -> {
                 if (relationship != null && relationship.following) {

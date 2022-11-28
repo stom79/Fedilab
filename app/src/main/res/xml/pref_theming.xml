@@ -29,7 +29,7 @@
         android:key="cyanea_preference_category"
         android:title="@string/customize_timelines"
         app:iconSpaceReserved="false">
-
+<!--
         <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
             app:defaultValue="-1"
             app:iconSpaceReserved="false"
@@ -79,7 +79,7 @@
             app:summary="@string/text_color"
             app:title="@string/text_color_title" />
 
-
+-->
         <Preference
             app:iconSpaceReserved="false"
             app:key="reset_pref"

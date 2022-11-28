@@ -27,7 +27,7 @@
         android:textColor="?colorAccent"
         android:text="@string/fetch_more_messages"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:textSize="18sp"
         app:textAllCaps="false" />
 

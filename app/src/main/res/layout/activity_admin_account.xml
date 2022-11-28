@@ -388,7 +388,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/approve_action"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -416,7 +416,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/disable_action"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -444,7 +444,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/silence_action"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -472,7 +472,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/suspend_action"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

@@ -80,7 +80,7 @@ public class AboutActivity extends BaseActivity {
         } else {
             binding.aboutSupportPaypal.setVisibility(View.GONE);
         }
-        binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+        binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         binding.aboutWebsite.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://fedilab.app"));
         CrossActionHelper.fetchRemoteAccount(AboutActivity.this, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
             @Override

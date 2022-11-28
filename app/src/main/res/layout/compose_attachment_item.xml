@@ -24,53 +24,55 @@
             tools:src="@tools:sample/backgrounds/scenic" />
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button_play"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:adjustViewBounds="true"
-            android:padding="6dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_compose_attachment_play"
-            app:layout_constraintBottom_toBottomOf="@id/preview"
-            app:layout_constraintEnd_toEndOf="@id/preview"
+         <com.google.android.material.button.MaterialButton
+             android:id="@+id/button_play"
+             style="@style/Widget.AppCompat.Button.Borderless"
+             android:layout_width="48dp"
+             android:layout_height="48dp"
+             android:adjustViewBounds="true"
+             android:padding="6dp"
+             android:scaleType="fitCenter"
+             android:src="@drawable/ic_compose_attachment_play"
+             app:layout_constraintBottom_toBottomOf="@id/preview"
+             app:layout_constraintEnd_toEndOf="@id/preview"
             app:layout_constraintStart_toStartOf="@id/preview"
             app:layout_constraintTop_toTopOf="@id/preview" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_preview"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/editColor"
-            android:src="@drawable/ic_baseline_mode_edit_24"
+            android:icon="@drawable/ic_baseline_mode_edit_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_remove"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/errorColor"
-            android:src="@drawable/ic_compose_attachment_remove"
+            android:icon="@drawable/ic_compose_attachment_remove"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_order_up"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_compose_attachment_order_up"
+            android:icon="@drawable/ic_compose_attachment_order_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_description"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="2dp"
@@ -86,13 +88,13 @@
             app:strokeColor="@color/no_description" />
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_order_down"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_compose_attachment_order_down"
+            android:icon="@drawable/ic_compose_attachment_order_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 

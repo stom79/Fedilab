@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/host"
-                style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+                style="@style/Widget.Material3.TextInputEditText.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dropDownAnchor="@id/login_instance_layout"
@@ -64,7 +64,7 @@
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/port"
-                style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+                style="@style/Widget.Material3.TextInputEditText.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dropDownAnchor="@id/login_instance_layout"
@@ -84,7 +84,7 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/proxy_login"
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"
@@ -101,7 +101,7 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/proxy_password"
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"

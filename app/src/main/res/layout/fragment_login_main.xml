@@ -41,7 +41,7 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/login_instance"
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"

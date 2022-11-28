@@ -86,9 +86,9 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/account_follow"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="6dp"
@@ -98,34 +98,34 @@
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
-                    tools:src="@drawable/ic_baseline_person_add_24"
+                    tools:icon="@drawable/ic_baseline_person_add_24"
                     tools:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/account_notification"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="6dp"
                     android:contentDescription="@string/set_notify"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_baseline_notifications_off_24"
+                    android:icon="@drawable/ic_baseline_notifications_off_24"
                     android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
                     tools:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/header_edit_profile"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
                     android:contentDescription="@string/edit_profile"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_baseline_edit_24"
+                    android:icon="@drawable/ic_baseline_edit_24"
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
@@ -344,16 +344,16 @@
                         android:text="@string/disclaimer_full"
                         android:textColor="@color/dark_text" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/open_remote_profile"
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.Material3.Button.Icon"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="6dp"
                         android:contentDescription="@string/display_remote_profile"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_baseline_manage_search_24" />
+                        android:icon="@drawable/ic_baseline_manage_search_24" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 

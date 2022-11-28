@@ -30,7 +30,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
         android:text="@string/invite_join_the_fediverse"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:text="Mastodon"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -74,13 +74,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="@string/about_mastodon"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="- joinmastodon.org"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 tools:ignore="HardcodedText" />
 
             <com.google.android.material.button.MaterialButton
@@ -126,7 +126,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:text="PeerTube"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:textAppearance="@style/TextAppearance.Material3.Headline5"
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -136,13 +136,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="@string/join_peertube_message"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+                android:textAppearance="@style/TextAppearance.Material3.Caption" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="- joinpeertube.org"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textAppearance="@style/TextAppearance.Material3.Caption"
                 tools:ignore="HardcodedText" />
 
             <com.google.android.material.button.MaterialButton

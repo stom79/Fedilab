@@ -98,9 +98,9 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/account_follow"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Material3.Button.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_margin="10dp"
@@ -110,7 +110,7 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@id/avatar_container"
                 app:layout_constraintTop_toBottomOf="@id/banner_container"
-                tools:src="@drawable/ic_baseline_person_add_24"
+                tools:icon="@drawable/ic_baseline_person_add_24"
                 tools:visibility="visible" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -126,7 +126,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/about_support"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -136,7 +136,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/about_support_paypal"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
