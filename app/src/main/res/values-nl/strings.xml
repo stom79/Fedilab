@@ -64,10 +64,10 @@
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Geen toot om weer te geven</string>
-    <string name="favourite_add">Deze toot aan jouw favorieten toevoegen?</string>
-    <string name="favourite_remove">Deze toot uit jouw favorieten verwijderen?</string>
-    <string name="reblog_add">Deze toot boosten?</string>
-    <string name="reblog_remove">Deze toot niet langer boosten?</string>
+    <string name="favourite_add">Deze toot aan jouw favorieten toevoegen\?</string>
+    <string name="favourite_remove">Deze toot uit jouw favorieten verwijderen\?</string>
+    <string name="reblog_add">Deze toot boosten\?</string>
+    <string name="reblog_remove">Deze toot niet langer boosten\?</string>
     <string name="more_action_1">Negeren</string>
     <string name="more_action_2">Blokkeren</string>
     <string name="more_action_3">Rapporteren</string>
@@ -870,4 +870,14 @@
     <string name="toast_fetch_error">De app kan geen remote data vinden!</string>
     <string name="toast_error_add_to_list">De app kon het account niet aan de lijst toevoegen!</string>
     <string name="delete_timeline">Verwijder tijdlijn</string>
+    <string name="icon_size">pictogramgroottes</string>
+    <string name="toast_bookmark">De toot is toegevoegd aan je bewaarde toots!</string>
+    <string name="toast_unbookmark">De toot is verwijderd uit je bewaarde toots!</string>
+    <string name="set_accounts_page">Aantal gebruikers per keer</string>
+    <string name="set_notifications_page">Aantal mededelingen per keer</string>
+    <string name="toots_visibility_title">Standaard zichtbaarheid van toots:</string>
+    <string name="administrator">Beheerder</string>
+    <string name="confirmed">Bevestigd</string>
+    <string name="unconfirmed">Onbevestigd</string>
+    <string name="assign_to_me">Wijs aan mij toe</string>
 </resources>
