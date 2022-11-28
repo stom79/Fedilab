@@ -83,7 +83,7 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.TopMenuH
         //Manage item decoration below the text
         if (pinnedTimeline.isSelected) {
             holder.binding.underline.setVisibility(View.VISIBLE);
-            holder.binding.name.setTextColor(ResourcesCompat.getColor(_mContext.getResources(), R.color.cyanea_accent, _mContext.getTheme()));
+            holder.binding.name.setTextColor(ResourcesCompat.getColor(_mContext.getResources(), R.color.colorAccent, _mContext.getTheme()));
         } else {
             holder.binding.underline.setVisibility(View.GONE);
             int textColor = _mContext.getResources().getColor(android.R.color.primary_text_dark);

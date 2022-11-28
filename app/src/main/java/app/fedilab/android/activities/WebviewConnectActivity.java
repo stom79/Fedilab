@@ -57,7 +57,6 @@ import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.databinding.ActivityWebviewConnectBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
@@ -119,7 +118,7 @@ public class WebviewConnectActivity extends BaseActivity {
     @SuppressLint("SetJavaScriptEnabled")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(WebviewConnectActivity.this);
 
         binding = ActivityWebviewConnectBinding.inflate(getLayoutInflater());

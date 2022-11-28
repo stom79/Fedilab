@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="2dp"
-        android:background="@color/cyanea_accent_dark_reference"
         android:minWidth="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

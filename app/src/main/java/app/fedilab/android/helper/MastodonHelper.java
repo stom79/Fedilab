@@ -357,7 +357,7 @@ public class MastodonHelper {
      * @param status  {@link Status}
      */
     public static void scheduleBoost(Context context, ScheduleType scheduleType, Status status, Account account, TimedMuted listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         DatetimePickerBinding binding = DatetimePickerBinding.inflate(((Activity) context).getLayoutInflater());
         dialogBuilder.setView(binding.getRoot());
         final AlertDialog alertDialogBoost = dialogBuilder.create();

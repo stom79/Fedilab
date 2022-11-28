@@ -29,7 +29,6 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerDomainBlockBinding;
-import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
@@ -64,7 +63,7 @@ public class DomainBlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.binding.domainName.setText(domain);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         holder.binding.unblockDomain.setOnClickListener(v -> {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
             alt_bld.setMessage(context.getString(R.string.unblock_domain_confirm, domain));
             alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                 accountsVM.removeDomainBlocks(MainActivity.currentInstance, MainActivity.currentToken, domain);

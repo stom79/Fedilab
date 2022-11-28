@@ -36,9 +36,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.button.MaterialButton;
-import com.jaredrummler.cyanea.Cyanea;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +46,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+
 
 public class ThemeHelper {
 
@@ -72,6 +69,25 @@ public class ThemeHelper {
         return color;
     }
 
+
+    public static ColorStateList getButtonActionColorStateList(Context context) {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_enabled}, // enabled
+                new int[]{-android.R.attr.state_enabled}, // disabled
+                new int[]{-android.R.attr.state_checked}, // unchecked
+                new int[]{android.R.attr.state_pressed}  // pressed
+        };
+        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.colorAccent), 0x33);
+        int color = ContextCompat.getColor(context, R.color.colorAccent);
+        int[] colors = new int[]{
+                color,
+                alphaColor,
+                color,
+                color
+        };
+        return new ColorStateList(states, colors);
+    }
+
     /**
      * Initialize colors in a static variable
      * Currently link_color cannot be retrieved with getAttColor in ViewModel due to application and theme
@@ -92,37 +108,7 @@ public class ThemeHelper {
         }
     }
 
-    public static void applyTheme(BaseActivity activity) {
-        if (Cyanea.getInstance().isDark()) {
-            activity.setTheme(R.style.AppThemeDark);
-        } else {
-            activity.setTheme(R.style.AppTheme);
-        }
-    }
 
-    public static void applyThemeDialog(BaseActivity activity) {
-        if (Cyanea.getInstance().isDark()) {
-            activity.setTheme(R.style.DialogDark);
-        } else {
-            activity.setTheme(R.style.Dialog);
-        }
-    }
-
-    public static int getBackgroundColor(Context context) {
-        if (Cyanea.getInstance().isDark()) {
-            return ContextCompat.getColor(context, R.color.cyanea_background_dark);
-        } else {
-            return ContextCompat.getColor(context, R.color.cyanea_background_light);
-        }
-    }
-
-    public static void applyThemeBar(BaseActivity activity) {
-        if (Cyanea.getInstance().isDark()) {
-            activity.setTheme(R.style.AppThemeBarDark);
-        } else {
-            activity.setTheme(R.style.AppThemeBar);
-        }
-    }
 
     /**
      * Animate two views, the current view will be hidden to left
@@ -282,23 +268,6 @@ public class ThemeHelper {
         return new ColorStateList(states, colors);
     }
 
-    public static ColorStateList getButtonActionColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_enabled}, // enabled
-                new int[]{-android.R.attr.state_enabled}, // disabled
-                new int[]{-android.R.attr.state_checked}, // unchecked
-                new int[]{android.R.attr.state_pressed}  // pressed
-        };
-        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference), 0x33);
-        int color = ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference);
-        int[] colors = new int[]{
-                color,
-                alphaColor,
-                color,
-                color
-        };
-        return new ColorStateList(states, colors);
-    }
 
 
     /**
@@ -319,144 +288,6 @@ public class ThemeHelper {
         return new ColorStateList(states, colors);
     }
 
-    /**
-     * Allow to set colors for tablayout
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    public static ColorStateList getColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_selected},
-                new int[]{-android.R.attr.state_selected},
-        };
-        int[] colors = new int[]{
-                ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference),
-                getAttColor(context, R.attr.mTextColor)
-        };
-        return new ColorStateList(states, colors);
-    }
-
-    /**
-     * Change all color for a Material button
-     *
-     * @param context        - Context
-     * @param materialButton - MaterialButton
-     */
-    public static void changeButtonColor(Context context, MaterialButton materialButton) {
-        materialButton.setRippleColor(ThemeHelper.getButtonColorStateList(context));
-        materialButton.setStrokeColor(ThemeHelper.getButtonColorStateList(context));
-        materialButton.setTextColor(ThemeHelper.getButtonColorStateList(context));
-        materialButton.setIconTint(ThemeHelper.getButtonColorStateList(context));
-        materialButton.setBackgroundTintList(ThemeHelper.getBackgroundButtonColorStateList(context));
-    }
-
-    /**
-     * Allow to set ThumbDrawable colors for SwitchCompat
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    public static ColorStateList getSwitchCompatThumbDrawable(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_checked},
-                new int[]{-android.R.attr.state_checked},
-        };
-        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference), 0xee);
-        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0xee);
-        int[] colors = new int[]{
-                alphaColor,
-                alphaColorUnchecked
-        };
-        return new ColorStateList(states, colors);
-    }
-
-    /**
-     * Allow to set TrackDrawable colors for SwitchCompat
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    public static ColorStateList getSwitchCompatTrackDrawable(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_checked},
-                new int[]{-android.R.attr.state_checked},
-        };
-        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference), 0x33);
-        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0x33);
-        int[] colors = new int[]{
-                alphaColor,
-                alphaColorUnchecked
-        };
-        return new ColorStateList(states, colors);
-    }
-
-    /**
-     * Allow to set colors for Material buttons inside a toggle group
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    public static ColorStateList getButtonColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_checked},
-                new int[]{-android.R.attr.state_checked},
-        };
-        int[] colors = new int[]{
-                ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference),
-                getAttColor(context, R.attr.mTextColor)
-        };
-        return new ColorStateList(states, colors);
-    }
-
-
-    public static void changeColorOutlineButton(Context context, MaterialButton materialButton) {
-        if (materialButton != null) {
-            materialButton.setStrokeColor(ThemeHelper.getButtonOutlineColorStateList(context));
-            materialButton.setRippleColor(ThemeHelper.getButtonOutlineColorStateList(context));
-            materialButton.setIconTint(ThemeHelper.getButtonOutlineColorStateList(context));
-            materialButton.setTextColor(ThemeHelper.getButtonOutlineColorStateList(context));
-        }
-    }
-
-    /**
-     * Allow to set colors for Material buttons inside a toggle group
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    public static ColorStateList getButtonOutlineColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_checked},
-                new int[]{-android.R.attr.state_checked},
-        };
-        int alphaColorUnchecked = ColorUtils.setAlphaComponent(getAttColor(context, R.attr.mTextColor), 0xaa);
-        int[] colors = new int[]{
-                ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference),
-                alphaColorUnchecked
-        };
-        return new ColorStateList(states, colors);
-    }
-
-
-    /**
-     * Allow to set background colors for Material buttons inside a toggle group
-     *
-     * @param context - Context
-     * @return - ColorStateList
-     */
-    private static ColorStateList getBackgroundButtonColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_checked},
-                new int[]{-android.R.attr.state_checked},
-        };
-        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference), 0x33);
-        int[] colors = new int[]{
-                alphaColor,
-                ContextCompat.getColor(context, R.color.transparent)
-        };
-        return new ColorStateList(states, colors);
-    }
 
     /**
      * Allow to change font scale in activities

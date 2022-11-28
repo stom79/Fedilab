@@ -107,7 +107,6 @@
             android:minHeight="36dp"
             android:text="@string/toot_sensitive"
             android:visibility="gone"
-            app:buttonTint="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +176,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="@color/cyanea_accent_dark_reference"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/button_visibility"
@@ -200,7 +198,6 @@
             tools:ignore="HardcodedText" />
 
         <ProgressBar
-            android:indeterminateTint="@color/cyanea_accent_dark_reference"
             android:id="@+id/character_progress"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="48dp"
@@ -218,7 +215,6 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:src="@drawable/ic_compose_post"
-            android:tint="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 

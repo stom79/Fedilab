@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -135,7 +134,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -154,7 +153,6 @@ public class ProfileActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         if (getSupportActionBar() != null) {
@@ -164,7 +162,6 @@ public class ProfileActivity extends BaseActivity {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
         if (account != null) {
             initializeView(account);
@@ -263,8 +260,6 @@ public class ProfileActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        binding.accountTabLayout.setTabTextColors(ThemeHelper.getAttColor(ProfileActivity.this, R.attr.mTextColor), ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_dark_reference));
-        binding.accountTabLayout.setTabIconTint(ThemeHelper.getColorStateList(ProfileActivity.this));
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.avatar_static : account.avatar;
         Glide.with(ProfileActivity.this)
@@ -314,7 +309,7 @@ public class ProfileActivity extends BaseActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.colorAccent)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.warningMessage.setText(content);
         binding.warningMessage.setOnClickListener(view -> {
@@ -427,7 +422,7 @@ public class ProfileActivity extends BaseActivity {
             } else if (doAction == action.UNFOLLOW) {
                 boolean confirm_unfollow = sharedpreferences.getBoolean(getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                 if (confirm_unfollow) {
-                    AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(ProfileActivity.this);
                     unfollowConfirm.setTitle(getString(R.string.unfollow_confirm));
                     unfollowConfirm.setMessage(account.acct);
                     unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -512,7 +507,7 @@ public class ProfileActivity extends BaseActivity {
             //Recyclerview for identity proof has not been inflated yet
             if (identityProofsRecycler == null) {
                 identity_proofs_indicator.setOnClickListener(v -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
                     identityProofsRecycler = new RecyclerView(ProfileActivity.this);
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ProfileActivity.this);
                     identityProofsRecycler.setLayoutManager(mLayoutManager);
@@ -603,7 +598,7 @@ public class ProfileActivity extends BaseActivity {
                 binding.personalNote.setText(relationship.note);
             }
             binding.personalNote.setOnClickListener(view -> {
-                AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this);
                 builderInner.setTitle(R.string.note_for_account);
                 EditText input = new EditText(ProfileActivity.this);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -778,7 +773,7 @@ public class ProfileActivity extends BaseActivity {
             });
             return true;
         } else if (itemId == R.id.action_filter) {
-            AlertDialog.Builder filterTagDialog = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder filterTagDialog = new AlertDialog.Builder(ProfileActivity.this);
             Set<String> featuredTagsSet = sharedpreferences.getStringSet(getString(R.string.SET_FEATURED_TAGS), null);
             List<String> tags = new ArrayList<>();
             if (featuredTagsSet != null) {
@@ -847,7 +842,7 @@ public class ProfileActivity extends BaseActivity {
                         }
                         accountsVM.getListContainingAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                                 .observe(ProfileActivity.this, mastodonListUserIs -> {
-                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(ProfileActivity.this);
                                     builderSingle.setTitle(getString(R.string.action_lists_add_to));
                                     builderSingle.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss());
                                     String[] listsId = new String[mastodonLists.size()];
@@ -935,7 +930,7 @@ public class ProfileActivity extends BaseActivity {
                             });
                     return true;
                 }
-                builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+                builderInner = new AlertDialog.Builder(ProfileActivity.this);
                 builderInner.setTitle(stringArrayConf[0]);
 
                 builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -963,7 +958,7 @@ public class ProfileActivity extends BaseActivity {
             });
             return true;
         } else if (itemId == R.id.action_report) {
-            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this);
             builderInner.setTitle(R.string.report_account);
             //Text for report
             EditText input = new EditText(ProfileActivity.this);
@@ -983,7 +978,7 @@ public class ProfileActivity extends BaseActivity {
             builderInner.show();
             return true;
         } else if (itemId == R.id.action_block) {
-            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this);
             if (relationship != null) {
                 if (relationship.blocking) {
                     builderInner.setTitle(stringArrayConf[5]);
@@ -1023,7 +1018,7 @@ public class ProfileActivity extends BaseActivity {
             });
             builderInner.show();
         } else if (itemId == R.id.action_block_instance) {
-            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this);
             String domain = account.acct.split("@")[1];
             builderInner.setMessage(getString(R.string.block_domain_confirm_message, domain));
             builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

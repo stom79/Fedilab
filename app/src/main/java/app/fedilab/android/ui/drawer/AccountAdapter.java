@@ -48,7 +48,6 @@ import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
@@ -79,12 +78,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // start the new activity
             context.startActivity(intent, options.toBundle());
         });
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.block);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.mute);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteNotification);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteTimed);
         accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
-        accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
         if (account.relationShip != null) {
 
             ProfileActivity.action doAction = ProfileActivity.action.FOLLOW;
@@ -114,7 +108,6 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
             } else {
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
 
 
@@ -207,7 +200,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (finalDoAction == ProfileActivity.action.UNFOLLOW) {
                     boolean confirm_unfollow = sharedpreferences.getBoolean(context.getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                     if (confirm_unfollow) {
-                        AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context);
                         unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
                         unfollowConfirm.setMessage(account.acct);
                         unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

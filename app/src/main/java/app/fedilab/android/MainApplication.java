@@ -23,17 +23,12 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import com.jaredrummler.cyanea.Cyanea;
-import com.jaredrummler.cyanea.prefs.CyaneaTheme;
-
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.config.CoreConfigurationBuilder;
 import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
-
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -54,12 +49,9 @@ public class MainApplication extends MultiDexApplication {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
 
 
-        Cyanea.init(this, super.getResources());
-        List<CyaneaTheme> list = CyaneaTheme.Companion.from(getAssets(), "themes/cyanea_themes.json");
         boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
         boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
         if (no_theme_set && !custom_theme) {
-            list.get(0).apply(Cyanea.getInstance());
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean("no_theme_set", false);
             editor.apply();
@@ -92,7 +84,6 @@ public class MainApplication extends MultiDexApplication {
                                     .withResIcon(R.mipmap.ic_launcher)
                                     .withText(getString(R.string.crash_title))
                                     .withCommentPrompt(getString(R.string.crash_message))
-                                    .withResTheme(R.style.DialogDark)
                                     .withPositiveButtonText(getString(R.string.send_email))
                                     .withNegativeButtonText(getString(R.string.cancel))
                                     .build()

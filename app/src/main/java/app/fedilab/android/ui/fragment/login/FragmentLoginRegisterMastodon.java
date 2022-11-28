@@ -165,7 +165,7 @@ public class FragmentLoginRegisterMastodon extends Fragment {
                                     Locale.getDefault().getLanguage(), null
                             ).observe(requireActivity(), token -> {
                                 if (token != null) {
-                                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity());
                                     dialogBuilder.setCancelable(false);
                                     dialogBuilder.setPositiveButton(R.string.validate, (dialog, which) -> {
                                         dialog.dismiss();

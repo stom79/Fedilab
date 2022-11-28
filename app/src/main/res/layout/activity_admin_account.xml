@@ -26,13 +26,11 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="?backgroundColorLight"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?backgroundColorLight"
             android:fitsSystemWindows="true"
             app:contentScrim="?colorPrimaryDark"
             app:expandedTitleGravity="top"
@@ -394,9 +392,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@string/approve"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference" />
+                    android:text="@string/approve" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -424,9 +420,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@string/disable"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference" />
+                    android:text="@string/disable" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -454,9 +448,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@string/silence"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference" />
+                    android:text="@string/silence" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -484,9 +476,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="@string/suspend"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference" />
+                    android:text="@string/suspend" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>

@@ -28,7 +28,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -61,7 +60,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -954,7 +952,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         context.startActivity(intent);
                     });
                     composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                         builderInner.setTitle(R.string.upload_form_description);
                         PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
                         builderInner.setView(popupMediaDescriptionBinding.getRoot());
@@ -1011,7 +1009,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     composeAttachmentItemBinding.buttonRemove.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                         builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
                             attachmentList.remove(attachment);
@@ -1142,8 +1140,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (theme_statuses_color != -1) {
                 holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            } else {
-                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
             }
             if (theme_text_header_2_line != -1) {
                 holder.binding.username.setTextColor(theme_text_header_2_line);
@@ -1176,8 +1172,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.binding.buttonEmojiOne.setVisibility(View.GONE);
             }
-            holder.binding.visibilityPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
-            holder.binding.attachmentChoicesPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);
@@ -1186,8 +1180,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
             if (theme_statuses_color != -1) {
                 holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            } else {
-                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
             }
             holder.binding.buttonAttach.setOnClickListener(v -> {
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
@@ -1395,11 +1387,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     updateCharacterCount(holder);
                 }
             });
-            if (statusDraft.poll != null) {
-                ImageViewCompat.setImageTintList(holder.binding.buttonPoll, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent)));
-            } else {
-                ImageViewCompat.setImageTintList(holder.binding.buttonPoll, null);
-            }
+
             holder.binding.buttonPost.setEnabled(!statusDraft.submitted);
 
             holder.binding.buttonPost.setOnClickListener(v -> {
@@ -1456,7 +1444,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(context.getString(R.string.message_language));
 
                 builder.setSingleChoiceItems(languagesArr, selection, null);
@@ -1490,7 +1478,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param position    - int position
      */
     private void displayPollPopup(ComposeViewHolder holder, Status statusDraft, int position) {
-        AlertDialog.Builder alertPoll = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder alertPoll = new AlertDialog.Builder(context);
         alertPoll.setTitle(R.string.create_poll);
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         alertPoll.setView(composePollBinding.getRoot());
@@ -1708,7 +1696,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         int paddingPixel = 15;
         float density = context.getResources().getDisplayMetrics().density;
         int paddingDp = (int) (paddingPixel * density);

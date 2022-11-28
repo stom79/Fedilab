@@ -144,8 +144,7 @@
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/agreement"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:buttonTint="@color/cyanea_accent_dark_reference" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/agreement_text"
@@ -155,7 +154,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup"
-        style="@style/MyButtonColored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />

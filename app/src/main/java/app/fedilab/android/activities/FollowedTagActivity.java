@@ -15,7 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Menu;
@@ -24,7 +23,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -60,14 +58,13 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityFollowedTagsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         canGoBack = false;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         tagVM = new ViewModelProvider(FollowedTagActivity.this).get(TagVM.class);
         tagVM.followedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
@@ -91,7 +88,7 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_unfollow && tag != null) {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(FollowedTagActivity.this);
             alt_bld.setTitle(R.string.action_unfollow_tag);
             alt_bld.setMessage(R.string.action_unfollow_tag_confirm);
             alt_bld.setPositiveButton(R.string.unfollow, (dialog, id) -> {
@@ -123,7 +120,7 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
             AlertDialog alert = alt_bld.create();
             alert.show();
         } else if (item.getItemId() == R.id.action_follow_tag) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FollowedTagActivity.this);
             PopupAddFollowedTagtBinding popupAddFollowedTagtBinding = PopupAddFollowedTagtBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddFollowedTagtBinding.getRoot());
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});

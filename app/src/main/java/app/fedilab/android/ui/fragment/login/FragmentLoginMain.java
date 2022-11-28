@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -182,7 +181,7 @@ public class FragmentLoginMain extends Fragment {
     }
 
     private void showMenu(View v) {
-        PopupMenu popupMenu = new PopupMenu(new ContextThemeWrapper(requireActivity(), Helper.popupStyle()), binding.menuIcon);
+        PopupMenu popupMenu = new PopupMenu(requireActivity(), binding.menuIcon);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
         MenuItem customTabItem = popupMenu.getMenu().findItem(R.id.action_custom_tabs);

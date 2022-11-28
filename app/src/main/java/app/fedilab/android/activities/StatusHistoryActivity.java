@@ -16,18 +16,15 @@ package app.fedilab.android.activities;
 
 
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityStatusHistoryBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusHistoryAdapter;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 import es.dmoral.toasty.Toasty;
@@ -40,14 +37,13 @@ public class StatusHistoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         ActivityStatusHistoryBinding binding = ActivityStatusHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         Bundle b = getIntent().getExtras();

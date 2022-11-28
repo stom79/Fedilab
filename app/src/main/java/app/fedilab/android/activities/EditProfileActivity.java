@@ -18,7 +18,6 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,8 +30,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -52,7 +49,6 @@ import app.fedilab.android.databinding.ActivityEditProfileBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
@@ -66,12 +62,11 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
@@ -140,7 +135,7 @@ public class EditProfileActivity extends BaseActivity {
                     value = Html.fromHtml(field.value).toString();
                 fieldItemBinding.value.setText(value);
                 fieldItemBinding.remove.setOnClickListener(v -> {
-                    AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this);
                     deleteConfirm.setTitle(getString(R.string.delete_field));
                     deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                     deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -162,7 +157,7 @@ public class EditProfileActivity extends BaseActivity {
         binding.addField.setOnClickListener(view -> {
             AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
             fieldItemBinding.remove.setOnClickListener(v -> {
-                AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this);
                 deleteConfirm.setTitle(getString(R.string.delete_field));
                 deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                 deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -183,15 +178,6 @@ public class EditProfileActivity extends BaseActivity {
             }
         });
 
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPublic);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityUnlisted);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPrivate);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityDirect);
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.bot.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.discoverable.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.sensitive.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.locked);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.unlocked);
 
         //Actions with the activity
         accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);

@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -423,7 +422,7 @@ public class PinnedTimelineHelper {
         Pinned finalPinned = pinned;
         int finalToRemove1 = toRemove;
         activityMainBinding.moreTimelines.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), v);
+            PopupMenu popup = new PopupMenu(activity, v);
             try {
                 @SuppressLint("PrivateApi")
                 Method method = popup.getMenu().getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
@@ -615,7 +614,7 @@ public class PinnedTimelineHelper {
      */
     public static void defaultClick(BaseMainActivity activity, Timeline.TimeLineEnum timeLineEnum, View view, ActivityMainBinding activityMainBinding, int position) {
         boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME;
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         popup.getMenuInflater()
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
@@ -681,7 +680,7 @@ public class PinnedTimelineHelper {
                 itemShowReplies.setChecked(show_replies);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -770,7 +769,7 @@ public class PinnedTimelineHelper {
      */
     public static void tagClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
         int toRemove = itemToRemoveInBottomMenu(activity);
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -870,7 +869,7 @@ public class PinnedTimelineHelper {
                     e.printStackTrace();
                 }
             } else if (itemId == R.id.action_any) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -899,7 +898,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                dialogBuilder = new AlertDialog.Builder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -928,7 +927,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                dialogBuilder = new AlertDialog.Builder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -957,7 +956,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                dialogBuilder = new AlertDialog.Builder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -997,7 +996,7 @@ public class PinnedTimelineHelper {
      */
     public static void instanceClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
 
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         int toRemove = itemToRemoveInBottomMenu(activity);
         int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -1145,7 +1144,7 @@ public class PinnedTimelineHelper {
                 }
             });
             changes[0] = true;
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.tags_instance, new LinearLayout(activity), false);
             dialogBuilder.setView(dialogView);
@@ -1229,7 +1228,7 @@ public class PinnedTimelineHelper {
         if (remoteInstance == null)
             return;
         String accounts = remoteInstance.host;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
         dialogBuilder.setView(dialogView);

@@ -18,7 +18,6 @@ package app.fedilab.android.ui.drawer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -92,7 +90,6 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             context.startActivity(intent, options.toBundle());
         });
         holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
-        holder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
         if (account == null) {
             return;
         }

@@ -89,12 +89,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/watch_trends_for_instance"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_remove_red_eye_24"
-            app:iconTint="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instance_description"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@+id/instance_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

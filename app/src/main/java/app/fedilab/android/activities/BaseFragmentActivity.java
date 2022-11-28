@@ -16,7 +16,8 @@ package app.fedilab.android.activities;
 
 import android.annotation.SuppressLint;
 
-import com.jaredrummler.cyanea.app.CyaneaFragmentActivity;
+import androidx.fragment.app.FragmentActivity;
+
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
@@ -24,7 +25,7 @@ import app.fedilab.android.helper.Helper;
 
 
 @SuppressLint("Registered")
-public class BaseFragmentActivity extends CyaneaFragmentActivity {
+public class BaseFragmentActivity extends FragmentActivity {
 
 
     static {

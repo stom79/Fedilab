@@ -22,7 +22,6 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import app.fedilab.android.R;
-import app.fedilab.android.helper.Helper;
 
 public class FragmentPrivacySettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -34,9 +33,6 @@ public class FragmentPrivacySettings extends PreferenceFragmentCompat implements
 
     private void createPref() {
         EditTextPreference SET_INVIDIOUS_HOST = findPreference(getString(R.string.SET_INVIDIOUS_HOST));
-        if (SET_INVIDIOUS_HOST != null) {
-            SET_INVIDIOUS_HOST.getContext().setTheme(Helper.dialogStyle());
-        }
     }
 
     @Override

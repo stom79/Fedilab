@@ -17,7 +17,6 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,8 +43,6 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityDraftsBinding;
 import app.fedilab.android.exception.DBException;
-import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusDraftAdapter;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
@@ -62,20 +58,16 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityDraftsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
-        }
 
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         binding.title.setText(R.string.drafts);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
@@ -105,7 +97,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(DraftActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(DraftActivity.this);
             unfollowConfirm.setTitle(getString(R.string.delete_all));
             unfollowConfirm.setMessage(getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

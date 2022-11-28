@@ -131,8 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/support_the_app_on_liberapay"
-            android:textColor="@color/cyanea_accent_dark_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+             />
 
 
         <com.google.android.material.button.MaterialButton
@@ -142,8 +141,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="PayPal"
-            android:textColor="@color/cyanea_accent_dark_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference"
             tools:ignore="HardcodedText" />
 
 
@@ -177,7 +174,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/about_license"
-                style="@style/MyOutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -202,7 +198,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/about_code"
-                style="@style/MyOutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -228,7 +223,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/about_thekinrar"
-                style="@style/MyOutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"

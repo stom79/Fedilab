@@ -16,24 +16,20 @@ package app.fedilab.android.activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import app.fedilab.android.R
 import app.fedilab.android.databinding.ActivitySettingsBinding
-import app.fedilab.android.helper.Helper
-import app.fedilab.android.helper.ThemeHelper
-import app.fedilab.android.ui.fragment.settings.FragmentThemingSettings
 
-class SettingsActivity : BaseActivity(), FragmentThemingSettings.ActionTheming {
+class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ThemeHelper.applyThemeBar(this)
+
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -56,15 +52,4 @@ class SettingsActivity : BaseActivity(), FragmentThemingSettings.ActionTheming {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun restart() {
-        val restartBuilder = AlertDialog.Builder(this, Helper.dialogStyle())
-        restartBuilder.setTitle(getString(R.string.restart_the_app))
-        restartBuilder.setMessage(getString(R.string.restart_the_app_theme))
-        restartBuilder.setNegativeButton(R.string.no) { dialog, which -> dialog.dismiss() }
-        restartBuilder.setPositiveButton(R.string.restart) { dialog, which ->
-            dialog.dismiss()
-            Helper.restart(this)
-        }
-        restartBuilder.create().show()
-    }
 }

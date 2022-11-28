@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,8 +92,6 @@ public class StatusHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-        } else {
-            holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
         }
         if (theme_text_header_2_line != -1) {
             holder.binding.username.setTextColor(theme_text_header_2_line);

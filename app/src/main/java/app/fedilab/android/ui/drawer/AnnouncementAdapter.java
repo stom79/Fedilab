@@ -147,7 +147,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             emojiPopup.toggle();
         });
         holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             int paddingPixel = 15;
             float density = context.getResources().getDisplayMetrics().density;
             int paddingDp = (int) (paddingPixel * density);

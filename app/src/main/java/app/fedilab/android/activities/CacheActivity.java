@@ -15,7 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,7 +24,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -42,7 +40,6 @@ import app.fedilab.android.databinding.ActivityCacheBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CacheHelper;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.CacheAdapter;
 
 public class CacheActivity extends BaseActivity {
@@ -54,12 +51,11 @@ public class CacheActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityCacheBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         CacheHelper.getCacheValues(CacheActivity.this, size -> {
             if (size > 0) {
@@ -123,7 +119,7 @@ public class CacheActivity extends BaseActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_clear) {
-            AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(CacheActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(CacheActivity.this);
             deleteConfirm.setTitle(getString(R.string.delete_cache));
             deleteConfirm.setMessage(getString(R.string.delete_cache_message));
             deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -133,7 +129,7 @@ public class CacheActivity extends BaseActivity {
                         size = size / 1000000.0f;
                     }
                     binding.fileCacheSize.setText(String.format("%s %s", String.format(Locale.getDefault(), "%.2f", size), getString(R.string.cache_units)));
-                    AlertDialog.Builder restartBuilder = new AlertDialog.Builder(CacheActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder restartBuilder = new AlertDialog.Builder(CacheActivity.this);
                     restartBuilder.setMessage(getString(R.string.restart_the_app));
                     restartBuilder.setNegativeButton(R.string.no, (dialogRestart, whichRestart) -> {
                         recreate();

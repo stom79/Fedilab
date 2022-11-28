@@ -35,7 +35,6 @@ import java.util.regex.Matcher;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.login.FragmentLoginMain;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
@@ -109,7 +108,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         setContentView(new FrameLayout(this));
         FragmentLoginMain fragmentLoginMain = new FragmentLoginMain();

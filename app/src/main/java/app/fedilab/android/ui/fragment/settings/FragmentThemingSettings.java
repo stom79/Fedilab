@@ -44,9 +44,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.jaredrummler.cyanea.Cyanea;
-import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaTheme;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -63,7 +60,6 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
-import app.fedilab.android.activities.SettingsActivity;
 import app.fedilab.android.databinding.PopupStatusThemeBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -76,7 +72,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
     private List<LinkedHashMap<String, String>> listOfThemes;
     private SharedPreferences appPref;
     private SharedPreferences cyneaPref;
-    public ActionTheming actionTheming;
     private boolean shouldRestart;
 
     @Override
@@ -86,7 +81,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         createPref();
         listOfThemes = ThemeHelper.getContributorsTheme(requireActivity());
         shouldRestart = false;
-        actionTheming = (SettingsActivity) requireActivity();
     }
 
 
@@ -106,9 +100,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
-        if (shouldRestart && actionTheming != null) {
-            actionTheming.restart();
-        }
+
     }
 
     @Override
@@ -121,9 +113,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         Helper.recreateMainActivity(requireActivity());
     }
 
-    public interface ActionTheming {
-        void restart();
-    }
 
 
     @SuppressWarnings("deprecation")
@@ -264,7 +253,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             String sCurrentLine;
             SharedPreferences.Editor appEditor = appPref.edit();
-            Cyanea.Editor cyaneaEditor = Cyanea.getInstance().edit();
+
             appEditor.putBoolean("use_custom_theme", true);
             while ((sCurrentLine = br.readLine()) != null) {
                 String[] line = sCurrentLine.split(",");
@@ -272,35 +261,15 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                     String key = line[0];
                     String value = line[1];
                     if (key.compareTo("pref_color_navigation_bar") == 0) {
-                        cyaneaEditor.shouldTintNavBar(Boolean.parseBoolean(value));
+
                     } else if (key.compareTo("pref_color_background") == 0) {
-                        cyaneaEditor.backgroundDarkLighter(Integer.parseInt(value));
-                        cyaneaEditor.backgroundLightDarker(Integer.parseInt(value));
-                        cyaneaEditor.backgroundDark(Integer.parseInt(value));
-                        cyaneaEditor.backgroundLightLighter(Integer.parseInt(value));
-                        cyaneaEditor.backgroundDarkDarker(Integer.parseInt(value));
-                        cyaneaEditor.background(Integer.parseInt(value));
-                        cyaneaEditor.backgroundDark(Integer.parseInt(value));
-                        cyaneaEditor.backgroundLight(Integer.parseInt(value));
+
                     } else if (key.compareTo("base_theme") == 0) {
-                        List<CyaneaTheme> list = CyaneaTheme.Companion.from(requireActivity().getAssets(), "themes/cyanea_themes.json");
-                        CyaneaTheme theme = list.get(Integer.parseInt(value));
-                        cyaneaEditor.baseTheme(theme.getBaseTheme());
-                        if (Integer.parseInt(value) == 0 || Integer.parseInt(value) == 2) {
-                            cyaneaEditor.menuIconColor(ContextCompat.getColor(requireActivity(), R.color.dark_text));
-                            cyaneaEditor.subMenuIconColor(ContextCompat.getColor(requireActivity(), R.color.dark_text));
-                        } else {
-                            cyaneaEditor.menuIconColor(ContextCompat.getColor(requireActivity(), R.color.black));
-                            cyaneaEditor.subMenuIconColor(ContextCompat.getColor(requireActivity(), R.color.black));
-                        }
+
                     } else if (key.compareTo("theme_accent") == 0) {
-                        cyaneaEditor.accentLight(Integer.parseInt(value));
-                        cyaneaEditor.accent(Integer.parseInt(value));
-                        cyaneaEditor.accentDark(Integer.parseInt(value));
+
                     } else if (key.compareTo("theme_primary") == 0) {
-                        cyaneaEditor.primary(Integer.parseInt(value));
-                        cyaneaEditor.primaryLight(Integer.parseInt(value));
-                        cyaneaEditor.primaryDark(Integer.parseInt(value));
+
                     } else {
                         if (value != null && value.matches("-?\\d+")) {
                             appEditor.putInt(key, Integer.parseInt(value));
@@ -311,7 +280,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                 }
             }
             appEditor.commit();
-            cyaneaEditor.apply().recreate(requireActivity());
             Helper.recreateMainActivity(requireActivity());
         } catch (IOException e) {
             e.printStackTrace();
@@ -337,7 +305,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         Preference launch_custom_theme = findPreference("launch_custom_theme");
         if (launch_custom_theme != null) {
             launch_custom_theme.setOnPreferenceClickListener(preference -> {
-                startActivity(new Intent(requireActivity(), CyaneaSettingsActivity.class));
+
                 shouldRestart = true;
                 return false;
             });
@@ -347,7 +315,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (contributors_themes != null) {
             contributors_themes.setOnPreferenceClickListener(preference -> {
                 final int[] currentPosition = {0};
-                AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                AlertDialog.Builder builderSingle = new AlertDialog.Builder(requireActivity());
                 builderSingle.setTitle(getString(R.string.select_a_theme));
                 PopupStatusThemeBinding binding = PopupStatusThemeBinding.inflate(getLayoutInflater(), new LinearLayout(requireActivity()), false);
                 binding.selectTheme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -392,9 +360,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         }
 
         ListPreference settings_theme = findPreference("settings_theme");
-        if (settings_theme != null) {
-            settings_theme.getContext().setTheme(Helper.dialogStyle());
-        }
+
 
         Preference theme_link_color = findPreference("theme_link_color");
         Preference theme_boost_header_color = findPreference("theme_boost_header_color");
@@ -469,7 +435,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         }
         if (reset_pref != null) {
             reset_pref.setOnPreferenceClickListener(preference -> {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity());
                 dialogBuilder.setMessage(R.string.reset_color);
                 dialogBuilder.setPositiveButton(R.string.reset, (dialog, id) -> {
                     reset();

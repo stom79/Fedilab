@@ -50,7 +50,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -439,7 +438,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 int paddingPixel = 15;
                 float density = context.getResources().getDisplayMetrics().density;
                 int paddingDp = (int) (paddingPixel * density);
@@ -526,7 +525,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusEmoji.setVisibility(View.VISIBLE);
         }
 
-        Helper.changeDrawableColor(context, R.drawable.ic_baseline_mode_edit_message_24, R.color.cyanea_accent_reference);
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.cacheIndicator, theme_icons_color);
@@ -600,9 +598,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
-        } else {
-            holder.binding.cardviewContainer.setBackgroundColor(ThemeHelper.getBackgroundColor(context));
-            holder.binding.translationLabel.setBackgroundColor(ThemeHelper.getBackgroundColor(context));
         }
         if (theme_boost_header_color != -1 && status.reblog != null) {
             holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
@@ -818,7 +813,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
                 if (confirmBoost) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
                     if (statusToDeal.reblogged) {
                         alt_bld.setMessage(context.getString(R.string.reblog_remove));
                     } else {
@@ -888,7 +883,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonFavorite.setOnClickListener(v -> {
                 if (confirmFav) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
                     if (status.favourited) {
                         alt_bld.setMessage(context.getString(R.string.favourite_remove));
                     } else {
@@ -1534,7 +1529,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (ownvotes != null && ownvotes.contains(j)) {
                         Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_24);
                         assert img != null;
-                        img.setColorFilter(ContextCompat.getColor(context, R.color.cyanea_accent_reference), PorterDuff.Mode.SRC_IN);
+                        img.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN);
                         img.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
                         pollItemBinding.pollItemText.setCompoundDrawables(null, null, img, null);
                     }
@@ -1551,7 +1546,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         (holder.binding.poll.multipleChoice).removeAllViews();
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         CheckBox cb = new CheckBox(context);
-                        cb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         cb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
                                         new WeakReference<>(cb)),
@@ -1565,7 +1559,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         (holder.binding.poll.singleChoiceRadioGroup).removeAllViews();
                     for (Poll.PollItem pollOption : statusToDeal.poll.options) {
                         RadioButton rb = new RadioButton(context);
-                        rb.setButtonTintList(ThemeHelper.getButtonColorStateList(context));
                         rb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
                                         new WeakReference<>(rb)),
@@ -1739,7 +1732,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         holder.binding.actionButtonMore.setOnClickListener(v -> {
             boolean isOwner = statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0;
-            PopupMenu popup = new PopupMenu(new ContextThemeWrapper(context, Helper.popupStyle()), holder.binding.actionButtonMore);
+            PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
             popup.getMenuInflater()
                     .inflate(R.menu.option_toot, popup.getMenu());
             if (statusToDeal.visibility.equals("private") || status.visibility.equals("direct")) {
@@ -1786,7 +1779,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_redraft) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                     builderInner.setTitle(stringArrayConf[1]);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
@@ -1842,7 +1835,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
                 } else if (itemId == R.id.action_remove) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.content);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -1859,7 +1852,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }));
                     builderInner.show();
                 } else if (itemId == R.id.action_block_domain) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                     builderInner.setTitle(stringArrayConf[3]);
                     String domain = statusToDeal.account.acct.split("@")[1];
                     builderInner.setMessage(context.getString(R.string.block_domain_confirm_message, domain));
@@ -1870,7 +1863,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                     builderInner.show();
                 } else if (itemId == R.id.action_mute) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -1909,7 +1902,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
                     return true;
                 } else if (itemId == R.id.action_block) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
                     builderInner.setTitle(stringArrayConf[1]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -2032,7 +2025,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
                                 Runnable myRunnable = () -> {
-                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
                                     builderSingle.setTitle(context.getString(R.string.choose_accounts));
                                     final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
                                     final BaseAccount[] accountArray = new BaseAccount[accounts.size()];

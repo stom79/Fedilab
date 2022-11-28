@@ -293,7 +293,7 @@ public class MediaHelper {
         AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
         File mAudioFile = new File(filePath);
         PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
-        AlertDialog.Builder audioPopup = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        AlertDialog.Builder audioPopup = new AlertDialog.Builder(activity);
         audioPopup.setView(binding.getRoot());
         AlertDialog alert = audioPopup.create();
         alert.show();
@@ -341,7 +341,7 @@ public class MediaHelper {
      * @param listener - OnSchedule
      */
     public static void scheduleMessage(Activity activity, OnSchedule listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         DatetimePickerBinding binding = DatetimePickerBinding.inflate(activity.getLayoutInflater());
 
         dialogBuilder.setView(binding.getRoot());

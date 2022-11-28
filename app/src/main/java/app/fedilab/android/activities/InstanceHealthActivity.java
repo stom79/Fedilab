@@ -34,7 +34,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.ActivityInstanceSocialBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 
 
@@ -45,7 +44,6 @@ public class InstanceHealthActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeDialog(this);
         binding = ActivityInstanceSocialBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());

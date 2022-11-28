@@ -63,7 +63,7 @@ public class CirclesDrawingView extends View {
         // Generate bitmap used for background
         mCirclePaint = new Paint();
 
-        mCirclePaint.setColor(ResourcesCompat.getColor(getContext().getResources(), R.color.cyanea_accent, getContext().getTheme()));
+        mCirclePaint.setColor(ResourcesCompat.getColor(getContext().getResources(), R.color.colorAccent, getContext().getTheme()));
         mCirclePaint.setStrokeWidth(10);
         mCirclePaint.setStyle(Paint.Style.STROKE);
     }

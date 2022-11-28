@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -46,7 +45,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityWebviewBinding;
 import app.fedilab.android.helper.CountDrawable;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.webview.CustomWebview;
 import app.fedilab.android.webview.FedilabWebChromeClient;
 import app.fedilab.android.webview.FedilabWebViewClient;
@@ -67,7 +65,7 @@ public class WebviewActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityWebviewBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -80,7 +78,6 @@ public class WebviewActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         Bundle b = getIntent().getExtras();
         if (b != null) {
@@ -193,7 +190,7 @@ public class WebviewActivity extends BaseActivity {
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(WebviewActivity.this, R.layout.domains_blocked);
             arrayAdapter.addAll(domains);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(WebviewActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builder = new AlertDialog.Builder(WebviewActivity.this);
             builder.setTitle(R.string.list_of_blocked_domains);
 
             builder.setNegativeButton(R.string.close, (dialog, which) -> dialog.dismiss());

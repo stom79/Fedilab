@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -39,7 +38,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Patterns;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,7 +57,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -77,7 +74,6 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.jaredrummler.cyanea.Cyanea;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -196,8 +192,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 context.startActivity(intentCompose);
                             })
                             .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
-                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
-                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
                             .show();
                 }
             }
@@ -259,7 +253,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         });
                     }
                 } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
-                    Cyanea.getInstance().edit().apply().recreate(BaseMainActivity.this);
+
                 } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
                     Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
                     String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
@@ -271,8 +265,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 startActivity(intentContext);
                             })
                             .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
-                            .setActionTextColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference))
-                            .setBackgroundTint(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_primary_dark_reference))
                             .show();
                     //The message was edited, we need to update the timeline
                     if (statusEditId != null) {
@@ -303,7 +295,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-        ThemeHelper.applyTheme(this);
         if (!Helper.isLoggedIn(BaseMainActivity.this)) {
             //It is not, the user is redirected to the login page
             Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
@@ -329,13 +320,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             actionBar.setDisplayShowTitleEnabled(false);
         }
         rateThisApp();
-        SharedPreferences cyneaPref = getSharedPreferences("com.jaredrummler.cyanea", Context.MODE_PRIVATE);
-        binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor), cyneaPref.getInt("theme_accent", -1));
-        binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(BaseMainActivity.this));
+
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         headerMenuOpen = false;
-        binding.bottomNavView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
-        binding.navView.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
+
 
 
         // Passing each menu ID as a set of Ids because each
@@ -537,14 +525,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         });
 
         headerMainBinding.headerOptionInfo.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(new ContextThemeWrapper(BaseMainActivity.this, Helper.popupStyle()), headerMainBinding.headerOptionInfo);
+            PopupMenu popup = new PopupMenu(BaseMainActivity.this, headerMainBinding.headerOptionInfo);
             popup.getMenuInflater()
                     .inflate(R.menu.main, popup.getMenu());
 
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_logout_account) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this);
                     alt_bld.setTitle(R.string.action_logout);
                     if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.username != null && currentAccount.instance != null) {
                         alt_bld.setMessage(getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
@@ -1123,7 +1111,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             view = binding.bottomNavView.findViewById(R.id.nav_public);
             showExtendedFilter = false;
         }
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(BaseMainActivity.this, Helper.popupStyle()), view, Gravity.TOP);
+        PopupMenu popup = new PopupMenu(BaseMainActivity.this, view, Gravity.TOP);
         popup.getMenuInflater()
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
@@ -1190,7 +1178,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 itemShowReplies.setChecked(show_replies);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(BaseMainActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(BaseMainActivity.this), false);
                 dialogBuilder.setView(dialogView);
@@ -1269,8 +1257,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (!singleBar) {
             if (count > 0) {
                 binding.bottomNavView.getOrCreateBadge(R.id.nav_privates).setNumber(count);
-                binding.bottomNavView.getBadge(R.id.nav_privates).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                binding.bottomNavView.getBadge(R.id.nav_privates).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
             } else {
                 binding.bottomNavView.removeBadge(R.id.nav_privates);
             }
@@ -1289,8 +1275,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (!singleBar) {
             if (count > 0) {
                 binding.bottomNavView.getOrCreateBadge(R.id.nav_notifications).setNumber(count);
-                binding.bottomNavView.getBadge(R.id.nav_notifications).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                binding.bottomNavView.getBadge(R.id.nav_notifications).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
             } else {
                 binding.bottomNavView.removeBadge(R.id.nav_notifications);
             }
@@ -1355,8 +1339,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 case HOME:
                     if (count > 0) {
                         binding.bottomNavView.getOrCreateBadge(R.id.nav_home).setNumber(count);
-                        binding.bottomNavView.getBadge(R.id.nav_home).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                        binding.bottomNavView.getBadge(R.id.nav_home).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
                     } else {
                         binding.bottomNavView.removeBadge(R.id.nav_home);
                     }
@@ -1364,8 +1346,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 case LOCAL:
                     if (count > 0) {
                         binding.bottomNavView.getOrCreateBadge(R.id.nav_local).setNumber(count);
-                        binding.bottomNavView.getBadge(R.id.nav_local).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                        binding.bottomNavView.getBadge(R.id.nav_local).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
                     } else {
                         binding.bottomNavView.removeBadge(R.id.nav_local);
                     }
@@ -1373,8 +1353,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 case PUBLIC:
                     if (count > 0) {
                         binding.bottomNavView.getOrCreateBadge(R.id.nav_public).setNumber(count);
-                        binding.bottomNavView.getBadge(R.id.nav_public).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                        binding.bottomNavView.getBadge(R.id.nav_public).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
                     } else {
                         binding.bottomNavView.removeBadge(R.id.nav_public);
                     }
@@ -1382,8 +1360,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 case NOTIFICATION:
                     if (count > 0) {
                         binding.bottomNavView.getOrCreateBadge(R.id.nav_notifications).setNumber(count);
-                        binding.bottomNavView.getBadge(R.id.nav_notifications).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                        binding.bottomNavView.getBadge(R.id.nav_notifications).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
                     } else {
                         binding.bottomNavView.removeBadge(R.id.nav_notifications);
                     }
@@ -1391,8 +1367,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 case DIRECT:
                     if (count > 0) {
                         binding.bottomNavView.getOrCreateBadge(R.id.nav_privates).setNumber(count);
-                        binding.bottomNavView.getBadge(R.id.nav_privates).setBackgroundColor(ContextCompat.getColor(BaseMainActivity.this, R.color.cyanea_accent_reference));
-                        binding.bottomNavView.getBadge(R.id.nav_privates).setBadgeTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor));
                     } else {
                         binding.bottomNavView.removeBadge(R.id.nav_privates);
                     }
@@ -1525,7 +1499,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(BaseMainActivity.this);
             alt_bld.setTitle(R.string.action_logout);
             alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.username, account.instance));
             alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {

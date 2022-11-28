@@ -24,7 +24,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,7 +63,6 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MediaHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.ui.fragment.media.FragmentMedia;
 import es.dmoral.toasty.Toasty;
@@ -114,7 +112,7 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        ThemeHelper.applyThemeBar(this);
+
         super.onCreate(savedInstanceState);
         ActivityCompat.postponeEnterTransition(MediaActivity.this);
         binding = ActivityMediaPagerBinding.inflate(getLayoutInflater());
@@ -132,7 +130,6 @@ public class MediaActivity extends BaseActivity implements OnDownloadInterface {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         if (attachments == null || attachments.size() == 0)

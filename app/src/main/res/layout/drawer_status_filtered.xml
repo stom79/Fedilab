@@ -50,12 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/show_anyway"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintBottom_toTopOf="@+id/container_fetchmore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/filtered_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/container_fetchmore"

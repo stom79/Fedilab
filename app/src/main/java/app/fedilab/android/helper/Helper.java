@@ -107,7 +107,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.jaredrummler.cyanea.Cyanea;
 
 import org.conscrypt.Conscrypt;
 
@@ -473,7 +472,7 @@ public class Helper {
      * @param url     String download url
      */
     public static void manageDownloads(final Context context, final String url) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final DownloadManager.Request request;
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));
@@ -941,13 +940,6 @@ public class Helper {
         return fragment;
     }
 
-    public static int dialogStyle() {
-        return Cyanea.getInstance().isDark() ? R.style.DialogDark : R.style.Dialog;
-    }
-
-    public static int popupStyle() {
-        return Cyanea.getInstance().isDark() ? R.style.PopupDark : R.style.Popup;
-    }
 
     /**
      * Load a media into a view
@@ -1832,7 +1824,7 @@ public class Helper {
                 is.close();
                 String json = new String(buffer, StandardCharsets.UTF_8);
                 Gson gson = new Gson();
-                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity);
                 PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
                 dialogBuilderOptin.setView(binding.getRoot());
                 try {

@@ -46,7 +46,6 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ProgressBar
-        android:indeterminateTint="@color/cyanea_accent_dark_reference"
         android:id="@+id/poll_item_value"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"

@@ -19,8 +19,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
@@ -29,7 +29,7 @@ import app.fedilab.android.helper.ThemeHelper;
 
 
 @SuppressLint("Registered")
-public class BaseActivity extends CyaneaAppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     static {
         Helper.installProvider();

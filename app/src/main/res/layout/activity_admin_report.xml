@@ -31,11 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toStartOf="@id/status"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/status"
@@ -43,11 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/assign"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.Barrier
@@ -220,11 +216,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/reject"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toStartOf="@id/allow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stats_bottom_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/stats_bottom_barrier" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -234,11 +228,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/allow"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/reject"
-            app:layout_constraintTop_toBottomOf="@id/stats_bottom_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/stats_bottom_barrier" />
 
 
         <androidx.constraintlayout.widget.Group
@@ -262,11 +254,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/warn"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toStartOf="@id/disable"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/allow_reject_buttons_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/allow_reject_buttons_barrier" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -276,11 +266,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/disable"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/warn"
-            app:layout_constraintTop_toBottomOf="@id/allow_reject_buttons_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/allow_reject_buttons_barrier" />
 
 
         <androidx.constraintlayout.widget.Barrier
@@ -298,11 +286,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/silence"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toStartOf="@id/suspend"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/warn_disable_buttons_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/warn_disable_buttons_barrier" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -312,11 +298,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/suspend"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/silence"
-            app:layout_constraintTop_toBottomOf="@id/warn_disable_buttons_barrier"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintTop_toBottomOf="@id/warn_disable_buttons_barrier" />
 
 
         <androidx.constraintlayout.widget.Barrier

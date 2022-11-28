@@ -68,7 +68,6 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:indeterminateTint="@color/cyanea_accent_dark_reference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true" />
@@ -86,7 +85,6 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:indeterminateTint="@color/cyanea_accent_dark_reference"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:indeterminate="true" />
@@ -103,7 +101,6 @@
         android:contentDescription="@string/create_domain_block"
         android:src="@drawable/ic_baseline_add_24"
         android:visibility="gone"
-        app:backgroundTint="@color/cyanea_accent_dark_reference"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </RelativeLayout>

@@ -16,7 +16,6 @@ package app.fedilab.android.activities;
 
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -28,7 +27,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -82,14 +80,13 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         canGoBack = false;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         flagLoading = false;
         orderASC = true;
@@ -147,7 +144,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_manage_users) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this);
             PopupManageAccountsListBinding popupManageAccountsListBinding = PopupManageAccountsListBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupManageAccountsListBinding.getRoot());
             popupManageAccountsListBinding.loader.setVisibility(View.VISIBLE);
@@ -244,7 +241,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
             dialogBuilder.create().show();
         } else if (item.getItemId() == R.id.action_delete && mastodonList != null) {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(MastodonListActivity.this);
             alt_bld.setTitle(R.string.action_lists_delete);
             alt_bld.setMessage(R.string.action_lists_confirm_delete);
             alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
@@ -282,7 +279,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             AlertDialog alert = alt_bld.create();
             alert.show();
         } else if (item.getItemId() == R.id.action_add_list) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this);
             PopupAddListBinding popupAddListBinding = PopupAddListBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddListBinding.getRoot());
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
@@ -322,7 +319,7 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
             dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             dialogBuilder.create().show();
         } else if (item.getItemId() == R.id.action_edit) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this);
             PopupAddListBinding popupAddListBinding = PopupAddListBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddListBinding.getRoot());
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});

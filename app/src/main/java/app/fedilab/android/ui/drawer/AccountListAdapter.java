@@ -97,7 +97,6 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     notifyItemChanged(position);
                 });
             } else {
-                holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_reference)));
                 holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_add_alt_1_24);
                 holder.binding.listAction.setOnClickListener(v -> {
                     accountList.add(0, account);

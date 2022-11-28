@@ -18,7 +18,6 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,7 +26,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -46,7 +44,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityHashtagBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.viewmodel.mastodon.ReorderVM;
@@ -68,7 +65,7 @@ public class HashTagActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         ActivityHashtagBinding binding = ActivityHashtagBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
@@ -86,7 +83,6 @@ public class HashTagActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         binding.title.setText(tag);
         if (getSupportActionBar() != null) {
@@ -141,7 +137,6 @@ public class HashTagActivity extends BaseActivity {
         bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
         bundle.putString(Helper.ARG_SEARCH_KEYWORD, tag);
         Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundle, null, null);
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         binding.compose.setOnClickListener(v -> {
             Intent intentToot = new Intent(HashTagActivity.this, ComposeActivity.class);
             StatusDraft statusDraft = new StatusDraft();

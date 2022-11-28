@@ -20,7 +20,6 @@ import static app.fedilab.android.helper.PinnedTimelineHelper.sortPositionAsc;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,7 +33,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
@@ -57,7 +55,6 @@ import app.fedilab.android.databinding.ActivityReorderTabsBinding;
 import app.fedilab.android.databinding.PopupSearchInstanceBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
 import app.fedilab.android.helper.itemtouchhelper.SimpleItemTouchHelperCallback;
 import app.fedilab.android.ui.drawer.ReorderBottomMenuAdapter;
@@ -100,13 +97,12 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityReorderTabsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         searchInstanceRunning = false;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
@@ -174,7 +170,7 @@ public class ReorderTimelinesActivity extends BaseActivity implements OnStartDra
     }
 
     private void addInstance() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this);
         PopupSearchInstanceBinding popupSearchInstanceBinding = PopupSearchInstanceBinding.inflate(getLayoutInflater());
         dialogBuilder.setView(popupSearchInstanceBinding.getRoot());
         TextWatcher textWatcher = autoComplete(popupSearchInstanceBinding);

@@ -95,7 +95,7 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
 
 
         holder.binding.delete.setOnClickListener(v -> {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context);
             unfollowConfirm.setMessage(context.getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {

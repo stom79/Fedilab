@@ -6,7 +6,7 @@
     <!-- Header Profile DARK-->
 
     <color name="dark_text_toot_header">#d9d9d9</color>
-
+    <color name="colorAccent">@color/mastodonC4</color>
     <color name="no_description">#FFEA00</color>
     <color name="having_description">#42A5F5</color>
 
@@ -70,8 +70,6 @@
     <color name="errorColor">#EF5350</color>
 
 
-    <color name="cyanea_primary_reference">#0288D1</color>
-    <color name="cyanea_accent_reference">#2b90d9</color>
 
 
     <color name="dark_icon_theme">#f3f3f3</color>

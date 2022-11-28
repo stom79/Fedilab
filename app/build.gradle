@@ -88,7 +88,6 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.preference:preference:1.2.0'
     implementation "org.conscrypt:conscrypt-android:2.5.2"
-    implementation 'com.github.evozi:Cyanea:1.0.7'
     implementation 'com.vanniktech:emoji-one:0.6.0'
     implementation 'com.github.GrenderG:Toasty:1.5.2'
     implementation 'org.framagit.tom79:SparkButton:1.0.13'

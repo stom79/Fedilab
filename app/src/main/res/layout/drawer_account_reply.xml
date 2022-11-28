@@ -15,7 +15,6 @@
     see <http://www.gnu.org/licenses>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/account_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,8 +24,7 @@
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonTint="@color/cyanea_accent_dark_reference" />
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/account_pp"

@@ -22,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -81,13 +79,12 @@ public class AdminActionActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityAdminActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         canGoBack = false;
         binding.reports.setOnClickListener(v -> displayTimeline(REPORT));
@@ -167,7 +164,7 @@ public class AdminActionActivity extends BaseActivity {
             return true;
         } else if (item.getItemId() == R.id.action_filter) {
             if (getTitle().toString().equalsIgnoreCase(getString(R.string.accounts))) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this);
                 PopupAdminFilterAccountsBinding binding = PopupAdminFilterAccountsBinding.inflate(getLayoutInflater());
                 alertDialogBuilder.setView(binding.getRoot());
                 if (local != null && remote == null) {
@@ -261,7 +258,7 @@ public class AdminActionActivity extends BaseActivity {
                 AlertDialog alert = alertDialogBuilder.create();
                 alert.show();
             } else {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this);
                 PopupAdminFilterReportsBinding binding = PopupAdminFilterReportsBinding.inflate(getLayoutInflater());
                 alertDialogBuilder.setView(binding.getRoot());
                 if (resolved == null) {

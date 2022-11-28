@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/cyanea_accent_dark_reference"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/date_time_previous"

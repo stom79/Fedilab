@@ -20,7 +20,6 @@ import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,7 +29,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
@@ -43,7 +41,6 @@ import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 
@@ -57,7 +54,7 @@ public class ContextActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         app.fedilab.android.databinding.ActivityConversationBinding binding = ActivityConversationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -65,7 +62,6 @@ public class ContextActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         binding.title.setText(R.string.context_conversation);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -76,7 +72,6 @@ public class ContextActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         Bundle b = getIntent().getExtras();
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
         Status focusedStatus = null; // or other values
