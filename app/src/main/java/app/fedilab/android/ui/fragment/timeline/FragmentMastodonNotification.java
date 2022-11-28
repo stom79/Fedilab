@@ -50,7 +50,6 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.NotificationAdapter;
 import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
@@ -190,10 +189,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             notificationType = (NotificationTypeEnum) getArguments().get(Helper.ARG_NOTIFICATION_TYPE);
         }
         aggregateNotification = false;
-        int c1 = ThemeHelper.getAttColor(requireActivity(), R.attr.colorAccent);
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         return root;

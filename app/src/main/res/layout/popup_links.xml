@@ -15,9 +15,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/display_full_link"
-        android:textColor="?colorAccent"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="?colorAccent" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/share_link"
@@ -27,9 +27,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/share_link"
-        android:textColor="?colorAccent"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="?colorAccent" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/open_other_app"

@@ -24,7 +24,7 @@
     android:layout_marginTop="@dimen/card_margin"
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="0dp">
+    app:cardElevation="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main_container"
@@ -35,9 +35,6 @@
         android:clipToPadding="false"
         android:orientation="vertical">
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/status_booster_info"
@@ -247,9 +244,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="@string/display_toot_truncate"
-            android:textAllCaps="false"
-            app:iconTint="?colorAccent"
-            app:strokeColor="?colorAccent" />
+            android:textAllCaps="false" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_trans"
@@ -375,7 +370,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="?linkColor"
                             tools:text="https://domain.test" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>

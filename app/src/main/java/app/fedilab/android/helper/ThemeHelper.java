@@ -88,26 +88,6 @@ public class ThemeHelper {
         return new ColorStateList(states, colors);
     }
 
-    /**
-     * Initialize colors in a static variable
-     * Currently link_color cannot be retrieved with getAttColor in ViewModel due to application and theme
-     *
-     * @param activity Activity
-     */
-    public static void initiliazeColors(Activity activity) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = activity.getTheme();
-        theme.resolveAttribute(R.attr.linkColor, typedValue, true);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        linkColor = -1;
-        if (prefs.getBoolean("use_custom_theme", false)) {
-            linkColor = prefs.getInt("theme_link_color", -1);
-        }
-        if (linkColor == -1) {
-            linkColor = typedValue.data;
-        }
-    }
-
 
 
     /**

@@ -139,7 +139,6 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
@@ -191,7 +190,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 intentCompose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intentCompose);
                             })
-                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
                             .show();
                 }
             }
@@ -264,7 +262,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intentContext);
                             })
-                            .setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, R.attr.mTextColor))
                             .show();
                     //The message was edited, we need to update the timeline
                     if (statusEditId != null) {
@@ -307,7 +304,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
 
         mamageNewIntent(getIntent());
-        ThemeHelper.initiliazeColors(BaseMainActivity.this);
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);

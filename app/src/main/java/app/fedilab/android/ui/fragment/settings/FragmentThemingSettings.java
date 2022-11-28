@@ -209,10 +209,10 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (linksColor != -1) {
             binding.cardUrl.setTextColor(linksColor);
         } else {
-            binding.cardUrl.setTextColor(ThemeHelper.getAttColor(requireActivity(), R.attr.linkColor));
+            binding.cardUrl.setTextColor(ThemeHelper.getAttColor(requireActivity(), R.attr.colorPrimary));
         }
         if (iconsColor == -1) {
-            iconsColor = ThemeHelper.getAttColor(requireActivity(), R.attr.iconColor);
+            iconsColor = ThemeHelper.getAttColor(requireActivity(), R.attr.colorControlNormal);
         }
         Helper.changeDrawableColor(requireActivity(), binding.actionButtonReply, iconsColor);
         Helper.changeDrawableColor(requireActivity(), binding.actionButtonMore, iconsColor);
@@ -221,15 +221,10 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         Helper.changeDrawableColor(requireActivity(), R.drawable.ic_person, iconsColor);
         if (displayNameColor != -1) {
             binding.displayName.setTextColor(displayNameColor);
-        } else {
-            binding.displayName.setTextColor(ThemeHelper.getAttColor(requireActivity(), R.attr.statusTextColor));
         }
         if (userNameColor != -1) {
             binding.username.setTextColor(userNameColor);
             Helper.changeDrawableColor(requireActivity(), binding.statusBoostIcon, userNameColor);
-        } else {
-            binding.username.setTextColor(ThemeHelper.getAttColor(requireActivity(), R.attr.statusTextColor));
-            Helper.changeDrawableColor(requireActivity(), binding.statusBoostIcon, ThemeHelper.getAttColor(requireActivity(), R.attr.statusTextColor));
         }
         Glide.with(binding.getRoot().getContext())
                 .load(R.drawable.fedilab_logo_bubbles)

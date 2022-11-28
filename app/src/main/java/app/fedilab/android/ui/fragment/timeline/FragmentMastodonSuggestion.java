@@ -34,7 +34,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Suggestion;
 import app.fedilab.android.client.entities.api.Suggestions;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.SuggestionAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
@@ -58,10 +57,6 @@ public class FragmentMastodonSuggestion extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int c1 = ThemeHelper.getAttColor(requireActivity(), R.attr.colorAccent);
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         accountsVM = new ViewModelProvider(FragmentMastodonSuggestion.this).get(AccountsVM.class);

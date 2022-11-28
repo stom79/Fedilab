@@ -77,8 +77,7 @@
                 android:layout_height="28dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_emoji_emotions_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_emoji_emotions_24" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_emoji"
@@ -87,8 +86,7 @@
                 android:layout_marginStart="6dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_add_reaction_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_add_reaction_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

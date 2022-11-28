@@ -263,8 +263,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="https://domain.test"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                                        android:textColor="?linkColor" />
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -295,7 +294,6 @@
                             android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="?statusTextColor"
                             tools:text="1 January 2021, 12:00" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -316,8 +314,7 @@
                                 android:id="@+id/reblogs_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
-                                android:textColor="?statusTextColor" />
+                                tools:text="10" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -339,8 +336,7 @@
                                 android:id="@+id/favorites_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
-                                android:textColor="?statusTextColor" />
+                                tools:text="10" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 

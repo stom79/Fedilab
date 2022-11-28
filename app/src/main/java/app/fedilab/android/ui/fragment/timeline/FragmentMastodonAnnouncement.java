@@ -30,7 +30,6 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AnnouncementAdapter;
 import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
 
@@ -47,10 +46,6 @@ public class FragmentMastodonAnnouncement extends Fragment {
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        int c1 = ThemeHelper.getAttColor(requireActivity(), R.attr.colorAccent);
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
         announcementsVM = new ViewModelProvider(FragmentMastodonAnnouncement.this).get(AnnouncementsVM.class);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);

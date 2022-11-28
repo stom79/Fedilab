@@ -69,10 +69,6 @@
                 android:textAlignment="textEnd" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/spoiler"
             android:layout_width="match_parent"

@@ -1,17 +1,16 @@
 <resources>
-    <attr name="linkColor" type="color" />
-    <attr name="errorColor" type="color" />
-    <attr name="iconColor" type="color" />
-    <attr name="statusTextColor" type="color" />
-    <attr name="mTextColor" type="color" />
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/deep_purple_700</item>
+        <item name="colorPrimaryVariant">@color/deep_purple_900</item>
+        <item name="colorOnPrimary">@color/deep_purple_600</item>
 
-        <item name="iconColor">@color/black</item>
-        <item name="statusTextColor">@color/black</item>
-        <item name="mTextColor">@color/black</item>
-        <item name="linkColor">@color/light_link_toot</item>
-        <item name="errorColor">@color/red_1</item>
+        <item name="colorSecondary">@color/indigo_700</item>
+        <item name="colorSecondaryVariant">@color/indigo_900</item>
+        <item name="colorOnSecondary">@color/indigo_600</item>
+
+
+        <item name="colorError">@color/red_900</item>
         <item name="windowNoTitle">true</item>
 
         <!-- specify shared element transitions -->
@@ -24,14 +23,17 @@
     </style>
 
     <style name="AppThemeDark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorAccent">@color/mastodonC4</item>
-        <item name="iconColor">@color/dark_icon_theme</item>
-        <item name="statusTextColor">@color/dark_text</item>
-        <item name="mTextColor">@color/dark_text</item>
-        <item name="android:textColor">@color/dark_text</item>
-        <item name="linkColor">@color/dark_link_toot</item>
+
+        <item name="colorPrimary">@color/deep_purple_700</item>
+        <item name="colorPrimaryVariant">@color/deep_purple_900</item>
+        <item name="colorOnPrimary">@color/deep_purple_600</item>
+
+        <item name="colorSecondary">@color/indigo_700</item>
+        <item name="colorSecondaryVariant">@color/indigo_900</item>
+        <item name="colorOnSecondary">@color/indigo_600</item>
+
+        <item name="colorError">@color/red_900</item>
         <item name="windowNoTitle">true</item>
-        <item name="errorColor">@color/red_1</item>
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@android:transition/explode</item>
         <item name="android:windowExitTransition">@android:transition/explode</item>
@@ -47,20 +49,30 @@
 
     <style name="AppThemeBar" parent="Theme.Material3.Light">
 
-        <item name="iconColor">@color/black</item>
-        <item name="statusTextColor">@color/black</item>
-        <item name="mTextColor">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="linkColor">@color/light_link_toot</item>
+        <item name="colorPrimary">@color/deep_purple_700</item>
+        <item name="colorPrimaryVariant">@color/deep_purple_900</item>
+        <item name="colorOnPrimary">@color/deep_purple_600</item>
+
+        <item name="colorSecondary">@color/indigo_700</item>
+        <item name="colorSecondaryVariant">@color/indigo_900</item>
+        <item name="colorOnSecondary">@color/indigo_600</item>
+
+
+        <item name="colorError">@color/red_900</item>
 
     </style>
 
     <style name="AppThemeBarDark" parent="Theme.Material3.Dark">
-        <item name="iconColor">@color/dark_icon_theme</item>
-        <item name="statusTextColor">@color/dark_text</item>
-        <item name="mTextColor">@color/dark_text</item>
-        <item name="android:textColor">@color/dark_text</item>
-        <item name="linkColor">@color/dark_link_toot</item>
+        <item name="colorPrimary">@color/deep_purple_700</item>
+        <item name="colorPrimaryVariant">@color/deep_purple_900</item>
+        <item name="colorOnPrimary">@color/deep_purple_600</item>
+
+        <item name="colorSecondary">@color/indigo_700</item>
+        <item name="colorSecondaryVariant">@color/indigo_900</item>
+        <item name="colorOnSecondary">@color/indigo_600</item>
+
+
+        <item name="colorError">@color/red_900</item>
 
     </style>
 

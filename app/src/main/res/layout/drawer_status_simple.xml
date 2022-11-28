@@ -75,9 +75,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <app.fedilab.android.helper.CustomTextView
             android:id="@+id/spoiler"

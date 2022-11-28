@@ -37,7 +37,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.TagAdapter;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
@@ -65,10 +64,6 @@ public class FragmentMastodonTag extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int c1 = ThemeHelper.getAttColor(requireActivity(), R.attr.colorAccent);
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         router();
