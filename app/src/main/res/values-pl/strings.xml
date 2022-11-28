@@ -25,11 +25,11 @@
     <string name="toast_account_changed" formatted="false">Teraz pracuje z kontem %1$s</string>
     <string name="add_account">Dodaj konto</string>
     <string name="clipboard">Zawartość wpisu została skopiowana do schowka</string>
-    <string name="clipboard_url">Zawartość wpisu została skopiowana do schowka</string>
+    <string name="clipboard_url">URL wpisu został skopiowany do schowka</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Usuń wszystko</string>
     <string name="schedule">Harmonogram</string>
-    <string name="text_size">Rozmiary tekstu i ikon</string>
+    <string name="text_size">Rozmiary tekstu</string>
     <string name="next">Następne</string>
     <string name="previous">Poprzednie</string>
     <string name="open_with">Otwórz za pomocą</string>
@@ -64,10 +64,10 @@
     <string name="logout_account_confirmation">Czy na pewno chcesz się wylogować z konta @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Brak wpisów do wyświetlenia</string>
-    <string name="favourite_add">Dodać ten wpis do ulubionych?</string>
-    <string name="favourite_remove">Usunąć ten wpis z ulubionych?</string>
-    <string name="reblog_add">Podbić ten wpis?</string>
-    <string name="reblog_remove">Anulować podbicie?</string>
+    <string name="favourite_add">Dodać ten wpis do ulubionych\?</string>
+    <string name="favourite_remove">Usunąć ten wpis z ulubionych\?</string>
+    <string name="reblog_add">Podbić ten wpis\?</string>
+    <string name="reblog_remove">Anulować podbicie\?</string>
     <string name="more_action_1">Wycisz</string>
     <string name="more_action_2">Zablokuj</string>
     <string name="more_action_3">Zgłoś</string>
@@ -151,13 +151,14 @@
     <!-- Accounts -->
     <string name="no_accounts">Brak kont do wyświetlenia</string>
     <string name="no_follow_request">Brak próśb o śledzenie</string>
-    <string name="status_cnt">Wpis \n %1$s</string>
+    <string name="status_cnt">Wpis
+\n %1$s</string>
     <string name="following_cnt">Śledzeni \n %1$s</string>
     <string name="followers_cnt">Śledzący \n %1$s</string>
     <string name="reject">Odrzuć</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Brak zaplanowanych wpisów!</string>
-    <string name="remove_scheduled">Usunąć zaplanowany wpis?</string>
+    <string name="remove_scheduled">Usunąć zaplanowany wpis\?</string>
     <string name="toot_scheduled">Wpis został zaplanowany!</string>
     <string name="toot_scheduled_date">Zaplanowana data musi być większa niż bieżąca godzina!</string>
     <!-- timed mute -->
@@ -209,9 +210,9 @@
     <string name="set_notify">Powiadamiać?</string>
     <string name="set_notif_silent">Ciche powiadomienia</string>
     <string name="set_nsfw_timeout">Limit czasu wyświetlania NSFW (sekundy, 0 oznacza wyłączony)</string>
-    <string name="set_med_desc_timeout">Limit czasu opisu nośnika (sekundy, 0 oznacza wyłączony)</string>
+    <string name="set_med_desc_timeout">Czas wyświetlania opisu mediów (w sekundach, 0 oznacza wyłączenie)</string>
     <string name="settings_title_custom_sharing">Niestandardowe udostępnianie</string>
-    <string name="settings_custom_sharing_url">Twoje URL do niestandardowego udostępniania…</string>
+    <string name="settings_custom_sharing_url">Twoj URL do niestandardowego udostępniania…</string>
     <string name="set_lock_account">Zablokuj konto</string>
     <string name="set_save_changes">Zapisz zmiany</string>
     <string name="set_fit_preview">Pokaż całość</string>
@@ -233,9 +234,9 @@
     <string name="action_follow">Śledź</string>
     <string name="action_unblock">Odblokuj</string>
     <string name="action_mute">Wycisz</string>
-    <string name="action_unmute">Wycisz</string>
+    <string name="action_unmute">Cofnij wyciszenie</string>
     <string name="request_sent">Wysłano prośbę</string>
-    <string name="followed_by">Śledzi Cię</string>
+    <string name="followed_by">Obserwuje Cię</string>
     <string name="set_capitalize">Zaczynaj wpisy z wielkiej litery</string>
     <string name="set_resize_picture">Zmniejszanie zdjęć</string>
     <string name="set_resize_video">Zmień rozmiar wideo</string>
@@ -251,7 +252,7 @@
     <!-- ACTIVITY CACHE -->
     <string name="v_public">Publiczne</string>
     <string name="v_unlisted">Niepubliczne</string>
-    <string name="v_private">Tylko śledzeni</string>
+    <string name="v_private">Tylko obserwowani</string>
     <string name="v_direct">Bezpośrednio</string>
     <!-- PRIVACY -->
     <string name="filter_regex">Filtruj przez wyrażenia regularne</string>
@@ -259,11 +260,11 @@
     <string name="delete">Usuń</string>
     <!-- About lists -->
     <string name="action_lists">Listy</string>
-    <string name="action_lists_confirm_delete">Czy na pewno chcesz usunąć trwale tę listę\?</string>
+    <string name="action_lists_confirm_delete">Czy na pewno chcesz usunąć tę listę na zawsze\?</string>
     <string name="action_lists_add_to">Dodaj do listy</string>
     <string name="action_lists_delete">Usuń listę</string>
     <string name="action_lists_title_placeholder">Nowy tytuł listy</string>
-    <string name="action_lists_add_user">Konto zostały dodane do listy!</string>
+    <string name="action_lists_add_user">Konto zostało dodane do listy!</string>
     <string name="action_lists_empty">Nie masz jeszcze żadnych list!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s przeniósł się do %2$s</string>
@@ -294,9 +295,9 @@
     <string name="context_public">Publiczne osi czasu</string>
     <string name="context_notification">Powiadomienia</string>
     <string name="context_conversation">Rozmowy</string>
-    <string name="filter_keyword_explanations">Zostanie dopasowany, niezależnie od wielkości liter w tekście lub ostrzeżenia o treści toot-a</string>
+    <string name="filter_keyword_explanations">Zostanie dopasowany, niezależnie od wielkości liter w tekście lub ostrzeżenia o treści wpisu</string>
     <string name="context_drop">Pomiń zamiast ukrycia</string>
-    <string name="context_drop_explanations">Odfiltrowane toot-y znikną bezpowrotnie, nawet jeśli filtr zostanie zdjęty</string>
+    <string name="context_drop_explanations">Odfiltrowane wpisy znikną bezpowrotnie, nawet jeśli filtr zostanie zdjęty</string>
     <string name="context_whole_word_explanations">Jeśli słowo lub fraza kluczowa zawiera tylko cyfry i litery, zostanie zastosowana tylko wtedy, gdy będzie pasować do całego słowa</string>
     <string name="context_whole_word">Cały wyraz</string>
     <string name="filter_context">Filtruj konteksty</string>
@@ -328,8 +329,8 @@
     <string name="set_display_card">Wyświetlaj podgląd we wszystkich wpisach</string>
     <string name="account_id_clipbloard">Id konta został skopiowany do schowka!</string>
     <string name="set_change_locale">Zmień język</string>
-    <string name="truncate_long_toots">Przycinaj długie tooty</string>
-    <string name="set_truncate_toot">Przycinaj tooty powyżej \'x\' linii. Zero oznacza wyłączenie.</string>
+    <string name="truncate_long_toots">Przycinaj długie wpisy</string>
+    <string name="set_truncate_toot">Przycinaj wpisy ponad \'x\' linii. Zero oznacza wyłączenie.</string>
     <string name="display_toot_truncate">Wyświetl więcej</string>
     <string name="hide_toot_truncate">Wyświetl mniej</string>
     <string name="tags_already_stored">Tag już istnieje!</string>
@@ -398,11 +399,11 @@
     <string name="poll_finish_at">zakończ o %s</string>
     <string name="vote">Zagłosuj</string>
     <string name="notif_poll">Głosowanie, w którym brałeś(-aś) udział, zostało zakończone</string>
-    <string name="notif_poll_self">Głosowanie, które stworzyłeś(-aś), zostało zakończone</string>
+    <string name="notif_poll_self">Opublikowane przez Ciebie głosowanie zakończyło się</string>
     <string name="settings_category_notif_categories">Kategorie</string>
     <string name="move_timeline">Przesuń oś czasu</string>
     <string name="hide_timeline">Ukryj oś czasu</string>
-    <string name="reorder_timelines">Zmień kolejność osi czasu</string>
+    <string name="reorder_timelines">Zarządzaj osiami czasu</string>
     <string name="reorder_list_deleted">Lista permanentnie usunięta</string>
     <string name="reorder_instance_removed">Śledzona instancja usunięta</string>
     <string name="reorder_tag_removed">Przypięty tag usunięty</string>
@@ -597,7 +598,7 @@
     <string name="report_2_title">Czy są jakieś posty, które potwierdzają to doniesienie\?</string>
     <string name="report_more">Czy jest jeszcze coś, o czym powinniśmy wiedzieć\?</string>
     <string name="report_more_additional">Dodatkowe uwagi</string>
-    <string name="toast_bookmark">Toot został dodany do Twoich zakładek!</string>
+    <string name="toast_bookmark">Wpis został dodany do Twoich zakładek!</string>
     <string name="category_music">Muzyka</string>
     <string name="cannot_be_empty">To pole nie może być puste!</string>
     <string name="replace_youtube">YouTube</string>
@@ -625,8 +626,8 @@
     <string name="stop_recording">Zatrzymaj nagrywanie</string>
     <string name="report_indication_title_status_more">Wybierz najlepsze dopasowanie</string>
     <string name="report_1_block_title">Zablokuj %1$s</string>
-    <string name="toast_unbookmark">Toot został usunięty z Twoich zakładek!</string>
-    <string name="toots_visibility_title">Domyślna widoczność tootów:</string>
+    <string name="toast_unbookmark">Wpis został usunięty z Twoich zakładek!</string>
+    <string name="toots_visibility_title">Domyślna widoczność wpisów:</string>
     <string name="replace_instagram_description">Użyj alternatywnej nakładki na Instagram</string>
     <string name="followers_only">Tylko obserwujący</string>
     <string name="remove_status">Usuń status</string>
@@ -649,8 +650,8 @@
     <string name="approved">Zatwierdzony</string>
     <string name="approve">Zatwierdzić</string>
     <string name="origin_report">Źródło rachunku raportowanego</string>
-    <string name="set_accounts_page">Liczba rachunków na ładunek</string>
-    <string name="set_notifications_page">Liczba powiadomień na ładunek</string>
+    <string name="set_accounts_page">Liczba kont do załadowania</string>
+    <string name="set_notifications_page">Liczba powiadomień do załadowania</string>
     <string name="report_1_block">Nie będziesz widzieć ich postów. Osoby te nie będą mogły widzieć Twoich postów ani Cię śledzić. Będą mogli powiedzieć, że zostali zablokowani.</string>
     <string name="about_mastodon">„Mastodon nie jest pojedynczą stroną internetową, jak Twitter czy Facebook, to sieć tysięcy społeczności obsługiwanych przez różne organizacje i osoby, które zapewniają płynne działanie mediów społecznościowych.”</string>
     <string name="customize_timelines">Dostosowywanie osi czasu</string>
@@ -717,4 +718,22 @@
     <string name="pref_theme_base_summary">Wybierz, czy podstawa motywu ma być ciemna czy jasna</string>
     <string name="pref_custom_theme_new_summary">Umożliwia tworzenie własnych motywów</string>
     <string name="set_display_bookmark_indication">Zawsze wyświetlaj przycisk zakładki</string>
+    <string name="channel_notif_report">Nowe raporty</string>
+    <string name="notif_update_push">Udostępniony przez Ciebie wpis został edytowany</string>
+    <string name="notif_sign_up">Użytkownik zarejestrowany</string>
+    <string name="notif_report">Jeden z użytkowników wysłał zgłoszenie</string>
+    <string name="channel_notif_update">Nowe aktualizacje</string>
+    <string name="channel_notif_signup">Nowe rejestracje</string>
+    <string name="sign_ups">Rejestracje</string>
+    <string name="label_rectangle">Prostokątne</string>
+    <string name="fetch_more_messages">Pobierz więcej wpisów…</string>
+    <string name="msg_save_image">Czy chcesz wyjść bez zapisywania obrazu\?</string>
+    <string name="icon_size">Rozmiary ikon</string>
+    <string name="label_shape">Kształt</string>
+    <string name="label_eraser_mode">Tryb usuwania</string>
+    <string name="tap_here_to_refresh_poll">Naciśnij tutaj, aby odświeżyć głosowanie</string>
+    <string name="data_export_settings">Ustawienia zostały wyeksportowane</string>
+    <string name="data_export_settings_success">Ustawienia zostały pomyślnie wyeksportowane</string>
+    <string name="data_import_settings_success">Ustawienia zostały pomyślnie zaimportowane</string>
+    <string name="label_oval">Owalne</string>
 </resources>
