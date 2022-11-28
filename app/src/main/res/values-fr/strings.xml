@@ -892,4 +892,7 @@
     <string name="mute_tag">Voulez-vous vraiment masquer le tag %1$s \?</string>
     <string name="Suggestions">Suggestions</string>
     <string name="not_interested">Pas intéressé</string>
+    <string name="set_notif_update">Avertir des mises à jour</string>
+    <string name="delete_timeline">Supprimer le fil chronologique</string>
+    <string name="notif_signed_up">Signé</string>
 </resources>
