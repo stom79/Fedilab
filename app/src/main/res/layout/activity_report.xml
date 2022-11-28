@@ -191,9 +191,9 @@
                 android:text="@string/report_1_unfollow"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_unfollow"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -223,9 +223,9 @@
                 android:text="@string/report_1_mute"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_mute"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -255,9 +255,9 @@
                 android:text="@string/report_1_block"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_block"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -416,9 +416,9 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/action_button"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:enabled="false"

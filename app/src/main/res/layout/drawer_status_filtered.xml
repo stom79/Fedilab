@@ -24,7 +24,8 @@
     android:layout_marginTop="@dimen/card_margin"
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="0dp">
+    app:cardElevation="5dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
