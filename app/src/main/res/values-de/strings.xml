@@ -890,4 +890,7 @@
     <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
+    <string name="mute_tag">Bist Du sicher den Tag %1$s stumm zu schalten\?</string>
+    <string name="max_indentation_thread">Max Einzug in Threads</string>
+    <string name="account_undisabled">Konto wieder aktiviert</string>
 </resources>
