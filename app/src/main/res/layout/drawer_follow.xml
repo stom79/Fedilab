@@ -116,7 +116,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="6dp"
                 android:adjustViewBounds="true"
-                android:icon="@drawable/ic_baseline_close_24" />
+                app:icon="@drawable/ic_baseline_close_24" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/accept_button"

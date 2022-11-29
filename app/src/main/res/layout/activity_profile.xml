@@ -110,7 +110,7 @@
                     android:layout_marginEnd="6dp"
                     android:contentDescription="@string/set_notify"
                     android:scaleType="fitCenter"
-                    android:icon="@drawable/ic_baseline_notifications_off_24"
+                    app:icon="@drawable/ic_baseline_notifications_off_24"
                     android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
@@ -125,7 +125,7 @@
                     android:layout_marginTop="6dp"
                     android:contentDescription="@string/edit_profile"
                     android:scaleType="fitCenter"
-                    android:icon="@drawable/ic_baseline_edit_24"
+                    app:icon="@drawable/ic_baseline_edit_24"
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
@@ -353,7 +353,7 @@
                         android:layout_marginTop="6dp"
                         android:contentDescription="@string/display_remote_profile"
                         android:scaleType="fitCenter"
-                        android:icon="@drawable/ic_baseline_manage_search_24" />
+                        app:icon="@drawable/ic_baseline_manage_search_24" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 

@@ -287,15 +287,15 @@
             android:name=".activities.InstanceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about_instance"
-            android:theme="@style/MaterialAlertDialog.Material3" />
+            android:theme="@style/Theme.Material3.Dark.Dialog.Alert" />
         <activity
             android:name=".activities.InstanceProfileActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/MaterialAlertDialog.Material3" />
+            android:theme="@style/Theme.Material3.Dark.Dialog.Alert" />
         <activity
             android:name=".activities.ProxyActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/MaterialAlertDialog.Material3" />
+            android:theme="@style/Theme.Material3.Dark.Dialog.Alert" />
         <activity
             android:name=".activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -310,7 +310,7 @@
         <activity
             android:name=".activities.InstanceHealthActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/MaterialAlertDialog.Material3" />
+            android:theme="@style/Theme.Material3.Dark.Dialog.Alert" />
 
         <activity
             android:name=".activities.ReportActivity"

@@ -109,9 +109,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="@string/close"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

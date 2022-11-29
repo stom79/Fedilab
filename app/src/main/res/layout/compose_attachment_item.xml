@@ -45,7 +45,7 @@
             android:layout_height="36dp"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/editColor"
-            android:icon="@drawable/ic_baseline_mode_edit_24"
+            app:icon="@drawable/ic_baseline_mode_edit_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +56,7 @@
             android:layout_height="36dp"
             android:adjustViewBounds="true"
             android:backgroundTint="@color/errorColor"
-            android:icon="@drawable/ic_compose_attachment_remove"
+            app:icon="@drawable/ic_compose_attachment_remove"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +66,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:adjustViewBounds="true"
-            android:icon="@drawable/ic_compose_attachment_order_up"
+            app:icon="@drawable/ic_compose_attachment_order_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 
@@ -94,7 +94,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:adjustViewBounds="true"
-            android:icon="@drawable/ic_compose_attachment_order_down"
+            app:icon="@drawable/ic_compose_attachment_order_down"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 
