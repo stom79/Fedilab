@@ -1156,6 +1156,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
             holder.binding.buttonAttach.setOnClickListener(v -> {
+
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {
                         holder.binding.buttonAttachAudio.setEnabled(false);
@@ -1171,6 +1172,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
                 holder.binding.attachmentChoicesPanel.setVisibility(View.VISIBLE);
+                holder.binding.buttonAttach.setChecked(false);
             });
 
             //Disable buttons to attach media if max has been reached
@@ -1243,7 +1245,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             holder.binding.buttonCloseAttachmentPanel.setOnClickListener(v -> holder.binding.attachmentChoicesPanel.setVisibility(View.GONE));
-            holder.binding.buttonVisibility.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.VISIBLE));
+            holder.binding.buttonVisibility.setOnClickListener(v -> {
+                holder.binding.visibilityPanel.setVisibility(View.VISIBLE);
+                holder.binding.buttonVisibility.setChecked(false);
+            });
             holder.binding.buttonCloseVisibilityPanel.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibilityDirect.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
@@ -1382,6 +1387,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             holder.binding.buttonLanguage.setOnClickListener(v -> {
+                holder.binding.buttonLanguage.setChecked(false);
                 Set<String> storedLanguages = sharedpreferences.getStringSet(context.getString(R.string.SET_SELECTED_LANGUAGE), null);
                 String[] codesArr = new String[0];
                 String[] languagesArr = new String[0];
