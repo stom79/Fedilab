@@ -30,6 +30,7 @@ import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 
+import app.fedilab.android.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
 
@@ -68,6 +69,8 @@ public class MainApplication extends MultiDexApplication {
         MultiDex.install(MainApplication.this);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
         boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), false);
+        String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
+        ThemeHelper.switchTo(currentTheme);
         if (send_crash_reports) {
             ACRA.init(this, new CoreConfigurationBuilder()
                     //core configuration:

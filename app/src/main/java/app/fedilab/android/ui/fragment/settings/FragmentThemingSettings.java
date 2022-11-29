@@ -60,6 +60,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.databinding.ActivityThemeSettingsBinding;
 import app.fedilab.android.databinding.PopupStatusThemeBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
@@ -72,7 +73,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
     private List<LinkedHashMap<String, String>> listOfThemes;
     private SharedPreferences appPref;
     private SharedPreferences cyneaPref;
-    private boolean shouldRestart;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -80,7 +80,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         appPref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         createPref();
         listOfThemes = ThemeHelper.getContributorsTheme(requireActivity());
-        shouldRestart = false;
     }
 
 
@@ -109,7 +108,12 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (key.equals("use_custom_theme")) {
             createPref();
         }
-        shouldRestart = true;
+        if (key.compareTo(getString(R.string.SET_THEME_BASE)) == 0) {
+            ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
+            if (SET_THEME_BASE != null) {
+                ThemeHelper.switchTo(SET_THEME_BASE.getValue());
+            }
+        }
         Helper.recreateMainActivity(requireActivity());
     }
 
@@ -300,8 +304,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         Preference launch_custom_theme = findPreference("launch_custom_theme");
         if (launch_custom_theme != null) {
             launch_custom_theme.setOnPreferenceClickListener(preference -> {
-
-                shouldRestart = true;
+                startActivity(new Intent(requireActivity(), ActivityThemeSettingsBinding.class));
                 return false;
             });
 
@@ -418,7 +421,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                             ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                     return true;
                 }
-                shouldRestart = true;
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("*/*");
@@ -439,7 +441,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                     createPref();
 
                 });
-                shouldRestart = true;
                 dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
                 AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.setCancelable(false);

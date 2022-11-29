@@ -23,6 +23,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -32,6 +33,7 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
@@ -264,6 +266,25 @@ public class ThemeHelper {
         activity.getBaseContext().getResources().updateConfiguration(configuration, metrics);
     }
 
+    public static void switchTo(String themePref) {
+        if (themes.LIGHT.name().equals(themePref)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (themes.DARK.name().equals(themePref)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+            }
+        }
+    }
+
+    public enum themes {
+        LIGHT,
+        DARK,
+        SYSTEM
+    }
 
     public interface SlideAnimation {
         void onAnimationEnded();
