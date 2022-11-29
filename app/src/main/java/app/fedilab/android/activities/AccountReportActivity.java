@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -35,6 +34,7 @@ import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.client.entities.api.admin.AdminReport;
 import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusReportAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
@@ -67,8 +67,8 @@ public class AccountReportActivity extends BaseActivity {
             report = (AdminReport) b.getSerializable(Helper.ARG_REPORT);
         }
 
-        binding.allow.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.green_1), PorterDuff.Mode.MULTIPLY);
-        binding.reject.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.red_1), PorterDuff.Mode.MULTIPLY);
+        binding.allow.getBackground().setColorFilter(ThemeHelper.getAttColor(this, R.attr.colorPrimary), PorterDuff.Mode.MULTIPLY);
+        binding.reject.getBackground().setColorFilter(ThemeHelper.getAttColor(this, R.attr.colorError), PorterDuff.Mode.MULTIPLY);
 
 
         if (account_id == null && report == null && targeted_account == null) {

@@ -30,7 +30,7 @@
         android:roundIcon="@mipmap/ic_launcher_bubbles_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/AppThemeDark"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
@@ -320,29 +320,29 @@
 
         <activity
             android:name=".activities.ReportActivity"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CustomSharingActivity"
             android:label="@string/settings_title_custom_sharing"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.FilterActivity"
             android:label="@string/filters"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.EditProfileActivity"
             android:label="@string/edit_profile"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CacheActivity"
             android:label="@string/action_cache"
-            android:theme="@style/AppThemeBarDark" />
+            android:theme="@style/AppThemeBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

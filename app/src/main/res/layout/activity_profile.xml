@@ -172,7 +172,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/red_border"
                         android:text="Peertube"
-                        android:textColor="@color/red_1"
+                        android:textColor="?colorError"
                         android:visibility="gone"
                         tools:ignore="HardcodedText" />
 
@@ -191,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/red"
+                        android:textColor="?colorError"
                         android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -341,8 +341,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/disclaimer_full"
-                        android:textColor="@color/dark_text" />
+                        android:text="@string/disclaimer_full" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/open_remote_profile"

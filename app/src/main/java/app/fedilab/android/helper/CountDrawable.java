@@ -25,7 +25,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import app.fedilab.android.R;
 
@@ -43,7 +42,7 @@ public class CountDrawable extends Drawable {
         float mTextSize = context.getResources().getDimension(R.dimen.badge_count_textsize);
 
         mBadgePaint = new Paint();
-        mBadgePaint.setColor(ContextCompat.getColor(context, R.color.red_1));
+        mBadgePaint.setColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
         mBadgePaint.setAntiAlias(true);
         mBadgePaint.setStyle(Paint.Style.FILL);
 

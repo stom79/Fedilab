@@ -138,10 +138,10 @@
             android:minHeight="0dp"
             android:text="@string/more_actions"
             android:textAllCaps="false"
-            android:textColor="@color/red_1"
+            android:textColor="?colorError"
             app:icon="@drawable/ic_baseline_expand_more_24"
-            app:iconTint="@color/red_1"
-            app:rippleColor="@color/red_1" />
+            app:iconTint="?colorError"
+            app:rippleColor="?colorError" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clear_all_notif"
@@ -149,12 +149,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/clear_all_notif"
-            android:textColor="@color/red_1"
+            android:textColor="?colorError"
             android:visibility="gone"
             app:icon="@drawable/ic_baseline_delete_24"
-            app:iconTint="@color/red_1"
-            app:rippleColor="@color/red_1"
-            app:strokeColor="@color/red_1" />
+            app:iconTint="?colorError"
+            app:rippleColor="?colorError"
+            app:strokeColor="?colorError" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

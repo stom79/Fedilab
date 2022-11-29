@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +33,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.ActivityInstanceSocialBinding;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 
 
@@ -89,10 +89,10 @@ public class InstanceHealthActivity extends BaseActivity {
                 binding.name.setText(instanceSocial.name);
                 if (instanceSocial.up) {
                     binding.up.setText(R.string.is_up);
-                    binding.up.setTextColor(ContextCompat.getColor(InstanceHealthActivity.this, R.color.green_1));
+                    binding.up.setTextColor(ThemeHelper.getAttColor(this, R.attr.colorPrimary));
                 } else {
                     binding.up.setText(R.string.is_down);
-                    binding.up.setTextColor(ContextCompat.getColor(InstanceHealthActivity.this, R.color.red_1));
+                    binding.up.setTextColor(ThemeHelper.getAttColor(this, R.attr.colorError));
                 }
                 binding.uptime.setText(getString(R.string.instance_health_uptime, (instanceSocial.uptime * 100)));
                 if (instanceSocial.checked_at != null)

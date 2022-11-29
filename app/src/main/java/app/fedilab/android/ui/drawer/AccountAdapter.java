@@ -30,7 +30,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -48,6 +47,7 @@ import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
@@ -98,11 +98,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (account.relationShip.following) {
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 doAction = ProfileActivity.action.UNFOLLOW;
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_remove_24);
             } else if (account.relationShip.requested) {
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 doAction = ProfileActivity.action.NOTHING;
                 accountViewHolder.binding.followAction.setEnabled(false);
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);

@@ -547,12 +547,12 @@ public class ProfileActivity extends BaseActivity {
             }
             if (relationship.following) {
                 binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_remove_24);
-                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
+                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(this, R.attr.colorError)));
                 doAction = action.UNFOLLOW;
                 binding.accountFollow.setContentDescription(getString(R.string.action_unfollow));
                 binding.accountFollow.setVisibility(View.VISIBLE);
             } else if (relationship.blocking) {
-                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
+                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(this, R.attr.colorError)));
                 binding.accountFollow.setIconResource(R.drawable.ic_baseline_lock_open_24);
                 doAction = action.UNBLOCK;
                 binding.accountFollow.setVisibility(View.VISIBLE);

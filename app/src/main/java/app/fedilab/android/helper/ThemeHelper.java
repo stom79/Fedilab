@@ -63,7 +63,7 @@ public class ThemeHelper {
     public static void initiliazeColors(Activity activity) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = activity.getTheme();
-        theme.resolveAttribute(R.attr.linkColor, typedValue, true);
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         linkColor = -1;
         if (prefs.getBoolean("use_custom_theme", false)) {

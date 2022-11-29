@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="@color/titleb"
         android:textSize="20sp" />
 
     <androidx.appcompat.widget.AppCompatEditText

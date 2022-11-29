@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/dark_text"
                     android:textSize="12sp" />
             </RelativeLayout>
 
@@ -131,9 +130,7 @@
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/media_message_border"
                 android:gravity="center"
-
                 android:text="@string/media_ready"
-                android:textColor="@color/dark_text"
                 android:textSize="14sp"
                 android:visibility="gone" />
         </RelativeLayout>

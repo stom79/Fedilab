@@ -1237,7 +1237,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
                     if (statusToDeal.sensitive) {
-                        Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.red_1);
+                        Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
                     } else {
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                     }
@@ -1402,7 +1402,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     .into(layoutMediaBinding.media);
                         }
                         if (statusToDeal.sensitive) {
-                            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.red_1);
+                            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
                         } else {
                             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                         }

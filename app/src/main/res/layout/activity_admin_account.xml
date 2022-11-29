@@ -147,7 +147,7 @@
                                 android:layout_marginTop="5dp"
                                 android:background="@drawable/red_border"
                                 android:text="Peertube"
-                                android:textColor="@color/red_1"
+                                android:textColor="?colorError"
                                 android:visibility="gone"
                                 tools:ignore="HardcodedText" />
 
