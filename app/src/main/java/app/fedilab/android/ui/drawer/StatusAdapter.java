@@ -1500,17 +1500,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         Status fetchedStatus = results.statuses.get(0);
                                         statusesVM.votePoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.poll.id, choice)
                                                 .observe((LifecycleOwner) context, poll -> {
-                                                    int i = 0;
-                                                    for (Poll.PollItem item : statusToDeal.poll.options) {
-                                                        if (item.span_title != null) {
-                                                            poll.options.get(i).span_title = item.span_title;
-                                                        } else {
-                                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                                    if (poll != null) {
+                                                        int i = 0;
+                                                        for (Poll.PollItem item : statusToDeal.poll.options) {
+                                                            if (item.span_title != null) {
+                                                                poll.options.get(i).span_title = item.span_title;
+                                                            } else {
+                                                                poll.options.get(i).span_title = new SpannableString(item.title);
+                                                            }
+                                                            i++;
                                                         }
-                                                        i++;
+                                                        statusToDeal.poll = poll;
+                                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                                                     }
-                                                    statusToDeal.poll = poll;
-                                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                                                 });
                                     } else {
                                         Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();

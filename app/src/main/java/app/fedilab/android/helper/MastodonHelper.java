@@ -362,9 +362,6 @@ public class MastodonHelper {
         dialogBuilder.setView(binding.getRoot());
         final AlertDialog alertDialogBoost = dialogBuilder.create();
         binding.timePicker.setIs24HourView(true);
-        binding.dateTimeNext.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-        binding.dateTimePrevious.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-        binding.dateTimeSet.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
         //Buttons management
         binding.dateTimeCancel.setOnClickListener(v -> alertDialogBoost.dismiss());
         binding.dateTimeNext.setOnClickListener(v -> {

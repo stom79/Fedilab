@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
-
+    android:layout_marginTop="10dp"
     android:clipToPadding="false"
     app:cardElevation="5dp"
     app:strokeWidth="0dp">
@@ -226,7 +226,6 @@
             android:layout_height="48dp"
             android:layout_marginEnd="6dp"
             app:icon="@drawable/ic_compose_post"
-            app:iconTint="?colorControlNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
 
@@ -236,6 +235,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:elevation="2dp"
+            android:background="?colorSurfaceVariant"
             android:visibility="gone"
             app:constraint_referenced_ids="button_attach_image,button_attach_audio,button_attach_video,button_close_attachment_panel,button_poll,button_attach_manual"
             app:flow_maxElementsWrap="3"
@@ -295,6 +295,7 @@
             android:orientation="vertical"
             android:padding="6dp"
             android:visibility="gone"
+            android:background="?colorSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1">

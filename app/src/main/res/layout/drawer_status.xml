@@ -256,6 +256,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:orientation="vertical"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <View
@@ -276,11 +277,14 @@
 
             <TextView
                 android:id="@+id/translation_label"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:paddingStart="2dp"
+                android:background="?colorOnSurfaceInverse"
                 android:paddingEnd="2dp"
+                android:elevation="2dp"
                 android:text="@string/translation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

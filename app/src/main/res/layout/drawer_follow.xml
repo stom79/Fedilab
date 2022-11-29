@@ -60,6 +60,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
+                android:tint="?colorPrimary"
                 android:src="@drawable/ic_baseline_supervised_user_circle_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -111,20 +112,19 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/reject_button"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="6dp"
                 android:adjustViewBounds="true"
                 app:icon="@drawable/ic_baseline_close_24" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/accept_button"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="6dp"
-                android:src="@drawable/ic_check_white_24dp" />
+                app:icon="@drawable/ic_check_white_24dp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

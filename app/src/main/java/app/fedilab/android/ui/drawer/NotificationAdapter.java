@@ -248,7 +248,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (getItemViewType(position) == TYPE_POLL) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
             }
-
+            holderStatus.bindingNotification.status.mainContainer.setAlpha(1.0f);
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             if (notification.status != null) {
@@ -256,7 +256,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
-            holderStatus.bindingNotification.containerTransparent.setAlpha(.3f);
+
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
@@ -280,21 +280,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         // start the new activity
                         context.startActivity(intent, options.toBundle());
                     });
+                    holderStatus.bindingNotification.status.mainContainer.setAlpha(.8f);
                 }
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayNameTitle(context,
                                 new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
-                holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
-                if (notification.status != null && notification.status.visibility.equalsIgnoreCase("direct")) {
-                    holderStatus.bindingNotification.containerTransparent.setVisibility(View.GONE);
-                } else {
-                    holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
-                    holderStatus.bindingNotification.containerTransparent.setAlpha(.1f);
-                }
+
             } else {
-                holderStatus.bindingNotification.containerTransparent.setVisibility(View.VISIBLE);
+                holderStatus.bindingNotification.status.mainContainer.setAlpha(.7f);
+                holderStatus.bindingNotification.status.mainContainer.setVisibility(View.VISIBLE);
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
                 if (displayMedia && notification.status != null && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {

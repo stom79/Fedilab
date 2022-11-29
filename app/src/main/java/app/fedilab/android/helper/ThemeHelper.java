@@ -33,7 +33,6 @@ import android.view.animation.TranslateAnimation;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
@@ -66,25 +65,6 @@ public class ThemeHelper {
         int color = a.getColor(0, 0);
         a.recycle();
         return color;
-    }
-
-
-    public static ColorStateList getButtonActionColorStateList(Context context) {
-        int[][] states = new int[][]{
-                new int[]{android.R.attr.state_enabled}, // enabled
-                new int[]{-android.R.attr.state_enabled}, // disabled
-                new int[]{-android.R.attr.state_checked}, // unchecked
-                new int[]{android.R.attr.state_pressed}  // pressed
-        };
-        int alphaColor = ColorUtils.setAlphaComponent(ContextCompat.getColor(context, R.color.colorAccent), 0x33);
-        int color = ContextCompat.getColor(context, R.color.colorAccent);
-        int[] colors = new int[]{
-                color,
-                alphaColor,
-                color,
-                color
-        };
-        return new ColorStateList(states, colors);
     }
 
 

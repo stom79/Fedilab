@@ -341,7 +341,6 @@ public class ProfileActivity extends BaseActivity {
         else
             binding.warningContainer.setVisibility(View.GONE);
 
-        binding.openRemoteProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
         if (checkRemotely) {
             binding.openRemoteProfile.setVisibility(View.GONE);
         }
@@ -521,7 +520,6 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         }
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
 
         binding.accountFollow.setEnabled(true);
         //Visibility depending of the relationship
@@ -570,7 +568,6 @@ public class ProfileActivity extends BaseActivity {
                 binding.headerEditProfile.setVisibility(View.VISIBLE);
                 binding.headerEditProfile.bringToFront();
             }
-            binding.headerEditProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
             if (!relationship.following) {
                 binding.accountNotification.setVisibility(View.GONE);
             } else {

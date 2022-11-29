@@ -1844,7 +1844,6 @@ public class Helper {
                     binding.aboutSupport.setVisibility(View.GONE);
                     binding.aboutSupportPaypal.setVisibility(View.GONE);
                 }
-                binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(activity));
                 binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
                 binding.aboutSupport.setOnClickListener(v -> {
                     Intent intentLiberapay = new Intent(Intent.ACTION_VIEW);

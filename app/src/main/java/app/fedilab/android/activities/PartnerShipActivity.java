@@ -37,7 +37,6 @@ import app.fedilab.android.databinding.ActivityPartnershipBinding;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
@@ -62,7 +61,6 @@ public class PartnerShipActivity extends BaseActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://masto.host"));
             startActivity(browserIntent);
         });
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(PartnerShipActivity.this));
         setTitle(R.string.action_partnership);
         binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         CrossActionHelper.fetchRemoteAccount(PartnerShipActivity.this, "@mastohost@mastodon.social", new CrossActionHelper.Callback() {

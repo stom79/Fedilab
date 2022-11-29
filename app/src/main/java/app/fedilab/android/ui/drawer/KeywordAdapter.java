@@ -29,7 +29,6 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.DrawerKeywordBinding;
-import app.fedilab.android.helper.ThemeHelper;
 
 public class KeywordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Filter.KeywordsParams> keywordsParamsList;
@@ -87,7 +86,6 @@ public class KeywordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             holder.binding.mainContainer.setVisibility(View.VISIBLE);
         }
-        holder.binding.deleteKeyword.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
         holder.binding.wholeWord.setOnCheckedChangeListener((compoundButton, checked) -> keywordsParams.whole_word = checked);
         holder.binding.wholeWord.setChecked(keywordsParams.whole_word != null && keywordsParams.whole_word);
         holder.binding.deleteKeyword.setOnClickListener(v -> {
