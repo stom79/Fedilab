@@ -183,7 +183,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/blue_border"
                         android:text="@string/bot"
-                        android:textColor="@color/mastodonC4"
+                        android:textColor="?colorPrimary"
                         android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -274,7 +274,7 @@
                             android:layout_marginEnd="3dp"
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -285,7 +285,7 @@
                             android:layout_marginEnd="3dp"
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -309,7 +309,7 @@
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
                             android:text="@string/request_sent"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

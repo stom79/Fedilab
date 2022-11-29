@@ -246,7 +246,8 @@
                                         android:layout_height="wrap_content"
                                         android:maxLines="1"
                                         android:text="Maecenas sollicitudin, eros quis interdum posuere, quam lorem tempus dui."
-                                        android:textColor="?colorAccent" />
+                                        android:textColor="?colorAccent"
+                                        tools:ignore="HardcodedText" />
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:id="@+id/card_description"

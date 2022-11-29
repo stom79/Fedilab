@@ -37,7 +37,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/blue_border"
                 android:gravity="center"
-                android:textColor="@color/mastodonC4"
+                android:textColor="?colorPrimary"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
