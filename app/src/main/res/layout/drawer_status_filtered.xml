@@ -23,7 +23,7 @@
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
     android:clipChildren="false"
-    app:cardBackgroundColor="?carViewBackground"
+
     android:clipToPadding="false"
     app:cardElevation="5dp"
     app:strokeWidth="0dp">

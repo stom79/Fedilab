@@ -243,6 +243,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
+
+        <activity
+            android:name=".activities.ThemeSettingsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/theming"
+            android:theme="@style/AppThemeBar" />
         <activity
             android:name=".activities.admin.AdminDomainBlockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

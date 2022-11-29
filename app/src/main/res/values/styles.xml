@@ -1,25 +1,19 @@
 <resources>
-    <attr name="linkColor" type="color" />
-    <attr name="carViewBackground" type="color" />
+
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
-
-
-        <item name="carViewBackground">@color/white</item>
-        <item name="linkColor">@color/dark_link_toot</item>
 
 
         <item name="colorPrimary">@color/mastodon_accent_dark</item>
         <item name="colorPrimaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-
         <item name="colorSecondary">@color/mastodon_accent_dark</item>
         <item name="colorSecondaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnSecondary">@color/white</item>
-
         <item name="colorError">@color/red_900</item>
-        <item name="windowNoTitle">true</item>
 
+
+        <item name="windowNoTitle">true</item>
         <!-- specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">
             @transition/change_image_transform
@@ -33,19 +27,16 @@
     <style name="AppThemeDark" parent="Theme.Material3.Dark.NoActionBar">
 
 
-        <item name="carViewBackground">@color/mastodon_dark_background</item>
-        <item name="linkColor">@color/dark_link_toot</item>
-
 
         <item name="colorPrimary">@color/mastodon_accent_dark</item>
         <item name="colorPrimaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-
         <item name="colorSecondary">@color/mastodon_accent_dark</item>
         <item name="colorSecondaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnSecondary">@color/white</item>
-
         <item name="colorError">@color/red_900</item>
+
+
         <item name="windowNoTitle">true</item>
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@android:transition/explode</item>
@@ -62,40 +53,28 @@
 
     <style name="AppThemeBar" parent="Theme.Material3.Light">
 
-        <item name="carViewBackground">@color/white</item>
-        <item name="linkColor">@color/dark_link_toot</item>
-
-
         <item name="colorPrimary">@color/mastodon_accent_dark</item>
         <item name="colorPrimaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-
         <item name="colorSecondary">@color/mastodon_accent_dark</item>
         <item name="colorSecondaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnSecondary">@color/white</item>
-
         <item name="colorError">@color/red_900</item>
 
     </style>
 
     <style name="AppThemeBarDark" parent="Theme.Material3.Dark">
 
-        <item name="carViewBackground">@color/mastodon_dark_background</item>
-        <item name="linkColor">@color/dark_link_toot</item>
 
         <item name="colorPrimary">@color/mastodon_accent_dark</item>
         <item name="colorPrimaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnPrimary">@color/white</item>
-
         <item name="colorSecondary">@color/mastodon_accent_dark</item>
         <item name="colorSecondaryVariant">@color/mastodon_accent_dark</item>
         <item name="colorOnSecondary">@color/white</item>
-
-
         <item name="colorError">@color/red_900</item>
 
     </style>
-
 
     <style name="TransparentDark" parent="Theme.Material3.Dark">
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -103,8 +82,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/black</item>
     </style>
-
 
 </resources>

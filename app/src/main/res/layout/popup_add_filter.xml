@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/filter_context_explanations"
-            android:textColor="?colorAccent"
+            android:textColor="?colorPrimary"
             android:textSize="12sp" />
 
 
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/filter_action_explanations"
-            android:textColor="?colorAccent"
+            android:textColor="?colorPrimary"
             android:textSize="12sp" />
 
         <RadioGroup

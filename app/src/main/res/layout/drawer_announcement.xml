@@ -20,7 +20,7 @@
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="?carViewBackground"
+
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
     android:clipChildren="false"

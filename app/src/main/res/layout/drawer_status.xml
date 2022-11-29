@@ -20,7 +20,7 @@
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="?carViewBackground"
+
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
     android:clipToPadding="false"
@@ -197,7 +197,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
-                android:tint="?colorAccent"
+                android:tint="?colorPrimary"
                 android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -440,7 +440,7 @@
             android:alpha="0.8"
             android:gravity="center_vertical"
             android:padding="6dp"
-            android:textColor="?colorAccent"
+            android:textColor="?colorPrimary"
             android:visibility="gone"
             tools:text="1 January 2021, 12:00"
             tools:visibility="visible" />
@@ -455,7 +455,7 @@
             android:alpha="0.8"
             android:gravity="center_vertical"
             android:padding="6dp"
-            android:textColor="?colorAccent"
+            android:textColor="?colorPrimary"
             android:visibility="gone"
             tools:text="Fedilab"
             tools:visibility="visible" />

@@ -18,20 +18,20 @@ package app.fedilab.android.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import app.fedilab.android.databinding.ActivityAboutBinding;
+import app.fedilab.android.databinding.ActivityThemeSettingsBinding;
 
 
 public class ThemeSettingsActivity extends BaseActivity {
 
 
-    private ActivityAboutBinding binding;
+    private ActivityThemeSettingsBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        binding = ActivityThemeSettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
