@@ -81,4 +81,6 @@
     </style>
 
 
+    <style name="AlertDialog" parent="Theme.Material3.Light.Dialog.Alert" />
+
 </resources>

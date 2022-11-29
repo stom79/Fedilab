@@ -147,22 +147,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new WeakReference<>(holderFollow.binding.displayName)),
                     TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            int theme_icons_color = -1;
-            int theme_text_color = -1;
-            if (sharedpreferences.getBoolean("use_custom_theme", false)) {
-                //Getting custom colors
-                theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
-                theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
-            }
-            if (theme_icons_color != -1) {
-                Helper.changeDrawableColor(context, holderFollow.binding.cacheIndicator, theme_icons_color);
-            }
-            if (theme_text_color != -1) {
-                holderFollow.binding.displayName.setTextColor(theme_text_color);
-                holderFollow.binding.username.setTextColor(theme_text_color);
-                holderFollow.binding.title.setTextColor(theme_text_color);
-            }
+
             holderFollow.binding.rejectButton.setVisibility(View.GONE);
             holderFollow.binding.acceptButton.setVisibility(View.GONE);
             if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {

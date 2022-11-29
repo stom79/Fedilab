@@ -55,11 +55,7 @@
 
         <action
             android:id="@+id/categories_to_theming"
-            app:destination="@id/FragmentThemingSettings"
-            app:enterAnim="@anim/enter"
-            app:exitAnim="@anim/exit"
-            app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit" />
+            app:destination="@id/ThemeSettingsActivity" />
 
         <action
             android:id="@+id/categories_to_language"
@@ -95,10 +91,6 @@
         android:name="app.fedilab.android.ui.fragment.settings.FragmentPrivacySettings"
         android:label="@string/action_privacy" />
 
-    <fragment
-        android:id="@+id/FragmentThemingSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentThemingSettings"
-        android:label="@string/theming" />
 
     <fragment
         android:id="@+id/FragmentLanguageSettings"
@@ -108,5 +100,9 @@
     <activity
         android:id="@+id/EditProfileActivity"
         android:name="app.fedilab.android.activities.EditProfileActivity" />
+
+    <activity
+        android:id="@+id/ThemeSettingsActivity"
+        android:name="app.fedilab.android.activities.ThemeSettingsActivity" />
 
 </navigation>

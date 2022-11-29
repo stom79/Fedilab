@@ -46,9 +46,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -498,54 +496,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
-        // boolean display_video_preview = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_VIDEO_PREVIEWS), true);
-        //    boolean isModerator = sharedpreferences.getBoolean(Helper.PREF_IS_MODERATOR, false);
-        //   boolean isAdmin = sharedpreferences.getBoolean(Helper.PREF_IS_ADMINISTRATOR, false);
-        int theme_icons_color = -1;
-        int theme_statuses_color = -1;
-        int theme_boost_header_color = -1;
-        int theme_text_color = -1;
-        int theme_text_header_1_line = -1;
-        int theme_text_header_2_line = -1;
-        int link_color = -1;
-       /* if (sharedpreferences.getBoolean("use_custom_theme", false)) {
-            //Getting custom colors
-            theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
-            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
-            theme_boost_header_color = sharedpreferences.getInt("theme_boost_header_color", -1);
-            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
-            theme_text_header_1_line = sharedpreferences.getInt("theme_text_header_1_line", -1);
-            theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
-            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
-            link_color = sharedpreferences.getInt("theme_link_color", -1);
 
-        }*/
         if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
             holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
             holder.binding.statusEmoji.setVisibility(View.VISIBLE);
-        }
-
-        if (theme_icons_color != -1) {
-            Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.cacheIndicator, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_star_24, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_repeat, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_reply_16, theme_icons_color);
-            holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
-            holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
-            holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
-            holder.binding.replyCount.setTextColor(theme_icons_color);
-        } else {
-            holder.binding.actionButtonFavorite.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
-            holder.binding.actionButtonBookmark.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
-            holder.binding.actionButtonBoost.setInActiveImageTintColor(ThemeHelper.getAttColor(context, R.attr.colorControlNormal));
         }
 
         holder.binding.actionButtonFavorite.pressOnTouch(false);
@@ -572,56 +526,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
         } else {
             holder.binding.statusPinned.setVisibility(View.GONE);
-        }
-
-        if (theme_text_header_2_line != -1) {
-            Pattern hashAcct;
-            SpannableString wordToSpan;
-            if (status.reblog != null) {
-                wordToSpan = new SpannableString("@" + status.reblog.account.acct);
-                hashAcct = Pattern.compile("(@" + status.reblog.account.acct + ")");
-            } else {
-                wordToSpan = new SpannableString("@" + status.account.acct);
-                hashAcct = Pattern.compile("(@" + status.account.acct + ")");
-            }
-            Matcher matcherAcct = hashAcct.matcher(wordToSpan);
-            while (matcherAcct.find()) {
-                int matchStart = matcherAcct.start(1);
-                int matchEnd = matcherAcct.end();
-                if (wordToSpan.length() >= matchEnd && matchStart < matchEnd && matchStart >= 0) {
-                    wordToSpan.setSpan(new ForegroundColorSpan(theme_text_header_2_line), matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                }
-            }
-            Helper.changeDrawableColor(context, holder.binding.statusBoostIcon, theme_text_header_2_line);
-            Helper.changeDrawableColor(context, holder.binding.statusPinned, theme_text_header_2_line);
-        }
-        if (theme_statuses_color != -1) {
-            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
-        }
-        if (theme_boost_header_color != -1 && status.reblog != null) {
-            holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
-
-        } else {
-            holder.binding.statusBoosterInfo.setBackgroundColor(0);
-        }
-        if (theme_text_color != -1) {
-            holder.binding.statusContent.setTextColor(theme_text_color);
-            holder.binding.statusContentTranslated.setTextColor(theme_text_color);
-            holder.binding.spoiler.setTextColor(theme_text_color);
-            holder.binding.dateShort.setTextColor(theme_text_color);
-            holder.binding.poll.pollInfo.setTextColor(theme_text_color);
-            holder.binding.cardDescription.setTextColor(theme_text_color);
-            holder.binding.time.setTextColor(theme_text_color);
-            holder.binding.reblogsCount.setTextColor(theme_text_color);
-            holder.binding.favoritesCount.setTextColor(theme_text_color);
-            holder.binding.favoritesCount.setTextColor(theme_text_color);
-            Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
-            Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
-        }
-        if (link_color != -1) {
-            holder.binding.cardUrl.setTextColor(link_color);
         }
 
         holder.binding.toggleTruncate.setVisibility(View.GONE);
@@ -952,13 +856,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 statusToDeal.account.getSpanDisplayName(context,
                         new WeakReference<>(holder.binding.displayName)),
                 TextView.BufferType.SPANNABLE);
-        if (theme_text_header_1_line != -1) {
-            holder.binding.displayName.setTextColor(theme_text_header_1_line);
-        }
         holder.binding.username.setText(String.format("@%s", statusToDeal.account.acct));
-        if (theme_text_header_2_line != -1) {
-            holder.binding.username.setTextColor(theme_text_header_2_line);
-        }
         //final float scale = context.getResources().getDisplayMetrics().density;
         final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         final float scaleIcon = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE_ICON), 1.1f);
@@ -1130,13 +1028,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     TextView.BufferType.SPANNABLE);
 
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
-            if (theme_text_header_1_line != -1) {
-                holder.binding.statusBoosterDisplayName.setTextColor(theme_text_header_1_line);
-            }
             holder.binding.statusBoosterUsername.setText(String.format("@%s", status.account.acct));
-            if (theme_text_header_2_line != -1) {
-                holder.binding.statusBoosterUsername.setTextColor(theme_text_header_2_line);
-            }
         } else {
             holder.binding.statusBoosterInfo.setVisibility(View.GONE);
         }
@@ -1513,10 +1405,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
                     double value = ((double) (pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
-                    if (theme_text_color != -1) {
-                        pollItemBinding.pollItemPercent.setTextColor(theme_text_color);
-                        pollItemBinding.pollItemText.setTextColor(theme_text_color);
-                    }
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
                                     new WeakReference<>(pollItemBinding.pollItemText)),

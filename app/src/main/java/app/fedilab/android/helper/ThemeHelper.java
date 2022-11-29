@@ -50,7 +50,6 @@ import app.fedilab.android.R;
 
 public class ThemeHelper {
 
-    public static int linkColor;
 
     @ColorInt
     public static int getAttColor(Context context, @AttrRes int attColor) {
@@ -60,19 +59,6 @@ public class ThemeHelper {
         return typedValue.data;
     }
 
-    public static void initiliazeColors(Activity activity) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = activity.getTheme();
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        linkColor = -1;
-        if (prefs.getBoolean("use_custom_theme", false)) {
-            linkColor = prefs.getInt("theme_link_color", -1);
-        }
-        if (linkColor == -1) {
-            linkColor = typedValue.data;
-        }
-    }
 
     public static int fetchAccentColor(Context context) {
         TypedValue typedValue = new TypedValue();

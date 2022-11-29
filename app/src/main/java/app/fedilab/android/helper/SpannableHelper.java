@@ -16,7 +16,6 @@ package app.fedilab.android.helper;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
-import static app.fedilab.android.helper.ThemeHelper.linkColor;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.ClipData;
@@ -446,12 +445,6 @@ public class SpannableHelper {
 
                     }
 
-                    @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
-                    }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
@@ -674,7 +667,6 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
                         }
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
@@ -708,7 +700,6 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -745,7 +736,6 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -893,7 +883,6 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
                         }
 
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

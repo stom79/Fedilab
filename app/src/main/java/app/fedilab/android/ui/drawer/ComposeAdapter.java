@@ -1099,17 +1099,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
-        int theme_statuses_color = -1;
-        int theme_text_color = -1;
-        int theme_text_header_1_line = -1;
-        int theme_text_header_2_line = -1;
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
-            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
-            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
-            theme_text_header_1_line = sharedpreferences.getInt("theme_text_header_1_line", -1);
-            theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
-        }
 
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
@@ -1138,20 +1129,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setText(null);
             }
 
-            if (theme_statuses_color != -1) {
-                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            }
-            if (theme_text_header_2_line != -1) {
-                holder.binding.username.setTextColor(theme_text_header_2_line);
-            }
-            if (theme_text_header_1_line != -1) {
-                holder.binding.displayName.setTextColor(theme_text_header_1_line);
-            }
-            if (theme_text_color != -1) {
-                holder.binding.statusContent.setTextColor(theme_text_color);
-                holder.binding.spoiler.setTextColor(theme_text_color);
-            }
-
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
 
@@ -1178,9 +1155,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
-            if (theme_statuses_color != -1) {
-                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            }
             holder.binding.buttonAttach.setOnClickListener(v -> {
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {
