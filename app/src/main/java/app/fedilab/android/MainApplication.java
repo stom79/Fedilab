@@ -23,6 +23,8 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.color.DynamicColors;
+
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.config.CoreConfigurationBuilder;
@@ -43,12 +45,30 @@ public class MainApplication extends MultiDexApplication {
         return app;
     }
 
+    private static final int[] HARMONIZED_MATERIAL_ATTRIBUTES =
+            new int[]{
+                    R.attr.colorOnPrimary,
+                    R.attr.colorPrimaryContainer,
+                    R.attr.colorError,
+                    R.attr.colorOnError,
+                    R.attr.colorErrorContainer,
+                    R.attr.colorOnErrorContainer
+            };
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
 
+        DynamicColors.applyToActivitiesIfAvailable(this);
+
+      /*  HarmonizedColorsOptions options =
+                new HarmonizedColorsOptions.Builder()
+                        .setColorAttributes(HarmonizedColorAttributes.create(HARMONIZED_MATERIAL_ATTRIBUTES))
+                        .setColorAttributeToHarmonizeWith(R.attr.colorAccent)
+                        .build();
+        HarmonizedColors.applyToContextIfAvailable(this, options);*/
 
         boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
         boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
