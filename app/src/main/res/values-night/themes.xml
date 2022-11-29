@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
@@ -28,6 +28,12 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
 
+
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:isLightTheme" tools:targetApi="q">false</item>
 
         <item name="windowNoTitle">true</item>
         <!-- specify enter and exit transitions -->
@@ -71,7 +77,11 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
 
-
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:isLightTheme" tools:targetApi="q">false</item>
     </style>
 
 
@@ -81,6 +91,11 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">?attr/background</item>
+        <item name="android:navigationBarColor">?attr/background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:isLightTheme" tools:targetApi="q">false</item>
     </style>
 
     <style name="AlertDialog" parent="Theme.Material3.Dark.Dialog.Alert" />

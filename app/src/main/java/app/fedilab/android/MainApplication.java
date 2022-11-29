@@ -63,12 +63,6 @@ public class MainApplication extends MultiDexApplication {
 
         DynamicColors.applyToActivitiesIfAvailable(this);
 
-      /*  HarmonizedColorsOptions options =
-                new HarmonizedColorsOptions.Builder()
-                        .setColorAttributes(HarmonizedColorAttributes.create(HARMONIZED_MATERIAL_ATTRIBUTES))
-                        .setColorAttributeToHarmonizeWith(R.attr.colorAccent)
-                        .build();
-        HarmonizedColors.applyToContextIfAvailable(this, options);*/
 
         boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
         boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
