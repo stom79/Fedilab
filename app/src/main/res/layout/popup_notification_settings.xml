@@ -56,7 +56,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_mentions"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_mentions"
@@ -64,7 +64,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_favourites"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_favourites"
@@ -72,7 +72,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_reblogs"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_reblogs"
@@ -80,7 +80,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_poll_results"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_poll_results"
@@ -88,7 +88,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_updates_from_people"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_updates_from_people"
@@ -96,7 +96,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_follows"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_follows"
@@ -104,7 +104,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_updates"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notif_display_updates"
@@ -112,7 +112,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_signups"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_ups"
@@ -120,7 +120,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_reports"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/reports"
