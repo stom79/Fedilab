@@ -61,7 +61,7 @@
     <string name="disclaimer_full">Die folgenden Informationen könnten das Profil des Nutzers unvollständig wiedergeben.</string>
     <string name="insert_emoji">Emoji einfügen</string>
     <string name="no_emoji">Die App verfügt derzeit nicht über benutzerdefinierte Emojis.</string>
-    <string name="logout_account_confirmation">Sind Sie sicher, dass Sie @%1$s@%2$s abmelden möchten?</string>
+    <string name="logout_account_confirmation">Sind Du sicher, dass Sie @%1$s@%2$s abmelden möchten\?</string>
     <!-- Status -->
     <string name="no_status">Keine Nachrichten zum Anzeigen</string>
     <string name="favourite_add">Diese Nachricht deinen Favoriten hinzufügen\?</string>
@@ -508,14 +508,14 @@
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Benutze ein alternatives Frontend für Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
-    <string name="set_push_notifications">Verwenden Sie ein Push-Benachrichtigungssystem, um Benachrichtigungen in Echtzeit zu erhalten.</string>
+    <string name="set_push_notifications">Verwenden Du ein Push-Benachrichtigungssystem, um Benachrichtigungen in Echtzeit zu erhalten.</string>
     <string name="action_add_notes">Notizen hinzufügen</string>
     <string name="note_for_account">Notizen für das Konto</string>
     <string name="set_resize_picture_indication">Erlauben es, große Fotos in kleinere Bilder mit sehr weniger oder vernachlässigbaren Verlust der Qualität des Bildes zu komprimieren.</string>
     <string name="set_resize_video_indication">Erlaube das Komprimieren von Videos während die Qualität erhalten bleibt.</string>
     <string name="order_by">Sortieren nach</string>
     <string name="link_color_title">Links</string>
-    <string name="link_color">Ändern Sie die Farbe der Links (URLs, Erwähnungen, Tags, etc.) in Nachrichten</string>
+    <string name="link_color">Ändern Du die Farbe der Links (URLs, Erwähnungen, Tags, etc.) in Nachrichten</string>
     <string name="boost_header_color_title">Reblogs Titel</string>
     <string name="displayname_title">Ändern der Farbe des Anzeigenamens oben in den Nachrichten</string>
     <string name="username_title">Ändern der Farbe des Benutzernamens am Anfang von Nachrichten</string>
@@ -523,7 +523,7 @@
     <string name="background_status_title">Beiträge</string>
     <string name="background_status">Hintergrundfarbe der posts in den timelines</string>
     <string name="reset_color">Farben zurücksetzen</string>
-    <string name="clik_reset">Tippen Sie hier, um alle Ihre benutzerdefinierten Farben zurückzusetzen</string>
+    <string name="clik_reset">Tippen Du hier, um alle Ihre benutzerdefinierten Farben zurückzusetzen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="icons_color_title">Symbole</string>
     <string name="icons_color">Farbe der unteren Symbole in Zeitleisten</string>
@@ -532,8 +532,8 @@
     <string name="make_an_action">Aktion ausführen</string>
     <string name="translation">Übersetzung</string>
     <string name="text_color_title">Textfarbe</string>
-    <string name="text_color">Ändern Sie die Textfarbe in posts</string>
-    <string name="pref_custom_theme">Verwenden Sie ein benutzerdefiniertes Design</string>
+    <string name="text_color">Ändern Du die Textfarbe in posts</string>
+    <string name="pref_custom_theme">Verwenden Du ein benutzerdefiniertes Design</string>
     <string name="theming">Farbschema</string>
     <string name="data_export_theme">Das Theme wurde exportiert</string>
     <string name="data_export_theme_success">Das Design wurde erfolgreich als CSV exportiert</string>
@@ -571,7 +571,10 @@
     <string name="set_watermark">Wasserzeichen</string>
     <string name="set_watermark_indication">Automatisches Hinzufügen eines Wasserzeichens am unteren Rand von Bildern. Der Text kann für jedes Konto angepasst werden.</string>
     <string name="no_distributors_found">Keine Dienste gefunden!</string>
-    <string name="no_distributors_explanation">Sie benötigen einen Dienst, um Push-Benachrichtigungen zu erhalten.\nWeitere Details finden Sie unter %1$s.\n\nSie können Push-Benachrichtigungen auch in den Einstellungen deaktivieren, um diese Nachricht zu ignorieren.</string>
+    <string name="no_distributors_explanation">Du benötigen einen Dienst, um Push-Benachrichtigungen zu erhalten.
+\nWeitere Details finden Sie unter %1$s.
+\n
+\nDu können Push-Benachrichtigungen auch in den Einstellungen deaktivieren, um diese Nachricht zu ignorieren.</string>
     <string name="select_distributors">Dienstanbieter auswählen</string>
     <string name="keepon">Fortfahren</string>
     <string name="instance_not_valid">Diese Instanz scheint nicht gültig zu sein!</string>
@@ -684,8 +687,8 @@
     <string name="report_indication_title_status_more">Wähle die beste Übereinstimmung</string>
     <string name="report_1_unfollow_title">Entfolge %1$s</string>
     <string name="report_1_unfollow">Du folgst diesem Konto. Um die Beiträge nicht mehr in deiner Home-Timeline zu sehen, entfolge ihm.</string>
-    <string name="report_1_mute">Du wirst die Beiträge nicht mehr sehen. Sie können dir immer noch folgen und deine Beiträge sehen und wissen nicht, dass sie stummgeschaltet sind.</string>
-    <string name="report_1_block">Du wirst die Beiträge nicht mehr sehen. Sie können deine Beiträge nicht sehen und dir nicht mehr folgen. Sie werden erkennen können, dass sie blockiert sind.</string>
+    <string name="report_1_mute">Du wirst die Beiträge nicht mehr sehen. Du können dir immer noch folgen und deine Beiträge sehen und wissen nicht, dass sie stummgeschaltet sind.</string>
+    <string name="report_1_block">Du wirst die Beiträge nicht mehr sehen. Du können deine Beiträge nicht sehen und dir nicht mehr folgen. Sie werden erkennen können, dass sie blockiert sind.</string>
     <string name="notif_display_reblogs">Boosten</string>
     <string name="notif_display_updates_from_people">Aktualisierungen Anderer</string>
     <string name="notif_display_follows">Folgende</string>
@@ -715,7 +718,7 @@
     <string name="messages_in_cache_for_home">Nachrichten im Cache für Startseite</string>
     <string name="messages_in_cache_for_other_timelines">Nachrichten im Cache für andere Timelines</string>
     <string name="clear_cache">Cache leeren</string>
-    <string name="delete_cache_message">Sind Sie sich sicher, den Cache zu leeren\? Wenn Sie Entwürfe mit Bildern, etc haben, werden die angehängten Dateien gelöscht.</string>
+    <string name="delete_cache_message">Sind Du sich sicher, den Cache zu leeren\? Wenn Du Entwürfe mit Bildern, etc haben, werden die angehängten Dateien gelöscht.</string>
     <string name="msg_save_image">Verlassen, ohne das Bild zu speichern\?</string>
     <string name="label_shape">Form</string>
     <string name="domain">Domäne</string>
