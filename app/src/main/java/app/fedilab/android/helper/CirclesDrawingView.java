@@ -9,8 +9,6 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import java.util.HashSet;
 import java.util.Random;
 
@@ -63,7 +61,7 @@ public class CirclesDrawingView extends View {
         // Generate bitmap used for background
         mCirclePaint = new Paint();
 
-        mCirclePaint.setColor(ResourcesCompat.getColor(getContext().getResources(), R.color.colorAccent, getContext().getTheme()));
+        mCirclePaint.setColor(ThemeHelper.getAttColor(ct, R.attr.colorPrimary));
         mCirclePaint.setStrokeWidth(10);
         mCirclePaint.setStyle(Paint.Style.STROKE);
     }

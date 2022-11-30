@@ -116,7 +116,6 @@ dependencies {
     implementation "ch.acra:acra-mail:5.9.6"
     implementation "ch.acra:acra-limiter:5.9.3"
     implementation "ch.acra:acra-dialog:5.9.6"
-    implementation 'com.github.Dhaval2404:ColorPicker:2.3'
     implementation "com.madgag.spongycastle:bctls-jdk15on:1.58.0.0"
     implementation 'com.github.UnifiedPush:android-connector:2.0.1'
    // implementation 'com.github.UnifiedPush:android-foss_embedded_fcm_distributor:1.0.0-beta1'

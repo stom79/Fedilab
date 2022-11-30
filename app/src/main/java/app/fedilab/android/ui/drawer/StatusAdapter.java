@@ -1417,7 +1417,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (ownvotes != null && ownvotes.contains(j)) {
                         Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_24);
                         assert img != null;
-                        img.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                        img.setColorFilter(ThemeHelper.getAttColor(context, R.attr.colorPrimary), PorterDuff.Mode.SRC_IN);
                         img.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
                         pollItemBinding.pollItemText.setCompoundDrawables(null, null, img, null);
                     }

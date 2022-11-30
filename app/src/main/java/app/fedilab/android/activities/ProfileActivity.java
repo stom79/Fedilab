@@ -309,7 +309,7 @@ public class ProfileActivity extends BaseActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.colorAccent)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.warningMessage.setText(content);
         binding.warningMessage.setOnClickListener(view -> {

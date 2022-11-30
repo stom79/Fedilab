@@ -966,7 +966,7 @@ public class SpannableHelper {
             int end = spannable.getSpanEnd(quoteSpan);
             int flags = spannable.getSpanFlags(quoteSpan);
             spannable.removeSpan(quoteSpan);
-            int colord = ContextCompat.getColor(context, R.color.colorAccent);
+            int colord = ThemeHelper.getAttColor(context, R.attr.colorPrimary);
             spannable.setSpan(new CustomQuoteSpan(
                             ContextCompat.getColor(context, R.color.transparent),
                             colord,

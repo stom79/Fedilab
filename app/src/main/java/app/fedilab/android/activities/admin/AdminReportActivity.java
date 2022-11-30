@@ -65,6 +65,7 @@ import app.fedilab.android.databinding.ActivityAdminAccountBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.SpannableHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
@@ -310,7 +311,7 @@ public class AdminReportActivity extends BaseBarActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AdminReportActivity.this, R.color.colorAccent)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         //This account was moved to another one
