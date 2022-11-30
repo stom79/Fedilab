@@ -54,7 +54,8 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:id="@+id/account_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -83,8 +84,10 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:id="@+id/account_acc"
+                tools:text="@tools:sample/full_names"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
