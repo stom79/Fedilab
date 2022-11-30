@@ -30,13 +30,15 @@
              android:layout_width="48dp"
              android:layout_height="48dp"
              android:adjustViewBounds="true"
-             android:padding="6dp"
+             android:padding="0dp"
+             app:icon="@drawable/ic_compose_attachment_play"
+             app:iconGravity="textStart"
              android:scaleType="fitCenter"
-             android:src="@drawable/ic_compose_attachment_play"
+             app:iconPadding="0dp"
              app:layout_constraintBottom_toBottomOf="@id/preview"
              app:layout_constraintEnd_toEndOf="@id/preview"
-            app:layout_constraintStart_toStartOf="@id/preview"
-            app:layout_constraintTop_toTopOf="@id/preview" />
+             app:layout_constraintStart_toStartOf="@id/preview"
+             app:layout_constraintTop_toTopOf="@id/preview" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_preview"
@@ -44,6 +46,9 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:adjustViewBounds="true"
+            android:padding="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             android:backgroundTint="@color/editColor"
             app:icon="@drawable/ic_baseline_mode_edit_24"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +56,9 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_remove"
+            android:padding="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
