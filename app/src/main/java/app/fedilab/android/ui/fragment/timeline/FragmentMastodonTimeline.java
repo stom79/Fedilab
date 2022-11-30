@@ -175,6 +175,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean rememberPosition;
     private String publicTrendsDomain;
     private int lockForResumeCall;
+    private boolean isNotPinnedTimeline;
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -213,10 +214,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 router(null);
             }
         } else {
-            if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE && lockForResumeCall == 0) {
+            if (isNotPinnedTimeline && lockForResumeCall == 0) {
                 router(null);
                 lockForResumeCall++;
-            } else if (timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
+            } else if (!isNotPinnedTimeline) {
                 router(null);
             }
         }
@@ -321,6 +322,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
+            isNotPinnedTimeline = isViewInitialized;
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
