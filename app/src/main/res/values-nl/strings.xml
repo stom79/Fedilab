@@ -24,7 +24,7 @@
     <string name="instance_example">Server: bv. mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Werkt nu met account %1$s</string>
     <string name="add_account">Account toevoegen</string>
-    <string name="clipboard">De inhoud van het bericht is naar het klembord gekopieerd</string>
+    <string name="clipboard">De inhoud van dit bericht is naar het klembord gekopieerd</string>
     <string name="clipboard_url">De link van het bericht is naar het klembord gekopieerd</string>
     <string name="camera">Camera</string>
     <string name="delete_all">Alles verwijderen</string>
@@ -113,7 +113,7 @@
     </plurals>
     <plurals name="date_hours_polls">
         <item quantity="one">%d uur</item>
-        <item quantity="other">%d uren</item>
+        <item quantity="other">%d uur</item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="one">%d dag</item>
@@ -179,8 +179,8 @@
     <string name="toast_unfollow">Account wordt niet langer gevolgd!</string>
     <string name="toast_reblog">Het bericht is geboost!</string>
     <string name="toast_unreblog">Het bericht wordt niet langer geboost!</string>
-    <string name="toast_favourite">Bericht is als favoriet gemarkeerd!</string>
-    <string name="toast_unfavourite">Het bericht is verwijderd uit je favorieten!</string>
+    <string name="toast_favourite">Het bericht is als favoriet gemarkeerd!</string>
+    <string name="toast_unfavourite">Het bericht wordt niet langer als favoriet gemarkeerd!</string>
     <string name="toast_error">Oeps! Er ging wat mis!</string>
     <string name="toast_code_error">Er ging wat mis! De server gaf geen autorisatiecode terug!</string>
     <string name="toast_error_instance">De domeinnaam van de server is onjuist!</string>
@@ -211,7 +211,7 @@
     <string name="settings_time_from">Tussen</string>
     <string name="settings_time_to">en</string>
     <string name="embedded_browser">Gebruik de ingebouwde webbrowser</string>
-    <string name="custom_tabs">Aangepaste tabs</string>
+    <string name="custom_tabs">Aangepaste tabbladen</string>
     <string name="expand_cw">Automatisch tekstwaarschuwingen (cw) uitklappen</string>
     <string name="set_led_colour">LED-kleur instellen:</string>
     <string-array name="led_colours">
@@ -234,7 +234,7 @@
     <string name="set_resize_video">Resize video\'s</string>
     <!-- Quick settings for notifications -->
     <!-- CACHE -->
-    <string name="cache_units">Mb</string>
+    <string name="cache_units">MB</string>
     <!-- ACTIVITY CUSTOM SHARING -->
     <string name="title_header_custom_sharing">Titel</string>
     <string name="title_hint_custom_sharing">Titel…</string>
@@ -283,14 +283,14 @@
     <string name="filters">Filters</string>
     <string name="action_filters_empty_content">Geen filters om weer te geven. Je kunt er een maken door op de \"+\" knop te drukken.</string>
     <string name="filter_keyword">Sleutelwoord of zin</string>
-    <string name="context_home">Home tijdlijn</string>
+    <string name="context_home">Starttijdlijn</string>
     <string name="context_public">Openbare tijdlijnen</string>
-    <string name="context_notification">Notificaties</string>
-    <string name="context_conversation">Conversaties</string>
+    <string name="context_notification">Meldingen</string>
+    <string name="context_conversation">Gesprekken</string>
     <string name="filter_keyword_explanations">Wordt gematched ongeacht de hoofdlettergevoeligheid in tekst of inhoudswaarschuwing van een bericht</string>
-    <string name="context_drop">Droppen in plaats van verbergen</string>
+    <string name="context_drop">Volledig verwijderen in plaats van verbergen</string>
     <string name="context_drop_explanations">Gefilterde berichten verdwijnen definitief, zelfs als een filter later is verwijderd</string>
-    <string name="context_whole_word_explanations">Wanneer het sleutelwoord of zin enkel alfanumeriek is, zal het enkel worden gematched op het hele woord</string>
+    <string name="context_whole_word_explanations">Wanneer het trefwoord of zin enkel alfanumeriek is, zal het enkel worden toegepast wanneer het overeenkomt met het hele woord</string>
     <string name="context_whole_word">Heel woord</string>
     <string name="filter_context">Filter contexten</string>
     <string name="filter_context_explanations">Een of meerdere contexten waar de filter van toepassing zou zijn</string>
@@ -304,7 +304,7 @@
     <string name="channel_notif_fav">Nieuwe favoriet</string>
     <string name="channel_notif_mention">Nieuwe vermelding</string>
     <string name="channel_notif_poll">Poll is beëindigd</string>
-    <string name="channel_notif_backup">Berichten Backup</string>
+    <string name="channel_notif_backup">Berichten backuppen</string>
     <string name="channel_notif_status">Nieuwe berichten</string>
     <string name="channel_notif_media">Media downloaden</string>
     <string name="select_sound">Selecteer toon</string>
@@ -336,7 +336,7 @@
     <string name="mastohost_logo">Logo MastoHost</string>
     <string name="emoji_picker">Emojikiezer</string>
     <string name="expand_conversation">Gesprek uitbreiden</string>
-    <string name="custom_emoji_picker">Aangepaste emojikiezer</string>
+    <string name="custom_emoji_picker">Lokale emojikiezer</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Media voor het toevoegen van een beschrijving</string>
     <string-array name="filter_expire">
@@ -354,7 +354,7 @@
     <string name="show_media_nsfw">NSFW tonen</string>
     <string name="bot">Bot</string>
     <string name="pixelfed_instance">Pixelfedserver</string>
-    <string name="mastodon_instance">Server</string>
+    <string name="mastodon_instance">Mastodonserver</string>
     <string name="any_tags">Eén van deze</string>
     <string name="all_tags">Al deze</string>
     <string name="none_tags">Geen van deze</string>
@@ -384,7 +384,7 @@
     <string name="no_tags">Geen tags</string>
     <string name="set_retrieve_metadata_share_from_extras">Een afbeelding toevoegen wanneer een URL wordt gedeeld</string>
     <!-- end languages -->
-    <string name="create_poll">Een poll maken</string>
+    <string name="create_poll">Poll aanmaken</string>
     <string name="poll_choice_s">Keuze %d</string>
     <string name="poll_invalid_choices">Je hebt tenminste twee keuzes nodig voor een poll!</string>
     <string name="done">Klaar</string>
@@ -421,12 +421,12 @@
     <string name="toast_unmute_conversation">Het gesprek wordt niet meer genegeerd!</string>
     <string name="toast_mute_conversation">Het gesprek wordt genegeerd</string>
     <string name="category_general">Algemeen</string>
-    <string name="category_regional">Regionale</string>
+    <string name="category_regional">Regionaal</string>
     <string name="category_art">Kunst</string>
     <string name="category_activism">Activisme</string>
     <string name="category_games">Gaming</string>
     <string name="category_tech">Technologie</string>
-    <string name="category_furry">Bont</string>
+    <string name="category_furry">Furry</string>
     <string name="category_food">Voedsel</string>
     <string name="instance_logo">Logo van de server</string>
     <string name="join_mastodon">Meld je aan op Mastodon</string>
@@ -445,41 +445,41 @@
     <string name="password_too_short">Wachtwoord moet uit minstens 8 karakters bestaan</string>
     <string name="username_error">Gebruikersnaam mag alleen bestaan uit letters, getallen en underscores</string>
     <string name="account_created">Account aangemaakt!</string>
-    <string name="account_created_message"> Uw account is aangemaakt!
+    <string name="account_created_message"> Jouw account is aangemaakt!
 \n
-\n Denk eraan om uw e-mail te valideren binnen 48 uur.
+\n Denk eraan om binnen 48 uur jouw e-mail te valideren.
 \n
-\n U kunt nu uw account verbinden door <b>%1$s</b> in het eerste veld te schrijven en op <b>Verbinden</b> te klikken.
+\n Je kunt nu jouw account verbinden door <b>%1$s</b> in het eerste veld in te vullen en op <b>Verbinden</b> te klikken.
 \n
-\n <b>Belangrijk</b>: Als uw server moet worden gevalideerd, ontvangt u een e-mail zodra deze is gevalideerd! </string>
+\n <b>Belangrijk</b>: Als jouw server moet worden gevalideerd, ontvang je een e-mail zodra deze is gevalideerd! </string>
     <string name="save_draft">Het bericht opslaan in concepten?</string>
-    <string name="administration">Administratie</string>
+    <string name="administration">Beheer</string>
     <string name="reports">Rapporten</string>
     <string name="unresolved">Onopgelost</string>
-    <string name="remote">Remote</string>
+    <string name="remote">Extern</string>
     <string name="active">Actief</string>
-    <string name="pending">Pending</string>
+    <string name="pending">In afwachting</string>
     <string name="disabled">Uitgeschakeld</string>
-    <string name="suspended">Suspended</string>
+    <string name="suspended">Opgeschort</string>
     <string name="permissions">Toestemmingen</string>
-    <string name="disable">Uitgeschakeld</string>
-    <string name="silence">Silence</string>
+    <string name="disable">Uitschakelen</string>
+    <string name="silence">Beperken</string>
     <string name="account">Account</string>
-    <string name="unsilence">Undo silence</string>
-    <string name="undisable">Undo disable</string>
-    <string name="suspend">Suspend</string>
-    <string name="unsuspend">Undo suspend</string>
+    <string name="unsilence">Niet meer beperken</string>
+    <string name="undisable">Niet meer uitschakelen</string>
+    <string name="suspend">Opschorten</string>
+    <string name="unsuspend">Niet meer opschorten</string>
     <string name="audio">Audio</string>
     <string name="voice_message">Spraakbericht</string>
-    <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
+    <string name="set_enable_time_slot_indication">Tijdens het tijdslot stuurt de app meldingen. Je kunt dit tijdslot omkeren door hieronder voor \'Stil\' te kiezen.</string>
     <string name="set_fit_preview_indication">Previews worden niet bijgesneden in tijdlijnen</string>
-    <string name="set_capitalize_indication">Automatically insert a line break after the mention to capitalize the first letter</string>
-    <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
+    <string name="set_capitalize_indication">Automatisch na de vermelding een nieuwe regel beginnen, om zo de eerste zin met een hoofdletter te beginnen</string>
+    <string name="settings_title_custom_sharing_indication">Gebruikers toestaan om berichten aan hun RSS feeds toe te voegen</string>
     <string name="compose">Opstellen</string>
     <string name="select">Selecteer</string>
-    <string name="add_instances">Voeg een server toe</string>
-    <string name="set_enable_crash_report">Enable crash reports</string>
-    <string name="set_enable_crash_report_indication">If enabled, a crash report will be created locally and then you will be able to share it.</string>
+    <string name="add_instances">Server toevoegen</string>
+    <string name="set_enable_crash_report">Crashrapporten inschakelen</string>
+    <string name="set_enable_crash_report_indication">Wanneer dit is ingeschakeld, wordt lokaal een crashrapport aangemaakt, dat je vervolgens kunt delen.</string>
     <string name="crash_title">Fedilab is gestopt :(</string>
     <string name="crash_message">Je kunt mij per e-mail foutrapportages sturen. Dit helpt om het probleem op te lossen :)\n\nJe kunt extra informatie toevoegen. Dank je!</string>
     <string name="visibility">Zichtbaarheid</string>
@@ -518,14 +518,14 @@
     <string name="order_by">Gesorteerd op</string>
     <string name="link_color_title">Links</string>
     <string name="link_color">Verander de kleur van links (URLs, mentions, tags, etc.) in berichten</string>
-    <string name="boost_header_color_title">Boost titel</string>
+    <string name="boost_header_color_title">Header van boosts</string>
     <string name="displayname_title">Verander de kleur van de weergavenaam boven de berichten</string>
     <string name="username_title">Verander de kleur van de gebruikersnaam boven de berichten</string>
     <string name="boost_header_color">Verander de kleur van de header van boosts</string>
-    <string name="background_status_title">Posts</string>
+    <string name="background_status_title">Berichten</string>
     <string name="background_status">Achtergrondkleur van berichten in tijdlijnen</string>
     <string name="reset_color">Reset kleuren</string>
-    <string name="clik_reset">Klik hier om al je aangepaste kleuren te resetten</string>
+    <string name="clik_reset">Hier klikken om al je aangepaste kleuren opnieuw in te stellen</string>
     <string name="reset">Reset</string>
     <string name="icons_color_title">Iconen</string>
     <string name="icons_color">Kleur van de onderste iconen in tijdlijnen</string>
@@ -538,7 +538,7 @@
     <string name="pref_custom_theme">Gebruik een aangepast thema</string>
     <string name="theming">Thema</string>
     <string name="data_export_theme">Het thema werd geëxporteerd</string>
-    <string name="data_export_theme_success">Het thema is met succes geëxporteerd in CSV</string>
+    <string name="data_export_theme_success">Het thema is met succes naar een CSV-bestand geëxporteerd</string>
     <string name="import_theme">Een thema importeren</string>
     <string name="import_theme_title">Tik hier om een thema uit een eerdere export te importeren</string>
     <string name="export_theme">Exporteer het thema</string>
@@ -567,7 +567,7 @@
     <string name="identity_proofs">Identiteitsbewijzen</string>
     <string name="verified_user">Geverifieerde identiteit</string>
     <string name="verified_by">Geverifieerd door %1$s (%2$s)</string>
-    <string name="action_disabled">Actie gehandicapt</string>
+    <string name="action_disabled">Actie uitgeschakeld</string>
     <string name="action_unfollow">Ontvouw</string>
     <string name="error_destination_path">Er is iets misgegaan, controleer uw download directory in de instellingen.</string>
     <string name="action_announcements">Mededelingen</string>
@@ -577,12 +577,15 @@
     <string name="set_watermark">Watermerken</string>
     <string name="set_watermark_indication">Voeg automatisch een watermerk toe aan de onderkant van de foto\'s. De tekst kan voor elk account worden aangepast.</string>
     <string name="no_distributors_found">Geen distributors gevonden!</string>
-    <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
+    <string name="no_distributors_explanation">Je hebt een distributor nodig voor het ontvangen van pushmeldingen.
+\nJe vindt meer details op %1$s.
+\n
+\nJe kunt pushmeldingen ook uitschakelen in de instellingen om het bericht te negeren.</string>
     <string name="select_distributors">Kies een distributor</string>
     <string name="also_boosted_by">Ook geboost door:</string>
     <string name="keepon">Ga door</string>
     <string name="notif_display_follows">Volgt</string>
-    <string name="channel_notif_signup">Nieuwe aanmelding</string>
+    <string name="channel_notif_signup">Nieuwe registratie</string>
     <string name="notif_sign_up">Een gebruiker meldde zich aan</string>
     <string name="category_music">Muziek</string>
     <string name="sign_ups">Aanmeldingen</string>
@@ -590,7 +593,7 @@
     <string name="replace_instagram_description">Gebruik een alternatief frontend voor Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Gebruik een alternatief frontend voor Reddit</string>
-    <string name="add_status">Voeg status toe</string>
+    <string name="add_status">Bericht toevoegen</string>
     <string name="report_indication_title_status_more">Kies de beste overeenkomst</string>
     <string name="report_val1">Ik vind het niet leuk</string>
     <string name="report_1_block_title">Blokkeer %1$s</string>
@@ -616,7 +619,7 @@
     <string name="my_app">Mijn app</string>
     <string name="set_push_notifications_delay">Stel de vertraging in tussen elke nieuwe lading</string>
     <string name="refresh_every">Haal meldingen op elke:</string>
-    <string name="type_of_notifications_delay_title">Meldingen ophaaltijd</string>
+    <string name="type_of_notifications_delay_title">Ophaaltijd meldingen</string>
     <string name="permission_missing">Geen toestemming!</string>
     <string name="load_settings">Laad geëxporteerde instellingen</string>
     <string name="set_single_topbar_title">Alleenstaande actiebalk</string>
@@ -624,15 +627,15 @@
     <string name="set_use_cache_indication">Tijdlijnen worden in cache gezet zodat de app sneller is.</string>
     <string name="load_media_type_title">Laad thumbnails voor media</string>
     <string name="display_timelines">Toon tijdlijnen</string>
-    <string name="cached_messages">Cached bericht</string>
+    <string name="cached_messages">Gebufferd bericht</string>
     <string name="display_options">Toon opties</string>
-    <string name="action_unpin">Maak bericht los</string>
+    <string name="action_unpin">Bericht losmaken</string>
     <string name="edited_message_at">Bewerkt op %1$s</string>
-    <string name="created_message_at">Gemaakt op %1$s</string>
+    <string name="created_message_at">Aangemaakt op %1$s</string>
     <string name="max_indentation_thread">Max inspringing in threads</string>
     <string name="action_unfollow_tag">Ontvolg tag</string>
     <string name="action_unfollow_tag_confirm">Weet je zeker dat je deze tag wilt ontvolgen\?</string>
-    <string name="action_tag_follow">Volg een tag</string>
+    <string name="action_tag_follow">Hashtag volgen</string>
     <string name="write_the_tag_to_follow">Schrijf de tag om te volgen</string>
     <string name="not_valid_tag_name">Tag naam is niet geldig!</string>
     <string name="followed_tags">Gevolgde tags</string>
@@ -642,7 +645,7 @@
     <string name="hide_completely">Verberg helemaal</string>
     <string name="hide_completely_description">Verberg de gefilterde inhoud helemaal, alsof het niet bestaat</string>
     <string name="keyword_or_phrase">Trefwoord of zinsdeel</string>
-    <string name="add_keyword">Voeg trefwoord toe</string>
+    <string name="add_keyword">Trefwoord toevoegen</string>
     <string name="filtered_by">Gefilterd: %1$s</string>
     <string name="unblock_domain">Deblokkeer domein</string>
     <string name="unblock_domain_confirm">Weet je zeker dat je wilt deblokkeren: %1$s\?</string>
@@ -656,12 +659,12 @@
     <string name="blocked_domains">Geblokkeerde domeinen</string>
     <string name="reject_reports">Weiger meldingen</string>
     <string name="severity">Ernst</string>
-    <string name="admin_reject_media">Weiger media bestanden</string>
-    <string name="admin_reject_reports">Weiger meldingen</string>
+    <string name="admin_reject_media">Media bestanden weigeren</string>
+    <string name="admin_reject_reports">Rapportages weigeren</string>
     <string name="private_comment">Persoonlijke opmerking</string>
     <string name="public_comment">Openbare opmerking</string>
     <string name="saved_changes">Aanpassingen zijn opgeslagen!</string>
-    <string name="create_domain_block">Stel domein blokkade in</string>
+    <string name="create_domain_block">Domeinblokkade instellen</string>
     <string name="toast_token">De app kreeg geen token</string>
     <string name="display_media_notification">Toon media in meldingen</string>
     <string name="remember_position">Onthoud positie in tijdlijnen</string>
@@ -674,13 +677,13 @@
     <string name="notif_report">Een gebruiker verstuurde een rapport</string>
     <string name="report_val_more4">Het probleem valt niet in een andere categorie</string>
     <string name="report_1_block">Je ziet hun berichten niet meer. Ze kunnen je niet meer volgen en zien je berichten niet meer. Ze kunnen erachter komen dat je ze blokkeert.</string>
-    <string name="clear_all_notif">Wis alle meldingen</string>
+    <string name="clear_all_notif">Alle meldingen wissen</string>
     <string name="not_valid_list_name">Lijstnaam is niet geldig!</string>
     <string name="pref_custom_theme_new_summary">Maak een aangepast thema</string>
     <string name="messages_in_cache_for_other_timelines">Berichten in cache voor andere tijdlijnen</string>
     <string name="bottom_menu">Onderste menu</string>
     <string name="tap_here_to_refresh_poll">Klik hier om poll bij te werken</string>
-    <string name="clear_cache">Leeg cache</string>
+    <string name="clear_cache">Buffer leegmaken</string>
     <string name="msg_save_image">Wil je afsluiten zonder de afbeelding te bewaren\?</string>
     <string name="default_system_language">Gebruik de standaard systeemtaal</string>
     <string name="set_your_max_char_count">Stel je maximale karakter limiet in</string>
@@ -700,17 +703,17 @@
     <string name="hide_with_warning_description">Verberg de gefilterde inhoud achter een waarschuwing met de filternaam</string>
     <string name="delete_keyword">Verwijder trefwoord</string>
     <string name="notif_signed_up">Aangemeld</string>
-    <string name="context_home_list">Home en lijsten</string>
+    <string name="context_home_list">Start en lijsten</string>
     <string name="title">Titel</string>
     <string name="no_blocked_domains">Je hebt geen domeinen geblokkeerd</string>
-    <string name="action_privacy_policy">Privacy policy</string>
+    <string name="action_privacy_policy">Privacybeleid</string>
     <string name="unpin_timeline_description">Weet je zeker dat je die tijdlijn wilt losmaken\?</string>
     <string name="domains">Domeinen</string>
     <string name="set_unlisted_replies_indication">Dit betreft alleen \"openbare\" reacties. Indien ingeschakeld krijgen je reacties automatisch de zichtbaarheid \"unlisted\" in plaats van \"openbaar\"</string>
     <string name="reject_media">Weiger media</string>
     <string name="set_notif_user_sign_up">Nieuwe aanmelding (moderators)</string>
     <string name="set_notif_admin_report">Nieuwe melding (moderators)</string>
-    <string name="admin_domainblock_private_comment">Opmerking over de beperking van dit domein voor intern gebruik door de moderators.</string>
+    <string name="admin_domainblock_private_comment">Opmerking over deze domeinblokkade voor intern gebruik door de moderators.</string>
     <string name="mute_tag">Weet je zeker dat je deze tag wilt negeren:%1$s\?</string>
     <string name="open_draft">Open concept</string>
     <string name="replace_instagram">Instagram</string>
@@ -735,7 +738,7 @@
     <string name="no_account_in_list">Geen accounts gevonden voor deze lijst!</string>
     <string name="scheduled">Gepland</string>
     <string name="top_menu">Bovenste balk menu</string>
-    <string name="customize_timelines">Pas tijdlijnen aan</string>
+    <string name="customize_timelines">Tijdlijnen aanpassen</string>
     <string name="pref_contributor">Thema\'s van derden</string>
     <string name="poll_type">Poll soort:</string>
     <string name="poll_duration">Poll looptijd:</string>
@@ -747,7 +750,7 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Gebruik een alternatief frontend voor Twitter</string>
     <string name="replace_twitter_host">Twitter frontend domein</string>
-    <string name="boosted_by">Boosted door</string>
+    <string name="boosted_by">Geboost door</string>
     <string name="is_down">Is offline!</string>
     <string name="report_val_more1">Het is niet iets dat je wilt zien</string>
     <string name="about_mastodon">\"Mastodon is niet één website zoals Twitter of Facebook, het is een netwerk van duizenden communities beheerd door verschillende organisaties en personen die zorgen voor een naadloze social media ervaring.\"</string>
@@ -778,7 +781,7 @@
     <string name="last_active">Laatst actief</string>
     <string name="filter">Filter</string>
     <string name="resolved">Opgelost</string>
-    <string name="change_logo_description">Verander het logo van de app op je apparaat</string>
+    <string name="change_logo_description">Het pictogram van de app wijzigen</string>
     <string name="action_pin">Zet bericht vast</string>
     <string name="allow">Toestaan</string>
     <string name="warn">Waarschuwen</string>
@@ -795,26 +798,26 @@
     <string name="mark_resolved">Markeer opgelost</string>
     <string name="account_warned">Account gewaarschuwd</string>
     <string name="report">Rapporteer</string>
-    <string name="account_undisabled">Account niet-uitgeschakeld</string>
+    <string name="account_undisabled">Account niet meer uitgeschakeld</string>
     <string name="account_disabled">Account uitgeschakeld</string>
-    <string name="set_language_picker">Sta toe om de lijst met talen te verkleinen in de kiezer als je een bericht maakt.</string>
+    <string name="set_language_picker">Lijst met talen in de talenkiezer verkleinen tijdens het opstellen van een bericht.</string>
     <string name="restart_the_app_theme">Herstart de app om de wijzigingen door te voeren.</string>
-    <string name="state">State</string>
+    <string name="state">Status</string>
     <string name="set_language_picker_title">Talen in kiezer</string>
     <string name="restart_the_app">App herstarten\?</string>
     <string name="restart">Herstart</string>
     <string name="action_followed_tag_empty">Je volgt geen tags!</string>
     <string name="disable_notifications">Schakel meldingen uit</string>
     <string name="my_account">Mijn account</string>
-    <string name="aggregate_notifications_summary">Zet dit aan voor het samenvoegen van soortgelijke meldingen in de app</string>
+    <string name="aggregate_notifications_summary">Wanneer dit is ingeschakeld, worden soortgelijke meldingen door de app samengevoegd</string>
     <string name="data_export_settings">De instellingen zijn geëxporteerd</string>
     <string name="category_custom">Aangepast</string>
     <string name="favourited_by">Als favoriet gemarkeerd door</string>
     <string name="followers_only">Alleen volgers</string>
     <string name="other">Overig</string>
     <string name="instance_not_valid">De server lijkt ongeldig te zijn!</string>
-    <string name="eg_sensitive_content">B.v.: gevoelige inhoud</string>
-    <string name="instance_health_uptime">Uptime: %,.2f %%</string>
+    <string name="eg_sensitive_content">Bv gevoelige inhoud</string>
+    <string name="instance_health_uptime">Online: %,.2f %%</string>
     <string name="remove_status">Verwijder status</string>
     <string name="post_message">Bericht wordt geplaatst…</string>
     <string name="is_up">Is online!</string>
@@ -825,12 +828,12 @@
     <string name="report_val3">Het overtreedt serverregels</string>
     <string name="report_val_more3">Je weet dat het bepaalde regels overtreedt</string>
     <string name="report_val4">Het is iets anders</string>
-    <string name="stop_recording">Stop opnemen</string>
-    <string name="report_val_more2">Kwaadaardige links, nep inhoud, of herhaalde reacties</string>
+    <string name="stop_recording">Stop opname</string>
+    <string name="report_val_more2">Kwaadaardige links, ondeugdelijke inhoud, of herhalende reacties</string>
     <string name="report_1_title">Wil je dit niet zien\?</string>
-    <string name="report_1_title_more">Dit zijn je opties om te bepalen wat je ziet op Mastodon:</string>
+    <string name="report_1_title_more">Dit zijn je mogelijkheden om te bepalen wat je op Mastodon ziet:</string>
     <string name="report_1_unfollow_title">Ontvolg %1$s</string>
-    <string name="report_1_unfollow">Je volgt dit account. Ontvolg het om de berichten niet meer te zien in je tijdlijn.</string>
+    <string name="report_1_unfollow">Je volgt dit account. Ontvolg het als je er geen berichten meer van wilt zien in je tijdlijn.</string>
     <string name="report_1_mute_title">Negeer %1$s</string>
     <string name="report_1_mute">Je ziet hun berichten niet meer. Ze kunnen je nog wel volgen en je berichten zien, maar ze weten niet dat je ze negeert.</string>
     <string name="report_2_title">Zijn er berichten die deze melding ondersteunen\?</string>
@@ -841,11 +844,11 @@
     <string name="report_sent">Melding is verstuurd!</string>
     <string name="join_the_fediverse">Sluit je aan bij de Fediverse</string>
     <string name="interactions">Interacties</string>
-    <string name="add_filter">Voeg filter toe</string>
-    <string name="add_field">Voeg Veld toe</string>
+    <string name="add_filter">Filter toevoegen</string>
+    <string name="add_field">Veld toevoegen</string>
     <string name="unlocked">Open</string>
     <string name="locked">Dicht</string>
-    <string name="set_bot_content">Bot account</string>
+    <string name="set_bot_content">Botaccount</string>
     <string name="delete_field_confirm">Weet je zeker dat je dat veld wilt verwijderen\?</string>
     <string name="message_has_been_sent">Bericht is verzonden!</string>
     <string name="label_shape">Vorm</string>
@@ -858,10 +861,10 @@
     <string name="toast_pin">Het bericht is vastgezet</string>
     <string name="toast_feature_not_supported">Je server lijkt die mogelijkheid niet te hebben!</string>
     <string name="fetch_notifications">Haal meldingen op</string>
-    <string name="aggregate_notifications">Verzamel meldingen</string>
+    <string name="aggregate_notifications">Meldingen verzamelen</string>
     <string name="display_media_notification_summary">Media in meldingen voor reblogs en favorieten worden getoond</string>
     <string name="pickup_logo">Kies een logo</string>
-    <string name="change_logo">Verander logo</string>
+    <string name="change_logo">Pictogram wijzigen</string>
     <string name="message_language">Taal voor berichten</string>
     <string name="watch_trends_for_instance">Bekijk trends voor deze server</string>
     <string name="notif_update">Bewerk een bericht</string>
@@ -883,5 +886,21 @@
     <string name="administrator">Beheerder</string>
     <string name="confirmed">Bevestigd</string>
     <string name="unconfirmed">Onbevestigd</string>
-    <string name="assign_to_me">Wijs aan mij toe</string>
+    <string name="assign_to_me">Aan mij toewijzen</string>
+    <string name="notif_submitted_report">heeft een rapportage ingediend</string>
+    <string name="admin_domainblock_severity">Beperken maakt de berichten van het account onzichtbaar voor iedereen die hen niet volgt. Opschorten verwijdert alle inhoud, media en profielgegevens van het account. Gebruik Geen als je alleen mediabestanden wilt weigeren.</string>
+    <string name="admin_reject_obfuscate">Domeinnaam verbergen</string>
+    <string name="admin_domainblock_reject_media">Alle rapportages die van dit domein komen negeren. Niet relevant wanneer het domein is opgeschort.</string>
+    <string name="admin_domainblock_reject_reports">Alle rapportages die van dit domein komen negeren. Niet relevant wanneer het domein is opgeschort.</string>
+    <string name="admin_domainblock_public_comment">Opmerking over deze domeinblokkade voor het algemeen publiek, wanneer de publicatie van de lijst met domeinblokkades is ingeschakeld.</string>
+    <string name="admin_domainblock_reject_obfuscate">De domeinnaam in de lijst verbergen, wanneer de publicatie van de lijst met domeinblokkades is ingeschakeld</string>
+    <string name="push_distributors">Pushdistributeur</string>
+    <string name="admin_domainblock_domain">De domeinblokkade zal het aanmaken van accounts in de database niet verhinderen, maar zal automatisch met terugwerkende kracht specifieke moderatieacties op deze accounts toepassen.</string>
+    <string name="silenced">Beperkt</string>
+    <string name="unassign">Niet langer toewijzen</string>
+    <string name="account_unsuspended">Account niet langer opgeschort</string>
+    <string name="account_silenced">Account beperkt</string>
+    <string name="account_unsilenced">Account niet meer beperken</string>
+    <string name="account_suspended">Account opgeschort</string>
+    <string name="full_date_edited">%1$s bewerkte %2$s</string>
 </resources>
