@@ -17,19 +17,19 @@
     <string name="password">Kata Sandi</string>
     <string name="email">Surel</string>
     <string name="accounts">Akun</string>
-    <string name="toots">Kutipan</string>
+    <string name="toots">Pesan-Pesan</string>
     <string name="tags">Label</string>
     <string name="save">Simpan</string>
     <string name="instance">Contoh</string>
     <string name="instance_example">Contoh: mastodon.sosial</string>
     <string name="toast_account_changed" formatted="false">Sekarang bekerja dengan akun %1$s</string>
     <string name="add_account">Tambahkan sebagai akun</string>
-    <string name="clipboard">Isi tiupan telah disalin ke papan klip</string>
-    <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
+    <string name="clipboard">Isi pesan telah disalin ke papan klip</string>
+    <string name="clipboard_url">URL dari pesan telah disalin ke papan klip</string>
     <string name="camera">Kamera</string>
     <string name="delete_all">Hapus semua</string>
     <string name="schedule">Susunan acara</string>
-    <string name="text_size">Text and icon sizes</string>
+    <string name="text_size">Ukuran teks</string>
     <string name="next">Selanjutnya</string>
     <string name="previous">Sebelumnya</string>
     <string name="open_with">Buka dengan</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Permintaan mengikuti</string>
     <string name="settings">Pengaturan</string>
     <string name="send_email">Kirim sebuah surel</string>
-    <string name="scheduled_toots">Kutipan terjadwal</string>
+    <string name="scheduled_toots">Pesan terjadwal</string>
     <string name="disclaimer_full">Informasi di bawah ini mungkin mencerminkan profil pengguna tidak lengkap.</string>
     <string name="insert_emoji">Masukkan karakter</string>
     <string name="no_emoji">Aplikasi tidak mengumpulkan kostum karakter untuk saat ini.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Tidak ada kutipan untuk ditampilkan</string>
-    <string name="favourite_add">Tambahkan kutipan ini ke favorit kamu?</string>
-    <string name="favourite_remove">Hapus kutipan ini dari kesukaan Anda?</string>
-    <string name="reblog_add">Tingkatkan kutipan ini?</string>
-    <string name="reblog_remove">Lepaskan tingkatan kutipan ini?</string>
+    <string name="no_status">Tidak ada pesan untuk ditampilkan</string>
+    <string name="favourite_add">Tambahkan pesan ini ke favorit kamu\?</string>
+    <string name="favourite_remove">Hapus pesan ini dari favorit kamu\?</string>
+    <string name="reblog_add">Boost pesan ini\?</string>
+    <string name="reblog_remove">Unboost pesan ini\?</string>
     <string name="more_action_1">Bisu</string>
     <string name="more_action_2">Blok</string>
     <string name="more_action_3">Melaporkan</string>
@@ -118,8 +118,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Terjadi kesalahan saat memilih media!</string>
     <string name="toot_delete_media">Hapus media ini?</string>
-    <string name="toot_error_no_content">Kutipan Anda kosong!</string>
-    <string name="toot_sent">Kutipan telah dikirim!</string>
+    <string name="toot_error_no_content">Pesan kamu kosong!</string>
+    <string name="toot_sent">Pesan telah terkirim!</string>
     <string name="toot_sensitive">Konten sensitif?</string>
     <string name="no_draft">Tidak ada konsep!</string>
     <string name="choose_accounts">Pilih akun</string>
@@ -139,14 +139,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Tidak ada akun yang ditampilkan</string>
     <string name="no_follow_request">Tidak ada permintaan mengikuti</string>
-    <string name="status_cnt">Kutipan \n %1$s</string>
+    <string name="status_cnt">Pesan
+\n %1$s</string>
     <string name="following_cnt">Pengikut \n %1$s</string>
     <string name="followers_cnt">Pengikut \n %1$s</string>
     <string name="reject">Tolak</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Tidak ada jadwal kutipan untuk ditampilkan!</string>
-    <string name="remove_scheduled">Hapus kutipan terjadwal?</string>
-    <string name="toot_scheduled">Kutipan yang telah dijadwalkan!</string>
+    <string name="no_scheduled_toots">Tidak ada pesan terjadwal untuk ditampilkan!</string>
+    <string name="remove_scheduled">Hapus pesan terjadwal\?</string>
+    <string name="toot_scheduled">Pesan berhasil dijadwalkan!</string>
     <string name="toot_scheduled_date">Tanggal yang dijadwalkan harus lebih besar dari jam saat ini!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Untuk mematikan waktu harus lebih besar dari satu menit.</string>
@@ -172,10 +173,10 @@
     <string name="toast_unmute">Akun tidak dibisukan lagi!</string>
     <string name="toast_follow">Akun itu diikuti!</string>
     <string name="toast_unfollow">Akun tersebut tidak lagi diikuti!</string>
-    <string name="toast_reblog">Kutipan itu ditingkatkan!</string>
-    <string name="toast_unreblog">Kutipan tidak lagi ditingkatkan!</string>
-    <string name="toast_favourite">Kutipan itu ditambahkan ke favoritmu!</string>
-    <string name="toast_unfavourite">Kutipan itu telah dihapus dari favoritmu!</string>
+    <string name="toast_reblog">Kutipan telah di-boost!</string>
+    <string name="toast_unreblog">Pesan tidak lagi di-boost!</string>
+    <string name="toast_favourite">Pesan ini ditambahkan ke favoritmu!</string>
+    <string name="toast_unfavourite">Pesan telah dihapus dari favoritmu!</string>
     <string name="toast_error">Ups! Terjadi kesalahan!</string>
     <string name="toast_code_error">Terjadi Kesalahan! Contohnya tidak mengembalikan kode otoritas!</string>
     <string name="toast_error_instance">Domain contoh sepertinya tidak valid!</string>
@@ -184,7 +185,7 @@
     <string name="nothing_to_do">Tidak dapat diambil tindakan</string>
     <string name="toast_error_translate">Terjadi kesalahan saat menerjemahkan!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Jumlah kutipan per beban</string>
+    <string name="set_toots_page">Jumlah pesan setiap memuat</string>
     <string name="set_disable_gif">Nonaktifkan avatar GIF</string>
     <string name="set_notif_follow">Beritahu ketika seseorang mengikuti Anda</string>
     <string name="set_notif_follow_share">Beritahu ketika seseorang meningkatkan status Anda</string>
@@ -263,7 +264,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Password</string>
-    <string name="set_share_details">Add toot details when sharing</string>
+    <string name="set_share_details">Tambahkan detil pesan saat dibagikan</string>
     <string name="support_the_app_on_liberapay">Support the app on Liberapay</string>
     <string name="alert_regex">There is an error in the regular expression!</string>
     <string name="toast_instance_unavailable">No timelines was found on this instance!</string>
@@ -282,9 +283,9 @@
     <string name="context_public">Public timelines</string>
     <string name="context_notification">Notifications</string>
     <string name="context_conversation">Conversations</string>
-    <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a toot</string>
+    <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a message</string>
     <string name="context_drop">Drop instead of hide</string>
-    <string name="context_drop_explanations">Filtered toots will disappear irreversibly, even if filter is later removed</string>
+    <string name="context_drop_explanations">Filtered messages will disappear irreversibly, even if filter is later removed</string>
     <string name="context_whole_word_explanations">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="context_whole_word">Whole word</string>
     <string name="filter_context">Filter contexts</string>
@@ -299,7 +300,7 @@
     <string name="channel_notif_fav">New Favourite</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup">Toots Backup</string>
+    <string name="channel_notif_backup">Messages Backup</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
@@ -311,11 +312,11 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
-    <string name="set_display_card">Display previews in all toots</string>
+    <string name="set_display_card">Display previews in all messages</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
-    <string name="truncate_long_toots">Truncate long toots</string>
-    <string name="set_truncate_toot">Truncate toots over \'x\' lines. Zero means disabled.</string>
+    <string name="truncate_long_toots">Truncate long messages</string>
+    <string name="set_truncate_toot">Truncate messages over \'x\' lines. Zero means disabled.</string>
     <string name="display_toot_truncate">Display more</string>
     <string name="hide_toot_truncate">Display less</string>
     <string name="tags_already_stored">The tag already exists!</string>
@@ -361,8 +362,8 @@
     <string name="category">Category</string>
     <string name="description">Description</string>
     <string name="share">Share</string>
-    <string name="toots_server">Toots (Server)</string>
-    <string name="toots_client">Toots (Device)</string>
+    <string name="toots_server">Pesan (Server)</string>
+    <string name="toots_client">Pesan (Device)</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
@@ -384,11 +385,11 @@
     <string name="poll_finish_at">end at %s</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
-    <string name="notif_poll_self">A poll you tooted has ended</string>
+    <string name="notif_poll_self">A poll you published has ended</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
-    <string name="reorder_timelines">Reorder timelines</string>
+    <string name="reorder_timelines">Manage timelines</string>
     <string name="reorder_list_deleted">List permanently deleted</string>
     <string name="reorder_instance_removed">Followed instance removed</string>
     <string name="reorder_tag_removed">Pinned tag removed</string>
@@ -429,7 +430,7 @@
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>
     <string name="tos">terms of service</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">Sign-up</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
     <string name="password_error">Passwords don\'t match!</string>
     <string name="email_error">The email doesn\'t seem to be valid!</string>
@@ -498,7 +499,7 @@
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description">Gunakan frontend alternatif untuk Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
@@ -565,4 +566,7 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="icon_size">Ukuran Ikon</string>
+    <string name="toots_visibility_title">Visibilitas pesan secara default:</string>
+    <string name="show_anyway">Tetap tampilkan</string>
 </resources>

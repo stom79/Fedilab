@@ -17,7 +17,7 @@
     <string name="password">Contraseña</string>
     <string name="email">Correo electrónico</string>
     <string name="accounts">Cuentas</string>
-    <string name="toots">Toots</string>
+    <string name="toots">Mensajes</string>
     <string name="tags">Etiquetas</string>
     <string name="save">Guardar</string>
     <string name="instance">Instancia</string>

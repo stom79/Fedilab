@@ -736,4 +736,21 @@
     <string name="report_indication_title_status_more">Vybrat nejlepší shodu</string>
     <string name="instance_health_checkedat">Zkontrolováno: %s</string>
     <string name="add_status">Přidat status</string>
+    <string name="channel_notif_report">Nové hlášení</string>
+    <string name="sign_ups">Registrace</string>
+    <string name="display_options">Volby zobrazení</string>
+    <string name="set_display_counters">Zobrazit počitadla</string>
+    <string name="status">Status</string>
+    <string name="notif_sign_up">Uživatel se registroval</string>
+    <string name="notif_report">Uživatel poslal hlášení</string>
+    <string name="channel_notif_update">Nová aktualizace</string>
+    <string name="channel_notif_signup">Nová registrace</string>
+    <string name="customize_timelines">Přizpůsobit časové osy</string>
+    <string name="set_display_counter">Zobrazit počitadla zpráv</string>
+    <string name="reply">Odpovědět</string>
+    <string name="report_title">Hlášení %1$s</string>
+    <string name="cached_messages">Cachované zprávy</string>
+    <string name="select_a_theme">Vybrat téma</string>
+    <string name="display_timelines">Zobrazit časové osy</string>
+    <string name="type_of_notifications_title">Vybrat typy oznámení</string>
 </resources>

@@ -774,4 +774,21 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="channel_notif_signup">Nou registre</string>
     <string name="channel_notif_update">Nova actualització</string>
     <string name="channel_notif_report">Nova incidència</string>
+    <string name="sign_ups">Inscripcions</string>
+    <string name="created_message_at">Creat el %1$s</string>
+    <string name="set_unlisted_replies">Respostes no llistades</string>
+    <string name="notification_remove_from_cache">Les notificacions s\'han eliminat de la memòria cau.</string>
+    <string name="email_status">Estat del correu electrònic</string>
+    <string name="login_status">Estat de la sessió</string>
+    <string name="allow">Permet</string>
+    <string name="custom_warning">Avís personalitzat</string>
+    <string name="edit_message">Edita el missatge</string>
+    <string name="recent_ip">IP recent</string>
+    <string name="full_date_edited">%1$s editat %2$s</string>
+    <string name="status_history">Historial de missatges</string>
+    <string name="edited_message_at">Editat el %1$s</string>
+    <string name="set_unlisted_replies_indication">Només es refereix a respostes \"públiques\". Quan estiguin activades, les vostres respostes tindran automàticament la visibilitat \"no llistat\" en lloc de \"pública\"</string>
+    <string name="joined">Inscrit</string>
+    <string name="max_indentation_thread">Sagnat màxim en els fils</string>
+    <string name="email_user">Notificar a l\'usuari/a per correu electrònic</string>
 </resources>
