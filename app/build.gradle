@@ -8,11 +8,11 @@ plugins {
 }
 def flavor
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 434
         versionName "3.8.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -78,8 +78,8 @@ allprojects {
 }
 dependencies {
     implementation project(':autoimageslider')
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "com.google.code.gson:gson:2.9.1"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -119,7 +119,7 @@ dependencies {
     implementation "com.madgag.spongycastle:bctls-jdk15on:1.58.0.0"
     implementation 'com.github.UnifiedPush:android-connector:2.0.1'
    // implementation 'com.github.UnifiedPush:android-foss_embedded_fcm_distributor:1.0.0-beta1'
-    playstoreImplementation ('com.github.UnifiedPush:android-embedded_fcm_distributor:2.1.3') {
+    playstoreImplementation('com.github.UnifiedPush:android-embedded_fcm_distributor:2.1.3') {
         exclude group: 'com.google.firebase', module: 'firebase-core'
         exclude group: 'com.google.firebase', module: 'firebase-analytics'
         exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'
@@ -129,12 +129,12 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
-    implementation 'androidx.navigation:navigation-fragment:2.5.1'
-    implementation 'androidx.navigation:navigation-ui:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     testImplementation 'junit:junit:'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-   // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
