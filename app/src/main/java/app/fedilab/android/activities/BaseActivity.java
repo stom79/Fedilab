@@ -49,7 +49,6 @@ public class BaseActivity extends AppCompatActivity {
         //Default automatic switch
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
 
-
             int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             switch (currentNightMode) {
                 case Configuration.UI_MODE_NIGHT_NO:
@@ -72,6 +71,9 @@ public class BaseActivity extends AppCompatActivity {
                         case "SOLARIZED_DARK":
                             setTheme(R.style.SolarizedAppTheme);
                             break;
+                        case "BLACK":
+                            setTheme(R.style.BlackAppTheme);
+                            break;
                     }
                     break;
             }
@@ -92,6 +94,10 @@ public class BaseActivity extends AppCompatActivity {
                 case "SOLARIZED_DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.SolarizedAppTheme);
+                    break;
+                case "BLACK":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.BlackAppTheme);
                     break;
             }
         }

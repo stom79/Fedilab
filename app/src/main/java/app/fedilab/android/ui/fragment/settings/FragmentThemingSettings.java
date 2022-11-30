@@ -65,6 +65,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                 requireActivity().recreate();
             }
         }
+        //TODO: check if can be removed
         Helper.recreateMainActivity(requireActivity());
     }
 

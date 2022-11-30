@@ -702,6 +702,7 @@
         <item>System default</item>
         <item>Solarized (Light)</item>
         <item>Solarized (Dark)</item>
+        <item>Black</item>
     </string-array>
     <string-array name="SET_THEME_MODE_VALUE" translatable="false">
         <item>LIGHT</item>
@@ -709,6 +710,7 @@
         <item>SYSTEM</item>
         <item>SOLARIZED_LIGHT</item>
         <item>SOLARIZED_DARK</item>
+        <item>BLACK</item>
     </string-array>
 
 
@@ -724,10 +726,12 @@
     <string-array name="set_default_theme_dark">
         <item>Dark</item>
         <item>Solarized (Dark)</item>
+        <item>Black</item>
     </string-array>
     <string-array name="SET_THEME_DEFAULT_DARK" translatable="false">
         <item>DARK</item>
         <item>SOLARIZED_DARK</item>
+        <item>BLACK</item>
     </string-array>
 
 

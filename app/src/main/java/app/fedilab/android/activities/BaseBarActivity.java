@@ -70,6 +70,9 @@ public class BaseBarActivity extends AppCompatActivity {
                         case "SOLARIZED_DARK":
                             setTheme(R.style.SolarizedAppThemeBar);
                             break;
+                        case "BLACK":
+                            setTheme(R.style.BlackAppThemeBar);
+                            break;
                     }
                     break;
             }
@@ -91,6 +94,10 @@ public class BaseBarActivity extends AppCompatActivity {
                 case "SOLARIZED_DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.SolarizedAppThemeBar);
+                    break;
+                case "BLACK":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.BlackAppThemeBar);
                     break;
             }
         }
