@@ -138,11 +138,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
         }
-        if (conversation.cached) {
-            holder.binding.cacheIndicator.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.cacheIndicator.setVisibility(View.GONE);
-        }
         //---- SPOILER TEXT -----
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
         if (conversation.last_status.spoiler_text != null && !conversation.last_status.spoiler_text.trim().isEmpty()) {

@@ -36,7 +36,7 @@
         app:singleLineTitle="false"
         app:title="@string/set_share_validation" />
     <SwitchPreferenceCompat
-        android:defaultValue="false"
+        android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:singleLineTitle="false"

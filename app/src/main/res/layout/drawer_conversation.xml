@@ -37,16 +37,6 @@
             android:orientation="horizontal"
             android:padding="6dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/cache_indicator"
-                android:layout_width="16sp"
-                android:layout_height="16sp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_baseline_cached_24"
-                android:visibility="gone"
-                tools:visibility="visible" />
 
             <HorizontalScrollView
                 android:layout_width="0dp"

@@ -1134,21 +1134,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
 
-            boolean displayEmoji = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_EMOJI), false);
-            if (displayEmoji) {
-                holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
-                holder.binding.buttonEmojiOne.setOnClickListener(v -> {
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
-                    EmojiManager.install(new EmojiOneProvider());
-                    final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    }).build(holder.binding.content);
-                    emojiPopup.toggle();
-                });
-            } else {
-                holder.binding.buttonEmojiOne.setVisibility(View.GONE);
-            }
+
+            holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
+            holder.binding.buttonEmojiOne.setOnClickListener(v -> {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
+                EmojiManager.install(new EmojiOneProvider());
+                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }).build(holder.binding.content);
+                emojiPopup.toggle();
+            });
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);

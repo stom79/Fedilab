@@ -217,11 +217,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
-            if (notification.cached) {
-                holderFollow.binding.cacheIndicator.setVisibility(View.VISIBLE);
-            } else {
-                holderFollow.binding.cacheIndicator.setVisibility(View.GONE);
-            }
         } else if (getItemViewType(position) == TYPE_FILERED) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
