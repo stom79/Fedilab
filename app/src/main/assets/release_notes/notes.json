@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.0",
+    "code": "435",
+    "note": "Added:\n- Migrate to Material Design 3\n- 5 Themes (Light, Dark, Solarized Light/Dark, Black)\n- Automatically switch between Light/Dark\n- Light and Dark theme can be defined for time-based switch\n- Android 12+: Dynamic color\n\nFixed:\n- Jumps in timelines\n"
+  },
+  {
     "version": "3.8.1",
     "code": "434",
     "note": "Added:\n- Mute tags with long press in timelines\n\nChanged:\n- Muted account messages are now removed from cache\n\nFixed:\n- Open with another account\n- Fix jumps in profiles\n- Media not displayed in album -> force indexation\n- Built-in browser does not give admin scope\n- Some crashes"

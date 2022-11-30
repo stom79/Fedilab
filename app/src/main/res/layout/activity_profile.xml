@@ -77,7 +77,6 @@
                         android:id="@+id/account_pp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="3dp"
                         android:contentDescription="@string/profile_picture"
                         android:scaleType="centerCrop"
                         android:transitionName="@string/activity_porfile_pp"

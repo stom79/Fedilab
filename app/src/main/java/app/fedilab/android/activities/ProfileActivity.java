@@ -47,6 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -148,8 +149,7 @@ public class ProfileActivity extends BaseActivity {
             mention_str = b.getString(Helper.ARG_MENTION, null);
             checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
-        postponeEnterTransition();
-
+        ActivityCompat.postponeEnterTransition(ProfileActivity.this);
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -270,18 +270,19 @@ public class ProfileActivity extends BaseActivity {
                             @Override
                             public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                 binding.profilePicture.setImageDrawable(resource);
-                                startPostponedEnterTransition();
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
-                                startPostponedEnterTransition();
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
-
+                                binding.profilePicture.setImageResource(R.drawable.ic_person);
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
                         }
                 );

@@ -164,16 +164,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
             holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
                     .observe((LifecycleOwner) context, relationShip -> {
-                        if (notificationList.size() > position) {
-                            notificationList.remove(position);
-                            notifyItemRemoved(position);
+                        if (notificationList.size() > holderFollow.getBindingAdapterPosition()) {
+                            notificationList.remove(holderFollow.getBindingAdapterPosition());
+                            notifyItemRemoved(holderFollow.getBindingAdapterPosition());
                         }
                     }));
             holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
                     .observe((LifecycleOwner) context, relationShip -> {
-                        if (notificationList.size() > position) {
-                            notificationList.remove(position);
-                            notifyItemRemoved(position);
+                        if (notificationList.size() > holderFollow.getBindingAdapterPosition()) {
+                            notificationList.remove(holderFollow.getBindingAdapterPosition());
+                            notifyItemRemoved(holderFollow.getBindingAdapterPosition());
                         }
                     }));
             holderFollow.binding.avatar.setOnClickListener(v -> {
