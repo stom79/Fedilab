@@ -878,7 +878,7 @@
     <string name="admin_reject_media">Mediendateien ablehnen</string>
     <string name="admin_domainblock_reject_media">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
     <string name="admin_reject_reports">Meldungen ablehnen</string>
-    <string name="admin_reject_obfuscate">Domänennamen verschleiern</string>
+    <string name="admin_reject_obfuscate">Domänen-Namen verschleiern</string>
     <string name="private_comment">Privater Kommentar</string>
     <string name="admin_domainblock_private_comment">Kommentar zu dieser Domänen-Beschränkung für den internen Gebrauch durch Moderatoren.</string>
     <string name="public_comment">Öffentlicher Kommentar</string>
@@ -889,11 +889,11 @@
     <string name="admin_domainblock_domain">Die Sperrung der Domäne verhindert nicht die Erstellung von Konto-Einträgen in der Datenbank, sondern wendet rückwirkend und automatisch bestimmte Moderations-Methoden auf diese Konten an.</string>
     <string name="admin_domainblock_reject_reports">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
     <string name="admin_domainblock_severity">Stummschalten macht die Beiträge des Kontos für alle, die ihm nicht folgen, unsichtbar. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur die Mediendateien ablehnen möchtest.</string>
-    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domainnamen in der Liste, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist</string>
+    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domänen-Namen in der Liste, wenn die Verteilung der Liste der Domänen-Beschränkunden aktiviert ist</string>
     <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
-    <string name="mute_tag">Bist Du sicher den Tag %1$s stumm zu schalten\?</string>
+    <string name="mute_tag">Den Tag %1$s wirklich stummschalten\?</string>
     <string name="max_indentation_thread">Maximale Tiefe in Beitragsverläufen</string>
     <string name="account_undisabled">Konto wieder aktiviert</string>
     <string name="state">Status</string>
