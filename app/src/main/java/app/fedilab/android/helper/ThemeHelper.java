@@ -283,7 +283,9 @@ public class ThemeHelper {
     public enum themes {
         LIGHT,
         DARK,
-        SYSTEM
+        SYSTEM,
+        SOLARIZED_LIGHT,
+        SOLARIZED_DARK
     }
 
     public interface SlideAnimation {

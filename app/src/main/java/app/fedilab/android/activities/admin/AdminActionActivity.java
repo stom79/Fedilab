@@ -36,7 +36,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
@@ -47,7 +47,7 @@ import app.fedilab.android.ui.fragment.admin.FragmentAdminAccount;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminDomain;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 
-public class AdminActionActivity extends BaseActivity {
+public class AdminActionActivity extends BaseBarActivity {
 
     public static Boolean local = true, remote = true, active = true, pending = true, disabled = true, silenced = true, suspended = true, staff = null, orderByMostRecent = true;
     public static Boolean resolved = null, reportLocal = true, reportRemote = true;

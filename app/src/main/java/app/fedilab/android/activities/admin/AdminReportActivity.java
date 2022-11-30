@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.activities.InstanceProfileActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.client.entities.api.Account;
@@ -70,7 +70,7 @@ import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class AdminReportActivity extends BaseActivity {
+public class AdminReportActivity extends BaseBarActivity {
 
     private AdminAccount adminAccount;
     private Account account;

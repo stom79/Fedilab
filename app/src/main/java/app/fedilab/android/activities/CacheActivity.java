@@ -42,7 +42,7 @@ import app.fedilab.android.helper.CacheHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.CacheAdapter;
 
-public class CacheActivity extends BaseActivity {
+public class CacheActivity extends BaseBarActivity {
 
     private ActivityCacheBinding binding;
     private List<CacheAccount> cacheAccounts;

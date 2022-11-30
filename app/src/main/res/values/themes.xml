@@ -96,7 +96,75 @@
         <item name="android:isLightTheme" tools:targetApi="q">true</item>
     </style>
 
-
     <style name="AlertDialog" parent="Theme.Material3.Light.Dialog.Alert" />
+
+    <style name="SolarizedAppTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/solarized_md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/solarized_md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/solarized_md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/solarized_md_theme_light_onPrimaryContainer
+        </item>
+        <item name="colorSecondary">@color/solarized_md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/solarized_md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/solarized_md_theme_light_secondaryContainer
+        </item>
+        <item name="colorOnSecondaryContainer">
+            @color/solarized_md_theme_light_onSecondaryContainer
+        </item>
+        <item name="colorTertiary">@color/solarized_md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/solarized_md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/solarized_md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/solarized_md_theme_light_onTertiaryContainer
+        </item>
+        <item name="colorError">@color/solarized_md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/solarized_md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/solarized_md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/solarized_md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/solarized_md_theme_light_background</item>
+        <item name="colorOnBackground">@color/solarized_md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/solarized_md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/solarized_md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/solarized_md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/solarized_md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/solarized_md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/solarized_md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/solarized_md_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/solarized_md_theme_light_inversePrimary</item>
+    </style>
+
+    <style name="SolarizedAppThemeBar" parent="AppThemeBar">
+
+        <item name="colorPrimary">@color/solarized_md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/solarized_md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/solarized_md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/solarized_md_theme_light_onPrimaryContainer
+        </item>
+        <item name="colorSecondary">@color/solarized_md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/solarized_md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/solarized_md_theme_light_secondaryContainer
+        </item>
+        <item name="colorOnSecondaryContainer">
+            @color/solarized_md_theme_light_onSecondaryContainer
+        </item>
+        <item name="colorTertiary">@color/solarized_md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/solarized_md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/solarized_md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/solarized_md_theme_light_onTertiaryContainer
+        </item>
+        <item name="colorError">@color/solarized_md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/solarized_md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/solarized_md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/solarized_md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/solarized_md_theme_light_background</item>
+        <item name="colorOnBackground">@color/solarized_md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/solarized_md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/solarized_md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/solarized_md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/solarized_md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/solarized_md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/solarized_md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/solarized_md_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/solarized_md_theme_light_inversePrimary</item>
+    </style>
 
 </resources>

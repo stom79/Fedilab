@@ -30,7 +30,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonDomainBlock;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 
-public class ActionActivity extends BaseActivity {
+public class ActionActivity extends BaseBarActivity {
 
     private ActivityActionsBinding binding;
     private boolean canGoBack;

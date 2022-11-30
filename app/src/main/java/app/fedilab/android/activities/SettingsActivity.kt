@@ -23,7 +23,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import app.fedilab.android.R
 import app.fedilab.android.databinding.ActivitySettingsBinding
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseBarActivity() {
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
 

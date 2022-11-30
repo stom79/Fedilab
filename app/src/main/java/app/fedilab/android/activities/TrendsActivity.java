@@ -37,7 +37,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTag;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 
 
-public class TrendsActivity extends BaseActivity {
+public class TrendsActivity extends BaseBarActivity {
 
 
     private ActivityTrendsBinding binding;

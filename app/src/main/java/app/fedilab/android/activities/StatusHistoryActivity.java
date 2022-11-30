@@ -30,7 +30,7 @@ import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class StatusHistoryActivity extends BaseActivity {
+public class StatusHistoryActivity extends BaseBarActivity {
 
     public static Resources.Theme theme;
 

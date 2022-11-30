@@ -52,7 +52,7 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
-public class EditProfileActivity extends BaseActivity {
+public class EditProfileActivity extends BaseBarActivity {
 
     public static final int PICK_MEDIA_AVATAR = 5705;
     public static final int PICK_MEDIA_HEADER = 5706;

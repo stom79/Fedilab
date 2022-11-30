@@ -45,7 +45,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import es.dmoral.toasty.Toasty;
 
 
-public class SearchResultTabActivity extends BaseActivity {
+public class SearchResultTabActivity extends BaseBarActivity {
 
 
     private String search;

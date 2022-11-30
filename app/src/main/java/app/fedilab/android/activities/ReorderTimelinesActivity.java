@@ -71,7 +71,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class ReorderTimelinesActivity extends BaseActivity implements OnStartDragListener {
+public class ReorderTimelinesActivity extends BaseBarActivity implements OnStartDragListener {
 
 
     private ItemTouchHelper touchHelper;

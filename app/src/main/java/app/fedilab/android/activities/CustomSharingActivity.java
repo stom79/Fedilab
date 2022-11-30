@@ -48,7 +48,7 @@ import es.dmoral.toasty.Toasty;
  * Share status metadata to remote content aggregators
  */
 
-public class CustomSharingActivity extends BaseActivity implements OnCustomSharingInterface {
+public class CustomSharingActivity extends BaseBarActivity implements OnCustomSharingInterface {
 
     private String title, keywords, custom_sharing_url, encodedCustomSharingURL;
     private String bundle_url;

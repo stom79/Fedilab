@@ -40,7 +40,7 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseBarActivity {
 
 
     private ActivityAboutBinding binding;

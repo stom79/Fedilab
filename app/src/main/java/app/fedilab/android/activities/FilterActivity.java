@@ -45,7 +45,7 @@ import app.fedilab.android.ui.drawer.FilterAdapter;
 import app.fedilab.android.ui.drawer.KeywordAdapter;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 
-public class FilterActivity extends BaseActivity implements FilterAdapter.Delete {
+public class FilterActivity extends BaseBarActivity implements FilterAdapter.Delete {
 
     private ActivityFiltersBinding binding;
     private List<Filter> filterList;

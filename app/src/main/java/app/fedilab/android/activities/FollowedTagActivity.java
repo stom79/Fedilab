@@ -44,7 +44,7 @@ import app.fedilab.android.viewmodel.mastodon.TagVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class FollowedTagActivity extends BaseActivity implements FollowedTagAdapter.ActionOnTag {
+public class FollowedTagActivity extends BaseBarActivity implements FollowedTagAdapter.ActionOnTag {
 
 
     private ActivityFollowedTagsBinding binding;

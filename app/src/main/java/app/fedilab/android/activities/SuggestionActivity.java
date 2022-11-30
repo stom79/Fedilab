@@ -25,7 +25,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonSuggestion;
 
 
-public class SuggestionActivity extends BaseActivity {
+public class SuggestionActivity extends BaseBarActivity {
 
 
     @Override

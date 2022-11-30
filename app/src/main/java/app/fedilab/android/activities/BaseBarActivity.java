@@ -15,39 +15,32 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import app.fedilab.android.databinding.ActivityThemeSettingsBinding;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.one.EmojiOneProvider;
+
+import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 
 
-public class ThemeSettingsActivity extends BaseActivity {
+@SuppressLint("Registered")
+public class BaseBarActivity extends AppCompatActivity {
 
-
-    private ActivityThemeSettingsBinding binding;
-
+    static {
+        Helper.installProvider();
+        EmojiManager.install(new EmojiOneProvider());
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivityThemeSettingsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
+        ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        Helper.setLocale(this);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
 }

@@ -40,7 +40,7 @@ import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
-public class PartnerShipActivity extends BaseActivity {
+public class PartnerShipActivity extends BaseBarActivity {
 
 
     @Override

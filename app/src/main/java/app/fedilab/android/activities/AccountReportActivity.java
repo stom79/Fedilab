@@ -39,7 +39,7 @@ import app.fedilab.android.ui.drawer.StatusReportAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
 
-public class AccountReportActivity extends BaseActivity {
+public class AccountReportActivity extends BaseBarActivity {
 
 
     private String account_id;

@@ -60,7 +60,7 @@ import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class MastodonListActivity extends BaseActivity implements MastodonListAdapter.ActionOnList {
+public class MastodonListActivity extends BaseBarActivity implements MastodonListAdapter.ActionOnList {
 
 
     AccountListAdapter accountsInListAdapter;

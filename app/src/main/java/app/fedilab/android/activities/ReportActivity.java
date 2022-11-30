@@ -43,7 +43,7 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class ReportActivity extends BaseActivity {
+public class ReportActivity extends BaseBarActivity {
 
     private ActivityReportBinding binding;
     private Status status;

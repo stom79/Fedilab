@@ -31,7 +31,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminDomainblockBinding;
@@ -39,7 +39,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
 
-public class AdminDomainBlockActivity extends BaseActivity {
+public class AdminDomainBlockActivity extends BaseBarActivity {
 
 
     private final String[] severityChoices = {"silence", "suspend", "noop"};

@@ -45,15 +45,6 @@ public class MainApplication extends MultiDexApplication {
         return app;
     }
 
-    private static final int[] HARMONIZED_MATERIAL_ATTRIBUTES =
-            new int[]{
-                    R.attr.colorOnPrimary,
-                    R.attr.colorPrimaryContainer,
-                    R.attr.colorError,
-                    R.attr.colorOnError,
-                    R.attr.colorErrorContainer,
-                    R.attr.colorOnErrorContainer
-            };
 
     @Override
     public void onCreate() {
@@ -61,19 +52,12 @@ public class MainApplication extends MultiDexApplication {
         app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
 
-        DynamicColors.applyToActivitiesIfAvailable(this);
-
-
-        boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
-        boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
-        if (no_theme_set && !custom_theme) {
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean("no_theme_set", false);
-            editor.apply();
+        boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
+        if (dynamicColor) {
+            DynamicColors.applyToActivitiesIfAvailable(this);
         }
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
         Toasty.Config.getInstance().apply();
     }
 

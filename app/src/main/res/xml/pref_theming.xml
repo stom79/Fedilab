@@ -15,41 +15,33 @@
         app:title="@string/type_of_theme"
         app:useSimpleSummaryProvider="true" />
 
-    <Preference
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
         app:iconSpaceReserved="false"
-        app:key="launch_custom_theme"
-        app:summary="@string/pref_customize_summary"
-        app:title="@string/pref_customize" />
+        app:key="@string/SET_DYNAMICCOLOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_dynamic_color_indication"
+        app:title="@string/set_dynamic_color" />
 
-
-    <Preference
+    <ListPreference
+        app:defaultValue="LIGHT"
+        app:dialogTitle="@string/type_default_theme_light"
+        app:entries="@array/set_default_theme_light"
+        app:entryValues="@array/SET_DEFAULT_THEME_LIGHT"
         app:iconSpaceReserved="false"
-        app:key="contributors_themes"
-        app:summary="@string/pref_contributor_summary"
-        app:title="@string/pref_contributor" />
+        app:key="@string/SET_THEME_DEFAULT_LIGHT"
+        app:title="@string/type_default_theme_light"
+        app:useSimpleSummaryProvider="true" />
 
-    <androidx.preference.PreferenceCategory
-        android:key="cyanea_preference_category"
-        android:title="@string/customize_timelines"
-        app:iconSpaceReserved="false">
+    <ListPreference
+        app:defaultValue="DARK"
+        app:dialogTitle="@string/type_default_theme_dark"
+        app:entries="@array/set_default_theme_dark"
+        app:entryValues="@array/SET_THEME_DEFAULT_DARK"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_THEME_DEFAULT_DARK"
+        app:title="@string/type_of_theme"
+        app:useSimpleSummaryProvider="true" />
 
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="reset_pref"
-            app:summary="@string/clik_reset"
-            app:title="@string/reset_color" />
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="pref_import"
-            app:summary="@string/import_theme_title"
-            app:title="@string/import_theme" />
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="pref_export"
-            app:summary="@string/export_theme_title"
-            app:title="@string/export_theme" />
-
-    </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>
