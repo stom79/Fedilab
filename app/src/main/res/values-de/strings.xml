@@ -629,7 +629,7 @@
     <string name="unlocked">Entsperrt</string>
     <string name="add_field">Feld hinzufügen</string>
     <string name="add_filter">Filter hinzufügen</string>
-    <string name="delete_notification_all_warning">Bist du sicher, dass du alle Benachrichtigungen löschen willst\? Das kann nicht rückgängig gemacht werden.</string>
+    <string name="delete_notification_all_warning">Bist Du Dir sicher, dass Du alle Benachrichtigungen löschen willst\? Das kann nicht rückgängig gemacht werden.</string>
     <string name="display_all_categories">Zeige alle Kategorien</string>
     <string name="notif_display_poll_results">Ergebnisse der Umfrage</string>
     <string name="mark_all_as_read">Alle Benachrichtigungen als gelesen markieren</string>
@@ -688,7 +688,7 @@
     <string name="report_1_unfollow_title">Entfolge %1$s</string>
     <string name="report_1_unfollow">Du folgst diesem Konto. Um die Beiträge nicht mehr in deiner Home-Timeline zu sehen, entfolge ihm.</string>
     <string name="report_1_mute">Du wirst die Beiträge nicht mehr sehen. Du können dir immer noch folgen und deine Beiträge sehen und wissen nicht, dass sie stummgeschaltet sind.</string>
-    <string name="report_1_block">Du wirst die Beiträge nicht mehr sehen. Du können deine Beiträge nicht sehen und dir nicht mehr folgen. Sie werden erkennen können, dass sie blockiert sind.</string>
+    <string name="report_1_block">Du wirst ihre Beiträge nicht mehr sehen. Sie werden Deine Beiträge nicht sehen und Dir nicht mehr folgen können. Sie werden erkennen können, dass sie blockiert sind.</string>
     <string name="notif_display_reblogs">Boosten</string>
     <string name="notif_display_updates_from_people">Aktualisierungen Anderer</string>
     <string name="notif_display_follows">Folgende</string>
@@ -718,7 +718,7 @@
     <string name="messages_in_cache_for_home">Nachrichten im Cache für Startseite</string>
     <string name="messages_in_cache_for_other_timelines">Nachrichten im Cache für andere Timelines</string>
     <string name="clear_cache">Cache leeren</string>
-    <string name="delete_cache_message">Sind Du sich sicher, den Cache zu leeren\? Wenn Du Entwürfe mit Bildern, etc haben, werden die angehängten Dateien gelöscht.</string>
+    <string name="delete_cache_message">Bist Du Dir sicher den Cache zu leeren\? Angehängte Bilder/Videos werden in gespeicherten Entwürfen geschlöscht.</string>
     <string name="msg_save_image">Verlassen, ohne das Bild zu speichern\?</string>
     <string name="label_shape">Form</string>
     <string name="domain">Domäne</string>
