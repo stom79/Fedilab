@@ -638,7 +638,7 @@
     <string name="profiled_updated">Profil wurde aktualisiert!</string>
     <string name="not_valid_list_name">Listenname ist nicht gültig!</string>
     <string name="no_account_in_list">Keine Konten für diese Liste gefunden!</string>
-    <string name="delete_field_confirm">Bist du sicher, dass du dieses Feld löschen willst\?</string>
+    <string name="delete_field_confirm">Bist Du sicher, dass Du dieses Feld löschen willst\?</string>
     <string name="delete_field">Feld löschen</string>
     <string name="type_of_notifications">Art der Benachrichtigungen</string>
     <string name="disable_notifications">Benachrichtigungen deaktivieren</string>
@@ -795,7 +795,7 @@
     <string name="account_approved">Konto genehmigt</string>
     <string name="report">Meldung</string>
     <string name="display_media_notification_summary">Medien in Benachrichtigungen für Reblogs und Favoriten werden angezeigt</string>
-    <string name="set_live_translate">Übersetzung in eine spezifische Sprache erzwingen. Wähle den ersten Wert um die Einstellungen zurückzusetzen</string>
+    <string name="set_live_translate">Übersetzung in eine bestimmte Sprache erzwingen. Wähle den ersten Wert um die Einstellungen zurückzusetzen</string>
     <string name="status_history">Nachrichten-Verlauf</string>
     <string name="edited_message_at">Bearbeitet am %1$s</string>
     <string name="created_message_at">Erstellt am %1$s</string>
