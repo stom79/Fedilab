@@ -889,7 +889,7 @@
     <string name="admin_domainblock_domain">Die Sperrung der Domäne verhindert nicht die Erstellung von Konto-Einträgen in der Datenbank, sondern wendet rückwirkend und automatisch bestimmte Moderations-Methoden auf diese Konten an.</string>
     <string name="admin_domainblock_reject_reports">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
     <string name="admin_domainblock_severity">Stummschalten macht die Beiträge des Kontos für alle die ihm nicht folgen unsichtbar. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur Mediendateien ablehnen möchtest.</string>
-    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domainnamen in der Liste, wenn Verteilung der Liste der Domainbeschränkunden aktiviert ist</string>
+    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domainnamen in der Liste, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist</string>
     <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
