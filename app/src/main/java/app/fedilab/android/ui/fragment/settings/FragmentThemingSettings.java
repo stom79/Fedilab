@@ -62,6 +62,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
             if (SET_THEME_BASE != null) {
                 ThemeHelper.switchTo(SET_THEME_BASE.getValue());
+                requireActivity().recreate();
             }
         }
         Helper.recreateMainActivity(requireActivity());

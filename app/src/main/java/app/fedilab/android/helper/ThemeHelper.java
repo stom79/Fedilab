@@ -267,9 +267,9 @@ public class ThemeHelper {
     }
 
     public static void switchTo(String themePref) {
-        if (themes.LIGHT.name().equals(themePref)) {
+        if (themes.LIGHT.name().equals(themePref) || themes.SOLARIZED_LIGHT.name().equals(themePref)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (themes.DARK.name().equals(themePref)) {
+        } else if (themes.DARK.name().equals(themePref) || themes.SOLARIZED_DARK.name().equals(themePref)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
