@@ -900,4 +900,11 @@
     <string name="admin_domainblock_reject_obfuscate">Etki alanı sınırlamaları listesinin tanıtılması etkinleştirilmişse listedeki etki alanı adını kısmen gizleyin</string>
     <string name="admin_domainblock_public_comment">Etki alanı sınırlamaları listesinin tanıtılması etkinleştirilmişse, bu etki alanı sınırlaması hakkında herkese açık yorum yapın.</string>
     <string name="mute_tag">%1$s etiketini sessize almak istediğinizden emin misiniz\?</string>
+    <string name="pref_customize">Renkleri özelleştir</string>
+    <string name="pref_customize_summary">Temalar için özel renklerinizi ayarlamanıza izin verir.</string>
+    <string name="set_dynamic_color">Değişken Renk</string>
+    <string name="type_default_theme_light">Öntanımlı açık tema</string>
+    <string name="type_default_theme_dark">Öntanımlı koyu tema</string>
+    <string name="type_of_theme">Tema için bir mod seçin</string>
+    <string name="set_dynamic_color_indication">Kişisel duvar kağıdınızın renk düzeniyle ton olarak uyum sağlayın.</string>
 </resources>

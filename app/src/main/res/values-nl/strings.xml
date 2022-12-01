@@ -113,7 +113,7 @@
     </plurals>
     <plurals name="date_hours_polls">
         <item quantity="one">%d uur</item>
-        <item quantity="other">%d uur</item>
+        <item quantity="other">%d uren</item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="one">%d dag</item>
@@ -197,12 +197,12 @@
     <string name="set_notif_follow_mention">Geef een melding wanneer iemand jou vermeldt</string>
     <string name="set_notif_follow_poll">Geef een melding wanneer een poll is beëindigd</string>
     <string name="set_notif_status">Meld nieuwe berichten</string>
-    <string name="set_share_validation">Vraag voor het boosten een bevestiging</string>
-    <string name="set_share_validation_fav">Vraag voor het markeren als favoriet een bevestiging</string>
+    <string name="set_share_validation">Vraag om bevestiging voor het boosten</string>
+    <string name="set_share_validation_fav">Vraag om bevestiging voor het markeren als favoriet</string>
     <string name="set_notify">Meldingen?</string>
     <string name="set_notif_silent">Stille meldingen</string>
     <string name="set_nsfw_timeout">Hoe lang gevoelige inhoud blijven tonen (in seconden, 0 is onbeperkt)</string>
-    <string name="set_med_desc_timeout">Media Omschrijving time-out (seconden, 0 betekent uit)</string>
+    <string name="set_med_desc_timeout">Media omschrijving time-out (seconden, 0 betekent uit)</string>
     <string name="settings_title_custom_sharing">Handmatig delen</string>
     <string name="settings_custom_sharing_url">Jouw handmatige deel-URL…</string>
     <string name="set_lock_account">Account vergrendelen</string>
@@ -212,7 +212,7 @@
     <string name="settings_time_to">en</string>
     <string name="embedded_browser">Gebruik de ingebouwde webbrowser</string>
     <string name="custom_tabs">Aangepaste tabbladen</string>
-    <string name="expand_cw">Automatisch tekstwaarschuwingen (cw) uitklappen</string>
+    <string name="expand_cw">Automatisch tekstwaarschuwingen (CW) uitklappen</string>
     <string name="set_led_colour">LED-kleur instellen:</string>
     <string-array name="led_colours">
         <item>Blauw</item>
@@ -382,7 +382,7 @@
     <string name="submit">Verzenden</string>
     <string name="filter_timeline_with_a_tag">Tijdlijn op tags filteren</string>
     <string name="no_tags">Geen tags</string>
-    <string name="set_retrieve_metadata_share_from_extras">Een afbeelding toevoegen wanneer een URL wordt gedeeld</string>
+    <string name="set_retrieve_metadata_share_from_extras">Een afbeelding toevoegen wanneer een link wordt gedeeld</string>
     <!-- end languages -->
     <string name="create_poll">Poll aanmaken</string>
     <string name="poll_choice_s">Keuze %d</string>
@@ -440,7 +440,7 @@
     <string name="validation_needed">Deze server werkt met uitnodigingen. Je account moet handmatig goedgekeurd worden door een beheerder voordat je het kan gebruiken.</string>
     <string name="password_error">Wachtwoorden komen niet overeen!</string>
     <string name="email_error">De e-mail lijkt niet geldig te zijn!</string>
-    <string name="email_indicator">U ontvangt een bevestiging per e-mail</string>
+    <string name="email_indicator">Je ontvangt een bevestiging per e-mail</string>
     <string name="password_indicator">Gebruik minstens 8 karakters</string>
     <string name="password_too_short">Wachtwoord moet uit minstens 8 karakters bestaan</string>
     <string name="username_error">Gebruikersnaam mag alleen bestaan uit letters, getallen en underscores</string>
@@ -473,13 +473,13 @@
     <string name="voice_message">Spraakbericht</string>
     <string name="set_enable_time_slot_indication">Tijdens het tijdslot stuurt de app meldingen. Je kunt dit tijdslot omkeren door hieronder voor \'Stil\' te kiezen.</string>
     <string name="set_fit_preview_indication">Previews worden niet bijgesneden in tijdlijnen</string>
-    <string name="set_capitalize_indication">Automatisch na de vermelding een nieuwe regel beginnen, om zo de eerste zin met een hoofdletter te beginnen</string>
+    <string name="set_capitalize_indication">Bij een reactie automatisch de eerste zin met een hoofdletter laten beginnen</string>
     <string name="settings_title_custom_sharing_indication">Gebruikers toestaan om berichten aan hun RSS feeds toe te voegen</string>
     <string name="compose">Opstellen</string>
     <string name="select">Selecteer</string>
     <string name="add_instances">Server toevoegen</string>
     <string name="set_enable_crash_report">Crashrapporten inschakelen</string>
-    <string name="set_enable_crash_report_indication">Wanneer dit is ingeschakeld, wordt lokaal een crashrapport aangemaakt, dat je vervolgens kunt delen.</string>
+    <string name="set_enable_crash_report_indication">Als dit is ingeschakeld, wordt lokaal een crashrapport aangemaakt, dat je kunt delen.</string>
     <string name="crash_title">Fedilab is gestopt :(</string>
     <string name="crash_message">Je kunt mij per e-mail foutrapportages sturen. Dit helpt om het probleem op te lossen :)\n\nJe kunt extra informatie toevoegen. Dank je!</string>
     <string name="visibility">Zichtbaarheid</string>
@@ -553,7 +553,7 @@
     <string name="share_link">Deel link</string>
     <string name="open_other_app">Open met een andere app</string>
     <string name="check_redirect">Omleiding controleren</string>
-    <string name="no_redirect">Deze URL stuurt niet door</string>
+    <string name="no_redirect">Deze link stuurt niet door</string>
     <string name="redirect_detected">%1$s
 \n
 \nverwijst naar
@@ -569,7 +569,7 @@
     <string name="verified_by">Geverifieerd door %1$s (%2$s)</string>
     <string name="action_disabled">Actie uitgeschakeld</string>
     <string name="action_unfollow">Ontvouw</string>
-    <string name="error_destination_path">Er is iets misgegaan, controleer uw download directory in de instellingen.</string>
+    <string name="error_destination_path">Er is iets misgegaan, controleer je download map in de instellingen.</string>
     <string name="action_announcements">Mededelingen</string>
     <string name="no_announcements">Geen mededelingen!</string>
     <string name="add_reaction">Reactie toevoegen</string>
@@ -614,7 +614,7 @@
     <string name="label_rectangle">Rechthoek</string>
     <string name="label_eraser_mode">Wis modus</string>
     <string name="delete_cache">Wis cache</string>
-    <string name="messages_stored_in_drafts">Berichten opgeslagen bij concepten</string>
+    <string name="messages_stored_in_drafts">Conceptberichten opgeslagen</string>
     <string name="my_instance">Mijn server</string>
     <string name="my_app">Mijn app</string>
     <string name="set_push_notifications_delay">Stel de vertraging in tussen elke nieuwe lading</string>
@@ -641,7 +641,7 @@
     <string name="followed_tags">Gevolgde tags</string>
     <string name="follow_tag">Volg tag</string>
     <string name="filter_action">Filter actie</string>
-    <string name="set_unlisted_replies">Onvermelde antwoorden</string>
+    <string name="set_unlisted_replies">Minder openbare reacties</string>
     <string name="hide_completely">Verberg helemaal</string>
     <string name="hide_completely_description">Verberg de gefilterde inhoud helemaal, alsof het niet bestaat</string>
     <string name="keyword_or_phrase">Trefwoord of zinsdeel</string>
@@ -680,7 +680,7 @@
     <string name="clear_all_notif">Alle meldingen wissen</string>
     <string name="not_valid_list_name">Lijstnaam is niet geldig!</string>
     <string name="pref_custom_theme_new_summary">Maak een aangepast thema</string>
-    <string name="messages_in_cache_for_other_timelines">Berichten in cache voor andere tijdlijnen</string>
+    <string name="messages_in_cache_for_other_timelines">Berichten in cache andere tijdlijnen</string>
     <string name="bottom_menu">Onderste menu</string>
     <string name="tap_here_to_refresh_poll">Klik hier om poll bij te werken</string>
     <string name="clear_cache">Buffer leegmaken</string>
@@ -689,7 +689,7 @@
     <string name="set_your_max_char_count">Stel je maximale karakter limiet in</string>
     <string name="import_settings">Importeer instellingen</string>
     <string name="set_timelines_in_a_list">Als dit aanstaat worden alle vastgezette tijdlijnen getoond in een drop-down menu</string>
-    <string name="reply">Antwoord</string>
+    <string name="reply">Reactie</string>
     <string name="delete_cache_message">Weet je zeker dat je de cache wilt wissen\? Als je concepten hebt met media, dan zijn die bijgevoegde media ook weg.</string>
     <string name="set_display_counter">Toon tellers voor berichten</string>
     <string name="media_cannot_be_uploaded">Media kan niet worden geüpload!</string>
@@ -709,7 +709,7 @@
     <string name="action_privacy_policy">Privacybeleid</string>
     <string name="unpin_timeline_description">Weet je zeker dat je die tijdlijn wilt losmaken\?</string>
     <string name="domains">Domeinen</string>
-    <string name="set_unlisted_replies_indication">Dit betreft alleen \"openbare\" reacties. Indien ingeschakeld krijgen je reacties automatisch de zichtbaarheid \"unlisted\" in plaats van \"openbaar\"</string>
+    <string name="set_unlisted_replies_indication">Dit betreft alleen \"openbare\" reacties. Indien ingeschakeld krijgen je reacties automatisch de zichtbaarheid \"minder openbaar\" in plaats van \"openbaar\"</string>
     <string name="reject_media">Weiger media</string>
     <string name="set_notif_user_sign_up">Nieuwe aanmelding (moderators)</string>
     <string name="set_notif_admin_report">Nieuwe melding (moderators)</string>
@@ -766,7 +766,7 @@
     <string name="display">Toon</string>
     <string name="more_actions">Meer acties</string>
     <string name="set_display_counters">Toon tellers</string>
-    <string name="set_display_counters_description">Toon een bubbel teller in tab tijdlijnen bij nieuwe berichten</string>
+    <string name="set_display_counters_description">Toon een teller in tab tijdlijnen bij nieuwe berichten</string>
     <string name="pref_contributor_summary">Kies een thema dat gemaakt is door derden</string>
     <string name="type_of_notifications">Soort meldingen</string>
     <string name="notification_sounds">Meldingsgeluid</string>
@@ -853,7 +853,7 @@
     <string name="message_has_been_sent">Bericht is verzonden!</string>
     <string name="label_shape">Vorm</string>
     <string name="origin_report">Herkomst van gerapporteerd account</string>
-    <string name="messages_in_cache_for_home">Berichten in cache voor eigen tijdlijn</string>
+    <string name="messages_in_cache_for_home">Berichten in cache eigen tijdlijn</string>
     <string name="action_lists_edit">Bewerk lijst</string>
     <string name="type_of_notifications_title">Kies het type melding</string>
     <string name="location">Locatie</string>
@@ -862,7 +862,7 @@
     <string name="toast_feature_not_supported">Je server lijkt die mogelijkheid niet te hebben!</string>
     <string name="fetch_notifications">Haal meldingen op</string>
     <string name="aggregate_notifications">Meldingen verzamelen</string>
-    <string name="display_media_notification_summary">Media in meldingen voor reblogs en favorieten worden getoond</string>
+    <string name="display_media_notification_summary">Media in meldingen voor boosts en favorieten worden getoond</string>
     <string name="pickup_logo">Kies een logo</string>
     <string name="change_logo">Pictogram wijzigen</string>
     <string name="message_language">Taal voor berichten</string>
@@ -872,7 +872,7 @@
     <string name="edit_message">Bewerk bericht</string>
     <string name="status_history">Berichthistorie</string>
     <string name="filter_action_explanations">Kies voor een actie als een bericht voldoet aan het filter</string>
-    <string name="show_anyway">Toon toch maar</string>
+    <string name="show_anyway">Toch tonen</string>
     <string name="display_remote_profile">Toon remote profiel</string>
     <string name="toast_fetch_error">De app kan geen remote data vinden!</string>
     <string name="toast_error_add_to_list">De app kon het account niet aan de lijst toevoegen!</string>
@@ -903,4 +903,11 @@
     <string name="account_unsilenced">Account niet meer beperken</string>
     <string name="account_suspended">Account opgeschort</string>
     <string name="full_date_edited">%1$s bewerkte %2$s</string>
+    <string name="pref_customize">Kleuren aanpassen</string>
+    <string name="set_dynamic_color">Dynamische kleur</string>
+    <string name="type_default_theme_light">Standaard lichte thema</string>
+    <string name="type_default_theme_dark">Standaard donkere thema</string>
+    <string name="type_of_theme">Kies het type thema</string>
+    <string name="pref_customize_summary">Sta toe je aangepaste kleuren in te stellen voor thema\'s.</string>
+    <string name="set_dynamic_color_indication">Stem af op het kleurenschema van uw persoonlijke wallpaper.</string>
 </resources>

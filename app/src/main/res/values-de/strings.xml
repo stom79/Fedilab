@@ -795,11 +795,11 @@
     <string name="account_approved">Konto genehmigt</string>
     <string name="report">Meldung</string>
     <string name="display_media_notification_summary">Medien in Benachrichtigungen für Reblogs und Favoriten werden angezeigt</string>
-    <string name="set_live_translate">Übersetzung in eine bestimmte Sprache erzwingen. Wähle den ersten Wert um die Einstellungen zurückzusetzen</string>
+    <string name="set_live_translate">Übersetzung in eine bestimmte Sprache erzwingen. Wähle den ersten Wert, um auf Geräteeinstellungen zurückzusetzen</string>
     <string name="status_history">Nachrichten-Verlauf</string>
     <string name="edited_message_at">Bearbeitet am %1$s</string>
     <string name="created_message_at">Erstellt am %1$s</string>
-    <string name="set_unlisted_replies">Nicht öffentlich gelistete Antworten</string>
+    <string name="set_unlisted_replies">Nicht gelistete Antworten</string>
     <string name="notification_remove_from_cache">Benachrichtigungen wurden aus dem Zwischenspeicher entfernt.</string>
     <string name="email_status">eMail-Status</string>
     <string name="joined">Beigetreten</string>
@@ -861,7 +861,7 @@
     <string name="sign_ups">Registrierungen</string>
     <string name="channel_notif_report">Neue Meldung</string>
     <string name="hide_with_warning_description">Verstecke den gefilterten Inhalt hinter einer Warnung die den Titel des Filters enthält</string>
-    <string name="filter_action">Aktion filtern</string>
+    <string name="filter_action">Aktion des Filters</string>
     <string name="filter_action_explanations">Wähle die Aktion aus die durchgeführt werden soll wenn ein Beitrag Deinem Filter entspricht</string>
     <string name="toast_error_add_to_list">Hinzufügen des Kontos zur Liste fehlgeschlagen!</string>
     <string name="keep_notifications">Benachrichtigungen behalten</string>
@@ -894,7 +894,7 @@
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
     <string name="mute_tag">Den Tag %1$s wirklich stummschalten\?</string>
-    <string name="max_indentation_thread">Maximale Tiefe in Beitragsverläufen</string>
+    <string name="max_indentation_thread">Maximaler Einzug in Threads</string>
     <string name="account_undisabled">Konto wieder aktiviert</string>
     <string name="state">Status</string>
 </resources>

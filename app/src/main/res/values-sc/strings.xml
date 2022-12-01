@@ -894,4 +894,11 @@
     <string name="admin_domainblock_domain">Su blocu de su domìniu no at a prevènnere sa creatzione de intradas de contos in sa base de datos, ma at a aplicare a manera retroativa e automàtica maneras de moderatzione a custos contos.</string>
     <string name="reject_media">Refuda is mèdios</string>
     <string name="admin_domainblock_reject_reports">Ignora totu is informes chi bèngiant dae custu domìniu. No est rilevante pro is suspensiones</string>
+    <string name="pref_customize">Personaliza is colores</string>
+    <string name="set_dynamic_color">Colore dinàmicu</string>
+    <string name="type_default_theme_light">Tema craru predefinidu</string>
+    <string name="type_of_theme">Issèbera una modalidade pro su tema</string>
+    <string name="set_dynamic_color_indication">Allìnia tonalmente cun s\'ischema de colores de s\'isfundu personale tuo.</string>
+    <string name="pref_customize_summary">Ti permitit de cunfigurare is colores personalizados tuos pro is temas.</string>
+    <string name="type_default_theme_dark">Tema iscuru predefinidu</string>
 </resources>
