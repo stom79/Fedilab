@@ -37,7 +37,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 
 
-public class InstanceHealthActivity extends BaseActivity {
+public class InstanceHealthActivity extends BaseAlertDialogActivity {
 
     private ActivityInstanceSocialBinding binding;
 

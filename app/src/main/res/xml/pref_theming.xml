@@ -41,7 +41,7 @@
         app:entryValues="@array/SET_THEME_DEFAULT_DARK"
         app:iconSpaceReserved="false"
         app:key="@string/SET_THEME_DEFAULT_DARK"
-        app:title="@string/type_of_theme"
+        app:title="@string/type_default_theme_dark"
         app:useSimpleSummaryProvider="true" />
 
 </androidx.preference.PreferenceScreen>

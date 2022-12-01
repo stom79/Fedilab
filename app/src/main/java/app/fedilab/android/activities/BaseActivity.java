@@ -16,8 +16,10 @@ package app.fedilab.android.activities;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -102,8 +104,20 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         super.onCreate(savedInstanceState);
-        ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        }
         Helper.setLocale(this);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase);
+            override.fontScale = prefs.getFloat(newBase.getString(R.string.SET_FONT_SCALE), 1.1f);
+            applyOverrideConfiguration(override);
+        }
+        super.attachBaseContext(newBase);
+    }
 }

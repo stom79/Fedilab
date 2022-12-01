@@ -31,7 +31,7 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
-public class InstanceProfileActivity extends BaseActivity {
+public class InstanceProfileActivity extends BaseAlertDialogActivity {
 
 
     private String instance;

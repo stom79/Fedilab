@@ -63,6 +63,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             if (SET_THEME_BASE != null) {
                 ThemeHelper.switchTo(SET_THEME_BASE.getValue());
                 requireActivity().recreate();
+                Helper.recreateMainActivity(requireActivity());
             }
         }
         //TODO: check if can be removed

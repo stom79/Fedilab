@@ -210,16 +210,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (initialStatuses != null) {
                 initializeStatusesCommonView(initialStatuses);
             } else {
-
                 router(null);
             }
         } else {
             if (isNotPinnedTimeline && lockForResumeCall == 0) {
                 router(null);
                 lockForResumeCall++;
-            } else if (!isNotPinnedTimeline) {
+            } /*else if (!isNotPinnedTimeline) {
                 router(null);
-            }
+            }*/
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);

@@ -48,7 +48,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 
 
-public class InstanceActivity extends BaseActivity {
+public class InstanceActivity extends BaseAlertDialogActivity {
 
 
     ActivityInstanceBinding binding;

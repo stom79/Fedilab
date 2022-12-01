@@ -68,7 +68,7 @@ import app.fedilab.android.ui.fragment.media.FragmentMedia;
 import es.dmoral.toasty.Toasty;
 
 
-public class MediaActivity extends BaseActivity implements OnDownloadInterface {
+public class MediaActivity extends BaseTransparentActivity implements OnDownloadInterface {
 
     int flags;
     private ArrayList<Attachment> attachments;

@@ -36,7 +36,7 @@ import app.fedilab.android.helper.ThemeHelper;
 
 
 @SuppressLint("Registered")
-public class BaseBarActivity extends AppCompatActivity {
+public class BaseTransparentActivity extends AppCompatActivity {
 
     static {
         Helper.installProvider();
@@ -56,10 +56,10 @@ public class BaseBarActivity extends AppCompatActivity {
                     String defaultLight = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_LIGHT), "LIGHT");
                     switch (defaultLight) {
                         case "LIGHT":
-                            setTheme(R.style.AppThemeBar);
+                            setTheme(R.style.Transparent);
                             break;
                         case "SOLARIZED_LIGHT":
-                            setTheme(R.style.SolarizedAppThemeBar);
+                            setTheme(R.style.TransparentSolarized);
                             break;
                     }
                     break;
@@ -67,13 +67,13 @@ public class BaseBarActivity extends AppCompatActivity {
                     String defaultDark = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_DARK), "DARK");
                     switch (defaultDark) {
                         case "DARK":
-                            setTheme(R.style.AppThemeBar);
+                            setTheme(R.style.Transparent);
                             break;
                         case "SOLARIZED_DARK":
-                            setTheme(R.style.SolarizedAppThemeBar);
+                            setTheme(R.style.TransparentSolarized);
                             break;
                         case "BLACK":
-                            setTheme(R.style.BlackAppThemeBar);
+                            setTheme(R.style.TransparentBlack);
                             break;
                     }
                     break;
@@ -83,28 +83,28 @@ public class BaseBarActivity extends AppCompatActivity {
             switch (currentTheme) {
                 case "LIGHT":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    setTheme(R.style.AppThemeBar);
+                    setTheme(R.style.Transparent);
                     break;
                 case "DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    setTheme(R.style.AppThemeBar);
+                    setTheme(R.style.Transparent);
                     break;
                 case "SOLARIZED_LIGHT":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    setTheme(R.style.SolarizedAppThemeBar);
+                    setTheme(R.style.TransparentSolarized);
                     break;
                 case "SOLARIZED_DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    setTheme(R.style.SolarizedAppThemeBar);
+                    setTheme(R.style.TransparentSolarized);
                     break;
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    setTheme(R.style.BlackAppThemeBar);
+                    setTheme(R.style.TransparentBlack);
                     break;
             }
         }
         super.onCreate(savedInstanceState);
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
         }
         Helper.setLocale(this);
@@ -113,7 +113,7 @@ public class BaseBarActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
 
-        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
             final Configuration override = new Configuration(newBase.getResources().getConfiguration());
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase);
             override.fontScale = prefs.getFloat(newBase.getString(R.string.SET_FONT_SCALE), 1.1f);

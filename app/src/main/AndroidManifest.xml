@@ -288,15 +288,15 @@
             android:name=".activities.InstanceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about_instance"
-            android:theme="@style/AlertDialog" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.InstanceProfileActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/AlertDialog" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.ProxyActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/AlertDialog" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -306,12 +306,12 @@
         <activity
             android:name=".activities.MediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/TransparentDark" />
+            android:theme="@style/Transparent" />
 
         <activity
             android:name=".activities.InstanceHealthActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/AlertDialog" />
+            android:theme="@style/AppThemeAlertDialog" />
 
         <activity
             android:name=".activities.ReportActivity"

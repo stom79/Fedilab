@@ -180,9 +180,9 @@
     <color name="solarized_md_theme_dark_errorContainer">#93000A</color>
     <color name="solarized_md_theme_dark_onError">#690005</color>
     <color name="solarized_md_theme_dark_onErrorContainer">#FFDAD6</color>
-    <color name="solarized_md_theme_dark_background">#1C1C17</color>
+    <color name="solarized_md_theme_dark_background">#002b36</color>
     <color name="solarized_md_theme_dark_onBackground">#E5E2DA</color>
-    <color name="solarized_md_theme_dark_surface">#1C1C17</color>
+    <color name="solarized_md_theme_dark_surface">#073642</color>
     <color name="solarized_md_theme_dark_onSurface">#E5E2DA</color>
     <color name="solarized_md_theme_dark_surfaceVariant">#46483B</color>
     <color name="solarized_md_theme_dark_onSurfaceVariant">#C7C7B7</color>
