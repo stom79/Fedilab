@@ -896,4 +896,11 @@
     <string name="admin_domainblock_domain">O bloqueo do dominio non evitará a creación das contas na base de datos, pero aplicará de xeito retroactivo e automático accións de moderacións específicas nesas contas.</string>
     <string name="admin_reject_media">Rexeitar ficheiros multimedia</string>
     <string name="admin_domainblock_reject_obfuscate">Ofuscar parcialmente o nome de dominio na lista se está activada a publicación das limitacións de dominios</string>
+    <string name="type_of_theme">Elixe un modo para o decorado</string>
+    <string name="pref_customize">Personalizar cores</string>
+    <string name="pref_customize_summary">Permite elexir cores personalizadas para os decorados.</string>
+    <string name="set_dynamic_color">Cor dinámica</string>
+    <string name="set_dynamic_color_indication">Segue a tonalidade do fondo de pantalla para axustar o esquema de cores.</string>
+    <string name="type_default_theme_light">Decorado claro por defecto</string>
+    <string name="type_default_theme_dark">Decorado escuro por defecto</string>
 </resources>
