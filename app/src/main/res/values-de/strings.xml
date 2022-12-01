@@ -861,7 +861,7 @@
     <string name="sign_ups">Registrierungen</string>
     <string name="channel_notif_report">Neue Meldung</string>
     <string name="hide_with_warning_description">Verstecke den gefilterten Inhalt hinter einer Warnung die den Titel des Filters enthält</string>
-    <string name="filter_action">Aktion filtern</string>
+    <string name="filter_action">Aktion des Filters</string>
     <string name="filter_action_explanations">Wähle die Aktion aus die durchgeführt werden soll wenn ein Beitrag Deinem Filter entspricht</string>
     <string name="toast_error_add_to_list">Hinzufügen des Kontos zur Liste fehlgeschlagen!</string>
     <string name="keep_notifications">Benachrichtigungen behalten</string>
