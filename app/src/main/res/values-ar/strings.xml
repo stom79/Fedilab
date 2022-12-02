@@ -409,7 +409,7 @@
     <string name="settings_category_notif_categories">الفئات</string>
     <string name="move_timeline">نقل الخيط الزمني</string>
     <string name="hide_timeline">إخفاء الخيط الزمني</string>
-    <string name="reorder_timelines">إعادة ترتيب الخيوط الزمنية</string>
+    <string name="reorder_timelines">إدارة الخيوط الزمنية</string>
     <string name="reorder_list_deleted">تم حذف القائمة نهائيا</string>
     <string name="reorder_instance_removed">تم إزالة مثيل الخادم المُتابَع</string>
     <string name="reorder_tag_removed">تم إزالة الوسم المدبس</string>
@@ -718,4 +718,21 @@
     <string name="my_instance">مَثيل خادمي</string>
     <string name="my_app">تطبيقي</string>
     <string name="my_account">حسابي</string>
+    <string name="channel_notif_update">تحديث جديد</string>
+    <string name="channel_notif_signup">تسجيل جديد</string>
+    <string name="channel_notif_report">تقرير جديد</string>
+    <string name="notif_update_push">تم تعديل رسالة قد قمتَ بمشاركتها</string>
+    <string name="sign_ups">التسجيلات</string>
+    <string name="report_val2">انه غير مرغوب فيها</string>
+    <string name="report_val3">ينتهك قواعد الخادم</string>
+    <string name="report_val4">إنه شيء آخر</string>
+    <string name="report_1_title_more">فيما يلي خياراتك للتحكم في ما تراه على ماستدون:</string>
+    <string name="report_all_more">اختيار كل ما ينطبق</string>
+    <string name="report_1_block_title">حجب %1$s</string>
+    <string name="report_val_more4">المسألة لا تتناسب مع فئات أخرى</string>
+    <string name="report_1_unfollow_title">إلغاء متابعة %1$s</string>
+    <string name="report_1_mute_title">كتم %1$s</string>
+    <string name="set_dynamic_color">لون ديناميكي</string>
+    <string name="report_val1">لا يعجبني</string>
+    <string name="report_val_more1">ليس شيئاً تريد رؤيته</string>
 </resources>

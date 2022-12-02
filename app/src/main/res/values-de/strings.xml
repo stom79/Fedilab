@@ -22,7 +22,7 @@
     <string name="save">Speichern</string>
     <string name="instance">Instanz</string>
     <string name="instance_example">Instanz: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Konto %1$s wird verwendet</string>
+    <string name="toast_account_changed" formatted="false">Konto %1$s wird jetzt verwendet</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="clipboard">Der Inhalt der Nachricht wurde in die Zwischenablage kopiert</string>
     <string name="clipboard_url">Die URL der Nachricht wurde in die Zwischenablage kopiert</string>
@@ -861,7 +861,7 @@
     <string name="sign_ups">Registrierungen</string>
     <string name="channel_notif_report">Neue Meldung</string>
     <string name="hide_with_warning_description">Verstecke den gefilterten Inhalt hinter einer Warnung die den Titel des Filters enthält</string>
-    <string name="filter_action">Aktion des Filters</string>
+    <string name="filter_action">Aktion filtern</string>
     <string name="filter_action_explanations">Wähle die Aktion aus die durchgeführt werden soll wenn ein Beitrag Deinem Filter entspricht</string>
     <string name="toast_error_add_to_list">Hinzufügen des Kontos zur Liste fehlgeschlagen!</string>
     <string name="keep_notifications">Benachrichtigungen behalten</string>
@@ -877,19 +877,19 @@
     <string name="reject_media">Medien ablehnen</string>
     <string name="admin_reject_media">Mediendateien ablehnen</string>
     <string name="admin_domainblock_reject_media">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
-    <string name="admin_reject_reports">Meldungen ablehnen</string>
-    <string name="admin_reject_obfuscate">Domänen-Namen verschleiern</string>
+    <string name="admin_reject_reports">Berichte ablehnen</string>
+    <string name="admin_reject_obfuscate">Domänenname verschleiern</string>
     <string name="private_comment">Privater Kommentar</string>
     <string name="admin_domainblock_private_comment">Kommentar zu dieser Domänen-Beschränkung für den internen Gebrauch durch Moderatoren.</string>
     <string name="public_comment">Öffentlicher Kommentar</string>
     <string name="saved_changes">Änderungen wurden gespeichert!</string>
     <string name="create_domain_block">Domänen-Blockierung erstellen</string>
     <string name="open_with_account">Mit einem anderen Konto öffnen</string>
-    <string name="reject_reports">Meldungen ablehnen</string>
+    <string name="reject_reports">Berichte ablehnen</string>
     <string name="admin_domainblock_domain">Die Sperrung der Domäne verhindert nicht die Erstellung von Konto-Einträgen in der Datenbank, sondern wendet rückwirkend und automatisch bestimmte Moderations-Methoden auf diese Konten an.</string>
     <string name="admin_domainblock_reject_reports">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
-    <string name="admin_domainblock_severity">Stummschalten macht die Beiträge des Kontos für alle, die ihm nicht folgen, unsichtbar. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur die Mediendateien ablehnen möchtest.</string>
-    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domänen-Namen in der Liste, wenn die Verteilung der Liste der Domänen-Beschränkunden aktiviert ist</string>
+    <string name="admin_domainblock_severity">Stummschaltung macht die Beiträge des Kontos für alle unsichtbar, die ihm nicht folgen. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur die Mediendateien ablehnen möchtest.</string>
+    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domänennamen in der Liste, wenn die Verteilung der Liste der Domänen-Beschränkunden aktiviert ist</string>
     <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
@@ -897,4 +897,11 @@
     <string name="max_indentation_thread">Maximaler Einzug in Threads</string>
     <string name="account_undisabled">Konto wieder aktiviert</string>
     <string name="state">Status</string>
+    <string name="pref_customize_summary">Ermöglicht benutzerdefinierte Farben für Designs.</string>
+    <string name="set_dynamic_color">Dynamische Farben</string>
+    <string name="set_dynamic_color_indication">Farbton dem Farbschema des persönlichen Hintergrunds anpassen.</string>
+    <string name="type_default_theme_light">Standard helles Design</string>
+    <string name="type_default_theme_dark">Standard dunkles Design</string>
+    <string name="type_of_theme">Wähle den Modus für das Design</string>
+    <string name="pref_customize">Farben anpassen</string>
 </resources>
