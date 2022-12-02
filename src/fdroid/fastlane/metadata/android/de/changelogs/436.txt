@@ -1,0 +1,10 @@
+Geändert:
+- Integrierte Browser Unterstützung entfernt
+- Mehr Platz zwischen den Aktionsschaltflächen in Nachrichten
+
+Behoben:
+- Probleme mit der Textgröße
+- Überlappende Texte
+- Falscher Hintergrund für Solarized Schwarz
+- Vertauschung zwischen hellem und dunklem Design
+- Speichern Schaltfläche versteckt
