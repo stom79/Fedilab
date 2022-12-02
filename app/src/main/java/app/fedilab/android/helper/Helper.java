@@ -16,6 +16,7 @@ package app.fedilab.android.helper;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.helper.LogoHelper.getNotificationIcon;
 import static app.fedilab.android.webview.ProxyHelper.setProxy;
 
@@ -31,6 +32,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -1981,6 +1983,19 @@ public class Helper {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             activity.startActivity(chooserIntent);
         }
+    }
+
+
+    public static int dialogStyle() {
+        PackageInfo packageInfo = null;
+        if (R.style.AppThemeBar == currentThemeId || R.style.AppTheme == currentThemeId) {
+            return R.style.AppThemeAlertDialog;
+        } else if (R.style.SolarizedAppThemeBar == currentThemeId || R.style.SolarizedAppTheme == currentThemeId) {
+            return R.style.SolarizedAlertDialog;
+        } else if (R.style.BlackAppThemeBar == currentThemeId || R.style.BlackAppTheme == currentThemeId) {
+            return R.style.BlackAlertDialog;
+        }
+        return R.style.AppTheme;
     }
 
 

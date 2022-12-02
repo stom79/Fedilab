@@ -43,6 +43,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentNotificationContainerBinding;
 import app.fedilab.android.databinding.PopupNotificationSettingsBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.pageadapter.FedilabNotificationPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.NotificationsVM;
 import es.dmoral.toasty.Toasty;
@@ -85,13 +86,13 @@ public class FragmentNotificationContainer extends Fragment {
         }
         AtomicBoolean changes = new AtomicBoolean(false);
         binding.settings.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity());
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
             PopupNotificationSettingsBinding dialogView = PopupNotificationSettingsBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(dialogView.getRoot());
 
 
             dialogView.clearAllNotif.setOnClickListener(v1 -> {
-                AlertDialog.Builder db = new AlertDialog.Builder(requireActivity());
+                AlertDialog.Builder db = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
                 db.setTitle(R.string.delete_notification_ask_all);
                 db.setMessage(R.string.delete_notification_all_warning);
                 db.setPositiveButton(R.string.delete_all, (dialog, id) -> {

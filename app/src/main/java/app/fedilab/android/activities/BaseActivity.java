@@ -38,6 +38,8 @@ import app.fedilab.android.helper.ThemeHelper;
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
+    public static int currentThemeId;
+
     static {
         Helper.installProvider();
         EmojiManager.install(new EmojiOneProvider());
@@ -58,9 +60,11 @@ public class BaseActivity extends AppCompatActivity {
                     switch (defaultLight) {
                         case "LIGHT":
                             setTheme(R.style.AppTheme);
+                            currentThemeId = R.style.AppTheme;
                             break;
                         case "SOLARIZED_LIGHT":
                             setTheme(R.style.SolarizedAppTheme);
+                            currentThemeId = R.style.SolarizedAppTheme;
                             break;
                     }
                     break;
@@ -69,12 +73,15 @@ public class BaseActivity extends AppCompatActivity {
                     switch (defaultDark) {
                         case "DARK":
                             setTheme(R.style.AppTheme);
+                            currentThemeId = R.style.AppTheme;
                             break;
                         case "SOLARIZED_DARK":
                             setTheme(R.style.SolarizedAppTheme);
+                            currentThemeId = R.style.SolarizedAppTheme;
                             break;
                         case "BLACK":
                             setTheme(R.style.BlackAppTheme);
+                            currentThemeId = R.style.BlackAppTheme;
                             break;
                     }
                     break;
@@ -84,22 +91,27 @@ public class BaseActivity extends AppCompatActivity {
                 case "LIGHT":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     setTheme(R.style.AppTheme);
+                    currentThemeId = R.style.AppTheme;
                     break;
                 case "DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.AppTheme);
+                    currentThemeId = R.style.AppTheme;
                     break;
                 case "SOLARIZED_LIGHT":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     setTheme(R.style.SolarizedAppTheme);
+                    currentThemeId = R.style.SolarizedAppTheme;
                     break;
                 case "SOLARIZED_DARK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.SolarizedAppTheme);
+                    currentThemeId = R.style.SolarizedAppTheme;
                     break;
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.BlackAppTheme);
+                    currentThemeId = R.style.BlackAppTheme;
                     break;
             }
         }
