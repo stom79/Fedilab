@@ -38,6 +38,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Patterns;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -645,6 +646,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
                 headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
+                float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+                headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                 Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
                 MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 headerMainBinding.backgroundImage.setAlpha(0.5f);
