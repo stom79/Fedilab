@@ -864,12 +864,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
+        float normalSize2 = Helper.convertDpToPixel(24, context);
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
-        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize2 * scaleIcon));
+
         holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.requestLayout();
@@ -1075,6 +1077,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.toggleTruncate.setVisibility(View.GONE);
                 }
             });
+        } else {
+            holder.binding.toggleTruncate.setVisibility(View.GONE);
         }
         if (statusToDeal.translationContent != null) {
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
