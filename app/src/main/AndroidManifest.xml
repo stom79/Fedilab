@@ -167,9 +167,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.WebviewConnectActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".activities.StatusHistoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/status_history"
@@ -192,9 +189,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.FollowRequestActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".activities.WebviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.ProfileActivity"

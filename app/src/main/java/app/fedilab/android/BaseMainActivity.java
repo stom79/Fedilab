@@ -125,7 +125,6 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
-import app.fedilab.android.client.entities.app.DomainsBlock;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.StatusCache;
@@ -748,10 +747,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     e.printStackTrace();
                 }
             }).start();
-        }
-        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-        if (embedded_browser) {
-            DomainsBlock.updateDomains(BaseMainActivity.this);
         }
     }
 

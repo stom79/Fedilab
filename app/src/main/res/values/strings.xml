@@ -774,7 +774,6 @@
     <string name="SET_PROXY_TYPE" translatable="false">SET_PROXY_TYPE</string>
     <string name="SET_PROXY_HOST" translatable="false">SET_PROXY_HOST</string>
     <string name="SET_PROXY_PORT" translatable="false">SET_PROXY_PORT</string>
-    <string name="SET_EMBEDDED_BROWSER" translatable="false">SET_EMBEDDED_BROWSER</string>
     <string name="SET_DEFAULT_LOCALE_NEW" translatable="false">SET_DEFAULT_LOCALE_NEW</string>
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
     <string name="SET_DISABLE_GIF" translatable="false">SET_DISABLE_GIF</string>

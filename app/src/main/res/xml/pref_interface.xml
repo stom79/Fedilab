@@ -52,12 +52,6 @@
         app:summary="@string/set_clear_cache_exit_indication"
         app:title="@string/set_clear_cache_exit" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_EMBEDDED_BROWSER"
-        app:singleLineTitle="false"
-        app:title="@string/embedded_browser" />
 
     <SwitchPreferenceCompat
         app:defaultValue="false"

@@ -50,7 +50,6 @@ import java.net.URLEncoder;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ProxyActivity;
-import app.fedilab.android.activities.WebviewConnectActivity;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.FragmentLoginMainBinding;
@@ -184,36 +183,14 @@ public class FragmentLoginMain extends Fragment {
         PopupMenu popupMenu = new PopupMenu(requireActivity(), binding.menuIcon);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
-        MenuItem customTabItem = popupMenu.getMenu().findItem(R.id.action_custom_tabs);
         MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-        customTabItem.setChecked(!embedded_browser);
         adminTabItem.setChecked(requestedAdmin);
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
                 Intent intent = new Intent(requireActivity(), ProxyActivity.class);
                 startActivity(intent);
-            } else if (itemId == R.id.action_custom_tabs) {
-                boolean checked = !embedded_browser;
-                item.setChecked(!item.isChecked());
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), checked);
-                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                item.setActionView(new View(requireContext()));
-                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        return false;
-                    }
-                });
-                editor.apply();
             } else if (itemId == R.id.action_request_admin) {
 
                 item.setChecked(!item.isChecked());
@@ -267,24 +244,13 @@ public class FragmentLoginMain extends Fragment {
                 client_idLogin = app.client_id;
                 client_secretLogin = app.client_secret;
                 String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-                if (embedded_browser) {
-                    Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
-                    i.putExtra("login_url", redirectUrl);
-                    i.putExtra("requestedAdmin", requestedAdmin);
-                    startActivity(i);
-                    requireActivity().finish();
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse(redirectUrl));
-                    try {
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                    }
-
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(redirectUrl));
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();

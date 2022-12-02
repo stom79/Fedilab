@@ -43,19 +43,6 @@
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/main_media_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true">
-
-                <app.fedilab.android.webview.CustomWebview
-                    android:id="@+id/webview_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-            </FrameLayout>
-
             <RelativeLayout
                 android:id="@+id/videoLayout"
                 android:layout_width="match_parent"

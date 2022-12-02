@@ -18,7 +18,6 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.helper.LogoHelper.getNotificationIcon;
-import static app.fedilab.android.webview.ProxyHelper.setProxy;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -68,11 +67,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,7 +148,6 @@ import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
-import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Status;
@@ -169,7 +164,6 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
 import app.fedilab.android.watermark.androidwm.WatermarkBuilder;
 import app.fedilab.android.watermark.androidwm.bean.WatermarkText;
-import app.fedilab.android.webview.CustomWebview;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -412,60 +406,6 @@ public class Helper {
         patternHashMap = Collections.unmodifiableMap(aMap);
     }
 
-    /***
-     * Initialize a CustomWebview
-     * @param activity Activity - activity containing the webview
-     * @param webviewId int - webview id
-     * @param rootView View - the root view that will contain the webview
-     * @return {@link CustomWebview}
-     */
-    public static CustomWebview initializeWebview(Activity activity, int webviewId, View rootView) {
-
-        CustomWebview webView;
-        if (rootView == null) {
-            webView = activity.findViewById(webviewId);
-        } else {
-            webView = rootView.findViewById(webviewId);
-        }
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        boolean javascript = sharedpreferences.getBoolean(activity.getString(R.string.SET_JAVASCRIPT), true);
-
-        webView.getSettings().setJavaScriptEnabled(javascript);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setAllowContentAccess(true);
-        webView.getSettings().setSaveFormData(true);
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setSupportMultipleWindows(false);
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(true);
-        //String user_agent = sharedpreferences.getString(activity.getString(R.string.SET_CUSTOM_USER_AGENT), USER_AGENT);
-        //   webView.getSettings().setUserAgentString(user_agent);
-        boolean cookies = sharedpreferences.getBoolean(activity.getString(R.string.SET_COOKIES), false);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptThirdPartyCookies(webView, cookies);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public Bitmap getDefaultVideoPoster() {
-                return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-            }
-        });
-        boolean proxyEnabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_PROXY_ENABLED), false);
-        if (proxyEnabled) {
-            String host = sharedpreferences.getString(activity.getString(R.string.SET_PROXY_HOST), "127.0.0.1");
-            int port = sharedpreferences.getInt(activity.getString(R.string.SET_PROXY_PORT), 8118);
-            setProxy(activity, webView, host, port, WebviewActivity.class.getName());
-        }
-
-        return webView;
-    }
 
     /**
      * Manage downloads with URLs
@@ -719,30 +659,16 @@ public class Helper {
         if (url == null) {
             return;
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean embedded_browser = sharedpreferences.getBoolean(context.getString(R.string.SET_EMBEDDED_BROWSER), true);
-        if (embedded_browser && !url.toLowerCase().startsWith("gemini://")) {
-            Intent intent = new Intent(context, WebviewActivity.class);
-            Bundle b = new Bundle();
-            String finalUrl = url;
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://"))
-                finalUrl = "http://" + url;
-            b.putString("url", finalUrl);
-            intent.putExtras(b);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
+            url = "http://" + url;
+        }
+        intent.setData(Uri.parse(url));
+        try {
             context.startActivity(intent);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
-                url = "http://" + url;
-            }
-            intent.setData(Uri.parse(url));
-            try {
-                context.startActivity(intent);
-            } catch (Exception e) {
-                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-            }
+        } catch (Exception e) {
+            Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
         }
     }
 

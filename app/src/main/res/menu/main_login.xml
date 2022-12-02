@@ -17,11 +17,6 @@
         android:title="@string/proxy_set"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_custom_tabs"
-        android:checkable="true"
-        android:title="@string/custom_tabs"
-        app:actionViewClass="android.widget.CheckBox" />
-    <item
         android:id="@+id/action_request_admin"
         android:checkable="true"
         android:title="@string/admin_scope"
