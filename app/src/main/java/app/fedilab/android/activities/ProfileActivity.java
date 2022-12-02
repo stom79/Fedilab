@@ -270,18 +270,21 @@ public class ProfileActivity extends BaseActivity {
                             @Override
                             public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                 binding.profilePicture.setImageDrawable(resource);
+                                binding.accountPp.setImageDrawable(resource);
                                 ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
+                                binding.accountPp.setImageResource(R.drawable.ic_person);
                                 ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
+                                binding.accountPp.setImageResource(R.drawable.ic_person);
                                 ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
                         }
@@ -387,7 +390,7 @@ public class ProfileActivity extends BaseActivity {
                 TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
-        MastodonHelper.loadPPMastodon(binding.accountPp, account);
+        //MastodonHelper.loadPPMastodon(binding.accountPp, account);
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle b = new Bundle();
