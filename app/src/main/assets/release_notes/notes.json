@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.1",
+    "code": "436",
+    "note": "Changed:\n- Remove built-in browser support\n- More spaces between action buttons in messages\n\nFixed:\n- Text size issue\n- Text overlap\n- Wrong background for solarized black\n- Mix between light and dark theme\n- Save button hidden"
+  },
+  {
     "version": "3.9.0",
     "code": "435",
     "note": "Added:\n- Migrate to Material Design 3\n- 5 Themes (Light, Dark, Solarized Light/Dark, Black)\n- Automatically switch between Light/Dark\n- Light and Dark theme can be defined for time-based switch\n- Android 12+: Dynamic color\n\nFixed:\n- Jumps in timelines\n"
