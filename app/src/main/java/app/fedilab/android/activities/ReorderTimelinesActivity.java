@@ -170,7 +170,7 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
     }
 
     private void addInstance() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this, Helper.dialogStyle());
         PopupSearchInstanceBinding popupSearchInstanceBinding = PopupSearchInstanceBinding.inflate(getLayoutInflater());
         dialogBuilder.setView(popupSearchInstanceBinding.getRoot());
         TextWatcher textWatcher = autoComplete(popupSearchInstanceBinding);

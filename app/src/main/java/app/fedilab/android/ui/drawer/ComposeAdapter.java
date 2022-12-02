@@ -952,7 +952,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         context.startActivity(intent);
                     });
                     composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                         builderInner.setTitle(R.string.upload_form_description);
                         PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
                         builderInner.setView(popupMediaDescriptionBinding.getRoot());
@@ -1009,7 +1009,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     composeAttachmentItemBinding.buttonRemove.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                        AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                         builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
                             attachmentList.remove(attachment);
@@ -1420,7 +1420,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
                 builder.setTitle(context.getString(R.string.message_language));
 
                 builder.setSingleChoiceItems(languagesArr, selection, null);
@@ -1454,7 +1454,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param position    - int position
      */
     private void displayPollPopup(ComposeViewHolder holder, Status statusDraft, int position) {
-        AlertDialog.Builder alertPoll = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertPoll = new AlertDialog.Builder(context, Helper.dialogStyle());
         alertPoll.setTitle(R.string.create_poll);
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         alertPoll.setView(composePollBinding.getRoot());
@@ -1672,7 +1672,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         int paddingPixel = 15;
         float density = context.getResources().getDisplayMetrics().density;
         int paddingDp = (int) (paddingPixel * density);

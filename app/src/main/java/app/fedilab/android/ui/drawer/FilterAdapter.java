@@ -32,6 +32,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.FilterActivity;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.DrawerFilterBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 
 
@@ -87,7 +88,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             }
         }));
         holder.binding.deleteFilter.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
             builder.setTitle(R.string.action_filter_delete);
             builder.setMessage(R.string.action_lists_confirm_delete);
             builder.setIcon(android.R.drawable.ic_dialog_alert)

@@ -897,7 +897,7 @@ public class SpannableHelper {
                 return;
             }
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         builder.setMessage(context.getString(R.string.mute_tag, tag));
         builder
                 .setPositiveButton(R.string.yes, (dialog, which) -> {

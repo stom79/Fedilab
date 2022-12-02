@@ -436,7 +436,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
                 int paddingPixel = 15;
                 float density = context.getResources().getDisplayMetrics().density;
                 int paddingDp = (int) (paddingPixel * density);
@@ -711,7 +711,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
                 if (confirmBoost) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
                     if (statusToDeal.reblogged) {
                         alt_bld.setMessage(context.getString(R.string.reblog_remove));
                     } else {
@@ -781,7 +781,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonFavorite.setOnClickListener(v -> {
                 if (confirmFav) {
-                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
                     if (status.favourited) {
                         alt_bld.setMessage(context.getString(R.string.favourite_remove));
                     } else {
@@ -1663,7 +1663,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_redraft) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[1]);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
@@ -1719,7 +1719,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
                 } else if (itemId == R.id.action_remove) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.content);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -1736,7 +1736,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }));
                     builderInner.show();
                 } else if (itemId == R.id.action_block_domain) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[3]);
                     String domain = statusToDeal.account.acct.split("@")[1];
                     builderInner.setMessage(context.getString(R.string.block_domain_confirm_message, domain));
@@ -1747,7 +1747,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                     builderInner.show();
                 } else if (itemId == R.id.action_mute) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[0]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -1786,7 +1786,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
                     return true;
                 } else if (itemId == R.id.action_block) {
-                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builderInner.setTitle(stringArrayConf[1]);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -1909,7 +1909,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
                                 Runnable myRunnable = () -> {
-                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
+                                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
                                     builderSingle.setTitle(context.getString(R.string.choose_accounts));
                                     final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
                                     final BaseAccount[] accountArray = new BaseAccount[accounts.size()];

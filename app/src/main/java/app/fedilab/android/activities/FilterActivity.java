@@ -41,6 +41,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.ActivityFiltersBinding;
 import app.fedilab.android.databinding.PopupAddFilterBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.FilterAdapter;
 import app.fedilab.android.ui.drawer.KeywordAdapter;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
@@ -59,7 +60,7 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
      * @param listener - {@link FilterAdapter.FilterAction}
      */
     public static void addEditFilter(Context context, Filter filter, FilterAdapter.FilterAction listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
         PopupAddFilterBinding popupAddFilterBinding = PopupAddFilterBinding.inflate(LayoutInflater.from(context));
         FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
         dialogBuilder.setView(popupAddFilterBinding.getRoot());

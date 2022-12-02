@@ -39,6 +39,7 @@ import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerReorderBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperAdapter;
 import app.fedilab.android.helper.itemtouchhelper.ItemTouchHelperViewHolder;
 import app.fedilab.android.helper.itemtouchhelper.OnStartDragListener;
@@ -169,7 +170,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         holder.binding.delete.setOnClickListener(v -> {
             if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context);
+                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
                 String title = "";
                 String message = "";
                 alt_bld.setTitle(R.string.action_lists_delete);

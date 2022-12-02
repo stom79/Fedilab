@@ -43,6 +43,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ActivityDraftsBinding;
 import app.fedilab.android.exception.DBException;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.ui.drawer.StatusDraftAdapter;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
@@ -97,7 +98,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(DraftActivity.this);
+            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(DraftActivity.this, Helper.dialogStyle());
             unfollowConfirm.setTitle(getString(R.string.delete_all));
             unfollowConfirm.setMessage(getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

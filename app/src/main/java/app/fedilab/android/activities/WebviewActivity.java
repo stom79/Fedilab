@@ -190,7 +190,7 @@ public class WebviewActivity extends BaseActivity {
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(WebviewActivity.this, R.layout.domains_blocked);
             arrayAdapter.addAll(domains);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(WebviewActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(WebviewActivity.this, Helper.dialogStyle());
             builder.setTitle(R.string.list_of_blocked_domains);
 
             builder.setNegativeButton(R.string.close, (dialog, which) -> dialog.dismiss());

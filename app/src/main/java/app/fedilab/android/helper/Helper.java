@@ -474,7 +474,7 @@ public class Helper {
      * @param url     String download url
      */
     public static void manageDownloads(final Context context, final String url) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         final DownloadManager.Request request;
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));

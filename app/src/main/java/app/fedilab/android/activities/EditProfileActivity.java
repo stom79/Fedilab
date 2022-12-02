@@ -135,7 +135,7 @@ public class EditProfileActivity extends BaseBarActivity {
                     value = Html.fromHtml(field.value).toString();
                 fieldItemBinding.value.setText(value);
                 fieldItemBinding.remove.setOnClickListener(v -> {
-                    AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this);
+                    AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this, Helper.dialogStyle());
                     deleteConfirm.setTitle(getString(R.string.delete_field));
                     deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                     deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -157,7 +157,7 @@ public class EditProfileActivity extends BaseBarActivity {
         binding.addField.setOnClickListener(view -> {
             AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
             fieldItemBinding.remove.setOnClickListener(v -> {
-                AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this);
+                AlertDialog.Builder deleteConfirm = new AlertDialog.Builder(EditProfileActivity.this, Helper.dialogStyle());
                 deleteConfirm.setTitle(getString(R.string.delete_field));
                 deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                 deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
