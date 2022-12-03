@@ -57,6 +57,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -1118,12 +1119,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.mediaContainer.setVisibility(View.VISIBLE);
                     holder.binding.displayMedia.setVisibility(View.GONE);
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                    RelativeLayout.LayoutParams lp;
+                    LinearLayout.LayoutParams lp;
                     if (fullAttachement) {
-                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
+                        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     } else {
-                        lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
+                        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
                     if (statusToDeal.sensitive) {
@@ -1232,14 +1233,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     int mediaPosition = 1;
                     for (Attachment attachment : statusToDeal.media_attachments) {
                         LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                        RelativeLayout.LayoutParams lp;
+                        LinearLayout.LayoutParams lp;
                         float focusX = 0.f;
                         float focusY = 0.f;
                         if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
                             focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
                             focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
                         }
-
+                        layoutMediaBinding.count.setVisibility(View.VISIBLE);
+                        if (!fullAttachement) {
+                            layoutMediaBinding.count.setText(String.format(Locale.getDefault(), "%d/%d", mediaPosition, statusToDeal.media_attachments.size()));
+                        }
                         String finalUrl;
                         if (attachment.url == null) {
                             finalUrl = attachment.remote_url;
@@ -1253,10 +1257,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             return true;
                         });
                         if (fullAttachement) {
-                            lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, MediaHelper.returnMaxHeightForPreviews(context, statusToDeal.media_attachments));
+                            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         } else {
-                            lp = new RelativeLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
+                            lp = new LinearLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
                             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         }
                         if (attachment.type != null && (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("gifv"))) {
@@ -1274,7 +1278,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
                         }
-                        lp.setMargins(0, 0, (int) Helper.convertDpToPixel(5, context), 0);
                         if (!mediaObfuscated(statusToDeal) || expand_media) {
                             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
                             RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
@@ -1313,11 +1316,23 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             statusToDeal.sensitive = !statusToDeal.sensitive;
                             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                         });
-                        holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
+                        if (fullAttachement) {
+                            layoutMediaBinding.getRoot().setPadding(0, 0, 0, 10);
+                            holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
+                        } else {
+                            layoutMediaBinding.getRoot().setPadding(0, 0, 10, 0);
+                            holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
+                        }
+
                         mediaPosition++;
                     }
-                    holder.binding.mediaContainer.setVisibility(View.GONE);
-                    holder.binding.attachmentsListContainer.setVisibility(View.VISIBLE);
+                    if (!fullAttachement) {
+                        holder.binding.mediaContainer.setVisibility(View.GONE);
+                        holder.binding.attachmentsListContainer.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.binding.mediaContainer.setVisibility(View.VISIBLE);
+                        holder.binding.attachmentsListContainer.setVisibility(View.GONE);
+                    }
                 }
             }
         } else {

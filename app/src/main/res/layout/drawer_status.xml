@@ -212,18 +212,16 @@
             android:layout_marginEnd="6dp"
             tools:text="Warning: Lorem Ipsum below" />
 
-        <app.fedilab.android.helper.CustomTextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/spoiler_expand"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:text="@string/show_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <app.fedilab.android.helper.CustomTextView
             android:id="@+id/status_content"
@@ -406,6 +404,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
+            android:orientation="vertical"
             android:visibility="gone" />
 
         <HorizontalScrollView

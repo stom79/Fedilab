@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
+    android:padding="@dimen/fab_margin"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".activities.ProxyActivity">

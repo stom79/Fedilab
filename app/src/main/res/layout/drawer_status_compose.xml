@@ -238,7 +238,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:elevation="2dp"
-            android:background="?colorSurfaceVariant"
+            android:background="?colorSurface"
             android:visibility="gone"
             app:constraint_referenced_ids="button_attach_image,button_attach_audio,button_attach_video,button_close_attachment_panel,button_poll,button_attach_manual"
             app:flow_maxElementsWrap="3"
@@ -298,7 +298,7 @@
             android:orientation="vertical"
             android:padding="6dp"
             android:visibility="gone"
-            android:background="?colorSurfaceVariant"
+            android:background="?colorSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1">
