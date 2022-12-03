@@ -680,7 +680,7 @@ public class PinnedTimelineHelper {
                 itemShowReplies.setChecked(show_replies);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -869,7 +869,7 @@ public class PinnedTimelineHelper {
                     e.printStackTrace();
                 }
             } else if (itemId == R.id.action_any) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -898,7 +898,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity);
+                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -927,7 +927,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity);
+                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -956,7 +956,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new AlertDialog.Builder(activity);
+                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -1144,7 +1144,7 @@ public class PinnedTimelineHelper {
                 }
             });
             changes[0] = true;
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.tags_instance, new LinearLayout(activity), false);
             dialogBuilder.setView(dialogView);
@@ -1228,7 +1228,7 @@ public class PinnedTimelineHelper {
         if (remoteInstance == null)
             return;
         String accounts = remoteInstance.host;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
         LayoutInflater inflater = activity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
         dialogBuilder.setView(dialogView);

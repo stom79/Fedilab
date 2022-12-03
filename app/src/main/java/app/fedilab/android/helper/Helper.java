@@ -1752,7 +1752,7 @@ public class Helper {
                 is.close();
                 String json = new String(buffer, StandardCharsets.UTF_8);
                 Gson gson = new Gson();
-                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity);
+                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity, Helper.dialogStyle());
                 PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
                 dialogBuilderOptin.setView(binding.getRoot());
                 try {

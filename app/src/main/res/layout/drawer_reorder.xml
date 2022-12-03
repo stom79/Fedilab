@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?selectableItemBackground">
+    android:background="?colorSurface"
+    android:foregroundTint="?android:colorBackground">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -13,15 +14,16 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            tools:src="@drawable/ic_baseline_home_24"
             android:contentDescription="@string/instance_logo"
             android:scaleType="center" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,7 +31,7 @@
             android:layout_weight="1" />
 
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/hide"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -39,7 +41,7 @@
             android:src="@drawable/ic_baseline_visibility_off_24"
             tools:ignore="RtlHardcoded" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/delete"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -50,7 +52,7 @@
             android:visibility="gone"
             tools:ignore="RtlHardcoded" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/handle"
             android:layout_width="40dp"
             android:layout_height="40dp"
