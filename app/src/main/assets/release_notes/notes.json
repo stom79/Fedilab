@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.2",
+    "code": "437",
+    "note": "Added:\n- New design with 5 themes\n\nChanged:\n- Remove built-in browser support\n- Fit preview image displays images vertically\n- Add counters next to images\n\nFixed:\n- Jumps in timelines\n- Replies to wrong messages with followed instances\n- Bug with delete&redraft with a media\n- Some crashes"
+  },
+  {
     "version": "3.9.1",
     "code": "436",
     "note": "Changed:\n- Remove built-in browser support\n- More spaces between action buttons in messages\n\nFixed:\n- Text size issue\n- Text overlap\n- Wrong background for solarized black\n- Mix between light and dark theme\n- Save button hidden"
