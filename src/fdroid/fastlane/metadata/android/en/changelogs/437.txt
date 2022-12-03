@@ -10,4 +10,5 @@ Fixed:
 - Jumps in timelines
 - Replies to wrong messages with followed instances
 - Bug with delete&redraft with a media
+- List cannot be hidden
 - Some crashes
