@@ -25,6 +25,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.helper.Helper;
 
 public class FragmentComposeSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -37,6 +38,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
     private void createPref() {
         SwitchPreferenceCompat SET_WATERMARK = findPreference(getString(R.string.SET_WATERMARK));
         if (SET_WATERMARK != null) {
+            SET_WATERMARK.getContext().setTheme(Helper.dialogStyle());
         }
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         EditTextPreference SET_WATERMARK_TEXT = findPreference(getString(R.string.SET_WATERMARK_TEXT));
@@ -45,6 +47,9 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             SET_WATERMARK_TEXT.setText(val);
         }
         MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
+        if (SET_SELECTED_LANGUAGE != null) {
+            SET_SELECTED_LANGUAGE.getContext().setTheme(Helper.dialogStyle());
+        }
     }
 
     @Override

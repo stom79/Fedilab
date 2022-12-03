@@ -31,7 +31,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -1913,7 +1912,6 @@ public class Helper {
 
 
     public static int dialogStyle() {
-        PackageInfo packageInfo = null;
         if (R.style.AppThemeBar == currentThemeId || R.style.AppTheme == currentThemeId) {
             return R.style.AppThemeAlertDialog;
         } else if (R.style.SolarizedAppThemeBar == currentThemeId || R.style.SolarizedAppTheme == currentThemeId) {

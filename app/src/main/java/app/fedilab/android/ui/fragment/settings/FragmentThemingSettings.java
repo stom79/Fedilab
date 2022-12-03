@@ -79,7 +79,18 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (getPreferenceScreen() == null) {
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
         }
-
+        ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
+        if (SET_THEME_BASE != null) {
+            SET_THEME_BASE.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
+        if (SET_THEME_DEFAULT_LIGHT != null) {
+            SET_THEME_DEFAULT_LIGHT.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_DARK = findPreference(getString(R.string.SET_THEME_DEFAULT_DARK));
+        if (SET_THEME_DEFAULT_DARK != null) {
+            SET_THEME_DEFAULT_DARK.getContext().setTheme(Helper.dialogStyle());
+        }
     }
 
 }
