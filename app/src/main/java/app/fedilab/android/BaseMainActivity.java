@@ -251,7 +251,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         });
                     }
                 } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
-
+                    recreate();
                 } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
                     Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
                     String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
