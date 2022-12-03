@@ -80,7 +80,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_description"
-            style="@style/Widget.Material3.Button.Icon"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="2dp"
@@ -89,6 +89,7 @@
             android:textAlignment="textStart"
             android:textColor="@color/no_description"
             app:icon="@drawable/ic_baseline_warning_24"
+            app:iconTint="@color/no_description"
             app:iconGravity="end"
             app:layout_constraintEnd_toStartOf="@id/button_order_down"
             app:layout_constraintStart_toEndOf="@id/button_order_up"
