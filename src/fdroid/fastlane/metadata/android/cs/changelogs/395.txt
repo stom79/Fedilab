@@ -1,0 +1,2 @@
+- Oprava chyb
+- Možnost sdílet pomocí aplikace
