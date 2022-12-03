@@ -276,6 +276,9 @@ public class PinnedTimelineHelper {
                 boolean present = false;
                 try {
                     Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                    if (pinnedAll == null) {
+                        pinnedAll = pinned;
+                    }
                     for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
                         if (pinnedTimeline.mastodonList != null && mastodonList.id.compareTo(pinnedTimeline.mastodonList.id) == 0) {
                             present = true;
