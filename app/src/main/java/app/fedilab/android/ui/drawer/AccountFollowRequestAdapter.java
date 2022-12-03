@@ -78,13 +78,18 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                 .observe((LifecycleOwner) context, relationShip -> {
-                    accountList.remove(position);
-                    notifyItemRemoved(position);
+                    if (accountList.size() > position) {
+                        accountList.remove(position);
+                        notifyItemRemoved(position);
+                    }
                 }));
         holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                 .observe((LifecycleOwner) context, relationShip -> {
-                    accountList.remove(position);
-                    notifyItemRemoved(position);
+                    if (accountList.size() > position) {
+                        accountList.remove(position);
+                        notifyItemRemoved(position);
+                    }
+
                 }));
         holderFollow.binding.avatar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);

@@ -40,25 +40,21 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/edit_filter"
-        style="@style/Widget.App.Button.IconOnly.Outline"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="5dp"
         android:contentDescription="@string/action_update_filter"
         android:padding="6dp"
-        app:iconTint="@color/cyanea_accent_dark_reference"
-        app:strokeColor="@color/cyanea_accent_dark_reference"
         app:icon="@drawable/ic_baseline_edit_24" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/delete_filter"
-        style="@style/Widget.App.Button.IconOnly.Outline"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="5dp"
         android:contentDescription="@string/action_filter_delete"
         android:padding="6dp"
-        app:iconTint="@color/cyanea_accent_dark_reference"
-        app:strokeColor="@color/cyanea_accent_dark_reference"
         app:icon="@drawable/ic_baseline_delete_24" />
 </LinearLayout>

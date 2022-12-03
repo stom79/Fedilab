@@ -15,13 +15,11 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +35,6 @@ import app.fedilab.android.client.entities.api.RelationShip;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityStatusInfoBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AccountAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
@@ -56,14 +53,13 @@ public class StatusInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityStatusInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         accountList = new ArrayList<>();
         Bundle b = getIntent().getExtras();

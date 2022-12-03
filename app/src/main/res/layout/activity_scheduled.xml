@@ -26,7 +26,6 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cyanea_primary_dark_reference"
         android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -57,8 +56,6 @@
             android:id="@+id/schedule_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cyanea_primary_dark_reference"
-            app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
             app:tabGravity="fill"
             app:tabMode="scrollable" />
     </com.google.android.material.appbar.AppBarLayout>

@@ -16,7 +16,6 @@ package app.fedilab.android.activities;
 
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -28,7 +27,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,7 +60,7 @@ import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class MastodonListActivity extends BaseActivity implements MastodonListAdapter.ActionOnList {
+public class MastodonListActivity extends BaseBarActivity implements MastodonListAdapter.ActionOnList {
 
 
     AccountListAdapter accountsInListAdapter;
@@ -82,14 +80,13 @@ public class MastodonListActivity extends BaseActivity implements MastodonListAd
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         canGoBack = false;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         flagLoading = false;
         orderASC = true;

@@ -419,6 +419,7 @@ public class Account extends BaseAccount implements Serializable {
             case "PIXELFED":
                 api = API.PIXELFED;
                 break;
+            case "AKKOMA":
             case "PLEROMA":
                 api = API.PLEROMA;
                 break;

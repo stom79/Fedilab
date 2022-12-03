@@ -16,7 +16,6 @@ package app.fedilab.android.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -41,14 +39,13 @@ import org.jetbrains.annotations.NotNull;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivitySearchResultTabsBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTag;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import es.dmoral.toasty.Toasty;
 
 
-public class SearchResultTabActivity extends BaseActivity {
+public class SearchResultTabActivity extends BaseBarActivity {
 
 
     private String search;
@@ -58,7 +55,7 @@ public class SearchResultTabActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivitySearchResultTabsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -75,7 +72,6 @@ public class SearchResultTabActivity extends BaseActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         setTitle(search);
         initial = binding.searchTabLayout.newTab();
@@ -83,8 +79,6 @@ public class SearchResultTabActivity extends BaseActivity {
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.accounts)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.toots)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.action_cache)));
-        binding.searchTabLayout.setTabTextColors(ThemeHelper.getAttColor(SearchResultTabActivity.this, R.attr.mTextColor), ContextCompat.getColor(SearchResultTabActivity.this, R.color.cyanea_accent_dark_reference));
-        binding.searchTabLayout.setTabIconTint(ThemeHelper.getColorStateList(SearchResultTabActivity.this));
         binding.searchTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

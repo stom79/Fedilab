@@ -15,9 +15,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/display_full_link"
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="@color/cyanea_accent_reference" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/share_link"
@@ -27,9 +27,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/share_link"
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="@color/cyanea_accent_reference" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/open_other_app"
@@ -39,9 +39,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/open_other_app"
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="@color/cyanea_accent_reference" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/copy_link"
@@ -51,9 +51,9 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/copy_link"
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="@color/cyanea_accent_reference" />
+        app:drawableTint="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/check_redirect"
@@ -63,7 +63,7 @@
         android:layout_marginBottom="10dp"
         android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/check_redirect"
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:textSize="16sp"
-        app:drawableTint="@color/cyanea_accent_reference" />
+        app:drawableTint="?colorPrimary" />
 </LinearLayout>

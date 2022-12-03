@@ -30,7 +30,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -79,12 +78,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // start the new activity
             context.startActivity(intent, options.toBundle());
         });
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.block);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.mute);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteNotification);
-        ThemeHelper.changeColorOutlineButton(context, accountViewHolder.binding.muteTimed);
         accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
-        accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
         if (account.relationShip != null) {
 
             ProfileActivity.action doAction = ProfileActivity.action.FOLLOW;
@@ -104,17 +98,16 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (account.relationShip.following) {
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 doAction = ProfileActivity.action.UNFOLLOW;
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_remove_24);
             } else if (account.relationShip.requested) {
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 doAction = ProfileActivity.action.NOTHING;
                 accountViewHolder.binding.followAction.setEnabled(false);
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
             } else {
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
-                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_dark_reference)));
             }
 
 

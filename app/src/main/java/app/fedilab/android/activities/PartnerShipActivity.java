@@ -16,7 +16,6 @@ package app.fedilab.android.activities;
 
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -39,23 +37,21 @@ import app.fedilab.android.databinding.ActivityPartnershipBinding;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
-public class PartnerShipActivity extends BaseActivity {
+public class PartnerShipActivity extends BaseBarActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         ActivityPartnershipBinding binding = ActivityPartnershipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         TextView about_partnership = findViewById(R.id.about_partnership);
@@ -65,9 +61,8 @@ public class PartnerShipActivity extends BaseActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://masto.host"));
             startActivity(browserIntent);
         });
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(PartnerShipActivity.this));
         setTitle(R.string.action_partnership);
-        binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+        binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         CrossActionHelper.fetchRemoteAccount(PartnerShipActivity.this, "@mastohost@mastodon.social", new CrossActionHelper.Callback() {
             @Override
             public void federatedStatus(Status status) {

@@ -16,8 +16,8 @@ package app.fedilab.android.helper;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.helper.LogoHelper.getNotificationIcon;
-import static app.fedilab.android.webview.ProxyHelper.setProxy;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -66,11 +66,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,7 +104,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.jaredrummler.cyanea.Cyanea;
 
 import org.conscrypt.Conscrypt;
 
@@ -151,7 +147,6 @@ import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
-import app.fedilab.android.activities.WebviewActivity;
 import app.fedilab.android.broadcastreceiver.ToastMessage;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Status;
@@ -168,7 +163,6 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
 import app.fedilab.android.watermark.androidwm.WatermarkBuilder;
 import app.fedilab.android.watermark.androidwm.bean.WatermarkText;
-import app.fedilab.android.webview.CustomWebview;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -218,6 +212,7 @@ public class Helper {
     public static final String ARG_NOTIFICATION_TYPE = "ARG_NOTIFICATION_TYPE";
     public static final String ARG_EXCLUDED_NOTIFICATION_TYPE = "ARG_EXCLUDED_NOTIFICATION_TYPE";
     public static final String ARG_STATUS = "ARG_STATUS";
+    public static final String ARG_TIMELINE_REFRESH_ALL = "ARG_TIMELINE_REFRESH_ALL";
     public static final String ARG_STATUS_DELETED = "ARG_STATUS_DELETED";
     public static final String ARG_STATUS_UPDATED = "ARG_STATUS_UPDATED";
 
@@ -240,7 +235,7 @@ public class Helper {
     public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
     public static final String ARG_ADMIN_DOMAINBLOCK = "ARG_ADMIN_DOMAINBLOCK";
     public static final String ARG_ADMIN_DOMAINBLOCK_DELETE = "ARG_ADMIN_DOMAINBLOCK_DELETE";
-
+    public static final String FEDILAB_MUTED_HASHTAGS = "Fedilab muted hashtags";
     public static final String ARG_REPORT = "ARG_REPORT";
     public static final String ARG_ACCOUNT_MENTION = "ARG_ACCOUNT_MENTION";
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
@@ -287,7 +282,7 @@ public class Helper {
 
     public static final String VALUE_TRENDS = "VALUE_TRENDS";
 
-    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0";
+    //public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0";
     public static final String REDIRECT_CONTENT_WEB = "fedilab://backtofedilab";
     public static final String REDIRECT_CONTENT = "urn:ietf:wg:oauth:2.0:oob";
     public static final String APP_OAUTH_SCOPES = "read write";
@@ -410,60 +405,6 @@ public class Helper {
         patternHashMap = Collections.unmodifiableMap(aMap);
     }
 
-    /***
-     * Initialize a CustomWebview
-     * @param activity Activity - activity containing the webview
-     * @param webviewId int - webview id
-     * @param rootView View - the root view that will contain the webview
-     * @return {@link CustomWebview}
-     */
-    public static CustomWebview initializeWebview(Activity activity, int webviewId, View rootView) {
-
-        CustomWebview webView;
-        if (rootView == null) {
-            webView = activity.findViewById(webviewId);
-        } else {
-            webView = rootView.findViewById(webviewId);
-        }
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        boolean javascript = sharedpreferences.getBoolean(activity.getString(R.string.SET_JAVASCRIPT), true);
-
-        webView.getSettings().setJavaScriptEnabled(javascript);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setAllowContentAccess(true);
-        webView.getSettings().setSaveFormData(true);
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setSupportMultipleWindows(false);
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(true);
-        String user_agent = sharedpreferences.getString(activity.getString(R.string.SET_CUSTOM_USER_AGENT), USER_AGENT);
-        webView.getSettings().setUserAgentString(user_agent);
-        boolean cookies = sharedpreferences.getBoolean(activity.getString(R.string.SET_COOKIES), false);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptThirdPartyCookies(webView, cookies);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public Bitmap getDefaultVideoPoster() {
-                return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-            }
-        });
-        boolean proxyEnabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_PROXY_ENABLED), false);
-        if (proxyEnabled) {
-            String host = sharedpreferences.getString(activity.getString(R.string.SET_PROXY_HOST), "127.0.0.1");
-            int port = sharedpreferences.getInt(activity.getString(R.string.SET_PROXY_PORT), 8118);
-            setProxy(activity, webView, host, port, WebviewActivity.class.getName());
-        }
-
-        return webView;
-    }
 
     /**
      * Manage downloads with URLs
@@ -717,30 +658,16 @@ public class Helper {
         if (url == null) {
             return;
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean embedded_browser = sharedpreferences.getBoolean(context.getString(R.string.SET_EMBEDDED_BROWSER), true);
-        if (embedded_browser && !url.toLowerCase().startsWith("gemini://")) {
-            Intent intent = new Intent(context, WebviewActivity.class);
-            Bundle b = new Bundle();
-            String finalUrl = url;
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://"))
-                finalUrl = "http://" + url;
-            b.putString("url", finalUrl);
-            intent.putExtras(b);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
+            url = "http://" + url;
+        }
+        intent.setData(Uri.parse(url));
+        try {
             context.startActivity(intent);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
-                url = "http://" + url;
-            }
-            intent.setData(Uri.parse(url));
-            try {
-                context.startActivity(intent);
-            } catch (Exception e) {
-                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-            }
+        } catch (Exception e) {
+            Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -940,13 +867,6 @@ public class Helper {
         return fragment;
     }
 
-    public static int dialogStyle() {
-        return Cyanea.getInstance().isDark() ? R.style.DialogDark : R.style.Dialog;
-    }
-
-    public static int popupStyle() {
-        return Cyanea.getInstance().isDark() ? R.style.PopupDark : R.style.Popup;
-    }
 
     /**
      * Load a media into a view
@@ -1761,7 +1681,7 @@ public class Helper {
                     httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
                 else
                     httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                // httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                 int responseCode = httpURLConnection.getResponseCode();
 
                 // always check HTTP response code first
@@ -1851,7 +1771,6 @@ public class Helper {
                     binding.aboutSupport.setVisibility(View.GONE);
                     binding.aboutSupportPaypal.setVisibility(View.GONE);
                 }
-                binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(activity));
                 binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
                 binding.aboutSupport.setOnClickListener(v -> {
                     Intent intentLiberapay = new Intent(Intent.ACTION_VIEW);
@@ -1989,6 +1908,18 @@ public class Helper {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             activity.startActivity(chooserIntent);
         }
+    }
+
+
+    public static int dialogStyle() {
+        if (R.style.AppThemeBar == currentThemeId || R.style.AppTheme == currentThemeId) {
+            return R.style.AppThemeAlertDialog;
+        } else if (R.style.SolarizedAppThemeBar == currentThemeId || R.style.SolarizedAppTheme == currentThemeId) {
+            return R.style.SolarizedAlertDialog;
+        } else if (R.style.BlackAppThemeBar == currentThemeId || R.style.BlackAppTheme == currentThemeId) {
+            return R.style.BlackAlertDialog;
+        }
+        return R.style.AppTheme;
     }
 
 

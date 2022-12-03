@@ -31,8 +31,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?colorPrimaryDark">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -60,7 +59,6 @@
                         android:layout_weight="1"
                         android:background="@color/transparent"
                         app:tabGravity="fill"
-                        app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
                         app:tabMaxWidth="0dp"
                         app:tabMode="scrollable" />
 
@@ -80,7 +78,7 @@
                         android:gravity="end"
                         android:contentDescription="@string/display_timelines"
                         android:src="@drawable/ic_baseline_more_horiz_24"
-                        android:tint="?attr/iconColor"
+                        android:tint="?attr/colorControlNormal"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -111,7 +109,6 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:contentDescription="@string/compose"
                 android:src="@drawable/ic_baseline_mode_24"
-                app:backgroundTint="@color/cyanea_accent_dark_reference"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -119,10 +116,8 @@
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_view"
                 android:layout_width="match_parent"
+                app:labelVisibilityMode="unlabeled"
                 android:layout_height="?actionBarSize"
-                app:backgroundTint="@color/cyanea_primary_reference"
-                app:itemIconTint="@color/cyanea_accent_dark_reference"
-                app:itemTextColor="@color/cyanea_accent_dark_reference"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -143,9 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/cyanea_primary_dark_reference"
         android:fitsSystemWindows="false"
-        app:itemIconTint="?menuIconColor"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

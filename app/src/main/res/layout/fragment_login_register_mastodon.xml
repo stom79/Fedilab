@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?backgroundColor"
+    android:background="?android:windowBackground"
     android:orientation="vertical"
     android:padding="12dp">
 
@@ -31,7 +31,7 @@
         android:background="@drawable/red_border"
         android:gravity="center"
         android:padding="5dp"
-        android:textColor="@color/red_1"
+        android:textColor="?colorError"
         android:visibility="gone" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/validation_needed"
-        android:textColor="@color/red_1"
+        android:textColor="?colorError"
         android:visibility="gone" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -144,8 +144,7 @@
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/agreement"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:buttonTint="@color/cyanea_accent_dark_reference" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/agreement_text"
@@ -155,7 +154,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup"
-        style="@style/MyButtonColored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />

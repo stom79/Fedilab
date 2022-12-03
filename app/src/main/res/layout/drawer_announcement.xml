@@ -20,12 +20,13 @@
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
-    android:backgroundTint="@color/cyanea_primary_dark_reference"
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="0dp">
+    app:cardElevation="5dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/card_status_container"
@@ -78,8 +79,7 @@
                 android:layout_height="28dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_emoji_emotions_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_emoji_emotions_24" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_emoji"
@@ -88,8 +88,7 @@
                 android:layout_marginStart="6dp"
                 android:contentDescription="@string/add_reaction"
                 android:padding="3dp"
-                android:src="@drawable/ic_baseline_add_reaction_24"
-                app:tint="?attr/iconColor" />
+                android:src="@drawable/ic_baseline_add_reaction_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

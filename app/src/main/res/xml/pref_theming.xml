@@ -5,98 +5,43 @@
     android:layout_height="match_parent">
 
 
-    <Preference
+    <ListPreference
+        app:defaultValue="SYSTEM"
+        app:dialogTitle="@string/type_of_theme"
+        app:entries="@array/set_theme_mode_value"
+        app:entryValues="@array/SET_THEME_MODE_VALUE"
         app:iconSpaceReserved="false"
-        app:key="launch_custom_theme"
-        app:summary="@string/pref_theme_base_summary"
-        app:title="@string/pref_theme_base" />
+        app:key="@string/SET_THEME_BASE"
+        app:title="@string/type_of_theme"
+        app:useSimpleSummaryProvider="true" />
+
 
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
-        app:key="use_custom_theme"
+        app:key="@string/SET_DYNAMICCOLOR"
         app:singleLineTitle="false"
-        app:summary="@string/pref_custom_theme_new_summary"
-        app:title="@string/pref_custom_theme" />
+        app:summary="@string/set_dynamic_color_indication"
+        app:title="@string/set_dynamic_color" />
 
-    <Preference
+    <ListPreference
+        app:defaultValue="LIGHT"
+        app:dialogTitle="@string/type_default_theme_light"
+        app:entries="@array/set_default_theme_light"
+        app:entryValues="@array/SET_DEFAULT_THEME_LIGHT"
         app:iconSpaceReserved="false"
-        app:key="contributors_themes"
-        app:summary="@string/pref_contributor_summary"
-        app:title="@string/pref_contributor" />
+        app:key="@string/SET_THEME_DEFAULT_LIGHT"
+        app:title="@string/type_default_theme_light"
+        app:useSimpleSummaryProvider="true" />
 
-    <androidx.preference.PreferenceCategory
-        android:key="cyanea_preference_category"
-        android:title="@string/customize_timelines"
-        app:iconSpaceReserved="false">
+    <ListPreference
+        app:defaultValue="DARK"
+        app:dialogTitle="@string/type_default_theme_dark"
+        app:entries="@array/set_default_theme_dark"
+        app:entryValues="@array/SET_THEME_DEFAULT_DARK"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_THEME_DEFAULT_DARK"
+        app:title="@string/type_default_theme_dark"
+        app:useSimpleSummaryProvider="true" />
 
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_link_color"
-            app:summary="@string/link_color"
-            app:title="@string/link_color_title" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_boost_header_color"
-            app:summary="@string/boost_header_color"
-            app:title="@string/boost_header_color_title" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_text_header_1_line"
-            app:summary="@string/displayname_title"
-            app:title="@string/display_name" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_text_header_2_line"
-            app:summary="@string/username_title"
-            app:title="@string/username" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_statuses_color"
-            app:summary="@string/background_status"
-            app:title="@string/background_status_title" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_icons_color"
-            app:summary="@string/icons_color"
-            app:title="@string/icons_color_title" />
-
-        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
-            app:defaultValue="-1"
-            app:iconSpaceReserved="false"
-            app:key="theme_text_color"
-            app:summary="@string/text_color"
-            app:title="@string/text_color_title" />
-
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="reset_pref"
-            app:summary="@string/clik_reset"
-            app:title="@string/reset_color" />
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="pref_import"
-            app:summary="@string/import_theme_title"
-            app:title="@string/import_theme" />
-
-        <Preference
-            app:iconSpaceReserved="false"
-            app:key="pref_export"
-            app:summary="@string/export_theme_title"
-            app:title="@string/export_theme" />
-
-    </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>

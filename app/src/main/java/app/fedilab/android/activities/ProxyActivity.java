@@ -29,7 +29,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityProxyBinding;
 
 
-public class ProxyActivity extends BaseActivity {
+public class ProxyActivity extends BaseAlertDialogActivity {
 
     private ActivityProxyBinding binding;
     private int position;

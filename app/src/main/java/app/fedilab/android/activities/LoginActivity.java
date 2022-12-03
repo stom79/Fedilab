@@ -15,11 +15,16 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.helper.MastodonHelper.REDIRECT_CONTENT_WEB;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -32,10 +37,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.Account;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.login.FragmentLoginMain;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
@@ -49,7 +55,34 @@ public class LoginActivity extends BaseActivity {
     public static Account.API apiLogin;
     public static String currentInstanceLogin, client_idLogin, client_secretLogin, softwareLogin;
     private final int PICK_IMPORT = 5557;
-    private boolean requestedAdmin;
+    public static boolean requestedAdmin;
+
+    @SuppressLint("ApplySharedPref")
+    public static void proceedLogin(Activity activity, Account account) {
+        new Thread(() -> {
+            try {
+                //update the database
+                new Account(activity).insertOrUpdate(account);
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                BaseMainActivity.currentToken = account.token;
+                BaseMainActivity.currentUserID = account.user_id;
+                BaseMainActivity.api = Account.API.MASTODON;
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(PREF_USER_TOKEN, account.token);
+                editor.commit();
+                //The user is now authenticated, it will be redirected to MainActivity
+                Runnable myRunnable = () -> {
+                    Intent mainActivity = new Intent(activity, MainActivity.class);
+                    activity.startActivity(mainActivity);
+                    activity.finish();
+                };
+                mainHandler.post(myRunnable);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     private void manageItent(Intent intent) {
 
@@ -85,10 +118,10 @@ public class LoginActivity extends BaseActivity {
                                     AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
                                     adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
                                         account.admin = adminAccount != null;
-                                        WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
+                                        proceedLogin(LoginActivity.this, account);
                                     });
                                 } else {
-                                    WebviewConnectActivity.proceedLogin(LoginActivity.this, account);
+                                    proceedLogin(LoginActivity.this, account);
                                 }
                             });
                         } else {
@@ -99,7 +132,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -109,24 +141,16 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         setContentView(new FrameLayout(this));
         FragmentLoginMain fragmentLoginMain = new FragmentLoginMain();
         Helper.addFragment(getSupportFragmentManager(), android.R.id.content, fragmentLoginMain, null, null, null);
-        requestedAdmin = false;
         //The activity handles a redirect URI, it will extract token code and will proceed to authentication
         //That happens when the user wants to use an external browser
         manageItent(getIntent());
     }
 
-    public boolean requestedAdmin() {
-        return requestedAdmin;
-    }
-
-    public boolean setAdmin(boolean askAdmin) {
-        return requestedAdmin = askAdmin;
-    }
 
     @Override
     protected void onResume() {
@@ -138,9 +162,6 @@ public class LoginActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_login, menu);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-        menu.findItem(R.id.action_custom_tabs).setChecked(!embedded_browser);
         return true;
     }
 
@@ -154,13 +175,6 @@ public class LoginActivity extends BaseActivity {
         if (id == R.id.action_proxy) {
             Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
             startActivity(intent);
-        } else if (id == R.id.action_custom_tabs) {
-            item.setChecked(!item.isChecked());
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), !item.isChecked());
-            editor.apply();
-            return false;
         } else if (id == R.id.action_request_admin) {
             item.setChecked(!item.isChecked());
             requestedAdmin = item.isChecked();

@@ -695,6 +695,46 @@
     <string name="not_valid_list_name">List name is not valid!</string>
     <string name="no_account_in_list">No accounts found for this list!</string>
     <string name="scheduled">Scheduled</string>
+
+    <string-array name="set_theme_mode_value">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System default</item>
+        <item>Solarized (Light)</item>
+        <item>Solarized (Dark)</item>
+        <item>Black</item>
+    </string-array>
+    <string-array name="SET_THEME_MODE_VALUE" translatable="false">
+        <item>LIGHT</item>
+        <item>DARK</item>
+        <item>SYSTEM</item>
+        <item>SOLARIZED_LIGHT</item>
+        <item>SOLARIZED_DARK</item>
+        <item>BLACK</item>
+    </string-array>
+
+
+    <string-array name="set_default_theme_light">
+        <item>Light</item>
+        <item>Solarized (Light)</item>
+    </string-array>
+    <string-array name="SET_DEFAULT_THEME_LIGHT" translatable="false">
+        <item>LIGHT</item>
+        <item>SOLARIZED_LIGHT</item>
+    </string-array>
+
+    <string-array name="set_default_theme_dark">
+        <item>Dark</item>
+        <item>Solarized (Dark)</item>
+        <item>Black</item>
+    </string-array>
+    <string-array name="SET_THEME_DEFAULT_DARK" translatable="false">
+        <item>DARK</item>
+        <item>SOLARIZED_DARK</item>
+        <item>BLACK</item>
+    </string-array>
+
+
     <string-array name="set_notification_type_value">
         <item>Push notifications</item>
         <item>Fetch at fixed times</item>
@@ -734,7 +774,6 @@
     <string name="SET_PROXY_TYPE" translatable="false">SET_PROXY_TYPE</string>
     <string name="SET_PROXY_HOST" translatable="false">SET_PROXY_HOST</string>
     <string name="SET_PROXY_PORT" translatable="false">SET_PROXY_PORT</string>
-    <string name="SET_EMBEDDED_BROWSER" translatable="false">SET_EMBEDDED_BROWSER</string>
     <string name="SET_DEFAULT_LOCALE_NEW" translatable="false">SET_DEFAULT_LOCALE_NEW</string>
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
     <string name="SET_DISABLE_GIF" translatable="false">SET_DISABLE_GIF</string>
@@ -1252,6 +1291,14 @@
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
+    <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
+    <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
+    <string name="SET_THEME_DEFAULT_LIGHT" translatable="false">SET_THEME_DEFAULT_LIGHT</string>
+    <string name="SET_THEME_DEFAULT_DARK" translatable="false">SET_THEME_DEFAULT_DARK</string>
+
+
+    <string name="SET_DEFAULT_THEME" translatable="false">SYSTEM</string>
+
     <string name="SET_FULL_PREVIEW" translatable="false">SET_FULL_PREVIEW</string>
     <string name="SET_SHARE_DETAILS" translatable="false">SET_SHARE_DETAILS</string>
     <string name="SET_CUSTOM_SHARING" translatable="false">SET_CUSTOM_SHARING</string>
@@ -1956,4 +2003,12 @@
     <string name="admin_domainblock_public_comment">Comment about this domain limitation for the general public, if advertising the list of domain limitations is enabled.</string>
     <string name="saved_changes">Changes have been saved!</string>
     <string name="create_domain_block">Create domain block</string>
+    <string name="mute_tag">Are you sure to mute the tag %1$s?</string>
+    <string name="type_of_theme">Pickup a mode for the theme</string>
+    <string name="pref_customize">Customize colors</string>
+    <string name="pref_customize_summary">Allow to set your custom colors for themes.</string>
+    <string name="set_dynamic_color">Dynamic Color</string>
+    <string name="set_dynamic_color_indication">Align tonally with the color scheme of your personal wallpaper.</string>
+    <string name="type_default_theme_light">Default light theme</string>
+    <string name="type_default_theme_dark">Default dark theme</string>
 </resources>

@@ -10,15 +10,16 @@
 
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:id="@+id/fetch_more_max"
-        style="@style/Widget.App.Button.IconOnly.Outline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:padding="0dp"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:strokeColor="?colorPrimary"
         android:contentDescription="@string/fetch_more_messages"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24"
-        app:iconTint="@color/cyanea_accent_reference"
-        app:strokeColor="@color/cyanea_accent_reference" />
+        app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="0dp"
@@ -26,23 +27,23 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-
-        android:textColor="@color/cyanea_accent_reference"
+        android:textColor="?colorPrimary"
         android:text="@string/fetch_more_messages"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:textSize="18sp"
         app:textAllCaps="false" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_min"
-        style="@style/Widget.App.Button.IconOnly.Outline"
-        android:layout_gravity="center"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        app:strokeColor="?colorPrimary"
+        android:padding="0dp"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/fetch_more_messages"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24"
-        app:iconTint="@color/cyanea_accent_reference"
-        app:strokeColor="@color/cyanea_accent_reference" />
+        app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

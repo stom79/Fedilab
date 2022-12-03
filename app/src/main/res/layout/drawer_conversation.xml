@@ -18,10 +18,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    app:cardElevation="2dp">
+
+    android:layout_marginTop="6dp"
+    app:cardElevation="5dp"
+    app:strokeWidth="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -35,16 +38,6 @@
             android:orientation="horizontal"
             android:padding="6dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/cache_indicator"
-                android:layout_width="16sp"
-                android:layout_height="16sp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_baseline_cached_24"
-                android:visibility="gone"
-                tools:visibility="visible" />
 
             <HorizontalScrollView
                 android:layout_width="0dp"
@@ -69,10 +62,6 @@
                 android:textAlignment="textEnd" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/spoiler"
             android:layout_width="match_parent"
@@ -88,7 +77,6 @@
             android:layout_marginHorizontal="6dp"
             android:layout_marginTop="6dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/cyanea_accent_dark_reference"
             tools:text="Show content >" />
 
         <androidx.appcompat.widget.AppCompatTextView

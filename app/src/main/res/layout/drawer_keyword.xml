@@ -19,15 +19,16 @@
         android:id="@+id/whole_word"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:buttonTint="@color/cyanea_accent_dark_reference" />
+        />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/delete_keyword"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        app:icon="@drawable/ic_baseline_delete_24"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
         android:contentDescription="@string/delete_keyword"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_delete_24" />
+        app:strokeColor="?colorPrimary" />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -88,31 +88,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Conversation conversation = conversationList.get(position);
         ConversationHolder holder = (ConversationHolder) viewHolder;
-        int theme_icons_color = -1;
-        int theme_statuses_color = -1;
-        int theme_text_color = -1;
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
-            //Getting custom colors
-            theme_icons_color = sharedpreferences.getInt("theme_icons_color", -1);
-            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
-            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
 
-        }
-        if (theme_icons_color != -1) {
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_star_24, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_repeat, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
-        }
-        if (theme_statuses_color != -1) {
-            holder.binding.container.setBackgroundColor(theme_statuses_color);
-        }
-        if (theme_text_color != -1) {
-            holder.binding.statusContent.setTextColor(theme_text_color);
-            holder.binding.spoiler.setTextColor(theme_text_color);
-            holder.binding.lastMessageDate.setTextColor(theme_text_color);
-        }
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
 
         //--- Profile Pictures for participants ---
         holder.binding.participantsList.removeAllViews();
@@ -159,11 +137,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         } else {
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
-        }
-        if (conversation.cached) {
-            holder.binding.cacheIndicator.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.cacheIndicator.setVisibility(View.GONE);
         }
         //---- SPOILER TEXT -----
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);

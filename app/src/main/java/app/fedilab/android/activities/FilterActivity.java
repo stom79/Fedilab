@@ -15,7 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,7 +27,6 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -44,12 +42,11 @@ import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.databinding.ActivityFiltersBinding;
 import app.fedilab.android.databinding.PopupAddFilterBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.FilterAdapter;
 import app.fedilab.android.ui.drawer.KeywordAdapter;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 
-public class FilterActivity extends BaseActivity implements FilterAdapter.Delete {
+public class FilterActivity extends BaseBarActivity implements FilterAdapter.Delete {
 
     private ActivityFiltersBinding binding;
     private List<Filter> filterList;
@@ -250,13 +247,12 @@ public class FilterActivity extends BaseActivity implements FilterAdapter.Delete
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityFiltersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         filterList = new ArrayList<>();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         FiltersVM filtersVM = new ViewModelProvider(FilterActivity.this).get(FiltersVM.class);

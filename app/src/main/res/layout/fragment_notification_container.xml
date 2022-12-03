@@ -23,6 +23,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?colorSurface"
         android:orientation="horizontal">
 
         <com.google.android.material.tabs.TabLayout
@@ -30,20 +31,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/cyanea_primary_dark_reference"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
             app:tabMaxWidth="0dp" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/settings"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center"
-            android:background="@color/cyanea_primary_dark_reference"
             android:minWidth="48dp"
-            android:src="@drawable/ic_more" />
+            app:icon="@drawable/ic_more" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

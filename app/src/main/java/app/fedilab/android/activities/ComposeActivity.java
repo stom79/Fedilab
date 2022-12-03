@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,7 +85,6 @@ import app.fedilab.android.helper.DividerDecorationSimple;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.MediaHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.jobs.ComposeWorker;
 import app.fedilab.android.jobs.ScheduleThreadWorker;
@@ -444,7 +442,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityPaginationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -454,7 +452,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -500,7 +497,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (sharedTitle != null && sharedSubject != null && sharedSubject.length() > sharedTitle.length()) {
             sharedTitle = sharedSubject;
         }
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         //Edit a scheduled status from server
         if (scheduledStatus != null) {
             statusDraft = new StatusDraft();

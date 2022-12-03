@@ -22,9 +22,11 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginTop="12dp"
+
     android:clipChildren="false"
     android:clipToPadding="false"
-    app:cardElevation="2dp">
+    app:cardElevation="5dp"
+    app:strokeWidth="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -75,9 +77,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
 
         <app.fedilab.android.helper.CustomTextView
             android:id="@+id/spoiler"

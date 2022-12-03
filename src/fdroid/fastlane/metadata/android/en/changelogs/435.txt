@@ -1,0 +1,9 @@
+Added:
+- Migrate to Material Design 3
+- 5 Themes (Light, Dark, Solarized Light/Dark, Black)
+- Automatically switch between Light/Dark
+- Light and Dark theme can be defined for time-based switch
+- Android 12+: Dynamic color
+
+Fixed:
+- Jumps in timelines

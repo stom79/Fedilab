@@ -40,7 +40,6 @@ public class FragmentLanguageSettings extends PreferenceFragmentCompat implement
         if (SET_DEFAULT_LOCALE_NEW != null) {
             SET_DEFAULT_LOCALE_NEW.getContext().setTheme(Helper.dialogStyle());
         }
-
         Preference SET_TRANSLATE_VALUES_RESET = findPreference(getString(R.string.SET_TRANSLATE_VALUES_RESET));
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         if (SET_TRANSLATE_VALUES_RESET != null) {

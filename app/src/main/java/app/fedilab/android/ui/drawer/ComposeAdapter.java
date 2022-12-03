@@ -28,7 +28,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -61,7 +60,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -397,14 +395,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder.getLayoutPosition() == (getItemCount() - 1)) {
             if (statusList.size() > statusCount + 1) {
                 if (canBeRemoved(statusList.get(statusList.size() - 1))) {
-                    holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_remove_status);
+                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_remove_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.remove_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
                         manageDrafts.onItemDraftDeleted(statusList.get(holder.getLayoutPosition()), holder.getLayoutPosition());
                         notifyItemChanged((getItemCount() - 1));
                     });
                 } else {
-                    holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_add_status);
+                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
                         manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
@@ -412,7 +410,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
                 }
             } else {
-                holder.binding.addRemoveStatus.setImageResource(R.drawable.ic_compose_thread_add_status);
+                holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                 holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                 holder.binding.addRemoveStatus.setOnClickListener(v -> {
                     manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
@@ -941,6 +939,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                     }
                     int finalMediaPosition = mediaPosition;
+                    if (attachment.local_path != null && (attachment.local_path.endsWith("png") || attachment.local_path.endsWith("jpg") || attachment.local_path.endsWith("jpeg"))) {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.VISIBLE);
+                    } else {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
+                    }
                     composeAttachmentItemBinding.editPreview.setOnClickListener(v -> {
                         Intent intent = new Intent(context, EditImageActivity.class);
                         Bundle b = new Bundle();
@@ -1096,17 +1099,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
-        int theme_statuses_color = -1;
-        int theme_text_color = -1;
-        int theme_text_header_1_line = -1;
-        int theme_text_header_2_line = -1;
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (sharedpreferences.getBoolean("use_custom_theme", false)) {
-            theme_statuses_color = sharedpreferences.getInt("theme_statuses_color", -1);
-            theme_text_color = sharedpreferences.getInt("theme_text_color", -1);
-            theme_text_header_1_line = sharedpreferences.getInt("theme_text_header_1_line", -1);
-            theme_text_header_2_line = sharedpreferences.getInt("theme_text_header_2_line", -1);
-        }
 
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
@@ -1135,56 +1129,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setText(null);
             }
 
-            if (theme_statuses_color != -1) {
-                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            } else {
-                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
-            }
-            if (theme_text_header_2_line != -1) {
-                holder.binding.username.setTextColor(theme_text_header_2_line);
-            }
-            if (theme_text_header_1_line != -1) {
-                holder.binding.displayName.setTextColor(theme_text_header_1_line);
-            }
-            if (theme_text_color != -1) {
-                holder.binding.statusContent.setTextColor(theme_text_color);
-                holder.binding.spoiler.setTextColor(theme_text_color);
-            }
-
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
 
-            boolean displayEmoji = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_EMOJI), false);
-            if (displayEmoji) {
-                holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
-                holder.binding.buttonEmojiOne.setOnClickListener(v -> {
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
-                    EmojiManager.install(new EmojiOneProvider());
-                    final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    }).build(holder.binding.content);
-                    emojiPopup.toggle();
-                });
-            } else {
-                holder.binding.buttonEmojiOne.setVisibility(View.GONE);
-            }
-            holder.binding.visibilityPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
-            holder.binding.attachmentChoicesPanel.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
+
+            holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
+            holder.binding.buttonEmojiOne.setOnClickListener(v -> {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
+                EmojiManager.install(new EmojiOneProvider());
+                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }).build(holder.binding.content);
+                emojiPopup.toggle();
+            });
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);
 
             int newInputTypeSpoiler = holder.binding.contentSpoiler.getInputType() & (holder.binding.contentSpoiler.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
-            if (theme_statuses_color != -1) {
-                holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-            } else {
-                holder.binding.cardviewContainer.setBackgroundColor(ContextCompat.getColor(context, R.color.cyanea_primary_dark_reference));
-            }
             holder.binding.buttonAttach.setOnClickListener(v -> {
+
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
                     if (instanceInfo.getMimeTypeAudio().size() == 0) {
                         holder.binding.buttonAttachAudio.setEnabled(false);
@@ -1200,6 +1168,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
                 holder.binding.attachmentChoicesPanel.setVisibility(View.VISIBLE);
+                holder.binding.buttonAttach.setChecked(false);
             });
 
             //Disable buttons to attach media if max has been reached
@@ -1254,45 +1223,48 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             switch (statusDraft.visibility.toLowerCase()) {
                 case "public":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                     statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                     break;
                 case "unlisted":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_unlisted);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                     statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
                     break;
                 case "private":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_private);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                     statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
                     break;
                 case "direct":
-                    holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_direct);
+                    holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                     statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
                     break;
             }
 
             holder.binding.buttonCloseAttachmentPanel.setOnClickListener(v -> holder.binding.attachmentChoicesPanel.setVisibility(View.GONE));
-            holder.binding.buttonVisibility.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.VISIBLE));
+            holder.binding.buttonVisibility.setOnClickListener(v -> {
+                holder.binding.visibilityPanel.setVisibility(View.VISIBLE);
+                holder.binding.buttonVisibility.setChecked(false);
+            });
             holder.binding.buttonCloseVisibilityPanel.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibilityDirect.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_direct);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                 statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
 
             });
             holder.binding.buttonVisibilityPrivate.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_private);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                 statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
             });
             holder.binding.buttonVisibilityUnlisted.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_unlisted);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                 statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
             });
             holder.binding.buttonVisibilityPublic.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonVisibility.setImageResource(R.drawable.ic_compose_visibility_public);
+                holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                 unlisted_changed = true;
             });
@@ -1390,11 +1362,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     updateCharacterCount(holder);
                 }
             });
-            if (statusDraft.poll != null) {
-                ImageViewCompat.setImageTintList(holder.binding.buttonPoll, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent)));
-            } else {
-                ImageViewCompat.setImageTintList(holder.binding.buttonPoll, null);
-            }
+
             holder.binding.buttonPost.setEnabled(!statusDraft.submitted);
 
             holder.binding.buttonPost.setOnClickListener(v -> {
@@ -1415,6 +1383,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             holder.binding.buttonLanguage.setOnClickListener(v -> {
+                holder.binding.buttonLanguage.setChecked(false);
                 Set<String> storedLanguages = sharedpreferences.getStringSet(context.getString(R.string.SET_SELECTED_LANGUAGE), null);
                 String[] codesArr = new String[0];
                 String[] languagesArr = new String[0];

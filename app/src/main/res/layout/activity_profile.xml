@@ -26,15 +26,13 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cyanea_primary_dark_reference"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cyanea_primary_dark_reference"
             android:fitsSystemWindows="true"
-            app:contentScrim="?colorPrimaryDark"
+            app:contentScrim="?colorPrimary"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
@@ -79,7 +77,6 @@
                         android:id="@+id/account_pp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="3dp"
                         android:contentDescription="@string/profile_picture"
                         android:scaleType="centerCrop"
                         android:transitionName="@string/activity_porfile_pp"
@@ -88,9 +85,9 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/account_follow"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="6dp"
@@ -100,34 +97,34 @@
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
-                    tools:src="@drawable/ic_baseline_person_add_24"
+                    tools:icon="@drawable/ic_baseline_person_add_24"
                     tools:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/account_notification"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="6dp"
                     android:contentDescription="@string/set_notify"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_baseline_notifications_off_24"
+                    app:icon="@drawable/ic_baseline_notifications_off_24"
                     android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
                     tools:visibility="visible" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/header_edit_profile"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.Material3.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
                     android:contentDescription="@string/edit_profile"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_baseline_edit_24"
+                    app:icon="@drawable/ic_baseline_edit_24"
                     android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/avatar_container"
                     app:layout_constraintTop_toBottomOf="@id/banner_container"
@@ -174,7 +171,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/red_border"
                         android:text="Peertube"
-                        android:textColor="@color/red_1"
+                        android:textColor="?colorError"
                         android:visibility="gone"
                         tools:ignore="HardcodedText" />
 
@@ -185,7 +182,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/blue_border"
                         android:text="@string/bot"
-                        android:textColor="@color/mastodonC4"
+                        android:textColor="?colorPrimary"
                         android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -193,7 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="@color/red"
+                        android:textColor="?colorError"
                         android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -276,7 +273,7 @@
                             android:layout_marginEnd="3dp"
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -287,7 +284,7 @@
                             android:layout_marginEnd="3dp"
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -311,7 +308,7 @@
                             android:background="@drawable/blue_border"
                             android:singleLine="true"
                             android:text="@string/request_sent"
-                            android:textColor="@color/mastodonC4"
+                            android:textColor="?colorPrimary"
                             android:visibility="gone" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -343,19 +340,18 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@string/disclaimer_full"
-                        android:textColor="@color/dark_text" />
+                        android:text="@string/disclaimer_full" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/open_remote_profile"
-                        style="@style/Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.Material3.Button.Icon"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="6dp"
                         android:layout_marginTop="6dp"
                         android:contentDescription="@string/display_remote_profile"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_baseline_manage_search_24" />
+                        app:icon="@drawable/ic_baseline_manage_search_24" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -367,7 +363,6 @@
                 android:layout_width="match_parent"
                 app:contentInsetStartWithNavigation="0dp"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/cyanea_primary_dark_reference"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways">
 
@@ -395,8 +390,6 @@
             android:id="@+id/account_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cyanea_primary_dark_reference"
-            app:tabIndicatorColor="@color/cyanea_accent_dark_reference"
             app:tabGravity="fill"
             app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>

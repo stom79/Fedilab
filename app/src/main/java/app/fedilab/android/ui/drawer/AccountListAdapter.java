@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +36,7 @@ import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.databinding.DrawerAccountListBinding;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 
 
@@ -87,7 +87,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         if (searchList != null) {
             if (accountList.contains(account)) {
-                holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+                holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_remove_alt_1_24);
                 holder.binding.listAction.setOnClickListener(v -> {
                     List<String> ids = new ArrayList<>();
@@ -97,7 +97,6 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     notifyItemChanged(position);
                 });
             } else {
-                holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.cyanea_accent_reference)));
                 holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_add_alt_1_24);
                 holder.binding.listAction.setOnClickListener(v -> {
                     accountList.add(0, account);
@@ -108,7 +107,7 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 });
             }
         } else {
-            holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_1)));
+            holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
             holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_remove_alt_1_24);
             holder.binding.listAction.setOnClickListener(v -> {
                 accountList.remove(account);

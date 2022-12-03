@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -275,31 +274,37 @@ public class PinnedTimelineHelper {
 
             for (MastodonList mastodonList : mastodonLists) {
                 boolean present = false;
-                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                    if (pinnedTimeline.mastodonList != null && mastodonList.id.compareTo(pinnedTimeline.mastodonList.id) == 0) {
-                        present = true;
-                        break;
-                    }
-                }
-                //Needs to be added
-                if (!present) {
-                    needRedraw = true; //Something changed, redraw must be done
-                    PinnedTimeline pinnedTimeline = new PinnedTimeline();
-                    pinnedTimeline.type = Timeline.TimeLineEnum.LIST;
-                    pinnedTimeline.position = pinned.pinnedTimelines.size();
-                    pinnedTimeline.mastodonList = mastodonList;
-                    pinned.pinnedTimelines.add(pinnedTimeline);
-                    try {
-                        boolean exist = new Pinned(activity).pinnedExist(pinned);
-                        if (exist) {
-                            new Pinned(activity).updatePinned(pinned);
-                        } else {
-                            new Pinned(activity).insertPinned(pinned);
+                try {
+                    Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                    for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                        if (pinnedTimeline.mastodonList != null && mastodonList.id.compareTo(pinnedTimeline.mastodonList.id) == 0) {
+                            present = true;
+                            break;
                         }
-                    } catch (DBException e) {
-                        e.printStackTrace();
                     }
+                    //Needs to be added
+                    if (!present) {
+                        needRedraw = true; //Something changed, redraw must be done
+                        PinnedTimeline pinnedTimeline = new PinnedTimeline();
+                        pinnedTimeline.type = Timeline.TimeLineEnum.LIST;
+                        pinnedTimeline.position = pinnedAll.pinnedTimelines.size();
+                        pinnedTimeline.mastodonList = mastodonList;
+                        pinnedAll.pinnedTimelines.add(pinnedTimeline);
+                        try {
+                            boolean exist = new Pinned(activity).pinnedExist(pinnedAll);
+                            if (exist) {
+                                new Pinned(activity).updatePinned(pinnedAll);
+                            } else {
+                                new Pinned(activity).insertPinned(pinnedAll);
+                            }
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (DBException e) {
+                    e.printStackTrace();
                 }
+
             }
         }
         if (!needRedraw) { //if there were no changes with list, no need to update tabs
@@ -423,7 +428,7 @@ public class PinnedTimelineHelper {
         Pinned finalPinned = pinned;
         int finalToRemove1 = toRemove;
         activityMainBinding.moreTimelines.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), v);
+            PopupMenu popup = new PopupMenu(activity, v);
             try {
                 @SuppressLint("PrivateApi")
                 Method method = popup.getMenu().getClass().getDeclaredMethod("setOptionalIconsVisible", boolean.class);
@@ -615,7 +620,7 @@ public class PinnedTimelineHelper {
      */
     public static void defaultClick(BaseMainActivity activity, Timeline.TimeLineEnum timeLineEnum, View view, ActivityMainBinding activityMainBinding, int position) {
         boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME;
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         popup.getMenuInflater()
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
@@ -770,7 +775,7 @@ public class PinnedTimelineHelper {
      */
     public static void tagClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
         int toRemove = itemToRemoveInBottomMenu(activity);
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -997,7 +1002,7 @@ public class PinnedTimelineHelper {
      */
     public static void instanceClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
 
-        PopupMenu popup = new PopupMenu(new ContextThemeWrapper(activity, Helper.popupStyle()), view);
+        PopupMenu popup = new PopupMenu(activity, view);
         int toRemove = itemToRemoveInBottomMenu(activity);
         int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);

@@ -98,7 +98,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/set_custom_sharing_save"
-            style="@style/MyButtonColored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

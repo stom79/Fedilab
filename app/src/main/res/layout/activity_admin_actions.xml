@@ -14,47 +14,38 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/reports"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="12dp"
             android:text="@string/reports"
             android:textAlignment="textStart"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconGravity="end"
-            app:iconTint="@color/cyanea_accent_dark_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:iconGravity="end" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/accounts"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:paddingVertical="12dp"
             android:text="@string/accounts"
             android:textAlignment="textStart"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconGravity="end"
-            app:iconTint="@color/cyanea_accent_dark_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:iconGravity="end" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/domains"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:paddingVertical="12dp"
             android:text="@string/blocked_domains"
             android:textAlignment="textStart"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:icon="@drawable/ic_baseline_navigate_next_24"
-            app:iconGravity="end"
-            app:iconTint="@color/cyanea_accent_dark_reference"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:iconGravity="end" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

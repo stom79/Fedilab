@@ -8,8 +8,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 31
-        versionCode 7
-        versionName "3.0"
     }
     buildTypes {
         release {

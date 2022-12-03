@@ -17,14 +17,12 @@ package app.fedilab.android.activities;
 
 import android.app.Activity;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -41,7 +39,7 @@ import app.fedilab.android.ui.drawer.StatusReportAdapter;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
 
-public class AccountReportActivity extends BaseActivity {
+public class AccountReportActivity extends BaseBarActivity {
 
 
     private String account_id;
@@ -52,13 +50,12 @@ public class AccountReportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityAdminReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         report = null;
@@ -70,8 +67,8 @@ public class AccountReportActivity extends BaseActivity {
             report = (AdminReport) b.getSerializable(Helper.ARG_REPORT);
         }
 
-        binding.allow.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.green_1), PorterDuff.Mode.MULTIPLY);
-        binding.reject.getBackground().setColorFilter(ContextCompat.getColor(AccountReportActivity.this, R.color.red_1), PorterDuff.Mode.MULTIPLY);
+        binding.allow.getBackground().setColorFilter(ThemeHelper.getAttColor(this, R.attr.colorPrimary), PorterDuff.Mode.MULTIPLY);
+        binding.reject.getBackground().setColorFilter(ThemeHelper.getAttColor(this, R.attr.colorError), PorterDuff.Mode.MULTIPLY);
 
 
         if (account_id == null && report == null && targeted_account == null) {

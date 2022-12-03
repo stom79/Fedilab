@@ -2,14 +2,12 @@
 <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/title"
-    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    style="@style/Widget.Material3.Button.OutlinedButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
     android:paddingVertical="12dp"
     android:textAlignment="textStart"
-    android:textColor="@color/cyanea_accent_dark_reference"
     app:icon="@drawable/ic_baseline_navigate_next_24"
-    app:iconTint="@color/cyanea_accent_dark_reference"
     app:iconGravity="end"
-    app:strokeColor="@color/cyanea_accent_dark_reference" />
+    />

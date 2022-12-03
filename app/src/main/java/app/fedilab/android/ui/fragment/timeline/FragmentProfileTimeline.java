@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
@@ -30,7 +29,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.FragmentProfileTimelinesBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.pageadapter.FedilabProfilePageAdapter;
 
 public class FragmentProfileTimeline extends Fragment {
@@ -56,8 +54,6 @@ public class FragmentProfileTimeline extends Fragment {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.toots)));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.replies)));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.media)));
-        binding.tabLayout.setTabTextColors(ThemeHelper.getAttColor(requireActivity(), R.attr.mTextColor), ContextCompat.getColor(requireActivity(), R.color.cyanea_accent_dark_reference));
-        binding.tabLayout.setTabIconTint(ThemeHelper.getColorStateList(requireActivity()));
         binding.viewpager.setAdapter(new FedilabProfilePageAdapter(getChildFragmentManager(), account, checkRemotely));
         binding.viewpager.setOffscreenPageLimit(3);
         binding.viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout));

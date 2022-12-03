@@ -124,7 +124,7 @@
                         android:layout_marginTop="6dp"
                         android:text="@string/show_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textColor="?colorAccent" />
+                        android:textColor="?colorPrimary" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/status_content"
@@ -138,7 +138,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/toggle_truncate"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -147,8 +147,7 @@
                         android:text="@string/display_toot_truncate"
                         android:textAllCaps="false"
                         android:textSize="14sp"
-                        android:visibility="gone"
-                        app:strokeColor="@color/cyanea_accent_dark_reference" />
+                        android:visibility="gone" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/container_trans"
@@ -179,7 +178,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:background="?backgroundColorLight"
                             android:paddingStart="2dp"
                             android:paddingEnd="2dp"
                             android:text="@string/translation"
@@ -248,7 +246,8 @@
                                         android:layout_height="wrap_content"
                                         android:maxLines="1"
                                         android:text="Maecenas sollicitudin, eros quis interdum posuere, quam lorem tempus dui."
-                                        android:textColor="?colorAccent" />
+                                        android:textColor="?colorPrimary"
+                                        tools:ignore="HardcodedText" />
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:id="@+id/card_description"
@@ -265,8 +264,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="https://domain.test"
-                                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                                        android:textColor="?linkColor" />
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -297,7 +295,6 @@
                             android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="?statusTextColor"
                             tools:text="1 January 2021, 12:00" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -318,8 +315,7 @@
                                 android:id="@+id/reblogs_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
-                                android:textColor="?statusTextColor" />
+                                tools:text="10" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -341,8 +337,7 @@
                                 android:id="@+id/favorites_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10"
-                                android:textColor="?statusTextColor" />
+                                tools:text="10" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -421,7 +416,6 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?backgroundColorLight"
             android:orientation="vertical"
             android:padding="@dimen/fab_margin">
 

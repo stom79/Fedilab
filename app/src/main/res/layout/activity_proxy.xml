@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
+    android:padding="@dimen/fab_margin"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".activities.ProxyActivity">
@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/host"
-                style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+                style="@style/Widget.Material3.TextInputEditText.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dropDownAnchor="@id/login_instance_layout"
@@ -64,7 +64,7 @@
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/port"
-                style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+                style="@style/Widget.Material3.TextInputEditText.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dropDownAnchor="@id/login_instance_layout"
@@ -84,7 +84,7 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/proxy_login"
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"
@@ -101,7 +101,7 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/proxy_password"
-            style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"
@@ -114,7 +114,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/set_proxy_save"
-        style="@style/MyButtonColored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

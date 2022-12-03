@@ -1,0 +1,12 @@
+Added:
+- Mute tags with long press in timelines
+
+Changed:
+- Muted account messages are now removed from cache
+
+Fixed:
+- Open with another account
+- Fix jumps in profiles
+- Media not displayed in album -> force indexation
+- Built-in browser does not give admin scope
+- Some crashes

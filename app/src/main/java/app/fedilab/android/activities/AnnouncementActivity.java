@@ -19,13 +19,11 @@ import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import app.fedilab.android.R;
@@ -33,7 +31,6 @@ import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.databinding.ActivityAnnouncementBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAnnouncement;
 
 
@@ -43,7 +40,7 @@ public class AnnouncementActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         ActivityAnnouncementBinding binding = ActivityAnnouncementBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
@@ -53,7 +50,6 @@ public class AnnouncementActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         binding.title.setText(R.string.action_announcements);
         if (getSupportActionBar() != null) {

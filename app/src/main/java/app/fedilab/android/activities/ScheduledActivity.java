@@ -17,14 +17,12 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,7 +30,6 @@ import com.google.android.material.tabs.TabLayout;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityScheduledBinding;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.pageadapter.FedilabScheduledPageAdapter;
 
 public class ScheduledActivity extends BaseActivity {
@@ -42,7 +39,7 @@ public class ScheduledActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityScheduledBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -50,7 +47,6 @@ public class ScheduledActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,8 +64,7 @@ public class ScheduledActivity extends BaseActivity {
         binding.scheduleViewpager.setAdapter(new FedilabScheduledPageAdapter(getSupportFragmentManager()));
         binding.scheduleViewpager.setOffscreenPageLimit(3);
         binding.scheduleViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.scheduleTablayout));
-        binding.scheduleTablayout.setTabTextColors(ThemeHelper.getAttColor(ScheduledActivity.this, R.attr.mTextColor), ContextCompat.getColor(ScheduledActivity.this, R.color.cyanea_accent_dark_reference));
-        binding.scheduleTablayout.setTabIconTint(ThemeHelper.getColorStateList(ScheduledActivity.this));
+
 
         binding.scheduleTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

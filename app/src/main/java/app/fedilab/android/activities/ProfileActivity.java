@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -48,6 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -135,7 +135,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -149,12 +149,10 @@ public class ProfileActivity extends BaseActivity {
             mention_str = b.getString(Helper.ARG_MENTION, null);
             checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
-        postponeEnterTransition();
-
+        ActivityCompat.postponeEnterTransition(ProfileActivity.this);
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         if (getSupportActionBar() != null) {
@@ -164,7 +162,6 @@ public class ProfileActivity extends BaseActivity {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
         if (account != null) {
             initializeView(account);
@@ -263,8 +260,6 @@ public class ProfileActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        binding.accountTabLayout.setTabTextColors(ThemeHelper.getAttColor(ProfileActivity.this, R.attr.mTextColor), ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_dark_reference));
-        binding.accountTabLayout.setTabIconTint(ThemeHelper.getColorStateList(ProfileActivity.this));
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.avatar_static : account.avatar;
         Glide.with(ProfileActivity.this)
@@ -275,23 +270,27 @@ public class ProfileActivity extends BaseActivity {
                             @Override
                             public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                 binding.profilePicture.setImageDrawable(resource);
-                                startPostponedEnterTransition();
+                                binding.accountPp.setImageDrawable(resource);
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
-                                startPostponedEnterTransition();
+                                binding.accountPp.setImageResource(R.drawable.ic_person);
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
-
+                                binding.profilePicture.setImageResource(R.drawable.ic_person);
+                                binding.accountPp.setImageResource(R.drawable.ic_person);
+                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(ProfileActivity.this, binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
         if (account.locked) {
@@ -314,7 +313,7 @@ public class ProfileActivity extends BaseActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(ProfileActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.warningMessage.setText(content);
         binding.warningMessage.setOnClickListener(view -> {
@@ -346,7 +345,6 @@ public class ProfileActivity extends BaseActivity {
         else
             binding.warningContainer.setVisibility(View.GONE);
 
-        binding.openRemoteProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
         if (checkRemotely) {
             binding.openRemoteProfile.setVisibility(View.GONE);
         }
@@ -392,7 +390,7 @@ public class ProfileActivity extends BaseActivity {
                 TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
-        MastodonHelper.loadPPMastodon(binding.accountPp, account);
+        //MastodonHelper.loadPPMastodon(binding.accountPp, account);
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle b = new Bundle();
@@ -526,13 +524,12 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         }
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
 
         binding.accountFollow.setEnabled(true);
         //Visibility depending of the relationship
         if (relationship != null) {
             if (relationship.blocked_by) {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setEnabled(false);
                 binding.accountFollow.setContentDescription(getString(R.string.action_disabled));
@@ -540,7 +537,7 @@ public class ProfileActivity extends BaseActivity {
 
             if (relationship.requested) {
                 binding.accountFollowRequest.setVisibility(View.VISIBLE);
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_hourglass_full_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.follow_request));
                 doAction = action.UNFOLLOW;
@@ -551,19 +548,19 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountFollowedBy.setVisibility(View.GONE);
             }
             if (relationship.following) {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_remove_24);
-                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_remove_24);
+                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(this, R.attr.colorError)));
                 doAction = action.UNFOLLOW;
                 binding.accountFollow.setContentDescription(getString(R.string.action_unfollow));
                 binding.accountFollow.setVisibility(View.VISIBLE);
             } else if (relationship.blocking) {
-                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ProfileActivity.this, R.color.red_1)));
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_lock_open_24);
+                binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(this, R.attr.colorError)));
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_lock_open_24);
                 doAction = action.UNBLOCK;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_unblock));
             } else {
-                binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
                 doAction = action.FOLLOW;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_follow));
@@ -575,16 +572,15 @@ public class ProfileActivity extends BaseActivity {
                 binding.headerEditProfile.setVisibility(View.VISIBLE);
                 binding.headerEditProfile.bringToFront();
             }
-            binding.headerEditProfile.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(ProfileActivity.this));
             if (!relationship.following) {
                 binding.accountNotification.setVisibility(View.GONE);
             } else {
                 binding.accountNotification.setVisibility(View.VISIBLE);
             }
             if (relationship.notifying) {
-                binding.accountNotification.setImageResource(R.drawable.ic_baseline_notifications_active_24);
+                binding.accountNotification.setIconResource(R.drawable.ic_baseline_notifications_active_24);
             } else {
-                binding.accountNotification.setImageResource(R.drawable.ic_baseline_notifications_off_24);
+                binding.accountNotification.setIconResource(R.drawable.ic_baseline_notifications_off_24);
             }
             binding.accountNotification.setOnClickListener(v -> {
                 if (relationship != null && relationship.following) {

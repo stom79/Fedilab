@@ -14,12 +14,10 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,7 +30,7 @@ import app.fedilab.android.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonDomainBlock;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 
-public class ActionActivity extends BaseActivity {
+public class ActionActivity extends BaseBarActivity {
 
     private ActivityActionsBinding binding;
     private boolean canGoBack;
@@ -43,13 +41,12 @@ public class ActionActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         canGoBack = false;
         binding.favourites.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.FAVOURITE_TIMELINE));

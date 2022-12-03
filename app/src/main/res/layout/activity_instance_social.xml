@@ -101,17 +101,15 @@
             android:textSize="16sp"
             android:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/close"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="@string/close"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textAllCaps="false" />
     </LinearLayout>
 
 
@@ -123,7 +121,6 @@
         android:gravity="center">
 
         <ProgressBar
-            android:indeterminateTint="@color/cyanea_accent_dark_reference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true" />

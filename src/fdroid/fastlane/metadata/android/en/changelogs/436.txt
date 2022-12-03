@@ -1,0 +1,10 @@
+Changed:
+- Remove built-in browser support
+- More spaces between action buttons in messages
+
+Fixed:
+- Text size issue
+- Text overlap
+- Wrong background for solarized black
+- Mix between light and dark theme
+- Save button hidden

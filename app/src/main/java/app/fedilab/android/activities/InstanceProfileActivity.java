@@ -28,11 +28,10 @@ import androidx.lifecycle.ViewModelProvider;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityInstanceProfileBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
-public class InstanceProfileActivity extends BaseActivity {
+public class InstanceProfileActivity extends BaseAlertDialogActivity {
 
 
     private String instance;
@@ -41,7 +40,7 @@ public class InstanceProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeDialog(this);
+
         binding = ActivityInstanceProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

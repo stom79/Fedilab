@@ -26,7 +26,6 @@
                 android:gravity="center">
 
                 <ProgressBar
-                    android:indeterminateTint="@color/cyanea_accent_dark_reference"
                     android:id="@+id/pbar_inf"
                     style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
@@ -41,22 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/dark_text"
                     android:textSize="12sp" />
             </RelativeLayout>
-
-            <FrameLayout
-                android:id="@+id/main_media_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true">
-
-                <app.fedilab.android.webview.CustomWebview
-                    android:id="@+id/webview_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/videoLayout"
@@ -132,9 +117,7 @@
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/media_message_border"
                 android:gravity="center"
-
                 android:text="@string/media_ready"
-                android:textColor="@color/dark_text"
                 android:textSize="14sp"
                 android:visibility="gone" />
         </RelativeLayout>

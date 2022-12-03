@@ -17,7 +17,6 @@ package app.fedilab.android.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
@@ -39,7 +37,6 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.databinding.ActivityCustomSharingBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.helper.customsharing.CustomSharingAsyncTask;
 import app.fedilab.android.helper.customsharing.CustomSharingResponse;
 import app.fedilab.android.helper.customsharing.OnCustomSharingInterface;
@@ -51,7 +48,7 @@ import es.dmoral.toasty.Toasty;
  * Share status metadata to remote content aggregators
  */
 
-public class CustomSharingActivity extends BaseActivity implements OnCustomSharingInterface {
+public class CustomSharingActivity extends BaseBarActivity implements OnCustomSharingInterface {
 
     private String title, keywords, custom_sharing_url, encodedCustomSharingURL;
     private String bundle_url;
@@ -66,14 +63,13 @@ public class CustomSharingActivity extends BaseActivity implements OnCustomShari
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(CustomSharingActivity.this);
         binding = ActivityCustomSharingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         Bundle b = getIntent().getExtras();
         status = null;

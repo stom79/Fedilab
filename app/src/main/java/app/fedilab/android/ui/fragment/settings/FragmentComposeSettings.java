@@ -50,7 +50,6 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
         if (SET_SELECTED_LANGUAGE != null) {
             SET_SELECTED_LANGUAGE.getContext().setTheme(Helper.dialogStyle());
         }
-
     }
 
     @Override

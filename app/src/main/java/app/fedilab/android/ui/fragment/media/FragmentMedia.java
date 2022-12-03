@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -53,9 +52,6 @@ import app.fedilab.android.databinding.FragmentSlideMediaBinding;
 import app.fedilab.android.helper.CacheDataSourceFactory;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
-import app.fedilab.android.webview.CustomWebview;
-import app.fedilab.android.webview.FedilabWebChromeClient;
-import app.fedilab.android.webview.FedilabWebViewClient;
 
 
 public class FragmentMedia extends Fragment {
@@ -67,7 +63,6 @@ public class FragmentMedia extends Fragment {
     private boolean canSwipe;
     private Attachment attachment;
     private boolean swipeEnabled;
-    private CustomWebview webview_video;
     private FragmentSlideMediaBinding binding;
 
 
@@ -90,7 +85,6 @@ public class FragmentMedia extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         swipeEnabled = true;
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         url = attachment.url;
         binding.mediaPicture.setOnMatrixChangeListener(rect -> {
@@ -218,39 +212,6 @@ public class FragmentMedia extends Fragment {
                     loadVideo(url, type);
                 }
                 break;
-            case "web":
-                binding.loader.setVisibility(View.GONE);
-                binding.mediaPicture.setVisibility(View.GONE);
-                webview_video = Helper.initializeWebview(requireActivity(), R.id.webview_video, binding.getRoot());
-                webview_video.setVisibility(View.VISIBLE);
-                FedilabWebChromeClient fedilabWebChromeClient = new FedilabWebChromeClient(requireActivity(), webview_video, binding.mainMediaFrame, binding.videoLayout);
-                fedilabWebChromeClient.setOnToggledFullscreen(fullscreen -> {
-                    if (fullscreen) {
-                        binding.videoLayout.setVisibility(View.VISIBLE);
-                        WindowManager.LayoutParams attrs = (requireActivity()).getWindow().getAttributes();
-                        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                        attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                        (requireActivity()).getWindow().setAttributes(attrs);
-                        (requireActivity()).getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-                    } else {
-                        WindowManager.LayoutParams attrs = (requireActivity()).getWindow().getAttributes();
-                        attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                        attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                        (requireActivity()).getWindow().setAttributes(attrs);
-                        (requireActivity()).getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                        binding.videoLayout.setVisibility(View.GONE);
-                    }
-                });
-                webview_video.getSettings().setAllowFileAccess(true);
-                webview_video.setWebChromeClient(fedilabWebChromeClient);
-                webview_video.getSettings().setDomStorageEnabled(true);
-                webview_video.getSettings().setAppCacheEnabled(true);
-                String user_agent = sharedpreferences.getString(getString(R.string.SET_CUSTOM_USER_AGENT), Helper.USER_AGENT);
-                webview_video.getSettings().setUserAgentString(user_agent);
-                webview_video.getSettings().setMediaPlaybackRequiresUserGesture(false);
-                webview_video.setWebViewClient(new FedilabWebViewClient(requireActivity()));
-                webview_video.loadUrl(attachment.url);
-                break;
         }
     }
 
@@ -298,9 +259,6 @@ public class FragmentMedia extends Fragment {
         if (player != null) {
             player.setPlayWhenReady(false);
         }
-        if (webview_video != null) {
-            webview_video.onPause();
-        }
 
     }
 
@@ -312,9 +270,6 @@ public class FragmentMedia extends Fragment {
                 player.release();
             }
         } catch (Exception ignored) {
-        }
-        if (webview_video != null) {
-            webview_video.destroy();
         }
         if (timer != null) {
             timer.cancel();
@@ -328,11 +283,6 @@ public class FragmentMedia extends Fragment {
         if (player != null) {
             player.setPlayWhenReady(true);
         }
-
-        if (webview_video != null) {
-            webview_video.onResume();
-        }
-
     }
 
     private void scheduleStartPostponedTransition(final ImageView imageView) {

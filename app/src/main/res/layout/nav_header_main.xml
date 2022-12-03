@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:layout_height="@dimen/nav_header_height">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -25,7 +24,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:contentDescription="@string/information"
         android:src="@drawable/ic_baseline_more_vert_24"
-        app:tint="?iconColor" />
+        app:tint="?colorControlNormal" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -55,15 +54,16 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:id="@+id/account_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:ellipsize="end"
                 android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:singleLine="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                tools:text="@tools:sample/full_names" />
 
             <ImageView
                 android:id="@+id/owner_accounts"
@@ -73,7 +73,7 @@
                 android:contentDescription="@string/open_menu"
                 android:gravity="center_vertical"
                 android:src="@drawable/ic_baseline_arrow_drop_down_24"
-                app:tint="?iconColor" />
+                app:tint="?colorControlNormal" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -84,8 +84,10 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:id="@+id/account_acc"
+                tools:text="@tools:sample/full_names"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -101,7 +103,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:contentDescription="@string/information"
                 android:src="@drawable/ic_baseline_info_24"
-                app:tint="?iconColor" />
+                app:tint="?colorControlNormal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

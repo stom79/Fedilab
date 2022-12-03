@@ -37,7 +37,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/blue_border"
                 android:gravity="center"
-                android:textColor="@color/mastodonC4"
+                android:textColor="?colorPrimary"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -166,16 +166,15 @@
                 android:scrollbars="none"
                 app:layout_constraintTop_toBottomOf="@id/barrier_software_version_bottom" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/close"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="@string/close"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -187,7 +186,6 @@
     </ScrollView>
 
     <ProgressBar
-        android:indeterminateTint="@color/cyanea_accent_dark_reference"
         android:id="@+id/loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

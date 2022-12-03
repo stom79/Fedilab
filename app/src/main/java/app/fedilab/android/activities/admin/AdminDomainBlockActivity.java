@@ -18,7 +18,6 @@ package app.fedilab.android.activities.admin;
 import static app.fedilab.android.helper.Helper.BROADCAST_DATA;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,21 +27,19 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminDomainblockBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
 
-public class AdminDomainBlockActivity extends BaseActivity {
+public class AdminDomainBlockActivity extends BaseBarActivity {
 
 
     private final String[] severityChoices = {"silence", "suspend", "noop"};
@@ -52,12 +49,11 @@ public class AdminDomainBlockActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         ActivityAdminDomainblockBinding binding = ActivityAdminDomainblockBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         Bundle b = getIntent().getExtras();
         if (b != null) {

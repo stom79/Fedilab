@@ -126,7 +126,6 @@
             tools:visibility="visible">
 
             <ProgressBar
-                android:indeterminateTint="@color/cyanea_accent_dark_reference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true" />
@@ -140,7 +139,6 @@
             android:layout_margin="@dimen/fab_margin"
             android:contentDescription="@string/contact_instance_admin"
             android:src="@drawable/ic_baseline_mail_outline_24"
-            app:backgroundTint="@color/cyanea_accent_dark_reference"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -169,21 +167,19 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/close"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingVertical="12dp"
             android:text="@string/close"
             android:textAlignment="textStart"
-            android:textColor="@color/cyanea_accent_dark_reference"
             app:layout_constraintTop_toBottomOf="@+id/privacy"
             android:textAllCaps="false"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="@color/cyanea_accent_dark_reference" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -73,7 +73,6 @@ public class TimelineHelper {
      */
     public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
         //A security to make sure filters have been fetched before displaying messages
-        List<Status> statusesToRemove = new ArrayList<>();
         if (!BaseMainActivity.filterFetched) {
             MastodonFiltersService mastodonFiltersService = initv2(context);
             List<Filter> filterList;
@@ -132,12 +131,7 @@ public class TimelineHelper {
                                 content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
                             Matcher m = p.matcher(content);
                             if (m.find()) {
-
-                                if (filter.filter_action.equalsIgnoreCase("warn")) {
-                                    status.filteredByApp = filter;
-                                } else {
-                                    statusesToRemove.add(status);
-                                }
+                                status.filteredByApp = filter;
                                 continue;
                             }
                             if (status.spoiler_text != null) {
@@ -148,21 +142,13 @@ public class TimelineHelper {
                                     spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
                                 Matcher ms = p.matcher(spoilerText);
                                 if (ms.find()) {
-                                    if (filter.filter_action.equalsIgnoreCase("warn")) {
-                                        status.filteredByApp = filter;
-                                    } else {
-                                        statusesToRemove.add(status);
-                                    }
+                                    status.filteredByApp = filter;
                                 }
                             }
                         }
                     }
                 }
-
             }
-        }
-        if (statuses != null) {
-            statuses.removeAll(statusesToRemove);
         }
         return statuses;
     }

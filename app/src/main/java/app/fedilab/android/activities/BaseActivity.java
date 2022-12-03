@@ -16,20 +16,29 @@ package app.fedilab.android.activities;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
-import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
+import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.ThemeHelper;
 
 
 @SuppressLint("Registered")
-public class BaseActivity extends CyaneaAppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
+
+    public static int currentThemeId;
 
     static {
         Helper.installProvider();
@@ -38,9 +47,89 @@ public class BaseActivity extends CyaneaAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
+        //Default automatic switch
+        if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
+
+            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    String defaultLight = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_LIGHT), "LIGHT");
+                    switch (defaultLight) {
+                        case "LIGHT":
+                            setTheme(R.style.AppTheme);
+                            currentThemeId = R.style.AppTheme;
+                            break;
+                        case "SOLARIZED_LIGHT":
+                            setTheme(R.style.SolarizedAppTheme);
+                            currentThemeId = R.style.SolarizedAppTheme;
+                            break;
+                    }
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    String defaultDark = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_DARK), "DARK");
+                    switch (defaultDark) {
+                        case "DARK":
+                            setTheme(R.style.AppTheme);
+                            currentThemeId = R.style.AppTheme;
+                            break;
+                        case "SOLARIZED_DARK":
+                            setTheme(R.style.SolarizedAppTheme);
+                            currentThemeId = R.style.SolarizedAppTheme;
+                            break;
+                        case "BLACK":
+                            setTheme(R.style.BlackAppTheme);
+                            currentThemeId = R.style.BlackAppTheme;
+                            break;
+                    }
+                    break;
+            }
+        } else {
+            switch (currentTheme) {
+                case "LIGHT":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    setTheme(R.style.AppTheme);
+                    currentThemeId = R.style.AppTheme;
+                    break;
+                case "DARK":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.AppTheme);
+                    currentThemeId = R.style.AppTheme;
+                    break;
+                case "SOLARIZED_LIGHT":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    setTheme(R.style.SolarizedAppTheme);
+                    currentThemeId = R.style.SolarizedAppTheme;
+                    break;
+                case "SOLARIZED_DARK":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.SolarizedAppTheme);
+                    currentThemeId = R.style.SolarizedAppTheme;
+                    break;
+                case "BLACK":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.BlackAppTheme);
+                    currentThemeId = R.style.BlackAppTheme;
+                    break;
+            }
+        }
         super.onCreate(savedInstanceState);
-        ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        }
         Helper.setLocale(this);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase);
+            override.fontScale = prefs.getFloat(newBase.getString(R.string.SET_FONT_SCALE), 1.1f);
+            applyOverrideConfiguration(override);
+        }
+        super.attachBaseContext(newBase);
+    }
 }

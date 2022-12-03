@@ -35,7 +35,6 @@
         android:background="@drawable/shape_counter"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:textColor="?mTextColor"
         android:textSize="12sp"
         android:visibility="gone"
         tools:text="35"

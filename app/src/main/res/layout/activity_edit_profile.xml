@@ -50,11 +50,9 @@
                     android:padding="1dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/default_banner"
-                    app:strokeColor="@color/cyanea_accent_dark_reference"
                     app:strokeWidth="1dp" />
 
                 <ProgressBar
-                    android:indeterminateTint="@color/cyanea_accent_dark_reference"
                     android:id="@+id/header_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,16 +63,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/header_select"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select"
-                android:textColor="@color/cyanea_accent_dark_reference"
                 app:icon="@drawable/ic_menu_gallery"
-                app:iconTint="@color/cyanea_accent_dark_reference"
                 app:layout_constraintEnd_toEndOf="@id/banner_pp_container"
-                app:layout_constraintTop_toBottomOf="@id/banner_pp_container"
-                app:strokeColor="@color/cyanea_accent_dark_reference" />
+                app:layout_constraintTop_toBottomOf="@id/banner_pp_container" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/header_bottom_divider"
@@ -105,11 +100,9 @@
                     android:scaleType="centerCrop"
                     android:transitionName="@string/activity_porfile_pp"
                     app:srcCompat="@drawable/ic_person"
-                    app:strokeColor="@color/cyanea_accent_dark_reference"
                     app:strokeWidth="1dp" />
 
                 <ProgressBar
-                    android:indeterminateTint="@color/cyanea_accent_dark_reference"
                     android:id="@+id/avatar_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,17 +113,14 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/avatar_select"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="@string/select"
-                android:textColor="@color/cyanea_accent_dark_reference"
                 app:icon="@drawable/ic_menu_gallery"
-                app:iconTint="@color/cyanea_accent_dark_reference"
                 app:layout_constraintBottom_toBottomOf="@id/account_pp_container"
-                app:layout_constraintStart_toEndOf="@id/account_pp_container"
-                app:strokeColor="@color/cyanea_accent_dark_reference" />
+                app:layout_constraintStart_toEndOf="@id/account_pp_container" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/display_name"
@@ -186,16 +176,13 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_field"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginVertical="6dp"
                     android:text="@string/add_field"
-                    android:textColor="@color/cyanea_accent_dark_reference"
-                    app:icon="@drawable/ic_baseline_add_24"
-                    app:iconTint="@color/cyanea_accent_dark_reference"
-                    app:strokeColor="@color/cyanea_accent_dark_reference" />
+                    app:icon="@drawable/ic_baseline_add_24" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -206,7 +193,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/toots_visibility_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 app:layout_constraintTop_toBottomOf="@id/fields" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -216,47 +203,45 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="6dp"
                 android:orientation="vertical"
+                app:selectionRequired="true"
                 app:layout_constraintTop_toBottomOf="@id/visibility_label"
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_public"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_public"
                     android:textAlignment="textStart"
-                    android:textColorHighlight="@color/cyanea_accent_dark_reference"
                     app:icon="@drawable/ic_compose_visibility_public" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_unlisted"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_marginTop="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_unlisted"
                     android:textAlignment="textStart"
-                    android:textColorHighlight="@color/cyanea_accent_dark_reference"
                     app:icon="@drawable/ic_compose_visibility_unlisted" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_private"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_private"
                     android:textAlignment="textStart"
-                    android:textColorHighlight="@color/cyanea_accent_dark_reference"
                     app:icon="@drawable/ic_compose_visibility_private" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_direct"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_direct"
                     android:textAlignment="textStart"
-                    android:textColorHighlight="@color/cyanea_accent_dark_reference"
                     app:icon="@drawable/ic_compose_visibility_direct" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -295,7 +280,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/set_lock_account"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 app:layout_constraintTop_toBottomOf="@id/discoverable" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -305,11 +290,12 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="6dp"
                 app:layout_constraintTop_toBottomOf="@id/lock_label"
+                app:selectionRequired="true"
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/unlocked"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -319,7 +305,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/locked"
-                    style="@style/Widget.App.Button.IconOnly.Outline"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

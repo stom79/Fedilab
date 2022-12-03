@@ -13,7 +13,6 @@
         android:layout_marginTop="10dp"
         android:checked="true"
         android:text="@string/files_cache_size"
-        app:buttonTint="@color/cyanea_accent_dark_reference"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

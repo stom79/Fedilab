@@ -77,7 +77,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHol
         holder.binding.value.setMovementMethod(LinkMovementMethod.getInstance());
 
         holder.binding.label.setText(
-                field.getValueSpan(context, account,
+                field.getLabelSpan(context, account,
                         new WeakReference<>(holder.binding.label)),
                 TextView.BufferType.SPANNABLE);
         holder.binding.label.setMovementMethod(LinkMovementMethod.getInstance());

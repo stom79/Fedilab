@@ -15,7 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Menu;
@@ -24,7 +23,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,7 +44,7 @@ import app.fedilab.android.viewmodel.mastodon.TagVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class FollowedTagActivity extends BaseActivity implements FollowedTagAdapter.ActionOnTag {
+public class FollowedTagActivity extends BaseBarActivity implements FollowedTagAdapter.ActionOnTag {
 
 
     private ActivityFollowedTagsBinding binding;
@@ -60,14 +58,13 @@ public class FollowedTagActivity extends BaseActivity implements FollowedTagAdap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityFollowedTagsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         canGoBack = false;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         tagVM = new ViewModelProvider(FollowedTagActivity.this).get(TagVM.class);
         tagVM.followedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)

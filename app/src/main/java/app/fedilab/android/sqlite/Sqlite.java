@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 6;
+    public static final int DB_VERSION = 7;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -227,6 +227,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_SLUG + " TEXT");
                 db.execSQL("DELETE FROM " + TABLE_STATUS_CACHE);
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUICK_LOAD);
+            case 6:
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOMAINS_TRACKING);
             default:
                 break;
         }

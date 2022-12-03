@@ -222,13 +222,17 @@ public class MastodonHelper {
     }
 
     public static void loadProfileMediaMastodon(ImageView view, Account account, MediaAccountType type) {
+        loadProfileMediaMastodon(null, view, account, type);
+    }
+
+    public static void loadProfileMediaMastodon(Activity activity, ImageView view, Account account, MediaAccountType type) {
         Context context = view.getContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         @DrawableRes int placeholder = type == MediaAccountType.AVATAR ? R.drawable.ic_person : R.drawable.default_banner;
-        if (Helper.isValidContextForGlide(view.getContext())) {
+        if (Helper.isValidContextForGlide(activity != null ? activity : context)) {
             if (account == null) {
-                Glide.with(view.getContext())
+                Glide.with(activity != null ? activity : context)
                         .asDrawable()
                         .load(placeholder)
                         .thumbnail(0.1f)
@@ -239,14 +243,14 @@ public class MastodonHelper {
             String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
             if (targetedUrl != null) {
                 if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                    Glide.with(view.getContext())
+                    Glide.with(activity != null ? activity : context)
                             .asDrawable()
                             .load(targetedUrl)
                             .thumbnail(0.1f)
                             .placeholder(placeholder)
                             .into(view);
                 } else {
-                    Glide.with(view.getContext())
+                    Glide.with(activity != null ? activity : context)
                             .asGif()
                             .load(targetedUrl)
                             .thumbnail(0.1f)
@@ -254,7 +258,7 @@ public class MastodonHelper {
                             .into(view);
                 }
             } else {
-                Glide.with(view.getContext())
+                Glide.with(activity != null ? activity : context)
                         .asDrawable()
                         .load(placeholder)
                         .thumbnail(0.1f)
@@ -358,9 +362,6 @@ public class MastodonHelper {
         dialogBuilder.setView(binding.getRoot());
         final AlertDialog alertDialogBoost = dialogBuilder.create();
         binding.timePicker.setIs24HourView(true);
-        binding.dateTimeNext.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-        binding.dateTimePrevious.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
-        binding.dateTimeSet.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(context));
         //Buttons management
         binding.dateTimeCancel.setOnClickListener(v -> alertDialogBoost.dismiss());
         binding.dateTimeNext.setOnClickListener(v -> {

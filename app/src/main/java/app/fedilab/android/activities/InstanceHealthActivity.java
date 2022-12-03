@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -38,14 +37,13 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 
 
-public class InstanceHealthActivity extends BaseActivity {
+public class InstanceHealthActivity extends BaseAlertDialogActivity {
 
     private ActivityInstanceSocialBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeDialog(this);
         binding = ActivityInstanceSocialBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
@@ -91,10 +89,10 @@ public class InstanceHealthActivity extends BaseActivity {
                 binding.name.setText(instanceSocial.name);
                 if (instanceSocial.up) {
                     binding.up.setText(R.string.is_up);
-                    binding.up.setTextColor(ContextCompat.getColor(InstanceHealthActivity.this, R.color.green_1));
+                    binding.up.setTextColor(ThemeHelper.getAttColor(this, R.attr.colorPrimary));
                 } else {
                     binding.up.setText(R.string.is_down);
-                    binding.up.setTextColor(ContextCompat.getColor(InstanceHealthActivity.this, R.color.red_1));
+                    binding.up.setTextColor(ThemeHelper.getAttColor(this, R.attr.colorError));
                 }
                 binding.uptime.setText(getString(R.string.instance_health_uptime, (instanceSocial.uptime * 100)));
                 if (instanceSocial.checked_at != null)

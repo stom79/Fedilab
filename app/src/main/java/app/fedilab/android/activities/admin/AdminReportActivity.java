@@ -19,7 +19,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -55,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.activities.InstanceProfileActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.client.entities.api.Account;
@@ -72,7 +71,7 @@ import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class AdminReportActivity extends BaseActivity {
+public class AdminReportActivity extends BaseBarActivity {
 
     private AdminAccount adminAccount;
     private Account account;
@@ -83,7 +82,7 @@ public class AdminReportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityAdminAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -100,7 +99,6 @@ public class AdminReportActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
@@ -109,7 +107,6 @@ public class AdminReportActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         if (account != null) {
             initializeView(account);
         } else {
@@ -291,7 +288,7 @@ public class AdminReportActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(AdminReportActivity.this, binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
         if (account.locked) {
@@ -314,7 +311,7 @@ public class AdminReportActivity extends BaseActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AdminReportActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         //This account was moved to another one

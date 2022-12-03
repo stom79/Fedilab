@@ -37,8 +37,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/cyanea_accent_dark_reference" />
+            android:indeterminate="true" />
 
     </RelativeLayout>
 

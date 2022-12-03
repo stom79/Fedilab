@@ -40,6 +40,7 @@ public class Field implements Serializable {
 
     //Some extra spannable element - They will be filled automatically when fetching the account
     private transient ForegroundColorSpan value_span;
+    private transient ForegroundColorSpan name_span;
 
     public synchronized Spannable getValueSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
 
@@ -49,6 +50,16 @@ public class Field implements Serializable {
         Spannable spannable = SpannableHelper.convert(context, value, null, account, null, true, viewWeakReference);
         if (value_span != null && spannable != null) {
             spannable.setSpan(value_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannable;
+    }
+
+
+    public synchronized Spannable getLabelSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
+
+        Spannable spannable = SpannableHelper.convert(context, name, null, account, null, true, viewWeakReference);
+        if (name_span != null && spannable != null) {
+            spannable.setSpan(name_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return spannable;
     }

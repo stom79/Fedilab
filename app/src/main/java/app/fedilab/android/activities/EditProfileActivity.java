@@ -18,7 +18,6 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,8 +30,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -52,11 +49,10 @@ import app.fedilab.android.databinding.ActivityEditProfileBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
-public class EditProfileActivity extends BaseActivity {
+public class EditProfileActivity extends BaseBarActivity {
 
     public static final int PICK_MEDIA_AVATAR = 5705;
     public static final int PICK_MEDIA_HEADER = 5706;
@@ -66,12 +62,11 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityEditProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
@@ -89,7 +84,7 @@ public class EditProfileActivity extends BaseActivity {
     @SuppressWarnings("deprecation")
     private void initializeView() {
         //Hydrate values
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(EditProfileActivity.this, binding.bannerPp, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
         MastodonHelper.loadPPMastodon(binding.accountPp, currentAccount.mastodon_account);
         binding.displayName.setText(currentAccount.mastodon_account.display_name);
         binding.acct.setText(String.format(Locale.getDefault(), "%s@%s", currentAccount.mastodon_account.acct, BaseMainActivity.currentInstance));
@@ -183,15 +178,6 @@ public class EditProfileActivity extends BaseActivity {
             }
         });
 
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPublic);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityUnlisted);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityPrivate);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.visibilityDirect);
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.bot.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.discoverable.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        DrawableCompat.setTintList(DrawableCompat.wrap(binding.sensitive.getThumbDrawable()), ThemeHelper.getSwitchCompatThumbDrawable(EditProfileActivity.this));
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.locked);
-        ThemeHelper.changeColorOutlineButton(EditProfileActivity.this, binding.unlocked);
 
         //Actions with the activity
         accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);

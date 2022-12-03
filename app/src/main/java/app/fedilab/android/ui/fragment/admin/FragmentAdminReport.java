@@ -69,10 +69,8 @@ public class FragmentAdminReport extends Fragment {
         }
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
 
-        int c1 = getResources().getColor(R.color.cyanea_accent_reference);
-        binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
+        int c1 = ThemeHelper.getAttColor(requireActivity(), R.attr.colorAccent);
         binding.swipeContainer.setColorSchemeColors(
                 c1, c1, c1
         );

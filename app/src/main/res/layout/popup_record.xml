@@ -39,7 +39,6 @@
         android:layout_marginTop="20dp"
         android:contentDescription="@string/stop_recording"
         android:src="@drawable/ic_baseline_stop_circle_64"
-        app:backgroundTint="@color/cyanea_accent_dark_reference"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barrier" />

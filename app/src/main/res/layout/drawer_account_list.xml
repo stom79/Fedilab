@@ -19,9 +19,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:layout_marginHorizontal="12dp"
     android:layout_marginTop="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="5dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             app:layout_constraintBottom_toTopOf="@id/username"
             app:layout_constraintEnd_toStartOf="@+id/list_action"
             app:layout_constraintStart_toEndOf="@id/avatar"

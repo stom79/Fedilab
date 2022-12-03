@@ -1,0 +1,13 @@
+Přidáno:
+- Možnost nastavit bod zaměření u náhledů (editor médií)
+- Respektování bodu zaměření u náhledů
+- Stránkování s tlačítkem na nahrání dalších zpráv s podporou čtení nahoru nebo dolů
+- Přidání trendů
+
+Opraveno:
+- Zobrazování jen poslední notifikace (bez seskupení)
+- Špatné chování s pravým/levým posuvníkem
+- Neúplné zobrazování dlouhých profilů
+- Problémy s některými anketami
+- Některé pády aplikace
+- Některé případy chybného chování aplikace

@@ -39,20 +39,20 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/remove"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="6dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:padding="0dp"
-        android:textColor="@color/red_1"
+        android:textColor="?colorError"
         app:icon="@drawable/ic_compose_attachment_remove"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:iconTint="@color/red_1"
+        app:iconTint="?colorError"
         app:layout_constraintStart_toStartOf="@id/banner_pp"
         app:layout_constraintTop_toTopOf="@id/banner_pp"
-        app:strokeColor="@color/red_1" />
+        app:strokeColor="?colorError" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

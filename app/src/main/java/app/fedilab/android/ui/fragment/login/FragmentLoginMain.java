@@ -19,6 +19,7 @@ import static app.fedilab.android.activities.LoginActivity.apiLogin;
 import static app.fedilab.android.activities.LoginActivity.client_idLogin;
 import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
 import android.content.Intent;
@@ -27,7 +28,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,9 +49,7 @@ import java.net.URLEncoder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.ProxyActivity;
-import app.fedilab.android.activities.WebviewConnectActivity;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.FragmentLoginMainBinding;
@@ -160,6 +158,7 @@ public class FragmentLoginMain extends Fragment {
                         case "PIXELFED":
                             apiLogin = Account.API.PIXELFED;
                             break;
+                        case "AKKOMA":
                         case "PLEROMA":
                             apiLogin = Account.API.PLEROMA;
                             break;
@@ -181,43 +180,21 @@ public class FragmentLoginMain extends Fragment {
     }
 
     private void showMenu(View v) {
-        PopupMenu popupMenu = new PopupMenu(new ContextThemeWrapper(requireActivity(), Helper.popupStyle()), binding.menuIcon);
+        PopupMenu popupMenu = new PopupMenu(requireActivity(), binding.menuIcon);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
-        MenuItem customTabItem = popupMenu.getMenu().findItem(R.id.action_custom_tabs);
         MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-        customTabItem.setChecked(!embedded_browser);
-        adminTabItem.setChecked(((LoginActivity) requireActivity()).requestedAdmin());
+        adminTabItem.setChecked(requestedAdmin);
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
                 Intent intent = new Intent(requireActivity(), ProxyActivity.class);
                 startActivity(intent);
-            } else if (itemId == R.id.action_custom_tabs) {
-                boolean checked = !embedded_browser;
-                item.setChecked(!item.isChecked());
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putBoolean(getString(R.string.SET_EMBEDDED_BROWSER), checked);
-                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                item.setActionView(new View(requireContext()));
-                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        return false;
-                    }
-                });
-                editor.apply();
             } else if (itemId == R.id.action_request_admin) {
-                boolean checked = !((LoginActivity) requireActivity()).requestedAdmin();
-                ((LoginActivity) requireActivity()).setAdmin(checked);
+
                 item.setChecked(!item.isChecked());
+                requestedAdmin = item.isChecked();
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
                 item.setActionView(new View(requireContext()));
                 item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
@@ -256,7 +233,7 @@ public class FragmentLoginMain extends Fragment {
         } catch (UnsupportedEncodingException e) {
             currentInstanceLogin = host;
         }
-        String scopes = ((LoginActivity) requireActivity()).requestedAdmin() ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+        String scopes = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
         appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
                 Helper.REDIRECT_CONTENT_WEB,
@@ -266,25 +243,14 @@ public class FragmentLoginMain extends Fragment {
             if (app != null) {
                 client_idLogin = app.client_id;
                 client_secretLogin = app.client_secret;
-                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, ((LoginActivity) requireActivity()).requestedAdmin());
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                boolean embedded_browser = sharedpreferences.getBoolean(getString(R.string.SET_EMBEDDED_BROWSER), true);
-                if (embedded_browser) {
-                    Intent i = new Intent(requireActivity(), WebviewConnectActivity.class);
-                    i.putExtra("login_url", redirectUrl);
-                    i.putExtra("requestedAdmin", ((LoginActivity) requireActivity()).requestedAdmin());
-                    startActivity(i);
-                    requireActivity().finish();
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse(redirectUrl));
-                    try {
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                    }
-
+                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse(redirectUrl));
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();

@@ -30,7 +30,7 @@
         android:roundIcon="@mipmap/ic_launcher_bubbles_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/AppThemeDark"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
@@ -167,9 +167,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.WebviewConnectActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".activities.StatusHistoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/status_history"
@@ -192,9 +189,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.FollowRequestActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".activities.WebviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".activities.ProfileActivity"
@@ -243,6 +237,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
+
         <activity
             android:name=".activities.admin.AdminDomainBlockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -287,15 +282,15 @@
             android:name=".activities.InstanceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about_instance"
-            android:theme="@style/DialogDark" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.InstanceProfileActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/DialogDark" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.ProxyActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/DialogDark" />
+            android:theme="@style/AppThemeAlertDialog" />
         <activity
             android:name=".activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -305,38 +300,38 @@
         <activity
             android:name=".activities.MediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/TransparentDark" />
+            android:theme="@style/Transparent" />
 
         <activity
             android:name=".activities.InstanceHealthActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/DialogDark" />
+            android:theme="@style/AppThemeAlertDialog" />
 
         <activity
             android:name=".activities.ReportActivity"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CustomSharingActivity"
             android:label="@string/settings_title_custom_sharing"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.FilterActivity"
             android:label="@string/filters"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.EditProfileActivity"
             android:label="@string/edit_profile"
-            android:theme="@style/AppThemeBarDark"
+            android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
             android:name=".activities.CacheActivity"
             android:label="@string/action_cache"
-            android:theme="@style/AppThemeBarDark" />
+            android:theme="@style/AppThemeBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

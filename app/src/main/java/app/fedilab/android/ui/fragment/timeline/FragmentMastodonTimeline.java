@@ -61,7 +61,6 @@ import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -98,6 +97,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
                 Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
+                boolean refreshAll = b.getBoolean(Helper.ARG_TIMELINE_REFRESH_ALL, false);
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
@@ -154,6 +154,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             statusAdapter.notifyItemRemoved(position);
                         }
                     }
+                } else if (refreshAll) {
+                    refreshAllAdapters();
                 }
             }
         }
@@ -172,6 +174,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean canBeFederated;
     private boolean rememberPosition;
     private String publicTrendsDomain;
+    private int lockForResumeCall;
+    private boolean isNotPinnedTimeline;
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -209,7 +213,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 router(null);
             }
         } else {
-            router(null);
+            if (isNotPinnedTimeline && lockForResumeCall == 0) {
+                router(null);
+                lockForResumeCall++;
+            } /*else if (!isNotPinnedTimeline) {
+                router(null);
+            }*/
         }
         if (timelineStatuses != null && timelineStatuses.size() > 0) {
             route(DIRECTION.FETCH_NEW, true);
@@ -267,6 +276,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
         accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
         initialStatuses = null;
+        lockForResumeCall = 0;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = statusReport != null ? statusReport.id : null;
@@ -311,6 +321,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
+            isNotPinnedTimeline = isViewInitialized;
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
@@ -353,15 +364,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
-
-        int c1 = getResources().getColor(R.color.cyanea_accent_reference);
-        binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
-
-
         return binding.getRoot();
     }
 

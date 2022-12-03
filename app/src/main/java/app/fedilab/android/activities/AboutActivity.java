@@ -18,13 +18,11 @@ package app.fedilab.android.activities;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -39,11 +37,10 @@ import app.fedilab.android.databinding.ActivityAboutBinding;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseBarActivity {
 
 
     private ActivityAboutBinding binding;
@@ -52,13 +49,12 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         try {
@@ -79,13 +75,12 @@ public class AboutActivity extends BaseActivity {
         }
         binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
 
-        binding.accountFollow.setBackgroundTintList(ThemeHelper.getButtonActionColorStateList(AboutActivity.this));
         if (BuildConfig.DONATIONS) {
             binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
         } else {
             binding.aboutSupportPaypal.setVisibility(View.GONE);
         }
-        binding.accountFollow.setImageResource(R.drawable.ic_baseline_person_add_24);
+        binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         binding.aboutWebsite.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://fedilab.app"));
         CrossActionHelper.fetchRemoteAccount(AboutActivity.this, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
             @Override

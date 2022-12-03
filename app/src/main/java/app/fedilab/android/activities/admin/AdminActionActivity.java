@@ -22,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -38,7 +36,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.BaseActivity;
+import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.client.entities.api.admin.AdminDomainBlock;
 import app.fedilab.android.databinding.ActivityAdminActionsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
@@ -49,7 +47,7 @@ import app.fedilab.android.ui.fragment.admin.FragmentAdminAccount;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminDomain;
 import app.fedilab.android.ui.fragment.admin.FragmentAdminReport;
 
-public class AdminActionActivity extends BaseActivity {
+public class AdminActionActivity extends BaseBarActivity {
 
     public static Boolean local = true, remote = true, active = true, pending = true, disabled = true, silenced = true, suspended = true, staff = null, orderByMostRecent = true;
     public static Boolean resolved = null, reportLocal = true, reportRemote = true;
@@ -81,13 +79,12 @@ public class AdminActionActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         binding = ActivityAdminActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         canGoBack = false;
         binding.reports.setOnClickListener(v -> displayTimeline(REPORT));

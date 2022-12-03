@@ -1,0 +1,14 @@
+Added:
+- New design with 5 themes
+
+Changed:
+- Remove built-in browser support
+- Fit preview image displays images vertically
+- Add counters next to images
+
+Fixed:
+- Jumps in timelines
+- Replies to wrong messages with followed instances
+- Bug with delete&redraft with a media
+- List cannot be hidden
+- Some crashes

@@ -23,8 +23,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import com.jaredrummler.cyanea.Cyanea;
-import com.jaredrummler.cyanea.prefs.CyaneaTheme;
+import com.google.android.material.color.DynamicColors;
 
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -33,8 +32,7 @@ import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 
-import java.util.List;
-
+import app.fedilab.android.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
 
@@ -47,26 +45,19 @@ public class MainApplication extends MultiDexApplication {
         return app;
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
 
-
-        Cyanea.init(this, super.getResources());
-        List<CyaneaTheme> list = CyaneaTheme.Companion.from(getAssets(), "themes/cyanea_themes.json");
-        boolean custom_theme = sharedpreferences.getBoolean("use_custom_theme", false);
-        boolean no_theme_set = sharedpreferences.getBoolean("no_theme_set", true);
-        if (no_theme_set && !custom_theme) {
-            list.get(0).apply(Cyanea.getInstance());
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean("no_theme_set", false);
-            editor.apply();
+        boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
+        if (dynamicColor) {
+            DynamicColors.applyToActivitiesIfAvailable(this);
         }
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
         Toasty.Config.getInstance().apply();
     }
 
@@ -76,6 +67,8 @@ public class MainApplication extends MultiDexApplication {
         MultiDex.install(MainApplication.this);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
         boolean send_crash_reports = sharedpreferences.getBoolean(getString(R.string.SET_SEND_CRASH_REPORTS), false);
+        String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
+        ThemeHelper.switchTo(currentTheme);
         if (send_crash_reports) {
             ACRA.init(this, new CoreConfigurationBuilder()
                     //core configuration:
@@ -92,7 +85,6 @@ public class MainApplication extends MultiDexApplication {
                                     .withResIcon(R.mipmap.ic_launcher)
                                     .withText(getString(R.string.crash_title))
                                     .withCommentPrompt(getString(R.string.crash_message))
-                                    .withResTheme(R.style.DialogDark)
                                     .withPositiveButtonText(getString(R.string.send_email))
                                     .withNegativeButtonText(getString(R.string.cancel))
                                     .build()

@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -49,7 +48,7 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 
 
-public class InstanceActivity extends BaseActivity {
+public class InstanceActivity extends BaseAlertDialogActivity {
 
 
     ActivityInstanceBinding binding;
@@ -58,7 +57,6 @@ public class InstanceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeDialog(this);
         binding = ActivityInstanceBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
@@ -71,13 +69,13 @@ public class InstanceActivity extends BaseActivity {
 
         final SpannableString contentAbout = new SpannableString(getString(R.string.action_about_instance));
         contentAbout.setSpan(new UnderlineSpan(), 0, contentAbout.length(), 0);
-        contentAbout.setSpan(new ForegroundColorSpan(ContextCompat.getColor(InstanceActivity.this, R.color.cyanea_accent_reference)), 0, contentAbout.length(),
+        contentAbout.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, contentAbout.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.tos.setText(contentAbout);
 
         final SpannableString contentPrivacy = new SpannableString(getString(R.string.action_privacy_policy));
         contentPrivacy.setSpan(new UnderlineSpan(), 0, contentPrivacy.length(), 0);
-        contentPrivacy.setSpan(new ForegroundColorSpan(ContextCompat.getColor(InstanceActivity.this, R.color.cyanea_accent_reference)), 0, contentPrivacy.length(),
+        contentPrivacy.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, contentPrivacy.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.privacy.setText(contentPrivacy);
 

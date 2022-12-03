@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.components.Description;
@@ -67,9 +66,6 @@ public class TagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         tagViewHolder.binding.tagStats.setText(context.getString(R.string.talking_about, stat));
         LineDataSet dataTrending = new LineDataSet(trendsEntry, context.getString(R.string.trending));
-        dataTrending.setColor(ContextCompat.getColor(context, R.color.cyanea_accent_reference));
-        dataTrending.setValueTextColor(ContextCompat.getColor(context, R.color.cyanea_accent_reference));
-        dataTrending.setFillColor(ContextCompat.getColor(context, R.color.cyanea_accent_reference));
         dataTrending.setDrawValues(false);
         dataTrending.setDrawFilled(true);
         dataTrending.setDrawCircles(false);

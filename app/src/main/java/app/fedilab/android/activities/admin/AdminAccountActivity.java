@@ -19,7 +19,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -83,7 +82,7 @@ public class AdminAccountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyTheme(this);
+
         binding = ActivityAdminAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -99,7 +98,6 @@ public class AdminAccountActivity extends BaseActivity {
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
@@ -108,7 +106,6 @@ public class AdminAccountActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        binding.toolbar.setPopupTheme(Helper.popupStyle());
         adminVM = new ViewModelProvider(AdminAccountActivity.this).get(AdminVM.class);
         if (account_id != null) {
             adminVM.getAccount(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, this::initializeView);
@@ -272,7 +269,7 @@ public class AdminAccountActivity extends BaseActivity {
                         }
                 );
         //Load header
-        MastodonHelper.loadProfileMediaMastodon(binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
+        MastodonHelper.loadProfileMediaMastodon(AdminAccountActivity.this, binding.bannerPp, adminAccount.account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
         final float scale = getResources().getDisplayMetrics().density;
         if (adminAccount.account.locked) {
@@ -295,7 +292,7 @@ public class AdminAccountActivity extends BaseActivity {
 
         final SpannableString content = new SpannableString(getString(R.string.disclaimer_full));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        content.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AdminAccountActivity.this, R.color.cyanea_accent_reference)), 0, content.length(),
+        content.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, content.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         //This account was moved to another one

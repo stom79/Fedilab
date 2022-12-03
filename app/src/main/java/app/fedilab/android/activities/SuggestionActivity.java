@@ -14,35 +14,30 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-import androidx.core.content.ContextCompat;
 
 import org.jetbrains.annotations.NotNull;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivitySuggestionsBinding;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonSuggestion;
 
 
-public class SuggestionActivity extends BaseActivity {
+public class SuggestionActivity extends BaseBarActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeBar(this);
+
         ActivitySuggestionsBinding binding = ActivitySuggestionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.cyanea_primary)));
         }
 
         Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_suggestions, new FragmentMastodonSuggestion(), null, null, null);

@@ -43,7 +43,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.DividerDecoration;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 
@@ -151,12 +150,6 @@ public class FragmentMastodonContext extends Fragment {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        int c1 = getResources().getColor(R.color.cyanea_accent_reference);
-        binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
-        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         statusesVM = new ViewModelProvider(FragmentMastodonContext.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();

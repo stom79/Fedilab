@@ -24,7 +24,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/translate"
-        style="@style/Widget.App.Button.IconOnly.Outline"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
@@ -63,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:background="?backgroundColorLight"
             android:paddingStart="2dp"
             android:paddingEnd="2dp"
             android:text="@string/translation"

@@ -40,7 +40,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.ui.drawer.AccountAdapter;
 import app.fedilab.android.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
@@ -74,18 +73,12 @@ public class FragmentMastodonAccount extends Fragment {
         }
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        binding.getRoot().setBackgroundColor(ThemeHelper.getBackgroundColor(requireActivity()));
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int c1 = getResources().getColor(R.color.cyanea_accent_reference);
-        binding.swipeContainer.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.cyanea_primary_reference));
-        binding.swipeContainer.setColorSchemeColors(
-                c1, c1, c1
-        );
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);

@@ -16,8 +16,7 @@ package app.fedilab.android.helper;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
-import static app.fedilab.android.helper.Helper.USER_AGENT;
-import static app.fedilab.android.helper.ThemeHelper.linkColor;
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -46,6 +45,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
@@ -65,17 +67,21 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.HashTagActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Announcement;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
+import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Mention;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.PopupLinksBinding;
+import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import es.dmoral.toasty.Toasty;
 
 public class SpannableHelper {
@@ -142,7 +148,7 @@ public class SpannableHelper {
                 content.removeSpan(span);
             }
             //Make tags, mentions, groups
-            interaction(context, content, mentionList);
+            interaction(context, content, status, mentionList);
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
@@ -245,7 +251,7 @@ public class SpannableHelper {
                     @Override
                     public void onLongClick(View view) {
                         Context mContext = view.getContext();
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
                         PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                         dialogBuilder.setView(popupLinksBinding.getRoot());
                         AlertDialog alertDialog = dialogBuilder.create();
@@ -263,7 +269,7 @@ public class SpannableHelper {
                         }
                         String finalURl1 = finalURl;
                         popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                             builder.setMessage(finalURl1);
                             builder.setTitle(context.getString(R.string.display_full_link));
                             builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
@@ -314,7 +320,7 @@ public class SpannableHelper {
                                         HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
                                         httpsURLConnection.setConnectTimeout(10 * 1000);
                                         httpsURLConnection.setRequestProperty("http.keepAlive", "false");
-                                        httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                       // httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                                         httpsURLConnection.setRequestMethod("HEAD");
                                         httpsURLConnection.setInstanceFollowRedirects(false);
                                         if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
@@ -340,7 +346,7 @@ public class SpannableHelper {
                                         Handler mainHandler = new Handler(context.getMainLooper());
                                         String finalRedirect = redirect;
                                         Runnable myRunnable = () -> {
-                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
                                             if (finalRedirect != null) {
                                                 builder1.setMessage(context.getString(R.string.redirect_detected, finalURl1, finalRedirect));
                                                 builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
@@ -439,12 +445,6 @@ public class SpannableHelper {
 
                     }
 
-                    @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
-                    }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
@@ -481,7 +481,7 @@ public class SpannableHelper {
                         @Override
                         public void onLongClick(View view) {
                             Context mContext = view.getContext();
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
                             PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                             dialogBuilder.setView(popupLinksBinding.getRoot());
                             AlertDialog alertDialog = dialogBuilder.create();
@@ -492,7 +492,7 @@ public class SpannableHelper {
                             }
                             String finalURl1 = finalURl;
                             popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext, Helper.dialogStyle());
+                                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                                 builder.setMessage(finalURl1);
                                 builder.setTitle(context.getString(R.string.display_full_link));
                                 builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
@@ -543,7 +543,7 @@ public class SpannableHelper {
                                             HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
                                             httpsURLConnection.setConnectTimeout(10 * 1000);
                                             httpsURLConnection.setRequestProperty("http.keepAlive", "false");
-                                            httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                            //httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
                                             httpsURLConnection.setRequestMethod("HEAD");
                                             httpsURLConnection.setInstanceFollowRedirects(false);
                                             if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
@@ -569,7 +569,7 @@ public class SpannableHelper {
                                             Handler mainHandler = new Handler(context.getMainLooper());
                                             String finalRedirect = redirect;
                                             Runnable myRunnable = () -> {
-                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext(), Helper.dialogStyle());
+                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
                                                 if (finalRedirect != null) {
                                                     builder1.setMessage(context.getString(R.string.redirect_detected, finalURl1, finalRedirect));
                                                     builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
@@ -667,7 +667,6 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
                         }
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
@@ -701,7 +700,6 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -738,14 +736,13 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
     }
 
-    private static void interaction(Context context, Spannable content, List<Mention> mentions) {
+    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions) {
         // --- For all patterns defined in Helper class ---
         for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
             Helper.PatternType patternType = entry.getKey();
@@ -764,7 +761,47 @@ public class SpannableHelper {
                 if (matchStart >= 0 && matchEnd <= content.toString().length() && matchEnd >= matchStart) {
                     URLSpan[] span = content.getSpans(matchStart, matchEnd, URLSpan.class);
                     content.removeSpan(span);
-                    content.setSpan(new ClickableSpan() {
+                    content.setSpan(new LongClickableSpan() {
+                        @Override
+                        public void onLongClick(View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            if (patternType == Helper.PatternType.TAG && BaseMainActivity.filterFetched && MainActivity.mainFilters != null) {
+                                String tag = word.trim();
+                                if (!tag.startsWith("#")) {
+                                    tag = "#" + tag;
+                                }
+                                Filter fedilabFilter = null;
+                                for (Filter filter : MainActivity.mainFilters) {
+                                    if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
+                                        fedilabFilter = filter;
+                                        break;
+                                    }
+                                }
+                                //Filter for Fedilab doesn't exist we have to create it
+                                if (fedilabFilter == null) {
+                                    Filter.FilterParams filterParams = new Filter.FilterParams();
+                                    filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
+                                    filterParams.filter_action = "hide";
+                                    filterParams.context = new ArrayList<>();
+                                    filterParams.context.add("home");
+                                    filterParams.context.add("public");
+                                    filterParams.context.add("thread");
+                                    filterParams.context.add("account");
+                                    String finalTag = tag;
+                                    FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                                    filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                                            .observe((LifecycleOwner) context, filter -> {
+                                                if (filter != null) {
+                                                    MainActivity.mainFilters.add(filter);
+                                                    addTagToFilter(context, finalTag, status, filter);
+                                                }
+                                            });
+                                } else {
+                                    addTagToFilter(context, tag, status, fedilabFilter);
+                                }
+                            }
+                        }
+
                         @Override
                         public void onClick(@NonNull View textView) {
                             textView.setTag(CLICKABLE_SPAN);
@@ -846,12 +883,42 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
                         }
+
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
             }
         }
+    }
+
+    public static void addTagToFilter(Context context, String tag, Status status, Filter filter) {
+        for (Filter.KeywordsAttributes keywords : filter.keywords) {
+            if (keywords.keyword.equalsIgnoreCase(tag)) {
+                return;
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        builder.setMessage(context.getString(R.string.mute_tag, tag));
+        builder
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    Filter.FilterParams filterParams = new Filter.FilterParams();
+                    filterParams.id = filter.id;
+                    filterParams.keywords = new ArrayList<>();
+                    Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();
+                    keywordsParams.whole_word = true;
+                    keywordsParams.keyword = tag;
+                    filterParams.keywords.add(keywordsParams);
+                    filterParams.context = filter.context;
+                    FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                    filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams);
+                    if (status != null) {
+                        status.filteredByApp = filter;
+                    }
+                    sendAction(context, Helper.ARG_TIMELINE_REFRESH_ALL, null, null);
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     /**
@@ -899,7 +966,7 @@ public class SpannableHelper {
             int end = spannable.getSpanEnd(quoteSpan);
             int flags = spannable.getSpanFlags(quoteSpan);
             spannable.removeSpan(quoteSpan);
-            int colord = ContextCompat.getColor(context, R.color.cyanea_accent_reference);
+            int colord = ThemeHelper.getAttColor(context, R.attr.colorPrimary);
             spannable.setSpan(new CustomQuoteSpan(
                             ContextCompat.getColor(context, R.color.transparent),
                             colord,

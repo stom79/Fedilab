@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/cyanea_accent_dark_reference"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/date_time_previous"
@@ -58,43 +57,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier_date_time_bottom" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/date_time_previous"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:contentDescription="@string/previous"
-        android:src="@drawable/ic_baseline_skip_previous_24"
+        android:padding="0dp"
         android:visibility="gone"
+        app:icon="@drawable/ic_baseline_skip_previous_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/date_time_next"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/date_time_cancel"
         app:layout_constraintTop_toBottomOf="@id/barrier_date_time_bottom" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/date_time_next"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:contentDescription="@string/next"
-        android:src="@drawable/ic_baseline_skip_next_24"
+        android:padding="0dp"
+        app:icon="@drawable/ic_baseline_skip_next_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/date_time_set"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/date_time_previous"
         app:layout_constraintTop_toBottomOf="@id/barrier_date_time_bottom" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/date_time_set"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:contentDescription="@string/validate"
-        android:src="@drawable/ic_baseline_check_24"
+        android:padding="0dp"
+        app:icon="@drawable/ic_baseline_check_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
