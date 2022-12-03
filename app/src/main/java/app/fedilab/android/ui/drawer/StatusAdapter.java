@@ -622,7 +622,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
                             .observe((LifecycleOwner) context, results -> {
                                 if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                    Status fetchedStatus = statusList.get(0);
+                                    Status fetchedStatus = results.statuses.get(0);
                                     statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
                                             .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, true));
                                 } else {
