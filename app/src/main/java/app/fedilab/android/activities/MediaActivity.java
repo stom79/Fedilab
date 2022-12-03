@@ -397,7 +397,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                             }
                         } else {
                             binding.translate.setVisibility(View.GONE);
-                            binding.originalMessage.setVisibility(View.INVISIBLE);
+                            binding.originalMessage.setVisibility(View.VISIBLE);
                             binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                             binding.mediaDescription.setVisibility(View.GONE);
                         }
