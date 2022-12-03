@@ -505,9 +505,9 @@
     <string name="set_clear_cache_exit_indication">Der Cache (Medien, zwischengespeicherte Nachrichten, Daten aus dem eingebauten Browser) wird automatisch gelöscht, wenn die Anwendung verlassen wird.</string>
     <string name="unfollow_confirm">Möchtest du diesem Konto nicht mehr folgen?</string>
     <string name="set_unfollow_validation">Bestätigungsdialog anzeigen, bevor nicht mehr gefolgt wird</string>
-    <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Benutze ein alternatives Frontend für Medium</string>
-    <string name="replace_medium_host">Default: scribe.rip</string>
+    <string name="replace_medium">Medium</string>
+    <string name="replace_medium_description">Nutze eine alternative Benutzeroberfläche für Medium</string>
+    <string name="replace_medium_host">Standard: scribe.rip</string>
     <string name="set_push_notifications">Verwenden Du ein Push-Benachrichtigungssystem, um Benachrichtigungen in Echtzeit zu erhalten.</string>
     <string name="action_add_notes">Notizen hinzufügen</string>
     <string name="note_for_account">Notizen für das Konto</string>
@@ -595,11 +595,11 @@
     <string name="category_music">Musik</string>
     <string name="cannot_be_empty">Dieses Feld kann nicht leer sein!</string>
     <string name="replace_youtube">YouTube</string>
-    <string name="replace_youtube_description">Benutze ein alternatives Frontend für YouTube</string>
+    <string name="replace_youtube_description">Nutze eine alternative Benutzeroberfläche für YouTube</string>
     <string name="replace_youtube_host">YouTube Frontend Adresse</string>
     <string name="replace_twitter">Twitter</string>
-    <string name="replace_twitter_description">Benutze ein alternatives Frontend für Twitter</string>
-    <string name="replace_twitter_host">Twitter Frontend-Adresse</string>
+    <string name="replace_twitter_description">Nutze eine alternative Benutzeroberfläche für Twitter</string>
+    <string name="replace_twitter_host">Twitter Frontend Domain</string>
     <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="other">Andere</string>
@@ -679,7 +679,7 @@
     <string name="replace_instagram_description">Nutze eine alternative Benutzeroberfläche für Instagram</string>
     <string name="replace_instagram_host">Instagram Frontend Domain</string>
     <string name="replace_reddit_description">Nutze eine alternative Benutzeroberfläche für Reddit</string>
-    <string name="replace_reddit_host">Reddit-Frontend-Domain</string>
+    <string name="replace_reddit_host">Reddit Frontend Domain</string>
     <string name="pref_theme_base">Grundlage des Themas</string>
     <string name="notifications_are">Während dieses Zeitfensters</string>
     <string name="set_display_bookmark_indication">Schaltfläche \"Lesezeichen\" immer anzeigen</string>

@@ -1,0 +1,9 @@
+Hinzugefügt:
+- Migration zu Material Design 3
+- 5 Designs (Hell, Dunkel, Solarized Hell/Dunkel, Schwarz)
+- Automatischer Wechsel zwischen Hell/Dunkel
+- Helles und dunkles Design mit zeitgesteuertem Wechsel
+- Android 12+: Dynamische Farben
+
+Behoben:
+- Sprünge in der Zeitleiste
