@@ -23,7 +23,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentThemingSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -61,9 +60,8 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (key.compareTo(getString(R.string.SET_THEME_BASE)) == 0) {
             ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
             if (SET_THEME_BASE != null) {
-                ThemeHelper.switchTo(SET_THEME_BASE.getValue());
-                requireActivity().recreate();
-                Helper.recreateMainActivity(requireActivity());
+                requireActivity().finish();
+                startActivity(requireActivity().getIntent());
             }
         }
         //TODO: check if can be removed
