@@ -140,7 +140,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
 
         timelineParams.fetchingMissing = fetchingMissing;
 
-        if (useCache) {
+        if (useCache && direction != FragmentMastodonTimeline.DIRECTION.SCROLL_TOP && direction != FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             getCachedConversations(direction, fetchingMissing, timelineParams);
         } else {
             getLiveConversations(direction, fetchingMissing, timelineParams, conversationToUpdate);
@@ -150,7 +150,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private void getCachedConversations(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams) {
 
         if (direction == null) {
-            timelinesVM.getConversations(conversationList, timelineParams)
+            timelinesVM.getConversationsCache(conversationList, timelineParams)
                     .observe(getViewLifecycleOwner(), conversationsCached -> {
                         if (conversationsCached == null || conversationsCached.conversations == null || conversationsCached.conversations.size() == 0) {
                             getLiveConversations(null, fetchingMissing, timelineParams, null);
@@ -179,13 +179,18 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                         }
                     });
         } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
-            timelinesVM.getConversations(conversationList, timelineParams)
+            timelinesVM.getConversationsCache(conversationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsRefresh -> {
-                        if (conversationAdapter != null) {
-                            dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, null);
+                        if (notificationsRefresh == null || notificationsRefresh.conversations == null || notificationsRefresh.conversations.size() == 0) {
+                            getLiveConversations(direction, fetchingMissing, timelineParams, null);
                         } else {
-                            initializeConversationCommonView(notificationsRefresh);
+                            if (conversationAdapter != null) {
+                                dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, null);
+                            } else {
+                                initializeConversationCommonView(notificationsRefresh);
+                            }
                         }
+
                     });
         }
     }

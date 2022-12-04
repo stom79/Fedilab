@@ -387,7 +387,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         timelineParams.excludeType = getExcludeType();
         timelineParams.fetchingMissing = fetchingMissing;
-        if (useCache) {
+        if (useCache && direction != FragmentMastodonTimeline.DIRECTION.SCROLL_TOP && direction != FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             getCachedNotifications(direction, fetchingMissing, timelineParams);
         } else {
             getLiveNotifications(direction, fetchingMissing, timelineParams, notificationToUpdate);
@@ -430,10 +430,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsRefresh -> {
-                        if (notificationAdapter != null) {
-                            dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, null);
+                        if (notificationsRefresh == null || notificationsRefresh.notifications == null || notificationsRefresh.notifications.size() == 0) {
+                            getLiveNotifications(direction, fetchingMissing, timelineParams, null);
                         } else {
-                            initializeNotificationView(notificationsRefresh);
+                            if (notificationAdapter != null) {
+                                dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, null);
+                            } else {
+                                initializeNotificationView(notificationsRefresh);
+                            }
                         }
                     });
         }
