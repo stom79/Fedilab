@@ -14,6 +14,7 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Spannable;
 import android.view.View;
@@ -85,6 +86,13 @@ public class Account implements Serializable {
             display_name = username;
         }
         return SpannableHelper.convert(context, display_name, null, this, null, false, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanDisplayName(Activity activity, WeakReference<View> viewWeakReference) {
+        if (display_name == null || display_name.isEmpty()) {
+            display_name = username;
+        }
+        return SpannableHelper.convertEmoji(activity, display_name, this, viewWeakReference);
     }
 
     public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.4",
+    "code": "439",
+    "note": "Changed:\n- Remove card presentation\n- Link color for black theme\n\nFixed:\n- Crash when changing the theme"
+  },
+  {
     "version": "3.9.3",
     "code": "438",
     "note": "Added:\n- New design with 5 themes\n\nChanged:\n- Remove built-in browser support\n- Fit preview image displays images vertically\n- Add counters next to images\n\nFixed:\n- Jumps in timelines\n- Replies to wrong messages with followed instances\n- Bug with delete&redraft with a media\n- List cannot be hidden\n- Some crashes"

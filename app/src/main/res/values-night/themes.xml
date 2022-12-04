@@ -218,9 +218,9 @@
     </style>
 
     <style name="BlackAppTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/md_theme_dark_primaryContainer</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primary</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
         <item name="colorSecondary">@color/md_theme_dark_secondary</item>
         <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
@@ -247,9 +247,9 @@
     </style>
 
     <style name="BlackAppThemeBar" parent="AppThemeBar">
-        <item name="colorPrimary">@color/md_theme_dark_primaryContainer</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primary</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
         <item name="colorSecondary">@color/md_theme_dark_secondary</item>
         <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
@@ -286,7 +286,7 @@
 
     <style name="BlackAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
         <item name="colorSecondary">@color/md_theme_dark_secondary</item>

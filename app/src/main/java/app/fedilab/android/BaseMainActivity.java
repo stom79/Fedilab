@@ -646,10 +646,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
                     currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
                 }
-                headerMainBinding.accountName.setText(
-                        currentAccount.mastodon_account.getSpanDisplayName(BaseMainActivity.this,
-                                new WeakReference<>(headerMainBinding.accountName)),
-                        TextView.BufferType.SPANNABLE);
+                if (!isFinishing()) {
+                    headerMainBinding.accountName.setText(
+                            currentAccount.mastodon_account.getSpanDisplayName(BaseMainActivity.this,
+                                    new WeakReference<>(headerMainBinding.accountName)),
+                            TextView.BufferType.SPANNABLE);
+                }
                 float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
                 headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                 headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
