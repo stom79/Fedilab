@@ -18,6 +18,7 @@ package app.fedilab.android.helper;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -1036,5 +1037,41 @@ public class SpannableHelper {
                         Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return spannableString;
+    }
+
+
+    public static Spannable convertEmoji(Activity activity, String text, Account account, WeakReference<View> viewWeakReference) {
+
+        SpannableString initialContent;
+        if (text == null) {
+            return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+        else
+            initialContent = new SpannableString(Html.fromHtml(text));
+
+        SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
+        List<Emoji> emojiList = account.emojis;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean animate = !sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
+        if (emojiList != null && emojiList.size() > 0) {
+            for (Emoji emoji : emojiList) {
+                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
+                        .matcher(content);
+                while (matcher.find()) {
+                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
+                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    if (Helper.isValidContextForGlide(activity)) {
+                        Glide.with(viewWeakReference.get())
+                                .asDrawable()
+                                .load(animate ? emoji.url : emoji.static_url)
+                                .into(customEmoji.getTarget(animate));
+                    }
+                }
+            }
+        }
+
+        return trimSpannable(new SpannableStringBuilder(content));
     }
 }
