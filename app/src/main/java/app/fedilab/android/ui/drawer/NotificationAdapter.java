@@ -71,6 +71,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_ADMIN_REPORT = 12;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
+    private RecyclerView mRecyclerView;
 
     public NotificationAdapter(List<Notification> notificationList) {
         this.notificationList = notificationList;
@@ -118,6 +119,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
         return super.getItemViewType(position);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -249,7 +257,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (notification.status != null) {
                 notification.status.cached = notification.cached;
             }
-            statusManagement(context, statusesVM, searchVM, holderStatus, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
+            statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
 
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {

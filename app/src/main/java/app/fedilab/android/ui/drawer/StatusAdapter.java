@@ -165,6 +165,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
 
+    private RecyclerView mRecyclerView;
+
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated, boolean checkRemotely) {
         this.statusList = statuses;
         this.timelineType = timelineType;
@@ -355,6 +357,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         StatusesVM statusesVM,
                                         SearchVM searchVM,
                                         StatusViewHolder holder,
+                                        RecyclerView recyclerView,
                                         RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
                                         List<Status> statusList,
                                         Status status,
@@ -986,7 +989,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                new WeakReference<>(holder.binding.spoiler), () -> {
+                                    recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                                }),
                         TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
                 statusToDeal.isMediaDisplayed = true;
@@ -1001,7 +1006,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                new WeakReference<>(holder.binding.spoiler), () -> {
+                                    recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                                }),
                         TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
@@ -1049,7 +1056,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context,
-                        new WeakReference<>(holder.binding.statusContent)),
+                        new WeakReference<>(holder.binding.statusContent), () -> {
+                            recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                        }),
                 TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
@@ -1085,7 +1094,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.statusContentTranslated.setText(
                     statusToDeal.getSpanTranslate(context,
-                            new WeakReference<>(holder.binding.statusContentTranslated)),
+                            new WeakReference<>(holder.binding.statusContentTranslated), () -> {
+                                recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                            }),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
@@ -2087,6 +2098,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
+    }
+
     private static boolean mediaObfuscated(Status status) {
         //Media is not sensitive and  doesn't have a spoiler text
         if (!status.isMediaObfuscated) {
@@ -2200,7 +2218,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-            statusManagement(context, statusesVM, searchVM, holder, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
+            statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED_HIDE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
 

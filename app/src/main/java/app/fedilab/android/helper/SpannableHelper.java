@@ -91,8 +91,14 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
+                                    boolean convertHtml, WeakReference<View> viewWeakReference) {
+        return convert(context, text, status, account, announcement, convertHtml, viewWeakReference, null);
+    }
+
+    public static Spannable convert(Context context, String text,
+                                    Status status, Account account, Announcement announcement,
                                     boolean convertHtml,
-                                    WeakReference<View> viewWeakReference) {
+                                    WeakReference<View> viewWeakReference, Status.Callback callback) {
 
 
         SpannableString initialContent;
@@ -161,20 +167,8 @@ public class SpannableHelper {
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        if (emojiList != null && emojiList.size() > 0) {
-            for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                    Glide.with(view)
-                            .asDrawable()
-                            .load(animate ? emoji.url : emoji.static_url)
-                            .into(customEmoji.getTarget(animate));
-                }
-            }
-        }
+        CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+        content = customEmoji.makeEmoji(content, emojiList, animate, callback);
 
         if (imagesToReplace.size() > 0) {
             for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
@@ -183,12 +177,11 @@ public class SpannableHelper {
                 Matcher matcher = Pattern.compile(key, Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
                     Glide.with(view)
                             .asDrawable()
                             .load(url)
-                            .into(customEmoji.getTarget(animate));
+                            .into(customEmoji.getTarget(animate, null));
                 }
             }
 
@@ -1066,7 +1059,7 @@ public class SpannableHelper {
                         Glide.with(viewWeakReference.get())
                                 .asDrawable()
                                 .load(animate ? emoji.url : emoji.static_url)
-                                .into(customEmoji.getTarget(animate));
+                                .into(customEmoji.getTarget(animate, null));
                     }
                 }
             }
