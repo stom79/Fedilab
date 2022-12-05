@@ -125,7 +125,7 @@ public class CustomEmoji extends ReplacementSpan {
                 if (view != null) {
                     view.invalidate();
                 }
-                if (callback != null) {
+                if (callback != null && !callbackCalled) {
                     callbackCalled = true;
                     callback.emojiFetched();
                 }

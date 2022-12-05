@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.5",
+    "code": "440",
+    "note": "Fixed:\n- Custom emoji are not always displayed\n- Jumps in timeline when using \"fit preview images\"\n- Dark theme: timeline buttons without toggle"
+  },
+  {
     "version": "3.9.4",
     "code": "439",
     "note": "Changed:\n- Remove card presentation\n- Link color for black theme\n\nFixed:\n- Crash when changing the theme"

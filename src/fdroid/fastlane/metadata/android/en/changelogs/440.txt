@@ -1,0 +1,4 @@
+Fixed:
+- Custom emoji are not always displayed
+- Jumps in timeline when using "fit preview images"
+- Dark theme: timeline buttons without toggle
