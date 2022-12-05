@@ -1119,20 +1119,41 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.mediaContainer.setVisibility(View.VISIBLE);
                     holder.binding.displayMedia.setVisibility(View.GONE);
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                    LinearLayout.LayoutParams lp;
+
                     if (fullAttachement) {
-                        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        layoutMediaBinding.media.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                LinearLayout.LayoutParams lp;
+                                layoutMediaBinding.media.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small != null) {
+                                    float viewWidth = layoutMediaBinding.media.getWidth();
+                                    float mediaH = statusToDeal.media_attachments.get(0).meta.small.height;
+                                    float mediaW = statusToDeal.media_attachments.get(0).meta.small.width;
+                                    float ratio = 1.0f;
+                                    if (mediaW != 0) {
+                                        ratio = viewWidth / mediaW;
+                                    }
+                                    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                                } else {
+                                    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                }
+                                layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                layoutMediaBinding.media.setLayoutParams(lp);
+                            }
+                        });
                     } else {
+                        LinearLayout.LayoutParams lp;
                         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
                         layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        layoutMediaBinding.media.setLayoutParams(lp);
                     }
                     if (statusToDeal.sensitive) {
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
                     } else {
                         Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                     }
-                    layoutMediaBinding.media.setLayoutParams(lp);
+
                     layoutMediaBinding.media.setOnClickListener(v -> {
                         if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
                             statusToDeal.isMediaObfuscated = false;
@@ -1233,7 +1254,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     int mediaPosition = 1;
                     for (Attachment attachment : statusToDeal.media_attachments) {
                         LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
-                        LinearLayout.LayoutParams lp;
+
                         float focusX = 0.f;
                         float focusY = 0.f;
                         if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
@@ -1257,11 +1278,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             return true;
                         });
                         if (fullAttachement) {
-                            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            layoutMediaBinding.media.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+                                    LinearLayout.LayoutParams lp;
+                                    layoutMediaBinding.media.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                    if (attachment.meta != null && attachment.meta.small != null) {
+                                        float viewWidth = layoutMediaBinding.media.getWidth();
+                                        float mediaH = attachment.meta.small.height;
+                                        float mediaW = attachment.meta.small.width;
+                                        float ratio = 1.0f;
+                                        if (mediaW != 0) {
+                                            ratio = viewWidth / mediaW;
+                                        }
+                                        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                                    } else {
+                                        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    }
+                                    layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                    layoutMediaBinding.media.setLayoutParams(lp);
+                                }
+                            });
+
                         } else {
+                            LinearLayout.LayoutParams lp;
                             lp = new LinearLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
                             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            layoutMediaBinding.media.setLayoutParams(lp);
                         }
                         if (attachment.type != null && (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("gifv"))) {
                             layoutMediaBinding.playVideo.setVisibility(View.VISIBLE);
@@ -1299,7 +1342,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
                         }
-                        layoutMediaBinding.media.setLayoutParams(lp);
+
                         int finalMediaPosition = mediaPosition;
                         layoutMediaBinding.media.setOnClickListener(v -> {
                             Intent mediaIntent = new Intent(context, MediaActivity.class);
