@@ -51,6 +51,8 @@ public class Attachment implements Serializable {
     public String focus = null;
     public String translation = null;
 
+    public float measuredWidth = -1.f;
+
     public static class Meta implements Serializable {
         @SerializedName("focus")
         public Focus focus;
