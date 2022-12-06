@@ -24,6 +24,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -64,8 +65,13 @@ public class NotificationsVM extends AndroidViewModel {
         super(application);
     }
 
+    private static void sortDesc(List<Notification> notificationList) {
+        Collections.sort(notificationList, (obj1, obj2) -> obj2.id.compareToIgnoreCase(obj1.id));
+    }
+
     private static void addFetchMoreNotifications(List<Notification> notificationList, List<Notification> timelineNotifications, TimelinesVM.TimelineParams timelineParams) throws DBException {
         if (notificationList != null && notificationList.size() > 0 && timelineNotifications != null && timelineNotifications.size() > 0) {
+            sortDesc(notificationList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (notificationList.get(notificationList.size() - 1).id.compareToIgnoreCase(timelineNotifications.get(0).id) > 0) {

@@ -96,6 +96,10 @@ public class TimelinesVM extends AndroidViewModel {
         Collections.sort(statusList, (obj1, obj2) -> obj2.id.compareToIgnoreCase(obj1.id));
     }
 
+    private static void sortDescConv(List<Conversation> conversationList) {
+        Collections.sort(conversationList, (obj1, obj2) -> obj2.id.compareToIgnoreCase(obj1.id));
+    }
+
     private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
         if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
             sortDesc(statusList);
@@ -121,6 +125,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
         if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
+            sortDescConv(conversationList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
                 if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
