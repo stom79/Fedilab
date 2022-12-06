@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.6",
+    "code": "441",
+    "note": "Fixed:\n- Jumps with fit preview images when scrolling up\n- Fetch more button broken with cache"
+  },
+  {
     "version": "3.9.5",
     "code": "440",
     "note": "Fixed:\n- Custom emoji are not always displayed\n- Jumps in timeline when using \"fit preview images\"\n- Dark theme: timeline buttons without toggle"
