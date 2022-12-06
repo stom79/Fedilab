@@ -25,10 +25,6 @@
     android:clipToPadding="false"
     android:clipChildren="false">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="?colorOutline" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main_container"
@@ -39,6 +35,15 @@
         android:clipToPadding="false"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/fetch_more_container_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="?colorOutline" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/status_booster_info"
@@ -726,11 +731,10 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/layout_fetch_more"
-            layout="@layout/drawer_fetch_more"
-            android:visibility="gone"
-            tools:visibility="visible" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/fetch_more_container_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

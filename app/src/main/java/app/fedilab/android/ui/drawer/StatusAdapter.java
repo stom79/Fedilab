@@ -123,6 +123,7 @@ import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.client.entities.app.Timeline;
+import app.fedilab.android.databinding.DrawerFetchMoreBinding;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
@@ -175,6 +176,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.checkRemotely = checkRemotely;
     }
 
+    public static int getStatusPosition(List<Status> timelineStatuses, Status status) {
+        int position = 0;
+        if (timelineStatuses != null && status != null) {
+            for (Status _s : timelineStatuses) {
+                if (_s.id.compareTo(status.id) == 0) {
+                    return position;
+                }
+                position++;
+            }
+        }
+        return -1;
+    }
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status) {
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
@@ -1853,21 +1866,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (status.isFetchMore && fetchMoreCallBack != null) {
-            holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
-            holder.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+            DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
+            if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+                holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
+                holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
+                holder.binding.fetchMoreContainerTop.removeAllViews();
+                holder.binding.fetchMoreContainerTop.addView(drawerFetchMoreBinding.getRoot());
+            } else {
+                holder.binding.fetchMoreContainerBottom.setVisibility(View.VISIBLE);
+                holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
+                holder.binding.fetchMoreContainerBottom.removeAllViews();
+                holder.binding.fetchMoreContainerBottom.addView(drawerFetchMoreBinding.getRoot());
+            }
+            drawerFetchMoreBinding.fetchMoreMin.setOnClickListener(v -> {
                 status.isFetchMore = false;
-                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                int position = holder.getBindingAdapterPosition();
+                int position2 = getStatusPosition(statusList, status);
+                adapter.notifyItemChanged(position);
+                if (position < statusList.size() - 1) {
                     String fromId;
                     if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
-                        fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                        fromId = statusList.get(position + 1).id;
                     } else {
                         fromId = status.id;
                     }
                     fetchMoreCallBack.onClickMinId(fromId, status);
                 }
             });
-            holder.binding.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+            drawerFetchMoreBinding.fetchMoreMax.setOnClickListener(v -> {
                 //We hide the button
                 status.isFetchMore = false;
                 String fromId;
@@ -1880,7 +1906,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
             });
         } else {
-            holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+            holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
+            holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
         }
 
     }
