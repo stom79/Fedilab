@@ -108,7 +108,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                         fragmentMastodonTimeline.onDestroyView();
                     }
                     invalidateOptionsMenu();
-                    setTitle(R.string.action_lists);
+                    setTitle(R.string.followed_tags);
                 });
                 if (tagList.size() == 0) {
                     binding.notContent.setVisibility(View.VISIBLE);
@@ -177,7 +177,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                     fragmentMastodonTimeline.onDestroyView();
                 }
             });
-            setTitle(R.string.action_lists);
+            setTitle(R.string.followed_tags);
             invalidateOptionsMenu();
         } else {
             super.onBackPressed();

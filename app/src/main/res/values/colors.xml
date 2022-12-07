@@ -62,7 +62,10 @@
     <color name="md_theme_dark_surfaceTint">#CDBDFF</color>
     <color name="md_theme_dark_outlineVariant">#48454E</color>
     <color name="md_theme_dark_scrim">#000000</color>
-    
+
+    <color name="black_400">#78909C</color>
+    <color name="black_200">#B0BEC5</color>
+
 
     <color name="dracula_pink">#ff79c6</color>
     <color name="dracula_green">#50fa7b</color>
