@@ -229,18 +229,18 @@
 
     <style name="BlackAppTheme" parent="AppTheme">
         <item name="linkColor">@color/md_theme_dark_primary</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorPrimary">@color/dracula_comment</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/dracula_comment</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
-        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorSecondary">@color/dracula_comment</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/dracula_comment</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/dracula_comment</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/dracula_comment</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
         <item name="colorError">@color/solarized_md_theme_dark_error</item>
         <item name="colorErrorContainer">@color/solarized_md_theme_dark_errorContainer</item>
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
@@ -259,18 +259,18 @@
 
     <style name="BlackAppThemeBar" parent="AppThemeBar">
         <item name="linkColor">@color/md_theme_dark_primary</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorPrimary">@color/dracula_comment</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/dracula_comment</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
-        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorSecondary">@color/dracula_comment</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/dracula_comment</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/dracula_comment</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/dracula_comment</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
         <item name="colorError">@color/solarized_md_theme_dark_error</item>
         <item name="colorErrorContainer">@color/solarized_md_theme_dark_errorContainer</item>
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
@@ -297,18 +297,18 @@
 
     <style name="BlackAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="linkColor">@color/md_theme_dark_primary</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorPrimary">@color/dracula_comment</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/dracula_comment</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
-        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
-        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
-        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorSecondary">@color/dracula_comment</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/dracula_comment</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+        <item name="colorTertiary">@color/dracula_comment</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/dracula_comment</item>
+        <item name="colorOnTertiaryContainer">@color/white</item>
         <item name="colorError">@color/solarized_md_theme_dark_error</item>
         <item name="colorErrorContainer">@color/solarized_md_theme_dark_errorContainer</item>
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>

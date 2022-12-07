@@ -120,7 +120,7 @@
 
 
     <style name="SolarizedAppTheme" parent="AppTheme">
-        <item name="linkColor">@color/solarized_md_theme_light_primaryContainer</item>
+        <item name="linkColor">@color/solarized_md_theme_light_primary</item>
         <item name="colorPrimary">@color/solarized_md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/solarized_md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/solarized_md_theme_light_primaryContainer</item>
@@ -163,7 +163,7 @@
     </style>
 
     <style name="SolarizedAlertDialog" parent="Theme.Material3.Light.Dialog.Alert">
-        <item name="linkColor">@color/solarized_md_theme_light_primaryContainer</item>
+        <item name="linkColor">@color/solarized_md_theme_light_primary</item>
         <item name="colorPrimary">@color/solarized_md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/solarized_md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/solarized_md_theme_light_primaryContainer</item>
@@ -198,7 +198,7 @@
     </style>
 
     <style name="SolarizedAppThemeBar" parent="AppThemeBar">
-        <item name="linkColor">@color/solarized_md_theme_light_primaryContainer</item>
+        <item name="linkColor">@color/solarized_md_theme_light_primary</item>
         <item name="colorPrimary">@color/solarized_md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/solarized_md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/solarized_md_theme_light_primaryContainer</item>

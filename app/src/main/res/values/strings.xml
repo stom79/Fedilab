@@ -729,11 +729,13 @@
         <item>Dark</item>
         <item>Solarized (Dark)</item>
         <item>Black</item>
+        <item>Dracula</item>
     </string-array>
     <string-array name="SET_THEME_DEFAULT_DARK" translatable="false">
         <item>DARK</item>
         <item>SOLARIZED_DARK</item>
         <item>BLACK</item>
+        <item>DRACULA</item>
     </string-array>
 
 
