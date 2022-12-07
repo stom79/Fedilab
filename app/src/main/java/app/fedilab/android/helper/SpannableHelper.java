@@ -91,13 +91,14 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    boolean convertHtml, WeakReference<View> viewWeakReference) {
-        return convert(context, text, status, account, announcement, convertHtml, viewWeakReference, null);
+                                    boolean convertHtml, boolean forceMentions, WeakReference<View> viewWeakReference) {
+        return convert(context, text, status, account, announcement, convertHtml, forceMentions, viewWeakReference, null);
     }
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     boolean convertHtml,
+                                    boolean forceMentions,
                                     WeakReference<View> viewWeakReference, Status.Callback callback) {
 
 
@@ -155,7 +156,7 @@ public class SpannableHelper {
                 content.removeSpan(span);
             }
             //Make tags, mentions, groups
-            interaction(context, content, status, mentionList);
+            interaction(context, content, status, mentionList, forceMentions);
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
@@ -745,15 +746,15 @@ public class SpannableHelper {
         }
     }
 
-    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions) {
+    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions, boolean forceMentions) {
         // --- For all patterns defined in Helper class ---
         for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
             Helper.PatternType patternType = entry.getKey();
             Pattern pattern = entry.getValue();
             Matcher matcher = pattern.matcher(content);
-            if (pattern == Helper.mentionPattern && mentions == null) {
+            if (pattern == Helper.mentionPattern && mentions == null && !forceMentions) {
                 continue;
-            } else if (pattern == Helper.mentionLongPattern && mentions == null) {
+            } else if (pattern == Helper.mentionLongPattern && mentions == null && !forceMentions) {
                 continue;
             }
 

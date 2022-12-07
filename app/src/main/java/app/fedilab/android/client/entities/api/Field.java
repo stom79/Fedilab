@@ -47,7 +47,7 @@ public class Field implements Serializable {
         if (verified_at != null && value != null) {
             value_span = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.verified_text));
         }
-        Spannable spannable = SpannableHelper.convert(context, value, null, account, null, true, viewWeakReference);
+        Spannable spannable = SpannableHelper.convert(context, value, null, account, null, true, true, viewWeakReference);
         if (value_span != null && spannable != null) {
             spannable.setSpan(value_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -57,7 +57,7 @@ public class Field implements Serializable {
 
     public synchronized Spannable getLabelSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
 
-        Spannable spannable = SpannableHelper.convert(context, name, null, account, null, true, viewWeakReference);
+        Spannable spannable = SpannableHelper.convert(context, name, null, account, null, true, true, viewWeakReference);
         if (name_span != null && spannable != null) {
             spannable.setSpan(name_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

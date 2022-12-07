@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -262,6 +263,7 @@ public class ProfileActivity extends BaseActivity {
         });
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.avatar_static : account.avatar;
+        // MastodonHelper.loadPPMastodon(binding.accountPp, account);
         Glide.with(ProfileActivity.this)
                 .asDrawable()
                 .dontTransform()
@@ -271,6 +273,11 @@ public class ProfileActivity extends BaseActivity {
                             public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                 binding.profilePicture.setImageDrawable(resource);
                                 binding.accountPp.setImageDrawable(resource);
+                                if (resource instanceof Animatable) {
+                                    binding.profilePicture.animate();
+                                    binding.accountPp.animate();
+                                    ((Animatable) resource).start();
+                                }
                                 ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
@@ -390,7 +397,7 @@ public class ProfileActivity extends BaseActivity {
                 TextView.BufferType.SPANNABLE);
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
-        //MastodonHelper.loadPPMastodon(binding.accountPp, account);
+
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle b = new Bundle();

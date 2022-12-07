@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.9.7",
+    "code": "442",
+    "note": "Added:\n- Dracula theme\n\nChanged:\n- Colors for Light/Dark/Black themes\n\nFixed:\n- Animated profile pictures not displayed\n- Mentions broken in profile bio and fields\n- Tag patterns in URL break the link\n- Typo in followed tags"
+  },
+  {
     "version": "3.9.6",
     "code": "441",
     "note": "Fixed:\n- Jumps with fit preview images when scrolling up\n- Fetch more button broken with cache"
