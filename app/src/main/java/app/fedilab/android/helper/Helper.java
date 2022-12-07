@@ -1918,6 +1918,8 @@ public class Helper {
             return R.style.SolarizedAlertDialog;
         } else if (R.style.BlackAppThemeBar == currentThemeId || R.style.BlackAppTheme == currentThemeId) {
             return R.style.BlackAlertDialog;
+        } else if (R.style.DraculaAppThemeBar == currentThemeId || R.style.DraculaAppTheme == currentThemeId) {
+            return R.style.DraculaAlertDialog;
         }
         return R.style.AppTheme;
     }

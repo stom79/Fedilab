@@ -75,6 +75,9 @@ public class BaseBarActivity extends AppCompatActivity {
                         case "BLACK":
                             setTheme(R.style.BlackAppThemeBar);
                             break;
+                        case "DRACULA":
+                            setTheme(R.style.DraculaAppThemeBar);
+                            break;
                     }
                     break;
             }
@@ -100,6 +103,10 @@ public class BaseBarActivity extends AppCompatActivity {
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.BlackAppThemeBar);
+                    break;
+                case "DRACULA":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.DraculaAppThemeBar);
                     break;
             }
         }

@@ -703,6 +703,7 @@
         <item>Solarized (Light)</item>
         <item>Solarized (Dark)</item>
         <item>Black</item>
+        <item>Dracula</item>
     </string-array>
     <string-array name="SET_THEME_MODE_VALUE" translatable="false">
         <item>LIGHT</item>
@@ -711,6 +712,7 @@
         <item>SOLARIZED_LIGHT</item>
         <item>SOLARIZED_DARK</item>
         <item>BLACK</item>
+        <item>DRACULA</item>
     </string-array>
 
 

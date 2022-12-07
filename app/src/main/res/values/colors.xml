@@ -65,6 +65,18 @@
     <color name="md_theme_dark_scrim">#000000</color>
 
 
+    <color name="dracula_pink">#ff79c6</color>
+    <color name="dracula_green">#50fa7b</color>
+    <color name="dracula_foreground">#f8f8f2</color>
+    <color name="dracula_comment">#6272a4</color>
+    <color name="dracula_orange">#ffb86c</color>
+    <color name="dracula_yellow">#f1fa8c</color>
+    <color name="dracula_cyan">#8be9fd</color>
+    <color name="dracula_background">#282a36</color>
+    <color name="dracula_current_Line">#44475a</color>
+    <color name="dracula_purple">#bd93f9</color>
+
+
     <color name="no_description">#FFEA00</color>
     <color name="having_description">#42A5F5</color>
 
