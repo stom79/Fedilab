@@ -24,6 +24,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -95,12 +96,33 @@ public class SpannableHelper {
         return convert(context, text, status, account, announcement, convertHtml, forceMentions, viewWeakReference, null);
     }
 
+
+    private static int linkColor;
+
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     boolean convertHtml,
                                     boolean forceMentions,
                                     WeakReference<View> viewWeakReference, Status.Callback callback) {
 
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int link_color;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customLight) {
+            link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
+            if (link_color != -1) {
+                linkColor = link_color;
+            }
+        } else if (currentNightMode == Configuration.UI_MODE_NIGHT_YES && customDark) {
+            link_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
+            if (link_color != -1) {
+                linkColor = link_color;
+            }
+        } else {
+            linkColor = linkColor;
+        }
 
         SpannableString initialContent;
         if (text == null) {
@@ -166,7 +188,6 @@ public class SpannableHelper {
         } else {
             content = new SpannableStringBuilder(text);
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
         content = customEmoji.makeEmoji(content, emojiList, animate, callback);
@@ -443,7 +464,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                        ds.setColor(linkColor);
                     }
 
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -668,7 +689,7 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                            ds.setColor(linkColor);
                         }
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
@@ -702,7 +723,7 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -739,7 +760,7 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -887,7 +908,7 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                            ds.setColor(linkColor);
                         }
 
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -1036,7 +1057,7 @@ public class SpannableHelper {
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
                                                 ds.setUnderlineText(false);
-                                                ds.setColor(ThemeHelper.getAttColor(context, R.attr.linkColor));
+                                                ds.setColor(linkColor);
                                             }
                                         },
                         startPosition, endPosition,

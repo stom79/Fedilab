@@ -36,6 +36,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -2155,6 +2156,90 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return position;
     }
 
+    private static void applyColor(Context context, StatusViewHolder holder) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int theme_icons_color = -1;
+        int theme_statuses_color = -1;
+        int theme_boost_header_color = -1;
+        int theme_text_color = -1;
+        int theme_text_header_1_line = -1;
+        int theme_text_header_2_line = -1;
+        int link_color = -1;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
+            if (customLight) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BACKGROUND), -1);
+                theme_boost_header_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BOOST_HEADER), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_USERNAME), -1);
+                link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
+            }
+        } else {
+            if (customDark) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BACKGROUND), -1);
+                theme_boost_header_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BOOST_HEADER), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_USERNAME), -1);
+                link_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
+            }
+        }
+
+        if (theme_icons_color != -1) {
+            Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_star_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_repeat, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_reply_16, theme_icons_color);
+            holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.replyCount.setTextColor(theme_icons_color);
+        }
+        if (theme_statuses_color != -1) {
+            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+            holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
+        }
+        if (theme_boost_header_color != -1) {
+            holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
+        }
+        if (theme_text_color != -1) {
+            holder.binding.statusContent.setTextColor(theme_text_color);
+            holder.binding.statusContentTranslated.setTextColor(theme_text_color);
+            holder.binding.spoiler.setTextColor(theme_text_color);
+            holder.binding.dateShort.setTextColor(theme_text_color);
+            holder.binding.poll.pollInfo.setTextColor(theme_text_color);
+            holder.binding.cardDescription.setTextColor(theme_text_color);
+            holder.binding.time.setTextColor(theme_text_color);
+            holder.binding.reblogsCount.setTextColor(theme_text_color);
+            holder.binding.favoritesCount.setTextColor(theme_text_color);
+            holder.binding.favoritesCount.setTextColor(theme_text_color);
+            Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
+            Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
+        }
+        if (theme_text_header_1_line != -1) {
+            holder.binding.displayName.setTextColor(theme_text_header_1_line);
+        }
+        if (theme_text_header_2_line != -1) {
+            holder.binding.username.setTextColor(theme_text_header_2_line);
+        }
+        if (link_color != -1) {
+            holder.binding.cardUrl.setTextColor(link_color);
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         //Nothing to do with hidden statuses
@@ -2172,6 +2257,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
+            applyColor(context, holder);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED_HIDE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2209,7 +2295,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
-
+            applyColor(context, holder);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2253,7 +2339,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
-
+            applyColor(context, holder);
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2333,6 +2419,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra(Helper.ARG_STATUS, status);
                 context.startActivity(intent);
             });
+            applyColor(context, holder);
         }
     }
 
