@@ -68,6 +68,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
 
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            accountViewHolder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            accountViewHolder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
         accountViewHolder.binding.avatar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);
             Bundle b = new Bundle();
@@ -78,6 +83,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // start the new activity
             context.startActivity(intent, options.toBundle());
         });
+
+
         accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
         if (account.relationShip != null) {
 

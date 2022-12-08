@@ -14,16 +14,21 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="6dp"
-    android:layout_marginTop="6dp">
+    android:layout_marginTop="6dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
     <View
+        android:id="@+id/divider_card"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="?colorOutline" />
@@ -154,4 +159,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

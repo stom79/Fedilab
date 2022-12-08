@@ -2164,12 +2164,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Status status = statusList.get(position);
         if (viewHolder.getItemViewType() == STATUS_VISIBLE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.binding.dividerCard.setVisibility(View.GONE);
+            }
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED_HIDE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.binding.dividerCard.setVisibility(View.GONE);
+            }
             if (status.isFetchMore && fetchMoreCallBack != null) {
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
@@ -2203,7 +2212,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.binding.dividerCard.setVisibility(View.GONE);
+            }
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 status.filteredByApp = null;
@@ -2243,6 +2256,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.binding.dividerCard.setVisibility(View.GONE);
+            }
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
             if (status.art_attachment != null) {
 

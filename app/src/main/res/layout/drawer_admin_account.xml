@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/admin_account_container"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="6dp"
-    android:layout_marginTop="6dp">
+    android:layout_marginTop="6dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
     <View
+        android:id="@+id/divider_card"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="?colorOutline" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -140,5 +147,5 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
 

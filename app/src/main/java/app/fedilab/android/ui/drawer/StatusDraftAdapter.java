@@ -17,12 +17,15 @@ package app.fedilab.android.ui.drawer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -68,6 +71,12 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
     public void onBindViewHolder(@NonNull StatusDraftHolder holder, int position) {
         StatusDraft statusDraft = statusDrafts.get(position);
 
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
         //--- MAIN CONTENT ---
         if (statusDraft.statusDraftList != null && statusDraft.statusDraftList.size() > 0) {
             holder.binding.statusContent.setText(statusDraft.statusDraftList.get(0).text, TextView.BufferType.SPANNABLE);
@@ -87,7 +96,7 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
         //--- DATE ---
         holder.binding.date.setText(Helper.dateDiff(context, statusDraft.created_ad));
 
-        holder.binding.container.setOnClickListener(v -> {
+        holder.binding.cardviewContainer.setOnClickListener(v -> {
             Intent intent = new Intent(context, ComposeActivity.class);
             intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
             context.startActivity(intent);

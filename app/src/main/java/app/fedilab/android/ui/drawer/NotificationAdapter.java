@@ -149,6 +149,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Notification notification = notificationList.get(position);
         if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST || getItemViewType(position) == TYPE_ADMIN_REPORT || getItemViewType(position) == TYPE_ADMIN_SIGNUP) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holderFollow.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holderFollow.binding.dividerCard.setVisibility(View.GONE);
+            }
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
             holderFollow.binding.displayName.setText(
                     notification.account.getSpanDisplayName(context,
@@ -227,6 +232,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         } else if (getItemViewType(position) == TYPE_FILERED) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.binding.dividerCard.setVisibility(View.GONE);
+            }
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 notification.filteredByApp = null;
@@ -234,6 +244,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+                holderStatus.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holderStatus.binding.dividerCard.setVisibility(View.GONE);
+            }
             holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);
 
             if (getItemViewType(position) == TYPE_MENTION) {
@@ -294,7 +309,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderStatus.bindingNotification.status.mainContainer.setAlpha(.7f);
                 holderStatus.bindingNotification.status.mainContainer.setVisibility(View.VISIBLE);
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
                 if (displayMedia && notification.status != null && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.VISIBLE);

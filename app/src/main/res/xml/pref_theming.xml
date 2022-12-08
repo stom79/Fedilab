@@ -44,4 +44,13 @@
         app:title="@string/type_default_theme_dark"
         app:useSimpleSummaryProvider="true" />
 
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CARDVIEW"
+        app:singleLineTitle="false"
+        app:summary="@string/set_cardview_indication"
+        app:title="@string/set_cardview" />
+
 </androidx.preference.PreferenceScreen>

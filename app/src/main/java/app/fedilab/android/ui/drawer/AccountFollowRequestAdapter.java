@@ -17,6 +17,7 @@ package app.fedilab.android.ui.drawer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -69,6 +71,14 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Account account = accountList.get(position);
         ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holderFollow.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holderFollow.binding.dividerCard.setVisibility(View.GONE);
+        }
+
+
         MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, account);
         holderFollow.binding.displayName.setText(account.display_name);
         holderFollow.binding.username.setText(String.format("@%s", account.acct));

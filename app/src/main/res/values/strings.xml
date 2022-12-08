@@ -1297,6 +1297,7 @@
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
+    <string name="SET_CARDVIEW" translatable="false">SET_CARDVIEW</string>
     <string name="SET_THEME_DEFAULT_LIGHT" translatable="false">SET_THEME_DEFAULT_LIGHT</string>
     <string name="SET_THEME_DEFAULT_DARK" translatable="false">SET_THEME_DEFAULT_DARK</string>
 
@@ -2015,4 +2016,6 @@
     <string name="set_dynamic_color_indication">Align tonally with the color scheme of your personal wallpaper.</string>
     <string name="type_default_theme_light">Default light theme</string>
     <string name="type_default_theme_dark">Default dark theme</string>
+    <string name="set_cardview">Use card view presentation</string>
+    <string name="set_cardview_indication">When enabled, items in timelines will have a shadow and an elevation.</string>
 </resources>

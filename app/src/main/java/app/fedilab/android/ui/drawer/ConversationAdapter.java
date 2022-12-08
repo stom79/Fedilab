@@ -90,7 +90,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ConversationHolder holder = (ConversationHolder) viewHolder;
 
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
 
         //--- Profile Pictures for participants ---
         holder.binding.participantsList.removeAllViews();
