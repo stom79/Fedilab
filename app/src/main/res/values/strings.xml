@@ -2016,6 +2016,6 @@
     <string name="set_dynamic_color_indication">Align tonally with the color scheme of your personal wallpaper.</string>
     <string name="type_default_theme_light">Default light theme</string>
     <string name="type_default_theme_dark">Default dark theme</string>
-    <string name="set_cardview">Use card view presentation</string>
+    <string name="set_cardview">Elevated cards</string>
     <string name="set_cardview_indication">When enabled, items in timelines will have a shadow and an elevation.</string>
 </resources>
