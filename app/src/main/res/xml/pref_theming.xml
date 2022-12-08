@@ -53,4 +53,37 @@
         app:summary="@string/set_cardview_indication"
         app:title="@string/set_cardview" />
 
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_LIGHT_COLORS"
+        app:singleLineTitle="false"
+        app:summary="@string/set_customize_light_indication"
+        app:title="@string/set_customize_light" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/set_custom_colors"
+        app:dependency="@string/SET_CUSTOMIZE_LIGHT_COLORS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_LIGHT_COLORS_ACTION" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_DARK_COLORS"
+        app:singleLineTitle="false"
+        app:summary="@string/set_customize_dark_indication"
+        app:title="@string/set_customize_dark" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/set_custom_colors"
+        app:dependency="@string/SET_CUSTOMIZE_DARK_COLORS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_DARK_COLORS_ACTION" />
+
 </androidx.preference.PreferenceScreen>
