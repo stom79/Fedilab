@@ -2295,14 +2295,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
-            applyColor(context, holder);
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
-                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
-                holder.binding.dividerCard.setVisibility(View.GONE);
-            }
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 status.filteredByApp = null;
@@ -2339,14 +2333,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
-            applyColor(context, holder);
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
-                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
-                holder.binding.dividerCard.setVisibility(View.GONE);
-            }
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
             if (status.art_attachment != null) {
 
@@ -2419,7 +2407,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra(Helper.ARG_STATUS, status);
                 context.startActivity(intent);
             });
-            applyColor(context, holder);
         }
     }
 

@@ -278,17 +278,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             applyColorAccount(context, holderFollow);
         } else if (getItemViewType(position) == TYPE_FILERED) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
-                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
-                holder.binding.dividerCard.setVisibility(View.GONE);
-            }
+
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
-            StatusAdapter.applyColor(context, holder);
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
