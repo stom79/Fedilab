@@ -4,82 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_BACKGROUND"
-        app:default_color="?android:colorBackground"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/background_status"
         app:title="@string/background_status_title" />
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_BOOST_HEADER"
-        app:default_color="?android:colorBackground"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/boost_header_color"
         app:title="@string/boost_header_color_title" />
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_DISPLAY_NAME"
-        app:default_color="?colorOnBackground"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/displayname_title"
         app:title="@string/display_name" />
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_USERNAME"
-        app:default_color="?colorOnBackground"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/username_title"
         app:title="@string/username" />
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_TEXT"
-        app:default_color="?colorOnBackground"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/text_color"
         app:title="@string/text_color_title" />
 
-
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_LINK"
-        app:default_color="?linkColor"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/link_color"
         app:title="@string/link_color_title" />
 
 
-    <com.skydoves.colorpickerpreference.ColorPickerPreference
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
         android:key="@string/SET_DARK_ICON"
-        app:default_color="?colorControlNormal"
         app:iconSpaceReserved="false"
-        app:preference_attachAlphaSlideBar="false"
-        app:preference_attachBrightnessSlideBar="false"
-        app:preference_dialog_negative="@string/cancel"
-        app:preference_dialog_positive="@string/save"
         app:summary="@string/icons_color"
         app:title="@string/icons_color_title" />
 

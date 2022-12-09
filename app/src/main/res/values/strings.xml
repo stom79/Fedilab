@@ -1302,6 +1302,8 @@
     <string name="SET_CUSTOMIZE_LIGHT_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS_ACTION</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS" translatable="false">SET_CUSTOMIZE_DARK_COLORS</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_DARK_COLORS_ACTION</string>
+    <string name="SET_RESET_CUSTOM_COLOR" translatable="false">SET_RESET_CUSTOM_COLOR</string>
+
     <string name="SET_THEME_DEFAULT_LIGHT" translatable="false">SET_THEME_DEFAULT_LIGHT</string>
     <string name="SET_THEME_DEFAULT_DARK" translatable="false">SET_THEME_DEFAULT_DARK</string>
 

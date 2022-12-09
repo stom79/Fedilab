@@ -18,6 +18,7 @@ package app.fedilab.android.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.preference.ListPreference;
@@ -110,6 +111,40 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                 NavOptions.Builder navBuilder = new NavOptions.Builder();
                 navBuilder.setEnterAnim(R.anim.enter).setExitAnim(R.anim.exit).setPopEnterAnim(R.anim.pop_enter).setPopExitAnim(R.anim.pop_exit);
                 Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(R.id.FragmentCustomDarkSettings, null, navBuilder.build());
+                return true;
+            });
+        }
+
+        Preference SET_RESET_CUSTOM_COLOR = findPreference(getString(R.string.SET_RESET_CUSTOM_COLOR));
+        if (SET_RESET_CUSTOM_COLOR != null) {
+            SET_RESET_CUSTOM_COLOR.getContext().setTheme(Helper.dialogStyle());
+            SET_RESET_CUSTOM_COLOR.setOnPreferenceClickListener(preference -> {
+                AlertDialog.Builder resetConfirm = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                resetConfirm.setMessage(getString(R.string.reset_color));
+                resetConfirm.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+                resetConfirm.setPositiveButton(R.string.reset, (dialog, which) -> {
+                    SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+                    if (sharedPreferences != null) {
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_BACKGROUND)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_BOOST_HEADER)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_DISPLAY_NAME)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_USERNAME)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_TEXT)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_LINK)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_LIGHT_ICON)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_BACKGROUND)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_BOOST_HEADER)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_DISPLAY_NAME)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_USERNAME)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_TEXT)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_LINK)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_DARK_ICON)).apply();
+
+                    }
+
+                    dialog.dismiss();
+                });
+                resetConfirm.show();
                 return true;
             });
         }

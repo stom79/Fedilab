@@ -121,7 +121,7 @@ public class SpannableHelper {
                 linkColor = link_color;
             }
         } else {
-            linkColor = linkColor;
+            linkColor = ThemeHelper.getAttColor(context, R.attr.linkColor);
         }
 
         SpannableString initialContent;

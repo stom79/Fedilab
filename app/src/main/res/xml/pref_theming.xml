@@ -86,4 +86,10 @@
         app:iconSpaceReserved="false"
         app:key="@string/SET_CUSTOMIZE_DARK_COLORS_ACTION" />
 
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/reset_color"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_RESET_CUSTOM_COLOR" />
 </androidx.preference.PreferenceScreen>
