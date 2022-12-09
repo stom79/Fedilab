@@ -2048,4 +2048,8 @@
     <string name="set_custom_colors">Set custom colors</string>
     <string name="light_custom_colors">Light - Custom colors</string>
     <string name="cark_custom_colors">Dark - Custom colors</string>
+    <string name="display_remote_conversation">Display remote conversation</string>
+    <string name="toast_try_later">Please, try again later.</string>
+    <string name="toast_on_your_instance">The conversation started on your instance!</string>
+    <string name="toast_error_fetch_message">The app didn\'t find the remote message.</string>
 </resources>

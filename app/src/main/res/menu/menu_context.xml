@@ -7,8 +7,14 @@
         android:title="@string/expand_conversation"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_remote"
+        android:icon="@drawable/ic_baseline_location_searching_24"
+        android:title="@string/display_remote_conversation"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_show_cw"
         android:icon="@drawable/ic_outline_remove_red_eye_24"
         android:title="@string/expand_cw"
         app:showAsAction="ifRoom" />
+
 </menu>
