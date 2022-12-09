@@ -521,9 +521,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.pressOnTouch(false);
         holder.binding.actionButtonBoost.pressOnTouch(false);
         holder.binding.actionButtonBookmark.pressOnTouch(false);
-        holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_baseline_star_24);
-        holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_star_outline);
-        holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_baseline_bookmark_border_24);
+        holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
+        holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
+        holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);
+        holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_round_bookmark_border_24);
+        holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_24);
+        holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_round_repeat_24);
         holder.binding.actionButtonFavorite.setDisableCircle(true);
         holder.binding.actionButtonBoost.setDisableCircle(true);
         holder.binding.actionButtonBookmark.setDisableCircle(true);
@@ -880,13 +883,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
-        float normalSize2 = Helper.convertDpToPixel(24, context);
+
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
-        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize2 * scaleIcon));
+        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
 
         holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
@@ -2195,13 +2198,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_star_24, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_repeat, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_star_border_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
-            Helper.changeDrawableColor(context, R.drawable.ic_baseline_reply_16, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);

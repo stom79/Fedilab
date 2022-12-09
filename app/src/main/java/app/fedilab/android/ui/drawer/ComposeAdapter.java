@@ -725,6 +725,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             if (emojis == null) {
                                 return;
+                            } else if (emojisList == null) {
+                                if (emojis.containsKey(BaseMainActivity.currentInstance)) {
+                                    emojisList = emojis.get(BaseMainActivity.currentInstance);
+                                    if (emojisList == null) {
+                                        return;
+                                    }
+                                }
                             }
                             for (Emoji emoji : emojisList) {
                                 if (shortcode != null && emoji.shortcode.contains(shortcode)) {

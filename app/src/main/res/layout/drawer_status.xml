@@ -589,11 +589,12 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/action_button_reply_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/action_button_reply"
@@ -605,7 +606,7 @@
                     android:clickable="true"
                     android:contentDescription="@string/reply"
                     android:focusable="true"
-                    app:srcCompat="@drawable/ic_reply" />
+                    app:srcCompat="@drawable/ic_round_reply_24" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/reply_count"
@@ -613,6 +614,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:text="+"
+                    tools:visibility="visible"
                     android:textColor="?colorControlNormal"
                     android:textSize="12sp"
                     android:visibility="gone"
@@ -629,10 +631,10 @@
                 android:layout_height="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/reblog_add"
-                app:sparkbutton_activeImage="@drawable/ic_repeat"
+                app:sparkbutton_activeImage="@drawable/ic_round_repeat_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_repeat"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_repeat_24"
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
 
@@ -647,10 +649,10 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/favourite_add"
-                app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
+                app:sparkbutton_activeImage="@drawable/ic_round_star_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_star_outline"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_star_border_24"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
@@ -665,10 +667,10 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/bookmark_add"
-                app:sparkbutton_activeImage="@drawable/ic_baseline_bookmark_24"
+                app:sparkbutton_activeImage="@drawable/ic_round_bookmark_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_baseline_bookmark_border_24"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_bookmark_border_24"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
@@ -722,7 +724,7 @@
                 android:clickable="true"
                 android:adjustViewBounds="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/ic_more_horiz" />
+                app:srcCompat="@drawable/ic_round_more_horiz_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
