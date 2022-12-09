@@ -582,19 +582,19 @@
     <string name="stop_recording">Stopp opptak</string>
     <string name="set_accounts_page">Antall kontoer per innlasting</string>
     <string name="category_music">Musikk</string>
-    <string name="cannot_be_empty">Dette feltet må fylles ut.</string>
+    <string name="cannot_be_empty">Dette feltet må fylles ut!</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_twitter_host">Domene for Twitter-grenseflate</string>
     <string name="replace_instagram_description">Bruk en alternativ grenseflate for Instagram</string>
     <string name="other">Annet</string>
     <string name="add_status">Legg til status</string>
-    <string name="is_up">Er oppe.</string>
+    <string name="is_up">Er oppe!</string>
     <string name="instance_health_uptime">Oppetid: %,.2f %%</string>
     <string name="keepon">Fortsett</string>
     <string name="category_custom">Tilpasset</string>
     <string name="followers_only">Kun følgere</string>
-    <string name="is_down">Er nede.</string>
+    <string name="is_down">Er nede!</string>
     <string name="instance_health_checkedat">Sjekket: %s</string>
     <string name="report_1_mute_title">Forstum %1$s</string>
     <string name="report_1_block_title">Blokker %1$s</string>
@@ -604,7 +604,7 @@
 \n %s brukere - %s statuser</string>
     <string name="replace_youtube_description">Bruk en alternativ grenseflate for YouTube</string>
     <string name="replace_youtube_host">Domene for YouTube-grenseflate</string>
-    <string name="instance_not_valid">Instansen ser ikke ut til å være gyldig.</string>
+    <string name="instance_not_valid">Instansen ser ikke ut til å være gyldig!</string>
     <string name="boosted_by">Framhevet av</string>
     <string name="favourited_by">Favorittmerket av</string>
     <string name="eg_sensitive_content">F.eks: Sensitivt innhold</string>

@@ -315,8 +315,8 @@
     <string name="set_enable_time_slot">Ativar definição de momento</string>
     <string name="block_domain_confirm_message">Tem certeza de que quer bloquear %s?\n\nSeus seguidores desta instância serão removidos, e você não verá nenhum conteúdo ou notificação desta instância.</string>
     <string name="block_domain">Bloquear instância</string>
-    <string name="toast_block_domain">Instância bloqueada!</string>
-    <string name="retrieve_remote_status">Carregando toot remoto!</string>
+    <string name="toast_block_domain">Instância bloqueada</string>
+    <string name="retrieve_remote_status">Carregando toot remoto</string>
     <string name="peertube_instance">Instância Peertube</string>
     <string name="set_display_emoji">Usar Emoji One</string>
     <string name="information">Informação</string>

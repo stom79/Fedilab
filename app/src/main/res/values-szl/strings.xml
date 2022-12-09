@@ -297,7 +297,7 @@
     <string name="filter_keyword_explanations">Srogość liter we tekście ani we upozorniyniu ô zawartości niy majōm znaczynio</string>
     <string name="context_drop">Ôdciep zamiast kryć</string>
     <string name="context_drop_explanations">Filtrowane tuty zniknōm doimyntnie, nawet jak filter bydzie wymazany</string>
-    <string name="context_whole_word_explanations">Jak słowo kluczowe abo fraza sōm ino alfanumeryczne, to to bydzie użyte, jak bydzie pasować cołke słowo</string>
+    <string name="context_whole_word_explanations">Jak słowo kluczowe abo fraza sōm ino alfanumeryczne, to bydzie użyte, jak bydzie pasować cołke słowo</string>
     <string name="context_whole_word">Cołke słowo</string>
     <string name="filter_context">Kōnteksty filtra</string>
     <string name="filter_context_explanations">Jedyn abo wiyncyj kōntekstōw, kaj filter winiyn być użyty</string>
