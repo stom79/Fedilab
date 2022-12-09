@@ -529,7 +529,7 @@
     <string name="make_an_action">Επέλεξε μία κίνηση</string>
     <string name="translation">Μετάφραση</string>
     <string name="text_color_title">Χρώμα κειμένου</string>
-    <string name="text_color">Change the text color in pots</string>
+    <string name="text_color">Change the text color in messages</string>
     <string name="pref_custom_theme">Χρήση ενός προσαρμοσμένου θέματος</string>
     <string name="theming">Θεματισμός</string>
     <string name="data_export_theme">Έγινε εξαγωγή του θέματος</string>
