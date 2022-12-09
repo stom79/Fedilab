@@ -530,7 +530,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
-
+        applyColor(context, holder);
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
@@ -2156,7 +2156,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return position;
     }
 
-    private static void applyColor(Context context, StatusViewHolder holder) {
+    public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);

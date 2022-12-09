@@ -942,13 +942,11 @@ public class ProfileActivity extends BaseActivity {
                 builderInner.setTitle(stringArrayConf[0]);
 
                 builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> {
-                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, false, 0)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                });
+                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, false, 0)
+                        .observe(ProfileActivity.this, relationShip -> {
+                            this.relationship = relationShip;
+                            updateAccount();
+                        }));
                 builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> {
                     accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
                             .observe(ProfileActivity.this, relationShip -> {

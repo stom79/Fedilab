@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,6 +145,50 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public static void applyColorAccount(Context context, ViewHolderFollow holder) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int theme_icons_color = -1;
+        int theme_statuses_color = -1;
+        int theme_text_color = -1;
+        int theme_text_header_1_line = -1;
+        int theme_text_header_2_line = -1;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
+            if (customLight) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_USERNAME), -1);
+            }
+        } else {
+            if (customDark) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_USERNAME), -1);
+            }
+        }
+        if (theme_text_color != -1) {
+            holder.binding.title.setTextColor(theme_text_color);
+        }
+        if (theme_icons_color != -1) {
+            Helper.changeDrawableColor(context, holder.binding.icon, theme_icons_color);
+        }
+        if (theme_statuses_color != -1) {
+            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+        }
+        if (theme_text_header_1_line != -1) {
+            holder.binding.displayName.setTextColor(theme_text_header_1_line);
+        }
+        if (theme_text_header_2_line != -1) {
+            holder.binding.username.setTextColor(theme_text_header_2_line);
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Notification notification = notificationList.get(position);
@@ -230,6 +275,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
+            applyColorAccount(context, holderFollow);
         } else if (getItemViewType(position) == TYPE_FILERED) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -242,6 +288,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
+            StatusAdapter.applyColor(context, holder);
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -266,6 +313,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (getItemViewType(position) == TYPE_POLL) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
             }
+            int theme_icons_color = -1;
+            int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+            boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
+                if (customLight) {
+                    theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
+                }
+            } else {
+                if (customDark) {
+                    theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
+                }
+            }
+            if (theme_icons_color != -1) {
+                Helper.changeDrawableColor(context, holderStatus.bindingNotification.status.typeOfNotification, theme_icons_color);
+            }
+
             holderStatus.bindingNotification.status.mainContainer.setAlpha(1.0f);
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
@@ -384,6 +448,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
+            StatusAdapter.applyColor(context, holderStatus);
         }
     }
 
