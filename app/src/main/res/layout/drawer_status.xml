@@ -583,7 +583,6 @@
             android:layout_height="48dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
             android:clipChildren="false"
             android:clipToPadding="false">
 
@@ -596,12 +595,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/action_button_reply"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="6dp"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/reply"
@@ -626,15 +625,13 @@
                 app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
                 app:layout_constraintStart_toEndOf="@+id/action_button_reply_container"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/reblog_add"
                 app:sparkbutton_activeImage="@drawable/ic_repeat"
                 app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="28dp"
+                app:sparkbutton_iconSize="24dp"
                 app:sparkbutton_inActiveImage="@drawable/ic_repeat"
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
@@ -645,16 +642,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/action_button_bookmark"
                 app:layout_constraintStart_toEndOf="@+id/action_button_boost"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/favourite_add"
                 app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
                 app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="28dp"
+                app:sparkbutton_iconSize="24dp"
                 app:sparkbutton_inActiveImage="@drawable/ic_star_outline"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
@@ -665,11 +660,9 @@
                 app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
                 app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/bookmark_add"
                 app:sparkbutton_activeImage="@drawable/ic_baseline_bookmark_24"
@@ -680,16 +673,16 @@
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_add_custom_emoji"
+                style="@style/Widget.Material3.Button.IconButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/status_emoji"
                 app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/add_reaction"
-                android:padding="3dp"
                 android:src="@drawable/ic_baseline_emoji_emotions_24"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
@@ -698,17 +691,16 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_emoji"
+                style="@style/Widget.Material3.Button.IconButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_more"
                 app:layout_constraintStart_toEndOf="@+id/status_add_custom_emoji"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="6dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/add_reaction"
-                android:padding="3dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:clickable="true"
@@ -717,14 +709,15 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/action_button_more"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_gravity="center|end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:contentDescription="@string/display_options"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:clickable="true"
                 android:adjustViewBounds="true"
