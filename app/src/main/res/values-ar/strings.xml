@@ -735,4 +735,19 @@
     <string name="set_dynamic_color">لون ديناميكي</string>
     <string name="report_val1">لا يعجبني</string>
     <string name="report_val_more1">ليس شيئاً تريد رؤيته</string>
+    <string name="set_notif_user_sign_up">تسجيل جديد (المشرفون)</string>
+    <string name="set_notif_admin_report">تقرير جديد (المشرفون)</string>
+    <string name="open_with_account">فتح باستخدام حساب آخر</string>
+    <string name="admin_reject_media">رفض ملفات الوسائط</string>
+    <string name="admin_reject_reports">رفض التقارير</string>
+    <string name="action_privacy_policy">سياسة الخصوصية</string>
+    <string name="domains">النطاقات</string>
+    <string name="keep_notifications">الاحتفاظ بالإشعارات</string>
+    <string name="reject_reports">رفض التقارير</string>
+    <string name="reject_media">رفض الوسائط</string>
+    <string name="severity">الشدة</string>
+    <string name="private_comment">تعليق خاص</string>
+    <string name="admin_reject_obfuscate">تشويش اسم النطاق</string>
+    <string name="type_default_theme_dark">المظهر الداكن الافتراضي</string>
+    <string name="public_comment">تعليق للعامة</string>
 </resources>

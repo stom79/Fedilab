@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_BACKGROUND"
+        app:iconSpaceReserved="false"
+        app:summary="@string/background_status"
+        app:title="@string/background_status_title" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_BOOST_HEADER"
+        app:iconSpaceReserved="false"
+        app:summary="@string/boost_header_color"
+        app:title="@string/boost_header_color_title" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_DISPLAY_NAME"
+        app:iconSpaceReserved="false"
+        app:summary="@string/displayname_title"
+        app:title="@string/display_name" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_USERNAME"
+        app:iconSpaceReserved="false"
+        app:summary="@string/username_title"
+        app:title="@string/username" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_TEXT"
+        app:iconSpaceReserved="false"
+        app:summary="@string/text_color"
+        app:title="@string/text_color_title" />
+
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_LINK"
+        app:iconSpaceReserved="false"
+        app:summary="@string/link_color"
+        app:title="@string/link_color_title" />
+
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_LIGHT_ICON"
+        app:iconSpaceReserved="false"
+        app:summary="@string/icons_color"
+        app:title="@string/icons_color_title" />
+
+</androidx.preference.PreferenceScreen>

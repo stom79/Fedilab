@@ -15,13 +15,16 @@ package app.fedilab.android.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -61,6 +64,13 @@ public class DomainBlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         String domain = domainList.get(position);
         DomainBlockViewHolder holder = (DomainBlockViewHolder) viewHolder;
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
         holder.binding.domainName.setText(domain);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         holder.binding.unblockDomain.setOnClickListener(v -> {

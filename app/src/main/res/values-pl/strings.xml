@@ -546,7 +546,7 @@
     <string name="make_an_action">Make an action</string>
     <string name="translation">Tłumaczenie</string>
     <string name="text_color_title">Kolor tekstu</string>
-    <string name="text_color">Change the text color in pots</string>
+    <string name="text_color">Change the text color in messages</string>
     <string name="pref_custom_theme">Użyj niestandardowego motywu</string>
     <string name="theming">Motyw</string>
     <string name="data_export_theme">Motyw został wyeksportowany</string>

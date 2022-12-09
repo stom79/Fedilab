@@ -1,5 +1,25 @@
 [
   {
+    "version": "3.10.0",
+    "code": "443",
+    "note": "Added:\n- Dracula theme\n- Customize message colors\n- Enable/Disable Card presentation\n\nChanged:\n- Colors for some themes\n- Space between buttons\n\nFixed:\n- Animated profile pictures not displayed\n- Mentions broken in profile bio and fields\n- Jumps with fit preview images when scrolling up\n- Fetch more button broken with cache\n- Tag patterns in URL break the link\n- Typo in followed tags"
+  },
+  {
+    "version": "3.9.7",
+    "code": "442",
+    "note": "Added:\n- Dracula theme\n\nChanged:\n- Colors for Light/Dark/Black themes\n\nFixed:\n- Animated profile pictures not displayed\n- Mentions broken in profile bio and fields\n- Tag patterns in URL break the link\n- Typo in followed tags"
+  },
+  {
+    "version": "3.9.6",
+    "code": "441",
+    "note": "Fixed:\n- Jumps with fit preview images when scrolling up\n- Fetch more button broken with cache"
+  },
+  {
+    "version": "3.9.5",
+    "code": "440",
+    "note": "Fixed:\n- Custom emoji are not always displayed\n- Jumps in timeline when using \"fit preview images\"\n- Dark theme: timeline buttons without toggle"
+  },
+  {
     "version": "3.9.4",
     "code": "439",
     "note": "Changed:\n- Remove card presentation\n- Link color for black theme\n\nFixed:\n- Crash when changing the theme"

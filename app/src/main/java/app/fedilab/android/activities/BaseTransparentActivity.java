@@ -75,6 +75,9 @@ public class BaseTransparentActivity extends AppCompatActivity {
                         case "BLACK":
                             setTheme(R.style.TransparentBlack);
                             break;
+                        case "DRACULA":
+                            setTheme(R.style.TransparentDracula);
+                            break;
                     }
                     break;
             }
@@ -100,6 +103,10 @@ public class BaseTransparentActivity extends AppCompatActivity {
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.TransparentBlack);
+                    break;
+                case "DRACULA":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.TransparentDracula);
                     break;
             }
         }

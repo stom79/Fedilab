@@ -130,9 +130,10 @@ public class SearchResultTabActivity extends BaseBarActivity {
                 search = query.trim();
                 ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
                 binding.searchViewpager.setAdapter(mPagerAdapter);
-                searchView.clearFocus();
                 setTitle(search);
                 searchView.setIconified(true);
+                searchView.setQuery(search, false);
+                searchView.clearFocus();
                 binding.searchTabLayout.selectTab(initial);
                 return false;
             }

@@ -725,6 +725,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             if (emojis == null) {
                                 return;
+                            } else if (emojisList == null) {
+                                if (emojis.containsKey(BaseMainActivity.currentInstance)) {
+                                    emojisList = emojis.get(BaseMainActivity.currentInstance);
+                                }
+                            }
+                            if (emojisList == null) {
+                                return;
                             }
                             for (Emoji emoji : emojisList) {
                                 if (shortcode != null && emoji.shortcode.contains(shortcode)) {
@@ -1107,7 +1114,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
-                            new WeakReference<>(holder.binding.statusContent)),
+                            new WeakReference<>(holder.binding.statusContent), null),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
             if (status.account != null) {
@@ -1122,7 +1129,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         status.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                new WeakReference<>(holder.binding.spoiler), null),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.spoiler.setVisibility(View.GONE);

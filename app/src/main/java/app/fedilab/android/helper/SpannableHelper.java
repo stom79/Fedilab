@@ -24,6 +24,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,7 +41,6 @@ import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -91,9 +91,37 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    boolean convertHtml,
-                                    WeakReference<View> viewWeakReference) {
+                                    boolean convertHtml, boolean forceMentions, WeakReference<View> viewWeakReference) {
+        return convert(context, text, status, account, announcement, convertHtml, forceMentions, viewWeakReference, null);
+    }
 
+
+    private static int linkColor;
+
+    public static Spannable convert(Context context, String text,
+                                    Status status, Account account, Announcement announcement,
+                                    boolean convertHtml,
+                                    boolean forceMentions,
+                                    WeakReference<View> viewWeakReference, Status.Callback callback) {
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int link_color;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customLight) {
+            link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
+            if (link_color != -1) {
+                linkColor = link_color;
+            }
+        } else if (currentNightMode == Configuration.UI_MODE_NIGHT_YES && customDark) {
+            link_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
+            if (link_color != -1) {
+                linkColor = link_color;
+            }
+        } else {
+            linkColor = ThemeHelper.getAttColor(context, R.attr.linkColor);
+        }
 
         SpannableString initialContent;
         if (text == null) {
@@ -123,6 +151,7 @@ public class SpannableHelper {
         } else if (announcement != null) {
             emojiList = announcement.emojis;
         }
+        //UrlDetails will contain links having a text different from the url
         HashMap<String, String> urlDetails = new HashMap<>();
         if (convertHtml) {
             Matcher matcherALink = Helper.aLink.matcher(text);
@@ -134,7 +163,7 @@ public class SpannableHelper {
                 if (urlText != null && urlText.startsWith(">")) {
                     urlText = urlText.substring(1);
                 }
-                if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
+                if (url != null && urlText != null && !url.equalsIgnoreCase(urlText) && !urlText.contains("<span")) {
                     urlDetails.put(url, urlText);
                 }
             }
@@ -149,7 +178,7 @@ public class SpannableHelper {
                 content.removeSpan(span);
             }
             //Make tags, mentions, groups
-            interaction(context, content, status, mentionList);
+            interaction(context, content, status, mentionList, forceMentions);
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
@@ -159,22 +188,9 @@ public class SpannableHelper {
         } else {
             content = new SpannableStringBuilder(text);
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        if (emojiList != null && emojiList.size() > 0) {
-            for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                    Glide.with(view)
-                            .asDrawable()
-                            .load(animate ? emoji.url : emoji.static_url)
-                            .into(customEmoji.getTarget(animate));
-                }
-            }
-        }
+        CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+        content = customEmoji.makeEmoji(content, emojiList, animate, callback);
 
         if (imagesToReplace.size() > 0) {
             for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
@@ -183,12 +199,11 @@ public class SpannableHelper {
                 Matcher matcher = Pattern.compile(key, Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
                     Glide.with(view)
                             .asDrawable()
                             .load(url)
-                            .into(customEmoji.getTarget(animate));
+                            .into(customEmoji.getTarget(animate, null));
                 }
             }
 
@@ -216,16 +231,15 @@ public class SpannableHelper {
 
 
             final String url = content.toString().substring(matchStart, matchEnd);
+            if (urlDetails.containsKey(url)) {
+                continue;
+            }
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
                 content.replace(matchStart, matchEnd, newURL);
                 offSetTruncate -= (newURL.length() - url.length());
                 matchEnd = matchStart + newURL.length();
-                //The transformed URL was in the list of URLs having a different names
-                if (urlDetails.containsKey(url)) {
-                    urlDetails.put(newURL, urlDetails.get(url));
-                }
             }
 
             //Truncate URL if needed
@@ -237,14 +251,7 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
-            } /*else if (urlDetails.containsKey(urlText) && urlDetails.get(urlText) != null) {
-                urlText = urlDetails.get(urlText);
-                if (urlText != null) {
-                    content.replace(matchStart, matchEnd, urlText);
-                    matchEnd = matchStart + urlText.length();
-                    offSetTruncate += (newURL.length() - urlText.length());
-                }
-            }*/
+            }
 
 
             if (matchEnd <= content.length() && matchEnd >= matchStart) {
@@ -336,7 +343,7 @@ public class SpannableHelper {
                                             }
                                         }
                                         httpsURLConnection.getInputStream().close();
-                                        if (redirect != null && finalURl1 != null && redirect.compareTo(finalURl1) != 0) {
+                                        if (redirect != null && redirect.compareTo(finalURl1) != 0) {
                                             URL redirectURL = new URL(redirect);
                                             String host = redirectURL.getHost();
                                             String protocol = redirectURL.getProtocol();
@@ -446,6 +453,12 @@ public class SpannableHelper {
 
                     }
 
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(linkColor);
+                    }
+
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
@@ -455,7 +468,7 @@ public class SpannableHelper {
 
         for (Map.Entry<String, String> entry : urlDetails.entrySet()) {
             String value = entry.getValue();
-            if (value.startsWith("@") || value.startsWith("#") || !URLUtil.isValidUrl(value)) {
+            if (value.startsWith("@") || value.startsWith("#")) {
                 continue;
             }
             SpannableString contentUrl;
@@ -464,7 +477,7 @@ public class SpannableHelper {
             else
                 contentUrl = new SpannableString(Html.fromHtml(value));
 
-            Pattern word = Pattern.compile(contentUrl.toString());
+            Pattern word = Pattern.compile(Pattern.quote(contentUrl.toString()));
             Matcher matcherLink = word.matcher(content);
             while (matcherLink.find()) {
                 String url = entry.getKey();
@@ -668,6 +681,7 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
+                            ds.setColor(linkColor);
                         }
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
@@ -701,6 +715,7 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
+                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -737,21 +752,22 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
+                        ds.setColor(linkColor);
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
         }
     }
 
-    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions) {
+    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions, boolean forceMentions) {
         // --- For all patterns defined in Helper class ---
         for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
             Helper.PatternType patternType = entry.getKey();
             Pattern pattern = entry.getValue();
             Matcher matcher = pattern.matcher(content);
-            if (pattern == Helper.mentionPattern && mentions == null) {
+            if (pattern == Helper.mentionPattern && mentions == null && !forceMentions) {
                 continue;
-            } else if (pattern == Helper.mentionLongPattern && mentions == null) {
+            } else if (pattern == Helper.mentionLongPattern && mentions == null && !forceMentions) {
                 continue;
             }
 
@@ -884,6 +900,7 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
+                            ds.setColor(linkColor);
                         }
 
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -1031,6 +1048,8 @@ public class SpannableHelper {
                                             @Override
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
+                                                ds.setUnderlineText(false);
+                                                ds.setColor(linkColor);
                                             }
                                         },
                         startPosition, endPosition,
@@ -1066,7 +1085,7 @@ public class SpannableHelper {
                         Glide.with(viewWeakReference.get())
                                 .asDrawable()
                                 .load(animate ? emoji.url : emoji.static_url)
-                                .into(customEmoji.getTarget(animate));
+                                .into(customEmoji.getTarget(animate, null));
                     }
                 }
             }

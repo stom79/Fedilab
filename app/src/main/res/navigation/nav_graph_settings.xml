@@ -105,6 +105,17 @@
         android:name="app.fedilab.android.ui.fragment.settings.FragmentLanguageSettings"
         android:label="@string/languages" />
 
+    <fragment
+        android:id="@+id/FragmentCustomLightSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentCustomLightSettings"
+        android:label="@string/light_custom_colors" />
+
+
+    <fragment
+        android:id="@+id/FragmentCustomDarkSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentCustomDarkSettings"
+        android:label="@string/cark_custom_colors" />
+
     <activity
         android:id="@+id/EditProfileActivity"
         android:name="app.fedilab.android.activities.EditProfileActivity" />

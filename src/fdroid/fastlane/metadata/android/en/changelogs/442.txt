@@ -1,0 +1,11 @@
+Added:
+- Dracula theme
+
+Changed:
+- Colors for Light/Dark/Black themes
+
+Fixed:
+- Animated profile pictures not displayed
+- Mentions broken in profile bio and fields
+- Tag patterns in URL break the link
+- Typo in followed tags

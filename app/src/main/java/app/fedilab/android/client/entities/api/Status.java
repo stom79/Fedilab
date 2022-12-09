@@ -115,6 +115,10 @@ public class Status implements Serializable, Cloneable {
     public transient boolean submitted = false;
     public transient boolean spoilerChecked = false;
     public Filter filteredByApp;
+    public transient Spannable contentSpan;
+    public transient Spannable contentSpoilerSpan;
+    public transient Spannable contentTranslateSpan;
+
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;
@@ -124,17 +128,29 @@ public class Status implements Serializable, Cloneable {
         return same;
     }
 
-    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, content, this, null, null, true, viewWeakReference);
+    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+        if (contentSpan == null) {
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, true, false, viewWeakReference, callback);
+        }
+        return contentSpan;
     }
 
-
-    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, spoiler_text, this, null, null, true, viewWeakReference);
+    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+        if (contentSpoilerSpan == null) {
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, true, false, viewWeakReference, callback);
+        }
+        return contentSpoilerSpan;
     }
 
-    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, translationContent, this, null, null, true, viewWeakReference);
+    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+        if (contentTranslateSpan == null) {
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, true, false, viewWeakReference, callback);
+        }
+        return contentTranslateSpan;
+    }
+
+    public interface Callback {
+        void emojiFetched();
     }
 
     @NonNull

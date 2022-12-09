@@ -525,7 +525,7 @@
     <string name="make_an_action">Make an action</string>
     <string name="translation">Translation</string>
     <string name="text_color_title">Text color</string>
-    <string name="text_color">Change the text color in pots</string>
+    <string name="text_color">Change the text color in messages</string>
     <string name="pref_custom_theme">Use a custom theme</string>
     <string name="theming">Theming</string>
     <string name="data_export_theme">The theme was exported</string>

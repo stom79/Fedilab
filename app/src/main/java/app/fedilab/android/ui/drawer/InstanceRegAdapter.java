@@ -16,11 +16,13 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +48,11 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         JoinMastodonInstance joinMastodonInstance = joinMastodonInstanceList.get(position);
 
         ViewHolder holder = (ViewHolder) viewHolder;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
         holder.binding.instanceCountUser.setText(context.getString(R.string.users, Helper.withSuffix(joinMastodonInstance.total_users)));
         holder.binding.instanceDescription.setText(joinMastodonInstance.description);
         holder.binding.instanceHost.setText(joinMastodonInstance.domain);

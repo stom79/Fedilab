@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardview_container"
@@ -22,13 +22,10 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
+    android:clipChildren="false"
     android:clipToPadding="false"
-    android:clipChildren="false">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="?colorOutline" />
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main_container"
@@ -39,6 +36,16 @@
         android:clipToPadding="false"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/fetch_more_container_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/divider_card"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="?colorOutline" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/status_booster_info"
@@ -576,30 +583,30 @@
             android:layout_height="48dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
             android:clipChildren="false"
             android:clipToPadding="false">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/action_button_reply_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/action_button_reply"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="6dp"
                     android:adjustViewBounds="true"
                     android:clickable="true"
                     android:contentDescription="@string/reply"
                     android:focusable="true"
-                    app:srcCompat="@drawable/ic_reply" />
+                    app:srcCompat="@drawable/ic_round_reply_24" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/reply_count"
@@ -607,6 +614,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:text="+"
+                    tools:visibility="visible"
                     android:textColor="?colorControlNormal"
                     android:textSize="12sp"
                     android:visibility="gone"
@@ -619,16 +627,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
                 app:layout_constraintStart_toEndOf="@+id/action_button_reply_container"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/reblog_add"
-                app:sparkbutton_activeImage="@drawable/ic_repeat"
+                app:sparkbutton_activeImage="@drawable/ic_round_repeat_24"
                 app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="28dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_repeat"
+                app:sparkbutton_iconSize="24dp"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_repeat_24"
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
 
@@ -638,17 +644,15 @@
                 app:layout_constraintEnd_toStartOf="@+id/action_button_bookmark"
                 app:layout_constraintStart_toEndOf="@+id/action_button_boost"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/favourite_add"
-                app:sparkbutton_activeImage="@drawable/ic_baseline_star_24"
+                app:sparkbutton_activeImage="@drawable/ic_round_star_24"
                 app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="28dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_star_outline"
+                app:sparkbutton_iconSize="24dp"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_star_border_24"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
@@ -658,31 +662,29 @@
                 app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
                 app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/bookmark_add"
-                app:sparkbutton_activeImage="@drawable/ic_baseline_bookmark_24"
+                app:sparkbutton_activeImage="@drawable/ic_round_bookmark_24"
                 app:sparkbutton_animationSpeed="1.5"
                 app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_baseline_bookmark_border_24"
+                app:sparkbutton_inActiveImage="@drawable/ic_round_bookmark_border_24"
                 app:sparkbutton_primaryColor="@color/marked_icon"
                 app:sparkbutton_secondaryColor="@color/marked_icon" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_add_custom_emoji"
+                style="@style/Widget.Material3.Button.IconButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/status_emoji"
                 app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/add_reaction"
-                android:padding="3dp"
                 android:src="@drawable/ic_baseline_emoji_emotions_24"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
@@ -691,17 +693,16 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_emoji"
+                style="@style/Widget.Material3.Button.IconButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_more"
                 app:layout_constraintStart_toEndOf="@+id/status_add_custom_emoji"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="6dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/add_reaction"
-                android:padding="3dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:clickable="true"
@@ -710,28 +711,28 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/action_button_more"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_gravity="center|end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:contentDescription="@string/display_options"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:clickable="true"
                 android:adjustViewBounds="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/ic_more_horiz" />
+                app:srcCompat="@drawable/ic_round_more_horiz_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include
-            android:id="@+id/layout_fetch_more"
-            layout="@layout/drawer_fetch_more"
-            android:visibility="gone"
-            tools:visibility="visible" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/fetch_more_container_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

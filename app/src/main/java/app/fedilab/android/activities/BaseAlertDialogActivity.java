@@ -76,6 +76,9 @@ public class BaseAlertDialogActivity extends AppCompatActivity {
                         case "BLACK":
                             setTheme(R.style.BlackAlertDialog);
                             break;
+                        case "DRACULA":
+                            setTheme(R.style.DraculaAlertDialog);
+                            break;
                     }
                     break;
             }
@@ -100,6 +103,10 @@ public class BaseAlertDialogActivity extends AppCompatActivity {
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.BlackAlertDialog);
+                    break;
+                case "DRACULA":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.DraculaAlertDialog);
                     break;
             }
         }

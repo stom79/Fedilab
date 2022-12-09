@@ -16,11 +16,14 @@ package app.fedilab.android.ui.drawer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.components.Description;
@@ -51,6 +54,13 @@ public class TagAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static void tagManagement(Context context, TagViewHolder tagViewHolder, Tag tag) {
         tagViewHolder.binding.tagName.setText(String.format("#%s", tag.name));
+
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            tagViewHolder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            tagViewHolder.binding.dividerCard.setVisibility(View.GONE);
+        }
 
         List<Entry> trendsEntry = new ArrayList<>();
 

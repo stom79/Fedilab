@@ -19,6 +19,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.emojis;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,6 +82,14 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     @Override
     public void onBindViewHolder(@NonNull AnnouncementHolder holder, int position) {
         Announcement announcement = announcements.get(position);
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
+
         if (announcement.reactions != null && announcement.reactions.size() > 0) {
             ReactionAdapter reactionAdapter = new ReactionAdapter(announcement.id, announcement.reactions);
             holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);

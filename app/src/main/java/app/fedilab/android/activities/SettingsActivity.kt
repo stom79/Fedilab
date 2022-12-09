@@ -36,6 +36,7 @@ class SettingsActivity : BaseBarActivity() {
         val navController = findNavController(R.id.fragment_container)
         appBarConfiguration = AppBarConfiguration.Builder().build()
         setupActionBarWithNavController(navController, appBarConfiguration)
+
     }
 
 

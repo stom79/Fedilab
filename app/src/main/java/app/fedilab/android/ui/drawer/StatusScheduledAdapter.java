@@ -121,7 +121,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
             holder.binding.statusContent.setText(statusContent);
         }
 
-        holder.binding.container.setOnClickListener(v -> {
+        holder.binding.cardviewContainer.setOnClickListener(v -> {
             if (statusDraft != null) {
                 Intent intent = new Intent(context, ComposeActivity.class);
                 intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);

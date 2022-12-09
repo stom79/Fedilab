@@ -16,14 +16,17 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -35,6 +38,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.databinding.DrawerAccountListBinding;
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
@@ -78,6 +82,12 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         account = getItem(position);
         AccountListViewHolder holder = (AccountListViewHolder) viewHolder;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
         MastodonHelper.loadPPMastodon(holder.binding.avatar, account);
         holder.binding.displayName.setText(
                 account.getSpanDisplayName(context,

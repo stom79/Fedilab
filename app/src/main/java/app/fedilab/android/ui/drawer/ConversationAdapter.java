@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -83,14 +84,56 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return new ConversationHolder(itemBinding);
     }
 
+    public static void applyColorConversation(Context context, ConversationHolder holder) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int theme_icons_color = -1;
+        int theme_statuses_color = -1;
+        int theme_text_color = -1;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
+            if (customLight) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_TEXT), -1);
+            }
+        } else {
+            if (customDark) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_TEXT), -1);
+            }
+        }
+
+        if (theme_icons_color != -1) {
+            Helper.changeDrawableColor(context, R.drawable.ic_star_outline, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_reply_16, theme_icons_color);
+        }
+        if (theme_statuses_color != -1) {
+            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+        }
+        if (theme_text_color != -1) {
+            holder.binding.statusContent.setTextColor(theme_text_color);
+            holder.binding.spoiler.setTextColor(theme_text_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Conversation conversation = conversationList.get(position);
         ConversationHolder holder = (ConversationHolder) viewHolder;
 
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
 
         //--- Profile Pictures for participants ---
         holder.binding.participantsList.removeAllViews();
@@ -151,7 +194,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.binding.spoiler.setVisibility(View.VISIBLE);
             holder.binding.spoiler.setText(
                     conversation.last_status.getSpanSpoiler(context,
-                            new WeakReference<>(holder.binding.spoiler)),
+                            new WeakReference<>(holder.binding.spoiler), () -> notifyItemChanged(holder.getBindingAdapterPosition())),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
@@ -161,7 +204,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 conversation.last_status.getSpanContent(context,
-                        new WeakReference<>(holder.binding.statusContent)),
+                        new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(holder.getBindingAdapterPosition())),
                 TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
@@ -198,6 +241,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }, 100, 100);
         }
+
+        applyColorConversation(context, holder);
     }
 
     private void displayAttachments(ConversationAdapter.ConversationHolder holder, int position) {

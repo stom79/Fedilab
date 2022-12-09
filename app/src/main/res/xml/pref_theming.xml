@@ -44,4 +44,52 @@
         app:title="@string/type_default_theme_dark"
         app:useSimpleSummaryProvider="true" />
 
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CARDVIEW"
+        app:singleLineTitle="false"
+        app:summary="@string/set_cardview_indication"
+        app:title="@string/set_cardview" />
+
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_LIGHT_COLORS"
+        app:singleLineTitle="false"
+        app:summary="@string/set_customize_light_indication"
+        app:title="@string/set_customize_light" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/set_custom_colors"
+        app:dependency="@string/SET_CUSTOMIZE_LIGHT_COLORS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_LIGHT_COLORS_ACTION" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_DARK_COLORS"
+        app:singleLineTitle="false"
+        app:summary="@string/set_customize_dark_indication"
+        app:title="@string/set_customize_dark" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/set_custom_colors"
+        app:dependency="@string/SET_CUSTOMIZE_DARK_COLORS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_DARK_COLORS_ACTION" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/reset_color"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_RESET_CUSTOM_COLOR" />
 </androidx.preference.PreferenceScreen>

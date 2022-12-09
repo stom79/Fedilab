@@ -1,0 +1,16 @@
+Added:
+- Dracula theme
+- Customize message colors
+- Enable/Disable Card presentation
+
+Changed:
+- Colors for some themes
+- Space between buttons
+
+Fixed:
+- Animated profile pictures not displayed
+- Mentions broken in profile bio and fields
+- Jumps with fit preview images when scrolling up
+- Fetch more button broken with cache
+- Tag patterns in URL break the link
+- Typo in followed tags

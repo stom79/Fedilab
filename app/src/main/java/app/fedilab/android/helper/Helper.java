@@ -323,7 +323,7 @@ public class Helper {
 
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);*/
 
-    public static final Pattern hashtagPattern = Pattern.compile("(#[\\w_A-zÀ-ÿ]+)");
+    public static final Pattern hashtagPattern = Pattern.compile("(^|\\s+|[.,;?!-]+)(#[\\w_A-zÀ-ÿ]+)");
     public static final Pattern groupPattern = Pattern.compile("(![\\w_]+)");
     public static final Pattern mentionPattern = Pattern.compile("(@[\\w_.-]+[\\w])");
     public static final Pattern mentionLongPattern = Pattern.compile("(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
@@ -1918,6 +1918,8 @@ public class Helper {
             return R.style.SolarizedAlertDialog;
         } else if (R.style.BlackAppThemeBar == currentThemeId || R.style.BlackAppTheme == currentThemeId) {
             return R.style.BlackAlertDialog;
+        } else if (R.style.DraculaAppThemeBar == currentThemeId || R.style.DraculaAppTheme == currentThemeId) {
+            return R.style.DraculaAlertDialog;
         }
         return R.style.AppTheme;
     }

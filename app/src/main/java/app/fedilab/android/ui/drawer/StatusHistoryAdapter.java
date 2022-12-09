@@ -56,13 +56,13 @@ public class StatusHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         Status status = statuses.get(position);
         holder.binding.statusContent.setText(
                 status.getSpanContent(context,
-                        new WeakReference<>(holder.binding.statusContent)),
+                        new WeakReference<>(holder.binding.statusContent), null),
                 TextView.BufferType.SPANNABLE);
         if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
             holder.binding.spoiler.setVisibility(View.VISIBLE);
             holder.binding.spoiler.setText(
                     status.getSpanSpoiler(context,
-                            new WeakReference<>(holder.binding.spoiler)),
+                            new WeakReference<>(holder.binding.spoiler), null),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);

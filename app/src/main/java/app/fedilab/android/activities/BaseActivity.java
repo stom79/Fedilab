@@ -83,6 +83,10 @@ public class BaseActivity extends AppCompatActivity {
                             setTheme(R.style.BlackAppTheme);
                             currentThemeId = R.style.BlackAppTheme;
                             break;
+                        case "DRACULA":
+                            setTheme(R.style.DraculaAppTheme);
+                            currentThemeId = R.style.DraculaAppTheme;
+                            break;
                     }
                     break;
             }
@@ -112,6 +116,11 @@ public class BaseActivity extends AppCompatActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.BlackAppTheme);
                     currentThemeId = R.style.BlackAppTheme;
+                    break;
+                case "DRACULA":
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setTheme(R.style.DraculaAppTheme);
+                    currentThemeId = R.style.DraculaAppTheme;
                     break;
             }
         }

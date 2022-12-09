@@ -17,16 +17,20 @@ package app.fedilab.android.ui.drawer.admin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Locale;
 
+import app.fedilab.android.R;
 import app.fedilab.android.activities.admin.AdminAccountActivity;
 import app.fedilab.android.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
@@ -63,8 +67,15 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         AdminAccount adminAccount = adminAccountList.get(position);
         AccountAdminViewHolder holder = (AccountAdminViewHolder) viewHolder;
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
+            holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+            holder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
         MastodonHelper.loadPPMastodon(holder.binding.pp, adminAccount.account);
-        holder.binding.adminAccountContainer.setOnClickListener(v -> {
+        holder.binding.cardviewContainer.setOnClickListener(v -> {
             Intent intent = new Intent(context, AdminAccountActivity.class);
             Bundle b = new Bundle();
             b.putSerializable(Helper.ARG_ACCOUNT, adminAccount);
