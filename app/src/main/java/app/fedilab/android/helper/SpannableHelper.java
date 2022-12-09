@@ -41,7 +41,6 @@ import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -152,6 +151,7 @@ public class SpannableHelper {
         } else if (announcement != null) {
             emojiList = announcement.emojis;
         }
+        //UrlDetails will contain links having a text different from the url
         HashMap<String, String> urlDetails = new HashMap<>();
         if (convertHtml) {
             Matcher matcherALink = Helper.aLink.matcher(text);
@@ -163,7 +163,7 @@ public class SpannableHelper {
                 if (urlText != null && urlText.startsWith(">")) {
                     urlText = urlText.substring(1);
                 }
-                if (url != null && urlText != null && !url.equals(urlText) && !urlText.contains("<span")) {
+                if (url != null && urlText != null && !url.equalsIgnoreCase(urlText) && !urlText.contains("<span")) {
                     urlDetails.put(url, urlText);
                 }
             }
@@ -231,16 +231,15 @@ public class SpannableHelper {
 
 
             final String url = content.toString().substring(matchStart, matchEnd);
+            if (urlDetails.containsKey(url)) {
+                continue;
+            }
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
                 content.replace(matchStart, matchEnd, newURL);
                 offSetTruncate -= (newURL.length() - url.length());
                 matchEnd = matchStart + newURL.length();
-                //The transformed URL was in the list of URLs having a different names
-                if (urlDetails.containsKey(url)) {
-                    urlDetails.put(newURL, urlDetails.get(url));
-                }
             }
 
             //Truncate URL if needed
@@ -252,14 +251,7 @@ public class SpannableHelper {
                 content.replace(matchStart, matchEnd, urlText);
                 matchEnd = matchStart + 31;
                 offSetTruncate += (newURL.length() - urlText.length());
-            } /*else if (urlDetails.containsKey(urlText) && urlDetails.get(urlText) != null) {
-                urlText = urlDetails.get(urlText);
-                if (urlText != null) {
-                    content.replace(matchStart, matchEnd, urlText);
-                    matchEnd = matchStart + urlText.length();
-                    offSetTruncate += (newURL.length() - urlText.length());
-                }
-            }*/
+            }
 
 
             if (matchEnd <= content.length() && matchEnd >= matchStart) {
@@ -351,7 +343,7 @@ public class SpannableHelper {
                                             }
                                         }
                                         httpsURLConnection.getInputStream().close();
-                                        if (redirect != null && finalURl1 != null && redirect.compareTo(finalURl1) != 0) {
+                                        if (redirect != null && redirect.compareTo(finalURl1) != 0) {
                                             URL redirectURL = new URL(redirect);
                                             String host = redirectURL.getHost();
                                             String protocol = redirectURL.getProtocol();
@@ -476,7 +468,7 @@ public class SpannableHelper {
 
         for (Map.Entry<String, String> entry : urlDetails.entrySet()) {
             String value = entry.getValue();
-            if (value.startsWith("@") || value.startsWith("#") || !URLUtil.isValidUrl(value)) {
+            if (value.startsWith("@") || value.startsWith("#")) {
                 continue;
             }
             SpannableString contentUrl;
@@ -485,7 +477,7 @@ public class SpannableHelper {
             else
                 contentUrl = new SpannableString(Html.fromHtml(value));
 
-            Pattern word = Pattern.compile(contentUrl.toString());
+            Pattern word = Pattern.compile(Pattern.quote(contentUrl.toString()));
             Matcher matcherLink = word.matcher(content);
             while (matcherLink.find()) {
                 String url = entry.getKey();
