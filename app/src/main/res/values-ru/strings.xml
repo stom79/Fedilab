@@ -572,7 +572,7 @@
     <string name="action_unfollow">Отписаться</string>
     <string name="error_destination_path">Что-то пошло не так, пожалуйста, проверьте папку загрузок в настройках.</string>
     <string name="action_announcements">Объявления</string>
-    <string name="no_announcements">Объявлений пока нет.</string>
+    <string name="no_announcements">Объявлений пока нет!</string>
     <string name="add_reaction">Добавить реакцию</string>
     <string name="set_video_cache">Кэш видео в MB, ноль означает, нет кэша.</string>
     <string name="set_watermark">Водяные знаки</string>
