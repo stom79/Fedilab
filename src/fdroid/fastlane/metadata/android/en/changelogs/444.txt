@@ -1,0 +1,4 @@
+Added:
+- Display all messages in threads from remote instances (when possible)
+* Only public messages for instances using the Mastodon API
+* A dedicated button is displayed at the top right when conditions are filled.

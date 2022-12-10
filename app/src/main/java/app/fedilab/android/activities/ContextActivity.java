@@ -144,7 +144,13 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         if (remote_instance != null) {
             action_remote.setVisible(false);
         } else {
-            action_remote.setVisible(firstMessage != null && !firstMessage.visibility.equalsIgnoreCase("direct") && !firstMessage.visibility.equalsIgnoreCase("private"));
+            if (firstMessage != null && !firstMessage.visibility.equalsIgnoreCase("direct") && !firstMessage.visibility.equalsIgnoreCase("private")) {
+                Pattern pattern = Helper.statusIdInUrl;
+                Matcher matcher = pattern.matcher(firstMessage.uri);
+                action_remote.setVisible(matcher.find());
+            } else {
+                action_remote.setVisible(false);
+            }
         }
         return true;
     }
