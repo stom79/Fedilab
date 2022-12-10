@@ -1038,16 +1038,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     composeAttachmentItemBinding.preview.setOnClickListener(v -> displayAttachments(holder, position, finalMediaPosition));
                     if (attachment.description == null || attachment.description.trim().isEmpty()) {
                         composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_warning_24);
-                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getNoDescriptionColorStateList(context));
-                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.no_description));
-                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_warning_24, ContextCompat.getColor(context, R.color.no_description));
-                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getNoDescriptionColorStateList(context));
+                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.black));
+                        composeAttachmentItemBinding.buttonDescription.setIconTintResource(R.color.black);
+                        composeAttachmentItemBinding.buttonDescription.setBackgroundTintList(ThemeHelper.getNoDescriptionColorStateList(context));
                     } else {
-                        composeAttachmentItemBinding.buttonDescription.setIconTint(ThemeHelper.getHavingDescriptionColorStateList(context));
                         composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_check_circle_24);
-                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.having_description));
-                        composeAttachmentItemBinding.buttonDescription.setStrokeColor(ThemeHelper.getHavingDescriptionColorStateList(context));
-                        Helper.changeDrawableColor(context, R.drawable.ic_baseline_check_circle_24, ContextCompat.getColor(context, R.color.having_description));
+                        composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.white));
+                        composeAttachmentItemBinding.buttonDescription.setIconTintResource(R.color.white);
+                        composeAttachmentItemBinding.buttonDescription.setBackgroundTintList(ThemeHelper.getHavingDescriptionColorStateList(context));
                     }
                     holder.binding.attachmentsList.addView(composeAttachmentItemBinding.getRoot());
                     mediaPosition++;
