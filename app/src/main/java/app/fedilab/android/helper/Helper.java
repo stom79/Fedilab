@@ -343,6 +343,8 @@ public class Helper {
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
     public static final Pattern nitterIDPattern = Pattern.compile("/status/(\\d+)");
     public static final Pattern emailPattern = Pattern.compile("(\\s+[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
+    public static final Pattern statusIdInUrl = Pattern.compile("statuses/(\\w+)");
+
     /*public static final Pattern urlPattern = Pattern.compile(
             "(?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,10}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))",
 

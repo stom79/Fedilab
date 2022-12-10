@@ -1453,25 +1453,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     return;
                 }
-                if (context instanceof ContextActivity) {
+                if (context instanceof ContextActivity && !remote) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Helper.ARG_STATUS, statusToDeal);
                     Fragment fragment = Helper.addFragment(((AppCompatActivity) context).getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, FragmentMastodonContext.class.getName());
                     ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
                 } else {
                     if (remote) {
-                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                                .observe((LifecycleOwner) context, results -> {
-                                    if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = results.statuses.get(0);
-                                        Intent intent = new Intent(context, ContextActivity.class);
-                                        intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
-                                        context.startActivity(intent);
-                                    } else {
-                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                                    }
-                                });
+                        if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
+                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                    .observe((LifecycleOwner) context, results -> {
+                                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                            Status fetchedStatus = results.statuses.get(0);
+                                            Intent intent = new Intent(context, ContextActivity.class);
+                                            intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
+                                            context.startActivity(intent);
+                                        } else {
+                                            Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
                     } else {
                         Intent intent = new Intent(context, ContextActivity.class);
                         intent.putExtra(Helper.ARG_STATUS, statusToDeal);

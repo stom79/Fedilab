@@ -20,7 +20,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -449,7 +448,6 @@ public class CrossActionHelper {
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(null, url, null, "statuses", null, null, null, null, null, null, null);
             Results results = null;
-            Log.v(Helper.TAG, ">request: " + resultsCall.request());
             if (resultsCall != null) {
                 try {
                     Response<Results> resultsResponse = resultsCall.execute();
@@ -461,8 +459,6 @@ public class CrossActionHelper {
                                 results.statuses = new ArrayList<>();
                             }
                         }
-                    } else {
-                        Log.v(Helper.TAG, ">err: " + resultsResponse.errorBody().string());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -471,7 +467,6 @@ public class CrossActionHelper {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Results finalResults = results;
             Runnable myRunnable = () -> {
-                Log.v(Helper.TAG, ">finalResults.statuses " + finalResults.statuses);
                 if (finalResults != null && finalResults.statuses != null && finalResults.statuses.size() > 0) {
                     callback.federatedStatus(finalResults.statuses.get(0));
                 }

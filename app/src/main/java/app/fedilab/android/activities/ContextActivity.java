@@ -24,7 +24,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,14 +34,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.exception.DBException;
-import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
@@ -143,6 +143,8 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         MenuItem action_remote = menu.findItem(R.id.action_remote);
         if (remote_instance != null) {
             action_remote.setVisible(false);
+        } else {
+            action_remote.setVisible(firstMessage != null && !firstMessage.visibility.equalsIgnoreCase("direct") && !firstMessage.visibility.equalsIgnoreCase("private"));
         }
         return true;
     }
@@ -184,28 +186,28 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                     Toasty.info(ContextActivity.this, getString(R.string.toast_on_your_instance), Toasty.LENGTH_SHORT).show();
                     return true;
                 }
-                Log.v(Helper.TAG, "firstMessage.uri: " + firstMessage.uri);
-                Log.v(Helper.TAG, "instance: " + instance);
-                CrossActionHelper.fetchStatusInRemoteInstance(ContextActivity.this, firstMessage.uri, instance, new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                        Log.v(Helper.TAG, ">status: " + status);
+                Pattern pattern = Helper.statusIdInUrl;
+                Matcher matcher = pattern.matcher(firstMessage.uri);
+                String remoteId = null;
+                if (matcher.find()) {
+                    remoteId = matcher.group(1);
+                }
+                if (remoteId != null) {
+                    StatusesVM statusesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
+                    statusesVM.getStatus(instance, null, remoteId).observe(ContextActivity.this, status -> {
                         if (status != null) {
                             Intent intentContext = new Intent(ContextActivity.this, ContextActivity.class);
                             intentContext.putExtra(Helper.ARG_STATUS, status);
-                            intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, true);
+                            intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, instance);
                             intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intentContext);
                         } else {
                             Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
                         }
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                        Log.v(Helper.TAG, ">account: " + account);
-                    }
-                });
+                    });
+                } else {
+                    Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
+                }
             } else {
                 Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
             }
@@ -216,5 +218,6 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     @Override
     public void get(Status status) {
         firstMessage = status;
+        invalidateOptionsMenu();
     }
 }
