@@ -53,6 +53,11 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -127,6 +132,19 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
+        Document htmlContent = Jsoup.parse(text);
+        Elements mentionElements = htmlContent.select("a.mention");
+        //We keep a reference to mentions
+        HashMap<String, String> mentionsMap = new HashMap<>();
+        if (mentionElements.size() > 0) {
+            for (int i = 0; i < mentionElements.size(); i++) {
+                Element mentionElement = mentionElements.get(i);
+                String href = mentionElement.attr("href");
+                String mention = mentionElement.text();
+                mentionsMap.put(mention, href);
+            }
+        }
+
         text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?\\/?>)&gt;(((?!([<])).)*))", "$2<blockquote>$3</blockquote>");
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
         Matcher matcherImg = imgPattern.matcher(text);
@@ -178,7 +196,7 @@ public class SpannableHelper {
                 content.removeSpan(span);
             }
             //Make tags, mentions, groups
-            interaction(context, content, status, mentionList, forceMentions);
+            interaction(context, content, status, mentionList, forceMentions, mentionsMap);
             //Make all links
             linkify(context, content, urlDetails);
             linkifyURL(context, content, urlDetails);
@@ -759,7 +777,7 @@ public class SpannableHelper {
         }
     }
 
-    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions, boolean forceMentions) {
+    private static void interaction(Context context, Spannable content, Status status, List<Mention> mentions, boolean forceMentions, HashMap<String, String> mentionsMap) {
         // --- For all patterns defined in Helper class ---
         for (Map.Entry<Helper.PatternType, Pattern> entry : Helper.patternHashMap.entrySet()) {
             Helper.PatternType patternType = entry.getKey();
@@ -837,8 +855,9 @@ public class SpannableHelper {
                                     intent = new Intent(context, ProfileActivity.class);
                                     b = new Bundle();
                                     Mention targetedMention = null;
+                                    String acct = null;
                                     HashMap<String, Integer> countUsername = new HashMap<>();
-
+                                    //Mentions is retrieved with associated Mentions array
                                     if (mentions != null) {
                                         for (Mention mention : mentions) {
                                             Integer count = countUsername.get(mention.username);
@@ -861,11 +880,19 @@ public class SpannableHelper {
                                                 break;
                                             }
                                         }
+                                    } else if (mentionsMap.containsKey(word.trim())) {//Mentions will be find through its URL
+                                        URL url;
+                                        try {
+                                            url = new URL(mentionsMap.get(word.trim()));
+                                            acct = word.trim() + "@" + url.getHost();
+                                        } catch (MalformedURLException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                     if (targetedMention != null) {
                                         b.putString(Helper.ARG_USER_ID, targetedMention.id);
                                     } else {
-                                        b.putString(Helper.ARG_MENTION, word.trim());
+                                        b.putString(Helper.ARG_MENTION, acct != null ? acct : word.trim());
                                     }
 
                                     intent.putExtras(b);
