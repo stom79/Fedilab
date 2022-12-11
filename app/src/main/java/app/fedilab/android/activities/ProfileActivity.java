@@ -195,6 +195,20 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountRole.setText(account.role.name);
                 binding.accountRole.setVisibility(View.VISIBLE);
             }
+            if (binding.accountTabLayout.getTabCount() > 2) {
+                TabLayout.Tab statusTab = binding.accountTabLayout.getTabAt(0);
+                TabLayout.Tab followingTab = binding.accountTabLayout.getTabAt(1);
+                TabLayout.Tab followerTab = binding.accountTabLayout.getTabAt(2);
+                if (statusTab != null) {
+                    statusTab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
+                }
+                if (followingTab != null) {
+                    followingTab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
+                }
+                if (followerTab != null) {
+                    followerTab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
+                }
+            }
         }
     }
 
@@ -507,8 +521,10 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         });
-        if (accountInstance != null) {
+        if (accountInstance != null && !accountInstance.equalsIgnoreCase(MainActivity.currentInstance)) {
             accountsVM.lookUpAccount(accountInstance, account.username).observe(ProfileActivity.this, this::updateViewWithNewData);
+        } else if (accountInstance != null && accountInstance.equalsIgnoreCase(MainActivity.currentInstance)) {
+            updateViewWithNewData(account);
         }
     }
 
