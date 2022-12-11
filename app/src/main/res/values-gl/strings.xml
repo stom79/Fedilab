@@ -903,4 +903,17 @@
     <string name="set_dynamic_color_indication">Segue a tonalidade do fondo de pantalla para axustar o esquema de cores.</string>
     <string name="type_default_theme_light">Decorado claro por defecto</string>
     <string name="type_default_theme_dark">Decorado escuro por defecto</string>
+    <string name="set_customize_light">Personalizar Decorado Claro</string>
+    <string name="set_customize_light_indication">Permite personalizar algúns elementos nas mensaxes para o decorado claro.</string>
+    <string name="set_customize_dark_indication">Permite personalizar algúns elementos da mensaxe no decorado escuro.</string>
+    <string name="set_custom_colors">Establecer cores</string>
+    <string name="light_custom_colors">Claro - Cores personais</string>
+    <string name="display_remote_conversation">Mostrar conversa remota</string>
+    <string name="toast_try_later">Inténtao outra vez máis tarde.</string>
+    <string name="toast_error_fetch_message">A app non atopa a mensaxe remota.</string>
+    <string name="set_cardview_indication">Se o activas, os elementos nas cronoloxías terán unha sombra e elevación.</string>
+    <string name="set_customize_dark">Personalizar Decorado Escuro</string>
+    <string name="toast_on_your_instance">A conversa comezou na túa instancia!</string>
+    <string name="cark_custom_colors">Escuro - Cores personais</string>
+    <string name="set_cardview">Tarxetas elevadas</string>
 </resources>
