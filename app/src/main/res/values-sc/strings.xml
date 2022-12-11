@@ -901,4 +901,17 @@
     <string name="set_dynamic_color_indication">Allìnia tonalmente cun s\'ischema de colores de s\'isfundu personale tuo.</string>
     <string name="pref_customize_summary">Ti permitit de cunfigurare is colores personalizados tuos pro is temas.</string>
     <string name="type_default_theme_dark">Tema iscuru predefinidu</string>
+    <string name="set_customize_dark">Personaliza su tema iscuru</string>
+    <string name="set_custom_colors">Cunfigura colores personalizados</string>
+    <string name="light_custom_colors">Craru - Colores personalizados</string>
+    <string name="cark_custom_colors">Iscuru - Colores personalizados</string>
+    <string name="toast_on_your_instance">S\'arresonada est incumintzada in s\'istàntzia tua!</string>
+    <string name="set_customize_light">Personaliza su tema craru</string>
+    <string name="set_cardview">Cartas elevadas</string>
+    <string name="set_cardview_indication">Cando est abilitadu is elementos in is lìnias de tempus ant a tènnere un\'umbra e un\'artària.</string>
+    <string name="set_customize_dark_indication">Permitit de personalizare unos cantos elementos in is messàgios pro su tema iscuru.</string>
+    <string name="display_remote_conversation">Ammustra s\'arresonada remota</string>
+    <string name="set_customize_light_indication">Permitit de personalizare unos cantos elementos in is messàgios pro su tema craru.</string>
+    <string name="toast_try_later">Torra a proare prus a tardu.</string>
+    <string name="toast_error_fetch_message">S\'aplicatzione no at agatadu su messàgiu remotu.</string>
 </resources>
