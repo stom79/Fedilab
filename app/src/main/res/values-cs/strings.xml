@@ -907,4 +907,11 @@
     <string name="push_distributors">Distributor pro push</string>
     <string name="notif_update">Upravil(a) zprávu</string>
     <string name="filter_action_explanations">Vyberte, kterou akci provést, pokud bude příspěvek vyhovovat filtru</string>
+    <string name="pref_custom_theme_new_summary">Umožňuje vytvořit vaše vlastní téma</string>
+    <string name="set_unlisted_replies">Odpovědi s neuvedenou viditelností</string>
+    <string name="display_remote_conversation">Zobrazit vzdálenou konverzaci</string>
+    <string name="toast_on_your_instance">Konverzace začala na vaší instanci!</string>
+    <string name="toast_error_fetch_message">Aplikace nenašla vzdálenou zprávu.</string>
+    <string name="pref_contributor_summary">Výběr z témat vytvořených přispěvateli</string>
+    <string name="toast_try_later">Zkuste to prosím znovu.</string>
 </resources>

@@ -527,7 +527,7 @@
     <string name="make_an_action">添加操作</string>
     <string name="translation">翻译</string>
     <string name="text_color_title">文本颜色</string>
-    <string name="text_color">更改点的文本颜色</string>
+    <string name="text_color">更改消息中文本的颜色</string>
     <string name="pref_custom_theme">使用自定义主题</string>
     <string name="theming">主题</string>
     <string name="data_export_theme">主题已导出</string>

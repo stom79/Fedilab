@@ -916,4 +916,8 @@
     <string name="set_customize_light_indication">Açık tema için mesajlardaki bazı ögeleri özelleştirmeye izin verir.</string>
     <string name="set_customize_dark">Koyu Temayı Özelleştir</string>
     <string name="light_custom_colors">Açık - Özel renkler</string>
+    <string name="display_remote_conversation">Uzak görüşmeyi göster</string>
+    <string name="toast_on_your_instance">Görüşme sizin sunucunuzda başladı!</string>
+    <string name="toast_try_later">Lütfen daha sonra tekrar deneyin.</string>
+    <string name="toast_error_fetch_message">Uygulama uzak mesajı bulamadı.</string>
 </resources>

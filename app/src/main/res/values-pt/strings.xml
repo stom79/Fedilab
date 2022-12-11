@@ -318,7 +318,7 @@
 \nVocê não verá nenhum conteúdo dessa instância em nenhuma linha do tempo pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
     <string name="block_domain">Bloquear instância</string>
     <string name="toast_block_domain">Instância bloqueada</string>
-    <string name="retrieve_remote_status">Carregando toot remoto</string>
+    <string name="retrieve_remote_status">Obtendo status remoto</string>
     <string name="peertube_instance">Instância Peertube</string>
     <string name="set_display_emoji">Usar Emoji One</string>
     <string name="information">Informação</string>
