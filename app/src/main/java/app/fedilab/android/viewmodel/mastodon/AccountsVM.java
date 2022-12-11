@@ -296,6 +296,36 @@ public class AccountsVM extends AndroidViewModel {
         return accountMutableLiveData;
     }
 
+
+    /**
+     * @param acct The acct of the account
+     * @return {@link LiveData} containing an {@link Account}
+     */
+    public LiveData<Account> lookUpAccount(@NonNull String instance, @NonNull String acct) {
+        accountMutableLiveData = new MutableLiveData<>();
+        MastodonAccountsService mastodonAccountsService = init(instance);
+        new Thread(() -> {
+            Account account = null;
+            Call<Account> accountCall = mastodonAccountsService.lookUpAccount(acct);
+            if (accountCall != null) {
+
+                try {
+                    Response<Account> accountResponse = accountCall.execute();
+                    if (accountResponse.isSuccessful()) {
+                        account = accountResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Account finalAccount = account;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountMutableLiveData.setValue(finalAccount);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountMutableLiveData;
+    }
+
     /**
      * @param id The id of the account
      * @return {@link LiveData} containing an {@link Account}

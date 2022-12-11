@@ -188,6 +188,16 @@ public class ProfileActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(ProfileActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
     }
 
+
+    private void updateViewWithNewData(Account account) {
+        if (account != null) {
+            if (account.role != null && account.role.highlighted) {
+                binding.accountRole.setText(account.role.name);
+                binding.accountRole.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private void initializeView(Account account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         if (account == null) {
@@ -497,7 +507,9 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         });
-
+        if (accountInstance != null) {
+            accountsVM.lookUpAccount(accountInstance, account.username).observe(ProfileActivity.this, this::updateViewWithNewData);
+        }
     }
 
 
