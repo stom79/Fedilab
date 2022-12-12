@@ -66,6 +66,7 @@ public class FragmentMastodonContext extends Fragment {
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_POSTED);
+                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
@@ -96,6 +97,12 @@ public class FragmentMastodonContext extends Fragment {
                     if (position >= 0) {
                         statuses.remove(position);
                         statusAdapter.notifyItemRemoved(position);
+                    }
+                } else if (status_to_update != null && statusAdapter != null) {
+                    int position = getPosition(status_to_update);
+                    if (position >= 0) {
+                        statuses.set(position, status_to_update);
+                        statusAdapter.notifyItemChanged(position);
                     }
                 } else if (statusPosted != null && statusAdapter != null) {
                     if (requireActivity() instanceof ContextActivity) {

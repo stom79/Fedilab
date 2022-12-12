@@ -231,7 +231,9 @@ public class ComposeWorker extends Worker {
                         if (statusResponse.isSuccessful()) {
                             Status statusReply = statusResponse.body();
                             if (statusReply != null) {
-                                StatusAdapter.sendAction(context, Helper.ARG_STATUS_POSTED, statusReply, null);
+                                if (dataPost.statusEditId == null) {
+                                    StatusAdapter.sendAction(context, Helper.ARG_STATUS_POSTED, statusReply, null);
+                                }
                             }
                             if (firstSendMessage == null && statusReply != null) {
                                 firstSendMessage = statusReply;
