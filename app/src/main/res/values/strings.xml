@@ -1356,6 +1356,7 @@
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
+    <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
@@ -1423,6 +1424,7 @@
     <string name="poll_type">Poll type:</string>
     <string name="poll_duration">Poll duration:</string>
     <string name="set_display_bookmark_indication">Always display bookmark button</string>
+    <string name="set_display_translate_indication">Always display translate button</string>
     <string name="display">Display</string>
     <string name="bottom_menu">Bottom menu</string>
     <string name="top_menu">Top bar menu</string>

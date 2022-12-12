@@ -395,6 +395,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), true);
+        boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE), false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
@@ -628,12 +629,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
             }
+            if (displayTranslate) {
+                holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+            }
             //--- ACTIONS ---
             holder.binding.actionButtonBookmark.setChecked(statusToDeal.bookmarked);
             //---> BOOKMARK/UNBOOKMARK
             holder.binding.actionButtonBookmark.setOnLongClickListener(v -> {
                 CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, null, statusToDeal);
                 return true;
+            });
+            holder.binding.actionButtonTranslate.setOnClickListener(v -> {
+                translate(context, statusToDeal, holder, adapter);
             });
             holder.binding.actionButtonBookmark.setOnClickListener(v -> {
                 if (remote) {
@@ -887,6 +896,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
+
+        holder.binding.actionButtonTranslate.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonTranslate.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonTranslate.requestLayout();
+
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
@@ -1676,41 +1690,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }));
                     builderInner.show();
                 } else if (itemId == R.id.action_translate) {
-                    MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-                    final MyTransL myTransL = MyTransL.getInstance(et);
-                    myTransL.setObfuscation(true);
-                    Params params = new Params();
-                    params.setSplit_sentences(false);
-                    params.setFormat(Params.fType.TEXT);
-                    params.setSource_lang("auto");
-                    myTransL.setLibretranslateDomain("translate.fedilab.app");
-                    String statusToTranslate;
-                    String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-                    if (translate != null && translate.equalsIgnoreCase("default")) {
-                        translate = MyTransL.getLocale();
-                    }
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                    else
-                        statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
-                    myTransL.translate(statusToTranslate, translate, params, new Results() {
-                        @Override
-                        public void onSuccess(Translate translate) {
-                            if (translate.getTranslatedContent() != null) {
-                                statusToDeal.translationShown = true;
-                                statusToDeal.translationContent = translate.getTranslatedContent();
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            } else {
-                                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(HttpsConnectionException httpsConnectionException) {
-
-                        }
-                    });
+                    translate(context, statusToDeal, holder, adapter);
                     return true;
                 } else if (itemId == R.id.action_report) {
                     Intent intent = new Intent(context, ReportActivity.class);
@@ -1918,6 +1898,46 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private static void translate(Context context, Status statusToDeal,
+                                  StatusViewHolder holder,
+                                  RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+        MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
+        final MyTransL myTransL = MyTransL.getInstance(et);
+        myTransL.setObfuscation(true);
+        Params params = new Params();
+        params.setSplit_sentences(false);
+        params.setFormat(Params.fType.TEXT);
+        params.setSource_lang("auto");
+        myTransL.setLibretranslateDomain("translate.fedilab.app");
+        String statusToTranslate;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+        if (translate != null && translate.equalsIgnoreCase("default")) {
+            translate = MyTransL.getLocale();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+        else
+            statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
+        myTransL.translate(statusToTranslate, translate, params, new Results() {
+            @Override
+            public void onSuccess(Translate translate) {
+                if (translate.getTranslatedContent() != null) {
+                    statusToDeal.translationShown = true;
+                    statusToDeal.translationContent = translate.getTranslatedContent();
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                } else {
+                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFail(HttpsConnectionException httpsConnectionException) {
+
+            }
+        });
+    }
 
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
@@ -2207,6 +2227,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.actionButtonTranslate, theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);

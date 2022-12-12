@@ -659,7 +659,7 @@
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_translate"
                 app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
@@ -676,11 +676,29 @@
 
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_button_translate"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:clickable="true"
+                android:contentDescription="@string/translate"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_translate_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_add_custom_emoji"
                 style="@style/Widget.Material3.Button.IconButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/status_emoji"
-                app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                app:layout_constraintStart_toEndOf="@+id/action_button_translate"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
