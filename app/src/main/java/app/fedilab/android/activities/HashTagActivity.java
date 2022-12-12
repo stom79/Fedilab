@@ -57,6 +57,7 @@ public class HashTagActivity extends BaseActivity {
 
     public static int position;
     private String tag;
+    private String stripTag;
     private Boolean pinnedTag;
     private Boolean followedTag;
     private Boolean mutedTag;
@@ -82,6 +83,7 @@ public class HashTagActivity extends BaseActivity {
         pinnedTag = null;
         followedTag = null;
         mutedTag = null;
+        stripTag = tag.replaceAll("#", "");
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         //Remove title
@@ -95,7 +97,7 @@ public class HashTagActivity extends BaseActivity {
         }
 
         tagVM = new ViewModelProvider(HashTagActivity.this).get(TagVM.class);
-        tagVM.getTag(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+        tagVM.getTag(MainActivity.currentInstance, MainActivity.currentToken, stripTag).observe(this, returnedTag -> {
             if (returnedTag != null) {
                 followedTag = returnedTag.following;
                 invalidateOptionsMenu();
@@ -109,7 +111,7 @@ public class HashTagActivity extends BaseActivity {
                 if (pinned.pinnedTimelines != null) {
                     for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                         if (pinnedTimeline.tagTimeline != null) {
-                            if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(tag)) {
+                            if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(stripTag)) {
                                 this.pinnedTimeline = pinnedTimeline;
                                 pinnedTag = true;
                                 break;
@@ -147,12 +149,12 @@ public class HashTagActivity extends BaseActivity {
             Intent intentToot = new Intent(HashTagActivity.this, ComposeActivity.class);
             StatusDraft statusDraft = new StatusDraft();
             Status status = new Status();
-            status.text = "#" + tag;
+            status.text = "#" + stripTag;
             List<Status> statuses = new ArrayList<>();
             statuses.add(status);
             statusDraft.statusDraftList = statuses;
             Bundle _b = new Bundle();
-            _b.putSerializable(Helper.ARG_TAG_TIMELINE, statusDraft);
+            _b.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
             intentToot.putExtras(_b);
             startActivity(intentToot);
         });
@@ -199,7 +201,7 @@ public class HashTagActivity extends BaseActivity {
                         } else {
                             for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                                 if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
-                                    if (pinnedTimeline.tagTimeline.name.compareTo(tag.trim()) == 0) {
+                                    if (pinnedTimeline.tagTimeline.name.compareTo(stripTag.trim()) == 0) {
                                         canBeAdded = false;
                                     }
                                 }
@@ -216,7 +218,7 @@ public class HashTagActivity extends BaseActivity {
                         pinnedTimeline.position = pinned.pinnedTimelines.size();
                         pinnedTimeline.displayed = true;
                         TagTimeline tagTimeline = new TagTimeline();
-                        tagTimeline.name = tag.trim();
+                        tagTimeline.name = stripTag.trim();
                         tagTimeline.isNSFW = false;
                         tagTimeline.isART = false;
                         pinnedTimeline.tagTimeline = tagTimeline;
@@ -240,14 +242,14 @@ public class HashTagActivity extends BaseActivity {
             }
         } else if (item.getItemId() == R.id.action_follow_tag) {
             if (!followedTag) {
-                tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+                tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, stripTag).observe(this, returnedTag -> {
                     if (returnedTag != null) {
                         followedTag = returnedTag.following;
                         invalidateOptionsMenu();
                     }
                 });
             } else {
-                tagVM.unfollow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+                tagVM.unfollow(MainActivity.currentInstance, MainActivity.currentToken, stripTag).observe(this, returnedTag -> {
                     if (returnedTag != null) {
                         followedTag = returnedTag.following;
                         invalidateOptionsMenu();
