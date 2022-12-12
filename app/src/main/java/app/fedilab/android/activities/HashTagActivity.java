@@ -26,6 +26,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -56,11 +57,14 @@ public class HashTagActivity extends BaseActivity {
 
     public static int position;
     private String tag;
-    private boolean pinnedTag;
-    private boolean followedTag;
-    private boolean mutedTag;
+    private Boolean pinnedTag;
+    private Boolean followedTag;
+    private Boolean mutedTag;
     private TagVM tagVM;
     private Filter fedilabFilter;
+    private Filter.KeywordsAttributes keyword;
+    private PinnedTimeline pinnedTimeline;
+    private Pinned pinned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +79,9 @@ public class HashTagActivity extends BaseActivity {
         }
         if (tag == null)
             finish();
-        pinnedTag = false;
-        followedTag = false;
-        mutedTag = false;
+        pinnedTag = null;
+        followedTag = null;
+        mutedTag = null;
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         //Remove title
@@ -100,19 +104,24 @@ public class HashTagActivity extends BaseActivity {
         ReorderVM reorderVM = new ViewModelProvider(HashTagActivity.this).get(ReorderVM.class);
         reorderVM.getAllPinned().observe(HashTagActivity.this, pinned -> {
             if (pinned != null) {
+                this.pinned = pinned;
+                pinnedTag = false;
                 if (pinned.pinnedTimelines != null) {
                     for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                         if (pinnedTimeline.tagTimeline != null) {
                             if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(tag)) {
+                                this.pinnedTimeline = pinnedTimeline;
                                 pinnedTag = true;
-                                invalidateOptionsMenu();
+                                break;
                             }
                         }
                     }
+                    invalidateOptionsMenu();
                 }
             }
         });
         if (MainActivity.filterFetched && MainActivity.mainFilters != null) {
+            mutedTag = false;
             for (Filter filter : MainActivity.mainFilters) {
                 if (filter.title.equalsIgnoreCase(Helper.FEDILAB_MUTED_HASHTAGS)) {
                     fedilabFilter = filter;
@@ -120,17 +129,14 @@ public class HashTagActivity extends BaseActivity {
                     for (Filter.KeywordsAttributes keywordsAttributes : filter.keywords) {
                         if (fetch.equalsIgnoreCase(keywordsAttributes.keyword)) {
                             mutedTag = true;
+                            keyword = keywordsAttributes;
                             invalidateOptionsMenu();
                             break;
                         }
                     }
-                    mutedTag = false;
-                    invalidateOptionsMenu();
-                    break;
                 }
             }
-        } else {
-            mutedTag = true;
+            invalidateOptionsMenu();
         }
 
         Bundle bundle = new Bundle();
@@ -158,94 +164,148 @@ public class HashTagActivity extends BaseActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_add_timeline) {
-            new Thread(() -> {
-                try {
-                    Pinned pinned = new Pinned(HashTagActivity.this).getPinned(currentAccount);
-                    boolean canBeAdded = true;
-                    boolean update = true;
-                    if (pinned == null) {
-                        pinned = new Pinned();
-                        pinned.pinnedTimelines = new ArrayList<>();
-                        update = false;
-                    } else {
-                        for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                            if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
-                                if (pinnedTimeline.tagTimeline.name.compareTo(tag.trim()) == 0) {
-                                    canBeAdded = false;
-                                }
-                            }
-                        }
-                    }
-                    if (!canBeAdded) {
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> Toasty.warning(HashTagActivity.this, getString(R.string.tags_already_stored), Toasty.LENGTH_SHORT).show();
-                        mainHandler.post(myRunnable);
-                        return;
-                    }
-                    PinnedTimeline pinnedTimeline = new PinnedTimeline();
-                    pinnedTimeline.type = Timeline.TimeLineEnum.TAG;
-                    pinnedTimeline.position = pinned.pinnedTimelines.size();
-                    pinnedTimeline.displayed = true;
-                    TagTimeline tagTimeline = new TagTimeline();
-                    tagTimeline.name = tag.trim();
-                    tagTimeline.isNSFW = false;
-                    tagTimeline.isART = false;
-                    pinnedTimeline.tagTimeline = tagTimeline;
-                    pinned.pinnedTimelines.add(pinnedTimeline);
-                    if (update) {
+
+            if (pinnedTag) {
+                AlertDialog.Builder unpinConfirm = new AlertDialog.Builder(HashTagActivity.this, Helper.dialogStyle());
+                unpinConfirm.setMessage(getString(R.string.unpin_timeline_description));
+                unpinConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                unpinConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    pinned.pinnedTimelines.remove(pinnedTimeline);
+                    try {
                         new Pinned(HashTagActivity.this).updatePinned(pinned);
-                    } else {
-                        new Pinned(HashTagActivity.this).insertPinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
                     }
+                    pinnedTag = false;
+                    invalidateOptionsMenu();
                     Bundle b = new Bundle();
                     b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                     intentBD.putExtras(b);
                     LocalBroadcastManager.getInstance(HashTagActivity.this).sendBroadcast(intentBD);
-                    pinnedTag = true;
-                    invalidateOptionsMenu();
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+                    dialog.dismiss();
+                });
+                unpinConfirm.show();
+            } else {
+                new Thread(() -> {
+                    try {
+                        Pinned pinned = new Pinned(HashTagActivity.this).getPinned(currentAccount);
+                        boolean canBeAdded = true;
+                        boolean update = true;
+                        if (pinned == null) {
+                            pinned = new Pinned();
+                            pinned.pinnedTimelines = new ArrayList<>();
+                            update = false;
+                        } else {
+                            for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                                if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
+                                    if (pinnedTimeline.tagTimeline.name.compareTo(tag.trim()) == 0) {
+                                        canBeAdded = false;
+                                    }
+                                }
+                            }
+                        }
+                        if (!canBeAdded) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> Toasty.warning(HashTagActivity.this, getString(R.string.tags_already_stored), Toasty.LENGTH_SHORT).show();
+                            mainHandler.post(myRunnable);
+                            return;
+                        }
+                        pinnedTimeline = new PinnedTimeline();
+                        pinnedTimeline.type = Timeline.TimeLineEnum.TAG;
+                        pinnedTimeline.position = pinned.pinnedTimelines.size();
+                        pinnedTimeline.displayed = true;
+                        TagTimeline tagTimeline = new TagTimeline();
+                        tagTimeline.name = tag.trim();
+                        tagTimeline.isNSFW = false;
+                        tagTimeline.isART = false;
+                        pinnedTimeline.tagTimeline = tagTimeline;
+                        pinned.pinnedTimelines.add(pinnedTimeline);
+                        if (update) {
+                            new Pinned(HashTagActivity.this).updatePinned(pinned);
+                        } else {
+                            new Pinned(HashTagActivity.this).insertPinned(pinned);
+                        }
+                        Bundle b = new Bundle();
+                        b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+                        intentBD.putExtras(b);
+                        LocalBroadcastManager.getInstance(HashTagActivity.this).sendBroadcast(intentBD);
+                        pinnedTag = true;
+                        invalidateOptionsMenu();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
         } else if (item.getItemId() == R.id.action_follow_tag) {
-            tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
-                if (returnedTag != null) {
-                    followedTag = returnedTag.following;
-                    invalidateOptionsMenu();
-                }
-            });
+            if (!followedTag) {
+                tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+                    if (returnedTag != null) {
+                        followedTag = returnedTag.following;
+                        invalidateOptionsMenu();
+                    }
+                });
+            } else {
+                tagVM.unfollow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe(this, returnedTag -> {
+                    if (returnedTag != null) {
+                        followedTag = returnedTag.following;
+                        invalidateOptionsMenu();
+                    }
+                });
+            }
         } else if (item.getItemId() == R.id.action_mute) {
 
-            if (MainActivity.mainFilters == null || fedilabFilter == null) {
-                MainActivity.mainFilters = new ArrayList<>();
-                Filter.FilterParams filterParams = new Filter.FilterParams();
-                filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
-                filterParams.filter_action = "hide";
-                filterParams.context = new ArrayList<>();
-                filterParams.context.add("home");
-                filterParams.context.add("public");
-                filterParams.context.add("thread");
-                filterParams.context.add("account");
-                String finalTag = tag;
-                FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
-                filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
-                        .observe(HashTagActivity.this, filter -> {
-                            if (filter != null) {
-                                MainActivity.mainFilters.add(filter);
-                                mutedTag = false;
-                                fedilabFilter = filter;
-                                muteTags();
-                                invalidateOptionsMenu();
-                            }
-                        });
+            if (!mutedTag) {
+                if (MainActivity.mainFilters == null || fedilabFilter == null) {
+                    MainActivity.mainFilters = new ArrayList<>();
+                    Filter.FilterParams filterParams = new Filter.FilterParams();
+                    filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
+                    filterParams.filter_action = "hide";
+                    filterParams.context = new ArrayList<>();
+                    filterParams.context.add("home");
+                    filterParams.context.add("public");
+                    filterParams.context.add("thread");
+                    filterParams.context.add("account");
+                    FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
+                    filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                            .observe(HashTagActivity.this, filter -> {
+                                if (filter != null) {
+                                    MainActivity.mainFilters.add(filter);
+                                    mutedTag = false;
+                                    fedilabFilter = filter;
+                                    muteTags();
+                                    invalidateOptionsMenu();
+                                }
+                            });
+                } else {
+                    muteTags();
+                }
             } else {
-                muteTags();
+                unmuteTags();
             }
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void unmuteTags() {
+        String search = tag.startsWith("#") ? tag : "#" + tag;
+        for (Filter.KeywordsAttributes keywordsAttributes : fedilabFilter.keywords) {
+            if (search.equalsIgnoreCase(keywordsAttributes.keyword)) {
+                keyword = keywordsAttributes;
+                break;
+            }
+        }
+        if (keyword != null && keyword.id != null) {
+            FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
+            filtersVM.removeKeyword(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, keyword.id);
+            fedilabFilter.keywords.remove(keyword);
+            mutedTag = false;
+            invalidateOptionsMenu();
+        }
     }
 
 
@@ -261,6 +321,7 @@ public class HashTagActivity extends BaseActivity {
         FiltersVM filtersVM = new ViewModelProvider(HashTagActivity.this).get(FiltersVM.class);
         filtersVM.editFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
                 .observe(HashTagActivity.this, filter -> {
+                    fedilabFilter = filter;
                     mutedTag = true;
                     invalidateOptionsMenu();
                 });
@@ -272,13 +333,42 @@ public class HashTagActivity extends BaseActivity {
         MenuItem pin = menu.findItem(R.id.action_add_timeline);
         MenuItem follow = menu.findItem(R.id.action_follow_tag);
         MenuItem mute = menu.findItem(R.id.action_mute);
-        if (pinnedTag && pin != null) {
+        if (pinnedTag != null) {
+            pin.setVisible(true);
+            if (pinnedTag) {
+                pin.setIcon(R.drawable.tag_pin_off);
+                pin.setTitle(getString(R.string.unpin_tag));
+            } else {
+                pin.setTitle(getString(R.string.unpin_tag));
+                pin.setIcon(R.drawable.tag_pin);
+            }
+        } else {
             pin.setVisible(false);
         }
-        if (followedTag && follow != null) {
+        if (followedTag != null) {
+            follow.setVisible(true);
+            if (followedTag) {
+                follow.setTitle(getString(R.string.unfollow_tag));
+                follow.setIcon(R.drawable.tag_unfollow);
+            } else {
+                follow.setTitle(getString(R.string.follow_tag));
+                follow.setIcon(R.drawable.tag_follow);
+            }
+        } else {
             follow.setVisible(false);
         }
-        mute.setVisible(!mutedTag);
+        if (mutedTag != null) {
+            mute.setVisible(true);
+            if (mutedTag) {
+                mute.setTitle(getString(R.string.unmute_tag_action));
+                mute.setIcon(R.drawable.tag_unmuted);
+            } else {
+                mute.setTitle(getString(R.string.mute_tag_action));
+                mute.setIcon(R.drawable.tag_muted);
+            }
+        } else {
+            mute.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -212,4 +212,24 @@ public class FiltersVM extends AndroidViewModel {
         }).start();
     }
 
+
+    /**
+     * Remove a filter
+     *
+     * @param id ID of the filter
+     */
+    public void removeKeyword(@NonNull String instance, String token, @NonNull String id) {
+        MastodonFiltersService mastodonAccountsService = initV2(instance);
+        new Thread(() -> {
+            Call<Void> removeFilterCall = mastodonAccountsService.removeKeywordFilter(token, id);
+            if (removeFilterCall != null) {
+                try {
+                    removeFilterCall.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
 }

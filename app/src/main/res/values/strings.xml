@@ -2052,4 +2052,9 @@
     <string name="toast_try_later">Please, try again later.</string>
     <string name="toast_on_your_instance">The conversation started on your instance!</string>
     <string name="toast_error_fetch_message">The app didn\'t find the remote message.</string>
+    <string name="mute_tag_action">Mute tag</string>
+    <string name="unmute_tag_action">Unmute tag</string>
+    <string name="pin_tag">Pin tag</string>
+    <string name="unpin_tag">Unpin tag</string>
+    <string name="unfollow_tag">Unfollow tag</string>
 </resources>

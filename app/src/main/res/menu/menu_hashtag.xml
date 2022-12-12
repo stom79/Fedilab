@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_follow_tag"
-        android:icon="@drawable/ic_baseline_post_add_24"
+        android:icon="@drawable/tag_follow"
         android:title="@string/follow_tag"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add_timeline"
-        android:icon="@drawable/ic_baseline_add_24"
-        android:title="@string/add_instances"
+        android:icon="@drawable/tag_pin"
+        android:title="@string/pin_tag"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mute"
-        android:icon="@drawable/ic_baseline_volume_mute_24"
-        android:title="@string/mute_tag"
+        android:icon="@drawable/tag_muted"
+        android:title="@string/mute_tag_action"
         app:showAsAction="ifRoom" />
 </menu>

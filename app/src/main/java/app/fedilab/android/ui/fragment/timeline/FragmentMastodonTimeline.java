@@ -361,7 +361,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineType != null) {
             slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
-
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
