@@ -869,7 +869,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusList.get(currentCursorPosition).text = String.format("@%s %s", acct, statusList.get(currentCursorPosition).text);
                 }
             } else {
-                statusList.get(currentCursorPosition).text = statusList.get(currentCursorPosition).text.replaceAll("\\b@" + acct, "");
+                statusList.get(currentCursorPosition).text = statusList.get(currentCursorPosition).text.replaceAll("@" + acct, "");
             }
             notifyItemChanged(currentCursorPosition);
         }
