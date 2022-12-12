@@ -345,6 +345,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 route(null, false);
             }
         }
+        if (notificationList != null && notificationList.size() > 0) {
+            route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
+        }
     }
 
     /**
