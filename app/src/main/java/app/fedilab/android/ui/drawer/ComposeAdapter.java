@@ -142,6 +142,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Emoji> emojisList = new ArrayList<>();
     public promptDraftListener promptDraftListener;
     private boolean unlisted_changed = false;
+    public static int currentCursorPosition;
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
@@ -298,6 +299,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             holder.binding.content.requestFocus();
         }
+
     }
 
     public void setStatusCount(int count) {
@@ -852,19 +854,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     //It only targets last message in a thread
     //Return content of last compose message
     public String getLastComposeContent() {
-        return statusList.get(statusList.size() - 1).text != null ? statusList.get(statusList.size() - 1).text : "";
+        return statusList.get(currentCursorPosition).text != null ? statusList.get(currentCursorPosition).text : "";
     }
     //------- end contact ----->
 
     //Used to write contact when composing
     public void updateContent(boolean checked, String acct) {
-        if (checked) {
-            if (!statusList.get(statusList.size() - 1).text.contains(acct))
-                statusList.get(statusList.size() - 1).text = String.format("%s %s", acct, statusList.get(statusList.size() - 1).text);
-        } else {
-            statusList.get(statusList.size() - 1).text = statusList.get(statusList.size() - 1).text.replaceAll("\\s*" + acct, "");
+        if (currentCursorPosition < statusList.size()) {
+            if (checked) {
+                if (statusList.get(currentCursorPosition).text == null) {
+                    statusList.get(currentCursorPosition).text = "";
+                }
+                if (!statusList.get(currentCursorPosition).text.contains(acct)) {
+                    statusList.get(currentCursorPosition).text = String.format("@%s %s", acct, statusList.get(currentCursorPosition).text);
+                }
+            } else {
+                statusList.get(currentCursorPosition).text = statusList.get(currentCursorPosition).text.replaceAll("\\b@" + acct, "");
+            }
+            notifyItemChanged(currentCursorPosition);
         }
-        notifyItemChanged(statusList.size() - 1);
     }
 
     //Put cursor to the end after changing contacts
@@ -1314,6 +1322,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     List<Uri> uris = new ArrayList<>();
                     uris.add(uri);
                     addAttachment(position, uris);
+                }
+            });
+            holder.binding.content.setOnFocusChangeListener((view, focused) -> {
+                if (focused) {
+                    currentCursorPosition = position;
                 }
             });
             if (statusDraft.cursorPosition <= holder.binding.content.length()) {

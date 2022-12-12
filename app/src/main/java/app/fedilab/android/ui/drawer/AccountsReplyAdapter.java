@@ -34,7 +34,6 @@ public class AccountsReplyAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final boolean[] checked;
     public ActionDone actionDone;
 
-
     public AccountsReplyAdapter(List<Account> accounts, List<Boolean> checked) {
         this.accounts = accounts;
         this.checked = new boolean[checked.size()];
