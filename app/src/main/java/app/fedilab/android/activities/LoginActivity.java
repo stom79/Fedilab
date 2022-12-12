@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
     public static boolean requestedAdmin;
 
     @SuppressLint("ApplySharedPref")
-    public static void proceedLogin(Activity activity, Account account) {
+    public void proceedLogin(Activity activity, Account account) {
         new Thread(() -> {
             try {
                 //update the database
@@ -74,8 +74,8 @@ public class LoginActivity extends BaseActivity {
                 //The user is now authenticated, it will be redirected to MainActivity
                 Runnable myRunnable = () -> {
                     Intent mainActivity = new Intent(activity, MainActivity.class);
-                    activity.startActivity(mainActivity);
-                    activity.finish();
+                    startActivity(mainActivity);
+                    finish();
                 };
                 mainHandler.post(myRunnable);
             } catch (DBException e) {
