@@ -914,4 +914,5 @@
     <string name="toast_error_fetch_message">Aplikace nenašla vzdálenou zprávu.</string>
     <string name="pref_contributor_summary">Výběr z témat vytvořených přispěvateli</string>
     <string name="toast_try_later">Zkuste to prosím znovu.</string>
+    <string name="set_your_max_char_count">Nastavte svůj max. počet znaků</string>
 </resources>
