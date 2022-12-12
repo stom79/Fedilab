@@ -19,8 +19,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,6 +77,9 @@ public class BaseAlertDialogActivity extends AppCompatActivity {
                             setTheme(R.style.SolarizedAlertDialog);
                             break;
                         case "BLACK":
+                            Window window = getWindow();
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(Color.BLACK);
                             setTheme(R.style.BlackAlertDialog);
                             break;
                         case "DRACULA":
@@ -102,6 +108,9 @@ public class BaseAlertDialogActivity extends AppCompatActivity {
                     break;
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    Window window = getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(Color.BLACK);
                     setTheme(R.style.BlackAlertDialog);
                     break;
                 case "DRACULA":
