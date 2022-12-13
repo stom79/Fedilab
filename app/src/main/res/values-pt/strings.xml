@@ -313,10 +313,12 @@
     <string name="channel_notif_media">Baixar mídia</string>
     <string name="select_sound">Selecionar toque</string>
     <string name="set_enable_time_slot">Ativar definição de momento</string>
-    <string name="block_domain_confirm_message">Tem certeza de que quer bloquear %s?\n\nSeus seguidores desta instância serão removidos, e você não verá nenhum conteúdo ou notificação desta instância.</string>
+    <string name="block_domain_confirm_message">Tem certeza que deseja bloquear %s\?
+\n
+\nVocê não verá nenhum conteúdo dessa instância em nenhuma linha do tempo pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
     <string name="block_domain">Bloquear instância</string>
-    <string name="toast_block_domain">Instância bloqueada!</string>
-    <string name="retrieve_remote_status">Carregando toot remoto!</string>
+    <string name="toast_block_domain">Instância bloqueada</string>
+    <string name="retrieve_remote_status">Obtendo status remoto</string>
     <string name="peertube_instance">Instância Peertube</string>
     <string name="set_display_emoji">Usar Emoji One</string>
     <string name="information">Informação</string>
@@ -635,4 +637,5 @@
     <string name="report_indication_title_status">Diga-nos o que está havendo com este post</string>
     <string name="add_status">Adicionar status</string>
     <string name="post_message_text">Enviando mensagem %d/%d</string>
+    <string name="channel_notif_update">Nova atualização</string>
 </resources>

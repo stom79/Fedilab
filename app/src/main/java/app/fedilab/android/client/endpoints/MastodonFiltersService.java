@@ -96,7 +96,7 @@ public interface MastodonFiltersService {
     );
 
     //Remove a keyword for a filter
-    @DELETE("filter_keywords/{id}")
+    @DELETE("filters/keywords/{id}")
     Call<Void> removeKeywordFilter(
             @Header("Authorization") String token,
             @Path("id") String id

@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
     public static boolean requestedAdmin;
 
     @SuppressLint("ApplySharedPref")
-    public static void proceedLogin(Activity activity, Account account) {
+    public void proceedLogin(Activity activity, Account account) {
         new Thread(() -> {
             try {
                 //update the database
@@ -74,8 +74,8 @@ public class LoginActivity extends BaseActivity {
                 //The user is now authenticated, it will be redirected to MainActivity
                 Runnable myRunnable = () -> {
                     Intent mainActivity = new Intent(activity, MainActivity.class);
-                    activity.startActivity(mainActivity);
-                    activity.finish();
+                    startActivity(mainActivity);
+                    finish();
                 };
                 mainHandler.post(myRunnable);
             } catch (DBException e) {
@@ -111,18 +111,23 @@ public class LoginActivity extends BaseActivity {
                             //API call to retrieve account information for the new token
                             AccountsVM accountsVM = new ViewModelProvider(LoginActivity.this).get(AccountsVM.class);
                             accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
-                                account.mastodon_account = mastodonAccount;
-                                account.user_id = mastodonAccount.id;
-                                //We check if user have really moderator rights
-                                if (requestedAdmin) {
-                                    AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
-                                    adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
-                                        account.admin = adminAccount != null;
+                                if (mastodonAccount != null) {
+                                    account.mastodon_account = mastodonAccount;
+                                    account.user_id = mastodonAccount.id;
+                                    //We check if user have really moderator rights
+                                    if (requestedAdmin) {
+                                        AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
+                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
+                                            account.admin = adminAccount != null;
+                                            proceedLogin(LoginActivity.this, account);
+                                        });
+                                    } else {
                                         proceedLogin(LoginActivity.this, account);
-                                    });
+                                    }
                                 } else {
-                                    proceedLogin(LoginActivity.this, account);
+                                    Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
                                 }
+
                             });
                         } else {
                             Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();

@@ -534,7 +534,7 @@
     <string name="make_an_action">Bir eylem yap</string>
     <string name="translation">Çeviri</string>
     <string name="text_color_title">Metin rengi</string>
-    <string name="text_color">İçeriklerdeki metin rengini değiştir</string>
+    <string name="text_color">Mesajlardaki metin rengini değiştir</string>
     <string name="pref_custom_theme">Kişisel tema kullan</string>
     <string name="theming">Tema</string>
     <string name="data_export_theme">Tema dışa aktarıldı</string>
@@ -907,4 +907,23 @@
     <string name="type_default_theme_dark">Öntanımlı koyu tema</string>
     <string name="type_of_theme">Tema için bir mod seçin</string>
     <string name="set_dynamic_color_indication">Kişisel duvar kağıdınızın renk düzeniyle ton olarak uyum sağlayın.</string>
+    <string name="set_cardview">Yükseltilmiş kartlar</string>
+    <string name="set_custom_colors">Özel renkler ayarla</string>
+    <string name="cark_custom_colors">Koyu - Özel renkler</string>
+    <string name="set_cardview_indication">Etkinleştirildiğinde, zaman çizelgelerindeki ögelerin bir gölgesi ve bir yüksekliği olacaktır.</string>
+    <string name="set_customize_dark_indication">Koyu tema için mesajlardaki bazı ögeleri özelleştirmeye izin verir.</string>
+    <string name="set_customize_light">Açık Temayı Özelleştir</string>
+    <string name="set_customize_light_indication">Açık tema için mesajlardaki bazı ögeleri özelleştirmeye izin verir.</string>
+    <string name="set_customize_dark">Koyu Temayı Özelleştir</string>
+    <string name="light_custom_colors">Açık - Özel renkler</string>
+    <string name="display_remote_conversation">Uzak görüşmeyi göster</string>
+    <string name="toast_on_your_instance">Görüşme sizin sunucunuzda başladı!</string>
+    <string name="toast_try_later">Lütfen daha sonra tekrar deneyin.</string>
+    <string name="toast_error_fetch_message">Uygulama uzak mesajı bulamadı.</string>
+    <string name="mute_tag_action">Etiketi sessize al</string>
+    <string name="unpin_tag">Etiketin sabitlemesini kaldır</string>
+    <string name="set_display_translate_indication">Her zaman çevir düğmesini göster</string>
+    <string name="unmute_tag_action">Etiketin sesini aç</string>
+    <string name="pin_tag">Etiketi sabitle</string>
+    <string name="unfollow_tag">Etiketi takibi bırak</string>
 </resources>

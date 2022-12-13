@@ -32,10 +32,10 @@
     <string name="text_size">Szöveg és ikon méret</string>
     <string name="next">Következő</string>
     <string name="previous">Előző</string>
-    <string name="open_with">Megnyitás a következővel:</string>
+    <string name="open_with">Megnyitás a következővel</string>
     <string name="validate">Jóváhagyás</string>
     <string name="media">Média</string>
-    <string name="share_with">Megosztás a következővel:</string>
+    <string name="share_with">Megosztás a következővel</string>
     <string name="shared_via">Megosztva a Fedilabon keresztül</string>
     <string name="replies">Válaszok</string>
     <string name="username">Felhasználónév</string>
@@ -207,8 +207,8 @@
     <string name="set_lock_account">Fiók zárolása</string>
     <string name="set_save_changes">Változások mentése</string>
     <string name="set_fit_preview">Előnézeti képek méretre szabása</string>
-    <string name="settings_time_from">Kezdet:</string>
-    <string name="settings_time_to">Befejezés:</string>
+    <string name="settings_time_from">Kezdet</string>
+    <string name="settings_time_to">Befejezés</string>
     <string name="embedded_browser">Beépített böngésző használata</string>
     <string name="custom_tabs">Egyéni lapok</string>
     <string name="expand_cw">cw automatikus kibontása</string>

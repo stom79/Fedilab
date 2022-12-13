@@ -43,6 +43,13 @@
         app:title="@string/set_display_bookmark_indication" />
 
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_TRANSLATE"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_translate_indication" />
+
+    <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_AGGREGATE_NOTIFICATION"

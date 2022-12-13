@@ -395,6 +395,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), true);
+        boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE), false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
@@ -628,12 +629,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
             }
+            if (displayTranslate) {
+                holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+            }
             //--- ACTIONS ---
             holder.binding.actionButtonBookmark.setChecked(statusToDeal.bookmarked);
             //---> BOOKMARK/UNBOOKMARK
             holder.binding.actionButtonBookmark.setOnLongClickListener(v -> {
                 CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, null, statusToDeal);
                 return true;
+            });
+            holder.binding.actionButtonTranslate.setOnClickListener(v -> {
+                translate(context, statusToDeal, holder, adapter);
             });
             holder.binding.actionButtonBookmark.setOnClickListener(v -> {
                 if (remote) {
@@ -887,6 +896,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
+
+        holder.binding.actionButtonTranslate.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonTranslate.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonTranslate.requestLayout();
+
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
@@ -1453,25 +1467,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     return;
                 }
-                if (context instanceof ContextActivity) {
+                if (context instanceof ContextActivity && !remote) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Helper.ARG_STATUS, statusToDeal);
                     Fragment fragment = Helper.addFragment(((AppCompatActivity) context).getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, FragmentMastodonContext.class.getName());
                     ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
                 } else {
                     if (remote) {
-                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                                .observe((LifecycleOwner) context, results -> {
-                                    if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = results.statuses.get(0);
-                                        Intent intent = new Intent(context, ContextActivity.class);
-                                        intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
-                                        context.startActivity(intent);
-                                    } else {
-                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                                    }
-                                });
+                        if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
+                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                    .observe((LifecycleOwner) context, results -> {
+                                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                            Status fetchedStatus = results.statuses.get(0);
+                                            Intent intent = new Intent(context, ContextActivity.class);
+                                            intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
+                                            context.startActivity(intent);
+                                        } else {
+                                            Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
                     } else {
                         Intent intent = new Intent(context, ContextActivity.class);
                         intent.putExtra(Helper.ARG_STATUS, statusToDeal);
@@ -1674,41 +1690,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }));
                     builderInner.show();
                 } else if (itemId == R.id.action_translate) {
-                    MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-                    final MyTransL myTransL = MyTransL.getInstance(et);
-                    myTransL.setObfuscation(true);
-                    Params params = new Params();
-                    params.setSplit_sentences(false);
-                    params.setFormat(Params.fType.TEXT);
-                    params.setSource_lang("auto");
-                    myTransL.setLibretranslateDomain("translate.fedilab.app");
-                    String statusToTranslate;
-                    String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-                    if (translate != null && translate.equalsIgnoreCase("default")) {
-                        translate = MyTransL.getLocale();
-                    }
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                    else
-                        statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
-                    myTransL.translate(statusToTranslate, translate, params, new Results() {
-                        @Override
-                        public void onSuccess(Translate translate) {
-                            if (translate.getTranslatedContent() != null) {
-                                statusToDeal.translationShown = true;
-                                statusToDeal.translationContent = translate.getTranslatedContent();
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            } else {
-                                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(HttpsConnectionException httpsConnectionException) {
-
-                        }
-                    });
+                    translate(context, statusToDeal, holder, adapter);
                     return true;
                 } else if (itemId == R.id.action_report) {
                     Intent intent = new Intent(context, ReportActivity.class);
@@ -1916,6 +1898,56 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private static void translate(Context context, Status statusToDeal,
+                                  StatusViewHolder holder,
+                                  RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+        String statusToTranslate;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+        else
+            statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
+
+        int countMorseChar = ComposeAdapter.countMorseChar(statusToTranslate);
+        if (countMorseChar < 4) {
+            MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
+            final MyTransL myTransL = MyTransL.getInstance(et);
+            myTransL.setObfuscation(true);
+            Params params = new Params();
+            params.setSplit_sentences(false);
+            params.setFormat(Params.fType.TEXT);
+            params.setSource_lang("auto");
+            myTransL.setLibretranslateDomain("translate.fedilab.app");
+
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+            if (translate != null && translate.equalsIgnoreCase("default")) {
+                translate = MyTransL.getLocale();
+            }
+
+
+            myTransL.translate(statusToTranslate, translate, params, new Results() {
+                @Override
+                public void onSuccess(Translate translate) {
+                    if (translate.getTranslatedContent() != null) {
+                        statusToDeal.translationShown = true;
+                        statusToDeal.translationContent = translate.getTranslatedContent();
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    } else {
+                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFail(HttpsConnectionException httpsConnectionException) {
+
+                }
+            });
+        } else {
+            statusToDeal.translationShown = true;
+            statusToDeal.translationContent = ComposeAdapter.morseToText(statusToTranslate);
+            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+        }
+    }
 
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
@@ -2205,6 +2237,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.actionButtonTranslate, theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
@@ -2265,8 +2298,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
-                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
-                holder.binding.dividerCard.setVisibility(View.GONE);
+                holder.bindingFilteredHide.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.bindingFilteredHide.dividerCard.setVisibility(View.GONE);
             }
             if (status.isFetchMore && fetchMoreCallBack != null) {
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);

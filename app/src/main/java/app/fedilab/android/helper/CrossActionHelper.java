@@ -442,6 +442,44 @@ public class CrossActionHelper {
     /**
      * Fetch and federate the remote status
      */
+    public static void fetchStatusInRemoteInstance(@NonNull Context context, String url, String instance, Callback callback) {
+
+        MastodonSearchService mastodonSearchService = init(context, instance);
+        new Thread(() -> {
+            Call<Results> resultsCall = mastodonSearchService.search(null, url, null, "statuses", null, null, null, null, null, null, null);
+            Results results = null;
+            if (resultsCall != null) {
+                try {
+                    Response<Results> resultsResponse = resultsCall.execute();
+                    if (resultsResponse.isSuccessful()) {
+
+                        results = resultsResponse.body();
+                        if (results != null) {
+                            if (results.statuses == null) {
+                                results.statuses = new ArrayList<>();
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Results finalResults = results;
+            Runnable myRunnable = () -> {
+                if (finalResults != null && finalResults.statuses != null && finalResults.statuses.size() > 0) {
+                    callback.federatedStatus(finalResults.statuses.get(0));
+                }
+            };
+            mainHandler.post(myRunnable);
+
+        }).start();
+    }
+
+
+    /**
+     * Fetch and federate the remote status
+     */
     public static void fetchAccountInRemoteInstance(@NonNull Context context, String acct, String instance, Callback callback) {
 
         MastodonSearchService mastodonSearchService = init(context, instance);

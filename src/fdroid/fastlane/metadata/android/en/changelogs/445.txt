@@ -1,0 +1,11 @@
+Added:
+- Allow to unmute/unfollow/unpin a tag from tag timelines
+- Automatically add the tag when composing from a tag timeline
+- Add a translate button at the bottom of messages (default: disabled)
+- Add account role in profiles
+
+Fixed:
+- Contact not working when composing
+- Status bar for black theme
+- Message duplicated in conversations when edited
+- Color issue on Android 5

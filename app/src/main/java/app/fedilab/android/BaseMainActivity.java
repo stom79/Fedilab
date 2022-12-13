@@ -697,7 +697,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            if (mastodonAccount != null) {
+                            if (mastodonAccount != null && currentAccount != null) {
                                 currentAccount.mastodon_account = mastodonAccount;
                                 displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
                                 new Thread(() -> {
@@ -758,6 +758,57 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
+        //Fetch recent used accounts
+        new Thread(() -> {
+            try {
+                List<BaseAccount> accounts = new Account(BaseMainActivity.this).getLastUsedAccounts();
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    if (accounts != null && accounts.size() > 0) {
+                        Helper.loadPP(this, headerMainBinding.otherAccount1, accounts.get(0));
+                        headerMainBinding.otherAccount1.setVisibility(View.VISIBLE);
+                        headerMainBinding.otherAccount1.setOnClickListener(v -> {
+                            headerMenuOpen = false;
+                            Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance), Toasty.LENGTH_LONG).show();
+                            BaseMainActivity.currentToken = accounts.get(0).token;
+                            BaseMainActivity.currentUserID = accounts.get(0).user_id;
+                            api = accounts.get(0).api;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(PREF_USER_TOKEN, accounts.get(0).token);
+                            editor.commit();
+                            //The user is now aut
+                            //The user is now authenticated, it will be redirected to MainActivity
+                            Intent mainActivity = new Intent(this, MainActivity.class);
+                            startActivity(mainActivity);
+                            finish();
+                        });
+                        if (accounts.size() > 1) {
+                            Helper.loadPP(this, headerMainBinding.otherAccount2, accounts.get(1));
+                            headerMainBinding.otherAccount2.setVisibility(View.VISIBLE);
+                            headerMainBinding.otherAccount2.setOnClickListener(v -> {
+                                headerMenuOpen = false;
+                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance), Toasty.LENGTH_LONG).show();
+                                BaseMainActivity.currentToken = accounts.get(1).token;
+                                BaseMainActivity.currentUserID = accounts.get(1).user_id;
+                                api = accounts.get(1).api;
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString(PREF_USER_TOKEN, accounts.get(1).token);
+                                editor.commit();
+                                //The user is now aut
+                                //The user is now authenticated, it will be redirected to MainActivity
+                                Intent mainActivity = new Intent(this, MainActivity.class);
+                                startActivity(mainActivity);
+                                finish();
+                            });
+                        }
+                    }
+                };
+                mainHandler.post(myRunnable);
+
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     protected abstract void rateThisApp();

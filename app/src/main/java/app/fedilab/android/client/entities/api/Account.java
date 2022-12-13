@@ -73,12 +73,40 @@ public class Account implements Serializable {
     public List<Field> fields;
     @SerializedName("suspended")
     public boolean suspended;
+    @SerializedName("limited")
+    public boolean limited;
     @SerializedName("discoverable")
     public boolean discoverable;
+    @SerializedName("group")
+    public boolean group;
     @SerializedName("mute_expires_at")
     public Date mute_expires_at;
     @SerializedName("moved")
     public Account moved;
+    @SerializedName("role")
+    public Role role;
+
+
+    public static class Role implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("name")
+        public String name;
+        @SerializedName("color")
+        public String color;
+        @SerializedName("position")
+        public int position;
+        @SerializedName("permissions")
+        public int permissions;
+        @SerializedName("highlighted")
+        public boolean highlighted;
+        @SerializedName("created_at")
+        public Date created_at;
+        @SerializedName("updated_at")
+        public Date updated_at;
+    }
+
+
     public transient RelationShip relationShip;
 
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {

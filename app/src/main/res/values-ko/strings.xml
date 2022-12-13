@@ -208,7 +208,7 @@
     <string name="embedded_browser">내장 브라우저 사용</string>
     <string name="custom_tabs">커스텀 탭</string>
     <string name="expand_cw">CW를 자동으로 펼침</string>
-    <string name="set_led_colour">LED 색 설정</string>
+    <string name="set_led_colour">LED 색 설정:</string>
     <string-array name="led_colours">
         <item>파란색</item>
         <item>청록색</item>

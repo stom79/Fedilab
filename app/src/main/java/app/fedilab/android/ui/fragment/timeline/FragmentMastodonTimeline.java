@@ -39,6 +39,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -361,7 +362,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineType != null) {
             slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
-
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -538,6 +538,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         statusAdapter.fetchMoreCallBack = this;
         if (statusReport != null) {
             scrollToTop();
+        }
+        RecyclerView.ItemAnimator animator = binding.recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
         mLayoutManager = new LinearLayoutManager(requireActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

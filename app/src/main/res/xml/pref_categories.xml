@@ -53,12 +53,14 @@
         app:icon="@drawable/ic_theming"
         app:key="@string/pref_category_key_theming" />
 
+    <!--
     <Preference
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:title="@string/administration"
         app:icon="@drawable/ic_admin"
         app:key="@string/pref_category_key_administration" />
+        -->
 
     <Preference
         android:layout_width="match_parent"

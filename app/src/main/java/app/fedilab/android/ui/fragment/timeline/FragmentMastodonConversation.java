@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -261,6 +262,11 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         }
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
+        }
+
+        RecyclerView.ItemAnimator animator = binding.recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);

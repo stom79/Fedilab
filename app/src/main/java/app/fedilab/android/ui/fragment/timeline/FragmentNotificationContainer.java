@@ -212,9 +212,7 @@ public class FragmentNotificationContainer extends Fragment {
                 }
             });
             dialogBuilder.setOnDismissListener(dialogInterface -> doAction(changes.get(), excludedCategoriesList));
-            dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> {
-                dialog.dismiss();
-            });
+            dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();
         });

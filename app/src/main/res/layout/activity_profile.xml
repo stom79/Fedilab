@@ -142,17 +142,38 @@
                     app:layout_constraintTop_toBottomOf="@id/avatar_container"
                     tools:text="@tools:sample/first_names" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/account_un"
-                    style="@style/TextAppearance.AppCompat.Caption"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/account_un_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:singleLine="true"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="@id/banner_container"
                     app:layout_constraintStart_toStartOf="@id/banner_container"
-                    app:layout_constraintTop_toBottomOf="@id/account_dn"
-                    tools:text="\@username\@instance.test" />
+                    app:layout_constraintTop_toBottomOf="@id/account_dn">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/account_un"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        tools:text="\@username\@instance.test" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/account_role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/blue_border"
+                        android:textColor="?colorPrimary"
+                        android:visibility="gone"
+                        tools:text="Owner"
+                        tools:visibility="visible" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/names_container"
@@ -163,7 +184,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_un">
+                    app:layout_constraintTop_toBottomOf="@+id/account_un_container">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"

@@ -598,7 +598,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/action_button_reply"
-                    style="@style/Widget.Material3.Button.IconButton"
+                    android:background="@color/transparent"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -659,7 +659,7 @@
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_translate"
                 app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
@@ -676,11 +676,29 @@
 
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_button_translate"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/translate"
+                android:src="@drawable/ic_baseline_translate_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_add_custom_emoji"
-                style="@style/Widget.Material3.Button.IconButton"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/status_emoji"
-                app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                app:layout_constraintStart_toEndOf="@+id/action_button_translate"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -695,7 +713,7 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/status_emoji"
-                style="@style/Widget.Material3.Button.IconButton"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_more"
                 app:layout_constraintStart_toEndOf="@+id/status_add_custom_emoji"
@@ -713,7 +731,7 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/action_button_more"
-                style="@style/Widget.Material3.Button.IconButton"
+                android:background="@color/transparent"
                 android:layout_gravity="center|end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

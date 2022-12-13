@@ -188,6 +188,30 @@ public class ProfileActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(ProfileActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
     }
 
+
+    private void updateViewWithNewData(Account account) {
+        if (account != null) {
+            if (account.role != null && account.role.highlighted) {
+                binding.accountRole.setText(account.role.name);
+                binding.accountRole.setVisibility(View.VISIBLE);
+            }
+            if (binding.accountTabLayout.getTabCount() > 2) {
+                TabLayout.Tab statusTab = binding.accountTabLayout.getTabAt(0);
+                TabLayout.Tab followingTab = binding.accountTabLayout.getTabAt(1);
+                TabLayout.Tab followerTab = binding.accountTabLayout.getTabAt(2);
+                if (statusTab != null) {
+                    statusTab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
+                }
+                if (followingTab != null) {
+                    followingTab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
+                }
+                if (followerTab != null) {
+                    followerTab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
+                }
+            }
+        }
+    }
+
     private void initializeView(Account account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         if (account == null) {
@@ -497,7 +521,11 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         });
-
+        if (accountInstance != null && !accountInstance.equalsIgnoreCase(MainActivity.currentInstance)) {
+            accountsVM.lookUpAccount(accountInstance, account.username).observe(ProfileActivity.this, this::updateViewWithNewData);
+        } else if (accountInstance != null && accountInstance.equalsIgnoreCase(MainActivity.currentInstance)) {
+            updateViewWithNewData(account);
+        }
     }
 
 
@@ -875,16 +903,20 @@ public class ProfileActivity extends BaseActivity {
                                         if (relationship == null || !relationship.following) {
                                             accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
                                                     .observe(ProfileActivity.this, newRelationShip -> {
-                                                        relationship = newRelationShip;
-                                                        updateAccount();
-                                                        if (isChecked) {
-                                                            timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds).observe(ProfileActivity.this, success -> {
-                                                                if (success == null || !success) {
-                                                                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
+                                                        if (newRelationShip != null) {
+                                                            relationship = newRelationShip;
+                                                            updateAccount();
+                                                            if (isChecked) {
+                                                                timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds).observe(ProfileActivity.this, success -> {
+                                                                    if (success == null || !success) {
+                                                                        Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds);
+                                                            }
                                                         } else {
-                                                            timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds);
+                                                            Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
                                                         }
                                                     });
                                         } else {

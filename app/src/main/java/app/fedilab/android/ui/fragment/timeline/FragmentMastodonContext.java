@@ -34,9 +34,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ContextActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Context;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Timeline;
@@ -54,6 +54,8 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
+    public FirstMessage firstMessage;
+
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -64,6 +66,7 @@ public class FragmentMastodonContext extends Fragment {
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                 Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
                 Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_POSTED);
+                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
@@ -95,6 +98,12 @@ public class FragmentMastodonContext extends Fragment {
                         statuses.remove(position);
                         statusAdapter.notifyItemRemoved(position);
                     }
+                } else if (status_to_update != null && statusAdapter != null) {
+                    int position = getPosition(status_to_update);
+                    if (position >= 0) {
+                        statuses.set(position, status_to_update);
+                        statusAdapter.notifyItemChanged(position);
+                    }
                 } else if (statusPosted != null && statusAdapter != null) {
                     if (requireActivity() instanceof ContextActivity) {
                         int i = 0;
@@ -116,8 +125,10 @@ public class FragmentMastodonContext extends Fragment {
         }
     };
     private Status focusedStatus;
+    private String remote_instance;
     private Status firstStatus;
     private boolean pullToRefresh;
+    private String user_token, user_instance;
 
     /**
      * Return the position of the status in the ArrayList
@@ -145,17 +156,26 @@ public class FragmentMastodonContext extends Fragment {
         pullToRefresh = false;
         if (getArguments() != null) {
             focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
+            remote_instance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
+        }
+        if (remote_instance != null) {
+            user_instance = remote_instance;
+            user_token = null;
+        } else {
+            user_instance = MainActivity.currentInstance;
+            user_token = MainActivity.currentToken;
         }
         if (focusedStatus == null) {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
+
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         statusesVM = new ViewModelProvider(FragmentMastodonContext.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();
         focusedStatus.isFocused = true;
         this.statuses.add(focusedStatus);
-        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false, true, false);
+        statusAdapter = new StatusAdapter(this.statuses, Timeline.TimeLineEnum.UNKNOWN, false, true, remote_instance != null);
         binding.swipeContainer.setRefreshing(false);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
@@ -164,12 +184,12 @@ public class FragmentMastodonContext extends Fragment {
             if (this.statuses.size() > 0) {
                 binding.swipeContainer.setRefreshing(true);
                 pullToRefresh = true;
-                statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id)
+                statusesVM.getContext(user_instance, user_token, focusedStatus.id)
                         .observe(getViewLifecycleOwner(), this::initializeContextView);
             }
         });
         if (focusedStatus != null) {
-            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id)
+            statusesVM.getContext(user_instance, user_token, focusedStatus.id)
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
@@ -196,7 +216,7 @@ public class FragmentMastodonContext extends Fragment {
             } else {
                 id = focusedStatus.id;
             }
-            statusesVM.getContext(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, id)
+            statusesVM.getContext(user_instance, user_token, id)
                     .observe(FragmentMastodonContext.this, this::initializeContextView);
         }
     }
@@ -228,6 +248,10 @@ public class FragmentMastodonContext extends Fragment {
         } else {
             firstStatus = statuses.get(0);
         }
+        if (firstMessage != null) {
+            firstMessage.get(firstStatus);
+        }
+
         int statusPosition = context.ancestors.size();
         //Build the array of statuses
         statuses.addAll(0, context.ancestors);
@@ -250,4 +274,8 @@ public class FragmentMastodonContext extends Fragment {
         super.onDestroyView();
     }
 
+
+    public interface FirstMessage {
+        void get(Status status);
+    }
 }

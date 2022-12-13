@@ -105,6 +105,12 @@ public interface MastodonAccountsService {
             @Path("id") String id
     );
 
+    //Get Account
+    @GET("accounts/lookup")
+    Call<Account> lookUpAccount(
+            @Query("acct") String acct
+    );
+
     //Get Account statuses
     @GET("accounts/{id}/statuses")
     Call<List<Status>> getAccountStatuses(

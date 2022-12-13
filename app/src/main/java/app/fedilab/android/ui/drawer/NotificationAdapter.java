@@ -367,11 +367,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             } else {
                 holderStatus.bindingNotification.status.mainContainer.setAlpha(.7f);
-                holderStatus.bindingNotification.status.mainContainer.setVisibility(View.VISIBLE);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
-                if (displayMedia && notification.status != null && notification.status.media_attachments != null && notification.status.media_attachments.size() > 0) {
-                    holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.VISIBLE);
-                } else {
+                if (!displayMedia) {
+                    holderStatus.bindingNotification.status.attachmentsListContainer.setVisibility(View.GONE);
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
                 }
                 String title = "";

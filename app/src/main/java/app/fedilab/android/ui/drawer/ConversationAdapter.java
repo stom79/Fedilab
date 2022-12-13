@@ -60,6 +60,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean isExpended = false;
+    private RecyclerView mRecyclerView;
 
     public ConversationAdapter(List<Conversation> conversations) {
         if (conversations == null) {
@@ -194,7 +195,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.binding.spoiler.setVisibility(View.VISIBLE);
             holder.binding.spoiler.setText(
                     conversation.last_status.getSpanSpoiler(context,
-                            new WeakReference<>(holder.binding.spoiler), () -> notifyItemChanged(holder.getBindingAdapterPosition())),
+                            new WeakReference<>(holder.binding.spoiler), () -> mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
@@ -204,7 +205,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 conversation.last_status.getSpanContent(context,
-                        new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(holder.getBindingAdapterPosition())),
+                        new WeakReference<>(holder.binding.statusContent), () -> mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
@@ -223,6 +224,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             return false;
         });
+
 
         displayAttachments(holder, position);
         if (holder.timer != null) {
@@ -243,6 +245,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         applyColorConversation(context, holder);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
     }
 
     private void displayAttachments(ConversationAdapter.ConversationHolder holder, int position) {

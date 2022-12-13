@@ -402,8 +402,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         return true;
     }
 
-    private void onRetrieveContact(PopupContactBinding binding, List<app.fedilab.android.client.entities.api.Account> accounts) {
-        binding.loader.setVisibility(View.GONE);
+    private void onRetrieveContact(PopupContactBinding popupContactBinding, List<app.fedilab.android.client.entities.api.Account> accounts) {
+        popupContactBinding.loader.setVisibility(View.GONE);
         if (accounts == null) {
             accounts = new ArrayList<>();
         }
@@ -413,8 +413,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             checkedValues.add(composeAdapter.getLastComposeContent().contains("@" + account.acct));
         }
         AccountsReplyAdapter contactAdapter = new AccountsReplyAdapter(contacts, checkedValues);
-        binding.lvAccountsSearch.setAdapter(contactAdapter);
-        binding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(ComposeActivity.this));
+        contactAdapter.actionDone = ComposeActivity.this;
+        popupContactBinding.lvAccountsSearch.setAdapter(contactAdapter);
+        popupContactBinding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(ComposeActivity.this));
     }
 
     @Override
@@ -869,10 +870,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
 
     private boolean canBeSent(StatusDraft statusDraft) {
-        if (statusDraft == null || statusDraft.statusDraftList == null || statusDraft.statusDraftList.isEmpty()) {
+        if (statusDraft == null) {
             return false;
         }
-        Status statusCheck = statusDraft.statusDraftList.get(0);
+        List<Status> statuses = statusDraft.statusDraftList;
+        if (statuses == null || statuses.size() == 0) {
+            return false;
+        }
+        Status statusCheck = statuses.get(0);
         if (statusCheck == null) {
             return false;
         }
