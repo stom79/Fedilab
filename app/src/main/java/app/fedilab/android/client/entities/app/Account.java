@@ -319,6 +319,23 @@ public class Account extends BaseAccount implements Serializable {
     }
 
     /**
+     * Returns last used account
+     *
+     * @return BaseAccount  {@link BaseAccount}
+     */
+    public List<BaseAccount> getLastUsedAccounts() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, null, null, null, null, Sqlite.COL_UPDATED_AT + " DESC", null);
+            return cursorToListUser(c);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Remove an account from db
      *
      * @param account {@link BaseAccount}
