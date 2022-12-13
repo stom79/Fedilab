@@ -150,7 +150,8 @@
     <string name="status_cnt">Zprávy
 \n %1$s</string>
     <string name="following_cnt">Sleduji \n %1$s</string>
-    <string name="followers_cnt">Sledující \n %1$s</string>
+    <string name="followers_cnt">Sledující
+\n %1$s</string>
     <string name="reject">Odmítnout</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Žádné naplánované zprávy k zobrazení!</string>
@@ -165,7 +166,7 @@
     <string name="no_notifications">Žádné upozornění k zobrazení</string>
     <string name="notif_mention">vás zmínil(a)</string>
     <string name="notif_status">napsal(a) novou zprávu</string>
-    <string name="notif_reblog">boostnul(a) váš toot</string>
+    <string name="notif_reblog">boostnul(a) váš status</string>
     <string name="notif_favourite">si oblíbil(a) váš status</string>
     <string name="notif_follow">vás sleduje</string>
     <string name="notif_follow_request">vás chce sledovat</string>
@@ -256,9 +257,9 @@
     <string name="delete">Odstranit</string>
     <!-- About lists -->
     <string name="action_lists">Seznamy</string>
-    <string name="action_lists_confirm_delete">Jsi si jist/a, že chceš trvale odstranit tento seznam?</string>
+    <string name="action_lists_confirm_delete">Opravdu chcete trvale smazat tento seznam\?</string>
     <string name="action_lists_add_to">Přidat do seznamu</string>
-    <string name="action_lists_delete">Odstranit seznam</string>
+    <string name="action_lists_delete">Smazat seznam</string>
     <string name="action_lists_title_placeholder">Nový název seznamu</string>
     <string name="action_lists_add_user">Účet byl přidán do seznamu!</string>
     <string name="action_lists_empty">Ještě nemáte žádný seznam!</string>
@@ -316,7 +317,7 @@
     <string name="block_domain_confirm_message">Určitě chcete zablokovat %s?\n\nJiž z této domény neuvidíte ve všech veřejných časových osách ani v oznámeních žádný obsah. Vaši sledující z této domény budou odstraněni.</string>
     <string name="block_domain">Zablokovat doménu</string>
     <string name="toast_block_domain">Doména je blokována</string>
-    <string name="retrieve_remote_status">Načítám vzdálený toot</string>
+    <string name="retrieve_remote_status">Načítám vzdálený status</string>
     <string name="peertube_instance">Instance Peertube</string>
     <string name="set_display_emoji">Použít Emoji One</string>
     <string name="information">Informace</string>
@@ -400,7 +401,7 @@
     <string name="reorder_timelines">Spravovat časové osy</string>
     <string name="reorder_list_deleted">Seznam trvale smazán</string>
     <string name="reorder_instance_removed">Sledovaná instance odstraněna</string>
-    <string name="reorder_tag_removed">Připnuté tagy odstraněny</string>
+    <string name="reorder_tag_removed">Připnutý tag odstraněn</string>
     <string name="undo">Vrátit zpět</string>
     <string name="warning_main_timeline">Hlavní časové osy mohou být pouze skryty!</string>
     <string name="set_sensitive_content">Vždy označovat média jako citlivá</string>
@@ -447,11 +448,13 @@
     <string name="password_too_short">Heslo musí mít minimálně 8 znaků</string>
     <string name="username_error">Uživatelské jméno smí obsahovat jen písmena, číslice a podtržítka</string>
     <string name="account_created">Účet vytvořen!</string>
-    <string name="account_created_message">        Your account has been created!\n\n
-        Think to validate your email within the 48 next hours.\n\n
-        You can now connect your account by writing <b>%1$s</b> in the first field and click on <b>Connect</b>.\n\n
-        <b>Important</b>: If your instance required validation, you will receive an email once it is validated!
-    </string>
+    <string name="account_created_message"> Váš účet byl vytvořen!
+\n
+\n Nezapomeňte ověřit e-mail během příštích 48 hodin.
+\n
+\n Nyní se můžete připojit ke svému účtu napsáním <b>%1$s</b> do prvního pole a kliknutím na <b>Připojit</b>.
+\n
+\n <b>Důležité</b>: Pokud vaše instance vyžaduje ověření, po jeho provedení dostanete e-mailovou zprávu! </string>
     <string name="save_draft">Uložit zprávu do konceptů\?</string>
     <string name="administration">Administrace</string>
     <string name="reports">Hlášení</string>
@@ -459,16 +462,16 @@
     <string name="remote">Remote</string>
     <string name="active">Aktivní</string>
     <string name="pending">Čekající</string>
-    <string name="disabled">Disabled</string>
-    <string name="suspended">Suspended</string>
+    <string name="disabled">Vypnuto</string>
+    <string name="suspended">Pozastaveno</string>
     <string name="permissions">Oprávnění</string>
-    <string name="disable">Disable</string>
+    <string name="disable">Vypnout</string>
     <string name="silence">Silence</string>
     <string name="account">Účet</string>
     <string name="unsilence">Undo silence</string>
-    <string name="undisable">Undo disable</string>
-    <string name="suspend">Suspend</string>
-    <string name="unsuspend">Undo suspend</string>
+    <string name="undisable">Zrušit vypnutí</string>
+    <string name="suspend">Pozastavit</string>
+    <string name="unsuspend">Zrušit pozastavení</string>
     <string name="audio">Zvuk</string>
     <string name="voice_message">Hlasová zpráva</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
@@ -534,7 +537,7 @@
     <string name="icons_color">Barva dolních ikon v časových osách</string>
     <string name="logo_of_the_instance">Logo instance</string>
     <string name="edit_profile">Upravit profil</string>
-    <string name="make_an_action">Make an action</string>
+    <string name="make_an_action">Provést akci</string>
     <string name="translation">Překlad</string>
     <string name="text_color_title">Barva textu</string>
     <string name="text_color">Změnit barvu textu ve zprávách</string>
@@ -913,6 +916,10 @@
     <string name="toast_on_your_instance">Konverzace začala na vaší instanci!</string>
     <string name="toast_error_fetch_message">Aplikace nenašla vzdálenou zprávu.</string>
     <string name="pref_contributor_summary">Výběr z témat vytvořených přispěvateli</string>
-    <string name="toast_try_later">Zkuste to prosím znovu.</string>
+    <string name="toast_try_later">Zkuste to prosím později znovu.</string>
     <string name="set_your_max_char_count">Nastavte svůj max. počet znaků</string>
+    <string name="set_display_translate_indication">Vždy zobrazovat tlačítko překladu</string>
+    <string name="pin_tag">Připnout tag</string>
+    <string name="unfollow_tag">Nesledovat tag</string>
+    <string name="unpin_tag">Odepnout tag</string>
 </resources>
