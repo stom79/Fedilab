@@ -32,6 +32,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -252,6 +253,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
+        }
+        RecyclerView.ItemAnimator animator = binding.recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
         }
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
