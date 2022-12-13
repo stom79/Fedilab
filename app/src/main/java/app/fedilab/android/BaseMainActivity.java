@@ -697,7 +697,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            if (mastodonAccount != null) {
+                            if (mastodonAccount != null && currentAccount != null) {
                                 currentAccount.mastodon_account = mastodonAccount;
                                 displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
                                 new Thread(() -> {

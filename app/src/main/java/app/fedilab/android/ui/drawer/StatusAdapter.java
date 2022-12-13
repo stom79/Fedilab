@@ -2288,8 +2288,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
-                holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
-                holder.binding.dividerCard.setVisibility(View.GONE);
+                holder.bindingFilteredHide.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
+                holder.bindingFilteredHide.dividerCard.setVisibility(View.GONE);
             }
             if (status.isFetchMore && fetchMoreCallBack != null) {
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);

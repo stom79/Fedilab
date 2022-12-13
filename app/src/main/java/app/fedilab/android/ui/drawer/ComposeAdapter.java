@@ -854,7 +854,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     //It only targets last message in a thread
     //Return content of last compose message
     public String getLastComposeContent() {
-        return statusList.get(currentCursorPosition).text != null ? statusList.get(currentCursorPosition).text : "";
+        if (currentCursorPosition < statusList.size()) {
+            return statusList.get(currentCursorPosition).text != null ? statusList.get(currentCursorPosition).text : "";
+        } else return "";
     }
     //------- end contact ----->
 

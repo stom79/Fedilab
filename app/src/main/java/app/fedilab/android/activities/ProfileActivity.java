@@ -903,16 +903,20 @@ public class ProfileActivity extends BaseActivity {
                                         if (relationship == null || !relationship.following) {
                                             accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
                                                     .observe(ProfileActivity.this, newRelationShip -> {
-                                                        relationship = newRelationShip;
-                                                        updateAccount();
-                                                        if (isChecked) {
-                                                            timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds).observe(ProfileActivity.this, success -> {
-                                                                if (success == null || !success) {
-                                                                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
+                                                        if (newRelationShip != null) {
+                                                            relationship = newRelationShip;
+                                                            updateAccount();
+                                                            if (isChecked) {
+                                                                timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds).observe(ProfileActivity.this, success -> {
+                                                                    if (success == null || !success) {
+                                                                        Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds);
+                                                            }
                                                         } else {
-                                                            timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, listsId[which], userIds);
+                                                            Toasty.error(ProfileActivity.this, getString(R.string.toast_error_add_to_list), Toast.LENGTH_LONG).show();
                                                         }
                                                     });
                                         } else {
