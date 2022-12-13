@@ -920,4 +920,10 @@
     <string name="toast_on_your_instance">Görüşme sizin sunucunuzda başladı!</string>
     <string name="toast_try_later">Lütfen daha sonra tekrar deneyin.</string>
     <string name="toast_error_fetch_message">Uygulama uzak mesajı bulamadı.</string>
+    <string name="mute_tag_action">Etiketi sessize al</string>
+    <string name="unpin_tag">Etiketin sabitlemesini kaldır</string>
+    <string name="set_display_translate_indication">Her zaman çevir düğmesini göster</string>
+    <string name="unmute_tag_action">Etiketin sesini aç</string>
+    <string name="pin_tag">Etiketi sabitle</string>
+    <string name="unfollow_tag">Etiketi takibi bırak</string>
 </resources>
