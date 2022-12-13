@@ -1,0 +1,18 @@
+Added:
+- Display all messages in threads from remote instances (when possible)
+- Allow to unmute/unfollow/unpin a tag from tag timelines
+- Display most used accounts in header menu for an easy switch
+- Automatically add the tag when composing from a tag timeline
+- Add a translate button at the bottom of messages (default: disabled)
+- Add account role in profiles
+- Translate morse
+
+Changed:
+- Disable animations after a refresh
+
+Fixed:
+- Contact not working when composing
+- Status bar for black theme
+- Message duplicated in conversations when edited
+- Color issue on Android 5
+- Several crashes

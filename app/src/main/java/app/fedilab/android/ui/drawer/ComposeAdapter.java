@@ -80,8 +80,9 @@ import java.lang.ref.WeakReference;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -124,11 +125,52 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static boolean autocomplete = false;
     public static String[] ALPHA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", ",", "?",
-            ".", "'"};
+            ".", "'", "!", "/", "(", ")", "&", ":", ";", "=", "+", "-", "_",
+            "\"", "$", "@", "¿", "¡"
+    };
     public static String[] MORSE = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
             "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", ".----",
             "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----", "-.-.--", "--..--",
-            "..--..", ".-.-.-", ".----.",};
+            "..--..", ".-.-.-", ".----.", "-.-.--", "-..-.", "-.--.", "-.--.-", ".-...", "---...", "-.-.-.", "-...-", ".-.-.", "-....-", "..--.-",
+            ".-..-.", "...-..-", ".--.-.", "..-.-", "--...-"
+    };
+
+    public static String[] MORSE2 = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
+            "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", ".----",
+            "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----", "-.-.--", "--..--",
+            "..--..", ".-.-.-", ".----.", "-.-.--", "-..-.", "-.--.", "-.--.-", ".-...", "---...", "-.-.-.", "-...-", ".-.-.", "-....-", "..--.-",
+            ".-..-.", "...-..-", ".--.-.", "..-.-", "--...-"
+    };
+
+    public static int countMorseChar(String content) {
+        int count_char = 0;
+        for (String morseCode : MORSE2) {
+            if (content.contains(morseCode) && !morseCode.equals(".") && !morseCode.equals("..") && !morseCode.equals("...") && !morseCode.equals("-") && !morseCode.equals("--")) {
+                count_char++;
+            }
+        }
+        return count_char;
+    }
+
+    public static String morseToText(String morseContent) {
+        LinkedHashMap<String, String> ALPHA_TO_MORSE = new LinkedHashMap<>();
+        for (int i = 0; i < ALPHA.length && i < MORSE.length; i++) {
+            ALPHA_TO_MORSE.put(MORSE[i], ALPHA[i]);
+        }
+        List<String> MORSELIST = Arrays.asList(MORSE2);
+        MORSELIST.sort((s1, s2) -> s2.length() - s1.length());
+        LinkedHashMap<String, String> MORSE_TO_ALPHA = new LinkedHashMap<>();
+        for (String s : MORSELIST) {
+            MORSE_TO_ALPHA.put(s, ALPHA_TO_MORSE.get(s));
+        }
+        for (String morseCode : MORSELIST) {
+            if (MORSE_TO_ALPHA.containsKey(morseCode)) {
+                morseContent = morseContent.replaceAll(Pattern.quote(morseCode), MORSE_TO_ALPHA.get(morseCode));
+            }
+        }
+        return morseContent;
+    }
+
     private final List<Status> statusList;
     private final int TYPE_NORMAL = 0;
     private final BaseAccount account;
@@ -540,7 +582,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 newContent[0] = Normalizer.normalize(newContent[0], Normalizer.Form.NFD);
                                 newContent[0] = newContent[0].replaceAll("[^\\p{ASCII}]", "");
 
-                                HashMap<String, String> ALPHA_TO_MORSE = new HashMap<>();
+                                LinkedHashMap<String, String> ALPHA_TO_MORSE = new LinkedHashMap<>();
                                 for (int i = 0; i < ALPHA.length && i < MORSE.length; i++) {
                                     ALPHA_TO_MORSE.put(ALPHA[i], MORSE[i]);
                                 }
@@ -552,7 +594,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         String morse = ALPHA_TO_MORSE.get(word.substring(i, i + 1).toLowerCase());
                                         builder.append(morse).append(" ");
                                     }
-
                                     builder.append("  ");
                                 }
                                 newContent[0] = "";
@@ -560,7 +601,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     newContent[0] += mention + " ";
                                 }
                                 newContent[0] += builder.toString();
-
+                                newContent[0] = newContent[0].replaceAll("null", "");
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
 
                                 Runnable myRunnable = () -> {
@@ -592,7 +633,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return;
                 }
 
-                String patternh = "^(.|\\s)*(:fedilab_hugs:)$";
+                String patternh = "^(.|\\s)*(:fedilab_hugs:)";
                 final Pattern hPattern = Pattern.compile(patternh);
                 Matcher mh = hPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
 
@@ -601,7 +642,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return;
                 }
 
-                String patternM = "^(.|\\s)*(:fedilab_morse:)$";
+                String patternM = "^(.|\\s)*(:fedilab_morse:)";
                 final Pattern mPattern = Pattern.compile(patternM);
                 Matcher mm = mPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
                 if (mm.matches()) {
@@ -1328,7 +1369,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
             holder.binding.content.setOnFocusChangeListener((view, focused) -> {
                 if (focused) {
-                    currentCursorPosition = position;
+                    currentCursorPosition = holder.getLayoutPosition();
                 }
             });
             if (statusDraft.cursorPosition <= holder.binding.content.length()) {

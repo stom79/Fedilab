@@ -1901,42 +1901,52 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static void translate(Context context, Status statusToDeal,
                                   StatusViewHolder holder,
                                   RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
-        MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-        final MyTransL myTransL = MyTransL.getInstance(et);
-        myTransL.setObfuscation(true);
-        Params params = new Params();
-        params.setSplit_sentences(false);
-        params.setFormat(Params.fType.TEXT);
-        params.setSource_lang("auto");
-        myTransL.setLibretranslateDomain("translate.fedilab.app");
         String statusToTranslate;
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-        if (translate != null && translate.equalsIgnoreCase("default")) {
-            translate = MyTransL.getLocale();
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
         else
             statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
-        myTransL.translate(statusToTranslate, translate, params, new Results() {
-            @Override
-            public void onSuccess(Translate translate) {
-                if (translate.getTranslatedContent() != null) {
-                    statusToDeal.translationShown = true;
-                    statusToDeal.translationContent = translate.getTranslatedContent();
-                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                } else {
-                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+
+        int countMorseChar = ComposeAdapter.countMorseChar(statusToTranslate);
+        if (countMorseChar < 4) {
+            MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
+            final MyTransL myTransL = MyTransL.getInstance(et);
+            myTransL.setObfuscation(true);
+            Params params = new Params();
+            params.setSplit_sentences(false);
+            params.setFormat(Params.fType.TEXT);
+            params.setSource_lang("auto");
+            myTransL.setLibretranslateDomain("translate.fedilab.app");
+
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
+            if (translate != null && translate.equalsIgnoreCase("default")) {
+                translate = MyTransL.getLocale();
+            }
+
+
+            myTransL.translate(statusToTranslate, translate, params, new Results() {
+                @Override
+                public void onSuccess(Translate translate) {
+                    if (translate.getTranslatedContent() != null) {
+                        statusToDeal.translationShown = true;
+                        statusToDeal.translationContent = translate.getTranslatedContent();
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    } else {
+                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFail(HttpsConnectionException httpsConnectionException) {
+                @Override
+                public void onFail(HttpsConnectionException httpsConnectionException) {
 
-            }
-        });
+                }
+            });
+        } else {
+            statusToDeal.translationShown = true;
+            statusToDeal.translationContent = ComposeAdapter.morseToText(statusToTranslate);
+            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+        }
     }
 
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
