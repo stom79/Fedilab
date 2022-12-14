@@ -1655,6 +1655,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
                             }));
                     builderInner.show();
+                } else if (itemId == R.id.action_mute_home) {
+                    AlertDialog.Builder builderInner = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    builderInner.setTitle(R.string.mute_home);
+                    builderInner.setMessage(statusToDeal.account.acct);
+                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, statusToDeal.account)
+                            .observe((LifecycleOwner) context, account -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                    builderInner.show();
                 } else if (itemId == R.id.action_mute_conversation) {
                     if (statusToDeal.muted) {
                         statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());

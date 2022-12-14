@@ -17,6 +17,11 @@
         android:title="@string/action_open_in_web"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_mute_home"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/mute_home"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_mute"
         android:icon="@drawable/ic_baseline_volume_mute_24"
         android:title="@string/more_action_1"

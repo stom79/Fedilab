@@ -47,6 +47,10 @@
         android:title="@string/more_action_1"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_mute_home"
+        android:title="@string/mute_home"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_timed_mute"
         android:title="@string/more_action_8"
         app:showAsAction="never" />

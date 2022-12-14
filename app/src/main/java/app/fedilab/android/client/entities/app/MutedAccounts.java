@@ -181,6 +181,28 @@ public class MutedAccounts implements Serializable {
     }
 
     /**
+     * Check if an account is muted in db
+     *
+     * @param forAccount {@link BaseAccount}
+     * @param target     {@link Account}
+     * @return MutedAccounts - {@link MutedAccounts}
+     */
+    public boolean isMuted(BaseAccount forAccount, Account target) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        MutedAccounts mutedAccounts = getMutedAccount(forAccount);
+        if (mutedAccounts != null && mutedAccounts.accounts != null) {
+            for (Account account : mutedAccounts.accounts) {
+                if (account.id.equals(target.id)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the MutedAccounts for an account
      *
      * @param account Account

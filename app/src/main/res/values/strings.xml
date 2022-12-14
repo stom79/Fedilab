@@ -2059,4 +2059,6 @@
     <string name="pin_tag">Pin tag</string>
     <string name="unpin_tag">Unpin tag</string>
     <string name="unfollow_tag">Unfollow tag</string>
+    <string name="mute_home">Mute for home</string>
+    <string name="unmute_home">Unmute for home</string>
 </resources>

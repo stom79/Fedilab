@@ -52,7 +52,10 @@ import app.fedilab.android.client.entities.api.Suggestion;
 import app.fedilab.android.client.entities.api.Suggestions;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.api.Token;
+import app.fedilab.android.client.entities.app.BaseAccount;
+import app.fedilab.android.client.entities.app.MutedAccounts;
 import app.fedilab.android.client.entities.app.StatusCache;
+import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import okhttp3.MultipartBody;
@@ -746,6 +749,70 @@ public class AccountsVM extends AndroidViewModel {
             }
         }).start();
         return relationShipMutableLiveData;
+    }
+
+
+    /**
+     * Mute the given account in db
+     *
+     * @return {@link LiveData} containing the {@link Account} to the given account
+     */
+    public LiveData<Account> isMuted(@NonNull BaseAccount forAccount, @NonNull Account target) {
+        accountMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            boolean isMuted = false;
+            try {
+                isMuted = new MutedAccounts(getApplication().getApplicationContext()).isMuted(forAccount, target);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            boolean finalIsMuted = isMuted;
+            Runnable myRunnable = () -> accountMutableLiveData.setValue(finalIsMuted ? target : null);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountMutableLiveData;
+    }
+
+    /**
+     * Mute the given account in db
+     *
+     * @return {@link LiveData} containing the {@link Account} to the given account
+     */
+    public LiveData<Account> muteHome(@NonNull BaseAccount forAccount, @NonNull Account target) {
+        accountMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+
+            try {
+                new MutedAccounts(getApplication().getApplicationContext()).muteAccount(forAccount, target);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountMutableLiveData.setValue(target);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountMutableLiveData;
+    }
+
+    /**
+     * Unmute the given account in db
+     *
+     * @return {@link LiveData} containing the {@link Account} to the given account
+     */
+    public LiveData<Account> unmuteHome(@NonNull BaseAccount forAccount, @NonNull Account target) {
+        accountMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            try {
+                new MutedAccounts(getApplication().getApplicationContext()).unMuteAccount(forAccount, target);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountMutableLiveData.setValue(target);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountMutableLiveData;
     }
 
     /**
