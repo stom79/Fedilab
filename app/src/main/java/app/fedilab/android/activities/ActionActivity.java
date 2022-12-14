@@ -54,11 +54,12 @@ public class ActionActivity extends BaseBarActivity {
         binding.muted.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.MUTED_TIMELINE));
         binding.blocked.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_TIMELINE));
         binding.domainBlock.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_DOMAIN_TIMELINE));
+        binding.mutedHome.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.MUTED_TIMELINE_HOME));
     }
 
     private void displayTimeline(Timeline.TimeLineEnum type) {
         canGoBack = true;
-        if (type == Timeline.TimeLineEnum.MUTED_TIMELINE || type == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {
+        if (type == Timeline.TimeLineEnum.MUTED_TIMELINE || type == Timeline.TimeLineEnum.BLOCKED_TIMELINE || type == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
 
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
                 fragmentMastodonAccount = new FragmentMastodonAccount();
@@ -113,6 +114,9 @@ public class ActionActivity extends BaseBarActivity {
                 break;
             case BLOCKED_DOMAIN_TIMELINE:
                 setTitle(R.string.blocked_domains);
+                break;
+            case MUTED_TIMELINE_HOME:
+                setTitle(R.string.muted_menu_home);
                 break;
         }
     }

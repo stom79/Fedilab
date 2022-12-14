@@ -54,6 +54,7 @@
     <string name="home_menu">Home</string>
     <string name="local_menu">Local timeline</string>
     <string name="muted_menu">Muted users</string>
+    <string name="muted_menu_home">Home muted users</string>
     <string name="blocked_menu">Blocked users</string>
     <string name="notifications">Notifications</string>
     <string name="follow_request">Follow requests</string>

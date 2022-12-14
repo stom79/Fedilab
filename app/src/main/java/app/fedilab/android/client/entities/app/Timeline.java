@@ -388,6 +388,8 @@ public class Timeline {
         ACCOUNT_TIMELINE("ACCOUNT_TIMELINE"),
         @SerializedName("MUTED_TIMELINE")
         MUTED_TIMELINE("MUTED_TIMELINE"),
+        @SerializedName("MUTED_TIMELINE_HOME")
+        MUTED_TIMELINE_HOME("MUTED_TIMELINE_HOME"),
         @SerializedName("BOOKMARK_TIMELINE")
         BOOKMARK_TIMELINE("BOOKMARK_TIMELINE"),
         @SerializedName("BLOCKED_DOMAIN_TIMELINE")

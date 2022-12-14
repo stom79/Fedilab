@@ -32,6 +32,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Accounts;
 import app.fedilab.android.client.entities.api.Pagination;
@@ -127,6 +128,11 @@ public class FragmentMastodonAccount extends Fragment {
             } else {
                 accountsVM.getMutes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
+            }
+        } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
+            if (firstLoad) {
+                accountsVM.getMutedHome(MainActivity.currentAccount)
+                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {
             if (firstLoad) {

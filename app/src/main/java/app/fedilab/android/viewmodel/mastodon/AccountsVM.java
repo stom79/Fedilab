@@ -757,6 +757,33 @@ public class AccountsVM extends AndroidViewModel {
      *
      * @return {@link LiveData} containing the {@link Account} to the given account
      */
+    public LiveData<Accounts> getMutedHome(@NonNull BaseAccount forAccount) {
+        accountsMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Accounts accounts = new Accounts();
+            MutedAccounts mutedAccount;
+            try {
+                mutedAccount = new MutedAccounts(getApplication().getApplicationContext()).getMutedAccount(forAccount);
+                if (mutedAccount != null) {
+                    accounts.accounts = mutedAccount.accounts;
+                }
+                accounts.pagination = new Pagination();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountsMutableLiveData.setValue(accounts);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountsMutableLiveData;
+    }
+
+
+    /**
+     * Mute the given account in db
+     *
+     * @return {@link LiveData} containing the {@link Account} to the given account
+     */
     public LiveData<Account> isMuted(@NonNull BaseAccount forAccount, @NonNull Account target) {
         accountMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
