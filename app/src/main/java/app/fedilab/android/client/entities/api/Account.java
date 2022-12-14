@@ -19,6 +19,8 @@ import android.content.Context;
 import android.text.Spannable;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -147,5 +149,15 @@ public class Account implements Serializable {
         @SerializedName("fields_attributes")
         public LinkedHashMap<Integer, Field.FieldParams> fields;
 
+    }
+
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Account) {
+            same = this.id.equals(((Account) obj).id);
+        }
+        return same;
     }
 }

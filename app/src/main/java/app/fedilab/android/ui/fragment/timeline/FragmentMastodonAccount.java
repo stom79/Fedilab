@@ -203,7 +203,7 @@ public class FragmentMastodonAccount extends Fragment {
         }
 
         this.accounts = accounts.accounts;
-        accountAdapter = new AccountAdapter(this.accounts);
+        accountAdapter = new AccountAdapter(this.accounts, timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME);
         flagLoading = accounts.pagination.max_id == null;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);

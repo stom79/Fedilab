@@ -28,7 +28,6 @@ import static app.fedilab.android.helper.Helper.ARG_TIMELINE_REFRESH_ALL;
 import static app.fedilab.android.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.helper.Helper.addMutedAccount;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -1663,9 +1662,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, statusToDeal.account)
                             .observe((LifecycleOwner) context, account -> {
-                                if (account != null) {
-                                    addMutedAccount(account);
-                                }
                                 sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
                                 Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
                             }));

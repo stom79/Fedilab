@@ -88,6 +88,9 @@ public class MutedAccounts implements Serializable {
         }
     }
 
+    public void delete() {
+        db.delete(Sqlite.TABLE_MUTED, null, null);
+    }
 
     /**
      * Insert an Account in muted account in db

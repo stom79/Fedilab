@@ -14,6 +14,8 @@ package app.fedilab.android.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.helper.Helper.addMutedAccount;
+import static app.fedilab.android.helper.Helper.removeMutedAccount;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.app.Application;
@@ -95,6 +97,8 @@ public class AccountsVM extends AndroidViewModel {
     private MutableLiveData<Token> tokenMutableLiveData;
     private MutableLiveData<Domains> domainsMutableLiveData;
     private MutableLiveData<Report> reportMutableLiveData;
+    private MutableLiveData<Boolean> booleanMutableLiveData;
+
 
     public AccountsVM(@NonNull Application application) {
         super(application);
@@ -784,8 +788,8 @@ public class AccountsVM extends AndroidViewModel {
      *
      * @return {@link LiveData} containing the {@link Account} to the given account
      */
-    public LiveData<Account> isMuted(@NonNull BaseAccount forAccount, @NonNull Account target) {
-        accountMutableLiveData = new MutableLiveData<>();
+    public LiveData<Boolean> isMuted(@NonNull BaseAccount forAccount, @NonNull Account target) {
+        booleanMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             boolean isMuted = false;
             try {
@@ -795,10 +799,10 @@ public class AccountsVM extends AndroidViewModel {
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             boolean finalIsMuted = isMuted;
-            Runnable myRunnable = () -> accountMutableLiveData.setValue(finalIsMuted ? target : null);
+            Runnable myRunnable = () -> booleanMutableLiveData.setValue(finalIsMuted);
             mainHandler.post(myRunnable);
         }).start();
-        return accountMutableLiveData;
+        return booleanMutableLiveData;
     }
 
     /**
@@ -812,6 +816,7 @@ public class AccountsVM extends AndroidViewModel {
 
             try {
                 new MutedAccounts(getApplication().getApplicationContext()).muteAccount(forAccount, target);
+                addMutedAccount(target);
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -832,6 +837,7 @@ public class AccountsVM extends AndroidViewModel {
         new Thread(() -> {
             try {
                 new MutedAccounts(getApplication().getApplicationContext()).unMuteAccount(forAccount, target);
+                removeMutedAccount(target);
             } catch (DBException e) {
                 e.printStackTrace();
             }
