@@ -12,6 +12,11 @@
         android:title="@string/action_lists_edit"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_user_mute_home"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/add_all_users_home_muted"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_delete"
         android:icon="@drawable/ic_baseline_delete_24"
         android:title="@string/action_lists_delete"

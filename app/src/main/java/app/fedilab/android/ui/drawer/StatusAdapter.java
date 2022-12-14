@@ -1662,7 +1662,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, statusToDeal.account)
                             .observe((LifecycleOwner) context, account -> {
-                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
                                 Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
                             }));
                     builderInner.show();

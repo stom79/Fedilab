@@ -821,6 +821,7 @@ public class AccountsVM extends AndroidViewModel {
                 e.printStackTrace();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
+            sendAction(getApplication().getApplicationContext(), Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, target.id);
             Runnable myRunnable = () -> accountMutableLiveData.setValue(target);
             mainHandler.post(myRunnable);
         }).start();

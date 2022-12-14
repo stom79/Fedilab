@@ -143,6 +143,22 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.action_user_mute_home) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
+            dialogBuilder.setTitle(R.string.put_all_accounts_in_home_muted);
+            dialogBuilder.setPositiveButton(R.string.mute_them_all, (dialog, id) -> {
+                timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
+                        .observe(MastodonListActivity.this, accounts -> {
+                            if (accounts != null && accounts.size() > 0) {
+                                for (Account account : accounts) {
+                                    accountsVM.muteHome(MainActivity.currentAccount, account);
+                                }
+                            }
+                        });
+                dialog.dismiss();
+            });
+            dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+            dialogBuilder.show();
         } else if (item.getItemId() == R.id.action_manage_users) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MastodonListActivity.this, Helper.dialogStyle());
             PopupManageAccountsListBinding popupManageAccountsListBinding = PopupManageAccountsListBinding.inflate(getLayoutInflater());
