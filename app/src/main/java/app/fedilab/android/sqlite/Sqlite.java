@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 7;
+    public static final int DB_VERSION = 8;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -84,6 +84,9 @@ public class Sqlite extends SQLiteOpenHelper {
     //Tracking domains
     public static final String TABLE_DOMAINS_TRACKING = "TABLE_DOMAINS_TRACKING";
     public static final String COL_DOMAIN = "DOMAIN";
+    //Muted accounts for home
+    public static final String TABLE_MUTED = "TABLE_MUTED";
+    public static final String COL_MUTED_ACCOUNTS = "MUTED_ACCOUNTS";
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -177,6 +180,14 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_DOMAIN + " TEXT NOT NULL)";
 
+
+    private static final String CREATE_TABLE_MUTED = "CREATE TABLE IF NOT EXISTS " + TABLE_MUTED + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_TYPE + " TEXT NOT NULL, "
+            + COL_MUTED_ACCOUNTS + " TEXT)";
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -205,6 +216,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SCHEDULE_BOOST);
         db.execSQL(CREATE_TABLE_BOTTOM_MENU);
         db.execSQL(CREATE_DOMAINS_TRACKING);
+        db.execSQL(CREATE_TABLE_MUTED);
     }
 
     @Override
@@ -229,6 +241,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUICK_LOAD);
             case 6:
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOMAINS_TRACKING);
+            case 7:
+                db.execSQL(CREATE_TABLE_MUTED);
             default:
                 break;
         }
