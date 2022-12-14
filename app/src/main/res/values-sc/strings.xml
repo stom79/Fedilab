@@ -914,4 +914,10 @@
     <string name="set_customize_light_indication">Permitit de personalizare unos cantos elementos in is messàgios pro su tema craru.</string>
     <string name="toast_try_later">Torra a proare prus a tardu.</string>
     <string name="toast_error_fetch_message">S\'aplicatzione no at agatadu su messàgiu remotu.</string>
+    <string name="mute_tag_action">Pone s\'eticheta a sa muda</string>
+    <string name="unpin_tag">Isbloca s\'eticheta</string>
+    <string name="set_display_translate_indication">Ammustra semper su butone de tradutzione</string>
+    <string name="unmute_tag_action">Torra a ativare s\'eticheta</string>
+    <string name="pin_tag">Apica s\'eticheta</string>
+    <string name="unfollow_tag">Non sigas prus s\'eticheta</string>
 </resources>
