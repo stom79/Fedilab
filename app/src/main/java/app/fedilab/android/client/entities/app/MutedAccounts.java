@@ -213,9 +213,10 @@ public class MutedAccounts implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_MUTED, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, null, null);
+            Cursor c = db.query(Sqlite.TABLE_MUTED, null, Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND " + Sqlite.COL_USER_ID + " = '" + account.user_id + "'", null, null, null, null, "1");
             return convertCursorToMuted(c);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -227,12 +228,19 @@ public class MutedAccounts implements Serializable {
      * @return MutedAccounts
      */
     private MutedAccounts convertCursorToMuted(Cursor c) {
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
+        }
+        //Take the first element
+        c.moveToFirst();
         MutedAccounts mutedAccounts = new MutedAccounts();
         mutedAccounts.id = c.getInt(c.getColumnIndexOrThrow(Sqlite.COL_ID));
         mutedAccounts.instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
         mutedAccounts.user_id = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_USER_ID));
         mutedAccounts.accounts = restoreAccountsFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_MUTED_ACCOUNTS)));
         mutedAccounts.type = Timeline.TimeLineEnum.valueOf(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_TYPE)));
+        c.close();
         return mutedAccounts;
     }
 }

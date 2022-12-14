@@ -16,6 +16,8 @@ package app.fedilab.android.activities;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.helper.Helper.addMutedAccount;
+import static app.fedilab.android.helper.Helper.removeMutedAccount;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.BroadcastReceiver;
@@ -1011,12 +1013,18 @@ public class ProfileActivity extends BaseActivity {
                 builderInner.setPositiveButton(R.string.action_unmute, (dialog, which) -> accountsVM.unmuteHome(currentAccount, account)
                         .observe(ProfileActivity.this, account -> {
                             homeMuted = false;
+                            if (account != null) {
+                                removeMutedAccount(account);
+                            }
                             Toasty.info(ProfileActivity.this, getString(R.string.toast_unmute), Toasty.LENGTH_LONG).show();
                         }));
             } else {
                 builderInner.setTitle(R.string.mute_home);
                 builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, account)
                         .observe(ProfileActivity.this, account -> {
+                            if (account != null) {
+                                addMutedAccount(account);
+                            }
                             homeMuted = true;
                             sendAction(ProfileActivity.this, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, account.id);
                             Toasty.info(ProfileActivity.this, getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
