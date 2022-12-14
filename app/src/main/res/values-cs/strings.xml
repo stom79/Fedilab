@@ -443,7 +443,7 @@
     <string name="validation_needed">Tato instance funguje na pozvánky. Aby se dal váš účet používat, musí ho ručně schválit administrátor.</string>
     <string name="password_error">Hesla nesouhlasí!</string>
     <string name="email_error">E-mail se zdá být neplatný!</string>
-    <string name="email_indicator">Poslali jsme vám potvrzovací e-mail</string>
+    <string name="email_indicator">Instance vám pošle potvrzovací e-mail</string>
     <string name="password_indicator">Použijte minimálně 8 znaků</string>
     <string name="password_too_short">Heslo musí mít minimálně 8 znaků</string>
     <string name="username_error">Uživatelské jméno smí obsahovat jen písmena, číslice a podtržítka</string>
