@@ -494,7 +494,9 @@ public class SpannableHelper {
                 contentUrl = new SpannableString(Html.fromHtml(value, Html.FROM_HTML_MODE_LEGACY));
             else
                 contentUrl = new SpannableString(Html.fromHtml(value));
-
+            if (contentUrl.toString().trim().isEmpty()) {
+                continue;
+            }
             Pattern word = Pattern.compile(Pattern.quote(contentUrl.toString()));
             Matcher matcherLink = word.matcher(content);
             while (matcherLink.find()) {
