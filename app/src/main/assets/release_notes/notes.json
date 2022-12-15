@@ -1,8 +1,8 @@
 [
   {
-    "version": "3.11.1",
-    "code": "447",
-    "note": "Added:\n- Mute/Unmute accounts in the Home timeline from their messages or their profiles\n- Add all users from a list to \"Muted home\" in one click\n- Display/Manage users that are muted for home"
+    "version": "3.11.2",
+    "code": "448",
+    "note": "Added:\n- Mute/Unmute accounts in the Home timeline from their messages or their profiles\n- Add all users from a list to \"Muted home\" in one click\n- Display/Manage users that are muted for home\n\nFixed:\n- Timeline crashes"
   },
   {
     "version": "3.11.0",
