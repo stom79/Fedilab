@@ -92,7 +92,7 @@ public class FragmentMedia extends Fragment {
                 return;
             }
             canSwipe = (binding.mediaPicture.getScale() == 1);
-            if (!canSwipe) {
+            if (!canSwipe && !requireActivity().isFinishing() && isAdded()) {
                 if (!((MediaActivity) requireActivity()).getFullScreen()) {
                     ((MediaActivity) requireActivity()).setFullscreen(true);
                 }
