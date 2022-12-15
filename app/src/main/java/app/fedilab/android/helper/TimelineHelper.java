@@ -154,7 +154,7 @@ public class TimelineHelper {
                             if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
                                 if (filteredAccounts != null && filteredAccounts.size() > 0) {
                                     for (Account account : filteredAccounts) {
-                                        if (account.acct.equals(status.account.acct)) {
+                                        if (account.acct.equals(status.account.acct) || (status.reblog != null && account.acct.equals(status.reblog.account.acct))) {
                                             Filter filterCustom = new Filter();
                                             filterCustom.filter_action = "hide";
                                             ArrayList<String> contextCustom = new ArrayList<>();
