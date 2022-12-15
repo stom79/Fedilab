@@ -1,0 +1,7 @@
+Added:
+- Mute/Unmute accounts in the Home timeline from their messages or their profiles
+- Add all users from a list to "Muted home" in one click
+- Display/Manage users that are muted for home
+
+Fixed:
+- Timeline crashes

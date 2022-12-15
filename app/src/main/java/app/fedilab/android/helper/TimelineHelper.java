@@ -14,6 +14,8 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.filteredAccounts;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -35,6 +37,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonFiltersService;
+import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.api.Status;
@@ -90,6 +93,7 @@ public class TimelineHelper {
                 }
             }
         }
+
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
 
@@ -143,6 +147,23 @@ public class TimelineHelper {
                                 Matcher ms = p.matcher(spoilerText);
                                 if (ms.find()) {
                                     status.filteredByApp = filter;
+                                    continue;
+                                }
+                            }
+
+                            if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
+                                if (filteredAccounts != null && filteredAccounts.size() > 0) {
+                                    for (Account account : filteredAccounts) {
+                                        if (account.acct.equals(status.account.acct) || (status.reblog != null && account.acct.equals(status.reblog.account.acct))) {
+                                            Filter filterCustom = new Filter();
+                                            filterCustom.filter_action = "hide";
+                                            ArrayList<String> contextCustom = new ArrayList<>();
+                                            contextCustom.add("home");
+                                            filterCustom.title = "Fedilab";
+                                            filterCustom.context = contextCustom;
+                                            status.filteredByApp = filterCustom;
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.11.2",
+    "code": "448",
+    "note": "Added:\n- Mute/Unmute accounts in the Home timeline from their messages or their profiles\n- Add all users from a list to \"Muted home\" in one click\n- Display/Manage users that are muted for home\n\nFixed:\n- Timeline crashes"
+  },
+  {
     "version": "3.11.0",
     "code": "446",
     "note": "Added:\n- Display all messages in threads from remote instances (when possible)\n- Allow to unmute/unfollow/unpin a tag from tag timelines\n- Display most used accounts in header menu for an easy switch\n- Automatically add the tag when composing from a tag timeline\n- Add a translate button at the bottom of messages (default: disabled)\n- Add account role in profiles\n- Translate morse\n\nChanged:\n- Disable animations after a refresh\n\nFixed:\n- Contact not working when composing\n- Status bar for black theme\n- Message duplicated in conversations when edited\n- Color issue on Android 5\n- Several crashes"

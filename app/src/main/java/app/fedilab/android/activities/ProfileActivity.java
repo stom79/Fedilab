@@ -117,6 +117,7 @@ public class ProfileActivity extends BaseActivity {
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
     private boolean checkRemotely;
+    private boolean homeMuted;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -144,6 +145,7 @@ public class ProfileActivity extends BaseActivity {
         Bundle b = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
         checkRemotely = false;
+        homeMuted = false;
         if (b != null) {
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_USER_ID, null);
@@ -185,6 +187,8 @@ public class ProfileActivity extends BaseActivity {
             Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             finish();
         }
+        //Check if account is homeMuted
+        accountsVM.isMuted(currentAccount, account).observe(this, result -> homeMuted = result != null && result);
         LocalBroadcastManager.getInstance(ProfileActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
     }
 
@@ -685,9 +689,11 @@ public class ProfileActivity extends BaseActivity {
                 menu.findItem(R.id.action_endorse).setVisible(false);
                 menu.findItem(R.id.action_direct_message).setVisible(false);
                 menu.findItem(R.id.action_add_to_list).setVisible(false);
+                menu.findItem(R.id.action_mute_home).setVisible(false);
             } else {
                 menu.findItem(R.id.action_block).setVisible(true);
                 menu.findItem(R.id.action_mute).setVisible(true);
+                menu.findItem(R.id.action_mute_home).setVisible(true);
                 menu.findItem(R.id.action_timed_mute).setVisible(true);
                 menu.findItem(R.id.action_mention).setVisible(true);
             }
@@ -696,6 +702,7 @@ public class ProfileActivity extends BaseActivity {
                 if (!relationship.following) {
                     menu.findItem(R.id.action_hide_boost).setVisible(false);
                     menu.findItem(R.id.action_endorse).setVisible(false);
+                    menu.findItem(R.id.action_mute_home).setVisible(false);
                 }
                 if (relationship.blocking) {
                     menu.findItem(R.id.action_block).setTitle(R.string.action_unblock);
@@ -712,6 +719,11 @@ public class ProfileActivity extends BaseActivity {
                     menu.findItem(R.id.action_hide_boost).setTitle(getString(R.string.hide_boost, account.username));
                 } else {
                     menu.findItem(R.id.action_hide_boost).setTitle(getString(R.string.show_boost, account.username));
+                }
+                if (homeMuted) {
+                    menu.findItem(R.id.action_mute_home).setTitle(getString(R.string.unmute_home));
+                } else {
+                    menu.findItem(R.id.action_mute_home).setTitle(getString(R.string.mute_home));
                 }
             }
         }
@@ -989,6 +1001,28 @@ public class ProfileActivity extends BaseActivity {
                 });
                 builderInner.show();
             }
+        } else if (itemId == R.id.action_mute_home) {
+            AlertDialog.Builder builderInner = new AlertDialog.Builder(ProfileActivity.this, Helper.dialogStyle());
+            builderInner.setMessage(account.acct);
+            builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            if (homeMuted) {
+                builderInner.setTitle(R.string.unmute_home);
+                builderInner.setPositiveButton(R.string.action_unmute, (dialog, which) -> accountsVM.unmuteHome(currentAccount, account)
+                        .observe(ProfileActivity.this, account -> {
+                            homeMuted = false;
+                            invalidateOptionsMenu();
+                            Toasty.info(ProfileActivity.this, getString(R.string.toast_unmute), Toasty.LENGTH_LONG).show();
+                        }));
+            } else {
+                builderInner.setTitle(R.string.mute_home);
+                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, account)
+                        .observe(ProfileActivity.this, account -> {
+                            homeMuted = true;
+                            invalidateOptionsMenu();
+                            Toasty.info(ProfileActivity.this, getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                        }));
+            }
+            builderInner.show();
         } else if (itemId == R.id.action_timed_mute) {
             MastodonHelper.scheduleBoost(ProfileActivity.this, MastodonHelper.ScheduleType.TIMED_MUTED, null, account, rs -> {
                 this.relationship = rs;

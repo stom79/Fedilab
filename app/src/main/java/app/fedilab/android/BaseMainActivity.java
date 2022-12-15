@@ -127,6 +127,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.MutedAccounts;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.StatusCache;
@@ -164,6 +165,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static status networkAvailable = UNKNOWN;
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;
+    public static List<app.fedilab.android.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
     public static boolean show_boosts, show_replies, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
@@ -302,7 +304,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
-
+        filteredAccounts = new ArrayList<>();
         mamageNewIntent(getIntent());
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();
@@ -565,6 +567,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
                 //Delete cache older than 7 days
                 new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
+                MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
+                if (mutedAccounts != null && mutedAccounts.accounts != null) {
+                    filteredAccounts = mutedAccounts.accounts;
+                }
             } catch (DBException e) {
                 e.printStackTrace();
             }

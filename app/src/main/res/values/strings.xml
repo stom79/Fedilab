@@ -54,6 +54,7 @@
     <string name="home_menu">Home</string>
     <string name="local_menu">Local timeline</string>
     <string name="muted_menu">Muted users</string>
+    <string name="muted_menu_home">Home muted users</string>
     <string name="blocked_menu">Blocked users</string>
     <string name="notifications">Notifications</string>
     <string name="follow_request">Follow requests</string>
@@ -2059,4 +2060,9 @@
     <string name="pin_tag">Pin tag</string>
     <string name="unpin_tag">Unpin tag</string>
     <string name="unfollow_tag">Unfollow tag</string>
+    <string name="mute_home">Mute for home</string>
+    <string name="unmute_home">Unmute for home</string>
+    <string name="add_all_users_home_muted">Add all users in muted home</string>
+    <string name="put_all_accounts_in_home_muted">All accounts will be muted for the Home timeline.</string>
+    <string name="mute_them_all">Mute them all</string>
 </resources>

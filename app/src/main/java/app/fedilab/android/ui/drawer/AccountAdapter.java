@@ -42,6 +42,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.ProfileActivity;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.databinding.DrawerAccountBinding;
@@ -56,12 +57,19 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final List<Account> accountList;
     private Context context;
+    private final boolean home_mute;
+
+    public AccountAdapter(List<Account> accountList, boolean home_mute) {
+        this.accountList = accountList;
+        this.home_mute = home_mute;
+    }
 
     public AccountAdapter(List<Account> accountList) {
         this.accountList = accountList;
+        this.home_mute = false;
     }
 
-    public static void accountManagement(Context context, AccountViewHolder accountViewHolder, Account account, int position, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+    public static void accountManagement(Context context, AccountViewHolder accountViewHolder, Account account, int position, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, boolean home_mute) {
         MastodonHelper.loadPPMastodon(accountViewHolder.binding.avatar, account);
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -71,6 +79,21 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
             accountViewHolder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
             accountViewHolder.binding.dividerCard.setVisibility(View.GONE);
+        }
+
+        if (home_mute) {
+            accountViewHolder.binding.muteHome.setVisibility(View.VISIBLE);
+            boolean muted = MainActivity.filteredAccounts != null && MainActivity.filteredAccounts.contains(account);
+            accountViewHolder.binding.muteHome.setChecked(muted);
+            accountViewHolder.binding.muteHome.setOnClickListener(v -> {
+                if (muted) {
+                    accountsVM.unmuteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                } else {
+                    accountsVM.muteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                }
+            });
+        } else {
+            accountViewHolder.binding.muteHome.setVisibility(View.GONE);
         }
 
         accountViewHolder.binding.avatar.setOnClickListener(v -> {
@@ -263,7 +286,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Account account = accountList.get(position);
         AccountViewHolder holder = (AccountViewHolder) viewHolder;
-        accountManagement(context, holder, account, position, this);
+        accountManagement(context, holder, account, position, this, home_mute);
 
     }
 
