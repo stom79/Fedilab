@@ -226,7 +226,7 @@
     <string name="action_follow">Takip Et</string>
     <string name="action_unblock">Engeli kaldır</string>
     <string name="action_mute">Sustur</string>
-    <string name="action_unmute">Sesi aç</string>
+    <string name="action_unmute">Susturmaktan vazgeç</string>
     <string name="request_sent">İstek gönderildi</string>
     <string name="followed_by">Sizi takip ediyor</string>
     <string name="set_capitalize">Cevaplarda ilk harf büyük olsun</string>
@@ -647,8 +647,8 @@
     <string name="report_title">%1$s bildiriliyor</string>
     <string name="report_val_more2">Kötü amaçlı bağlantılar, sahte etkileşim veya tekrarlayan yanıtlar</string>
     <string name="report_1_unfollow">Bu hesabı takip ediyorsunuz. Gönderilerini artık ana akışınızda görmemek için onları takip etmeyi bırakın.</string>
-    <string name="report_1_mute_title">%1$s sesini kapat</string>
-    <string name="report_1_mute">Onların gönderilerini görmeyeceksiniz. Yine de sizi takip edebilir ve gönderilerinizi görebilirler ve sessize alındıklarını bilmezler.</string>
+    <string name="report_1_mute_title">%1$s sustur</string>
+    <string name="report_1_mute">Onların gönderilerini görmeyeceksiniz. Yine de sizi takip edebilir ve gönderilerinizi görebilirler ve susturulduklarını bilmezler.</string>
     <string name="report_1_block_title">%1$s engelle</string>
     <string name="report_2_title">Bu bildirimi destekleyen herhangi bir gönderi var mı\?</string>
     <string name="report_more_remote">Hesap başka bir sunucudan. Bildirimin anonimleştirilmiş bir kopyası da oraya gönderilsin mi\?</string>
@@ -899,7 +899,7 @@
     <string name="admin_domainblock_private_comment">Moderatörler tarafından özel kullanım için bu etki alanı sınırlaması hakkında yorum yapın.</string>
     <string name="admin_domainblock_reject_obfuscate">Etki alanı sınırlamaları listesinin tanıtılması etkinleştirilmişse listedeki etki alanı adını kısmen gizleyin</string>
     <string name="admin_domainblock_public_comment">Etki alanı sınırlamaları listesinin tanıtılması etkinleştirilmişse, bu etki alanı sınırlaması hakkında herkese açık yorum yapın.</string>
-    <string name="mute_tag">%1$s etiketini sessize almak istediğinizden emin misiniz\?</string>
+    <string name="mute_tag">%1$s etiketini susturmak istediğinizden emin misiniz\?</string>
     <string name="pref_customize">Renkleri özelleştir</string>
     <string name="pref_customize_summary">Temalar için özel renklerinizi ayarlamanıza izin verir.</string>
     <string name="set_dynamic_color">Değişken Renk</string>
@@ -920,10 +920,16 @@
     <string name="toast_on_your_instance">Görüşme sizin sunucunuzda başladı!</string>
     <string name="toast_try_later">Lütfen daha sonra tekrar deneyin.</string>
     <string name="toast_error_fetch_message">Uygulama uzak mesajı bulamadı.</string>
-    <string name="mute_tag_action">Etiketi sessize al</string>
+    <string name="mute_tag_action">Etiketi sustur</string>
     <string name="unpin_tag">Etiketin sabitlemesini kaldır</string>
     <string name="set_display_translate_indication">Her zaman çevir düğmesini göster</string>
-    <string name="unmute_tag_action">Etiketin sesini aç</string>
+    <string name="unmute_tag_action">Etiketi susturmaktan vazgeç</string>
     <string name="pin_tag">Etiketi sabitle</string>
     <string name="unfollow_tag">Etiketi takibi bırak</string>
+    <string name="muted_menu_home">Ana sayfada susturulan kullanıcılar</string>
+    <string name="put_all_accounts_in_home_muted">Ana sayfa zaman çizelgesi için tüm hesaplar susturulacaktır.</string>
+    <string name="mute_them_all">Tümünü sustur</string>
+    <string name="unmute_home">Ana sayfa için susturmaktan vazgeç</string>
+    <string name="add_all_users_home_muted">Tüm kullanıcıları ana sayfada susturmaya ekle</string>
+    <string name="mute_home">Ana sayfa için sustur</string>
 </resources>
