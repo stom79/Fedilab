@@ -55,7 +55,8 @@ public class FragmentLanguageSettings extends PreferenceFragmentCompat implement
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.compareToIgnoreCase(getString(R.string.SET_DEFAULT_LOCALE_NEW)) == 0 || key.compareToIgnoreCase(getString(R.string.SET_TRANSLATE_VALUES_RESET)) == 0) {
-            requireActivity().recreate();
+            requireActivity().finish();
+            startActivity(requireActivity().getIntent());
             Helper.recreateMainActivity(requireActivity());
         }
     }
