@@ -11,7 +11,7 @@
         android:background="@drawable/shape_counter"
         android:gravity="center"
         android:padding="3dp"
-        android:textColor="@color/white"
+        android:textColor="?colorOnPrimary"
         android:textSize="11sp"
         tools:text="9+" />
 </merge>
