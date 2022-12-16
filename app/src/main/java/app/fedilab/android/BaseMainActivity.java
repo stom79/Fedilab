@@ -322,7 +322,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         headerMenuOpen = false;
 
-
+        PushHelper.startStreaming(BaseMainActivity.this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -564,21 +564,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         //Update account details
         new Thread(() -> {
             try {
-                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
-                //Delete cache older than 7 days
-                new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
-                MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
-                if (mutedAccounts != null && mutedAccounts.accounts != null) {
-                    filteredAccounts = mutedAccounts.accounts;
+                if (currentToken == null) {
+                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
                 }
+                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
             } catch (DBException e) {
                 e.printStackTrace();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentToken == null) {
-                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
-                }
                 if (currentAccount == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
@@ -747,7 +741,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             return false;
         });
 
-        PushHelper.startStreaming(BaseMainActivity.this);
+
 
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
@@ -764,6 +758,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
+        //Fetch some db values to initialize data
+        new Thread(() -> {
+            try {
+                MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
+                if (mutedAccounts != null && mutedAccounts.accounts != null) {
+                    filteredAccounts = mutedAccounts.accounts;
+                }
+                //Delete cache older than 7 days
+                new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         //Fetch recent used accounts
         new Thread(() -> {
             try {
