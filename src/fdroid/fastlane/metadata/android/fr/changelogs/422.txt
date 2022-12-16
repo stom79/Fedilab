@@ -1,0 +1,13 @@
+Ajouté :
+- Affichage du client dans les messages détaillés
+- Support du visuel pour les citations commençant par ">"
+- Augmentation de l'indentation des fils (zéro à 20, défaut 5)
+- Visibilité des réponses publiques définies comme non-listée (peut être désactivé)
+
+Changé :
+- Réduction de la taille du titre quand le texte est agrandi.
+
+Résolu :
+- Filtres non-appliqués
+- Bloquer un compte ne retire pas les messages du cache
+- Quelques plantages

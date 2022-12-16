@@ -1,0 +1,5 @@
+Résolu :
+- Ordre des notifications
+- URL lors du partage des messages boostés
+- Pages vides au redémarrage
+- Quelques plantages

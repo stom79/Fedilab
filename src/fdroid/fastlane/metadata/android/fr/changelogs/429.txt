@@ -1,0 +1,2 @@
+Ajouté :
+- Support complet des nouveaux filtres de Mastodon 4

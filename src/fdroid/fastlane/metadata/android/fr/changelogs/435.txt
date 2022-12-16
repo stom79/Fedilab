@@ -1,0 +1,9 @@
+Ajouté :
+- Migration vers Material Design 3
+- 5 thèmes (Clair, Sombre, Solarized Clair/Sombre, Noir)
+- Basculement automatique entre Clair/Sombre
+- Les thèmes Clair et Sombre peuvent être définis en fonction de l'heure
+- Android 12+ : Couleur dynamique
+
+Résolu :
+- Sauts dans les timelines
