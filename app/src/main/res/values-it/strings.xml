@@ -865,7 +865,7 @@
     <string name="report_sent">Il report é stato inviato!</string>
     <string name="about_mastodon">\"Mastodon non é un singolo sito come Twitter o Facebook, é una rete di migliaia di communità gestite da organizzazioni e individui differenti che forniscono un\'esperienza social integrata.\"</string>
     <string name="mark_all_as_read">Segna tutte le notifiche come lette</string>
-    <string name="delete_notification_all_warning">Sei sicuro di voler eliminare tutte le notifiche\? L\'azione non puó essere annulata.</string>
+    <string name="delete_notification_all_warning">Sei sicuro di voler eliminare tutte le notifiche\? L\'azione non puó essere annullata.</string>
     <string name="notif_display_poll_results">Risultati sondaggio</string>
     <string name="msg_save_image">Vuoi uscire senza salvare l\'immagine\?</string>
     <string name="permission_missing">Permessi non abilitati!</string>
@@ -901,4 +901,18 @@
     <string name="show_anyway">Mostra comunque</string>
     <string name="toast_error_add_to_list">L\'app non é riuscita ad aggiungere l\'account nella lista!</string>
     <string name="delete_timeline">Elimina timeline</string>
+    <string name="toast_try_later">Riprova piú tardi.</string>
+    <string name="light_custom_colors">Chiaro - colori personalizzati</string>
+    <string name="cark_custom_colors">Scuro - Colori personalizzati</string>
+    <string name="toast_on_your_instance">La conversazione é iniziata sulla tua istanza!</string>
+    <string name="toast_error_fetch_message">L\'app non ha trovato il messaggio remoto.</string>
+    <string name="set_discoverable_content">Account suggeribile</string>
+    <string name="set_custom_colors">Imposta colori personalizzati</string>
+    <string name="mute_tag_action">Silenzia etichetta</string>
+    <string name="unmute_tag_action">Non silenziare etichetta</string>
+    <string name="pin_tag">Fissa etichetta</string>
+    <string name="unpin_tag">Non fissare etichetta</string>
+    <string name="unfollow_tag">Non seguire etichetta</string>
+    <string name="set_language_picker_title">Selettore lingua</string>
+    <string name="display_remote_conversation">Mostra conversazione remota</string>
 </resources>
