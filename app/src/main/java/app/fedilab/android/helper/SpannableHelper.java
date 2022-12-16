@@ -125,7 +125,7 @@ public class SpannableHelper {
                 linkColor = link_color;
             }
         } else {
-            linkColor = ThemeHelper.getAttColor(context, R.attr.linkColor);
+            linkColor = -1;
         }
 
         SpannableString initialContent;
@@ -474,7 +474,9 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setColor(linkColor);
+                        if (linkColor != -1) {
+                            ds.setColor(linkColor);
+                        }
                     }
 
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -701,7 +703,9 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
+                            if (linkColor != -1) {
+                                ds.setColor(linkColor);
+                            }
                         }
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
@@ -735,7 +739,9 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
+                        if (linkColor != -1) {
+                            ds.setColor(linkColor);
+                        }
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -772,7 +778,9 @@ public class SpannableHelper {
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
                         ds.setUnderlineText(false);
-                        ds.setColor(linkColor);
+                        if (linkColor != -1) {
+                            ds.setColor(linkColor);
+                        }
                     }
                 }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             }
@@ -929,7 +937,9 @@ public class SpannableHelper {
                         public void updateDrawState(@NonNull TextPaint ds) {
                             super.updateDrawState(ds);
                             ds.setUnderlineText(false);
-                            ds.setColor(linkColor);
+                            if (linkColor != -1) {
+                                ds.setColor(linkColor);
+                            }
                         }
 
                     }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -1078,7 +1088,9 @@ public class SpannableHelper {
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
                                                 ds.setUnderlineText(false);
-                                                ds.setColor(linkColor);
+                                                if (linkColor != -1) {
+                                                    ds.setColor(linkColor);
+                                                }
                                             }
                                         },
                         startPosition, endPosition,
