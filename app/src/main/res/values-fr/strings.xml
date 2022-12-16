@@ -932,4 +932,5 @@
     <string name="admin_domainblock_severity">Silencier rendra les publications du compte invisibles à quiconque n\'étant pas abonné. Suspendre supprimera tous les contenus du compte, médias, et données du profil. Utilisez Aucun si vous souhaitez rejeter uniquement les fichiers médias.</string>
     <string name="muted_menu_home">utilisateur·ices silencé·es sur l\'accueil</string>
     <string name="notif_submitted_report">Soumettre un rapport</string>
+    <string name="admin_domainblock_reject_obfuscate">Masquer partiellement le nom de domaine dans la liste si l\'option de publication restreinte de la liste de domaine est activée</string>
 </resources>
