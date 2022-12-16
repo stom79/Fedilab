@@ -177,7 +177,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String publicTrendsDomain;
     private int lockForResumeCall;
     private boolean isNotPinnedTimeline;
-
+    private int extraCalls;
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;
@@ -290,6 +290,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
         flagLoading = false;
+        extraCalls = -1;
 
     }
 
@@ -454,12 +455,34 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     min_id = fetched_statuses.pagination.min_id;
                 }
             }
+            int sizeBeforeFilter = 0;
+            int filteredMessage = 0;
+            int requestedMessages = MastodonHelper.statusesPerCall(requireActivity());
+            sizeBeforeFilter = fetched_statuses.statuses.size();
+            for (Status status : fetched_statuses.statuses) {
+                if (status.filteredByApp != null) {
+                    filteredMessage++;
+                }
+            }
+            //TODO: keep for an improvement in beta
+            /*
+            int displayedMessages = sizeBeforeFilter - filteredMessage;
+            if(displayedMessages < 5 && extraCalls < 8) {
+                router(direction);
+                if(extraCalls == -1) {
+                    extraCalls = 1;
+                } else {
+                    extraCalls++;
+                }
+            }*/
         } else if (direction == DIRECTION.BOTTOM) {
             flagLoading = true;
         }
         if (direction == DIRECTION.SCROLL_TOP) {
             binding.recyclerView.scrollToPosition(0);
         }
+
+
     }
 
     /**
@@ -568,6 +591,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 flagLoading = true;
                                 binding.loadingNextElements.setVisibility(View.VISIBLE);
                                 router(DIRECTION.BOTTOM);
+                                extraCalls = -1;
                             }
                         } else {
                             binding.loadingNextElements.setVisibility(View.GONE);
@@ -577,6 +601,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
                             router(DIRECTION.TOP);
+                            extraCalls = -1;
                         }
                     }
                 }

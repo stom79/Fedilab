@@ -761,6 +761,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         //Fetch some db values to initialize data
         new Thread(() -> {
             try {
+                if (currentAccount == null) {
+                    if (currentToken == null || currentToken.trim().isEmpty()) {
+                        currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                    }
+                    try {
+                        currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
                 MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
                 if (mutedAccounts != null && mutedAccounts.accounts != null) {
                     filteredAccounts = mutedAccounts.accounts;

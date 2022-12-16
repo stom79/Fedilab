@@ -105,7 +105,7 @@ public class TimelinesVM extends AndroidViewModel {
             sortDesc(statusList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                if (statusList.get(statusList.size() - 1).id.compareToIgnoreCase(timelineStatuses.get(0).id) > 0) {
+                if (!timelineStatuses.contains(statusList.get(statusList.size() - 1))) {
                     statusList.get(statusList.size() - 1).isFetchMore = true;
                     statusList.get(statusList.size() - 1).positionFetchMore = Status.PositionFetchMore.TOP;
                 }
@@ -128,7 +128,7 @@ public class TimelinesVM extends AndroidViewModel {
             sortDescConv(conversationList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                if (conversationList.get(conversationList.size() - 1).id.compareToIgnoreCase(timelineConversations.get(0).id) > 0) {
+                if (!timelineConversations.contains(conversationList.get(conversationList.size() - 1))) {
                     conversationList.get(conversationList.size() - 1).isFetchMore = true;
                     conversationList.get(conversationList.size() - 1).positionFetchMore = Conversation.PositionFetchMore.TOP;
                 }
