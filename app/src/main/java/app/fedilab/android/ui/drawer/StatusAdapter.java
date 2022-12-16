@@ -1021,11 +1021,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 new WeakReference<>(holder.binding.spoiler), () -> recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                         TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
-                statusToDeal.isMediaDisplayed = true;
             } else {
                 holder.binding.spoilerExpand.setOnClickListener(v -> {
                     statusToDeal.isExpended = !statusToDeal.isExpended;
-                    statusToDeal.isMediaDisplayed = !statusToDeal.isMediaDisplayed;
                     adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                 });
                 holder.binding.spoilerExpand.setVisibility(View.VISIBLE);
@@ -2025,7 +2023,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
-        if (!mediaObfuscated(statusToDeal) || expand_media) {
+        if (!statusToDeal.sensitive || expand_media) {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
             RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
                     .load(attachment.preview_url);
@@ -2051,8 +2049,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         layoutMediaBinding.media.setOnClickListener(v -> {
-            if (statusToDeal.isMediaObfuscated && mediaObfuscated(statusToDeal) && !expand_media) {
-                statusToDeal.isMediaObfuscated = false;
+            if (statusToDeal.sensitive && !expand_media) {
+                statusToDeal.sensitive = false;
                 int position = holder.getBindingAdapterPosition();
                 adapter.notifyItemChanged(position);
 
@@ -2062,7 +2060,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
 
                         public void onFinish() {
-                            statusToDeal.isMediaObfuscated = true;
+                            statusToDeal.sensitive = true;
                             adapter.notifyItemChanged(position);
                         }
                     }.start();
@@ -2099,7 +2097,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mRecyclerView = recyclerView;
     }
 
-    private static boolean mediaObfuscated(Status status) {
+   /* private static boolean mediaObfuscated(Status status) {
         //Media is not sensitive and  doesn't have a spoiler text
         if (!status.isMediaObfuscated) {
             return false;
@@ -2112,7 +2110,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             return status.sensitive;
         }
-    }
+    }*/
 
     /**
      * Send a broadcast to other open fragments that content a timeline
