@@ -1232,6 +1232,27 @@
         <item>sr</item>
         <item>uk</item>
         <item>ru</item>
+        <item>az</item>
+        <item>ca</item>
+        <item>cz</item>
+        <item>da</item>
+        <item>nl</item>
+        <item>eo</item>
+        <item>fi</item>
+        <item>el</item>
+        <item>he</item>
+        <item>hi</item>
+        <item>hu</item>
+        <item>id</item>
+        <item>ga</item>
+        <item>ko</item>
+        <item>fa</item>
+        <item>pl</item>
+        <item>sk</item>
+        <item>sv</item>
+        <item>tr</item>
+        <item>uk</item>
+        <item>vi</item>
     </string-array>
     <string-array name="SET_LIVE_TRANSLATE_VALUES" translatable="false">
         <item>-----</item>
@@ -1240,13 +1261,34 @@
         <item>Deutsch</item>
         <item>Italiano</item>
         <item>日本語</item>
-        <item>繁體中文</item>
+        <item>中文</item>
         <item>العربية</item>
         <item>Português</item>
         <item>Español</item>
         <item>Српски</item>
         <item>Українська</item>
         <item>Русский</item>
+        <item>azərbaycan dili</item>
+        <item>Català</item>
+        <item>Czech</item>
+        <item>Danish</item>
+        <item>Nederlands</item>
+        <item>Esperanto</item>
+        <item>suomi</item>
+        <item>Ελληνικά</item>
+        <item>עברית</item>
+        <item>हिन्दी</item>
+        <item>magyar</item>
+        <item>Bahasa Indonesia</item>
+        <item>Gaeilge</item>
+        <item>한국어</item>
+        <item>فارسی</item>
+        <item>Polski</item>
+        <item>Slovakia</item>
+        <item>Svenska</item>
+        <item>Türkçe</item>
+        <item>Українська</item>
+        <item>Tiếng Việt</item>
     </string-array>
     <string-array name="SET_TRANSLATE_VALUES" translatable="false">
         <item>English</item>
