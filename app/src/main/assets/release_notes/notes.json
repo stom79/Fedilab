@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.11.3",
+    "code": "449",
+    "note": "Added:\n- Add more targeted languages in picker for translations\n- Add account name in push notifications\n\nFixed:\n- Fix a crash when changing language\n- Fix counter colors\n- Fix default link color\n- Fix a crash when clicking on mentions"
+  },
+  {
     "version": "3.11.2",
     "code": "448",
     "note": "Added:\n- Mute/Unmute accounts in the Home timeline from their messages or their profiles\n- Add all users from a list to \"Muted home\" in one click\n- Display/Manage users that are muted for home\n\nFixed:\n- Timeline crashes"

@@ -1537,7 +1537,7 @@ public class Helper {
         }
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setLargeIcon(icon);
-
+        notificationBuilder.setSubText(String.format("@%s@%s", account.mastodon_account.username, account.instance));
 
         Notification summaryNotification = new NotificationCompat.Builder(context, channelId)
                 .setContentTitle(title)

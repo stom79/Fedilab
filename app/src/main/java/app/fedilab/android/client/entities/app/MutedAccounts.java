@@ -197,7 +197,7 @@ public class MutedAccounts implements Serializable {
         MutedAccounts mutedAccounts = getMutedAccount(forAccount);
         if (mutedAccounts != null && mutedAccounts.accounts != null) {
             for (Account account : mutedAccounts.accounts) {
-                if (account.id.equals(target.id)) {
+                if (account != null && target != null && account.id.equals(target.id)) {
                     return true;
                 }
             }

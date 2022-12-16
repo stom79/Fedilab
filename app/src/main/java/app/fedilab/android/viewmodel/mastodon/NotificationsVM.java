@@ -74,7 +74,7 @@ public class NotificationsVM extends AndroidViewModel {
             sortDesc(notificationList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
-                if (notificationList.get(notificationList.size() - 1).id.compareToIgnoreCase(timelineNotifications.get(0).id) > 0) {
+                if (!timelineNotifications.contains(notificationList.get(notificationList.size() - 1))) {
                     notificationList.get(notificationList.size() - 1).isFetchMore = true;
                     notificationList.get(notificationList.size() - 1).positionFetchMore = Notification.PositionFetchMore.TOP;
                 }

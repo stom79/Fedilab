@@ -1,0 +1,11 @@
+Ajouté :
+- Permettre de rétablir/ne plus suivre/désépingler une étiquette depuis les timelines des étiquettes
+- Automatiquement ajouter l'étiquette quand on écrit depuis une timeline d'étiquette
+- Ajout d'un bouton de traduction en bas des messages (par défaut : désactivé)
+- Ajout des rôles de comptes dans les profils
+
+Résolu :
+- Contact impossible quand on écrit
+- Barre de status pour le thème Noir
+- Message dupliqué dans les conversations lorsque édité
+- Problème de couleur sur Android 5

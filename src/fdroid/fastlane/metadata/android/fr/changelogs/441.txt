@@ -1,0 +1,3 @@
+Résolu :
+- Sauts lors du défilement avec ajustement des images
+- Bouton de récupération cassé avec le cache

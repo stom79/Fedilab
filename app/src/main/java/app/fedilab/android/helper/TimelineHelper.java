@@ -137,6 +137,8 @@ public class TimelineHelper {
                             if (m.find()) {
                                 status.filteredByApp = filter;
                                 continue;
+                            } else {
+                                status.filteredByApp = null;
                             }
                             if (status.spoiler_text != null) {
                                 String spoilerText;
@@ -147,24 +149,29 @@ public class TimelineHelper {
                                 Matcher ms = p.matcher(spoilerText);
                                 if (ms.find()) {
                                     status.filteredByApp = filter;
-                                    continue;
+                                } else {
+                                    status.filteredByApp = null;
                                 }
                             }
-
-                            if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
-                                if (filteredAccounts != null && filteredAccounts.size() > 0) {
-                                    for (Account account : filteredAccounts) {
-                                        if (account.acct.equals(status.account.acct) || (status.reblog != null && account.acct.equals(status.reblog.account.acct))) {
-                                            Filter filterCustom = new Filter();
-                                            filterCustom.filter_action = "hide";
-                                            ArrayList<String> contextCustom = new ArrayList<>();
-                                            contextCustom.add("home");
-                                            filterCustom.title = "Fedilab";
-                                            filterCustom.context = contextCustom;
-                                            status.filteredByApp = filterCustom;
-                                        }
-                                    }
-                                }
+                        }
+                    }
+                }
+            }
+            if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
+                if (filteredAccounts != null && filteredAccounts.size() > 0) {
+                    for (Status status : statuses) {
+                        if (status.filteredByApp != null) {
+                            continue;
+                        }
+                        for (Account account : filteredAccounts) {
+                            if (account.acct.equals(status.account.acct) || (status.reblog != null && account.acct.equals(status.reblog.account.acct))) {
+                                Filter filterCustom = new Filter();
+                                filterCustom.filter_action = "hide";
+                                ArrayList<String> contextCustom = new ArrayList<>();
+                                contextCustom.add("home");
+                                filterCustom.title = "Fedilab";
+                                filterCustom.context = contextCustom;
+                                status.filteredByApp = filterCustom;
                             }
                         }
                     }

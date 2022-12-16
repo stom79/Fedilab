@@ -1,0 +1,18 @@
+Ajouté :
+- Liste des domaines bloqués (permet de débloquer)
+- Prise en charge des liens gemini
+- Suiveurs suggérés
+- Mod/Adm : gérer les domaines bloqués par l'instance
+- Ouvrir des messages avec un autre compte
+- Autoriser à désactiver les notifications pour les administrateurs
+- Trier les listes
+
+Modifié :
+- Autoriser la modification du terme de recherche
+
+Fixé :
+- Brouillons supprimés sans avertissement
+- Supprimer les listes de "Gérer les chronologies"
+- L'application plante lorsque le proxy est défini
+- Filtre non synchronisé après avoir été modifié
+- Quelques plantages / améliorations

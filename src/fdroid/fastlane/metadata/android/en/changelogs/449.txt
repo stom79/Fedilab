@@ -1,0 +1,9 @@
+Added:
+- Add more targeted languages in picker for translations
+- Add account name in push notifications
+
+Fixed:
+- Fix a crash when changing language
+- Fix counter colors
+- Fix default link color
+- Fix a crash when clicking on mentions

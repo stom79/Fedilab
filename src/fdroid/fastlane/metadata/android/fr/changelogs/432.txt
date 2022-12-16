@@ -1,0 +1,13 @@
+Ajouté :
+- Liste des domaines bloqués (permet de débloquer) 
+- Prise en charge des liens gemini
+- Suggestion de Suiveurs
+
+Modifié :
+- Autoriser la modification du terme de recherche
+
+Fixé :
+- Brouillons supprimés sans avertissement
+- L'application plante lorsque le proxy est défini
+- Filtre non synchronisé après avoir été modifié
+- Quelques plantages

@@ -1,0 +1,4 @@
+Résolu :
+- Les émojis personnalisés ne sont pas toujours affichés
+- Sauts dans les timelines quand "ajuster les images" est utilisé
+- Thème sombre : boutons de timeline sans toggle

@@ -1,0 +1,4 @@
+Résolu :
+- Problèmes avec des messages/notifications affichés incorrectement
+- Friendica : problèmes avec les mentions et étiquettes (ouvrir le navigateur)
+- Amélioration du partage

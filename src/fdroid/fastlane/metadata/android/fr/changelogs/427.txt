@@ -1,0 +1,16 @@
+Ajouté :
+- Suivi des balises (entrée dédiée dans le menu)
+- Réduction de la liste des langues lors de la rédaction (Paramètres > Composer)
+- Indicateur de langue lors de la rédaction
+- Les réponses sont automatiquement définies sur la langue du premier message
+- Deux nouveaux thèmes de jour
+- Plus de fonctionnalités de modération
+- Le nom de la liste peut être modifié 
+
+Résolu :
+- Le filtre ne fonctionne pas
+- Plantage avec les tendances
+- Problème avec les thèmes
+- Certains contenus perdus lors de l'envoi de messages (mentions)
+- Correction des blocages dans les fils chronologiques
+- Quelques autres correctifs

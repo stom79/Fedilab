@@ -1,0 +1,14 @@
+Ajouté :
+- Prise en charge complète des nouveaux filtres pour Mastodon 4
+- Visiter les profils sans être authentifié / Autoriser l'affichage de tous leurs messages
+
+Modifié :
+- La vue Composer prend toute la largeur même dans les fils
+- Les comptes peuvent être mis en sourdine à partir de leur profil
+
+Résolu :
+- Brouillon stocké lors de la réponse "non" ou de l'invite de dialogue sans modifications
+- Pages vides au démarrage de l'application
+- L'enregistrement et le partage de médias échouent sur certains appareils
+- Ajout de la prise en charge des notifications d'administration
+- Copier le contenu d'un message
