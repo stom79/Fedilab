@@ -920,4 +920,10 @@
     <string name="unmute_tag_action">Torra a ativare s\'eticheta</string>
     <string name="pin_tag">Apica s\'eticheta</string>
     <string name="unfollow_tag">Non sigas prus s\'eticheta</string>
+    <string name="mute_home">Pone a sa muda pro sa pàgina printzipale</string>
+    <string name="muted_menu_home">Serbidores a sa muda in sa pàgina printzipale</string>
+    <string name="add_all_users_home_muted">Annanghe totu is utentes in sa pàgina printzipale a sa muda</string>
+    <string name="unmute_home">Torra a ativare pro sa pàgina printzipale</string>
+    <string name="put_all_accounts_in_home_muted">Totu is contos ant a abarrare a sa muda in sa lìnia de tempus printzipale.</string>
+    <string name="mute_them_all">Pone·los totus a sa muda</string>
 </resources>
