@@ -19,6 +19,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.webkit.URLUtil;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,8 +32,11 @@ import androidx.navigation.Navigation;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import java.io.IOException;
+
 import app.fedilab.android.R;
-import app.fedilab.android.helper.SettingsStorage;
+import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ZipHelper;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentSettingsCategories extends PreferenceFragmentCompat {
@@ -117,7 +122,11 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
         }
         ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted) {
-                SettingsStorage.saveSharedPreferencesToFile(requireActivity());
+                try {
+                    ZipHelper.exportData(requireActivity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
             }
@@ -152,12 +161,18 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == PICKUP_FILE) {
-            boolean result = data != null && SettingsStorage.loadSharedPreferencesFromFile(requireActivity(), data.getData());
-            if (result) {
-                Toasty.success(requireActivity(), getString(R.string.data_import_settings_success), Toasty.LENGTH_LONG).show();
-            } else {
-                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+            if (data == null || data.getData() == null) {
+                Toasty.error(requireActivity(), getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
+                return;
             }
+            String uriFullPath = data.getData().getPath();
+            String[] uriFullPathStr = uriFullPath.split(":");
+            String fullPath = uriFullPath;
+            if (uriFullPathStr.length > 1) {
+                fullPath = uriFullPathStr[1];
+            }
+            final String fileName = URLUtil.guessFileName(fullPath, null, null);
+            Helper.createFileFromUri(requireActivity(), data.getData(), file -> ZipHelper.importData(requireActivity(), file));
         }
     }
 
@@ -167,7 +182,11 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
         if (requestCode == REQUEST_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                SettingsStorage.saveSharedPreferencesToFile(requireActivity());
+                try {
+                    ZipHelper.exportData(requireActivity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 Toasty.error(requireActivity(), getString(R.string.permission_missing), Toasty.LENGTH_SHORT).show();
             }

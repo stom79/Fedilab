@@ -68,6 +68,7 @@ public class MutedAccounts implements Serializable {
         try {
             return gson.toJson(accounts);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

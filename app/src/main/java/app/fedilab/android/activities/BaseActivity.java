@@ -19,11 +19,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -84,9 +81,6 @@ public class BaseActivity extends AppCompatActivity {
                             break;
                         case "BLACK":
                             setTheme(R.style.BlackAppTheme);
-                            Window window = getWindow();
-                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                            window.setStatusBarColor(Color.BLACK);
                             currentThemeId = R.style.BlackAppTheme;
                             break;
                         case "DRACULA":
@@ -121,9 +115,6 @@ public class BaseActivity extends AppCompatActivity {
                 case "BLACK":
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.BlackAppTheme);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(Color.BLACK);
                     currentThemeId = R.style.BlackAppTheme;
                     break;
                 case "DRACULA":
