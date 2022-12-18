@@ -1,0 +1,8 @@
+Added:
+- Full data import/export feature
+- Android 13 themed icon support
+
+Fixed:
+- Fix a regression with filters
+- Fix dark solarized theme
+- Fix status bar color for all themes
