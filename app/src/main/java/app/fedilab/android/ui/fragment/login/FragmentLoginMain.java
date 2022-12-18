@@ -15,6 +15,7 @@ package app.fedilab.android.ui.fragment.login;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static android.app.Activity.RESULT_OK;
 import static app.fedilab.android.activities.LoginActivity.apiLogin;
 import static app.fedilab.android.activities.LoginActivity.client_idLogin;
 import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
@@ -22,8 +23,9 @@ import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
 import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,11 +38,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -55,6 +59,7 @@ import app.fedilab.android.client.entities.app.InstanceSocial;
 import app.fedilab.android.databinding.FragmentLoginMainBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
+import app.fedilab.android.helper.ZipHelper;
 import app.fedilab.android.viewmodel.mastodon.AppsVM;
 import app.fedilab.android.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
@@ -65,7 +70,9 @@ public class FragmentLoginMain extends Fragment {
     private FragmentLoginMainBinding binding;
     private boolean searchInstanceRunning = false;
     private String oldSearch;
-
+    private static final int REQUEST_CODE = 5412;
+    private final int PICK_IMPORT = 5557;
+    private ActivityResultLauncher<String> permissionLauncher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +83,24 @@ public class FragmentLoginMain extends Fragment {
         InstanceSocialVM instanceSocialVM = new ViewModelProvider(FragmentLoginMain.this).get(InstanceSocialVM.class);
         binding.menuIcon.setOnClickListener(this::showMenu);
         binding.loginInstance.setOnItemClickListener((parent, view, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
+
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                Intent openFileIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                openFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                openFileIntent.setType("application/zip");
+                String[] mimeTypes = new String[]{"application/zip"};
+                openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                //noinspection deprecation
+                startActivityForResult(
+                        Intent.createChooser(
+                                openFileIntent,
+                                getString(R.string.load_settings)), PICK_IMPORT);
+            } else {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+            }
+        });
+
         binding.loginInstance.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -184,7 +209,6 @@ public class FragmentLoginMain extends Fragment {
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
         MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         adminTabItem.setChecked(requestedAdmin);
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
@@ -208,6 +232,8 @@ public class FragmentLoginMain extends Fragment {
                         return false;
                     }
                 });
+            } else if (itemId == R.id.action_import_data) {
+                permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
             return false;
         });
@@ -257,5 +283,45 @@ public class FragmentLoginMain extends Fragment {
             }
 
         });
+    }
+
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMPORT && resultCode == RESULT_OK) {
+            if (data == null || data.getData() == null) {
+                Toasty.error(requireActivity(), getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
+                return;
+            }
+            Helper.createFileFromUri(requireActivity(), data.getData(), file -> ZipHelper.importData(requireActivity(), file));
+        } else {
+            Toasty.error(requireActivity(), getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent openFileIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                openFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                openFileIntent.setType("application/zip");
+                String[] mimeTypes = new String[]{"application/zip"};
+                openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                startActivityForResult(
+                        Intent.createChooser(
+                                openFileIntent,
+                                getString(R.string.load_settings)), PICK_IMPORT);
+            } else {
+                Toasty.error(requireActivity(), getString(R.string.permission_missing), Toasty.LENGTH_SHORT).show();
+            }
+        }
     }
 }

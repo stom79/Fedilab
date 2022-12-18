@@ -54,8 +54,8 @@ public class LoginActivity extends BaseActivity {
 
     public static Account.API apiLogin;
     public static String currentInstanceLogin, client_idLogin, client_secretLogin, softwareLogin;
-    private final int PICK_IMPORT = 5557;
     public static boolean requestedAdmin;
+
 
     @SuppressLint("ApplySharedPref")
     public void proceedLogin(Activity activity, Account account) {
@@ -154,6 +154,8 @@ public class LoginActivity extends BaseActivity {
         //The activity handles a redirect URI, it will extract token code and will proceed to authentication
         //That happens when the user wants to use an external browser
         manageItent(getIntent());
+
+
     }
 
 
@@ -176,7 +178,6 @@ public class LoginActivity extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         if (id == R.id.action_proxy) {
             Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
             startActivity(intent);
@@ -188,20 +189,5 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMPORT && resultCode == RESULT_OK) {
-            if (data == null || data.getData() == null) {
-                Toasty.error(LoginActivity.this, getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
-                return;
-            }
-            //  String filename = Helper.getFilePathFromURI(LoginActivity.this, data.getData());
-            //   Sqlite.importDB(LoginActivity.this, filename);
-        } else {
-            Toasty.error(LoginActivity.this, getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
-        }
-    }
 
 }

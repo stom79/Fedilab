@@ -312,7 +312,7 @@ public class Helper {
     public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
     public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";
     public static final String TEMP_MEDIA_DIRECTORY = "TEMP_MEDIA_DIRECTORY";
-
+    public static final String TEMP_EXPORT_DATA = "TEMP_EXPORT_DATA";
 
     public static final int EXTERNAL_STORAGE_REQUEST_CODE = 84;
     public static final int EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE = 85;
@@ -1276,6 +1276,50 @@ public class Helper {
         }).start();
     }
 
+
+    public static void createFileFromUri(Context context, Uri uri, OnFileCopied callBack) {
+        new Thread(() -> {
+            InputStream selectedFileInputStream;
+            File file = null;
+            try {
+                String uriFullPath = uri.getPath();
+                String[] uriFullPathStr = uriFullPath.split(":");
+                String fullPath = uriFullPath;
+                if (uriFullPathStr.length > 1) {
+                    fullPath = uriFullPathStr[1];
+                }
+                final String fileName = Helper.dateFileToString(context, new Date()) + ".zip";
+                selectedFileInputStream = context.getContentResolver().openInputStream(uri);
+                if (selectedFileInputStream != null) {
+                    final File certCacheDir = new File(context.getCacheDir(), TEMP_EXPORT_DATA);
+                    boolean isCertCacheDirExists = certCacheDir.exists();
+                    if (!isCertCacheDirExists) {
+                        isCertCacheDirExists = certCacheDir.mkdirs();
+                    }
+                    if (isCertCacheDirExists) {
+                        String filePath = certCacheDir.getAbsolutePath() + "/" + fileName;
+                        file = new File(filePath);
+                        OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
+                        byte[] buffer = new byte[1024];
+                        int length;
+                        while ((length = selectedFileInputStream.read(buffer)) > 0) {
+                            selectedFileOutPutStream.write(buffer, 0, length);
+                        }
+                        selectedFileOutPutStream.flush();
+                        selectedFileOutPutStream.close();
+                    }
+                    selectedFileInputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            File finalFile = file;
+            Runnable myRunnable = () -> callBack.onFileCopied(finalFile);
+            mainHandler.post(myRunnable);
+        }).start();
+    }
+
     public static void createAttachmentFromPAth(String path, OnAttachmentCopied callBack) {
         new Thread(() -> {
             Attachment attachment = new Attachment();
@@ -1952,6 +1996,10 @@ public class Helper {
 
     public interface OnAttachmentCopied {
         void onAttachmentCopied(Attachment attachment);
+    }
+
+    public interface OnFileCopied {
+        void onFileCopied(File file);
     }
 
     public static void addMutedAccount(app.fedilab.android.client.entities.api.Account target) {

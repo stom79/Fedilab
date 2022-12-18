@@ -2107,4 +2107,5 @@
     <string name="add_all_users_home_muted">Add all users in muted home</string>
     <string name="put_all_accounts_in_home_muted">All accounts will be muted for the Home timeline.</string>
     <string name="mute_them_all">Mute them all</string>
+    <string name="import_data">Import data</string>
 </resources>
