@@ -150,9 +150,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
                         .observe(MastodonListActivity.this, accounts -> {
                             if (accounts != null && accounts.size() > 0) {
-                                for (Account account : accounts) {
-                                    accountsVM.muteHome(MainActivity.currentAccount, account);
-                                }
+                                accountsVM.muteAccountsHome(MainActivity.currentAccount, accounts);
                             }
                         });
                 dialog.dismiss();

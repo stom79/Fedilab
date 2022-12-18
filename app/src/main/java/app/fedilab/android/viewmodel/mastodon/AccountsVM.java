@@ -813,7 +813,6 @@ public class AccountsVM extends AndroidViewModel {
     public LiveData<Account> muteHome(@NonNull BaseAccount forAccount, @NonNull Account target) {
         accountMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-
             try {
                 new MutedAccounts(getApplication().getApplicationContext()).muteAccount(forAccount, target);
                 addMutedAccount(target);
@@ -827,6 +826,32 @@ public class AccountsVM extends AndroidViewModel {
         }).start();
         return accountMutableLiveData;
     }
+
+
+    /**
+     * Mute the given account in db
+     *
+     * @return {@link LiveData} containing the {@link Account} to the given account
+     */
+    public LiveData<List<Account>> muteAccountsHome(@NonNull BaseAccount forAccount, @NonNull List<Account> targets) {
+        accountListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            try {
+                for (Account target : targets) {
+                    new MutedAccounts(getApplication().getApplicationContext()).muteAccount(forAccount, target);
+                    sendAction(getApplication().getApplicationContext(), Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, target.id);
+                    addMutedAccount(target);
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountListMutableLiveData.setValue(targets);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountListMutableLiveData;
+    }
+
 
     /**
      * Unmute the given account in db
