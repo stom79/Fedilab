@@ -7,5 +7,6 @@ Fixed:
 - Fix dark solarized theme
 - Fix hide link previews for CW
 - Fix status bar color for all themes
+- Fix language in compose "..."
 - Fix add all home muted accounts from lists
 - Fix top notification badges
