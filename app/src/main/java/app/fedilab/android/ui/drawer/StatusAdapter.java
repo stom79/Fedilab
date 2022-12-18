@@ -1129,10 +1129,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
                 holder.binding.statusContent.setVisibility(View.VISIBLE);
+                if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+                    holder.binding.card.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.card.setVisibility(View.GONE);
+                }
             }
         } else {
             holder.binding.statusContent.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
+            holder.binding.card.setVisibility(View.GONE);
         }
 
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
