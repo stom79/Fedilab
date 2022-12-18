@@ -8,10 +8,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:layout_marginStart="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:background="@drawable/shape_counter"
         android:gravity="center"
         android:padding="3dp"
-        android:textColor="?colorOnPrimary"
+        android:textColor="?colorOnErrorContainer"
         android:textSize="11sp"
         tools:text="9+" />
 </merge>

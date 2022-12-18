@@ -6,3 +6,5 @@ Fixed:
 - Fix a regression with filters
 - Fix dark solarized theme
 - Fix status bar color for all themes
+- Fix add all home muted accounts from lists
+- Fix top notification badges
