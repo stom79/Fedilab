@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <attr name="linkColor" type="color" />
+    <attr name="statusBar" type="color" />
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="linkColor">@color/md_theme_light_primary</item>
@@ -22,6 +23,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="statusBar">@color/md_theme_light_background</item>
         <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
@@ -43,6 +45,7 @@
         </item>
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform
         </item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
     </style>
 
     <style name="AppThemeBar" parent="Theme.Material3.Light">
@@ -65,6 +68,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="statusBar">@color/md_theme_light_background</item>
         <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
@@ -77,6 +81,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:isLightTheme" tools:targetApi="q">true</item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
     </style>
 
     <style name="Transparent" parent="AppThemeBar">
@@ -107,6 +112,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="statusBar">@color/md_theme_light_background</item>
         <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
@@ -143,6 +149,7 @@
         <item name="colorOnError">@color/solarized_md_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_light_onErrorContainer</item>
         <item name="android:colorBackground">@color/solarized_md_theme_light_background</item>
+        <item name="statusBar">@color/solarized_md_theme_light_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_light_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_light_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_light_onSurface</item>
@@ -186,6 +193,7 @@
         <item name="colorOnError">@color/solarized_md_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_light_onErrorContainer</item>
         <item name="android:colorBackground">@color/solarized_md_theme_light_background</item>
+        <item name="statusBar">@color/solarized_md_theme_light_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_light_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_light_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_light_onSurface</item>

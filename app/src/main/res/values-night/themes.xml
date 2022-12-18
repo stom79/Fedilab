@@ -4,7 +4,7 @@
 
     <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="linkColor">@color/md_theme_dark_primary</item>
-
+        <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
@@ -23,6 +23,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
@@ -47,6 +48,7 @@
     </style>
 
     <style name="AppThemeBar" parent="Theme.Material3.Dark">
+        <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="linkColor">@color/md_theme_dark_primary</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
@@ -66,6 +68,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
@@ -101,6 +104,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
@@ -138,6 +142,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/solarized_md_theme_dark_background</item>
+        <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
@@ -172,6 +177,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/solarized_md_theme_dark_background</item>
+        <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
@@ -185,6 +191,7 @@
 
     <style name="TransparentSolarized" parent="SolarizedAppThemeBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="statusBar">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -214,6 +221,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/solarized_md_theme_dark_background</item>
+        <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
@@ -246,6 +254,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/black</item>
+        <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
@@ -276,6 +285,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/black</item>
+        <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
@@ -289,6 +299,7 @@
 
     <style name="TransparentBlack" parent="BlackAppThemeBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="statusBar">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -314,6 +325,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/black</item>
+        <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
@@ -347,6 +359,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/dracula_background</item>
+        <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
@@ -378,6 +391,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/dracula_background</item>
+        <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
@@ -391,6 +405,7 @@
 
     <style name="TransparentDracula" parent="DraculaAppThemeBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="statusBar">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -416,6 +431,7 @@
         <item name="colorOnError">@color/solarized_md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/solarized_md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/dracula_background</item>
+        <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
