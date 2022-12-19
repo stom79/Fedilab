@@ -35,8 +35,8 @@
     <string name="open_with">Malfermi per</string>
     <string name="validate">Validigu</string>
     <string name="media">Aŭdovidaĵoj</string>
-    <string name="share_with">Konigi kun</string>
-    <string name="shared_via">Komuna tra Fedilab</string>
+    <string name="share_with">Konigi per</string>
+    <string name="shared_via">Konigita per Fedilab</string>
     <string name="replies">Respondoj</string>
     <string name="username">Uzantnomo</string>
     <string name="drafts">Malnetoj</string>
@@ -45,7 +45,7 @@
     <string name="mention">Mencioj</string>
     <string name="reblog">Diskonigoj</string>
     <string name="show_boosts">Montri diskonigojn</string>
-    <string name="show_replies">Montri la respondojn</string>
+    <string name="show_replies">Montri respondojn</string>
     <string name="action_open_in_web">Malfermu en retumilo</string>
     <string name="translate">Traduku</string>
     <!--- Menu -->
@@ -56,12 +56,12 @@
     <string name="notifications">Sciigoj</string>
     <string name="follow_request">Petoj de sekvado</string>
     <string name="settings">Agordoj</string>
-    <string name="send_email">Sendi per retmesaĝo</string>
+    <string name="send_email">Sendi retpoŝton</string>
     <string name="scheduled_toots">Planitaj hupoj</string>
     <string name="disclaimer_full">Subaj informoj povas nekomplete prezenti la profilon de la uzanto.</string>
     <string name="insert_emoji">Enmeti emoĝion</string>
-    <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
-    <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+    <string name="no_emoji">La apo ne havas adaptitajn emoĝiojn ĉi-okaze.</string>
+    <string name="logout_account_confirmation">Ĉu vi certas ke vi volas elsaluti\? @%1$s@%2$s\?</string>
     <!-- Status -->
     <string name="no_status">Neniu hupo por montri</string>
     <string name="favourite_add">Aldoni hupon al viajn stelumajn\?</string>
@@ -75,7 +75,7 @@
     <string name="more_action_5">Kopii</string>
     <string name="more_action_6">Konigi</string>
     <string name="more_action_7">Mencii</string>
-    <string name="more_action_8">Timed mute</string>
+    <string name="more_action_8">Tempumita silentigo</string>
     <string name="more_action_9">Forigi kaj reskribi</string>
     <string-array name="more_action_confirm">
         <item>Silentigi ĉi-tiun konton?</item>
@@ -125,38 +125,42 @@
     <string name="toot_error_no_content">Via hupo estas malplena!</string>
     <string name="toot_sent">La hupo estis sendita!</string>
     <string name="toot_sensitive">Tikla enhavo?</string>
-    <string name="no_draft">Neniu malnetoj!</string>
-    <string name="choose_accounts">Elekti kontojn</string>
-    <string name="select_accounts">Elekti kelkaj kontoj</string>
-    <string name="remove_draft">Forigi malneto?</string>
-    <string name="upload_form_description">Describe for the visually impaired</string>
+    <string name="no_draft">Neniu malneto!</string>
+    <string name="choose_accounts">Elekti konton</string>
+    <string name="select_accounts">Elektu kelkajn kontojn</string>
+    <string name="remove_draft">Forigi malneton\?</string>
+    <string name="upload_form_description">Priskribu por vidhandikapitoj</string>
     <!-- Instance -->
     <string name="instance_no_description">Neniu priskribo havebla!</string>
     <!-- About -->
-    <string name="about_vesrion">Release %1$s</string>
+    <string name="about_vesrion">Eldono %1$s</string>
     <string name="about_developer">Programistoj:</string>
     <string name="about_license">Permesilo: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Kodo: </string>
-    <string name="about_thekinrar">Serĉi instencoj:</string>
+    <string name="about_thekinrar">Serĉi instancojn:</string>
     <!-- Conversation -->
     <!-- Accounts -->
     <string name="no_accounts">Neniu konto por montri</string>
-    <string name="no_follow_request">Ne sekva peton</string>
+    <string name="no_follow_request">Neniu peto pri sekvado</string>
     <string name="status_cnt">Hupoj
 \n %1$s</string>
-    <string name="following_cnt">Sekvante \n %1$s</string>
-    <string name="followers_cnt">Sekvante \n %1$s</string>
+    <string name="following_cnt">Sekvas
+\n %1$s</string>
+    <string name="followers_cnt">Sekvantoj
+\n %1$s</string>
     <string name="reject">Malakcepti</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Neniu planitaj hupoj por montri!</string>
     <string name="remove_scheduled">Forigi planita mesaĝon?</string>
     <string name="toot_scheduled">La mesaĝo estis planita!</string>
-    <string name="toot_scheduled_date">La planita dato devas pli granda ol la nunhoro!</string>
+    <string name="toot_scheduled_date">La planita dato devas pli malfrua ol la nuna horo!</string>
     <!-- timed mute -->
-    <string name="timed_mute_date_error">The time for muting should be greater than one minute.</string>
-    <string name="timed_mute_date">%1$s has been muted until %2$s.\n You can unmute this account from their profile page.</string>
-    <string name="timed_mute_profile">%1$s is muted until %2$s.\n Tap here to unmute the account.</string>
+    <string name="timed_mute_date_error">La tempo por silentigo devas esti pli longa ol unu minuto.</string>
+    <string name="timed_mute_date">%1$s silentigita ĝis %2$s.
+\nVi povas malsilentigi ĉi tiun konton en ĝia profilpaĝo.</string>
+    <string name="timed_mute_profile">%1$s silentigita ĝis %2$s.
+\nKlaku ĉi tie por malsilentigi la konton.</string>
     <!-- Notifications -->
     <string name="no_notifications">Neniun sciigon por montri</string>
     <string name="notif_mention">menciis vin</string>
