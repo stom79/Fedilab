@@ -1,0 +1,6 @@
+Added:
+- Post random quotes
+
+Fixed:
+- Behavior with cw toggle
+- Truncated gimini links

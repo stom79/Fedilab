@@ -263,7 +263,7 @@ public class SpannableHelper {
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
             String urlText = newURL;
-            if (newURL.length() > 30 && !urlDetails.containsKey(urlText)) {
+            if (newURL.length() > 30 && !urlDetails.containsKey(urlText) && !urlText.startsWith("gemini")) {
                 urlText = urlText.substring(0, 30);
                 urlText += "…";
                 content.replace(matchStart, matchEnd, urlText);
