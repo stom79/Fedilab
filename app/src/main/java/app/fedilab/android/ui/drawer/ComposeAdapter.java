@@ -71,12 +71,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,6 +91,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,6 +108,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.Languages;
+import app.fedilab.android.client.entities.app.Quotes;
 import app.fedilab.android.client.entities.app.StatusDraft;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
@@ -545,6 +552,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void run() {
                             String fedilabHugsTrigger = ":fedilab_hugs:";
                             String fedilabMorseTrigger = ":fedilab_morse:";
+                            String fedilabQuoteTrigger = ":fedilab_quote:";
                             if (s.toString().contains(fedilabHugsTrigger)) {
                                 newContent[0] = s.toString().replaceAll(Pattern.quote(fedilabHugsTrigger), "").trim();
                                 int toFill = 500 - newContent[0].length();
@@ -612,6 +620,57 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     updateCharacterCount(holder);
                                 };
                                 mainHandler.post(myRunnable);
+                            } else if (s.toString().contains(fedilabQuoteTrigger)) {
+                                newContent[0] = s.toString().replaceAll(fedilabQuoteTrigger, "").trim();
+                                List<String> mentions = new ArrayList<>();
+                                String mentionPattern = "@[a-z0-9_]+(@[a-z0-9.\\-]+[a-z0-9]+)?";
+                                final Pattern mPattern = Pattern.compile(mentionPattern, Pattern.CASE_INSENSITIVE);
+                                Matcher matcherMentions = mPattern.matcher(newContent[0]);
+                                while (matcherMentions.find()) {
+                                    mentions.add(matcherMentions.group());
+                                }
+                                for (String mention : mentions) {
+                                    newContent[0] = newContent[0].replace(mention, "");
+                                }
+
+                                InputStream is;
+                                newContent[0] = "";
+                                if (mentions.size() > 0) {
+                                    for (String mention : mentions) {
+                                        newContent[0] += mention + " ";
+                                    }
+                                }
+                                try {
+                                    is = context.getAssets().open("quotes/famous.json");
+                                    int size;
+                                    size = is.available();
+                                    byte[] buffer = new byte[size];
+                                    //noinspection ResultOfMethodCallIgnored
+                                    is.read(buffer);
+                                    is.close();
+                                    String json = new String(buffer, StandardCharsets.UTF_8);
+                                    Gson gson = new Gson();
+                                    List<Quotes.Quote> quotes = gson.fromJson(json, new TypeToken<List<Quotes.Quote>>() {
+                                    }.getType());
+                                    if (quotes != null && quotes.size() > 0) {
+                                        final int random = new Random().nextInt(quotes.size());
+                                        Quotes.Quote quote = quotes.get(random);
+                                        newContent[0] += quote.content + "\n- " + quote.author;
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+
+                                Runnable myRunnable = () -> {
+                                    holder.binding.content.setText(newContent[0]);
+                                    statusList.get(holder.getBindingAdapterPosition()).text = newContent[0];
+                                    holder.binding.content.setSelection(holder.binding.content.getText().length());
+                                    autocomplete = false;
+                                    updateCharacterCount(holder);
+                                };
+                                mainHandler.post(myRunnable);
                             }
                         }
                     };
@@ -649,6 +708,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     autocomplete = true;
                     return;
                 }
+
+                String patternQ = "^(.|\\s)*(:fedilab_quote:)";
+                final Pattern qPattern = Pattern.compile(patternQ);
+                Matcher mq = qPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
+                if (mq.matches()) {
+                    autocomplete = true;
+                    return;
+                }
+
                 String[] searchInArray = (s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])).split("\\s");
                 if (searchInArray.length < 1) {
                     updateCharacterCount(holder);
