@@ -1163,15 +1163,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         float mediaH = -1.0f;
 
                         if (attachment.measuredWidth > 0) {
+                            float viewWidth = attachment.measuredWidth;
                             if (attachment.meta != null && attachment.meta.small != null) {
-                                float viewWidth = attachment.measuredWidth;
                                 mediaH = attachment.meta.small.height;
                                 float mediaW = attachment.meta.small.width;
                                 if (mediaW != 0) {
                                     ratio = viewWidth / mediaW;
                                 }
                             }
-                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaH, ratio, statusToDeal, attachment, singleMedia);
+                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
                         } else {
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.media.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -1181,20 +1181,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     attachment.measuredWidth = layoutMediaBinding.media.getWidth();
                                     float ratio = 1.0f;
                                     float mediaH = -1.0f;
+                                    float viewWidth = attachment.measuredWidth;
                                     if (attachment.meta != null && attachment.meta.small != null) {
-                                        float viewWidth = attachment.measuredWidth;
                                         mediaH = attachment.meta.small.height;
                                         float mediaW = attachment.meta.small.width;
                                         if (mediaW != 0) {
                                             ratio = viewWidth / mediaW;
                                         }
                                     }
-                                    loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, finalMediaPosition, mediaH, ratio, statusToDeal, attachment, singleMedia);
+                                    loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, finalMediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
                                 }
                             });
                         }
                     } else {
-                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, statusToDeal, attachment, singleMedia);
+                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment, singleMedia);
                     }
                     mediaPosition++;
                     if (fullAttachement || singleMedia) {
@@ -1966,7 +1966,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
                                              RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
-                                             int mediaPosition, float mediaH, float ratio,
+                                             int mediaPosition, float viewWidth, float mediaH, float ratio,
                                              Status statusToDeal, Attachment attachment, boolean singleImage) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
@@ -2037,6 +2037,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
             } else {
                 requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
+                requestBuilder = requestBuilder.apply(new RequestOptions().override((int) viewWidth, (int) mediaH));
                 requestBuilder = requestBuilder.fitCenter();
             }
             requestBuilder.into(layoutMediaBinding.media);
