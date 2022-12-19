@@ -1447,7 +1447,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.setCursorToEnd = false;
                 holder.binding.content.setSelection(holder.binding.content.getText().length());
             }
-            if (statusDraft.spoiler_text != null && holder.binding.buttonSensitive.isChecked()) {
+            if (statusDraft.spoiler_text != null) {
                 holder.binding.contentSpoiler.setText(statusDraft.spoiler_text);
                 holder.binding.contentSpoiler.setSelection(holder.binding.contentSpoiler.getText().length());
             } else {
