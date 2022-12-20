@@ -630,7 +630,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
             }
             if (displayTranslate) {
-                holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+                if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
+                    holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+                } else {
+                    holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+                }
             } else {
                 holder.binding.actionButtonTranslate.setVisibility(View.GONE);
             }
