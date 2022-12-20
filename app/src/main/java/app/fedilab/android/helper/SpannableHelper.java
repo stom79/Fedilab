@@ -185,6 +185,8 @@ public class SpannableHelper {
                     urlDetails.put(url, urlText);
                 }
             }
+            text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
+            text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
             else
