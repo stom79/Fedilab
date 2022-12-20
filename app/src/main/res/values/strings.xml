@@ -1409,6 +1409,8 @@
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
+    <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
+
     <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
@@ -2108,4 +2110,5 @@
     <string name="put_all_accounts_in_home_muted">All accounts will be muted for the Home timeline.</string>
     <string name="mute_them_all">Mute them all</string>
     <string name="import_data">Import data</string>
+    <string name="group_reblogs">Group reblogs in home timeline</string>
 </resources>

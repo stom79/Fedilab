@@ -19,7 +19,12 @@
         app:key="@string/SET_EXPAND_MEDIA"
         app:singleLineTitle="false"
         app:title="@string/expand_image" />
-
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_GROUP_REBLOGS"
+        app:singleLineTitle="false"
+        app:title="@string/group_reblogs" />
     <ListPreference
         android:defaultValue="default"
         app:entries="@array/SET_LIVE_TRANSLATE_VALUES"
