@@ -32,6 +32,7 @@
 
         <app.fedilab.android.helper.CirclesDrawingView
             android:id="@+id/focus_circle"
+            android:elevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />

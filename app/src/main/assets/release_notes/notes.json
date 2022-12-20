@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.12.1",
+    "code": "451",
+    "note": "Added:\n- Post random quotes\n- Group reblogs in home timeline\n\nChanged:\n- Display translate button only when language is different\n- Respect blank spaces between words in messages\n- Focus button more accessible when editing media\n\nFixed:\n- Behavior with cw toggle\n- Truncated gimini links"
+  },
+  {
     "version": "3.12.0",
     "code": "450",
     "note": "Added:\n- Full data import/export feature\n- Android 13 themed icon support\n\nFixed:\n- Fix a regression with filters\n- Fix dark solarized theme\n- Fix hide link previews for CW\n- Fix status bar color for all themes\n- Fix language in compose \"...\"\n- Fix add all home muted accounts from lists\n- Fix top notification badges"
