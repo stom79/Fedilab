@@ -1,0 +1,8 @@
+Added:
+
+
+Changed:
+
+Fixed:
+- Nav buttons not visible with media (Light theme)
+- Status bar with Android 5
