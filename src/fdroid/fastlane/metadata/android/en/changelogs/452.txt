@@ -6,3 +6,4 @@ Changed:
 Fixed:
 - Nav buttons not visible with media (Light theme)
 - Status bar with Android 5
+- Fix links not clickable

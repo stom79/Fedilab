@@ -254,6 +254,14 @@ public class SpannableHelper {
             if (urlDetails.containsKey(url)) {
                 continue;
             }
+
+            ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+            if (clickableSpans != null) {
+                for (ClickableSpan clickableSpan : clickableSpans) {
+                    content.removeSpan(clickableSpan);
+                }
+            }
+            content.removeSpan(clickableSpans);
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
@@ -514,6 +522,15 @@ public class SpannableHelper {
                 if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                     continue;
                 }
+
+                ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+                if (clickableSpans != null) {
+                    for (ClickableSpan clickableSpan : clickableSpans) {
+                        content.removeSpan(clickableSpan);
+                    }
+                }
+                content.removeSpan(clickableSpans);
+
                 if (matchEnd <= content.length()) {
                     content.setSpan(new LongClickableSpan() {
                         @Override
