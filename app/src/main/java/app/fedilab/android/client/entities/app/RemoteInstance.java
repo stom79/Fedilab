@@ -27,6 +27,8 @@ public class RemoteInstance implements Serializable {
     public String id;
     @SerializedName("host")
     public String host;
+    @SerializedName("displayName")
+    public String displayName;
     @SerializedName("type")
     public InstanceType type;
     @SerializedName("tags")

@@ -2111,4 +2111,5 @@
     <string name="mute_them_all">Mute them all</string>
     <string name="import_data">Import data</string>
     <string name="group_reblogs">Group reblogs in home timeline</string>
+    <string name="manage_accounts">Manage accounts</string>
 </resources>

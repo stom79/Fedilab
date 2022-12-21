@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -356,6 +357,10 @@ public class PinnedTimelineHelper {
                         name = pinnedTimeline.remoteInstance.host;
                         if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
                             String remoteInstance = sharedpreferences.getString(activity.getString(R.string.SET_NITTER_HOST), activity.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                            //Custom name for Nitter instances
+                            if (pinnedTimeline.remoteInstance.displayName != null && pinnedTimeline.remoteInstance.displayName.trim().length() > 0) {
+                                name = pinnedTimeline.remoteInstance.displayName;
+                            }
                             ident = "@R@" + remoteInstance;
                         } else {
                             ident = "@R@" + pinnedTimeline.remoteInstance.host;
@@ -521,7 +526,7 @@ public class PinnedTimelineHelper {
                         if (pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
                             instanceClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         } else {
-                            nitterClick(activity, finalPinned, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
+                            nitterClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         }
                         break;
                     case HOME:
@@ -979,6 +984,10 @@ public class PinnedTimelineHelper {
                     if (values.trim().length() == 0)
                         values = tag;
                     tagTimeline.displayName = values;
+                    View titleView = view.findViewById(R.id.title);
+                    if (titleView instanceof AppCompatTextView) {
+                        ((AppCompatTextView) titleView).setText(tagTimeline.displayName);
+                    }
                     pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
                     try {
                         new Pinned(activity).updatePinned(pinned);
@@ -1224,7 +1233,7 @@ public class PinnedTimelineHelper {
      * @param pinned   - {@link Pinned}
      * @param position - int position of the tab
      */
-    public static void nitterClick(BaseMainActivity activity, Pinned pinned, ActivityMainBinding activityMainBinding, int position, String slug) {
+    public static void nitterClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
 
         int toRemove = itemToRemoveInBottomMenu(activity);
         int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
@@ -1236,54 +1245,97 @@ public class PinnedTimelineHelper {
         RemoteInstance remoteInstance = pinned.pinnedTimelines.get(offSetPosition).remoteInstance;
         if (remoteInstance == null)
             return;
-        String accounts = remoteInstance.host;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
-        dialogBuilder.setView(dialogView);
-        final EditText editText = dialogView.findViewById(R.id.filter_any);
-        editText.setHint(R.string.list_of_twitter_accounts);
-        if (accounts != null) {
-            editText.setText(accounts);
-            editText.setSelection(editText.getText().toString().length());
-        }
+        PopupMenu popup = new PopupMenu(activity, view);
+        popup.getMenuInflater()
+                .inflate(R.menu.option_nitter_timeline, popup.getMenu());
         int finalOffSetPosition = offSetPosition;
-        dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-            pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.host = editText.getText().toString().trim();
-            try {
-                new Pinned(activity).updatePinned(pinned);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            FragmentMastodonTimeline fragmentMastodonTimeline = null;
-            try {
-                new StatusCache(activity).deleteForSlug(slug);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            if (activityMainBinding.viewPager.getAdapter() != null) {
-                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                    fragmentMastodonTimeline.refreshAllAdapters();
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_displayname) {
+                AlertDialog.Builder dialogBuilder;
+                LayoutInflater inflater;
+                View dialogView;
+                AlertDialog alertDialog;
+                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                inflater = activity.getLayoutInflater();
+                dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
+                dialogBuilder.setView(dialogView);
+                final EditText editTextName = dialogView.findViewById(R.id.column_name);
+                if (remoteInstance.displayName != null) {
+                    editTextName.setText(remoteInstance.displayName);
+                    editTextName.setSelection(editTextName.getText().toString().length());
                 }
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    String values = editTextName.getText().toString();
+                    if (values.trim().length() == 0) {
+                        values = remoteInstance.displayName;
+                    }
+                    remoteInstance.displayName = values;
+                    View titleView = view.findViewById(R.id.title);
+                    if (titleView instanceof AppCompatTextView) {
+                        ((AppCompatTextView) titleView).setText(remoteInstance.displayName);
+                    }
+                    pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance = remoteInstance;
+                    try {
+                        new Pinned(activity).updatePinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                });
+                alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            } else if (itemId == R.id.action_nitter_manage_accounts) {
+                String accounts = remoteInstance.host;
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                LayoutInflater inflater = activity.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
+                dialogBuilder.setView(dialogView);
+                final EditText editText = dialogView.findViewById(R.id.filter_any);
+                editText.setHint(R.string.list_of_twitter_accounts);
+                if (accounts != null) {
+                    editText.setText(accounts);
+                    editText.setSelection(editText.getText().toString().length());
+                }
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.host = editText.getText().toString().trim();
+                    try {
+                        new Pinned(activity).updatePinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    FragmentMastodonTimeline fragmentMastodonTimeline = null;
+                    try {
+                        new StatusCache(activity).deleteForSlug(slug);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    if (activityMainBinding.viewPager.getAdapter() != null) {
+                        Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                            fragmentMastodonTimeline.refreshAllAdapters();
+                        }
+                    }
+                    FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
+                    if (fragmentMastodonTimeline == null)
+                        return;
+                    fragTransaction1.detach(fragmentMastodonTimeline).commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition));
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
+                    bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
+                    fragmentMastodonTimeline.setArguments(bundle);
+                    FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                    fragTransaction2.attach(fragmentMastodonTimeline);
+                    fragTransaction2.commit();
+                    fragmentMastodonTimeline.recreate();
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
             }
-            FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
-            if (fragmentMastodonTimeline == null)
-                return;
-            fragTransaction1.detach(fragmentMastodonTimeline).commit();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition));
-            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-            bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-            fragmentMastodonTimeline.setArguments(bundle);
-            FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-            fragTransaction2.attach(fragmentMastodonTimeline);
-            fragTransaction2.commit();
-            fragmentMastodonTimeline.recreate();
+            return true;
         });
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
+        popup.show();
     }
 
 

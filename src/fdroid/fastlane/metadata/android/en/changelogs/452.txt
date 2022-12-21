@@ -1,5 +1,5 @@
 Added:
-
+- Rename Nitter timelines
 
 Changed:
 
