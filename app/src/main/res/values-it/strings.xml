@@ -915,4 +915,15 @@
     <string name="unfollow_tag">Non seguire etichetta</string>
     <string name="set_language_picker_title">Selettore lingua</string>
     <string name="display_remote_conversation">Mostra conversazione remota</string>
+    <string name="report_val_more2">Link malevoli, siti ingannevoli, o risposte ripetitive</string>
+    <string name="import_data">Importa dati</string>
+    <string name="instance_health_uptime">Tempo online: %,.2f %%</string>
+    <string name="report_all_more">Seleziona tutto</string>
+    <string name="report_2_title">Ci sono dei post a supporto di questa segnalazione\?</string>
+    <string name="replace_youtube_host">Dominio frontend YouTube</string>
+    <string name="replace_twitter_host">Dominio frontend Twitter</string>
+    <string name="replace_instagram_host">Dominio frontend Instagram</string>
+    <string name="replace_reddit_host">Dominio frontend Reddit</string>
+    <string name="boosted_by">Ricondiviso da</string>
+    <string name="admin_domainblock_reject_obfuscate">Offusca parzialmente il nome di dominio nella lista se mostra le limitazioni di dominio é abilitato</string>
 </resources>
