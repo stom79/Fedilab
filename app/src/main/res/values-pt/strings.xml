@@ -638,4 +638,8 @@
     <string name="add_status">Adicionar status</string>
     <string name="post_message_text">Enviando mensagem %d/%d</string>
     <string name="channel_notif_update">Nova atualização</string>
+    <string name="channel_notif_signup">Nova inscrição</string>
+    <string name="notif_update_push">Uma mensagem que você compartilhou foi editada</string>
+    <string name="notif_report">Um usuário fez uma denúncia</string>
+    <string name="notif_sign_up">Um usuário se inscreveu</string>
 </resources>
