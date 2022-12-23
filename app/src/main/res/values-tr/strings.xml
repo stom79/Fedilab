@@ -934,4 +934,5 @@
     <string name="mute_home">Ana sayfa için sustur</string>
     <string name="import_data">Verileri içe aktar</string>
     <string name="group_reblogs">Ana sayfa zaman çizelgesinde yeniden blogları gruplandır</string>
+    <string name="manage_accounts">Hesapları yönet</string>
 </resources>
