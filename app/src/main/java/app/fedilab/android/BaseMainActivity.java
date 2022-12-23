@@ -1118,8 +1118,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             //Here we know that the intent contains a valid URL
             if (!url.contains("medium.com")) {
-                Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                Matcher matcherLink = null;
+                Pattern link = Pattern.compile("https?://([\\da-z.-]+[à-ü]?\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                Matcher matcherLink;
                 matcherLink = link.matcher(url);
                 if (matcherLink.find()) {
                     if (currentAccount == null) {
@@ -1137,10 +1137,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, currentAccount, url, new CrossActionHelper.Callback() {
                             @Override
                             public void federatedStatus(Status status) {
-                                Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                intent.putExtra(Helper.ARG_STATUS, status);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                if (status != null) {
+                                    Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                    intent.putExtra(Helper.ARG_STATUS, status);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                } else {
+                                    Toasty.error(BaseMainActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override
@@ -1155,12 +1159,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
                             @Override
                             public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
-                                Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                if (account != null) {
+                                    Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                    intent.putExtras(b);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                } else {
+                                    Toasty.error(BaseMainActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
                             }
                         });
                     }
