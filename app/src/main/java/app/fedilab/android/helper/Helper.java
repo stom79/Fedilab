@@ -36,7 +36,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -157,7 +156,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.PopupReleaseNotesBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.interfaces.OnDownloadInterface;
-import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.ui.drawer.ReleaseNoteAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
@@ -171,10 +169,6 @@ import okhttp3.RequestBody;
 public class Helper {
 
     public static final String TAG = "fedilab_app";
-    public static final String APP_CLIENT_ID = "APP_CLIENT_ID";
-    public static final String APP_CLIENT_SECRET = "APP_CLIENT_SECRET";
-    public static final String APP_INSTANCE = "APP_INSTANCE";
-    public static final String APP_API = "APP_API";
     public static final String CLIP_BOARD = "CLIP_BOARD";
 
     public static final String INSTANCE_SOCIAL_KEY = "jGj9gW3z9ptyIpB8CMGhAlTlslcemMV6AgoiImfw3vPP98birAJTHOWiu5ZWfCkLvcaLsFZw9e3Pb7TIwkbIyrj3z6S7r2oE6uy6EFHvls3YtapP8QKNZ980p9RfzTb4";
@@ -1244,18 +1238,14 @@ public class Helper {
                 Date now = new Date();
                 attachment.filename = formatter.format(now) + "." + extension;
                 if (attachment.mimeType.startsWith("image")) {
-                    try {
-                        final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
-                        boolean isCertCacheDirExists = certCacheDir.exists();
-                        if (!isCertCacheDirExists) {
-                            certCacheDir.mkdirs();
-                        }
-                        String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
-                        MediaHelper.ResizedImageRequestBody(context, uri, filePath);
-                        attachment.local_path = filePath;
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                    boolean isCertCacheDirExists = certCacheDir.exists();
+                    if (!isCertCacheDirExists) {
+                        certCacheDir.mkdirs();
                     }
+                    String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
+                    MediaHelper.ResizedImageRequestBody(context, uri, new File(filePath));
+                    attachment.local_path = filePath;
                 } else {
                     InputStream selectedFileInputStream;
                     try {
@@ -1616,28 +1606,6 @@ public class Helper {
         }
     }
 
-    public static void transfertIfExist(Context context) {
-        File dbFile = context.getDatabasePath(OLD_DB_NAME);
-        if (!dbFile.exists()) {
-            return;
-        }
-        int version = -1;
-        try {
-            SQLiteDatabase sqlDb = SQLiteDatabase.openDatabase
-                    (context.getDatabasePath(OLD_DB_NAME).getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
-            version = sqlDb.getVersion();
-        } catch (Exception ignored) {
-        }
-        try {
-            if (version == -1) {
-                version = 38;
-            }
-            SQLiteDatabase oldDb = Sqlite.getInstance(context.getApplicationContext(), OLD_DB_NAME, null, version).open();
-
-        } catch (Exception ignored) {
-        }
-        context.deleteDatabase(OLD_DB_NAME);
-    }
 
     public static String dateDiffFull(Date dateToot) {
         SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM, Locale.getDefault());
