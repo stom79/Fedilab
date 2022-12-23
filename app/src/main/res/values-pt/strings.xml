@@ -13,19 +13,19 @@
     <string name="download">Baixar</string>
     <string name="download_file">Baixar %1$s</string>
     <string name="save_over">Mídia salva</string>
-    <string name="download_from" formatted="false">Ficheiro: %1$s</string>
+    <string name="download_from" formatted="false">Arquivo: %1$s</string>
     <string name="password">Senha</string>
     <string name="email">E-mail</string>
     <string name="accounts">Contas</string>
     <string name="toots">Mensagens</string>
-    <string name="tags">Tags</string>
+    <string name="tags">Etiquetas</string>
     <string name="save">Salvar</string>
     <string name="instance">Instância</string>
     <string name="instance_example">Instância: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Usando a conta %1$s agora</string>
-    <string name="add_account">Adicionar conta</string>
+    <string name="add_account">Adicionar uma conta</string>
     <string name="clipboard">O conteúdo da mensagem foi copiado para a área de transferência</string>
-    <string name="clipboard_url">O link da mensagem foi copiado para a área de transferência</string>
+    <string name="clipboard_url">A URL da mensagem foi copiada para a área de transferência</string>
     <string name="camera">Câmera</string>
     <string name="delete_all">Excluir tudo</string>
     <string name="schedule">Agendar</string>
@@ -33,7 +33,7 @@
     <string name="next">Próximo</string>
     <string name="previous">Anterior</string>
     <string name="open_with">Abrir com</string>
-    <string name="validate">Ok</string>
+    <string name="validate">Validar</string>
     <string name="media">Mídia</string>
     <string name="share_with">Compartilhar com</string>
     <string name="shared_via">Compartilhado via Fedilab</string>
@@ -58,14 +58,14 @@
     <string name="settings">Configurações</string>
     <string name="send_email">Mandar um e-mail</string>
     <string name="scheduled_toots">Mensagens agendadas</string>
-    <string name="disclaimer_full">As informações abaixo podem refletir incompletamente o perfil do usuário.</string>
+    <string name="disclaimer_full">As informações abaixo podem refletir o perfil do usuário de forma incompleta.</string>
     <string name="insert_emoji">Inserir emoji</string>
     <string name="no_emoji">O aplicativo não achou emojis personalizados no momento.</string>
-    <string name="logout_account_confirmation">Tem a certeza que quer sair @%1$s@%2$s?</string>
+    <string name="logout_account_confirmation">Você tem certeza que deseja sair de @%1$s@%2$s\?</string>
     <!-- Status -->
-    <string name="no_status">Sem mensagens para mostrar</string>
-    <string name="favourite_add">Favoritar essa mensagem\?</string>
-    <string name="favourite_remove">Desfavoritar essa mensagem\?</string>
+    <string name="no_status">Nenhuma mensagem para exibir</string>
+    <string name="favourite_add">Adicionar esta mensagem aos seus favoritos\?</string>
+    <string name="favourite_remove">Remover esta mensagem dos seus favoritos\?</string>
     <string name="reblog_add">Dar boost\?</string>
     <string name="reblog_remove">Desfazer boost\?</string>
     <string name="more_action_1">Silenciar</string>
@@ -75,7 +75,7 @@
     <string name="more_action_5">Copiar</string>
     <string name="more_action_6">Compartilhar</string>
     <string name="more_action_7">Mencionar</string>
-    <string name="more_action_8">Silenciar até...</string>
+    <string name="more_action_8">Silenciar temporariamente</string>
     <string name="more_action_9">Excluir &amp; rascunhar</string>
     <string-array name="more_action_confirm">
         <item>Silenciar esta conta?</item>
@@ -93,9 +93,9 @@
         <item>Excluir este toot?</item>
         <item>Excluir &amp; rascunhar este toot?</item>
     </string-array>
-    <string name="bookmarks">Salvos</string>
-    <string name="bookmark_add">Salvar</string>
-    <string name="bookmark_remove">Remover dos Salvos</string>
+    <string name="bookmarks">Favoritos</string>
+    <string name="bookmark_add">Adicionar aos favoritos</string>
+    <string name="bookmark_remove">Remover dos favoritos</string>
     <string name="status_bookmarked">Toot foi salvo!</string>
     <string name="status_unbookmarked">Toot foi removido dos Salvos!</string>
     <!-- Date -->
@@ -125,9 +125,9 @@
     </plurals>
     <!-- TOOT -->
     <string name="toot_select_image_error">Ocorreu um erro ao selecionar a mídia!</string>
-    <string name="toot_delete_media">Remover mídia?</string>
+    <string name="toot_delete_media">Remover esta mídia\?</string>
     <string name="toot_error_no_content">Sua mensagem está vazia!</string>
-    <string name="toot_sent">Mensagem enviada!</string>
+    <string name="toot_sent">A mensagem foi enviada!</string>
     <string name="toot_sensitive">Conteúdo sensível?</string>
     <string name="no_draft">Sem rascunhos!</string>
     <string name="choose_accounts">Escolha uma conta</string>
@@ -135,7 +135,7 @@
     <string name="remove_draft">Excluir rascunho?</string>
     <string name="upload_form_description">Descreva para os deficientes visuais</string>
     <!-- Instance -->
-    <string name="instance_no_description">Sem descrição!</string>
+    <string name="instance_no_description">Nenhuma descrição disponível!</string>
     <!-- About -->
     <string name="about_vesrion">Versão %1$s</string>
     <string name="about_developer">Desenvolvedor:</string>
@@ -145,7 +145,7 @@
     <string name="about_thekinrar">Procure instâncias:</string>
     <!-- Conversation -->
     <!-- Accounts -->
-    <string name="no_accounts">Sem conta</string>
+    <string name="no_accounts">Nenhuma conta para exibir</string>
     <string name="no_follow_request">Sem seguidores pendentes</string>
     <string name="status_cnt">Mensagens
 \n %1$s</string>
@@ -153,13 +153,14 @@
     <string name="followers_cnt">Seguidores \n %1$s</string>
     <string name="reject">Recusar</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Sem mensagens agendadas!</string>
+    <string name="no_scheduled_toots">Nenhuma mensagem agendada para exibir!</string>
     <string name="remove_scheduled">Excluir mensagem agendada\?</string>
-    <string name="toot_scheduled">Mensagem agendada!</string>
+    <string name="toot_scheduled">A mensagem foi agendada!</string>
     <string name="toot_scheduled_date">A data de agendamento deve ser após o horário atual!</string>
     <!-- timed mute -->
-    <string name="timed_mute_date_error">O tempo de silêncio deve ser maior do que um minuto.</string>
-    <string name="timed_mute_date">%1$s foi silenciado até %2$s. \n Você pode desativar no perfil do usuário.</string>
+    <string name="timed_mute_date_error">O tempo de silenciamento deve ser maior que um minuto.</string>
+    <string name="timed_mute_date">%1$s foi silenciado até %2$s.
+\n Você pode anular o silenciar desta conta na página de perfil dela.</string>
     <string name="timed_mute_profile">%1$s está silenciado até %2$s. \n Toque aqui para desativar o silêncio.</string>
     <!-- Notifications -->
     <string name="no_notifications">Sem notificações</string>
@@ -418,12 +419,12 @@
     <string name="discard">Cancelar</string>
     <string name="saving">Salvando…</string>
     <string name="image_saved">Imagem salva!</string>
-    <string name="save_image_failed">Falha ao salvar imagem.</string>
+    <string name="save_image_failed">Falha ao salvar imagem</string>
     <string name="add_poll_item">Adicionar um item</string>
     <string name="mute_conversation">Silenciar conversa</string>
     <string name="unmute_conversation">Desativar silêncio</string>
     <string name="toast_unmute_conversation">Silêncio desativado!</string>
-    <string name="toast_mute_conversation">Silêncio ativado!</string>
+    <string name="toast_mute_conversation">A conversa está silenciada</string>
     <string name="category_general">Geral</string>
     <string name="category_regional">Regional</string>
     <string name="category_art">Arte</string>
@@ -489,6 +490,7 @@
     <string name="report_account">Denunciar conta</string>
     <plurals name="number_of_voters">
         <item quantity="one">%d votante</item>
+        <item quantity="many">%d votantes</item>
         <item quantity="other">%d votantes</item>
     </plurals>
     <string-array name="poll_choice_type">
@@ -506,11 +508,11 @@
     </string-array>
     <string name="poll_duplicated_entry">A sua votação não pode ter opções duplicadas!</string>
     <string name="set_clear_cache_exit">Limpar cache ao sair</string>
-    <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>
+    <string name="set_clear_cache_exit_indication">O cache (mídia, mensagens em cache, dados do navegador integrado) será limpo automaticamente ao sair do aplicativo.</string>
     <string name="unfollow_confirm">Quer deixar de seguir esta conta?</string>
     <string name="set_unfollow_validation">Mostrar diálogo de confirmação antes de deixar de seguir uma conta</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description">Use um frontend alternativo para o Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use um sistema notificações instantâneas para ter notificações em tempo real.</string>
     <string name="action_add_notes">Adicionar notas</string>
@@ -530,53 +532,57 @@
     <string name="clik_reset">Toque aqui para repor todas as suas cores personalizadas</string>
     <string name="reset">Reset</string>
     <string name="icons_color_title">Icons</string>
-    <string name="icons_color">Color of bottom icons in timelines</string>
-    <string name="logo_of_the_instance">Logo of the instance</string>
-    <string name="edit_profile">Edit profile</string>
-    <string name="make_an_action">Make an action</string>
-    <string name="translation">Translation</string>
+    <string name="icons_color">Cor dos ícones inferiores nas linhas do tempo</string>
+    <string name="logo_of_the_instance">Logo da instância</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="make_an_action">Faça uma ação</string>
+    <string name="translation">Tradução</string>
     <string name="text_color_title">Text color</string>
-    <string name="text_color">Change the text color in messages</string>
-    <string name="pref_custom_theme">Use a custom theme</string>
-    <string name="theming">Theming</string>
-    <string name="data_export_theme">The theme was exported</string>
-    <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
+    <string name="text_color">Alterar a cor do texto nas mensagens</string>
+    <string name="pref_custom_theme">Use um tema personalizado</string>
+    <string name="theming">Personalização</string>
+    <string name="data_export_theme">O tema foi exportado</string>
+    <string name="data_export_theme_success">O tema foi exportado com sucesso em CSV</string>
     <string name="import_theme">Import a theme</string>
-    <string name="import_theme_title">Tap here to import a theme from a previous export</string>
+    <string name="import_theme_title">Toque aqui para importar um tema exportado previamente</string>
     <string name="export_theme">Export the theme</string>
-    <string name="export_theme_title">Tap here to export the current theme</string>
-    <string name="theme_file_error">An error occurred when selecting the theme file</string>
-    <string name="user_count">User count</string>
-    <string name="status_count">Status count</string>
-    <string name="instance_count">Instance count</string>
+    <string name="export_theme_title">Toque aqui para exportar o tema atual</string>
+    <string name="theme_file_error">Ocorreu um erro ao selecionar o arquivo do tema</string>
+    <string name="user_count">Número de usuários</string>
+    <string name="status_count">Número de status</string>
+    <string name="instance_count">Número de instâncias</string>
     <string name="poll_finish_in">End in %s</string>
-    <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
+    <string name="no_instance_reccord">Esta instância não está disponível em https://instances.social</string>
     <string name="display_full_link">Exibir link completo</string>
     <string name="share_link">Partilhar link</string>
     <string name="open_other_app">Abrir noutra aplicação</string>
-    <string name="check_redirect">Check redirect</string>
-    <string name="no_redirect">This URL does not redirect</string>
-    <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
-    <string name="set_utm_parameters">Remove UTM parameters</string>
-    <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
-    <string name="talking_about">%d people talking</string>
-    <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
-    <string name="list_of_twitter_accounts">Twitter usernames space separated</string>
-    <string name="identity_proofs">Identity proofs</string>
-    <string name="verified_user">Verified identity</string>
-    <string name="verified_by">Verified by %1$s (%2$s)</string>
-    <string name="action_disabled">Action disabled</string>
-    <string name="action_unfollow">Unfollow</string>
-    <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
-    <string name="action_announcements">Announcements</string>
-    <string name="no_announcements">No announcements!</string>
-    <string name="add_reaction">Add a reaction</string>
-    <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
-    <string name="set_watermark">Watermarks</string>
-    <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>
-    <string name="no_distributors_found">No distributors found!</string>
+    <string name="check_redirect">Verifique o redirecionamento</string>
+    <string name="no_redirect">Este URL não redireciona</string>
+    <string name="redirect_detected">%1$s
+\n
+\nredireciona para
+\n
+\n %2$s</string>
+    <string name="set_utm_parameters">Remover parâmetros UTM</string>
+    <string name="set_utm_parameters_indication">O aplicativo removerá automaticamente os parâmetros UTM das URLs antes de visitar um link.</string>
+    <string name="talking_about">%d pessoas conversando</string>
+    <string name="twitter_accounts">Contas do Twitter (via Nitter)</string>
+    <string name="list_of_twitter_accounts">Nomes de usuários do Twitter separados por espaço</string>
+    <string name="identity_proofs">Provas de identidade</string>
+    <string name="verified_user">Identidade verificada</string>
+    <string name="verified_by">Verificado por %1$s (%2$s)</string>
+    <string name="action_disabled">Ação desativada</string>
+    <string name="action_unfollow">Deixar de seguir</string>
+    <string name="error_destination_path">Algo deu errado, verifique seu diretório de download nas configurações.</string>
+    <string name="action_announcements">Anúncios</string>
+    <string name="no_announcements">Sem anúncios!</string>
+    <string name="add_reaction">Adicionar uma reação</string>
+    <string name="set_video_cache">Cache de vídeo em MB, zero significa sem cache.</string>
+    <string name="set_watermark">Marcas d\'água</string>
+    <string name="set_watermark_indication">Adicione automaticamente uma marca d\'água na parte inferior das fotos. O texto pode ser personalizado para cada conta.</string>
+    <string name="no_distributors_found">Nenhum distribuidor encontrado!</string>
     <string name="no_distributors_explanation">Necessita de um distribuidor para receber notificações instantâneas. \nVai encontrar mais detalhes em %1$s.\n\nPode desactivar as mensagens instantâneas nas configurações para ignorar esta mensagem.</string>
-    <string name="select_distributors">Select a distributor</string>
+    <string name="select_distributors">Selecione um distribuidor</string>
     <string name="notification_sounds">Sons de notificação</string>
     <string name="replace_twitter_description">Usar um frontend alternativo para Twitter</string>
     <string name="replace_twitter">Twitter</string>
@@ -642,4 +648,20 @@
     <string name="notif_update_push">Uma mensagem que você compartilhou foi editada</string>
     <string name="notif_report">Um usuário fez uma denúncia</string>
     <string name="notif_sign_up">Um usuário se inscreveu</string>
+    <string name="sign_ups">Inscrições</string>
+    <string name="set_customize_dark">Personalizar tema escuro</string>
+    <string name="set_customize_light">Personalizar tema claro</string>
+    <string name="cark_custom_colors">Escuro - Cores personalizadas</string>
+    <string name="toast_try_later">Por favor, tente novamente mais tarde.</string>
+    <string name="toast_on_your_instance">A conversa começou na sua instância!</string>
+    <string name="report_val1">Eu não gosto disso</string>
+    <string name="light_custom_colors">Claro - Cores personalizadas</string>
+    <string name="manage_accounts">Gerenciar contas</string>
+    <string name="import_data">Importar dados</string>
+    <string name="set_cardview_indication">Quando ativado, os itens nas linhas do tempo terão uma sombra e uma elevação.</string>
+    <string name="type_default_theme_light">Tema claro padrão</string>
+    <string name="type_default_theme_dark">Tema escuro padrão</string>
+    <string name="channel_notif_report">Nova denúncia</string>
+    <string name="show_anyway">Mostrar mesmo assim</string>
+    <string name="pref_customize">Personalizar cores</string>
 </resources>
