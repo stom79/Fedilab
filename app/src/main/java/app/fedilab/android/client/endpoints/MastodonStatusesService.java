@@ -251,7 +251,7 @@ public interface MastodonStatusesService {
             @Part MultipartBody.Part file,
             @Part MultipartBody.Part thumbnail,
             @Part("description") RequestBody description,
-            @Part("focus") String focus
+            @Part("focus") RequestBody focus
     );
 
     //Edit a Media

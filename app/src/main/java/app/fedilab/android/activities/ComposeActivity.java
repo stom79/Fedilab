@@ -126,6 +126,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                                 if (focusX != -2) {
                                     attachment.focus = focusX + "," + focusY;
                                 }
+
                                 composeAdapter.notifyItemChanged(position);
                                 break;
                             }

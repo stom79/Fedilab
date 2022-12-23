@@ -10,10 +10,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -25,8 +27,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
+import com.canhub.cropper.CropImageView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,6 +79,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private Uri uri;
     private boolean exit;
     private ActivityEditImageBinding binding;
+    CropImageContractOptions cropImageContractOptions;
+    ActivityResultLauncher<CropImageContractOptions> cropImageContractOptionsActivityResultLauncher;
 
     private static int exifToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
@@ -146,6 +154,35 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             }
         }
 
+        cropImageContractOptions = new CropImageContractOptions(uri, new CropImageOptions())
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setAllowRotation(true)
+                .setAllowFlipping(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setAllowCounterRotation(true)
+                .setImageSource(true, false)
+                .setScaleType(CropImageView.ScaleType.CENTER);
+        cropImageContractOptionsActivityResultLauncher = registerForActivityResult(
+                new CropImageContract(),
+                result -> {
+                    if (result.isSuccessful()) {
+                        Uri resultUri = result.getUriContent();
+                        if (resultUri != null) {
+                            binding.photoEditorView.getSource().setImageURI(resultUri);
+                            if (uri != null && uri.getPath() != null) {
+                                File fdelete = new File(uri.getPath());
+                                if (fdelete.exists()) {
+                                    //noinspection ResultOfMethodCallIgnored
+                                    fdelete.delete();
+                                }
+                            }
+                            uri = resultUri;
+                        }
+                    } else {
+                        Log.e(Helper.TAG, "onActivityResult...Error CropImage: " + result.getError());
+                    }
+                });
         mPhotoEditor.setFilterEffect(PhotoFilter.NONE);
         binding.send.setOnClickListener(v -> {
             exit = true;
@@ -286,6 +323,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 }
                                 intentImage.putExtra("focusX", focusX);
                                 intentImage.putExtra("focusY", focusY);
+
                             }
 
                             LocalBroadcastManager.getInstance(EditImageActivity.this).sendBroadcast(intentImage);
@@ -351,22 +389,37 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                     }
                     break;
                 case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-
-                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                    if (result != null) {
-                        Uri resultUri = result.getUri();
-                        if (resultUri != null) {
-                            binding.photoEditorView.getSource().setImageURI(resultUri);
-                            binding.photoEditorView.getSource().setRotation(rotationInDegrees);
-                            if (uri != null && uri.getPath() != null) {
-                                File fdelete = new File(uri.getPath());
-                                if (fdelete.exists()) {
-                                    //noinspection ResultOfMethodCallIgnored
-                                    fdelete.delete();
-                                }
-                            }
-                            uri = resultUri;
-                        }
+                    if (data != null && data.getData() != null) {
+                        CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(data.getData(), new CropImageOptions())
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                                .setAllowRotation(true)
+                                .setAllowFlipping(true)
+                                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                                .setAllowCounterRotation(true)
+                                .setImageSource(true, false)
+                                .setScaleType(CropImageView.ScaleType.CENTER);
+                        ActivityResultLauncher<CropImageContractOptions> cropImageContractOptionsActivityResultLauncher = registerForActivityResult(
+                                new CropImageContract(),
+                                result -> {
+                                    if (result.isSuccessful()) {
+                                        Uri resultUri = result.getUriContent();
+                                        if (resultUri != null) {
+                                            binding.photoEditorView.getSource().setImageURI(resultUri);
+                                            if (uri != null && uri.getPath() != null) {
+                                                File fdelete = new File(uri.getPath());
+                                                if (fdelete.exists()) {
+                                                    //noinspection ResultOfMethodCallIgnored
+                                                    fdelete.delete();
+                                                }
+                                            }
+                                            uri = resultUri;
+                                        }
+                                    } else {
+                                        Log.e(Helper.TAG, "onActivityResult...Error CropImage: " + result.getError());
+                                    }
+                                });
+                        cropImageContractOptionsActivityResultLauncher.launch(cropImageContractOptions);
                     }
                     break;
             }
@@ -454,8 +507,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 mPropertiesBSFragment.show(getSupportFragmentManager(), mPropertiesBSFragment.getTag());
                 break;
             case CROP:
-                CropImage.activity(uri)
-                        .start(this);
+
+                cropImageContractOptionsActivityResultLauncher.launch(cropImageContractOptions);
                 break;
             case FOCUS:
                 binding.focusCircle.setVisibility(View.VISIBLE);

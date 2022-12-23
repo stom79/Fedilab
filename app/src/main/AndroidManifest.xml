@@ -213,7 +213,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/scheduled" />
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
 

@@ -8,11 +8,11 @@ plugins {
 }
 def flavor
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 451
         versionName "3.12.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,7 +106,7 @@ dependencies {
 
 
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
-    implementation project(path: ':cropper')
+    implementation("com.vanniktech:android-image-cropper:4.3.3")
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'

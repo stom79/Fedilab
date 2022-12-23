@@ -1243,32 +1243,48 @@ public class Helper {
                 counter++;
                 Date now = new Date();
                 attachment.filename = formatter.format(now) + "." + extension;
-                InputStream selectedFileInputStream;
-                try {
-                    selectedFileInputStream = context.getContentResolver().openInputStream(uri);
-                    if (selectedFileInputStream != null) {
+                if (attachment.mimeType.startsWith("image")) {
+                    try {
                         final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
                         boolean isCertCacheDirExists = certCacheDir.exists();
                         if (!isCertCacheDirExists) {
-                            isCertCacheDirExists = certCacheDir.mkdirs();
+                            certCacheDir.mkdirs();
                         }
-                        if (isCertCacheDirExists) {
-                            String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
-                            attachment.local_path = filePath;
-                            OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
-                            byte[] buffer = new byte[1024];
-                            int length;
-                            while ((length = selectedFileInputStream.read(buffer)) > 0) {
-                                selectedFileOutPutStream.write(buffer, 0, length);
-                            }
-                            selectedFileOutPutStream.flush();
-                            selectedFileOutPutStream.close();
-                        }
-                        selectedFileInputStream.close();
+                        String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
+                        MediaHelper.ResizedImageRequestBody(context, uri, filePath);
+                        attachment.local_path = filePath;
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    InputStream selectedFileInputStream;
+                    try {
+                        selectedFileInputStream = context.getContentResolver().openInputStream(uri);
+                        if (selectedFileInputStream != null) {
+                            final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                            boolean isCertCacheDirExists = certCacheDir.exists();
+                            if (!isCertCacheDirExists) {
+                                isCertCacheDirExists = certCacheDir.mkdirs();
+                            }
+                            if (isCertCacheDirExists) {
+                                String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
+                                attachment.local_path = filePath;
+                                OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
+                                byte[] buffer = new byte[1024];
+                                int length;
+                                while ((length = selectedFileInputStream.read(buffer)) > 0) {
+                                    selectedFileOutPutStream.write(buffer, 0, length);
+                                }
+                                selectedFileOutPutStream.flush();
+                                selectedFileOutPutStream.close();
+                            }
+                            selectedFileInputStream.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
                 mainHandler.post(myRunnable);

@@ -24,14 +24,23 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ImageDecoder;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.media.MediaRecorder;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -55,6 +64,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,10 +79,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.databinding.PopupRecordBinding;
 import es.dmoral.toasty.Toasty;
+import okhttp3.MediaType;
 
 public class MediaHelper {
 
@@ -419,5 +431,147 @@ public class MediaHelper {
 
     public interface OnSchedule {
         void scheduledAt(String scheduledDate);
+    }
+
+
+    public static void ResizedImageRequestBody(Context context, Uri uri, String fullpatch) throws IOException {
+
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        String contentType;
+        if ("file".equals(uri.getScheme())) {
+            BitmapFactory.decodeFile(uri.getPath(), opts);
+            contentType = MediaHelper.getFileMediaType(new File(uri.getPath())).type();
+        } else {
+            try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+                BitmapFactory.decodeStream(in, null, opts);
+            }
+            contentType = context.getContentResolver().getType(uri);
+        }
+        if (TextUtils.isEmpty(contentType))
+            contentType = "image/jpeg";
+        Bitmap bitmap;
+        if (Build.VERSION.SDK_INT >= 28) {
+            ImageDecoder.Source source;
+            if ("file".equals(uri.getScheme())) {
+                source = ImageDecoder.createSource(new File(uri.getPath()));
+            } else {
+                source = ImageDecoder.createSource(context.getContentResolver(), uri);
+            }
+            BitmapFactory.Options finalOpts = opts;
+            bitmap = ImageDecoder.decodeBitmap(source, (decoder, info, _source) -> {
+                int[] size = getTargetSize(info.getSize().getWidth(), info.getSize().getHeight());
+                decoder.setAllocator(ImageDecoder.ALLOCATOR_SOFTWARE);
+                if (needResize(finalOpts.outWidth, finalOpts.outHeight)) {
+                    decoder.setTargetSize(size[0], size[1]);
+                }
+            });
+        } else {
+            int[] size = getTargetSize(opts.outWidth, opts.outHeight);
+            int targetWidth;
+            int targetHeight;
+            if (needResize(opts.outWidth, opts.outHeight)) {
+                targetWidth = size[0];
+                targetHeight = size[1];
+            } else {
+                targetWidth = opts.outWidth;
+                targetHeight = opts.outHeight;
+            }
+            float factor = opts.outWidth / (float) targetWidth;
+            opts = new BitmapFactory.Options();
+            opts.inSampleSize = (int) factor;
+            int orientation = 0;
+            String[] projection = {MediaStore.Images.ImageColumns.ORIENTATION};
+            try {
+                Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                if (cursor.moveToFirst()) {
+                    int photoRotation = cursor.getInt(0);
+                }
+                cursor.close();
+            } catch (Exception e) {
+            }
+
+            if ("file".equals(uri.getScheme())) {
+                ExifInterface exif = new ExifInterface(uri.getPath());
+                orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+                    ExifInterface exif = new ExifInterface(in);
+                    orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                }
+            }
+            if ("file".equals(uri.getScheme())) {
+                bitmap = BitmapFactory.decodeFile(uri.getPath(), opts);
+            } else {
+                try (InputStream in = context.getContentResolver().openInputStream(uri)) {
+                    bitmap = BitmapFactory.decodeStream(in, null, opts);
+                }
+            }
+            if (factor % 1f != 0f) {
+                Rect srcBounds = null;
+                Rect dstBounds;
+                dstBounds = new Rect(0, 0, targetWidth, targetHeight);
+                Bitmap scaled = Bitmap.createBitmap(dstBounds.width(), dstBounds.height(), Bitmap.Config.ARGB_8888);
+                new Canvas(scaled).drawBitmap(bitmap, srcBounds, dstBounds, new Paint(Paint.FILTER_BITMAP_FLAG));
+                bitmap = scaled;
+            }
+
+
+            int rotation = 0;
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotation = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotation = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotation = 270;
+                    break;
+            }
+            if (rotation != 0) {
+                Matrix matrix = new Matrix();
+                matrix.setRotate(rotation);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
+            }
+        }
+
+        boolean isPNG = "image/png".equals(contentType);
+        File tempFile = new File(fullpatch);
+        try (FileOutputStream out = new FileOutputStream(tempFile)) {
+            if (isPNG) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, out);
+            } else {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            }
+        }
+
+    }
+
+
+    private static int[] getTargetSize(int srcWidth, int srcHeight) {
+        int maxSize = 1;
+        if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
+            maxSize = MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
+        }
+        int targetWidth = Math.round((float) Math.sqrt((float) maxSize * ((float) srcWidth / srcHeight)));
+        int targetHeight = Math.round((float) Math.sqrt((float) maxSize * ((float) srcHeight / srcWidth)));
+        return new int[]{targetWidth, targetHeight};
+    }
+
+    private static boolean needResize(int srcWidth, int srcHeight) {
+        int maxSize;
+        if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
+            maxSize = MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
+        } else {
+            return false;
+        }
+        return srcWidth * srcHeight > maxSize;
+    }
+
+
+    public static MediaType getFileMediaType(File file) {
+        String name = file.getName();
+        return MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(name.substring(name.lastIndexOf('.') + 1)));
     }
 }
