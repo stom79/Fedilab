@@ -142,14 +142,18 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             if (account.relationShip.blocking) {
-                accountViewHolder.binding.block.setChecked(true);
+                accountViewHolder.binding.block.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
+                accountViewHolder.binding.block.setIconResource(R.drawable.ic_baseline_lock_open_24);
+                accountViewHolder.binding.block.setContentDescription(context.getString(R.string.action_unblock));
                 accountViewHolder.binding.block.setOnClickListener(v -> accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe((LifecycleOwner) context, relationShip -> {
                             account.relationShip = relationShip;
                             adapter.notifyItemChanged(position);
                         }));
             } else {
-                accountViewHolder.binding.block.setChecked(false);
+                accountViewHolder.binding.block.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorPrimary)));
+                accountViewHolder.binding.block.setIconResource(R.drawable.ic_baseline_block_24);
+                accountViewHolder.binding.block.setContentDescription(context.getString(R.string.more_action_2));
                 accountViewHolder.binding.block.setOnClickListener(v -> accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                         .observe((LifecycleOwner) context, relationShip -> {
                             account.relationShip = relationShip;
