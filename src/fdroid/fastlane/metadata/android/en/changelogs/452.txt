@@ -1,5 +1,6 @@
 Added:
 - Rename Nitter timelines
+- Android 13 support
 
 Changed:
 - Visual feedback for block on account list
