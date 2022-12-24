@@ -315,8 +315,89 @@ public class PinnedTimelineHelper {
             return;
         }
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
-        activityMainBinding.tabLayout.removeAllTabs();
         int toRemove = BOTTOM_TIMELINE_COUNT;
+        activityMainBinding.tabLayout.removeAllTabs();
+        LinearLayout tabStrip = (LinearLayout) activityMainBinding.tabLayout.getChildAt(0);
+        int finalToRemove = toRemove;
+        activityMainBinding.viewPager.setAdapter(null);
+        activityMainBinding.viewPager.clearOnPageChangeListeners();
+        activityMainBinding.tabLayout.clearOnTabSelectedListeners();
+        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
+        activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
+        activityMainBinding.viewPager.setOffscreenPageLimit(tabStrip.getChildCount());
+        activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
+        if (!singleBar) {
+            activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position < BOTTOM_TIMELINE_COUNT - finalToRemove) {
+                        activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                    } else {
+                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
+                        for (int i = 0; i < activityMainBinding.bottomNavView.getMenu().size(); i++) {
+                            activityMainBinding.bottomNavView.getMenu().getItem(i).setChecked(false);
+                        }
+                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+        }
+
+
+        activityMainBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                activityMainBinding.viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (!singleBar && tab.getTag() != null) {
+                    if (tab.getTag().equals(Timeline.TimeLineEnum.HOME.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_home);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.LOCAL.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_local);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.PUBLIC.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_public);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_notifications);
+                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.CONVERSATION.getValue())) {
+                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_privates);
+                    }
+
+                }
+                Fragment fragment = fedilabPageAdapter.getCurrentFragment();
+                View view = tab.getCustomView();
+                if (view != null) {
+                    TextView counter = view.findViewById(R.id.tab_counter);
+                    if (counter != null) {
+                        counter.setVisibility(View.GONE);
+                        counter.setText("0");
+                    }
+                }
+                if (fragment instanceof FragmentMastodonTimeline) {
+                    ((FragmentMastodonTimeline) fragment).scrollToTop();
+                } else if (fragment instanceof FragmentMastodonConversation) {
+                    ((FragmentMastodonConversation) fragment).scrollToTop();
+                } else if (fragment instanceof FragmentNotificationContainer) {
+                    ((FragmentNotificationContainer) fragment).scrollToTop();
+                }
+            }
+        });
+
+
         if (!singleBar) {
             //Small hack to hide first tabs (they represent the item of the bottom menu)
             toRemove = itemToRemoveInBottomMenu(activity);
@@ -507,8 +588,6 @@ public class PinnedTimelineHelper {
         });
 
 
-        LinearLayout tabStrip = (LinearLayout) activityMainBinding.tabLayout.getChildAt(0);
-        int finalToRemove = toRemove;
         for (int i = 0; i < tabStrip.getChildCount(); i++) {
             // Set LongClick listener to each Tab
             int finalI = i;
@@ -539,83 +618,7 @@ public class PinnedTimelineHelper {
             });
         }
 
-        activityMainBinding.viewPager.setAdapter(null);
-        activityMainBinding.viewPager.clearOnPageChangeListeners();
-        activityMainBinding.tabLayout.clearOnTabSelectedListeners();
-        FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
-        activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
-        activityMainBinding.viewPager.setOffscreenPageLimit(tabStrip.getChildCount());
-        activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
-        if (!singleBar) {
-            activityMainBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                }
 
-                @Override
-                public void onPageSelected(int position) {
-                    if (position < BOTTOM_TIMELINE_COUNT - finalToRemove) {
-                        activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
-                    } else {
-                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
-                        for (int i = 0; i < activityMainBinding.bottomNavView.getMenu().size(); i++) {
-                            activityMainBinding.bottomNavView.getMenu().getItem(i).setChecked(false);
-                        }
-                        activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
-        }
-
-
-        activityMainBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                activityMainBinding.viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                if (!singleBar && tab.getTag() != null) {
-                    if (tab.getTag().equals(Timeline.TimeLineEnum.HOME.getValue())) {
-                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_home);
-                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.LOCAL.getValue())) {
-                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_local);
-                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.PUBLIC.getValue())) {
-                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_public);
-                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
-                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_notifications);
-                    } else if (tab.getTag().equals(Timeline.TimeLineEnum.CONVERSATION.getValue())) {
-                        activityMainBinding.bottomNavView.removeBadge(R.id.nav_privates);
-                    }
-
-                }
-                Fragment fragment = fedilabPageAdapter.getCurrentFragment();
-                View view = tab.getCustomView();
-                if (view != null) {
-                    TextView counter = view.findViewById(R.id.tab_counter);
-                    if (counter != null) {
-                        counter.setVisibility(View.GONE);
-                        counter.setText("0");
-                    }
-                }
-                if (fragment instanceof FragmentMastodonTimeline) {
-                    ((FragmentMastodonTimeline) fragment).scrollToTop();
-                } else if (fragment instanceof FragmentMastodonConversation) {
-                    ((FragmentMastodonConversation) fragment).scrollToTop();
-                } else if (fragment instanceof FragmentNotificationContainer) {
-                    ((FragmentNotificationContainer) fragment).scrollToTop();
-                }
-            }
-        });
 
     }
 

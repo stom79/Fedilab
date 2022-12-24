@@ -1433,18 +1433,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             holder.binding.poll.refreshPoll.setOnClickListener(v -> statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
                     .observe((LifecycleOwner) context, poll -> {
-                        //Store span elements
-                        int i = 0;
-                        for (Poll.PollItem item : statusToDeal.poll.options) {
-                            if (item.span_title != null) {
-                                poll.options.get(i).span_title = item.span_title;
-                            } else {
-                                poll.options.get(i).span_title = new SpannableString(item.title);
+                        if (poll != null) {
+                            //Store span elements
+                            int i = 0;
+                            for (Poll.PollItem item : statusToDeal.poll.options) {
+                                if (item.span_title != null) {
+                                    poll.options.get(i).span_title = item.span_title;
+                                } else {
+                                    poll.options.get(i).span_title = new SpannableString(item.title);
+                                }
+                                i++;
                             }
-                            i++;
+                            statusToDeal.poll = poll;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                         }
-                        statusToDeal.poll = poll;
-                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                     }));
             holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
             String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, statusToDeal.poll.voters_count, statusToDeal.poll.voters_count);
