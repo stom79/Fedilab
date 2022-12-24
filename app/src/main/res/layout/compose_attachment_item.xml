@@ -25,14 +25,14 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/button_play"
-            app:srcCompat="@drawable/ic_compose_attachment_play"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/preview"
             app:layout_constraintEnd_toEndOf="@id/preview"
             app:layout_constraintStart_toStartOf="@id/preview"
-            app:layout_constraintTop_toTopOf="@id/preview" />
+            app:layout_constraintTop_toTopOf="@id/preview"
+            app:srcCompat="@drawable/ic_compose_attachment_play" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_preview"
@@ -66,22 +66,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.chip.Chip
             android:id="@+id/button_description"
-            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Chip.Assist.Elevated"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
             android:text="@string/description"
-            android:textAlignment="textStart"
             android:textColor="@color/black"
-            app:backgroundTint="@color/no_description"
-            app:icon="@drawable/ic_baseline_warning_24"
-            app:iconGravity="textStart"
-            app:iconTint="@color/black"
+            app:chipBackgroundColor="@color/no_description"
+            app:chipIcon="@drawable/ic_baseline_warning_24"
             app:layout_constraintEnd_toStartOf="@id/button_order_down"
             app:layout_constraintStart_toEndOf="@id/button_order_up"
-            app:layout_constraintTop_toBottomOf="@id/preview" />
+            app:layout_constraintTop_toBottomOf="@id/preview"
+            app:textEndPadding="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_order_down"
