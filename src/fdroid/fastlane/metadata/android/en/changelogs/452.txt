@@ -3,9 +3,11 @@ Added:
 
 Changed:
 - Visual feedback for block on account list
+- Visual changes with compose / top bar
 
 Fixed:
 - Nav buttons not visible with media (Light theme)
 - Status bar with Android 5
 - Fix links not clickable
 - Fix deep links
+- Fix remote threads not fetched for some instances
