@@ -1371,6 +1371,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
             }
 
+            holder.binding.visibilityPanel.setOnTouchListener((view, motionEvent) -> true);
             holder.binding.buttonCloseAttachmentPanel.setOnClickListener(v -> holder.binding.attachmentChoicesPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibility.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.VISIBLE);
