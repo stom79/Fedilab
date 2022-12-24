@@ -220,7 +220,7 @@
             android:id="@+id/attachment_choices_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?colorSurfaceVariant"
+            android:background="@drawable/bg_compose_panels"
             android:padding="6dp"
             android:visibility="gone"
             app:constraint_referenced_ids="button_attach_image,button_attach_audio,button_attach_video,button_close_attachment_panel,button_poll,button_attach_manual"
@@ -274,14 +274,15 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/visibility_panel"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="?colorSurfaceVariant"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_compose_panels"
             android:gravity="bottom"
             android:orientation="vertical"
             android:padding="6dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1">
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:layout_width="match_parent"

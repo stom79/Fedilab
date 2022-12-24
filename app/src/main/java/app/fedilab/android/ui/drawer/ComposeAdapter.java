@@ -1163,15 +1163,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
                     composeAttachmentItemBinding.preview.setOnClickListener(v -> displayAttachments(holder, position, finalMediaPosition));
                     if (attachment.description == null || attachment.description.trim().isEmpty()) {
-                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_warning_24);
+                        composeAttachmentItemBinding.buttonDescription.setChipIconResource(R.drawable.ic_baseline_warning_24);
                         composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.black));
-                        composeAttachmentItemBinding.buttonDescription.setIconTintResource(R.color.black);
-                        composeAttachmentItemBinding.buttonDescription.setBackgroundTintList(ThemeHelper.getNoDescriptionColorStateList(context));
+                        composeAttachmentItemBinding.buttonDescription.setChipIconTintResource(R.color.black);
+                        composeAttachmentItemBinding.buttonDescription.setChipBackgroundColor(ThemeHelper.getNoDescriptionColorStateList(context));
                     } else {
-                        composeAttachmentItemBinding.buttonDescription.setIconResource(R.drawable.ic_baseline_check_circle_24);
+                        composeAttachmentItemBinding.buttonDescription.setChipIconResource(R.drawable.ic_baseline_check_circle_24);
                         composeAttachmentItemBinding.buttonDescription.setTextColor(ContextCompat.getColor(context, R.color.white));
-                        composeAttachmentItemBinding.buttonDescription.setIconTintResource(R.color.white);
-                        composeAttachmentItemBinding.buttonDescription.setBackgroundTintList(ThemeHelper.getHavingDescriptionColorStateList(context));
+                        composeAttachmentItemBinding.buttonDescription.setChipIconTintResource(R.color.white);
+                        composeAttachmentItemBinding.buttonDescription.setChipBackgroundColor(ThemeHelper.getHavingDescriptionColorStateList(context));
                     }
                     holder.binding.attachmentsList.addView(composeAttachmentItemBinding.getRoot());
                     mediaPosition++;
