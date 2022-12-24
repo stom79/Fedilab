@@ -221,8 +221,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             promptDraftListener.promptDraft();
         }
         int finalPosition = position;
-        Helper.createAttachmentFromUri(context, uris, attachment -> {
-            statusList.get(finalPosition).media_attachments.add(attachment);
+        Helper.createAttachmentFromUri(context, uris, attachments -> {
+            for (Attachment attachment : attachments) {
+                statusList.get(finalPosition).media_attachments.add(attachment);
+            }
             notifyItemChanged(finalPosition);
         });
     }
@@ -1097,6 +1099,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     public void onLoadCleared(@Nullable Drawable placeholder) {
 
+                                    }
+
+                                    @Override
+                                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                        super.onLoadFailed(errorDrawable);
                                     }
                                 });
                         builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

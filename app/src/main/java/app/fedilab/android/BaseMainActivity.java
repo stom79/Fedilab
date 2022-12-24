@@ -1076,8 +1076,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     Bundle b = new Bundle();
-                    b.putParcelable(Helper.ARG_SHARE_URI, imageUri);
-                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                    List<Uri> uris = new ArrayList<>();
+                    uris.add(imageUri);
+                    Helper.createAttachmentFromUri(BaseMainActivity.this, uris, attachments -> {
+                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
+                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                    });
                 } else {
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
@@ -1087,7 +1091,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                 if (imageList != null) {
                     Bundle b = new Bundle();
-                    b.putParcelableArrayList(Helper.ARG_SHARE_URI_LIST, imageList);
+                    Helper.createAttachmentFromUri(BaseMainActivity.this, imageList, attachments -> {
+                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
+                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
+                    });
                     CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
                 } else {
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();

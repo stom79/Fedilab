@@ -235,10 +235,8 @@ public class Helper {
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
     public static final String ARG_STATUS_REPORT = "ARG_STATUS_REPORT";
     public static final String ARG_STATUS_MENTION = "ARG_STATUS_MENTION";
-    public static final String ARG_SHARE_URI = "ARG_SHARE_URI";
     public static final String ARG_SHARE_URL_MEDIA = "ARG_SHARE_URL_MEDIA";
     public static final String ARG_SHARE_URL = "ARG_SHARE_URL";
-    public static final String ARG_SHARE_URI_LIST = "ARG_SHARE_URI_LIST";
     public static final String ARG_SHARE_TITLE = "ARG_SHARE_TITLE";
     public static final String ARG_SHARE_SUBJECT = "ARG_SHARE_SUBJECT";
     public static final String ARG_SHARE_DESCRIPTION = "ARG_SHARE_DESCRIPTION";
@@ -258,6 +256,7 @@ public class Helper {
     public static final String ARG_TAG_TIMELINE = "ARG_TAG_TIMELINE";
     public static final String ARG_MEDIA_POSITION = "ARG_MEDIA_POSITION";
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
+    public static final String ARG_MEDIA_ATTACHMENTS = "ARG_MEDIA_ATTACHMENTS";
     public static final String ARG_SHOW_REPLIES = "ARG_SHOW_REPLIES";
     public static final String ARG_SHOW_REBLOGS = "ARG_SHOW_REBLOGS";
     public static final String ARG_INITIALIZE_VIEW = "ARG_INITIALIZE_VIEW";
@@ -1220,6 +1219,7 @@ public class Helper {
 
     public static void createAttachmentFromUri(Context context, List<Uri> uris, OnAttachmentCopied callBack) {
         new Thread(() -> {
+            List<Attachment> attachments = new ArrayList<>();
             for (Uri uri : uris) {
                 Attachment attachment = new Attachment();
                 attachment.filename = Helper.getFileName(context, uri);
@@ -1274,11 +1274,11 @@ public class Helper {
                         e.printStackTrace();
                     }
                 }
-
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
-                mainHandler.post(myRunnable);
+                attachments.add(attachment);
             }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachments);
+            mainHandler.post(myRunnable);
         }).start();
     }
 
@@ -1328,6 +1328,7 @@ public class Helper {
 
     public static void createAttachmentFromPAth(String path, OnAttachmentCopied callBack) {
         new Thread(() -> {
+            List<Attachment> attachmentList = new ArrayList<>();
             Attachment attachment = new Attachment();
             attachment.mimeType = "image/*";
             String extension = "jpg";
@@ -1336,7 +1337,8 @@ public class Helper {
             Date now = new Date();
             attachment.filename = formatter.format(now) + "." + extension;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
+            attachmentList.add(attachment);
+            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachmentList);
             mainHandler.post(myRunnable);
         }).start();
     }
@@ -1733,7 +1735,11 @@ public class Helper {
                     fileName = FileNameCleaner.cleanFileName(fileName);
                     // opens input stream from the HTTP connection
                     InputStream inputStream = httpURLConnection.getInputStream();
-                    File saveDir = context.getCacheDir();
+                    final File saveDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                    boolean isCertCacheDirExists = saveDir.exists();
+                    if (!isCertCacheDirExists) {
+                        saveDir.mkdirs();
+                    }
                     final String saveFilePath = saveDir + File.separator + fileName;
                     // opens an output stream to save into file
                     FileOutputStream outputStream = new FileOutputStream(saveFilePath);
@@ -1979,7 +1985,7 @@ public class Helper {
     }
 
     public interface OnAttachmentCopied {
-        void onAttachmentCopied(Attachment attachment);
+        void onAttachmentCopied(List<Attachment> attachments);
     }
 
     public interface OnFileCopied {

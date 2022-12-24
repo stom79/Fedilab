@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -179,8 +178,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                             }
                             uri = resultUri;
                         }
-                    } else {
-                        Log.e(Helper.TAG, "onActivityResult...Error CropImage: " + result.getError());
                     }
                 });
         mPhotoEditor.setFilterEffect(PhotoFilter.NONE);
@@ -299,7 +296,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 int imgHeightInEditor;
                                 int imgWidthInEditor;
                                 //If the original image has its height greater than width => heights are equals
-                                float focusX = -2, focusY = -2;
+                                float focusX, focusY;
                                 if (imageHeight > imageWidth) {
                                     imgHeightInEditor = pHeight;
                                     float ratio = (float) pHeight / (float) imageHeight;
@@ -325,7 +322,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 intentImage.putExtra("focusY", focusY);
 
                             }
-
                             LocalBroadcastManager.getInstance(EditImageActivity.this).sendBroadcast(intentImage);
                             finish();
                         }
@@ -415,8 +411,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                             }
                                             uri = resultUri;
                                         }
-                                    } else {
-                                        Log.e(Helper.TAG, "onActivityResult...Error CropImage: " + result.getError());
                                     }
                                 });
                         cropImageContractOptionsActivityResultLauncher.launch(cropImageContractOptions);
