@@ -11,3 +11,4 @@ Fixed:
 - Fix links not clickable
 - Fix deep links
 - Fix remote threads not fetched for some instances
+- Adding description to shared media
