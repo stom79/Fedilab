@@ -233,8 +233,8 @@
     <string name="action_unmute">Malsilentigu</string>
     <string name="request_sent">Peto sendita</string>
     <string name="followed_by">Sekvas vin</string>
-    <string name="set_capitalize">First letter in capital for replies</string>
-    <string name="set_resize_picture">Resize pictures</string>
+    <string name="set_capitalize">Unua litero majuskle por respondoj</string>
+    <string name="set_resize_picture">Adaptu fotojn</string>
     <string name="set_resize_video">Regrandigi videoj</string>
     <!-- Quick settings for notifications -->
     <!-- CACHE -->
