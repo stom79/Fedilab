@@ -80,6 +80,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String search, searchCache;
     private Status statusReport;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
+    private Integer offset;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
@@ -188,6 +189,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (statusAdapter != null) {
                 statusAdapter.notifyItemRangeRemoved(0, count);
                 max_id = statusReport != null ? statusReport.id : null;
+                offset = 0;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
                 //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
@@ -281,6 +283,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = statusReport != null ? statusReport.id : null;
+        offset = 0;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
@@ -428,7 +431,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             //Update the timeline with new statuses
             int insertedStatus;
-            if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
+            if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE && search == null) {
                 insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             } else { //Trends cannot be ordered by id
                 insertedStatus = fetched_statuses.statuses.size();
@@ -454,6 +457,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
                     min_id = fetched_statuses.pagination.min_id;
                 }
+            }
+            if (search != null) {
+                offset += MastodonHelper.SEARCH_PER_CALL;
             }
             int sizeBeforeFilter = 0;
             int filteredMessage = 0;
@@ -557,6 +563,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
             min_id = statuses.pagination.min_id;
         }
+        if (search != null) {
+            offset += MastodonHelper.SEARCH_PER_CALL;
+        }
         statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated, checkRemotely);
         statusAdapter.fetchMoreCallBack = this;
         if (statusReport != null) {
@@ -570,8 +579,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
-
-        if (searchCache == null && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
+        if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -1033,17 +1041,31 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         } else if (search != null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
-                    .observe(getViewLifecycleOwner(), results -> {
-                        if (results != null) {
-                            Statuses statuses = new Statuses();
-                            statuses.statuses = results.statuses;
-                            statuses.pagination = new Pagination();
-                            initializeStatusesCommonView(statuses);
-                        } else {
-                            Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
-                        }
-                    });
+            if (direction == null) {
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null) {
+                                Statuses statuses = new Statuses();
+                                statuses.statuses = results.statuses;
+                                statuses.pagination = new Pagination();
+                                initializeStatusesCommonView(statuses);
+                            } else {
+                                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                            }
+                        });
+            } else if (direction == DIRECTION.BOTTOM) {
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null) {
+                                Statuses statuses = new Statuses();
+                                statuses.statuses = results.statuses;
+                                statuses.pagination = new Pagination();
+                                dealWithPagination(statuses, direction, false);
+                            }
+                        });
+            } else {
+                flagLoading = false;
+            }
         } else if (searchCache != null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
             searchVM.searchCache(BaseMainActivity.currentInstance, BaseMainActivity.currentUserID, searchCache.trim())

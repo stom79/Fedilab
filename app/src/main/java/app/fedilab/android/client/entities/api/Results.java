@@ -24,5 +24,6 @@ public class Results {
     public java.util.List<Status> statuses;
     @SerializedName("hashtags")
     public java.util.List<Tag> hashtags;
+    public Pagination pagination;
 
 }

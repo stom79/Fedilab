@@ -80,6 +80,7 @@ public class MastodonHelper {
 
     public static final int ACCOUNTS_PER_CALL = 40;
     public static final int STATUSES_PER_CALL = 40;
+    public static final int SEARCH_PER_CALL = 20;
     public static final int NOTIFICATIONS_PER_CALL = 30;
 
 

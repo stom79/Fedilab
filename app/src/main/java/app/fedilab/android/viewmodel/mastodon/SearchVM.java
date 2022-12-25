@@ -99,10 +99,15 @@ public class SearchVM extends AndroidViewModel {
         MastodonSearchService mastodonSearchService = init(instance);
         resultsMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
+            int finalLimit = 40;
+            if (limit != null && limit < 40) {
+                finalLimit = limit;
+            }
             Call<Results> resultsCall = mastodonSearchService.search(
                     token, q, account_id, type, exclude_unreviewed,
-                    resolve, following, offset, max_id, min_id, limit);
+                    resolve, following, offset, max_id, min_id, finalLimit);
             Results results = null;
+
             if (resultsCall != null) {
                 try {
                     Response<Results> resultsResponse = resultsCall.execute();
@@ -118,6 +123,7 @@ public class SearchVM extends AndroidViewModel {
                             if (results.hashtags == null) {
                                 results.hashtags = new ArrayList<>();
                             }
+                            results.pagination.offset = finalLimit;
                         }
                     }
                 } catch (Exception e) {

@@ -198,11 +198,11 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
-    public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance) {
+    public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance, Integer offset, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         tagListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
-            Call<List<Tag>> publicTlCall = mastodonTimelinesService.getTagTrends(token);
+            Call<List<Tag>> publicTlCall = mastodonTimelinesService.getTagTrends(token, offset, limit);
             List<Tag> tagList = null;
             if (publicTlCall != null) {
                 try {

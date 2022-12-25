@@ -1,0 +1,5 @@
+Fixed:
+- Long press on Nitter tabs
+- Open with another accounts
+- Chars size not respected for Android 5-6
+- Wrong instance fetched for instances.social
