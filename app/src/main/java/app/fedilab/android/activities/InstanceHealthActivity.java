@@ -81,6 +81,12 @@ public class InstanceHealthActivity extends BaseAlertDialogActivity {
         instanceSocialVM.getInstances(BaseMainActivity.currentInstance.trim()).observe(InstanceHealthActivity.this, instanceSocialList -> {
             if (instanceSocialList != null && instanceSocialList.instances.size() > 0) {
                 InstanceSocial.Instance instanceSocial = instanceSocialList.instances.get(0);
+                for (InstanceSocial.Instance instance : instanceSocialList.instances) {
+                    if (instance.name.equalsIgnoreCase(BaseMainActivity.currentInstance.trim())) {
+                        instanceSocial = instance;
+                        break;
+                    }
+                }
                 if (instanceSocial.thumbnail != null && !instanceSocial.thumbnail.equals("null"))
                     Glide.with(InstanceHealthActivity.this)
                             .asBitmap()
