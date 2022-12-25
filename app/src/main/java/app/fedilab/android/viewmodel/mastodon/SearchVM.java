@@ -123,7 +123,6 @@ public class SearchVM extends AndroidViewModel {
                             if (results.hashtags == null) {
                                 results.hashtags = new ArrayList<>();
                             }
-                            results.pagination.offset = finalLimit;
                         }
                     }
                 } catch (Exception e) {

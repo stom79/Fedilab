@@ -266,7 +266,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     public void scrollToTop() {
-        if (binding != null) {
+        if (binding != null && search == null) {
             binding.swipeContainer.setRefreshing(true);
             flagLoading = false;
             route(DIRECTION.SCROLL_TOP, true);
@@ -289,6 +289,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
         if (max_id == null && !isViewInitialized && rememberPosition) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        if (search != null) {
+            binding.swipeContainer.setRefreshing(false);
+            binding.swipeContainer.setEnabled(false);
         }
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
@@ -507,6 +511,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             return;
         }
+
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);

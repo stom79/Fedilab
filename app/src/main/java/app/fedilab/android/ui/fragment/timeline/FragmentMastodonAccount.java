@@ -86,6 +86,10 @@ public class FragmentMastodonAccount extends Fragment {
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);
         max_id = null;
         offset = 0;
+        if (search != null) {
+            binding.swipeContainer.setRefreshing(false);
+            binding.swipeContainer.setEnabled(false);
+        }
         router(true);
     }
 
