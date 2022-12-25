@@ -35,6 +35,7 @@ import com.vanniktech.emoji.one.EmojiOneProvider;
 
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 
 
 @SuppressLint("Registered")
@@ -127,6 +128,9 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
+        }
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
