@@ -1,3 +1,6 @@
+Added:
+- Pagination with search / trending
+
 Fixed:
 - Long press on Nitter tabs
 - Open with another accounts

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.12.3",
+    "code": "453",
+    "note": "Added:\n- Pagination with search / trending\n\nFixed:\n- Long press on Nitter tabs\n- Open with another accounts\n- Chars size not respected for Android 5-6\n- Wrong instance fetched for instances.social"
+  },
+  {
     "version": "3.12.2",
     "code": "452",
     "note": "Added:\n- Rename Nitter timelines\n- Android 13 support\n\nChanged:\n- Visual feedback for block on account list\n- Visual changes with compose / top bar\n\nFixed:\n- Nav buttons not visible with media (Light theme)\n- Status bar with Android 5\n- Fix links not clickable\n- Fix deep links\n- Fix remote threads not fetched for some instances\n- Adding description to shared media\n- Fix crashes"
