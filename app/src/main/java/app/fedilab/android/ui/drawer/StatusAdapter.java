@@ -1805,7 +1805,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         BaseMainActivity.currentToken = account.token;
                                         BaseMainActivity.currentUserID = account.user_id;
                                         BaseMainActivity.currentInstance = account.instance;
-                                        MainActivity.currentAccount = account;
+                                        currentAccount = account;
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(PREF_USER_TOKEN, account.token);
                                         editor.putString(PREF_USER_INSTANCE, account.instance);
@@ -1820,6 +1820,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         dialog.dismiss();
                                     });
                                     builderSingle.show();
+                                };
+                                mainHandler.post(myRunnable);
+                            } else if (accounts.size() == 1) {
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+                                Runnable myRunnable = () -> {
+                                    BaseAccount account = accounts.get(0);
+                                    Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                    BaseMainActivity.currentToken = account.token;
+                                    BaseMainActivity.currentUserID = account.user_id;
+                                    BaseMainActivity.currentInstance = account.instance;
+                                    currentAccount = account;
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString(PREF_USER_TOKEN, account.token);
+                                    editor.putString(PREF_USER_INSTANCE, account.instance);
+                                    editor.putString(PREF_USER_ID, account.user_id);
+                                    editor.commit();
+                                    Intent mainActivity = new Intent(context, MainActivity.class);
+                                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                    mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                    context.startActivity(mainActivity);
+                                    ((Activity) context).finish();
                                 };
                                 mainHandler.post(myRunnable);
                             }
