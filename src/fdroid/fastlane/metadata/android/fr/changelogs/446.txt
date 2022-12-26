@@ -1,0 +1,18 @@
+Ajouté :
+- Afficher tout les messages des fils d'instances distantes (si possible)
+- Possibilité de ne plus suivre/silencer/épingler un tag de la timeline des tags
+- Affiche les comptes les plus utilisés dans l'en-tête du menu pour un changement rapide
+- Ajoute automatiquement le tag lorsque l'on poste depuis la timeline des tags
+- Ajoute un bouton traduire en bas des messages (désactivé par défaut)
+- Ajoute des rôles de comptes dans les profils
+- Traduction du morse
+
+Modifié :
+- Désactive les animations après une actualisation
+
+Réparé :
+- Le contact ne marche pas lors de la rédaction d'un post
+- Barre de statut pour le thème noir
+- Message copié dans les conversations lorsqu'il est édité
+- Problèmes de couleurs avec Android 5
+- Plusieurs crashes

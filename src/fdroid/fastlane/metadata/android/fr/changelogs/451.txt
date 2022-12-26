@@ -1,0 +1,12 @@
+Ajouté :
+- Poster des citations aléatoires
+- Re-blog de groupe dans la timeline d'accueil
+
+Modifié :
+- Affiche le bouton traduire seulement lorsque la langue est différente
+- Respecte les espaces blancs entre les mots dans les messages
+- Le bouton focus est plus accessible lorsque l'on édite un média
+
+Réparé :
+- Comportement avec le bouton cw
+- Lien gemini tronqués

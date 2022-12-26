@@ -1,0 +1,16 @@
+Ajouté :
+- Renommer les timeline Nitter
+- Support d'Android 13
+
+Modifié :
+- Feedback visuel pour bloquer sur la liste de comptes
+- Changements visuels avec la barre écrire/favori
+
+Réparé :
+- Bouton nav non visible avec les média (thème clair)
+- Barre de statut avec Android 5
+- Répare les liens non cliquables
+- Répare les liens profonds
+- Répare les fils distants non importés depuis certaines instances
+- Ajoute les descriptions aux médias partagés
+- Répare des crashs
