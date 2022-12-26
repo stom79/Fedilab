@@ -68,6 +68,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
@@ -397,6 +398,47 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), true);
         boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE), false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
+        boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
+
+        if (removeLeftMargin) {
+            LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
+            p.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.spoiler.setLayoutParams(p);
+            LinearLayoutCompat.MarginLayoutParams pe = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoilerExpand.getLayoutParams();
+            pe.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.spoilerExpand.setLayoutParams(pe);
+            LinearLayoutCompat.MarginLayoutParams psc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusContent.getLayoutParams();
+            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.statusContent.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams pct = (LinearLayoutCompat.MarginLayoutParams) holder.binding.containerTrans.getLayoutParams();
+            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.containerTrans.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams pcv = (LinearLayoutCompat.MarginLayoutParams) holder.binding.card.getLayoutParams();
+            pcv.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.card.setLayoutParams(pcv);
+            LinearLayoutCompat.MarginLayoutParams pmc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaContainer.getLayoutParams();
+            pmc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.mediaContainer.setLayoutParams(pmc);
+            LinearLayoutCompat.MarginLayoutParams pal = (LinearLayoutCompat.MarginLayoutParams) holder.binding.attachmentsListContainer.getLayoutParams();
+            pal.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.attachmentsListContainer.setLayoutParams(pal);
+            LinearLayoutCompat.MarginLayoutParams pp = (LinearLayoutCompat.MarginLayoutParams) holder.binding.poll.pollContainer.getLayoutParams();
+            pp.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.poll.pollContainer.setLayoutParams(pp);
+            LinearLayoutCompat.MarginLayoutParams pet = (LinearLayoutCompat.MarginLayoutParams) holder.binding.editTime.getLayoutParams();
+            pet.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.editTime.setLayoutParams(pet);
+            LinearLayoutCompat.MarginLayoutParams psi = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusInfo.getLayoutParams();
+            psi.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.statusInfo.setLayoutParams(psi);
+            LinearLayoutCompat.MarginLayoutParams pas = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionShareContainer.getLayoutParams();
+            pas.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.actionShareContainer.setLayoutParams(pas);
+            LinearLayoutCompat.MarginLayoutParams pab = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionButtons.getLayoutParams();
+            pab.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.actionButtons.setLayoutParams(pab);
+        }
+
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
         if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
@@ -630,7 +672,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
             }
             if (displayTranslate) {
-                holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+                if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
+                    holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+                } else {
+                    holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+                }
             } else {
                 holder.binding.actionButtonTranslate.setVisibility(View.GONE);
             }
@@ -1163,15 +1209,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         float mediaH = -1.0f;
 
                         if (attachment.measuredWidth > 0) {
+                            float viewWidth = attachment.measuredWidth;
                             if (attachment.meta != null && attachment.meta.small != null) {
-                                float viewWidth = attachment.measuredWidth;
                                 mediaH = attachment.meta.small.height;
                                 float mediaW = attachment.meta.small.width;
                                 if (mediaW != 0) {
                                     ratio = viewWidth / mediaW;
                                 }
                             }
-                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaH, ratio, statusToDeal, attachment, singleMedia);
+                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
                         } else {
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.media.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -1181,20 +1227,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     attachment.measuredWidth = layoutMediaBinding.media.getWidth();
                                     float ratio = 1.0f;
                                     float mediaH = -1.0f;
+                                    float viewWidth = attachment.measuredWidth;
                                     if (attachment.meta != null && attachment.meta.small != null) {
-                                        float viewWidth = attachment.measuredWidth;
                                         mediaH = attachment.meta.small.height;
                                         float mediaW = attachment.meta.small.width;
                                         if (mediaW != 0) {
                                             ratio = viewWidth / mediaW;
                                         }
                                     }
-                                    loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, finalMediaPosition, mediaH, ratio, statusToDeal, attachment, singleMedia);
+                                    loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, finalMediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
                                 }
                             });
                         }
                     } else {
-                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, statusToDeal, attachment, singleMedia);
+                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment, singleMedia);
                     }
                     mediaPosition++;
                     if (fullAttachement || singleMedia) {
@@ -1429,18 +1475,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             holder.binding.poll.refreshPoll.setOnClickListener(v -> statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
                     .observe((LifecycleOwner) context, poll -> {
-                        //Store span elements
-                        int i = 0;
-                        for (Poll.PollItem item : statusToDeal.poll.options) {
-                            if (item.span_title != null) {
-                                poll.options.get(i).span_title = item.span_title;
-                            } else {
-                                poll.options.get(i).span_title = new SpannableString(item.title);
+                        if (poll != null) {
+                            //Store span elements
+                            int i = 0;
+                            for (Poll.PollItem item : statusToDeal.poll.options) {
+                                if (item.span_title != null) {
+                                    poll.options.get(i).span_title = item.span_title;
+                                } else {
+                                    poll.options.get(i).span_title = new SpannableString(item.title);
+                                }
+                                i++;
                             }
-                            i++;
+                            statusToDeal.poll = poll;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                         }
-                        statusToDeal.poll = poll;
-                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                     }));
             holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
             String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, statusToDeal.poll.voters_count, statusToDeal.poll.voters_count);
@@ -1799,7 +1847,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         BaseMainActivity.currentToken = account.token;
                                         BaseMainActivity.currentUserID = account.user_id;
                                         BaseMainActivity.currentInstance = account.instance;
-                                        MainActivity.currentAccount = account;
+                                        currentAccount = account;
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(PREF_USER_TOKEN, account.token);
                                         editor.putString(PREF_USER_INSTANCE, account.instance);
@@ -1814,6 +1862,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         dialog.dismiss();
                                     });
                                     builderSingle.show();
+                                };
+                                mainHandler.post(myRunnable);
+                            } else if (accounts.size() == 1) {
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+                                Runnable myRunnable = () -> {
+                                    BaseAccount account = accounts.get(0);
+                                    Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                    BaseMainActivity.currentToken = account.token;
+                                    BaseMainActivity.currentUserID = account.user_id;
+                                    BaseMainActivity.currentInstance = account.instance;
+                                    currentAccount = account;
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString(PREF_USER_TOKEN, account.token);
+                                    editor.putString(PREF_USER_INSTANCE, account.instance);
+                                    editor.putString(PREF_USER_ID, account.user_id);
+                                    editor.commit();
+                                    Intent mainActivity = new Intent(context, MainActivity.class);
+                                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                    mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                    context.startActivity(mainActivity);
+                                    ((Activity) context).finish();
                                 };
                                 mainHandler.post(myRunnable);
                             }
@@ -1966,7 +2036,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
                                              RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
-                                             int mediaPosition, float mediaH, float ratio,
+                                             int mediaPosition, float viewWidth, float mediaH, float ratio,
                                              Status statusToDeal, Attachment attachment, boolean singleImage) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
@@ -2037,6 +2107,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
             } else {
                 requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
+                requestBuilder = requestBuilder.apply(new RequestOptions().override((int) viewWidth, (int) mediaH));
                 requestBuilder = requestBuilder.fitCenter();
             }
             requestBuilder.into(layoutMediaBinding.media);

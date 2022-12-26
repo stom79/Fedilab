@@ -926,4 +926,7 @@
     <string name="unmute_home">Torra a ativare pro sa pàgina printzipale</string>
     <string name="put_all_accounts_in_home_muted">Totu is contos ant a abarrare a sa muda in sa lìnia de tempus printzipale.</string>
     <string name="mute_them_all">Pone·los totus a sa muda</string>
+    <string name="import_data">Importa datos</string>
+    <string name="group_reblogs">Agrupa is cumpartziduras in sa lìnia de tempus printzipale</string>
+    <string name="manage_accounts">Amministra is contos</string>
 </resources>

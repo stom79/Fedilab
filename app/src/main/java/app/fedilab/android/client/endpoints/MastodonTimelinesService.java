@@ -62,7 +62,9 @@ public interface MastodonTimelinesService {
 
 
     @GET("trends/tags")
-    Call<List<Tag>> getTagTrends(@Header("Authorization") String token);
+    Call<List<Tag>> getTagTrends(@Header("Authorization") String token,
+                                 @Query("offset") Integer offset,
+                                 @Query("limit") Integer limit);
 
     //Public Tags timelines
     @GET("timelines/tag/{hashtag}")

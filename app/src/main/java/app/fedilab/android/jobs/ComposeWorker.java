@@ -221,10 +221,10 @@ public class ComposeWorker extends Worker {
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
+                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
                     } else { //Status is edited
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), language);
+                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
                     }
                     try {
                         Response<Status> statusResponse = statusCall.execute();
@@ -285,7 +285,7 @@ public class ComposeWorker extends Worker {
                     }
                 } else {
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoiler_text, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
+                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
                     try {
                         Response<ScheduledStatus> statusResponse = scheduledStatusCall.execute();
 
@@ -341,10 +341,14 @@ public class ComposeWorker extends Worker {
     private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
 
         RequestBody descriptionBody = null;
+        RequestBody focusBody = null;
         if (attachment.description != null && attachment.description.trim().length() > 0) {
             descriptionBody = RequestBody.create(MediaType.parse("text/plain"), attachment.description);
         }
-        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, descriptionBody, attachment.focus);
+        if (attachment.focus != null && attachment.focus.trim().length() > 0) {
+            focusBody = RequestBody.create(MediaType.parse("text/plain"), attachment.focus);
+        }
+        Call<Attachment> attachmentCall = mastodonStatusesService.postMedia(dataPost.token, fileMultipartBody, null, descriptionBody, focusBody);
 
         if (attachmentCall != null) {
             try {

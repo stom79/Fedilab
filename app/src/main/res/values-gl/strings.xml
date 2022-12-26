@@ -916,4 +916,19 @@
     <string name="toast_on_your_instance">A conversa comezou na túa instancia!</string>
     <string name="cark_custom_colors">Escuro - Cores personais</string>
     <string name="set_cardview">Tarxetas elevadas</string>
+    <string name="import_data">Importar datos</string>
+    <string name="set_display_translate_indication">Mostrar sempre botón de tradución</string>
+    <string name="mute_tag_action">Acalar cancelo</string>
+    <string name="unmute_tag_action">Restablecer cancelo</string>
+    <string name="unfollow_tag">Non seguir cancelo</string>
+    <string name="pin_tag">Fixar cancelo</string>
+    <string name="unpin_tag">Desafixar cancelo</string>
+    <string name="mute_home">Acalar para Inicio</string>
+    <string name="unmute_home">Non acalar para Inicio</string>
+    <string name="add_all_users_home_muted">Engadir tódolas usuarias ao inicio acalado</string>
+    <string name="put_all_accounts_in_home_muted">Tódalas contas serán acaladas para a cronoloxía de Inicio.</string>
+    <string name="mute_them_all">Acalalas todas</string>
+    <string name="muted_menu_home">Usuarias acalas en Inicio</string>
+    <string name="group_reblogs">Comparticións para o grupo no Inicio</string>
+    <string name="manage_accounts">Xestionar contas</string>
 </resources>

@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/preview"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="108dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,83 +23,66 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
 
-
-         <com.google.android.material.button.MaterialButton
-             android:id="@+id/button_play"
-             style="@style/Widget.AppCompat.Button.Borderless"
-             android:layout_width="48dp"
-             android:layout_height="48dp"
-             android:adjustViewBounds="true"
-             android:padding="0dp"
-             app:icon="@drawable/ic_compose_attachment_play"
-             app:iconGravity="textStart"
-             android:scaleType="fitCenter"
-             app:iconPadding="0dp"
-             app:layout_constraintBottom_toBottomOf="@id/preview"
-             app:layout_constraintEnd_toEndOf="@id/preview"
-             app:layout_constraintStart_toStartOf="@id/preview"
-             app:layout_constraintTop_toTopOf="@id/preview" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/button_play"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/preview"
+            app:layout_constraintEnd_toEndOf="@id/preview"
+            app:layout_constraintStart_toStartOf="@id/preview"
+            app:layout_constraintTop_toTopOf="@id/preview"
+            app:srcCompat="@drawable/ic_compose_attachment_play" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_preview"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:padding="0dp"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            android:backgroundTint="@color/editColor"
             app:icon="@drawable/ic_baseline_mode_edit_24"
+            app:iconGravity="textStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_remove"
-            android:padding="0dp"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:adjustViewBounds="true"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/errorColor"
             app:icon="@drawable/ic_compose_attachment_remove"
+            app:iconGravity="textStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_order_up"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:icon="@drawable/ic_compose_attachment_order_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.chip.Chip
             android:id="@+id/button_description"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            style="@style/Widget.Material3.Chip.Assist.Elevated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/description"
             android:textColor="@color/black"
-            android:textAlignment="textStart"
-            app:backgroundTint="@color/no_description"
-            app:icon="@drawable/ic_baseline_warning_24"
-            app:iconGravity="end"
-            app:iconTint="@color/black"
+            app:chipBackgroundColor="@color/no_description"
+            app:chipIcon="@drawable/ic_baseline_warning_24"
             app:layout_constraintEnd_toStartOf="@id/button_order_down"
             app:layout_constraintStart_toEndOf="@id/button_order_up"
-            app:layout_constraintTop_toBottomOf="@id/preview" />
-
+            app:layout_constraintTop_toBottomOf="@id/preview"
+            app:textEndPadding="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_order_down"
-            style="@style/Widget.Material3.Button.Icon"
+            style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:adjustViewBounds="true"

@@ -932,4 +932,7 @@
     <string name="unmute_home">Ana sayfa için susturmaktan vazgeç</string>
     <string name="add_all_users_home_muted">Tüm kullanıcıları ana sayfada susturmaya ekle</string>
     <string name="mute_home">Ana sayfa için sustur</string>
+    <string name="import_data">Verileri içe aktar</string>
+    <string name="group_reblogs">Ana sayfa zaman çizelgesinde yeniden blogları gruplandır</string>
+    <string name="manage_accounts">Hesapları yönet</string>
 </resources>

@@ -127,7 +127,9 @@ public class SpannableHelper {
         } else {
             linkColor = -1;
         }
-
+        if (linkColor == 0) {
+            linkColor = -1;
+        }
         SpannableString initialContent;
         if (text == null) {
             return null;
@@ -185,6 +187,8 @@ public class SpannableHelper {
                     urlDetails.put(url, urlText);
                 }
             }
+            text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
+            text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
             else
@@ -252,6 +256,14 @@ public class SpannableHelper {
             if (urlDetails.containsKey(url)) {
                 continue;
             }
+
+            ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+            if (clickableSpans != null) {
+                for (ClickableSpan clickableSpan : clickableSpans) {
+                    content.removeSpan(clickableSpan);
+                }
+            }
+            content.removeSpan(clickableSpans);
             String newURL = Helper.transformURL(context, url);
             //If URL has been transformed
             if (newURL.compareTo(url) != 0) {
@@ -263,7 +275,7 @@ public class SpannableHelper {
             //Truncate URL if needed
             //TODO: add an option to disable truncated URLs
             String urlText = newURL;
-            if (newURL.length() > 30 && !urlDetails.containsKey(urlText)) {
+            if (newURL.length() > 30 && !urlDetails.containsKey(urlText) && !urlText.startsWith("gemini")) {
                 urlText = urlText.substring(0, 30);
                 urlText += "…";
                 content.replace(matchStart, matchEnd, urlText);
@@ -512,6 +524,15 @@ public class SpannableHelper {
                 if (content.toString().length() < matchEnd || matchStart < 0 || matchStart > matchEnd) {
                     continue;
                 }
+
+                ClickableSpan[] clickableSpans = content.getSpans(matchStart, matchEnd, ClickableSpan.class);
+                if (clickableSpans != null) {
+                    for (ClickableSpan clickableSpan : clickableSpans) {
+                        content.removeSpan(clickableSpan);
+                    }
+                }
+                content.removeSpan(clickableSpans);
+
                 if (matchEnd <= content.length()) {
                     content.setSpan(new LongClickableSpan() {
                         @Override

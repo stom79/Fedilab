@@ -1402,6 +1402,8 @@
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
+    <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
+
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
@@ -1409,6 +1411,8 @@
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
+    <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
+
     <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
@@ -2108,4 +2112,8 @@
     <string name="put_all_accounts_in_home_muted">All accounts will be muted for the Home timeline.</string>
     <string name="mute_them_all">Mute them all</string>
     <string name="import_data">Import data</string>
+    <string name="group_reblogs">Group reblogs in home timeline</string>
+    <string name="manage_accounts">Manage accounts</string>
+    <string name="set_remove_left_margin_title">Remove left margin</string>
+    <string name="set_remove_left_margin">Remove the left margin in timelines to make messages more compact</string>
 </resources>

@@ -36,7 +36,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -44,7 +43,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -157,7 +155,6 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.PopupReleaseNotesBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.interfaces.OnDownloadInterface;
-import app.fedilab.android.sqlite.Sqlite;
 import app.fedilab.android.ui.drawer.ReleaseNoteAdapter;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.OauthVM;
@@ -171,10 +168,6 @@ import okhttp3.RequestBody;
 public class Helper {
 
     public static final String TAG = "fedilab_app";
-    public static final String APP_CLIENT_ID = "APP_CLIENT_ID";
-    public static final String APP_CLIENT_SECRET = "APP_CLIENT_SECRET";
-    public static final String APP_INSTANCE = "APP_INSTANCE";
-    public static final String APP_API = "APP_API";
     public static final String CLIP_BOARD = "CLIP_BOARD";
 
     public static final String INSTANCE_SOCIAL_KEY = "jGj9gW3z9ptyIpB8CMGhAlTlslcemMV6AgoiImfw3vPP98birAJTHOWiu5ZWfCkLvcaLsFZw9e3Pb7TIwkbIyrj3z6S7r2oE6uy6EFHvls3YtapP8QKNZ980p9RfzTb4";
@@ -241,10 +234,8 @@ public class Helper {
     public static final String ARG_MINIFIED = "ARG_MINIFIED";
     public static final String ARG_STATUS_REPORT = "ARG_STATUS_REPORT";
     public static final String ARG_STATUS_MENTION = "ARG_STATUS_MENTION";
-    public static final String ARG_SHARE_URI = "ARG_SHARE_URI";
     public static final String ARG_SHARE_URL_MEDIA = "ARG_SHARE_URL_MEDIA";
     public static final String ARG_SHARE_URL = "ARG_SHARE_URL";
-    public static final String ARG_SHARE_URI_LIST = "ARG_SHARE_URI_LIST";
     public static final String ARG_SHARE_TITLE = "ARG_SHARE_TITLE";
     public static final String ARG_SHARE_SUBJECT = "ARG_SHARE_SUBJECT";
     public static final String ARG_SHARE_DESCRIPTION = "ARG_SHARE_DESCRIPTION";
@@ -264,6 +255,7 @@ public class Helper {
     public static final String ARG_TAG_TIMELINE = "ARG_TAG_TIMELINE";
     public static final String ARG_MEDIA_POSITION = "ARG_MEDIA_POSITION";
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
+    public static final String ARG_MEDIA_ATTACHMENTS = "ARG_MEDIA_ATTACHMENTS";
     public static final String ARG_SHOW_REPLIES = "ARG_SHOW_REPLIES";
     public static final String ARG_SHOW_REBLOGS = "ARG_SHOW_REBLOGS";
     public static final String ARG_INITIALIZE_VIEW = "ARG_INITIALIZE_VIEW";
@@ -323,9 +315,9 @@ public class Helper {
 
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);*/
 
-    public static final Pattern hashtagPattern = Pattern.compile("(^|\\s+|[.,;?!-]+)(#[\\w_A-zÀ-ÿ]+)");
+    public static final Pattern hashtagPattern = Pattern.compile("(#[\\w_A-zÀ-ÿ]+)");
     public static final Pattern groupPattern = Pattern.compile("(![\\w_]+)");
-    public static final Pattern mentionPattern = Pattern.compile("(@[\\w_.-]+[\\w])");
+    public static final Pattern mentionPattern = Pattern.compile("(@[\\w_.-]?[\\w]+)");
     public static final Pattern mentionLongPattern = Pattern.compile("(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
 
     public static final Pattern twitterPattern = Pattern.compile("((@[\\w]+)@twitter\\.com)");
@@ -1226,6 +1218,7 @@ public class Helper {
 
     public static void createAttachmentFromUri(Context context, List<Uri> uris, OnAttachmentCopied callBack) {
         new Thread(() -> {
+            List<Attachment> attachments = new ArrayList<>();
             for (Uri uri : uris) {
                 Attachment attachment = new Attachment();
                 attachment.filename = Helper.getFileName(context, uri);
@@ -1243,36 +1236,48 @@ public class Helper {
                 counter++;
                 Date now = new Date();
                 attachment.filename = formatter.format(now) + "." + extension;
-                InputStream selectedFileInputStream;
-                try {
-                    selectedFileInputStream = context.getContentResolver().openInputStream(uri);
-                    if (selectedFileInputStream != null) {
-                        final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
-                        boolean isCertCacheDirExists = certCacheDir.exists();
-                        if (!isCertCacheDirExists) {
-                            isCertCacheDirExists = certCacheDir.mkdirs();
-                        }
-                        if (isCertCacheDirExists) {
-                            String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
-                            attachment.local_path = filePath;
-                            OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
-                            byte[] buffer = new byte[1024];
-                            int length;
-                            while ((length = selectedFileInputStream.read(buffer)) > 0) {
-                                selectedFileOutPutStream.write(buffer, 0, length);
-                            }
-                            selectedFileOutPutStream.flush();
-                            selectedFileOutPutStream.close();
-                        }
-                        selectedFileInputStream.close();
+                if (attachment.mimeType.startsWith("image")) {
+                    final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                    boolean isCertCacheDirExists = certCacheDir.exists();
+                    if (!isCertCacheDirExists) {
+                        certCacheDir.mkdirs();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
+                    MediaHelper.ResizedImageRequestBody(context, uri, new File(filePath));
+                    attachment.local_path = filePath;
+                } else {
+                    InputStream selectedFileInputStream;
+                    try {
+                        selectedFileInputStream = context.getContentResolver().openInputStream(uri);
+                        if (selectedFileInputStream != null) {
+                            final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                            boolean isCertCacheDirExists = certCacheDir.exists();
+                            if (!isCertCacheDirExists) {
+                                isCertCacheDirExists = certCacheDir.mkdirs();
+                            }
+                            if (isCertCacheDirExists) {
+                                String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
+                                attachment.local_path = filePath;
+                                OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
+                                byte[] buffer = new byte[1024];
+                                int length;
+                                while ((length = selectedFileInputStream.read(buffer)) > 0) {
+                                    selectedFileOutPutStream.write(buffer, 0, length);
+                                }
+                                selectedFileOutPutStream.flush();
+                                selectedFileOutPutStream.close();
+                            }
+                            selectedFileInputStream.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
-                mainHandler.post(myRunnable);
+                attachments.add(attachment);
             }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachments);
+            mainHandler.post(myRunnable);
         }).start();
     }
 
@@ -1322,6 +1327,7 @@ public class Helper {
 
     public static void createAttachmentFromPAth(String path, OnAttachmentCopied callBack) {
         new Thread(() -> {
+            List<Attachment> attachmentList = new ArrayList<>();
             Attachment attachment = new Attachment();
             attachment.mimeType = "image/*";
             String extension = "jpg";
@@ -1330,7 +1336,8 @@ public class Helper {
             Date now = new Date();
             attachment.filename = formatter.format(now) + "." + extension;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachment);
+            attachmentList.add(attachment);
+            Runnable myRunnable = () -> callBack.onAttachmentCopied(attachmentList);
             mainHandler.post(myRunnable);
         }).start();
     }
@@ -1492,7 +1499,7 @@ public class Helper {
                 channelTitle = context.getString(R.string.channel_notif_backup);
                 break;
             case STORE:
-                channelId = "channel_store";
+                channelId = "channel_media";
                 channelTitle = context.getString(R.string.channel_notif_media);
                 break;
             case TOOT:
@@ -1561,12 +1568,12 @@ public class Helper {
                 channel.setLightColor(ledColour);
             } else {
                 channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_DEFAULT);
-                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
+                /*String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
                 AudioAttributes audioAttributes = new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                         .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                         .build();
-                channel.setSound(Uri.parse(soundUri), audioAttributes);
+                channel.setSound(Uri.parse(soundUri), audioAttributes);*/
             }
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(channel);
@@ -1600,28 +1607,6 @@ public class Helper {
         }
     }
 
-    public static void transfertIfExist(Context context) {
-        File dbFile = context.getDatabasePath(OLD_DB_NAME);
-        if (!dbFile.exists()) {
-            return;
-        }
-        int version = -1;
-        try {
-            SQLiteDatabase sqlDb = SQLiteDatabase.openDatabase
-                    (context.getDatabasePath(OLD_DB_NAME).getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
-            version = sqlDb.getVersion();
-        } catch (Exception ignored) {
-        }
-        try {
-            if (version == -1) {
-                version = 38;
-            }
-            SQLiteDatabase oldDb = Sqlite.getInstance(context.getApplicationContext(), OLD_DB_NAME, null, version).open();
-
-        } catch (Exception ignored) {
-        }
-        context.deleteDatabase(OLD_DB_NAME);
-    }
 
     public static String dateDiffFull(Date dateToot) {
         SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM, Locale.getDefault());
@@ -1749,7 +1734,11 @@ public class Helper {
                     fileName = FileNameCleaner.cleanFileName(fileName);
                     // opens input stream from the HTTP connection
                     InputStream inputStream = httpURLConnection.getInputStream();
-                    File saveDir = context.getCacheDir();
+                    final File saveDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
+                    boolean isCertCacheDirExists = saveDir.exists();
+                    if (!isCertCacheDirExists) {
+                        saveDir.mkdirs();
+                    }
                     final String saveFilePath = saveDir + File.separator + fileName;
                     // opens an output stream to save into file
                     FileOutputStream outputStream = new FileOutputStream(saveFilePath);
@@ -1995,7 +1984,7 @@ public class Helper {
     }
 
     public interface OnAttachmentCopied {
-        void onAttachmentCopied(Attachment attachment);
+        void onAttachmentCopied(List<Attachment> attachments);
     }
 
     public interface OnFileCopied {

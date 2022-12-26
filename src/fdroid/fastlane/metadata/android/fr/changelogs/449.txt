@@ -1,0 +1,9 @@
+Ajouté :
+- Ajoute plus de langues cibles dans picker pour les traductions
+- Ajoute le nom du compte dans les notifications push
+
+Réparé :
+- Répare le crash lors du changement de langue
+- Répare les contre couleurs
+- Répare la couleur de lien par défaut
+- Répare le crash lorsque l'on clique sur les mentions

@@ -1347,7 +1347,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (acceptFollowResponse.isSuccessful()) {
                         relationShip = acceptFollowResponse.body();
                     }
-                    new StatusCache(getApplication().getApplicationContext()).deleteStatus(instance, id);
+                    new StatusCache(getApplication().getApplicationContext()).deleteNotifications(MainActivity.currentUserID, instance);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1378,7 +1378,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (rejectFollowResponse.isSuccessful()) {
                         relationShip = rejectFollowResponse.body();
                     }
-                    new StatusCache(getApplication().getApplicationContext()).deleteStatus(instance, id);
+                    new StatusCache(getApplication().getApplicationContext()).deleteNotifications(MainActivity.currentUserID, instance);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

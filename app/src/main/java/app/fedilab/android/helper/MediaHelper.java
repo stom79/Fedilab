@@ -21,10 +21,12 @@ import static app.fedilab.android.helper.LogoHelper.getMainLogo;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
 import android.media.MediaScannerConnection;
@@ -42,7 +44,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
-import androidx.preference.PreferenceManager;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -53,8 +55,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,6 +73,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.databinding.PopupRecordBinding;
@@ -84,7 +89,6 @@ public class MediaHelper {
      * @param url     String download url
      */
     public static long manageDownloadsNoPopup(final Context context, final String url) {
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final DownloadManager.Request request;
         try {
@@ -108,7 +112,11 @@ public class MediaHelper {
             }
 
             if (!new File(myDir).exists()) {
-                new File(myDir).mkdir();
+                boolean created = new File(myDir).mkdir();
+                if (!created) {
+                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                    return -1;
+                }
             }
             if (mime.toLowerCase().startsWith("video")) {
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, context.getString(R.string.app_name) + "/" + fileName);
@@ -148,7 +156,11 @@ public class MediaHelper {
                         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                         File targeted_folder = new File(path, context.getString(R.string.app_name));
                         if (!targeted_folder.exists()) {
-                            targeted_folder.mkdir();
+                            boolean created = targeted_folder.mkdir();
+                            if (!created) {
+                                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
                         FileInputStream fis = null;
                         FileOutputStream fos = null;
@@ -217,20 +229,6 @@ public class MediaHelper {
                 });
     }
 
-    public static String formatSeconds(int seconds) {
-        return getTwoDecimalsValue(seconds / 3600) + ":"
-                + getTwoDecimalsValue(seconds / 60) + ":"
-                + getTwoDecimalsValue(seconds % 60);
-    }
-
-    private static String getTwoDecimalsValue(int value) {
-        if (value >= 0 && value <= 9) {
-            return "0" + value;
-        } else {
-            return value + "";
-        }
-    }
-
 
     public static String getMimeType(String url) {
         String type = null;
@@ -272,14 +270,12 @@ public class MediaHelper {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        // Save a file: path for use with ACTION_VIEW intents
+        return File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-        // Save a file: path for use with ACTION_VIEW intents
-        String mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
     /**
@@ -400,6 +396,7 @@ public class MediaHelper {
      * @param attachmentList - List<Attachment>
      * @return int - The max height
      */
+    @SuppressWarnings("unused")
     public static int returnMaxHeightForPreviews(Context context, List<Attachment> attachmentList) {
         int maxHeight = RelativeLayout.LayoutParams.WRAP_CONTENT;
         if (attachmentList != null && attachmentList.size() > 0) {
@@ -420,4 +417,168 @@ public class MediaHelper {
     public interface OnSchedule {
         void scheduledAt(String scheduledDate);
     }
+
+    public static void ResizedImageRequestBody(Context context, Uri uri, File targetedFile) {
+        InputStream decodeBitmapInputStream = null;
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int orientation = getImageOrientation(uri, context.getContentResolver());
+            int scaledImageSize = 1024;
+            do {
+                FileOutputStream outputStream = new FileOutputStream(targetedFile);
+                decodeBitmapInputStream = context.getContentResolver().openInputStream(uri);
+                options.inSampleSize = calculateInSampleSize(options, scaledImageSize, scaledImageSize);
+                options.inJustDecodeBounds = false;
+                Bitmap scaledBitmap = BitmapFactory.decodeStream(decodeBitmapInputStream, null, options);
+                Bitmap reorientedBitmap = reorientBitmap(scaledBitmap, orientation);
+                if (reorientedBitmap == null) {
+                    scaledBitmap.recycle();
+                    return;
+                }
+                Bitmap.CompressFormat format;
+                if (!reorientedBitmap.hasAlpha()) {
+                    format = Bitmap.CompressFormat.JPEG;
+                } else {
+                    format = Bitmap.CompressFormat.PNG;
+                }
+                reorientedBitmap.compress(format, 100, outputStream);
+                reorientedBitmap.recycle();
+                scaledImageSize /= 2;
+            } while (targetedFile.length() > getMaxSize(targetedFile.length()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (decodeBitmapInputStream != null) {
+                try {
+                    decodeBitmapInputStream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static int calculateInSampleSize(BitmapFactory.Options options, int rqWidth, int rqHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > rqHeight || width > rqWidth) {
+
+            int halfHeight = height / 2;
+            int halfWidth = width / 2;
+            while ((halfHeight / inSampleSize) > rqHeight && (halfWidth / inSampleSize) > rqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
+
+    private static int getImageOrientation(Uri uri, ContentResolver contentResolver) {
+        InputStream inputStream;
+        try {
+            inputStream = contentResolver.openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+        if (inputStream == null) {
+            return ExifInterface.ORIENTATION_UNDEFINED;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                ExifInterface exifInterface = new ExifInterface(inputStream);
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                inputStream.close();
+                return orientation;
+            } catch (IOException e) {
+                try {
+                    inputStream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return ExifInterface.ORIENTATION_UNDEFINED;
+                }
+                e.printStackTrace();
+                return ExifInterface.ORIENTATION_UNDEFINED;
+            }
+        } else {
+            try {
+                ExifInterface exifInterface = new ExifInterface(uri.getPath());
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                inputStream.close();
+                return orientation;
+            } catch (IOException e) {
+                try {
+                    inputStream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return ExifInterface.ORIENTATION_UNDEFINED;
+                }
+                e.printStackTrace();
+                return ExifInterface.ORIENTATION_UNDEFINED;
+            }
+        }
+    }
+
+
+    private static long getMaxSize(long maxSize) {
+        if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
+            maxSize = MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
+        }
+        return maxSize;
+    }
+
+    public static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1.0f, 1.0f);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180.0f);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180.0f);
+                matrix.postScale(-1.0f, 1.0f);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90.0f);
+                matrix.postScale(-1.0f, 1.0f);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90.0f);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90.0f);
+                matrix.postScale(-1.0f, 1.0f);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90.0f);
+                break;
+            default:
+                return bitmap;
+        }
+        if (bitmap == null) {
+            return null;
+        }
+        try {
+            Bitmap result = Bitmap.createBitmap(
+                    bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);
+            if (!bitmap.sameAs(result)) {
+                bitmap.recycle();
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -19,4 +19,5 @@ public class Pagination {
     public String max_id;
     public String min_id;
     public String since_id;
+    public Integer offset;
 }

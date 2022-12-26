@@ -17,6 +17,7 @@ package app.fedilab.android.helper;
 import static app.fedilab.android.BaseMainActivity.filteredAccounts;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.text.Html;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.endpoints.MastodonFiltersService;
 import app.fedilab.android.client.entities.api.Account;
@@ -153,21 +156,40 @@ public class TimelineHelper {
                     }
                 }
             }
+
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean groupReblogs = sharedpreferences.getBoolean(context.getString(R.string.SET_GROUP_REBLOGS), true);
             if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
-                if (filteredAccounts != null && filteredAccounts.size() > 0) {
-                    for (Status status : statuses) {
+
+                for (int i = 0; i < statuses.size(); i++) {
+                    if (filteredAccounts != null && filteredAccounts.size() > 0) {
                         for (Account account : filteredAccounts) {
-                            if (account.acct.equals(status.account.acct) || (status.reblog != null && account.acct.equals(status.reblog.account.acct))) {
+                            if (account.acct.equals(statuses.get(i).account.acct) || (statuses.get(i).reblog != null && account.acct.equals(statuses.get(i).reblog.account.acct))) {
                                 Filter filterCustom = new Filter();
                                 filterCustom.filter_action = "hide";
                                 ArrayList<String> contextCustom = new ArrayList<>();
                                 contextCustom.add("home");
                                 filterCustom.title = "Fedilab";
                                 filterCustom.context = contextCustom;
-                                status.filteredByApp = filterCustom;
+                                statuses.get(i).filteredByApp = filterCustom;
                             }
                         }
                     }
+                    //Group boosts
+                    if (groupReblogs && statuses.get(i).filteredByApp == null && statuses.get(i).reblog != null) {
+                        for (int j = 0; j < i; j++) {
+                            if (statuses.get(j).reblog != null && statuses.get(j).reblog.id.equals(statuses.get(i).reblog.id)) {
+                                Filter filterCustom = new Filter();
+                                filterCustom.filter_action = "hide";
+                                ArrayList<String> contextCustom = new ArrayList<>();
+                                contextCustom.add("home");
+                                filterCustom.title = "Fedilab reblog";
+                                filterCustom.context = contextCustom;
+                                statuses.get(i).filteredByApp = filterCustom;
+                            }
+                        }
+                    }
+
                 }
             }
         }

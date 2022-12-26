@@ -561,11 +561,15 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:gravity="end"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_share"
-                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeColor="?colorPrimary"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:adjustViewBounds="true"

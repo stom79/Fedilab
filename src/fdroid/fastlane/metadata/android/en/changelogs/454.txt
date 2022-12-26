@@ -1,0 +1,33 @@
+Added:
+- Post random quotes
+- Group reblogs in home timeline
+- Rename Nitter timelines
+- Android 13 support
+- Pagination with search / trending
+- Allow to remove left margin in messages (default: disabled)
+
+Changed:
+- Display translate button only when language is different
+- Respect blank spaces between words in messages
+- Focus button more accessible when editing media
+- Visual feedback for block on account list
+- Visual changes with compose / top bar
+- Use custom Nitter timeline name in manage timelines
+
+Fixed:
+- Behavior with cw toggle
+- Truncated gimini links
+- Nav buttons not visible with media (Light theme)
+- Status bar with Android 5
+- Fix links not clickable
+- Fix deep links
+- Fix remote threads not fetched for some instances
+- Adding description to shared media
+- Open with another accounts
+- Chars size not respected for Android 5-6
+- Wrong instance fetched for instances.social
+- Bouncing Timeline on refresh
+- Links to mentions, tags, urls, not visible.
+- Custom channel sounds not applied
+- users with short username are not linked
+- Fix crashes

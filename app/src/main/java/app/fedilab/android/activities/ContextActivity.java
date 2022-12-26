@@ -34,6 +34,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -184,11 +186,18 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                 return true;
             }
             if (firstMessage.account.acct != null) {
-                String[] splitAcct = firstMessage.account.acct.split("@");
-                String instance;
-                if (splitAcct.length > 1) {
-                    instance = splitAcct[1];
-                } else {
+                String instance = null;
+                try {
+                    URL url = new URL(firstMessage.uri);
+                    instance = url.getHost();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                if (instance == null) {
+                    Toasty.info(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (instance.equalsIgnoreCase(MainActivity.currentInstance)) {
                     Toasty.info(ContextActivity.this, getString(R.string.toast_on_your_instance), Toasty.LENGTH_SHORT).show();
                     return true;
                 }
@@ -200,11 +209,12 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                 }
                 if (remoteId != null) {
                     StatusesVM statusesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
+                    String finalInstance = instance;
                     statusesVM.getStatus(instance, null, remoteId).observe(ContextActivity.this, status -> {
                         if (status != null) {
                             Intent intentContext = new Intent(ContextActivity.this, ContextActivity.class);
                             intentContext.putExtra(Helper.ARG_STATUS, status);
-                            intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, instance);
+                            intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, finalInstance);
                             intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intentContext);
                         } else {

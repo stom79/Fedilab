@@ -440,7 +440,7 @@
     <string name="agreement_check">J\'accepte les %1$s et les %2$s</string>
     <string name="server_rules">règles du serveur</string>
     <string name="tos">conditions de service</string>
-    <string name="sign_up">S\'inscrire</string>
+    <string name="sign_up">S’inscrire</string>
     <string name="validation_needed">Cette instance fonctionne avec des invitations. Votre compte devra être approuvé manuellement par un·e administrateur·rice pour qu\'il devienne utilisable.</string>
     <string name="password_error">Les mots de passe ne sont pas identiques !</string>
     <string name="email_error">L\'adresse ne semble pas être valide !</string>
@@ -864,7 +864,7 @@
     <string name="channel_notif_report">Nouveau signalement</string>
     <string name="notif_update_push">Un message que vous avez partagé a été édité</string>
     <string name="notif_sign_up">Un⋅e utilisateur⋅ice s\'est abonné⋅e</string>
-    <string name="action_privacy_policy">Politique de confidentialité</string>
+    <string name="action_privacy_policy">Politique de vie privée</string>
     <string name="no_blocked_domains">Vous n’avez pas bloqué de domaines</string>
     <string name="unpin_timeline">Supprimer le fil épinglé \?</string>
     <string name="action_pinned_delete">Supprimer les fils épinglés \?</string>
@@ -877,7 +877,7 @@
     <string name="public_comment">Commentaire public</string>
     <string name="saved_changes">Les modifications ont été enregistrées !</string>
     <string name="create_domain_block">Créer un bloquage de domaine</string>
-    <string name="unblock_domain_confirm">Êtes-vous sûr de vouloir débloquer %1$s \?</string>
+    <string name="unblock_domain_confirm">Êtes-vous certain de débloquer %1$s \?</string>
     <string name="notif_reported">a envoyé un rapport</string>
     <string name="blocked_domains">Domaines bloqués</string>
     <string name="reject_reports">Rejeter les rapports</string>
@@ -887,17 +887,17 @@
     <string name="unpin_timeline_description">Voulez-vous vraiment désépingler ce fil \?</string>
     <string name="set_notif_user_sign_up">Nouvelle inscription (modérateurs)</string>
     <string name="admin_domainblock_reject_media">Ignorer tous les rapports provenant de ce domaine. Non pertinent pour les suspensions</string>
-    <string name="reject_media">Rejeter les médias</string>
+    <string name="reject_media">Rejeter le média</string>
     <string name="admin_reject_reports">Rejeter les rapports</string>
     <string name="mute_tag">Voulez-vous vraiment masquer le tag %1$s \?</string>
     <string name="Suggestions">Suggestions</string>
     <string name="not_interested">Pas intéressé</string>
-    <string name="set_notif_update">Avertir des mises à jour</string>
+    <string name="set_notif_update">Notifier les mises à jour</string>
     <string name="delete_timeline">Supprimer le fil chronologique</string>
     <string name="notif_signed_up">Inscrit·e</string>
     <string name="type_default_theme_dark">Thème sombre par défaut</string>
     <string name="toast_error_fetch_message">L\'app n\'a pas trouvé le message distant.</string>
-    <string name="order_lists">Ordonner les listes</string>
+    <string name="order_lists">Ré-arranger les listes</string>
     <string name="severity">Sévérité</string>
     <string name="admin_domainblock_domain">Le blocage de domaine n\'empêchera pas la création d\'entrées de compte dans la base de données, mais appliquera rétroactivement et automatiquement des méthodes de modération spécifiques à ces comptes.</string>
     <string name="admin_reject_media">Rejeter les fichiers médias</string>
@@ -933,4 +933,9 @@
     <string name="muted_menu_home">utilisateur·ices silencé·es sur l\'accueil</string>
     <string name="notif_submitted_report">Soumettre un rapport</string>
     <string name="admin_domainblock_reject_obfuscate">Masquer partiellement le nom de domaine dans la liste si l\'option de publication restreinte de la liste de domaine est activée</string>
+    <string name="import_data">Importer des données</string>
+    <string name="manage_accounts">Gérer les comptes</string>
+    <string name="admin_domainblock_public_comment">Commentaire à propos de la limitation de ce domaine au public, si l\'annonce de la liste de limitation de domaines est activée.</string>
+    <string name="group_reblogs">Re-blog de groupe dans la timeline d’accueil</string>
+    <string name="add_all_users_home_muted">Ajouter tout les utilisateurs masqués à l’accueil</string>
 </resources>

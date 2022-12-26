@@ -109,6 +109,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private ComposeAdapter composeAdapter;
     private boolean promptSaveDraft;
     private boolean restoredDraft;
+    private List<Attachment> sharedAttachments;
 
 
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
@@ -126,6 +127,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                                 if (focusX != -2) {
                                     attachment.focus = focusX + "," + focusY;
                                 }
+
                                 composeAdapter.notifyItemChanged(position);
                                 break;
                             }
@@ -146,8 +148,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private app.fedilab.android.client.entities.api.Account accountMention;
     private String statusReplyId;
     private app.fedilab.android.client.entities.api.Account mentionBooster;
-    private ArrayList<Uri> sharedUriList = new ArrayList<>();
-    private Uri sharedUri;
     private String sharedSubject, sharedContent, sharedTitle, sharedDescription, shareURL, sharedUrlMedia;
     private String editMessageId;
 
@@ -482,8 +482,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             mentionBooster = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
             accountMention = (app.fedilab.android.client.entities.api.Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
             //Shared elements
-            sharedUriList = b.getParcelableArrayList(Helper.ARG_SHARE_URI_LIST);
-            sharedUri = b.getParcelable(Helper.ARG_SHARE_URI);
+            sharedAttachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ATTACHMENTS);
             sharedUrlMedia = b.getString(Helper.ARG_SHARE_URL_MEDIA);
             sharedSubject = b.getString(Helper.ARG_SHARE_SUBJECT, null);
             sharedContent = b.getString(Helper.ARG_SHARE_CONTENT, null);
@@ -677,18 +676,19 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }, 0, 10000);
         }
 
-        if (sharedUriList != null && sharedUriList.size() > 0) {
-            List<Uri> uris = new ArrayList<>(sharedUriList);
-            Helper.createAttachmentFromUri(ComposeActivity.this, uris, attachment -> {
+        if (sharedAttachments != null && sharedAttachments.size() > 0) {
+            for (Attachment attachment : sharedAttachments) {
                 composeAdapter.addAttachment(-1, attachment);
-            });
-        } else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
+            }
+        } /*else if (sharedUri != null && !sharedUri.toString().startsWith("http")) {
             List<Uri> uris = new ArrayList<>();
             uris.add(sharedUri);
-            Helper.createAttachmentFromUri(ComposeActivity.this, uris, attachment -> {
-                composeAdapter.addAttachment(-1, attachment);
+            Helper.createAttachmentFromUri(ComposeActivity.this, uris, attachments -> {
+                for(Attachment attachment: attachments) {
+                    composeAdapter.addAttachment(-1, attachment);
+                }
             });
-        } else if (shareURL != null) {
+        } */ else if (shareURL != null) {
 
             Helper.download(ComposeActivity.this, sharedUrlMedia, new OnDownloadInterface() {
                 @Override

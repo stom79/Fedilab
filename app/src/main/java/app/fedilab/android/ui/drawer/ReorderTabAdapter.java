@@ -36,6 +36,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.ReorderTimelinesActivity;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
+import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerReorderBinding;
 import app.fedilab.android.exception.DBException;
@@ -99,7 +100,15 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.binding.icon.setImageResource(R.drawable.nitter);
                         break;
                 }
-                holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);
+                if (pinned.pinnedTimelines.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                    holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);
+                } else {
+                    if (pinned.pinnedTimelines.get(position).remoteInstance.displayName != null && pinned.pinnedTimelines.get(position).remoteInstance.displayName.trim().length() > 0) {
+                        holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.displayName);
+                    } else {
+                        holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);
+                    }
+                }
                 break;
             case TAG:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_label_24);

@@ -35,8 +35,8 @@
     <string name="open_with">Malfermi per</string>
     <string name="validate">Validigu</string>
     <string name="media">Aŭdovidaĵoj</string>
-    <string name="share_with">Konigi kun</string>
-    <string name="shared_via">Komuna tra Fedilab</string>
+    <string name="share_with">Konigi per</string>
+    <string name="shared_via">Konigita per Fedilab</string>
     <string name="replies">Respondoj</string>
     <string name="username">Uzantnomo</string>
     <string name="drafts">Malnetoj</string>
@@ -45,7 +45,7 @@
     <string name="mention">Mencioj</string>
     <string name="reblog">Diskonigoj</string>
     <string name="show_boosts">Montri diskonigojn</string>
-    <string name="show_replies">Montri la respondojn</string>
+    <string name="show_replies">Montri respondojn</string>
     <string name="action_open_in_web">Malfermu en retumilo</string>
     <string name="translate">Traduku</string>
     <!--- Menu -->
@@ -56,12 +56,12 @@
     <string name="notifications">Sciigoj</string>
     <string name="follow_request">Petoj de sekvado</string>
     <string name="settings">Agordoj</string>
-    <string name="send_email">Sendi per retmesaĝo</string>
+    <string name="send_email">Sendi retpoŝton</string>
     <string name="scheduled_toots">Planitaj hupoj</string>
     <string name="disclaimer_full">Subaj informoj povas nekomplete prezenti la profilon de la uzanto.</string>
     <string name="insert_emoji">Enmeti emoĝion</string>
-    <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
-    <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+    <string name="no_emoji">La apo ne havas adaptitajn emoĝiojn ĉi-okaze.</string>
+    <string name="logout_account_confirmation">Ĉu vi certas ke vi volas elsaluti\? @%1$s@%2$s\?</string>
     <!-- Status -->
     <string name="no_status">Neniu hupo por montri</string>
     <string name="favourite_add">Aldoni hupon al viajn stelumajn\?</string>
@@ -75,7 +75,7 @@
     <string name="more_action_5">Kopii</string>
     <string name="more_action_6">Konigi</string>
     <string name="more_action_7">Mencii</string>
-    <string name="more_action_8">Timed mute</string>
+    <string name="more_action_8">Tempumita silentigo</string>
     <string name="more_action_9">Forigi kaj reskribi</string>
     <string-array name="more_action_confirm">
         <item>Silentigi ĉi-tiun konton?</item>
@@ -125,95 +125,99 @@
     <string name="toot_error_no_content">Via hupo estas malplena!</string>
     <string name="toot_sent">La hupo estis sendita!</string>
     <string name="toot_sensitive">Tikla enhavo?</string>
-    <string name="no_draft">Neniu malnetoj!</string>
-    <string name="choose_accounts">Elekti kontojn</string>
-    <string name="select_accounts">Elekti kelkaj kontoj</string>
-    <string name="remove_draft">Forigi malneto?</string>
-    <string name="upload_form_description">Describe for the visually impaired</string>
+    <string name="no_draft">Neniu malneto!</string>
+    <string name="choose_accounts">Elekti konton</string>
+    <string name="select_accounts">Elektu kelkajn kontojn</string>
+    <string name="remove_draft">Forigi malneton\?</string>
+    <string name="upload_form_description">Priskribu por vidhandikapitoj</string>
     <!-- Instance -->
     <string name="instance_no_description">Neniu priskribo havebla!</string>
     <!-- About -->
-    <string name="about_vesrion">Release %1$s</string>
+    <string name="about_vesrion">Eldono %1$s</string>
     <string name="about_developer">Programistoj:</string>
     <string name="about_license">Permesilo: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Kodo: </string>
-    <string name="about_thekinrar">Serĉi instencoj:</string>
+    <string name="about_thekinrar">Serĉi instancojn:</string>
     <!-- Conversation -->
     <!-- Accounts -->
     <string name="no_accounts">Neniu konto por montri</string>
-    <string name="no_follow_request">Ne sekva peton</string>
+    <string name="no_follow_request">Neniu peto pri sekvado</string>
     <string name="status_cnt">Hupoj
 \n %1$s</string>
-    <string name="following_cnt">Sekvante \n %1$s</string>
-    <string name="followers_cnt">Sekvante \n %1$s</string>
+    <string name="following_cnt">Sekvas
+\n %1$s</string>
+    <string name="followers_cnt">Sekvantoj
+\n %1$s</string>
     <string name="reject">Malakcepti</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">Neniu planitaj hupoj por montri!</string>
     <string name="remove_scheduled">Forigi planita mesaĝon?</string>
     <string name="toot_scheduled">La mesaĝo estis planita!</string>
-    <string name="toot_scheduled_date">La planita dato devas pli granda ol la nunhoro!</string>
+    <string name="toot_scheduled_date">La planita dato devas pli malfrua ol la nuna horo!</string>
     <!-- timed mute -->
-    <string name="timed_mute_date_error">The time for muting should be greater than one minute.</string>
-    <string name="timed_mute_date">%1$s has been muted until %2$s.\n You can unmute this account from their profile page.</string>
-    <string name="timed_mute_profile">%1$s is muted until %2$s.\n Tap here to unmute the account.</string>
+    <string name="timed_mute_date_error">La tempo por silentigo devas esti pli longa ol unu minuto.</string>
+    <string name="timed_mute_date">%1$s silentigita ĝis %2$s.
+\nVi povas malsilentigi ĉi tiun konton en ĝia profilpaĝo.</string>
+    <string name="timed_mute_profile">%1$s silentigita ĝis %2$s.
+\nKlaku ĉi tie por malsilentigi la konton.</string>
     <!-- Notifications -->
-    <string name="no_notifications">Neniun sciigon por montri</string>
+    <string name="no_notifications">Neniu sciigo por montri</string>
     <string name="notif_mention">menciis vin</string>
-    <string name="notif_status">wrote a new message</string>
-    <string name="notif_reblog">{name} diskonigis vian mesaĝon</string>
-    <string name="notif_favourite">{name} stelumis vian mesaĝon</string>
+    <string name="notif_status">verkis novan mesaĝon</string>
+    <string name="notif_reblog">diskonigis vian mesaĝon</string>
+    <string name="notif_favourite">stelumis vian mesaĝon</string>
     <string name="notif_follow">eksekvis vin</string>
-    <string name="notif_follow_request">asked to follow you</string>
-    <string name="delete_notification_ask_all">Forigi sciigoj?</string>
-    <string name="delete_notification_all">All notifications have been deleted!</string>
+    <string name="notif_follow_request">petis sekvi vin</string>
+    <string name="delete_notification_ask_all">Forigi ĉiujn sciigojn\?</string>
+    <string name="delete_notification_all">Ĉiuj sciigoj forigitaj!</string>
     <!-- HEADER -->
-    <string name="followers">Sekvitaj</string>
+    <string name="followers">Sekvantoj</string>
     <!-- TOAST -->
-    <string name="client_error">Unable to get client id!</string>
+    <string name="client_error">Ne eblas ricevi la klientan identigilon!</string>
     <string name="toast_block">La konto estis blokita!</string>
     <string name="toast_unblock">La konto ne plu estas blokita!</string>
     <string name="toast_mute">La konto estis silentigita!</string>
     <string name="toast_unmute">La konto ne plu silentigita!</string>
-    <string name="toast_follow">La konto estis sekvita!</string>
-    <string name="toast_unfollow">La konto estas ne plu sekvas!</string>
+    <string name="toast_follow">La konto estas eksekvita!</string>
+    <string name="toast_unfollow">La konto estas ne plu estas sekvata!</string>
     <string name="toast_reblog">The toot was boosted!</string>
     <string name="toast_unreblog">The toot is no longer boosted!</string>
     <string name="toast_favourite">La hup estis aldonita al stelumoj!</string>
     <string name="toast_unfavourite">The toot was removed from your favourites!</string>
     <string name="toast_error">Ups ! Eraro okazis!</string>
-    <string name="toast_code_error">An error occurred! The instance did not return an authorisation code!</string>
-    <string name="toast_error_instance">The instance domain does not seem to be valid!</string>
-    <string name="toast_error_loading_account">An error occurred while switching between accounts!</string>
-    <string name="toast_error_search">An error occurred while searching!</string>
-    <string name="nothing_to_do">No action can be taken</string>
-    <string name="toast_error_translate">Eraro okazis dum traduktas!</string>
+    <string name="toast_code_error">Eraro okazis! La instanco ne donis rajtigan kodon!</string>
+    <string name="toast_error_instance">La adreso de la instanco ne ŝajnas valida!</string>
+    <string name="toast_error_loading_account">Okazis eraro dum ŝanĝado de kontoj!</string>
+    <string name="toast_error_search">Okazis eraro dum serĉado!</string>
+    <string name="nothing_to_do">Neniu ago eblas</string>
+    <string name="toast_error_translate">Eraro okazis dum tradukado!</string>
     <!-- Settings -->
     <string name="set_toots_page">Number of toots per load</string>
-    <string name="set_disable_gif">Disable GIF avatars</string>
-    <string name="set_notif_follow">Notify when someone follows you</string>
-    <string name="set_notif_follow_share">Notify when someone boosts your status</string>
-    <string name="set_notif_follow_add">Notify when someone favourites your status</string>
-    <string name="set_notif_follow_mention">Notify when someone mentions you</string>
-    <string name="set_notif_follow_poll">Notify when a poll ended</string>
-    <string name="set_notif_status">Notify for new posts</string>
-    <string name="set_share_validation">Show confirmation dialog before boosting</string>
-    <string name="set_share_validation_fav">Show confirmation dialog before adding to favourites</string>
+    <string name="set_disable_gif">Malŝalti GIF-profilbildojn</string>
+    <string name="set_notif_follow">Sciigu kiam iu eksekvas vin</string>
+    <string name="set_notif_follow_share">Sciigu kiam iu diskonigas vian afiŝon</string>
+    <string name="set_notif_follow_add">Sciigu kiam iu stelumas vian statuson</string>
+    <string name="set_notif_follow_mention">Sciigu kiam iu mencias vin</string>
+    <string name="set_notif_follow_poll">Sciigu kiam enketo finiĝas</string>
+    <string name="set_notif_status">Sciigu pri novaj afiŝoj</string>
+    <string name="set_share_validation">Montru konfirman dialogon antaŭ diskonigo</string>
+    <string name="set_share_validation_fav">Montru konfirman dialogon antaŭ aldono al legosignoj</string>
     <string name="set_notify">Sciigi?</string>
-    <string name="set_notif_silent">Silent Notifications</string>
-    <string name="set_nsfw_timeout">NSFW view timeout (seconds, 0 means off)</string>
-    <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
-    <string name="settings_title_custom_sharing">Custom sharing</string>
-    <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
+    <string name="set_notif_silent">Silentaj sciigoj</string>
+    <string name="set_nsfw_timeout">Tempolimo de NSFW-vido (sekundoj, 0 estas malŝalto)</string>
+    <string name="set_med_desc_timeout">Tempolimo de aŭdvida priskribo (sekundoj, 0 estas malŝalto)</string>
+    <string name="settings_title_custom_sharing">Adaptita kundivido</string>
+    <string name="settings_custom_sharing_url">URL por via adaptita kundivido…</string>
     <string name="set_lock_account">Ŝlosi konton</string>
     <string name="set_save_changes">Konservi ŝanĝojn</string>
-    <string name="set_fit_preview">Fit preview images</string>
+    <string name="set_fit_preview">Adapti antaŭvidajn bildojn</string>
     <string name="settings_time_from">Inter</string>
     <string name="settings_time_to">kaj</string>
-    <string name="embedded_browser">Use the built-in browser</string>
+    <string name="embedded_browser">Uzu la enkonstruitan retumilon</string>
     <string name="custom_tabs">Propra langetoj</string>
-    <string name="expand_cw">Automatically expand cw</string>
-    <string name="set_led_colour">Set LED colour:</string>
+    <string name="expand_cw">Aŭtomate montri enhavon sub averto</string>
+    <string name="set_led_colour">Agordi koloron de LED:</string>
     <string-array name="led_colours">
         <item>Blua</item>
         <item>Cejana</item>
@@ -229,8 +233,8 @@
     <string name="action_unmute">Malsilentigu</string>
     <string name="request_sent">Peto sendita</string>
     <string name="followed_by">Sekvas vin</string>
-    <string name="set_capitalize">First letter in capital for replies</string>
-    <string name="set_resize_picture">Resize pictures</string>
+    <string name="set_capitalize">Unua litero majuskle por respondoj</string>
+    <string name="set_resize_picture">Adaptu fotojn</string>
     <string name="set_resize_video">Regrandigi videoj</string>
     <!-- Quick settings for notifications -->
     <!-- CACHE -->

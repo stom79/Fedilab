@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +50,9 @@ public class FragmentMastodonTag extends Fragment {
     private TagAdapter tagAdapter;
     private String search;
     private Timeline.TimeLineEnum timelineType;
+    private Integer offset;
+    private boolean flagLoading;
+    private List<Tag> tagList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +70,10 @@ public class FragmentMastodonTag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
+        offset = 0;
+        flagLoading = false;
+        binding.swipeContainer.setRefreshing(false);
+        binding.swipeContainer.setEnabled(false);
         router();
     }
 
@@ -75,21 +83,47 @@ public class FragmentMastodonTag extends Fragment {
     private void router() {
         if (search != null && timelineType == null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonTag.this).get(SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "hashtags", false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
+            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "hashtags", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
                     .observe(getViewLifecycleOwner(), results -> {
-                        if (results != null && results.hashtags != null) {
+                        if (results != null && results.hashtags != null && offset == 0) {
                             initializeTagCommonView(results.hashtags);
+                        } else if (results != null && results.hashtags != null) {
+                            dealWithPaginationTag(results.hashtags);
                         }
                     });
         } else if (timelineType == Timeline.TimeLineEnum.TREND_TAG) {
             TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonTag.this).get(TimelinesVM.class);
-            timelinesVM.getTagsTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance)
-                    .observe(getViewLifecycleOwner(), this::initializeTagCommonView);
+            timelinesVM.getTagsTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, offset, MastodonHelper.SEARCH_PER_CALL)
+                    .observe(getViewLifecycleOwner(), tags -> {
+                        if (tags != null && offset == 0) {
+                            initializeTagCommonView(tags);
+                        } else if (tags != null) {
+                            dealWithPaginationTag(tags);
+                        }
+                    });
         }
     }
 
     public void scrollToTop() {
         binding.recyclerView.setAdapter(tagAdapter);
+    }
+
+    private void dealWithPaginationTag(final List<Tag> tags) {
+        if (binding == null || !isAdded() || getActivity() == null) {
+            return;
+        }
+        if (tags == null || tags.size() == 0) {
+            flagLoading = true;
+            binding.loadingNextElements.setVisibility(View.GONE);
+            return;
+        }
+        offset += MastodonHelper.SEARCH_PER_CALL;
+        binding.swipeContainer.setRefreshing(false);
+        binding.loadingNextElements.setVisibility(View.GONE);
+        flagLoading = false;
+        int start = tagList.size();
+        tagList.addAll(tags);
+        tagAdapter.notifyItemRangeInserted(start, tags.size());
     }
 
     /**
@@ -101,6 +135,7 @@ public class FragmentMastodonTag extends Fragment {
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
+        tagList = new ArrayList<>();
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
@@ -130,12 +165,35 @@ public class FragmentMastodonTag extends Fragment {
                 tags.add(0, tag);
             }
         }
+        offset += MastodonHelper.SEARCH_PER_CALL;
         binding.recyclerView.setVisibility(View.VISIBLE);
         binding.noAction.setVisibility(View.GONE);
-        tagAdapter = new TagAdapter(tags);
+        tagList.addAll(tags);
+        tagAdapter = new TagAdapter(tagList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(tagAdapter);
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+
+                int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+
+                    if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                        if (!flagLoading) {
+                            flagLoading = true;
+                            binding.loadingNextElements.setVisibility(View.VISIBLE);
+                            router();
+                        }
+                    } else {
+                        binding.loadingNextElements.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
     }
 
 }

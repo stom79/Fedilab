@@ -56,6 +56,7 @@ public class FragmentMastodonAccount extends Fragment {
     private boolean flagLoading;
     private List<Account> accounts;
     private String max_id;
+    private Integer offset;
     private AccountAdapter accountAdapter;
     private String search;
     private Account accountTimeline;
@@ -84,6 +85,11 @@ public class FragmentMastodonAccount extends Fragment {
         binding.recyclerView.setVisibility(View.GONE);
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);
         max_id = null;
+        offset = 0;
+        if (search != null) {
+            binding.swipeContainer.setRefreshing(false);
+            binding.swipeContainer.setEnabled(false);
+        }
         router(true);
     }
 
@@ -109,18 +115,31 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (search != null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.STATUSES_PER_CALL)
-                    .observe(getViewLifecycleOwner(), results -> {
-                        if (results != null) {
-                            Accounts accounts = new Accounts();
-                            Pagination pagination = new Pagination();
-                            accounts.accounts = results.accounts;
-                            accounts.pagination = pagination;
-                            initializeAccountCommonView(accounts);
-                        } else {
-                            Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                        }
-                    });
+            if (firstLoad) {
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null) {
+                                Accounts accounts = new Accounts();
+                                Pagination pagination = new Pagination();
+                                accounts.accounts = results.accounts;
+                                accounts.pagination = pagination;
+                                initializeAccountCommonView(accounts);
+                            } else {
+                                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null) {
+                                Accounts accounts = new Accounts();
+                                Pagination pagination = new Pagination();
+                                accounts.accounts = results.accounts;
+                                accounts.pagination = pagination;
+                                dealWithPagination(accounts);
+                            }
+                        });
+            }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE) {
             if (firstLoad) {
                 accountsVM.getMutes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
@@ -204,7 +223,11 @@ public class FragmentMastodonAccount extends Fragment {
 
         this.accounts = accounts.accounts;
         accountAdapter = new AccountAdapter(this.accounts, timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME);
-        flagLoading = accounts.pagination.max_id == null;
+        if (search == null) {
+            flagLoading = accounts.pagination.max_id == null;
+        } else {
+            offset += MastodonHelper.SEARCH_PER_CALL;
+        }
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(accountAdapter);
@@ -263,6 +286,9 @@ public class FragmentMastodonAccount extends Fragment {
             //Fetch the relationship
             fetchRelationShip(fetched_accounts.accounts, position);
             max_id = fetched_accounts.pagination.max_id;
+            if (search != null) {
+                offset += MastodonHelper.SEARCH_PER_CALL;
+            }
             accountAdapter.notifyItemRangeInserted(startId, fetched_accounts.accounts.size());
         } else {
             flagLoading = true;

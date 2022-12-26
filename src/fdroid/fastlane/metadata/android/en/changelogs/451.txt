@@ -1,0 +1,12 @@
+Added:
+- Post random quotes
+- Group reblogs in home timeline
+
+Changed:
+- Display translate button only when language is different
+- Respect blank spaces between words in messages
+- Focus button more accessible when editing media
+
+Fixed:
+- Behavior with cw toggle
+- Truncated gimini links

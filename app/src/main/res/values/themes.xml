@@ -240,4 +240,9 @@
         <item name="colorPrimaryInverse">@color/solarized_md_theme_light_inversePrimary</item>
     </style>
 
+    <style name="Fedilab.SmallIconButton" parent="Widget.Material3.Button.IconButton">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
 </resources>

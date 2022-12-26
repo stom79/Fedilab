@@ -49,7 +49,7 @@
     <string name="action_open_in_web">Otevřít v prohlížeči</string>
     <string name="translate">Přeložit</string>
     <!--- Menu -->
-    <string name="home_menu">Domů</string>
+    <string name="home_menu">Domov</string>
     <string name="local_menu">Místní časová osa</string>
     <string name="muted_menu">Ztlumení uživatelé</string>
     <string name="blocked_menu">Blokovaní uživatelé</string>
@@ -59,8 +59,8 @@
     <string name="send_email">Poslat e-mail</string>
     <string name="scheduled_toots">Naplánované zprávy</string>
     <string name="disclaimer_full">Níže uvedené informace mohou popisovat uživatelský profil neúplně.</string>
-    <string name="insert_emoji">Vložit smajlík</string>
-    <string name="no_emoji">Aplikace prozatím nenačetla uživatelské smajlíky.</string>
+    <string name="insert_emoji">Vložit emoji</string>
+    <string name="no_emoji">Aplikace prozatím nenasbírala uživatelské emoji.</string>
     <string name="logout_account_confirmation">Opravdu se chcete odhlásit od @%1$s@%2$s\?</string>
     <!-- Status -->
     <string name="no_status">Žádné zprávy k zobrazení</string>
@@ -341,7 +341,7 @@
     <string name="profile_banner">Hlavička profilu</string>
     <string name="contact_instance_admin">Kontaktovat administrátora instance</string>
     <string name="mastohost_logo">Logo MastoHost</string>
-    <string name="emoji_picker">Výběr emotikonů</string>
+    <string name="emoji_picker">Výběr emoji</string>
     <string name="expand_conversation">Ukázat celou konverzaci</string>
     <string name="custom_emoji_picker">Uživatelský výběr emoji</string>
     <string name="favicon">Favicon</string>
@@ -367,7 +367,7 @@
     <string name="none_tags">Žádný</string>
     <string name="some_words_any">Kterékoliv slovo (odělené mezerami)</string>
     <string name="some_words_all">Všechna slova (oddělená mezerami)</string>
-    <string name="some_tags">Add some words to filter (space-separated)</string>
+    <string name="some_tags">Přidejte do filtru nějaká slova (oddělená mezerami)</string>
     <string name="change_tag_column">Změnit název sloupce</string>
     <string name="misskey_instance">Instance Misskey</string>
     <string name="trending">Populární</string>
@@ -478,7 +478,7 @@
     <string name="unsuspend">Zrušit pozastavení</string>
     <string name="audio">Zvuk</string>
     <string name="voice_message">Hlasová zpráva</string>
-    <string name="set_enable_time_slot_indication">Během časového úseku budu aplikace posílat upozornění. Můžete to pro tento úsek změnit (tzn. ztišit) pomocí ovládacího prvku vpravo.</string>
+    <string name="set_enable_time_slot_indication">Během časového úseku bude aplikace posílat upozornění. Můžete to pro tento úsek změnit (tzn. ztišit) pomocí ovládacího prvku vpravo.</string>
     <string name="set_fit_preview_indication">Náhledy nebudou v časových osách oříznuty</string>
     <string name="set_capitalize_indication">Automaticky vkládat zalomení řádku za zmínku, aby bylo první písmeno velké</string>
     <string name="settings_title_custom_sharing_indication">Umožňuje tvůrcům obsahu sdílet statusy do jejich kanálů RSS</string>
@@ -492,7 +492,7 @@
 \n
 \nMůžete přidat dodatečný obsah. Děkuji!</string>
     <string name="visibility">Viditelnost</string>
-    <string name="set_disable_animated_emoji">Disable custom animated emojis</string>
+    <string name="set_disable_animated_emoji">Vypnout vlastní animované emoji</string>
     <string name="report_account">Nahlásit účet</string>
     <plurals name="number_of_voters">
         <item quantity="one">%d hlasující</item>
@@ -794,7 +794,7 @@
     <string name="Suggestions">Návrhy</string>
     <string name="remember_position">Zapamatovat pozici v časových osách</string>
     <string name="toast_pin">Zpráva byla připnuta</string>
-    <string name="set_live_translate_title">Přeložit zprávy</string>
+    <string name="set_live_translate_title">Překládat zprávy</string>
     <string name="moderator">Moderátor</string>
     <string name="administrator">Administrátor</string>
     <string name="confirmed">Potvrzeno</string>
@@ -910,7 +910,7 @@
     <string name="set_language_picker">Umožňuje omezit seznam jazyků ve výběru při vytváření zprávy.</string>
     <string name="change_logo_description">Změnit logo aplikace na vašem zařízení</string>
     <string name="set_dynamic_color_indication">Přizpůsobuje tonalitu barevného schématu podle vaší osobní tapety.</string>
-    <string name="messages_in_cache_for_home">Zprávy v cache pro domovskou časovou osu</string>
+    <string name="messages_in_cache_for_home">Zprávy v cache pro domov</string>
     <string name="push_distributors">Distributor pro push</string>
     <string name="notif_update">Upravil(a) zprávu</string>
     <string name="filter_action_explanations">Vyberte, kterou akci provést, pokud bude příspěvek vyhovovat filtru</string>
@@ -935,7 +935,11 @@
     <string name="mute_them_all">Ztlumit všechny</string>
     <string name="muted_menu_home">Domácí ztlumení uživatelé</string>
     <string name="account_silenced">Účet ztišen</string>
-    <string name="mute_home">Ztlumit pro domovskou časovou osu</string>
-    <string name="unmute_home">Zrušit ztlumení pro domovskou časovou osu</string>
+    <string name="mute_home">Ztlumit pro domov</string>
+    <string name="unmute_home">Zrušit ztlumení pro domov</string>
     <string name="put_all_accounts_in_home_muted">Všechny účtu budou na domovské časové ose ztlumeny.</string>
+    <string name="import_data">Importovat data</string>
+    <string name="add_all_users_home_muted">Přidat všechny uživatele pro ztlumený domov</string>
+    <string name="display">Zobrazit</string>
+    <string name="group_reblogs">Seskupovat reblogy v domovské časové ose</string>
 </resources>

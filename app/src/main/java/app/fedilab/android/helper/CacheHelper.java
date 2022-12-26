@@ -96,7 +96,7 @@ public class CacheHelper {
             String[] children = dir.list();
             assert children != null;
             for (String aChildren : children) {
-                if (!aChildren.equals("databases") && !aChildren.equals("shared_prefs")) {
+                if (!aChildren.equals("databases") && !aChildren.equals("shared_prefs") && !aChildren.equals(Helper.TEMP_MEDIA_DIRECTORY)) {
                     boolean success = deleteDir(new File(dir, aChildren));
                     if (!success) {
                         return false;
