@@ -43,7 +43,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -1500,7 +1499,7 @@ public class Helper {
                 channelTitle = context.getString(R.string.channel_notif_backup);
                 break;
             case STORE:
-                channelId = "channel_store";
+                channelId = "channel_media";
                 channelTitle = context.getString(R.string.channel_notif_media);
                 break;
             case TOOT:
@@ -1569,12 +1568,12 @@ public class Helper {
                 channel.setLightColor(ledColour);
             } else {
                 channel = new NotificationChannel(channelId, channelTitle, NotificationManager.IMPORTANCE_DEFAULT);
-                String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
+                /*String soundUri = sharedpreferences.getString(context.getString(R.string.SET_NOTIF_SOUND), ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.boop);
                 AudioAttributes audioAttributes = new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                         .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                         .build();
-                channel.setSound(Uri.parse(soundUri), audioAttributes);
+                channel.setSound(Uri.parse(soundUri), audioAttributes);*/
             }
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(channel);
