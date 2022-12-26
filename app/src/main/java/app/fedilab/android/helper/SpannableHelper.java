@@ -127,7 +127,9 @@ public class SpannableHelper {
         } else {
             linkColor = -1;
         }
-
+        if (linkColor == 0) {
+            linkColor = -1;
+        }
         SpannableString initialContent;
         if (text == null) {
             return null;
