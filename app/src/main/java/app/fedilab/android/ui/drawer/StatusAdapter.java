@@ -68,6 +68,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
@@ -397,6 +398,47 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), true);
         boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE), false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
+        boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
+
+        if (removeLeftMargin) {
+            LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
+            p.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.spoiler.setLayoutParams(p);
+            LinearLayoutCompat.MarginLayoutParams pe = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoilerExpand.getLayoutParams();
+            pe.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.spoilerExpand.setLayoutParams(pe);
+            LinearLayoutCompat.MarginLayoutParams psc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusContent.getLayoutParams();
+            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.statusContent.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams pct = (LinearLayoutCompat.MarginLayoutParams) holder.binding.containerTrans.getLayoutParams();
+            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.containerTrans.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams pcv = (LinearLayoutCompat.MarginLayoutParams) holder.binding.card.getLayoutParams();
+            pcv.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.card.setLayoutParams(pcv);
+            LinearLayoutCompat.MarginLayoutParams pmc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaContainer.getLayoutParams();
+            pmc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.mediaContainer.setLayoutParams(pmc);
+            LinearLayoutCompat.MarginLayoutParams pal = (LinearLayoutCompat.MarginLayoutParams) holder.binding.attachmentsListContainer.getLayoutParams();
+            pal.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.attachmentsListContainer.setLayoutParams(pal);
+            LinearLayoutCompat.MarginLayoutParams pp = (LinearLayoutCompat.MarginLayoutParams) holder.binding.poll.pollContainer.getLayoutParams();
+            pp.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.poll.pollContainer.setLayoutParams(pp);
+            LinearLayoutCompat.MarginLayoutParams pet = (LinearLayoutCompat.MarginLayoutParams) holder.binding.editTime.getLayoutParams();
+            pet.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.editTime.setLayoutParams(pet);
+            LinearLayoutCompat.MarginLayoutParams psi = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusInfo.getLayoutParams();
+            psi.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.statusInfo.setLayoutParams(psi);
+            LinearLayoutCompat.MarginLayoutParams pas = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionShareContainer.getLayoutParams();
+            pas.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.actionShareContainer.setLayoutParams(pas);
+            LinearLayoutCompat.MarginLayoutParams pab = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionButtons.getLayoutParams();
+            pab.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.actionButtons.setLayoutParams(pab);
+        }
+
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
         if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {

@@ -21,6 +21,14 @@
         app:title="@string/set_timelines_in_a_list_title" />
 
     <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_REMOVE_LEFT_MARGIN"
+        app:singleLineTitle="false"
+        app:summary="@string/set_remove_left_margin"
+        app:title="@string/set_remove_left_margin_title" />
+
+    <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_UNFOLLOW_VALIDATION"
