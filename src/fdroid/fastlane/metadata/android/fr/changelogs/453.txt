@@ -1,0 +1,8 @@
+Ajoute :
+- La pagination avec recherche / tendance
+
+Réparé :
+- Appuyer longtemps sur les onglets Nitter
+- Ouvrir avec d'autres comptes
+- Taille de caractères non respectée pour Android 5-6
+- Mauvaise instance importée depuis instances.social

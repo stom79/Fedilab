@@ -935,4 +935,7 @@
     <string name="admin_domainblock_reject_obfuscate">Masquer partiellement le nom de domaine dans la liste si l\'option de publication restreinte de la liste de domaine est activée</string>
     <string name="import_data">Importer des données</string>
     <string name="manage_accounts">Gérer les comptes</string>
+    <string name="admin_domainblock_public_comment">Commentaire à propos de la limitation de ce domaine au public, si l\'annonce de la liste de limitation de domaines est activée.</string>
+    <string name="group_reblogs">Re-blog de groupe dans la timeline d’accueil</string>
+    <string name="add_all_users_home_muted">Ajouter tout les utilisateurs masqués à l’accueil</string>
 </resources>
