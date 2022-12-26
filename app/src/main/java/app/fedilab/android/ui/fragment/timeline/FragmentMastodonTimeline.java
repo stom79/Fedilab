@@ -489,9 +489,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             flagLoading = true;
         }
         if (direction == DIRECTION.SCROLL_TOP) {
-            binding.recyclerView.scrollToPosition(0);
+            new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
-
 
     }
 
