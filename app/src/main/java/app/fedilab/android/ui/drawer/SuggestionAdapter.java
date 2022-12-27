@@ -109,7 +109,6 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         new WeakReference<>(holder.binding.bio)),
                 TextView.BufferType.SPANNABLE);
 
-        holder.binding.followAction.setEnabled(false);
         holder.binding.followAction.setOnClickListener(v -> {
             suggestionList.remove(position);
             notifyItemRemoved(position);
