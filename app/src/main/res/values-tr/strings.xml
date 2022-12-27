@@ -935,4 +935,6 @@
     <string name="import_data">Verileri içe aktar</string>
     <string name="group_reblogs">Ana sayfa zaman çizelgesinde yeniden blogları gruplandır</string>
     <string name="manage_accounts">Hesapları yönet</string>
+    <string name="set_remove_left_margin_title">Sol kenar boşluğunu kaldır</string>
+    <string name="set_remove_left_margin">Mesajları daha sıkı hale getirmek için zaman çizelgelerindeki sol kenar boşluğunu kaldır</string>
 </resources>

@@ -25,6 +25,7 @@ public class Params {
     private String ignore_tags;
     private boolean split_sentences = true;
     private boolean preserve_formatting = false;
+    private boolean isPro = true;
     private Params.fType format;
 
     public Params.fType getFormat() {
@@ -84,6 +85,15 @@ public class Params {
 
     public void setPreserve_formatting(boolean preserve_formatting) {
         this.preserve_formatting = preserve_formatting;
+    }
+
+
+    public boolean isPro() {
+        return isPro;
+    }
+
+    public void setPro(boolean pro) {
+        this.isPro = pro;
     }
 
     public enum fType {

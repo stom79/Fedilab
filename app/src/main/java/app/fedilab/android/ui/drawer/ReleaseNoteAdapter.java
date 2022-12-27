@@ -16,21 +16,13 @@ package app.fedilab.android.ui.drawer;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.github.stom79.mytransl.MyTransL;
-import com.github.stom79.mytransl.client.HttpsConnectionException;
-import com.github.stom79.mytransl.client.Results;
-import com.github.stom79.mytransl.translate.Params;
-import com.github.stom79.mytransl.translate.Translate;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +30,7 @@ import java.util.Locale;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.app.ReleaseNote;
 import app.fedilab.android.databinding.DrawerReleaseNoteBinding;
+import app.fedilab.android.helper.TranslateHelper;
 import es.dmoral.toasty.Toasty;
 
 
@@ -81,37 +74,14 @@ public class ReleaseNoteAdapter extends RecyclerView.Adapter<ReleaseNoteAdapter.
             holder.binding.containerTrans.setVisibility(View.GONE);
             holder.binding.translate.setVisibility(View.VISIBLE);
         }
-        holder.binding.translate.setOnClickListener(v -> {
-            MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-            final MyTransL myTransL = MyTransL.getInstance(et);
-            myTransL.setObfuscation(true);
-            Params params = new Params();
-            params.setSplit_sentences(false);
-            params.setFormat(Params.fType.TEXT);
-            params.setSource_lang("auto");
-            myTransL.setLibretranslateDomain("translate.fedilab.app");
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-            if (translate != null && translate.equalsIgnoreCase("default")) {
-                translate = MyTransL.getLocale();
+        holder.binding.translate.setOnClickListener(v -> TranslateHelper.translate(context, note.note, translated -> {
+            if (translated != null) {
+                note.noteTranslated = translated;
+                notifyItemChanged(holder.getBindingAdapterPosition());
+            } else {
+                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
             }
-            myTransL.translate(note.note, translate, params, new Results() {
-                @Override
-                public void onSuccess(Translate translate) {
-                    if (translate.getTranslatedContent() != null) {
-                        note.noteTranslated = translate.getTranslatedContent();
-                        notifyItemChanged(holder.getBindingAdapterPosition());
-                    } else {
-                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFail(HttpsConnectionException httpsConnectionException) {
-                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                }
-            });
-        });
+        }));
     }
 
 

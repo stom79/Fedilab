@@ -766,6 +766,26 @@
         <item>Wifi only</item>
         <item>Ask</item>
     </string-array>
+
+    <string-array name="set_translator_values" translatable="false">
+        <item>Fedilab</item>
+        <item>DeepL</item>
+    </string-array>
+    <string-array name="set_translator_version_values">
+        <item>Free</item>
+        <item>Pro</item>
+    </string-array>
+
+    <string-array name="SET_TRANSLATOR_VALUES" translatable="false">
+        <item>FEDILAB</item>
+        <item>DEEPL</item>
+    </string-array>
+
+    <string-array name="SET_TRANSLATOR_VERSION_VALUES" translatable="false">
+        <item>FREE</item>
+        <item>PRO</item>
+    </string-array>
+
     <string-array name="set_notification_delay_values">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -1400,6 +1420,12 @@
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
+    <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
+    <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
+
+    <string name="SET_TRANSLATOR_API_KEY" translatable="false">SET_TRANSLATOR_API_KEY</string>
+
+
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
@@ -2116,4 +2142,9 @@
     <string name="manage_accounts">Manage accounts</string>
     <string name="set_remove_left_margin_title">Remove left margin</string>
     <string name="set_remove_left_margin">Remove the left margin in timelines to make messages more compact</string>
+    <string name="translator">Translator</string>
+    <string name="set_translator">Translator</string>
+    <string name="api_key">Translator API key</string>
+    <string name="version">Version</string>
+    <string name="set_translator_version">Translator version</string>
 </resources>

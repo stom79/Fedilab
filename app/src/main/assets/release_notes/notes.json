@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.1",
+    "code": "455",
+    "note": "Added:\n- DeepL translation support free/pro keys\n\nChanged:\n- Hide buttons for media when editing\n\nFixed:\n- GIF loaded as static images\n- Suggested accounts cannot be followed"
+  },
+  {
     "version": "3.13.0",
     "code": "454",
     "note": "Added:\n- Post random quotes\n- Group reblogs in home timeline\n- Rename Nitter timelines\n- Android 13 support\n- Pagination with search / trending\n- Allow to remove left margin in messages (default: disabled)\n\nChanged:\n- Display translate button only when language is different\n- Respect blank spaces between words in messages\n- Focus button more accessible when editing media\n- Visual feedback for block on account list\n- Visual changes with compose / top bar\n- Use custom Nitter timeline name in manage timelines\n\nFixed:\n- Behavior with cw toggle\n- Truncated gimini links\n- Nav buttons not visible with media (Light theme)\n- Status bar with Android 5\n- Fix links not clickable\n- Fix deep links\n- Fix remote threads not fetched for some instances\n- Adding description to shared media\n- Open with another accounts\n- Chars size not respected for Android 5-6\n- Wrong instance fetched for instances.social\n- Bouncing Timeline on refresh\n- Links to mentions, tags, urls, not visible.\n- Custom channel sounds not applied\n- users with short username are not linked\n- Fix crashes"

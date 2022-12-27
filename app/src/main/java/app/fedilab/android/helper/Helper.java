@@ -124,14 +124,17 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -1236,7 +1239,8 @@ public class Helper {
                 counter++;
                 Date now = new Date();
                 attachment.filename = formatter.format(now) + "." + extension;
-                if (attachment.mimeType.startsWith("image")) {
+                Set<String> imageType = new HashSet<>(Arrays.asList("image/png", "image/jpeg", "image/jpg"));
+                if (imageType.contains(attachment.mimeType)) {
                     final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
                     boolean isCertCacheDirExists = certCacheDir.exists();
                     if (!isCertCacheDirExists) {
