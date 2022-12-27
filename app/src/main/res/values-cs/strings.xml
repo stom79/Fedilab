@@ -942,4 +942,8 @@
     <string name="add_all_users_home_muted">Přidat všechny uživatele pro ztlumený domov</string>
     <string name="display">Zobrazit</string>
     <string name="group_reblogs">Seskupovat reblogy v domovské časové ose</string>
+    <string name="manage_accounts">Spravovat účty</string>
+    <string name="report_all_more">Vyberte vše, co vyhovuje</string>
+    <string name="set_remove_left_margin_title">Odstranit levý okraj</string>
+    <string name="set_remove_left_margin">Odstranit v časových osách levý okraj, aby se zprávy zobrazovaly kompaktněji</string>
 </resources>
