@@ -2,6 +2,8 @@ Added:
 - DeepL translation support free/pro keys
 
 Changed:
+- Hide buttons for media when editing
 
 Fixed:
 - GIF loaded as static images
+- Suggested accounts cannot be followed
