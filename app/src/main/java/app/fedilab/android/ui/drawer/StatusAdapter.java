@@ -87,10 +87,6 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
-import com.github.stom79.mytransl.client.HttpsConnectionException;
-import com.github.stom79.mytransl.client.Results;
-import com.github.stom79.mytransl.translate.Params;
-import com.github.stom79.mytransl.translate.Translate;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
@@ -145,6 +141,7 @@ import app.fedilab.android.helper.MediaHelper;
 import app.fedilab.android.helper.SpannableHelper;
 import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.helper.TimelineHelper;
+import app.fedilab.android.helper.TranslateHelper;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
@@ -1982,6 +1979,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+
     private static void translate(Context context, Status statusToDeal,
                                   StatusViewHolder holder,
                                   RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
@@ -1990,40 +1988,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusToTranslate = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
         else
             statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
-
         int countMorseChar = ComposeAdapter.countMorseChar(statusToTranslate);
         if (countMorseChar < 4) {
-            MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-            final MyTransL myTransL = MyTransL.getInstance(et);
-            myTransL.setObfuscation(true);
-            Params params = new Params();
-            params.setSplit_sentences(false);
-            params.setFormat(Params.fType.TEXT);
-            params.setSource_lang("auto");
-            myTransL.setLibretranslateDomain("translate.fedilab.app");
-
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-            if (translate != null && translate.equalsIgnoreCase("default")) {
-                translate = MyTransL.getLocale();
-            }
-
-
-            myTransL.translate(statusToTranslate, translate, params, new Results() {
-                @Override
-                public void onSuccess(Translate translate) {
-                    if (translate.getTranslatedContent() != null) {
-                        statusToDeal.translationShown = true;
-                        statusToDeal.translationContent = translate.getTranslatedContent();
-                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                    } else {
-                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFail(HttpsConnectionException httpsConnectionException) {
-
+            TranslateHelper.translate(context, statusToDeal.content, translated -> {
+                if (translated != null) {
+                    statusToDeal.translationShown = true;
+                    statusToDeal.translationContent = translated;
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                } else {
+                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                 }
             });
         } else {

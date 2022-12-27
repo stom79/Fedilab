@@ -1,0 +1,7 @@
+Added:
+- DeepL translation support free/pro keys
+
+Changed:
+
+Fixed:
+- GIF loaded as static images

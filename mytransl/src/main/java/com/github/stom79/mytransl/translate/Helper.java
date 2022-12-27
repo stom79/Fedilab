@@ -28,7 +28,8 @@ public class Helper {
 
 
     private static final String YANDEX_BASE_URL = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
-    private static final String DEEPL_BASE_URL = "https://api.deepl.com/v1/translate?";
+    private static final String DEEPL_BASE_URL = "https://free.deepl.com/v2/translate?";
+    private static final String DEEPL_BASE_FREE_URL = "https://api-free.deepl.com/v2/translate?";
     private static final String SYSTRAN_BASE_URL = "https://api-platform.systran.net/translation/text/translate?";
     private static final String[] deeplAvailableLang = {"EN", "DE", "FR", "ES", "IT", "NL", "PL"};
 
@@ -98,8 +99,11 @@ public class Helper {
         if (deepLParams.getNon_splitting_tags() != null)
             params += "&tag_handling=" + deepLParams.getNon_splitting_tags();
 
-
-        return Helper.DEEPL_BASE_URL + text + lang + params + key;
+        if (deepLParams.isPro()) {
+            return Helper.DEEPL_BASE_URL + text + lang + params + key;
+        } else {
+            return Helper.DEEPL_BASE_FREE_URL + text + lang + params + key;
+        }
     }
 
 

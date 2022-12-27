@@ -54,6 +54,32 @@
         app:singleLineTitle="false"
         app:title="@string/set_display_translate_indication" />
 
+    <ListPreference
+        app:defaultValue="FEDILAB"
+        app:dialogTitle="@string/translator"
+        app:entries="@array/set_translator_values"
+        app:entryValues="@array/SET_TRANSLATOR_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR"
+        app:title="@string/set_translator"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_API_KEY"
+        app:title="@string/api_key"
+        app:useSimpleSummaryProvider="true" />
+    <ListPreference
+        app:defaultValue="PRO"
+        app:dialogTitle="@string/version"
+        app:entries="@array/set_translator_version_values"
+        app:entryValues="@array/SET_TRANSLATOR_VERSION_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_VERSION"
+        app:title="@string/set_translator_version"
+        app:useSimpleSummaryProvider="true" />
+
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"

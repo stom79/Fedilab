@@ -21,14 +21,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,14 +42,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
-
-import com.github.stom79.mytransl.MyTransL;
-import com.github.stom79.mytransl.client.HttpsConnectionException;
-import com.github.stom79.mytransl.client.Results;
-import com.github.stom79.mytransl.translate.Params;
-import com.github.stom79.mytransl.translate.Translate;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -63,6 +54,7 @@ import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MediaHelper;
+import app.fedilab.android.helper.TranslateHelper;
 import app.fedilab.android.interfaces.OnDownloadInterface;
 import app.fedilab.android.ui.fragment.media.FragmentMedia;
 import es.dmoral.toasty.Toasty;
@@ -157,40 +149,14 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
                 String descriptionToTranslate = attachments.get(mediaPosition - 1).description;
-                MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-                final MyTransL myTransL = MyTransL.getInstance(et);
-                myTransL.setObfuscation(true);
-                Params params = new Params();
-                params.setSplit_sentences(false);
-                params.setFormat(Params.fType.TEXT);
-                params.setSource_lang("auto");
-                myTransL.setLibretranslateDomain("translate.fedilab.app");
-                String statusToTranslate;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    statusToTranslate = Html.fromHtml(descriptionToTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
-                else
-                    statusToTranslate = Html.fromHtml(descriptionToTranslate).toString();
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
-                String translate = sharedpreferences.getString(getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-                if (translate != null && translate.equalsIgnoreCase("default")) {
-                    translate = MyTransL.getLocale();
-                }
-                myTransL.translate(statusToTranslate, translate, params, new Results() {
-                    @Override
-                    public void onSuccess(Translate translate) {
-                        if (translate.getTranslatedContent() != null) {
-                            attachments.get(mediaPosition - 1).translation = translate.getTranslatedContent();
-                            binding.mediaDescriptionTranslated.setText(translate.getTranslatedContent());
-                            binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
-                            binding.mediaDescription.setVisibility(View.GONE);
-                        } else {
-                            Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(HttpsConnectionException httpsConnectionException) {
-
+                TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, translated -> {
+                    if (translated != null) {
+                        attachments.get(mediaPosition - 1).translation = translated;
+                        binding.mediaDescriptionTranslated.setText(translated);
+                        binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
+                        binding.mediaDescription.setVisibility(View.GONE);
+                    } else {
+                        Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                     }
                 });
             });
@@ -222,40 +188,14 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
                 binding.translate.setOnClickListener(v -> {
                     String descriptionToTranslate = attachments.get(position).description;
-                    MyTransL.translatorEngine et = MyTransL.translatorEngine.LIBRETRANSLATE;
-                    final MyTransL myTransL = MyTransL.getInstance(et);
-                    myTransL.setObfuscation(true);
-                    Params params = new Params();
-                    params.setSplit_sentences(false);
-                    params.setFormat(Params.fType.TEXT);
-                    params.setSource_lang("auto");
-                    myTransL.setLibretranslateDomain("translate.fedilab.app");
-                    String statusToTranslate;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        statusToTranslate = Html.fromHtml(descriptionToTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
-                    else
-                        statusToTranslate = Html.fromHtml(descriptionToTranslate).toString();
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MediaActivity.this);
-                    String translate = sharedpreferences.getString(getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-                    if (translate != null && translate.equalsIgnoreCase("default")) {
-                        translate = MyTransL.getLocale();
-                    }
-                    myTransL.translate(statusToTranslate, translate, params, new Results() {
-                        @Override
-                        public void onSuccess(Translate translate) {
-                            if (translate.getTranslatedContent() != null) {
-                                attachments.get(position).translation = translate.getTranslatedContent();
-                                binding.mediaDescriptionTranslated.setText(translate.getTranslatedContent());
-                                binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
-                                binding.mediaDescription.setVisibility(View.GONE);
-                            } else {
-                                Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(HttpsConnectionException httpsConnectionException) {
-
+                    TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, translated -> {
+                        if (translated != null) {
+                            attachments.get(position).translation = translated;
+                            binding.mediaDescriptionTranslated.setText(translated);
+                            binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
+                            binding.mediaDescription.setVisibility(View.GONE);
+                        } else {
+                            Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                         }
                     });
                 });
