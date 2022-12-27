@@ -931,4 +931,6 @@
     <string name="muted_menu_home">Usuarias acalas en Inicio</string>
     <string name="group_reblogs">Comparticións para o grupo no Inicio</string>
     <string name="manage_accounts">Xestionar contas</string>
+    <string name="set_remove_left_margin_title">Eliminar marxe esquerda</string>
+    <string name="set_remove_left_margin">Eliminar a marxe esquerda nas cronoloxías para compactar máis as mensaxes</string>
 </resources>
