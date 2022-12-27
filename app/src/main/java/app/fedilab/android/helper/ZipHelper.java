@@ -136,14 +136,22 @@ public class ZipHelper {
                     f.mkdirs();
                 }
                 boolean successful = true;
-                try (ZipInputStream zin = new ZipInputStream(new FileInputStream(fullPath + ".zip"))) {
+                FileInputStream fileInputStream = new FileInputStream(fullPath + ".zip");
+                try (ZipInputStream zin = new ZipInputStream(new BufferedInputStream(fileInputStream))) {
                     ZipEntry ze;
                     while ((ze = zin.getNextEntry()) != null) {
                         if (!successful) {
                             break;
                         }
-                        String path = fullPath + ze.getName();
-                        File unzipFile = new File(path);
+                        File unzipFile = new File(fullPath, ze.getName());
+                        boolean sure = ensureZipPathSafety(unzipFile, fullPath);
+                        if (!sure) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            mainHandler.post(myRunnable);
+
+                            return;
+                        }
                         FileOutputStream out = new FileOutputStream(unzipFile, false);
                         BufferedOutputStream fout = new BufferedOutputStream(out, BUFFER_SIZE);
                         try {
@@ -157,9 +165,9 @@ public class ZipHelper {
                             fout.close();
                         }
                         if (ze.getName().contains("settings")) {
-                            successful = restoreSettings(context, Uri.fromFile(new File(path)));
+                            successful = restoreSettings(context, Uri.fromFile(new File(unzipFile.getAbsolutePath())));
                         } else if (ze.getName().contains("database")) {
-                            successful = importDB(context, path);
+                            successful = importDB(context, unzipFile.getAbsolutePath());
                         } else {
                             break;
                         }
@@ -181,6 +189,18 @@ public class ZipHelper {
             }
         }).start();
 
+    }
+
+    private static boolean ensureZipPathSafety(final File outputFile, final String destDirectory) {
+        String destDirCanonicalPath;
+        try {
+            destDirCanonicalPath = (new File(destDirectory)).getCanonicalPath();
+            String outputFilecanonicalPath = outputFile.getCanonicalPath();
+            return outputFilecanonicalPath.startsWith(destDirCanonicalPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private static String storeSettings(Context context, String suffix) {
