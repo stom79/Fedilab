@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -256,7 +255,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                         }
                     }
                 } else {
-                    Log.v(Helper.TAG, "ici");
                     if (attachment.type.compareTo("image") == 0) {
                         MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
                     } else {
