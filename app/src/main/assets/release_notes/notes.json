@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.2",
+    "code": "456",
+    "note": "Changed:\n- Hidden media smaller with preview images\n\nFixed:\n- Issue with Media for Android 11+\n- Crash when not setting a translation key\n- Fix DeepL for API pro\n- Crash when visiting a profile with a lot of media\n- Home muted accounts not working without filters\n- Animated custom emoji not displayed"
+  },
+  {
     "version": "3.13.1",
     "code": "455",
     "note": "Added:\n- DeepL translation support free/pro keys\n\nChanged:\n- Hide buttons for media when editing\n\nFixed:\n- GIF loaded as static images\n- Suggested accounts cannot be followed"
