@@ -21,6 +21,7 @@ import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -51,12 +52,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -290,6 +294,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     };
     private NetworkStateReceiver networkStateReceiver;
     private boolean headerMenuOpen;
+    private static final int REQUEST_CODE = 5415;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,6 +308,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             return;
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (!isGranted) {
+                    ActivityCompat.requestPermissions(BaseMainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE);
+                }
+            });
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
         filteredAccounts = new ArrayList<>();
         mamageNewIntent(getIntent());
