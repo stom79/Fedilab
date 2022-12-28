@@ -156,7 +156,8 @@ public class TimelineHelper {
                     }
                 }
             }
-
+        }
+        if (statuses != null && statuses.size() > 0) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean groupReblogs = sharedpreferences.getBoolean(context.getString(R.string.SET_GROUP_REBLOGS), true);
             if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
@@ -172,6 +173,7 @@ public class TimelineHelper {
                                 filterCustom.title = "Fedilab";
                                 filterCustom.context = contextCustom;
                                 statuses.get(i).filteredByApp = filterCustom;
+                                break;
                             }
                         }
                     }
