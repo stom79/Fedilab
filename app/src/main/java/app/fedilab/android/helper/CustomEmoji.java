@@ -94,28 +94,29 @@ public class CustomEmoji extends ReplacementSpan {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 View view = viewWeakReference.get();
+
                 if (animate && resource instanceof Animatable) {
-                    Drawable.Callback callback = resource.getCallback();
+                    Drawable.Callback drawableCallBack = resource.getCallback();
                     resource.setCallback(new Drawable.Callback() {
                         @Override
                         public void invalidateDrawable(@NonNull Drawable drawable) {
-                            if (callback != null) {
-                                callback.invalidateDrawable(drawable);
+                            if (drawableCallBack != null) {
+                                drawableCallBack.invalidateDrawable(drawable);
                             }
                             view.invalidate();
                         }
 
                         @Override
                         public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                            if (callback != null) {
-                                callback.scheduleDrawable(drawable, runnable, l);
+                            if (drawableCallBack != null) {
+                                drawableCallBack.scheduleDrawable(drawable, runnable, l);
                             }
                         }
 
                         @Override
                         public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                            if (callback != null) {
-                                callback.unscheduleDrawable(drawable, runnable);
+                            if (drawableCallBack != null) {
+                                drawableCallBack.unscheduleDrawable(drawable, runnable);
                             }
                         }
                     });
