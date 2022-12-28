@@ -1,0 +1,10 @@
+Changed:
+- Hidden media smaller with preview images
+
+Fixed:
+- Issue with Media for Android 11+
+- Crash when not setting a translation key
+- Fix DeepL for API pro
+- Crash when visiting a profile with a lot of media
+- Home muted accounts not working without filters
+- Animated custom emoji not displayed

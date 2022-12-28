@@ -18,6 +18,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.URLUtil;
 import android.widget.Toast;
@@ -135,7 +136,15 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
         Preference pref_export_settings = findPreference(getString(R.string.pref_export_settings));
         if (pref_export_settings != null) {
             pref_export_settings.setOnPreferenceClickListener(preference -> {
-                permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    try {
+                        ZipHelper.exportData(requireActivity());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return false;
             });
         }

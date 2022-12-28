@@ -28,7 +28,7 @@ public class Helper {
 
 
     private static final String YANDEX_BASE_URL = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
-    private static final String DEEPL_BASE_URL = "https://free.deepl.com/v2/translate?";
+    private static final String DEEPL_BASE_URL = "https://api.deepl.com/v2/translate?";
     private static final String DEEPL_BASE_FREE_URL = "https://api-free.deepl.com/v2/translate?";
     private static final String SYSTRAN_BASE_URL = "https://api-platform.systran.net/translation/text/translate?";
     private static final String[] deeplAvailableLang = {"EN", "DE", "FR", "ES", "IT", "NL", "PL"};

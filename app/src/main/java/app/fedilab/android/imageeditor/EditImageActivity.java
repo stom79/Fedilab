@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
@@ -252,7 +253,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     }
 
     private void saveImage() {
-        if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) || Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             showLoading(getString(R.string.saving));
             File file = new File(path);
             try {
@@ -263,13 +264,16 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         .setClearViewsEnabled(true)
                         .setTransparencyEnabled(true)
                         .build();
-                if (ContextCompat.checkSelfPermission(EditImageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(EditImageActivity.this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            STORE_REQUEST);
-                    return;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if (ContextCompat.checkSelfPermission(EditImageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                            PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(EditImageActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                STORE_REQUEST);
+                        return;
+                    }
                 }
+
                 mPhotoEditor.saveAsFile(file.getAbsolutePath(), saveSettings, new PhotoEditor.OnSaveListener() {
                     @Override
                     public void onSuccess(@NonNull String imagePath) {

@@ -58,7 +58,9 @@ public class TranslateHelper {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));
             String apikey = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_API_KEY), null);
-            myTransL.setDeeplAPIKey(apikey.trim());
+            if (apikey != null) {
+                myTransL.setDeeplAPIKey(apikey.trim());
+            }
         }
 
         String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());

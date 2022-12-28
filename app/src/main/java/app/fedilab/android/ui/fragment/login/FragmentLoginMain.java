@@ -27,6 +27,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -86,16 +87,7 @@ public class FragmentLoginMain extends Fragment {
 
         permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted) {
-                Intent openFileIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                openFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                openFileIntent.setType("application/zip");
-                String[] mimeTypes = new String[]{"application/zip"};
-                openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-                //noinspection deprecation
-                startActivityForResult(
-                        Intent.createChooser(
-                                openFileIntent,
-                                getString(R.string.load_settings)), PICK_IMPORT);
+                proceed();
             } else {
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
             }
@@ -233,11 +225,28 @@ public class FragmentLoginMain extends Fragment {
                     }
                 });
             } else if (itemId == R.id.action_import_data) {
-                permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    proceed();
+                }
             }
             return false;
         });
         popupMenu.show();
+    }
+
+    private void proceed() {
+        Intent openFileIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        openFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        openFileIntent.setType("application/zip");
+        String[] mimeTypes = new String[]{"application/zip"};
+        openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        //noinspection deprecation
+        startActivityForResult(
+                Intent.createChooser(
+                        openFileIntent,
+                        getString(R.string.load_settings)), PICK_IMPORT);
     }
 
     private void retrievesClientId(String instance) {

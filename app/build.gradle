@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
-        versionCode 455
-        versionName "3.13.1"
+        versionCode 456
+        versionName "3.13.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
@@ -109,7 +109,7 @@ dependencies {
     implementation("com.vanniktech:android-image-cropper:4.3.3")
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
+    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.23.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'

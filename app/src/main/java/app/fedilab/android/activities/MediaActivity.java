@@ -243,8 +243,17 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             int position = binding.mediaViewpager.getCurrentItem();
             Attachment attachment = attachments.get(position);
             if (Build.VERSION.SDK_INT >= 23) {
-                if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
+                    } else {
+                        if (attachment.type.compareTo("image") == 0) {
+                            MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
+                        } else {
+                            MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
+                            downloadID = -1;
+                        }
+                    }
                 } else {
                     if (attachment.type.compareTo("image") == 0) {
                         MediaHelper.manageMove(MediaActivity.this, attachment.url, false);

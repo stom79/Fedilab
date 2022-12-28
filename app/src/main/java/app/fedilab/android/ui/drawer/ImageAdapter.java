@@ -78,11 +78,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         holder.binding.media.setOnClickListener(v -> {
             Intent mediaIntent = new Intent(context, MediaActivity.class);
             Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
+            b.putInt(Helper.ARG_MEDIA_POSITION, 1);
             ArrayList<Attachment> attachmentsTmp = new ArrayList<>();
-            for (Status status1 : statuses) {
-                attachmentsTmp.add(status1.art_attachment);
-            }
+            attachmentsTmp.add(status.art_attachment);
             b.putSerializable(Helper.ARG_STATUS, status);
             b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(attachmentsTmp));
             mediaIntent.putExtras(b);
