@@ -18,7 +18,7 @@
     <string name="email">E-Mail</string>
     <string name="accounts">Konten</string>
     <string name="toots">Nachrichten</string>
-    <string name="tags">Schlagwörter (tags)</string>
+    <string name="tags">Hashtags</string>
     <string name="save">Speichern</string>
     <string name="instance">Instanz</string>
     <string name="instance_example">Instanz: mastodon.social</string>
@@ -36,7 +36,7 @@
     <string name="validate">Bestätigen</string>
     <string name="media">Medien</string>
     <string name="share_with">Teilen mit</string>
-    <string name="shared_via">Geteilt von Fedilab</string>
+    <string name="shared_via">Geteilt mit Fedilab</string>
     <string name="replies">Antworten</string>
     <string name="username">Benutzername</string>
     <string name="drafts">Entwürfe</string>
@@ -61,10 +61,10 @@
     <string name="disclaimer_full">Die folgenden Informationen könnten das Profil des Nutzers unvollständig wiedergeben.</string>
     <string name="insert_emoji">Emoji einfügen</string>
     <string name="no_emoji">Die App verfügt derzeit nicht über benutzerdefinierte Emojis.</string>
-    <string name="logout_account_confirmation">Sind Du sicher, dass Sie @%1$s@%2$s abmelden möchten\?</string>
+    <string name="logout_account_confirmation">Bist Du sicher, dass Du Dich von @%1$s@%2$s abmelden möchtest\?</string>
     <!-- Status -->
     <string name="no_status">Keine Nachrichten zum Anzeigen</string>
-    <string name="favourite_add">Diese Nachricht deinen Favoriten hinzufügen\?</string>
+    <string name="favourite_add">Diese Nachricht Deinen Favoriten hinzufügen\?</string>
     <string name="favourite_remove">Diese Nachricht aus Ihren Favoriten entfernen\?</string>
     <string name="reblog_add">Diese Nachricht teilen\?</string>
     <string name="reblog_remove">Geteilte Nachricht zurückziehen\?</string>
@@ -75,7 +75,7 @@
     <string name="more_action_5">Kopieren</string>
     <string name="more_action_6">Teilen</string>
     <string name="more_action_7">Erwähnen</string>
-    <string name="more_action_8">Zeitlich begrenzt lautlos schalten</string>
+    <string name="more_action_8">Zeitlich begrenzt stumm schalten</string>
     <string name="more_action_9">Löschen &amp; neu entwerfen</string>
     <string-array name="more_action_confirm">
         <item>Lautlosmodus für dieses Konto aktivieren?</item>
@@ -152,17 +152,19 @@
     <string name="no_scheduled_toots">Keine geplanten Nachrichten vorhanden!</string>
     <string name="remove_scheduled">Geplante Nachricht löschen\?</string>
     <string name="toot_scheduled">Die Nachricht wurde geplant!</string>
-    <string name="toot_scheduled_date">Der geplante Termin muss nach dem aktuellen Zeitpunkt liegen!</string>
+    <string name="toot_scheduled_date">Der geplante Termin muss in der Zukunft liegen!</string>
     <!-- timed mute -->
-    <string name="timed_mute_date_error">Die Dauer für den Lautlosmodus sollte mehr als eine Minute betragen.</string>
-    <string name="timed_mute_date">%1$s wurde bis %2$s lautlos geschaltet.\n Du kannst den Lautlosmodus für diesen Nutzer beenden, indem du sein/ihr Profil besuchst.</string>
-    <string name="timed_mute_profile">%1$s ist bis %2$s lautlos geschaltet.\n Hier antippen, um den Lautlosmodus zu beenden.</string>
+    <string name="timed_mute_date_error">Die Dauer für die Stummschaltung sollte mehr als eine Minute betragen.</string>
+    <string name="timed_mute_date">%1$s wurde bis %2$s lautlos geschaltet.
+\n Du kannst die Stummschaltung für diese Person beenden, indem Du ihr Profil besuchst.</string>
+    <string name="timed_mute_profile">%1$s ist bis %2$s stumm geschaltet.
+\n Hier antippen, um die Stummschaltung zu beenden.</string>
     <!-- Notifications -->
     <string name="no_notifications">Keine Benachrichtigungen</string>
     <string name="notif_mention">hat dich erwähnt</string>
     <string name="notif_status">hat eine neue Nachricht geschrieben</string>
-    <string name="notif_reblog">hat deinen Beitrag geteilt</string>
-    <string name="notif_favourite">hat deinen Status favorisiert</string>
+    <string name="notif_reblog">hat Deinen Beitrag geteilt</string>
+    <string name="notif_favourite">hat Deinen Status favorisiert</string>
     <string name="notif_follow">folgt dir</string>
     <string name="notif_follow_request">fragte, dir zu folgen</string>
     <string name="delete_notification_ask_all">Entferne alle Benachrichtigungen?</string>
@@ -173,14 +175,14 @@
     <string name="client_error">Fehler beim Laden der Client ID!</string>
     <string name="toast_block">Konto wurde gesperrt!</string>
     <string name="toast_unblock">Das Konto wurde entsperrt!</string>
-    <string name="toast_mute">Nutzer wurde lautlos geschaltet!</string>
-    <string name="toast_unmute">Lautlosmodus für dieses Konto aufgehoben!</string>
+    <string name="toast_mute">Nutzer wurde stumm geschaltet!</string>
+    <string name="toast_unmute">Stummschaltung für dieses Konto aufgehoben!</string>
     <string name="toast_follow">Du folgst dem Nutzer!</string>
     <string name="toast_unfollow">Du folgst dem Nutzer nicht mehr!</string>
     <string name="toast_reblog">Die Nachricht wurde geteilt!</string>
     <string name="toast_unreblog">Die Nachricht wird nicht länger geteilt!</string>
-    <string name="toast_favourite">Die Nachricht wurde deinen Favoriten hinzugefügt!</string>
-    <string name="toast_unfavourite">Die Nachricht wurde aus deinen Favoriten entfernt!</string>
+    <string name="toast_favourite">Die Nachricht wurde Deinen Favoriten hinzugefügt!</string>
+    <string name="toast_unfavourite">Die Nachricht wurde aus Deinen Favoriten entfernt!</string>
     <string name="toast_error">Es ist ein Fehler aufgetreten!</string>
     <string name="toast_code_error">Ein Fehler ist aufgetreten! Die Instanz hat keinen Autorisierungscode gesendet!</string>
     <string name="toast_error_instance">Der Name der Instanz scheint ungültig zu sein!</string>
@@ -191,12 +193,12 @@
     <!-- Settings -->
     <string name="set_toots_page">Anzahl der Nachrichten pro Ladevorgang</string>
     <string name="set_disable_gif">GIF Avatare deaktivieren</string>
-    <string name="set_notif_follow">mir jemand folgt</string>
-    <string name="set_notif_follow_share">jemand meinen Beitrag teilt</string>
-    <string name="set_notif_follow_add">jemand meinen Beitrag favorisiert</string>
-    <string name="set_notif_follow_mention">ich erwähnt werde</string>
-    <string name="set_notif_follow_poll">Benachrichtigen, sobald eine Umfrage beendet ist</string>
-    <string name="set_notif_status">Benachrichtigung über neue Beiträge aktivieren</string>
+    <string name="set_notif_follow">Benachrichtigung wenn mir jemand folgt</string>
+    <string name="set_notif_follow_share">Benachrichtigung wenn jemand meinen Beitrag teilt</string>
+    <string name="set_notif_follow_add">Benachrichtigung wenn jemand meinen Beitrag favorisiert</string>
+    <string name="set_notif_follow_mention">Benachrichtigung wenn ich erwähnt werde</string>
+    <string name="set_notif_follow_poll">Benachrichtigung wenn eine Umfrage beendet ist</string>
+    <string name="set_notif_status">Benachrichtigung über neue Beiträge</string>
     <string name="set_share_validation">Bestätigungsdialog vor dem Teilen anzeigen</string>
     <string name="set_share_validation_fav">Bestätigungsdialog vor dem Favorisieren anzeigen</string>
     <string name="set_notify">Benachrichtigen?</string>
@@ -225,8 +227,8 @@
     </string-array>
     <string name="action_follow">Folgen</string>
     <string name="action_unblock">Nicht mehr blockieren</string>
-    <string name="action_mute">Lautlos</string>
-    <string name="action_unmute">Lautlosmodus beenden</string>
+    <string name="action_mute">Stumm</string>
+    <string name="action_unmute">Stummschaltung beenden</string>
     <string name="request_sent">Anfrage gesendet</string>
     <string name="followed_by">folgt dir</string>
     <string name="set_capitalize">Ersten Buchstaben bei Antworten groß schreiben</string>
@@ -252,7 +254,7 @@
     <string name="delete">Löschen</string>
     <!-- About lists -->
     <string name="action_lists">Listen</string>
-    <string name="action_lists_confirm_delete">Möchtest du diese Liste wirklich dauerhaft löschen?</string>
+    <string name="action_lists_confirm_delete">Möchtest Du diese Liste wirklich dauerhaft löschen\?</string>
     <string name="action_lists_add_to">Zur Liste hinzufügen</string>
     <string name="action_lists_delete">Liste löschen</string>
     <string name="action_lists_title_placeholder">Neuer Listentitel</string>
@@ -260,7 +262,7 @@
     <string name="action_lists_empty">Du hast noch keine Listen!</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s wurde verschoben nach %2$s</string>
-    <string name="media_ready">Media wurde geladen. Hier klicken zum anzeigen.</string>
+    <string name="media_ready">Datei wurde geladen. Hier klicken zum Anzeigen.</string>
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Proxy aktivieren?</string>
@@ -271,7 +273,7 @@
     <string name="set_share_details">Nachricht-Details beim Teilen hinzufügen</string>
     <string name="support_the_app_on_liberapay">Unterstütze die app auf Liberapay</string>
     <string name="alert_regex">Es gibt einen Fehler im regulären Ausdruck!</string>
-    <string name="toast_instance_unavailable">Es wurden keine Zeitleisten in dieser Instanz gefunden!</string>
+    <string name="toast_instance_unavailable">Es wurden keine Timelines in dieser Instanz gefunden!</string>
     <string name="follow_instance">Folge Instanz</string>
     <string name="toast_instance_already_added">Du folgst dieser Instanz bereits!</string>
     <string name="action_partnership">Partnerschaften</string>
@@ -283,13 +285,13 @@
     <string name="filters">Filter</string>
     <string name="action_filters_empty_content">Keine Filter vorhanden. Du kannst durch Klicken auf \"+\" neue Filter erstellen.</string>
     <string name="filter_keyword">Schlagwort oder Phrase</string>
-    <string name="context_home">Lokale Zeitleiste</string>
-    <string name="context_public">Öffentliche Zeitleiste</string>
+    <string name="context_home">Startseite</string>
+    <string name="context_public">Öffentliche Timeline</string>
     <string name="context_notification">Benachrichtigungen</string>
     <string name="context_conversation">Unterhaltungen</string>
     <string name="filter_keyword_explanations">Wird unabhängig vom umgebenen Text oder Inhaltswarnung einer Nachricht verglichen</string>
     <string name="context_drop">Entfernen anstatt zu verstecken</string>
-    <string name="context_drop_explanations">Gefilterte Nachrichten werden unwiderruflich verschwinden, selbst wenn der Filter später entfernt wurde</string>
+    <string name="context_drop_explanations">Gefilterte Nachrichten werden unwiderruflich verschwinden, selbst wenn der Filter später entfernt wird</string>
     <string name="context_whole_word_explanations">Wenn das Schlüsselwort oder -phrase nur Buchstaben und Zahlen enthält, wird es nur angewendet werden, wenn es dem ganzen Wort entspricht</string>
     <string name="context_whole_word">Ganzes Wort</string>
     <string name="filter_context">Kontext filtern</string>
@@ -309,7 +311,9 @@
     <string name="channel_notif_media">Medien Download</string>
     <string name="select_sound">Klingelton auswählen</string>
     <string name="set_enable_time_slot">Zeitfenster aktivieren</string>
-    <string name="block_domain_confirm_message">Möchtest du %s wirklich sperren?\n\nEs werden keine Inhalte aus dieser Domain in einer öffentlichen Zeitleiste oder in deinen Benachrichtigungen angezeigt. Deine Follower aus dieser Domain werden entfernt.</string>
+    <string name="block_domain_confirm_message">Möchtest Du %s wirklich sperren\?
+\n
+\nEs werden keine Inhalte aus dieser Domain in einer öffentlichen Timeline oder in Deinen Benachrichtigungen angezeigt. Deine Follower aus dieser Domain werden entfernt.</string>
     <string name="block_domain">Blockiere Domäne</string>
     <string name="toast_block_domain">Die Domäne ist blockiert</string>
     <string name="retrieve_remote_status">Rufe entfernten Status ab</string>
@@ -323,7 +327,7 @@
     <string name="set_truncate_toot">Kürze Nachrichten mit mehr als x Zeilen. Null bedeutet deaktiviert.</string>
     <string name="display_toot_truncate">Mehr anzeigen</string>
     <string name="hide_toot_truncate">Weniger anzeigen</string>
-    <string name="tags_already_stored">Dieses Schlagwort existiert bereits!</string>
+    <string name="tags_already_stored">Dieser Hashtag existiert bereits!</string>
     <string name="schedule_boost">Teilen des Beitrags planen</string>
     <string name="boost_scheduled">Teilen geplant!</string>
     <string name="no_scheduled_boosts">Nichts geplant!</string>
@@ -354,8 +358,8 @@
     <string name="pixelfed_instance">Pixelfed-Instanz</string>
     <string name="mastodon_instance">Mastodon-Instanz</string>
     <string name="any_tags">Irgendwelche davon</string>
-    <string name="all_tags">Alle von denen</string>
-    <string name="none_tags">Keine von denen</string>
+    <string name="all_tags">Alle davon</string>
+    <string name="none_tags">Keine davon</string>
     <string name="some_words_any">Eines dieser Wörter (durch Leerzeichen getrennt)</string>
     <string name="some_words_all">Alle diese Wörter (durch Leerzeichen getrennt)</string>
     <string name="some_tags">Wörter zum Filter hinzufügen (durch Leerzeichen getrennt)</string>
@@ -368,7 +372,7 @@
     <string name="share">Teilen</string>
     <string name="toots_server">Nachrichten (Server)</string>
     <string name="toots_client">Nachrichten (Gerät)</string>
-    <string name="settings_category_label_timelines">Zeitleisten</string>
+    <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Benutzeroberfläche</string>
     <string name="contact">Kontakte</string>
     <string name="toot_select_file_error">Bei der Auswahl der Sicherungsdatei ist ein Problem aufgetreten!</string>
@@ -378,8 +382,8 @@
     <string name="calls_blocked">Von der Anwendung blockierte HTTP-Aufrufe</string>
     <string name="list_of_blocked_domains">Liste der blockierten Aufrufe</string>
     <string name="submit">Senden</string>
-    <string name="filter_timeline_with_a_tag">Zeitleiste mit Schlagwörtern filtern</string>
-    <string name="no_tags">Keine Schlagwörter</string>
+    <string name="filter_timeline_with_a_tag">Timeline mit Hashtags filtern</string>
+    <string name="no_tags">Keine Hashtags</string>
     <string name="set_retrieve_metadata_share_from_extras">Metadaten abrufen, wenn die URL von anderen Apps geteilt wird</string>
     <!-- end languages -->
     <string name="create_poll">Umfrage erstellen</string>
@@ -388,22 +392,22 @@
     <string name="done">Fertig</string>
     <string name="poll_finish_at">endet um %s</string>
     <string name="vote">Abstimmen</string>
-    <string name="notif_poll">Eine Umfrage, in der du abgestimmt hast, ist beendet</string>
+    <string name="notif_poll">Eine Umfrage, in der Du abgestimmt hast, ist beendet</string>
     <string name="notif_poll_self">Eine Ihrer Umfragen wurde beendet</string>
     <string name="settings_category_notif_categories">Kategorien</string>
-    <string name="move_timeline">Zeitleiste verschieben</string>
-    <string name="hide_timeline">Zeitleiste ausblenden</string>
-    <string name="reorder_timelines">Verwaltung von Zeitleisten</string>
+    <string name="move_timeline">Timeline verschieben</string>
+    <string name="hide_timeline">Timeline ausblenden</string>
+    <string name="reorder_timelines">Verwaltung der Timelines</string>
     <string name="reorder_list_deleted">Liste endgültig gelöscht</string>
     <string name="reorder_instance_removed">Gefolgte Instanz entfernt</string>
-    <string name="reorder_tag_removed">Angeheftetes Schlagwort entfernt</string>
+    <string name="reorder_tag_removed">Angehefteter Hashtag entfernt</string>
     <string name="undo">Widerrufen</string>
-    <string name="warning_main_timeline">Hauptzeitleisten können nur ausgeblendet werden!</string>
+    <string name="warning_main_timeline">Haupt-Timelines können nur ausgeblendet werden!</string>
     <string name="set_sensitive_content">Medien immer als sensibel kennzeichnen</string>
     <string name="gnu_instance">GNU-Instanz</string>
-    <string name="set_forward_tags">Schlagwörter in Antworten übernehmen</string>
+    <string name="set_forward_tags">Hashtags in Antworten übernehmen</string>
     <string name="set_long_press_media">Lange Drücken, um Medien zu speichern</string>
-    <string name="add_tags">Schlagwörter verwalten</string>
+    <string name="add_tags">Hashtags verwalten</string>
     <string name="display_name">Anzeigename</string>
     <string name="label_emoji">Emoji</string>
     <string name="label_text">Text</string>
@@ -445,12 +449,12 @@
     <string name="account_created">Konto erstellt!</string>
     <string name="account_created_message"> Dein Konto wurde erfolgreich erstellt!
 \n
-\nDenke daran, deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.
+\nDenke daran, Deine E-Mail-Adresse innerhalb der nächsten 48 Stunden zu bestätigen.
 \n
-\nDu kannst nun dein Konto verbinden, indem du <b>%1$s</b> in das erste Feld schreibst und auf die Schaltfläche <b>Verbinden</b> klickst.
+\nDu kannst nun Dein Konto verbinden, indem Du <b>%1$s</b> in das erste Feld schreibst und auf die Schaltfläche <b>Verbinden</b> klickst.
 \n
-\n<b>Wichtig</b>: Wenn deine Instanz eine Bestätigung benötigt, erhältst du eine E-Mail, sobald sie geprüft wurde! </string>
-    <string name="save_draft">Möchtest du die Nachricht als Entwurf speichern?</string>
+\n<b>Wichtig</b>: Wenn Deine Instanz eine Bestätigung benötigt, erhältst Du eine E-Mail, sobald sie geprüft wurde! </string>
+    <string name="save_draft">Möchtest Du die Nachricht als Entwurf speichern\?</string>
     <string name="administration">Verwaltung</string>
     <string name="reports">Berichte</string>
     <string name="unresolved">Ungelöst</string>
@@ -469,15 +473,15 @@
     <string name="unsuspend">Unterbrechen widerrufen</string>
     <string name="audio">Die Anwendung benötigt Zugriff auf die Audioaufzeichnung</string>
     <string name="voice_message">Sprachnachricht</string>
-    <string name="set_enable_time_slot_indication">Innerhalb des Zeitfensters sendet die App Mitteilungen. Du kannst dieses Zeitfenster mit dem richtigen Drehwähler umkehren (d. h. leise).</string>
-    <string name="set_fit_preview_indication">Vorschauen in Zeitachsen werden nicht beschnitten</string>
-    <string name="set_capitalize_indication">Automatisches Einfügen eines Zeilenumbruchs nach der Anweisung den ersten Buchstaben groß zu schreiben</string>
+    <string name="set_enable_time_slot_indication">Innerhalb des Zeitfensters sendet die App Benachrichtigungen. Du kannst dieses Zeitfenster mit dem rechten Schieber zurücksetzen (d. h. leise).</string>
+    <string name="set_fit_preview_indication">Vorschauen in den Timelines werden nicht beschnitten</string>
+    <string name="set_capitalize_indication">Automatisches Einfügen eines Zeilenumbruchs nach einer Erwähnung, um den ersten Buchstaben groß zu schreiben</string>
     <string name="settings_title_custom_sharing_indication">Ermöglicht es Inhaltserstellern, den Status ihrer RSS-Feeds zu teilen</string>
     <string name="compose">Verfassen</string>
     <string name="select">Auswählen</string>
     <string name="add_instances">Instanz hinzufügen</string>
     <string name="set_enable_crash_report">Absturzberichte aktivieren</string>
-    <string name="set_enable_crash_report_indication">Wenn aktiviert, wird lokal ein Absturzbericht erstellt. Anschließend kannst du diesen teilen.</string>
+    <string name="set_enable_crash_report_indication">Wenn aktiviert, wird ein Absturzbericht erstellt. Anschließend kannst Du diesen teilen.</string>
     <string name="crash_title">Fedilab ist abgestürzt :(</string>
     <string name="crash_message">Du kannst mir den Fehlerreport per E-Mail senden. Dies hilft mir bei der Fehlerbehebung:)\n\nDu kannst weitere Inhalte hinzufügen. Danke!</string>
     <string name="visibility">Sichtbarkeit</string>
@@ -503,37 +507,37 @@
     <string name="poll_duplicated_entry">Ihre Umfrage kann keine doppelten Optionen haben!</string>
     <string name="set_clear_cache_exit">Cache beim Verlassen löschen</string>
     <string name="set_clear_cache_exit_indication">Der Cache (Medien, zwischengespeicherte Nachrichten, Daten aus dem eingebauten Browser) wird automatisch gelöscht, wenn die Anwendung verlassen wird.</string>
-    <string name="unfollow_confirm">Möchtest du diesem Konto nicht mehr folgen?</string>
-    <string name="set_unfollow_validation">Bestätigungsdialog anzeigen, bevor nicht mehr gefolgt wird</string>
+    <string name="unfollow_confirm">Möchtest Du diesem Konto nicht mehr folgen\?</string>
+    <string name="set_unfollow_validation">Bestätigungsdialog vor dem Entfolgen anzeigen</string>
     <string name="replace_medium">Medium</string>
     <string name="replace_medium_description">Nutze eine alternative Benutzeroberfläche für Medium</string>
     <string name="replace_medium_host">Standard: scribe.rip</string>
-    <string name="set_push_notifications">Verwenden Du ein Push-Benachrichtigungssystem, um Benachrichtigungen in Echtzeit zu erhalten.</string>
+    <string name="set_push_notifications">Verwende ein Push-Benachrichtigungs-System, um Benachrichtigungen in Echtzeit zu erhalten.</string>
     <string name="action_add_notes">Notizen hinzufügen</string>
     <string name="note_for_account">Notizen für das Konto</string>
     <string name="set_resize_picture_indication">Erlauben es, große Fotos in kleinere Bilder mit sehr weniger oder vernachlässigbaren Verlust der Qualität des Bildes zu komprimieren.</string>
     <string name="set_resize_video_indication">Erlaube das Komprimieren von Videos während die Qualität erhalten bleibt.</string>
     <string name="order_by">Sortieren nach</string>
     <string name="link_color_title">Links</string>
-    <string name="link_color">Ändern Du die Farbe der Links (URLs, Erwähnungen, Tags, etc.) in Nachrichten</string>
-    <string name="boost_header_color_title">Reblogs Titel</string>
+    <string name="link_color">Ändert die Farbe der Links (URLs, Erwähnungen, Hashtags, etc.) in Nachrichten</string>
+    <string name="boost_header_color_title">Titelzeile des geteilten Beitrags</string>
     <string name="displayname_title">Ändern der Farbe des Anzeigenamens oben in den Nachrichten</string>
     <string name="username_title">Ändern der Farbe des Benutzernamens am Anfang von Nachrichten</string>
-    <string name="boost_header_color">Ändern der Farbe der Kopfzeile für Reblogs</string>
+    <string name="boost_header_color">Ändert die Farbe der Kopfzeile von geteilten Beiträgen</string>
     <string name="background_status_title">Beiträge</string>
-    <string name="background_status">Hintergrundfarbe der posts in den timelines</string>
+    <string name="background_status">Hintergrundfarbe der Beiträge in den Timelines</string>
     <string name="reset_color">Farben zurücksetzen</string>
-    <string name="clik_reset">Tippen Du hier, um alle Ihre benutzerdefinierten Farben zurückzusetzen</string>
+    <string name="clik_reset">Tippe hier, um all Deine benutzerdefinierten Farben zurückzusetzen</string>
     <string name="reset">Zurücksetzen</string>
     <string name="icons_color_title">Symbole</string>
-    <string name="icons_color">Farbe der unteren Symbole in Zeitleisten</string>
+    <string name="icons_color">Farbe der unteren Symbole in den Timelines</string>
     <string name="logo_of_the_instance">Logo der Instanz</string>
     <string name="edit_profile">Profil bearbeiten</string>
     <string name="make_an_action">Aktion ausführen</string>
     <string name="translation">Übersetzung</string>
     <string name="text_color_title">Textfarbe</string>
     <string name="text_color">Ändere die Textfarbe in Nachrichten</string>
-    <string name="pref_custom_theme">Verwenden Du ein benutzerdefiniertes Design</string>
+    <string name="pref_custom_theme">Verwende ein benutzerdefiniertes Design</string>
     <string name="theming">Farbschema</string>
     <string name="data_export_theme">Das Theme wurde exportiert</string>
     <string name="data_export_theme_success">Das Design wurde erfolgreich als CSV exportiert</string>
@@ -572,9 +576,9 @@
     <string name="set_watermark_indication">Automatisches Hinzufügen eines Wasserzeichens am unteren Rand von Bildern. Der Text kann für jedes Konto angepasst werden.</string>
     <string name="no_distributors_found">Keine Dienste gefunden!</string>
     <string name="no_distributors_explanation">Du benötigen einen Dienst, um Push-Benachrichtigungen zu erhalten.
-\nWeitere Details finden Sie unter %1$s.
+\nWeitere Details findest Du unter %1$s.
 \n
-\nDu können Push-Benachrichtigungen auch in den Einstellungen deaktivieren, um diese Nachricht zu ignorieren.</string>
+\nDu kannst Push-Benachrichtigungen auch in den Einstellungen deaktivieren, um keine Benachrichtigungen zu erhalten.</string>
     <string name="select_distributors">Dienstanbieter auswählen</string>
     <string name="keepon">Fortfahren</string>
     <string name="instance_not_valid">Diese Instanz scheint nicht gültig zu sein!</string>
@@ -589,9 +593,9 @@
     <string name="stop_recording">Aufnahme anhalten</string>
     <string name="report_val1">Ich mag es nicht</string>
     <string name="report_val2">Es ist Spam</string>
-    <string name="toast_bookmark">Die Nachricht wurde zu deinen Lesezeichen hinzugefügt!</string>
-    <string name="toast_unbookmark">Die Nachricht wurde von deinen Lesezeichen entfernt!</string>
-    <string name="set_accounts_page">Anzahl der Konten pro Laden</string>
+    <string name="toast_bookmark">Die Nachricht wurde zu Deinen Lesezeichen hinzugefügt!</string>
+    <string name="toast_unbookmark">Die Nachricht wurde von Deinen Lesezeichen entfernt!</string>
+    <string name="set_accounts_page">Anzahl der Konten pro Ladevorgang</string>
     <string name="category_music">Musik</string>
     <string name="cannot_be_empty">Dieses Feld kann nicht leer sein!</string>
     <string name="replace_youtube">YouTube</string>
@@ -605,15 +609,15 @@
     <string name="other">Andere</string>
     <string name="display">Anzeige</string>
     <string name="report_1_title">Du willst das nicht sehen\?</string>
-    <string name="report_val_more3">Du bist dir bewusst, dass es gegen bestimmte Regeln verstößt</string>
+    <string name="report_val_more3">Du bist Dir bewusst, dass es gegen bestimmte Regeln verstößt</string>
     <string name="report_val3">Es verstößt gegen die Serverregeln</string>
     <string name="report_val_more4">Das Thema lässt sich nicht in andere Kategorien einordnen</string>
     <string name="report_val4">Es ist etwas anderes</string>
-    <string name="report_val_more1">Es ist nichts was du sehen möchtest</string>
+    <string name="report_val_more1">Es ist nichts was Du sehen möchtest</string>
     <string name="report_title">Meldung %1$s</string>
     <string name="instance_health_uptime">Verfügbarkeit: %,.2f %%</string>
     <string name="report_more_additional">Zusätzliche Kommentare</string>
-    <string name="report_more">Gibt es noch etwas, das wir deiner Meinung nach wissen sollten\?</string>
+    <string name="report_more">Gibt es noch etwas, das wir Deiner Meinung nach wissen sollten\?</string>
     <string name="report_all_more">Wähle alle zutreffenden Punkte aus</string>
     <string name="report_3_title">Welche Regeln werden verletzt\?</string>
     <string name="report_2_title">Gibt es Beiträge, die diesen Bericht belegen\?</string>
@@ -645,7 +649,7 @@
     <string name="notification_sounds">Benachrichtigungstöne</string>
     <string name="type_of_notifications_title">Wähle die Art der Benachrichtigung</string>
     <string name="pref_contributor">Themen der Mitwirkenden</string>
-    <string name="customize_timelines">Zeitleisten anpassen</string>
+    <string name="customize_timelines">Timelines anpassen</string>
     <string name="select_a_theme">Ein Thema wählen</string>
     <string name="more_actions">Weitere Aktionen</string>
     <string name="pref_contributor_summary">Wähle ein Thema, das von Mitwirkenden erstellt wurde</string>
@@ -654,7 +658,7 @@
     <string name="poll_type">Art der Umfrage:</string>
     <string name="bottom_menu">Unteres Menü</string>
     <string name="top_menu">Oberes Menü</string>
-    <string name="report_1_title_more">Einstellungen zur Kontrolle dessen, was du auf Mastodon siehst:</string>
+    <string name="report_1_title_more">Einstellungen zur Kontrolle dessen, was Du auf Mastodon siehst:</string>
     <string name="hide_content">Inhalt verbergen &lt;</string>
     <string name="category_custom">Benutzerdefiniert</string>
     <string name="post_message_text">Sende Nachricht %d/%d</string>
@@ -667,7 +671,7 @@
     <string name="report_indication_title_status">Sage uns, was es mit diesem Beitrag auf sich hat</string>
     <string name="report_1_mute_title">Stummschalten %1$s</string>
     <string name="report_1_block_title">Blockieren %1$s</string>
-    <string name="invite_join_the_fediverse">Hallo! Wir laden dich ein, dem Fediverse beizutreten.</string>
+    <string name="invite_join_the_fediverse">Hallo! Wir laden Dich ein, dem Fediverse beizutreten.</string>
     <string name="set_bot_content">Bot-Konto</string>
     <string name="interactions">Interaktionen</string>
     <string name="set_discoverable_content">Konto auffindbar</string>
@@ -675,7 +679,7 @@
     <string name="pref_theme_base_summary">Wähle, ob die Basis des Themas dunkel oder hell sein soll</string>
     <string name="types_of_notifications_to_display">Arten der anzuzeigenden Benachrichtigungen</string>
     <string name="toots_visibility_title">Standardmäßige Sichtbarkeit der Nachrichten:</string>
-    <string name="set_notifications_page">Anzahl an Benachrichtigungen pro Ladezyklus</string>
+    <string name="set_notifications_page">Anzahl an Benachrichtigungen pro Ladevorgang</string>
     <string name="replace_instagram_description">Nutze eine alternative Benutzeroberfläche für Instagram</string>
     <string name="replace_instagram_host">Instagram Frontend Domain</string>
     <string name="replace_reddit_description">Nutze eine alternative Benutzeroberfläche für Reddit</string>
@@ -686,13 +690,13 @@
     <string name="report_more_remote">Das Konto stammt von einem anderen Server. Die anonymisierte Kopie des Berichts auch dorthin senden\?</string>
     <string name="report_indication_title_status_more">Wähle die beste Übereinstimmung</string>
     <string name="report_1_unfollow_title">Entfolge %1$s</string>
-    <string name="report_1_unfollow">Du folgst diesem Konto. Um die Beiträge nicht mehr in deiner Home-Timeline zu sehen, entfolge ihm.</string>
-    <string name="report_1_mute">Du wirst die Beiträge nicht mehr sehen. Du können dir immer noch folgen und deine Beiträge sehen und wissen nicht, dass sie stummgeschaltet sind.</string>
+    <string name="report_1_unfollow">Du folgst diesem Konto. Um die Beiträge nicht mehr auf Deiner Startseite zu sehen, entfolge ihm.</string>
+    <string name="report_1_mute">Du wirst ihre Beiträge nicht mehr sehen. Sie können Dir immer noch folgen und Deine Beiträge sehen und wissen nicht, dass sie stummgeschaltet sind.</string>
     <string name="report_1_block">Du wirst ihre Beiträge nicht mehr sehen. Sie werden Deine Beiträge nicht sehen und Dir nicht mehr folgen können. Sie werden erkennen können, dass sie blockiert sind.</string>
-    <string name="notif_display_reblogs">Boosten</string>
+    <string name="notif_display_reblogs">Geteilte Beiträge</string>
     <string name="notif_display_updates_from_people">Aktualisierungen Anderer</string>
     <string name="notif_display_follows">Folgende</string>
-    <string name="also_boosted_by">Auch geboostet von:</string>
+    <string name="also_boosted_by">Auch geteilt von:</string>
     <string name="set_unfollow_validation_title">Entfolgen bestätigen</string>
     <string name="also_favourite_by">"Auch favorisiert von: "</string>
     <string name="admin_scope">Ich bin ein Moderator</string>
@@ -729,8 +733,8 @@
     <string name="export_settings">Einstellungen exportieren</string>
     <string name="load_media_type_title">Vorschaubilder für Medien laden</string>
     <string name="display_timelines">Timelines anzeigen</string>
-    <string name="set_display_counters_description">Anzahl der neuen Nachrichten in der Timeline werden in einer Blase in der Registerkarte angezeigt</string>
-    <string name="remember_position">Position in der Timeline merken</string>
+    <string name="set_display_counters_description">Die Anzahl neuer Nachrichten in den Timelines wird in der Registerkarte angezeigt</string>
+    <string name="remember_position">Position in den Timelines merken</string>
     <string name="set_use_cache_indication">Timelines werden zwischengespeichert, um die Anwendung zu beschleunigen.</string>
     <string name="cached_messages">Zwischengespeicherte Nachricht</string>
     <string name="reply">Antwort</string>
@@ -765,7 +769,7 @@
     <string name="view_the_original_message">Originalnachricht öffnen</string>
     <string name="type_of_notifications_delay_title">Benachrichtigungsabrufzeit</string>
     <string name="fetch_notifications">Hole Benachrichtigungen</string>
-    <string name="set_single_topbar">Wenn aktiv, hat die App nur eine einzelne Bar für die Timelines</string>
+    <string name="set_single_topbar">Wenn aktiv, hat die App nur eine Anzeigeleiste für alle Timelines</string>
     <string name="media_cannot_be_uploaded">Datei konnte nicht hochgeladen werden!</string>
     <string name="refresh_every">Hole Benachrichtigungen alle:</string>
     <string name="set_your_max_char_count">Maximale Anzahl an Zeichen setzen</string>
@@ -773,15 +777,15 @@
     <string name="push_distributors">Push-Dienst</string>
     <string name="toast_token">Die App konnte kein Token abrufen</string>
     <string name="edit_message">Nachricht bearbeiten</string>
-    <string name="action_pinned_delete">Angepinnte Zeitleisten löschen\?</string>
+    <string name="action_pinned_delete">Angepinnte Timelines löschen\?</string>
     <string name="notif_submitted_report">Bericht eingereicht</string>
     <string name="action_privacy_policy">Datenschutz-Bestimmungen</string>
-    <string name="unpin_timeline">Die angepinnte Zeitleiste entfernen\?</string>
-    <string name="unpin_timeline_description">Bist Du sicher, dass diese Zeitleiste nicht mehr angepinnt sein soll\?</string>
+    <string name="unpin_timeline">Die angepinnte Timeline entfernen\?</string>
+    <string name="unpin_timeline_description">Bist Du sicher, dass diese Timeline nicht mehr angepinnt sein soll\?</string>
     <string name="blocked_domains">Geblockte Domänen</string>
     <string name="full_date_edited">%1$s bearbeitet %2$s</string>
     <string name="unblock_domain">Domäne freigeben</string>
-    <string name="no_blocked_domains">Du hast keine geblockten Domänen</string>
+    <string name="no_blocked_domains">Du hast keine Domänen geblockt</string>
     <string name="unblock_domain_confirm">Sicher, dass Du %1$s wieder freigeben willst\?</string>
     <string name="Suggestions">Vorschläge</string>
     <string name="not_interested">Nicht interessiert</string>
@@ -794,7 +798,7 @@
     <string name="account_rejected">Konto abgelehnt</string>
     <string name="account_approved">Konto genehmigt</string>
     <string name="report">Meldung</string>
-    <string name="display_media_notification_summary">Medien in Benachrichtigungen für Reblogs und Favoriten werden angezeigt</string>
+    <string name="display_media_notification_summary">Medien in Benachrichtigungen für geteilte Beiträge und Favoriten werden angezeigt</string>
     <string name="set_live_translate">Übersetzung in eine bestimmte Sprache erzwingen. Wähle den ersten Wert, um auf Geräteeinstellungen zurückzusetzen</string>
     <string name="status_history">Nachrichten-Verlauf</string>
     <string name="edited_message_at">Bearbeitet am %1$s</string>
@@ -821,15 +825,15 @@
     <string name="account_silenced">Konto stummgeschaltet</string>
     <string name="restart_the_app">App neu starten\?</string>
     <string name="restart">Neustart</string>
-    <string name="restart_the_app_theme">Du solltest die App neu starten um die Änderungen anzuwenden.</string>
-    <string name="action_followed_tag_empty">Du folgst bisher keinen Tags!</string>
-    <string name="action_unfollow_tag">Tag nicht mehr folgen</string>
-    <string name="action_unfollow_tag_confirm">Bist Du sicher dass Du diesem Tag nicht mehr folgen willst\?</string>
+    <string name="restart_the_app_theme">Du musst die App neu starten um die Änderungen anzuwenden.</string>
+    <string name="action_followed_tag_empty">Du folgst bisher keinen Hashtags!</string>
+    <string name="action_unfollow_tag">Hashtag nicht mehr folgen</string>
+    <string name="action_unfollow_tag_confirm">Bist Du sicher dass Du diesem Hashtag nicht mehr folgen willst\?</string>
     <string name="unfollow">Nicht mehr folgen</string>
-    <string name="action_tag_follow">Tag folgen</string>
-    <string name="write_the_tag_to_follow">Schreibe den Tag dem Du folgen willst</string>
-    <string name="followed_tags">Gefolgte Tags</string>
-    <string name="follow_tag">Tag folgen</string>
+    <string name="action_tag_follow">Hashtag folgen</string>
+    <string name="write_the_tag_to_follow">Schreibe den Hashtag, dem Du folgen möchtest</string>
+    <string name="followed_tags">Gefolgten Hashtags</string>
+    <string name="follow_tag">Hashtag folgen</string>
     <string name="aggregate_notifications_summary">Falls aktiv wird die App alle zusammenhängenden Benachrichtigungen einklappen</string>
     <string name="action_lists_edit">Liste bearbeiten</string>
     <string name="profiles">Profile</string>
@@ -840,14 +844,14 @@
     <string name="hide_with_warning">Mit Warnung verstecken</string>
     <string name="hide_completely">Vollständig verstecken</string>
     <string name="hide_completely_description">Den gefilterten Inhalt komplett verstecken und so verhalten als ob dieser nie existiert hätte</string>
-    <string name="context_home_list">Start und Listen</string>
+    <string name="context_home_list">Startseite und Listen</string>
     <string name="title">Titel</string>
     <string name="keyword_or_phrase">Schlagwort oder Satz</string>
     <string name="delete_keyword">Schlagwort löschen</string>
     <string name="add_keyword">Schlagwort hinzufügen</string>
     <string name="filtered_by">Gefiltert: %1$s</string>
     <string name="show_anyway">Trotzdem anzeigen</string>
-    <string name="delete_timeline">Zeitleiste löschen</string>
+    <string name="delete_timeline">Timeline löschen</string>
     <string name="notif_signed_up">Angemeldet</string>
     <string name="channel_notif_signup">Neue Registrierung</string>
     <string name="notif_sign_up">Eine Benutzer hat sich registriert</string>
@@ -862,7 +866,7 @@
     <string name="channel_notif_report">Neue Meldung</string>
     <string name="hide_with_warning_description">Verstecke den gefilterten Inhalt hinter einer Warnung die den Titel des Filters enthält</string>
     <string name="filter_action">Aktion filtern</string>
-    <string name="filter_action_explanations">Wähle die Aktion aus die durchgeführt werden soll wenn ein Beitrag Deinem Filter entspricht</string>
+    <string name="filter_action_explanations">Wähle die Aktion aus die durchgeführt werden soll, wenn ein Beitrag dem Filter entspricht</string>
     <string name="toast_error_add_to_list">Hinzufügen des Kontos zur Liste fehlgeschlagen!</string>
     <string name="keep_notifications">Benachrichtigungen behalten</string>
     <string name="set_notif_admin_report">Neue Meldung (Moderatoren)</string>
@@ -872,7 +876,7 @@
     <string name="login_status">Anmeldestatus</string>
     <string name="set_language_picker_title">Sprachen in der Auswahl</string>
     <string name="set_language_picker">Erlaube die Liste der Sprachen in der Auswahl beim Verfassen einer Nachricht zu reduzieren.</string>
-    <string name="not_valid_tag_name">Bezeichnung des Tags ist nicht zulässig!</string>
+    <string name="not_valid_tag_name">Bezeichnung des Hashtags ist nicht zulässig!</string>
     <string name="severity">Schweregrad</string>
     <string name="reject_media">Medien ablehnen</string>
     <string name="admin_reject_media">Mediendateien ablehnen</string>
@@ -893,45 +897,50 @@
     <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
-    <string name="mute_tag">Den Tag %1$s wirklich stummschalten\?</string>
-    <string name="max_indentation_thread">Maximaler Einzug in Threads</string>
+    <string name="mute_tag">Den Hashtag %1$s wirklich stummschalten\?</string>
+    <string name="max_indentation_thread">Maximale Einzugtiefe in den Beiträgen</string>
     <string name="account_undisabled">Konto wieder aktiviert</string>
     <string name="state">Status</string>
     <string name="pref_customize_summary">Ermöglicht benutzerdefinierte Farben für Designs.</string>
     <string name="set_dynamic_color">Dynamische Farben</string>
     <string name="set_dynamic_color_indication">Farbton dem Farbschema des persönlichen Hintergrunds anpassen.</string>
-    <string name="type_default_theme_light">Standard helles Design</string>
-    <string name="type_default_theme_dark">Standard dunkles Design</string>
+    <string name="type_default_theme_light">Helles Standard-Design</string>
+    <string name="type_default_theme_dark">Dunkles Standard-Design</string>
     <string name="type_of_theme">Wähle den Modus für das Design</string>
     <string name="pref_customize">Farben anpassen</string>
-    <string name="set_cardview_indication">Wenn aktiviert, sind die Beiträge in der Timeline schattiert und erhöht.</string>
-    <string name="set_customize_light">Helles Thema anpassen</string>
-    <string name="set_customize_light_indication">Gestattet, einige Elemente des hellen Themas zu personalisieren.</string>
-    <string name="set_customize_dark">Dunkles Thema anpassen</string>
-    <string name="set_customize_dark_indication">Gestattet, einige Elemente des dunklen Themas zu personalisieren.</string>
+    <string name="set_cardview_indication">Wenn aktiviert, werden Beiträge in der Timeline schattiert und erhaben dargestellt.</string>
+    <string name="set_customize_light">Helles Design anpassen</string>
+    <string name="set_customize_light_indication">Gestattet, einige Elemente des hellen Designs zu personalisieren.</string>
+    <string name="set_customize_dark">Dunkles Design anpassen</string>
+    <string name="set_customize_dark_indication">Gestattet, einige Elemente des dunklen Designs zu personalisieren.</string>
     <string name="set_custom_colors">Eigene Farben auswählen</string>
     <string name="light_custom_colors">Hell - Eigene Farben</string>
     <string name="cark_custom_colors">Dunkel - Eigene Farben</string>
     <string name="display_remote_conversation">Entfernte Konversation anzeigen</string>
     <string name="toast_on_your_instance">Die Konversation begann auf Deiner Instanz!</string>
-    <string name="toast_error_fetch_message">Die Anwendung hat keine entfernten Nachrichten gefunden.</string>
-    <string name="mute_tag_action">Tag stummschalten</string>
-    <string name="unpin_tag">Anpinnen des Tags aufheben</string>
-    <string name="unmute_tag_action">Stummschaltung des Tags aufheben</string>
+    <string name="toast_error_fetch_message">Die Anwendung hat die entfernte Nachricht nicht gefunden.</string>
+    <string name="mute_tag_action">Hashtag stummschalten</string>
+    <string name="unpin_tag">Anpinnen des Hashtags aufheben</string>
+    <string name="unmute_tag_action">Stummschaltung des Hashtags aufheben</string>
     <string name="toast_try_later">Bitte später nochmal versuchen.</string>
-    <string name="pin_tag">Tag anpinnen</string>
-    <string name="put_all_accounts_in_home_muted">Alle Konten werden in der Timeline der Startseite stumm geschaltet.</string>
+    <string name="pin_tag">Hashtag anpinnen</string>
+    <string name="put_all_accounts_in_home_muted">Alle Konten auf der Startseite stumm schalten.</string>
     <string name="add_all_users_home_muted">Alle Benutzer auf der Startseite stummschalten</string>
     <string name="import_data">Daten importieren</string>
-    <string name="group_reblogs">Gruppiere geteilte Nachrichten in der Timeline der Startseite</string>
+    <string name="group_reblogs">Gruppiere geteilte Beiträge auf der Startseite</string>
     <string name="mute_them_all">Alle stummschalten</string>
     <string name="manage_accounts">Konten verwalten</string>
     <string name="muted_menu_home">Auf Startseite stummgeschaltete Nutzer</string>
-    <string name="unfollow_tag">Tag entfolgen</string>
-    <string name="mute_home">Für Startseite stummschalten</string>
+    <string name="unfollow_tag">Hashtag entfolgen</string>
+    <string name="mute_home">Auf der Startseite stummschalten</string>
     <string name="unmute_home">Stummschaltung auf der Startseite aufheben</string>
-    <string name="set_remove_left_margin">Entfernt den linken Rand in den Timelines, um die Nachricht kompakter zu machen</string>
+    <string name="set_remove_left_margin">Entfernt den linken Rand in den Timelines, um Nachrichten kompakter darzustellen</string>
     <string name="set_display_translate_indication">Übersetzungs-Knopf immer anzeigen</string>
     <string name="set_cardview">Kartenansicht</string>
     <string name="set_remove_left_margin_title">Entferne linken Rand</string>
+    <string name="version">Version</string>
+    <string name="api_key">Übersetzungsdienst API-Schlüssel</string>
+    <string name="set_translator">Übersetzungsdienst</string>
+    <string name="set_translator_version">Übersetzungsdienst-Version</string>
+    <string name="translator">Übersetzungsdienst</string>
 </resources>
