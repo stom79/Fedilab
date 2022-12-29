@@ -1,0 +1,3 @@
+Fixed:
+- CW not working with media
+- Media not displayed for older instances
