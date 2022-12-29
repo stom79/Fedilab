@@ -394,6 +394,12 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <include
+            android:id="@+id/quoted_message"
+            layout="@layout/drawer_status_simple"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/display_media"
             android:layout_width="wrap_content"
@@ -628,7 +634,7 @@
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_boost"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_quote"
                 app:layout_constraintStart_toEndOf="@+id/action_button_reply_container"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
@@ -642,11 +648,29 @@
                 app:sparkbutton_primaryColor="@color/boost_icon"
                 app:sparkbutton_secondaryColor="@color/boost_icon" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_button_quote"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:contentDescription="@string/translate"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_format_quote_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
+                app:layout_constraintStart_toEndOf="@+id/action_button_boost"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_bookmark"
-                app:layout_constraintStart_toEndOf="@+id/action_button_boost"
+                app:layout_constraintStart_toEndOf="@+id/action_button_quote"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

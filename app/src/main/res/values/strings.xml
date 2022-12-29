@@ -1429,6 +1429,7 @@
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
+    <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
 
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
@@ -2147,4 +2148,6 @@
     <string name="api_key">Translator API key</string>
     <string name="version">Version</string>
     <string name="set_translator_version">Translator version</string>
+    <string name="set_extand_extra_features_title">Extra features</string>
+    <string name="set_extand_extra_features">By enabling that option the app will display extra features. This feature is done for social softwares like Pleroma, Akkoma or Glitch Social</string>
 </resources>

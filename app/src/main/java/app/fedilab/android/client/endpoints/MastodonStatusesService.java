@@ -59,7 +59,8 @@ public interface MastodonStatusesService {
             @Field("sensitive") Boolean sensitive,
             @Field("spoiler_text") String spoiler_text,
             @Field("visibility") String visibility,
-            @Field("language") String language
+            @Field("language") String language,
+            @Field("quote_id") String quote_id
     );
 
     @GET("statuses/{id}/source")

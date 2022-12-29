@@ -48,6 +48,8 @@ public class Status implements Serializable, Cloneable {
     public String spoiler_text;
     @SerializedName("text")
     public String text;
+    @SerializedName("quote_id")
+    public String quote_id;
     @SerializedName("visibility")
     public String visibility;
     @SerializedName("language")
@@ -76,6 +78,8 @@ public class Status implements Serializable, Cloneable {
     public String content;
     @SerializedName("reblog")
     public Status reblog;
+    @SerializedName("quote")
+    public Status quote;
     @SerializedName("application")
     public App application;
     @SerializedName("account")
