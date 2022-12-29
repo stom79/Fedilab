@@ -701,7 +701,6 @@
     <string name="report_val_more2">Links maliciosos, engajamento falso ou respostas repetitivas</string>
     <string name="report_1_title_more">Aqui estão suas opções para controlar o que você vê no Mastodon:</string>
     <string name="version">Versão</string>
-    <string name="set_translator"></string>
     <string name="set_unlisted_replies_indication">Diz respeito apenas a respostas \"públicas\". Quando ativado, suas respostas terão automaticamente a visibilidade \"não listada\" em vez de \"pública\"</string>
     <string name="delete_cache_message">Você tem certeza que deseja excluir o cache\? Se você tiver rascunhos com mídia, a mídia anexada será perdida.</string>
     <string name="import_settings">Importar configurações</string>
