@@ -111,7 +111,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
-    public transient boolean spoilerChecked = false;
+    public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;
     public transient Spannable contentSpoilerSpan;

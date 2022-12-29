@@ -1414,6 +1414,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.binding.contentSpoiler.setVisibility(View.GONE);
             }
+            holder.binding.buttonSensitive.setChecked(statusDraft.spoilerChecked);
             holder.binding.buttonSensitive.setOnClickListener(v -> {
                 if (holder.binding.contentSpoiler.getVisibility() == View.VISIBLE) {
                     statusDraft.spoilerChecked = false;
