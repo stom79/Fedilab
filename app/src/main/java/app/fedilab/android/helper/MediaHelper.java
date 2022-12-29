@@ -432,6 +432,8 @@ public class MediaHelper {
             }
             int orientation = getImageOrientation(uri, context.getContentResolver());
             int scaledImageSize = 1024;
+            final int maxRetry = 3;
+            int retry = 0;
             do {
                 FileOutputStream outputStream = new FileOutputStream(targetedFile);
                 decodeBitmapInputStream = context.getContentResolver().openInputStream(uri);
@@ -452,7 +454,8 @@ public class MediaHelper {
                 reorientedBitmap.compress(format, 100, outputStream);
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
-            } while (targetedFile.length() > getMaxSize(targetedFile.length()));
+                retry++;
+            } while (targetedFile.length() > getMaxSize(targetedFile.length()) && retry < maxRetry);
         } catch (Exception e) {
             e.printStackTrace();
             if (decodeBitmapInputStream != null) {
