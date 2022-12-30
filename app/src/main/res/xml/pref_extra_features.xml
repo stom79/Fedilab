@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:singleLineTitle="false"
+        app:summary="@string/set_extand_extra_features"
+        app:title="@string/set_extand_extra_features_title" />
+    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:iconSpaceReserved="false"
+        app:key="bottom_icon"
+        app:summary="@string/icons_visibility_summary"
+        app:title="@string/icons_visibility">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_BOOKMARK"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_bookmark_indication" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_TRANSLATE"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_translate_indication" />
+    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

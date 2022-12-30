@@ -1956,6 +1956,8 @@
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
+    <string name="pref_category_key_extra_features" translatable="false">pref_category_key_extra_features</string>
+
     <string name="pref_export_settings" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings" translatable="false">pref_import_settings</string>
     <string name="export_settings">Export settings</string>
@@ -2150,4 +2152,6 @@
     <string name="set_translator_version">Translator version</string>
     <string name="set_extand_extra_features_title">Extra features</string>
     <string name="set_extand_extra_features">By enabling that option the app will display extra features. This feature is done for social softwares like Pleroma, Akkoma or Glitch Social</string>
+    <string name="icons_visibility">Icons visibility</string>
+    <string name="icons_visibility_summary">You can safely hide these icons at the bottom to have more space. They are also in the submenu.</string>
 </resources>

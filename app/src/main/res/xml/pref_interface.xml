@@ -28,14 +28,6 @@
         app:summary="@string/set_remove_left_margin"
         app:title="@string/set_remove_left_margin_title" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_EXTAND_EXTRA_FEATURES"
-        app:singleLineTitle="false"
-        app:summary="@string/set_extand_extra_features"
-        app:title="@string/set_extand_extra_features_title" />
-
 
     <SwitchPreferenceCompat
         app:defaultValue="true"

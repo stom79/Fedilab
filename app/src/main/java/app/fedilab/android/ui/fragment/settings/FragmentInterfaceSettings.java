@@ -108,6 +108,7 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 if (SET_EXTAND_EXTRA_FEATURES != null) {
                     editor.putBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, SET_EXTAND_EXTRA_FEATURES.isChecked());
                 }
+                recreate = true;
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LOGO_LAUNCHER)) == 0) {
                 ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));

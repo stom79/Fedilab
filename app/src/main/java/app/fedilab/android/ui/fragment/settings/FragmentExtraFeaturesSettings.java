@@ -17,8 +17,6 @@ package app.fedilab.android.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.preference.EditTextPreference;
-import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -26,42 +24,26 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.helper.Helper;
 
-public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.pref_timelines);
+        addPreferencesFromResource(R.xml.pref_extra_features);
         createPref();
     }
 
     private void createPref() {
 
         getPreferenceScreen().removeAll();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        addPreferencesFromResource(R.xml.pref_timelines);
+        addPreferencesFromResource(R.xml.pref_extra_features);
         PreferenceScreen preferenceScreen = getPreferenceScreen();
-        ListPreference SET_LOAD_MEDIA_TYPE = findPreference(getString(R.string.SET_LOAD_MEDIA_TYPE));
-        if (SET_LOAD_MEDIA_TYPE != null) {
-            SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
-        }
-        ListPreference SET_TRANSLATOR = findPreference(getString(R.string.SET_TRANSLATOR));
-        if (SET_TRANSLATOR != null) {
-            SET_TRANSLATOR.getContext().setTheme(Helper.dialogStyle());
-        }
-        ListPreference SET_TRANSLATOR_VERSION = findPreference(getString(R.string.SET_TRANSLATOR_VERSION));
-        if (SET_TRANSLATOR_VERSION != null) {
-            SET_TRANSLATOR_VERSION.getContext().setTheme(Helper.dialogStyle());
-        }
-        EditTextPreference SET_TRANSLATOR_API_KEY = findPreference(getString(R.string.SET_TRANSLATOR_API_KEY));
-        if (SET_TRANSLATOR != null && SET_TRANSLATOR.getValue().equals("FEDILAB")) {
-            if (SET_TRANSLATOR_API_KEY != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_API_KEY");
-            }
-            if (SET_TRANSLATOR_VERSION != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_VERSION");
-            }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        SwitchPreferenceCompat SET_EXTAND_EXTRA_FEATURES = findPreference(getString(R.string.SET_EXTAND_EXTRA_FEATURES));
+        if (SET_EXTAND_EXTRA_FEATURES != null) {
+            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+            SET_EXTAND_EXTRA_FEATURES.setChecked(checked);
         }
         SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
         if (SET_DISPLAY_BOOKMARK != null) {
@@ -80,8 +62,11 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         if (getActivity() != null) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            if (key.compareToIgnoreCase(getString(R.string.SET_TRANSLATOR)) == 0) {
-                createPref();
+            if (key.compareToIgnoreCase(getString(R.string.SET_EXTAND_EXTRA_FEATURES)) == 0) {
+                SwitchPreferenceCompat SET_EXTAND_EXTRA_FEATURES = findPreference(getString(R.string.SET_EXTAND_EXTRA_FEATURES));
+                if (SET_EXTAND_EXTRA_FEATURES != null) {
+                    editor.putBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, SET_EXTAND_EXTRA_FEATURES.isChecked());
+                }
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_BOOKMARK)) == 0) {
                 SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
