@@ -104,7 +104,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     public static final int TAKE_PHOTO = 5600;
     private final Timer timer = new Timer();
     private List<Status> statusList;
-    private Status statusReply, statusMention;
+    private Status statusReply, statusMention, statusQuoted;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
     private boolean promptSaveDraft;
@@ -465,6 +465,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         Bundle b = getIntent().getExtras();
         if (b != null) {
             statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
+            statusQuoted = (Status) b.getSerializable(Helper.ARG_QUOTED_MESSAGE);
             statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
             scheduledStatus = (ScheduledStatus) b.getSerializable(Helper.ARG_STATUS_SCHEDULED);
             statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
@@ -557,6 +558,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         List<Status> statusDraftList = new ArrayList<>();
         Status status = new Status();
         status.id = Helper.generateIdString();
+        if (statusQuoted != null) {
+            status.quote_id = statusQuoted.id;
+        }
         statusDraftList.add(status);
 
         if (statusReplyId != null && statusDraft != null) {//Delete and redraft
@@ -647,6 +651,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             binding.recyclerView.setAdapter(composeAdapter);
             statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
                     .observe(ComposeActivity.this, this::initializeContextView);
+        } else if (statusQuoted != null) {
+            statusList.add(statusQuoted);
+            int statusCount = statusList.size();
+            statusDraftList.get(0).quote_id = statusQuoted.id;
+            //StatusDraftList at this point should only have one element
+            statusList.addAll(statusDraftList);
+            composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+            composeAdapter.manageDrafts = this;
+            composeAdapter.promptDraftListener = this;
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
+            binding.recyclerView.setLayoutManager(mLayoutManager);
+            binding.recyclerView.setAdapter(composeAdapter);
         } else {
             //Compose without replying
             statusList.addAll(statusDraftList);

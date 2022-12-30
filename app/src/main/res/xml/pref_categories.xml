@@ -73,6 +73,13 @@
     <Preference
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:title="@string/set_extand_extra_features_title"
+        app:icon="@drawable/ic_baseline_extension_24"
+        app:key="@string/pref_category_key_extra_features" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:title="@string/export_settings"
         app:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
         app:key="@string/pref_export_settings" />

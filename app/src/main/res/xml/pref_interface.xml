@@ -28,6 +28,7 @@
         app:summary="@string/set_remove_left_margin"
         app:title="@string/set_remove_left_margin_title" />
 
+
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"

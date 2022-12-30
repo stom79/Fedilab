@@ -221,10 +221,10 @@ public class ComposeWorker extends Worker {
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language, statuses.get(i).quote_id, statuses.get(i).content_type);
                     } else { //Status is edited
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
                     }
                     try {
                         Response<Status> statusResponse = statusCall.execute();
@@ -285,7 +285,7 @@ public class ComposeWorker extends Worker {
                     }
                 } else {
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, in_reply_to_status, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
+                            poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
                     try {
                         Response<ScheduledStatus> statusResponse = scheduledStatusCall.execute();
 

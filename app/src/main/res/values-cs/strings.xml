@@ -946,4 +946,9 @@
     <string name="report_all_more">Vyberte vše, co vyhovuje</string>
     <string name="set_remove_left_margin_title">Odstranit levý okraj</string>
     <string name="set_remove_left_margin">Odstranit v časových osách levý okraj, aby se zprávy zobrazovaly kompaktněji</string>
+    <string name="translator">Překladač</string>
+    <string name="set_translator">Překladač</string>
+    <string name="api_key">Klíč pro API překladače</string>
+    <string name="version">Verze</string>
+    <string name="set_translator_version">Verze překladače</string>
 </resources>

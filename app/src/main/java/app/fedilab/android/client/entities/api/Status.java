@@ -48,6 +48,10 @@ public class Status implements Serializable, Cloneable {
     public String spoiler_text;
     @SerializedName("text")
     public String text;
+    @SerializedName("quote_id")
+    public String quote_id;
+    @SerializedName("content_type")
+    public String content_type;
     @SerializedName("visibility")
     public String visibility;
     @SerializedName("language")
@@ -76,6 +80,8 @@ public class Status implements Serializable, Cloneable {
     public String content;
     @SerializedName("reblog")
     public Status reblog;
+    @SerializedName("quote")
+    public Status quote;
     @SerializedName("application")
     public App application;
     @SerializedName("account")
@@ -111,7 +117,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
-    public transient boolean spoilerChecked = false;
+    public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;
     public transient Spannable contentSpoilerSpan;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:singleLineTitle="false"
+        app:summary="@string/set_extand_extra_features"
+        app:title="@string/set_extand_extra_features_title" />
+    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:iconSpaceReserved="false"
+        app:key="bottom_icon"
+        app:summary="@string/icons_visibility_summary"
+        app:title="@string/icons_visibility">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_BOOKMARK"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_bookmark_indication" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_TRANSLATE"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_translate_indication" />
+    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+
+
+    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:iconSpaceReserved="false"
+        app:key="bottom_icon"
+        app:summary="@string/icons_extra_features_visibility_summary"
+        app:title="@string/icons_extra_features">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_QUOTES"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_quote_indication" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_REACTIONS"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_reaction_indication" />
+    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+
+    <ListPreference
+        app:defaultValue="text/plain"
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:dialogTitle="@string/post_format"
+        app:entries="@array/SET_POST_FORMAT"
+        app:entryValues="@array/SET_POST_FORMAT"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_POST_FORMAT"
+        app:summary="@string/change_logo_description"
+        app:title="@string/set_post_format"
+        app:useSimpleSummaryProvider="true" />
+
+</androidx.preference.PreferenceScreen>

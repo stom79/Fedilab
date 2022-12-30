@@ -66,7 +66,7 @@
     <string name="no_status">Nenhuma mensagem para exibir</string>
     <string name="favourite_add">Adicionar esta mensagem aos seus favoritos\?</string>
     <string name="favourite_remove">Remover esta mensagem dos seus favoritos\?</string>
-    <string name="reblog_add">Dar boost\?</string>
+    <string name="reblog_add">Dar boost nesta mensagem\?</string>
     <string name="reblog_remove">Desfazer boost\?</string>
     <string name="more_action_1">Silenciar</string>
     <string name="more_action_2">Bloquear</string>
@@ -93,9 +93,9 @@
         <item>Excluir este toot?</item>
         <item>Excluir &amp; rascunhar este toot?</item>
     </string-array>
-    <string name="bookmarks">Favoritos</string>
-    <string name="bookmark_add">Adicionar aos favoritos</string>
-    <string name="bookmark_remove">Remover dos favoritos</string>
+    <string name="bookmarks">Salvos</string>
+    <string name="bookmark_add">Salvar</string>
+    <string name="bookmark_remove">Remover dos Salvos</string>
     <string name="status_bookmarked">Toot foi salvo!</string>
     <string name="status_unbookmarked">Toot foi removido dos Salvos!</string>
     <!-- Date -->
@@ -257,7 +257,7 @@
     <string name="delete">Remover</string>
     <!-- About lists -->
     <string name="action_lists">Listas</string>
-    <string name="action_lists_confirm_delete">Tem certeza de que deseja excluir permanentemente esta lista?</string>
+    <string name="action_lists_confirm_delete">Você tem certeza que deseja excluir permanentemente esta lista\?</string>
     <string name="action_lists_add_to">Adicionar à lista</string>
     <string name="action_lists_delete">Excluir lista</string>
     <string name="action_lists_title_placeholder">Nome da nova lista</string>
@@ -314,9 +314,9 @@
     <string name="channel_notif_media">Baixar mídia</string>
     <string name="select_sound">Selecionar toque</string>
     <string name="set_enable_time_slot">Ativar definição de momento</string>
-    <string name="block_domain_confirm_message">Tem certeza que deseja bloquear %s\?
+    <string name="block_domain_confirm_message">Você tem certeza que deseja bloquear %s\?
 \n
-\nVocê não verá nenhum conteúdo dessa instância em nenhuma linha do tempo pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
+\nVocê não verá nenhum conteúdo dessa instância em nenhuma timeline pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
     <string name="block_domain">Bloquear instância</string>
     <string name="toast_block_domain">Instância bloqueada</string>
     <string name="retrieve_remote_status">Obtendo status remoto</string>
@@ -528,30 +528,30 @@
     <string name="boost_header_color">Alterar a cor do cabeçalho para reblogs</string>
     <string name="background_status_title">Publicações</string>
     <string name="background_status">Cor de fundo das publicações nas cronologias</string>
-    <string name="reset_color">Repor cores</string>
-    <string name="clik_reset">Toque aqui para repor todas as suas cores personalizadas</string>
-    <string name="reset">Reset</string>
-    <string name="icons_color_title">Icons</string>
+    <string name="reset_color">Redefinir cores</string>
+    <string name="clik_reset">Toque aqui para redefinir todas as suas cores personalizadas</string>
+    <string name="reset">Redefinir</string>
+    <string name="icons_color_title">Ícones</string>
     <string name="icons_color">Cor dos ícones inferiores nas linhas do tempo</string>
     <string name="logo_of_the_instance">Logo da instância</string>
     <string name="edit_profile">Editar Perfil</string>
     <string name="make_an_action">Faça uma ação</string>
     <string name="translation">Tradução</string>
-    <string name="text_color_title">Text color</string>
+    <string name="text_color_title">Cor do texto</string>
     <string name="text_color">Alterar a cor do texto nas mensagens</string>
     <string name="pref_custom_theme">Use um tema personalizado</string>
     <string name="theming">Personalização</string>
     <string name="data_export_theme">O tema foi exportado</string>
     <string name="data_export_theme_success">O tema foi exportado com sucesso em CSV</string>
-    <string name="import_theme">Import a theme</string>
+    <string name="import_theme">Importar um tema</string>
     <string name="import_theme_title">Toque aqui para importar um tema exportado previamente</string>
-    <string name="export_theme">Export the theme</string>
+    <string name="export_theme">Exportar o tema</string>
     <string name="export_theme_title">Toque aqui para exportar o tema atual</string>
     <string name="theme_file_error">Ocorreu um erro ao selecionar o arquivo do tema</string>
     <string name="user_count">Número de usuários</string>
     <string name="status_count">Número de status</string>
     <string name="instance_count">Número de instâncias</string>
-    <string name="poll_finish_in">End in %s</string>
+    <string name="poll_finish_in">Termina em %s</string>
     <string name="no_instance_reccord">Esta instância não está disponível em https://instances.social</string>
     <string name="display_full_link">Exibir link completo</string>
     <string name="share_link">Partilhar link</string>
@@ -664,4 +664,56 @@
     <string name="channel_notif_report">Nova denúncia</string>
     <string name="show_anyway">Mostrar mesmo assim</string>
     <string name="pref_customize">Personalizar cores</string>
+    <string name="action_privacy_policy">Política de Privacidade</string>
+    <string name="fetch_more_messages">Carregar mais mensagens…</string>
+    <string name="report_3_title">Quais regras estão sendo violadas\?</string>
+    <string name="set_live_translate_title">Traduzir Mensagens</string>
+    <string name="refresh_every">Buscar notificações a cada:</string>
+    <string name="set_customize_dark_indication">Permite personalizar alguns elementos nas mensagens para o tema escuro.</string>
+    <string name="report_val4">É outra coisa</string>
+    <string name="report_1_block_title">Bloquear %1$s</string>
+    <string name="report_more_additional">Comentários adicionais</string>
+    <string name="msg_save_image">Você deseja sair sem salvar a imagem\?</string>
+    <string name="set_display_bookmark_indication">Sempre mostrar o botão de salvar</string>
+    <string name="message_language">Idioma das mensagens</string>
+    <string name="report_val2">É spam</string>
+    <string name="report_val3">Viola as regras do servidor</string>
+    <string name="report_1_unfollow_title">Deixar de seguir %1$s</string>
+    <string name="export_settings">Exportar configurações</string>
+    <string name="report_val_more3">Você está ciente de que isso quebra regras específicas</string>
+    <string name="type_of_notifications_delay_title">Tempo de busca de notificações</string>
+    <string name="edit_message">Editar mensagem</string>
+    <string name="set_unlisted_replies">Respostas não listadas</string>
+    <string name="clear_cache">Limpar cache</string>
+    <string name="set_display_translate_indication">Sempre mostrar o botão de traduzir</string>
+    <string name="poll_type">Tipo de enquete:</string>
+    <string name="poll_duration">Duração da enquete:</string>
+    <string name="message_has_been_sent">A mensagem foi enviada!</string>
+    <string name="tap_here_to_refresh_poll">Toque aqui para atualizar a enquete</string>
+    <string name="action_announcement_from_to">Anúncio · %1$s - %2$s</string>
+    <string name="delete_cache">Excluir cache</string>
+    <string name="default_system_language">Usar o idioma padrão do sistema</string>
+    <string name="set_remove_left_margin_title">Remover margem esquerda</string>
+    <string name="set_remove_left_margin">Remova a margem esquerda nas linhas do tempo para tornar as mensagens mais compactas</string>
+    <string name="set_translator_version">Versão do tradutor</string>
+    <string name="set_custom_colors">Definir cores personalizadas</string>
+    <string name="pref_customize_summary">Permite definir cores personalizadas para os temas.</string>
+    <string name="report_val_more2">Links maliciosos, engajamento falso ou respostas repetitivas</string>
+    <string name="report_1_title_more">Aqui estão suas opções para controlar o que você vê no Mastodon:</string>
+    <string name="version">Versão</string>
+    <string name="set_unlisted_replies_indication">Diz respeito apenas a respostas \"públicas\". Quando ativado, suas respostas terão automaticamente a visibilidade \"não listada\" em vez de \"pública\"</string>
+    <string name="delete_cache_message">Você tem certeza que deseja excluir o cache\? Se você tiver rascunhos com mídia, a mídia anexada será perdida.</string>
+    <string name="import_settings">Importar configurações</string>
+    <string name="about_mastodon">\"O Mastodon não é um site único como o Twitter ou o Facebook, é uma rede de milhares de comunidades operadas por diferentes organizações e indivíduos que fornecem uma experiência de mídia social perfeita.\"</string>
+    <string name="unpin_timeline">Remover timeline fixada\?</string>
+    <string name="unblock_domain_confirm">Você tem certeza que deseja desbloquear %1$s\?</string>
+    <string name="clear_all_notif">Limpar todas as notificações</string>
+    <string name="invite_join_the_fediverse">OIá! Convidamos você a se juntar ao Fediverso.</string>
+    <string name="dont_have_an_account">Não possui uma conta\?</string>
+    <string name="display_all_categories">Exibir todas as categorias</string>
+    <string name="delete_notification_all_warning">Você tem certeza que deseja excluir todas as notificações\? Essa ação não pode ser desfeita.</string>
+    <string name="mark_all_as_read">Marcar todas as notificações como lidas</string>
+    <string name="join_the_fediverse">Junte-se ao Fediverso</string>
+    <string name="unpin_timeline_description">Você tem certeza que deseja desafixar essa timeline\?</string>
+    <string name="action_pinned_delete">Excluir as timelines fixadas\?</string>
 </resources>

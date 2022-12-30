@@ -392,10 +392,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
-        boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK), true);
-        boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE), false);
+        boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
+        boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+        boolean displayQuote = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
 
         if (removeLeftMargin) {
             LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
@@ -437,6 +440,60 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
+
+        if (statusToDeal.quote != null) {
+            holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
+            holder.binding.quotedMessage.dividerCard.setVisibility(View.GONE);
+            holder.binding.quotedMessage.cardviewContainer.setStrokeWidth((int) Helper.convertDpToPixel(1, context));
+            holder.binding.quotedMessage.cardviewContainer.setOnClickListener(v -> holder.binding.quotedMessage.statusContent.callOnClick());
+            holder.binding.quotedMessage.statusContent.setOnTouchListener((view, motionEvent) -> {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP && !view.hasFocus()) {
+                    try {
+                        view.requestFocus();
+                    } catch (Exception ignored) {
+                    }
+                }
+                return false;
+            });
+            holder.binding.quotedMessage.statusContent.setOnClickListener(v -> {
+                if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
+                    if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
+                        v.setTag(null);
+                    }
+                    return;
+                }
+                Intent intent = new Intent(context, ContextActivity.class);
+                intent.putExtra(Helper.ARG_STATUS, statusToDeal.quote);
+                context.startActivity(intent);
+            });
+            holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+            holder.binding.quotedMessage.statusContent.setText(
+                    statusToDeal.quote.getSpanContent(context,
+                            new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
+                    TextView.BufferType.SPANNABLE);
+            MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.quote.account);
+            if (statusToDeal.quote.account != null) {
+                holder.binding.quotedMessage.displayName.setText(
+                        statusToDeal.quote.account.getSpanDisplayName(context,
+                                new WeakReference<>(holder.binding.quotedMessage.displayName)),
+                        TextView.BufferType.SPANNABLE);
+                holder.binding.quotedMessage.username.setText(String.format("@%s", statusToDeal.quote.account.acct));
+            }
+
+            if (statusToDeal.quote.spoiler_text != null && !statusToDeal.quote.spoiler_text.trim().isEmpty()) {
+                holder.binding.quotedMessage.spoiler.setVisibility(View.VISIBLE);
+                holder.binding.quotedMessage.spoiler.setText(
+                        statusToDeal.quote.getSpanSpoiler(context,
+                                new WeakReference<>(holder.binding.quotedMessage.spoiler), null),
+                        TextView.BufferType.SPANNABLE);
+            } else {
+                holder.binding.quotedMessage.spoiler.setVisibility(View.GONE);
+                holder.binding.quotedMessage.spoiler.setText(null);
+            }
+            holder.binding.quotedMessage.cardviewContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
+        }
 
         if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
@@ -498,8 +555,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 int paddingDp = (int) (paddingPixel * density);
                 builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 builder.setTitle(R.string.insert_emoji);
-
-                if (emojis != null && emojis.size() > 0 && emojis.get(BaseMainActivity.currentInstance) != null) {
+                if (emojis != null && emojis.size() > 0) {
                     GridView gridView = new GridView(context);
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                     gridView.setNumColumns(5);
@@ -508,9 +564,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                         boolean alreadyAdded = false;
-                        if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
-                            return;
-                        }
                         for (Reaction reaction : status.pleroma.emoji_reactions) {
                             if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
                                 alreadyAdded = true;
@@ -553,9 +606,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
 
-        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
-            holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-            holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+        if (extraFeatures) {
+            if (displayQuote) {
+                holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonQuote.setVisibility(View.GONE);
+            }
+            if (displayReactions) {
+                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
+                holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+                holder.binding.statusEmoji.setVisibility(View.GONE);
+            }
+
+
         }
 
         holder.binding.actionButtonFavorite.pressOnTouch(false);
@@ -611,7 +676,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null) {
             if (statusToDeal.card.width > statusToDeal.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
@@ -951,6 +1016,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.requestLayout();
+
+        holder.binding.actionButtonQuote.getLayoutParams().width = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonQuote.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonQuote.requestLayout();
+
         holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scaleIcon);
@@ -1172,7 +1242,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
                 holder.binding.statusContent.setVisibility(View.VISIBLE);
-                if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+                if (statusToDeal.card != null && statusToDeal.quote_id == null && (display_card || statusToDeal.isFocused)) {
                     holder.binding.card.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.card.setVisibility(View.GONE);
@@ -1903,6 +1973,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
         });
+        holder.binding.actionButtonQuote.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ComposeActivity.class);
+            intent.putExtra(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
+            context.startActivity(intent);
+        });
         holder.binding.actionButtonReply.setOnClickListener(v -> {
             if (remote) {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
@@ -2286,6 +2361,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);

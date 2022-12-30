@@ -761,6 +761,15 @@
         <item>BrainCrash</item>
         <item>Mastalab</item>
     </string-array>
+
+    <string-array name="SET_POST_FORMAT" translatable="false">
+        <item>text/plain</item>
+        <item>text/html</item>
+        <item>text/markdown</item>
+        <item>text/bbcode</item>
+        <item>text/x.misskeymarkdown</item>
+    </string-array>
+
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
@@ -1419,7 +1428,12 @@
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
+    <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
+    <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
+
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
+    <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
+
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
 
@@ -1429,6 +1443,7 @@
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
+    <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
 
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
@@ -1955,6 +1970,8 @@
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
+    <string name="pref_category_key_extra_features" translatable="false">pref_category_key_extra_features</string>
+
     <string name="pref_export_settings" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings" translatable="false">pref_import_settings</string>
     <string name="export_settings">Export settings</string>
@@ -2147,4 +2164,14 @@
     <string name="api_key">Translator API key</string>
     <string name="version">Version</string>
     <string name="set_translator_version">Translator version</string>
+    <string name="set_extand_extra_features_title">Extra features</string>
+    <string name="set_extand_extra_features">By enabling that option the app will display extra features. This feature is done for social softwares like Pleroma, Akkoma or Glitch Social</string>
+    <string name="icons_visibility">Icons visibility</string>
+    <string name="icons_visibility_summary">You can safely hide these icons at the bottom to have more space. They are also in the submenu.</string>
+    <string name="post_format">Post format</string>
+    <string name="set_post_format">Post format</string>
+    <string name="icons_extra_features">Icons for extra features</string>
+    <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
+    <string name="set_display_quote_indication">Display the \"Quote\" button</string>
+    <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
 </resources>

@@ -122,6 +122,7 @@ import app.fedilab.android.activities.SuggestionActivity;
 import app.fedilab.android.activities.TrendsActivity;
 import app.fedilab.android.activities.admin.AdminActionActivity;
 import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
+import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.EmojiInstance;
 import app.fedilab.android.client.entities.api.Filter;
@@ -159,6 +160,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters, FragmentNotificationContainer.UpdateCounters, FragmentMastodonConversation.UpdateCounters {
 
@@ -585,9 +588,35 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            //If the attached account is null, the app will fetch remote instance to get up-to-date values
+            if (currentAccount != null && currentAccount.mastodon_account == null) {
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .callTimeout(60, TimeUnit.SECONDS)
+                        .proxy(Helper.getProxy(getApplication().getApplicationContext()))
+                        .build();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
+                        .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                        .client(okHttpClient)
+                        .build();
+                MastodonAccountsService mastodonAccountsService = retrofit.create(MastodonAccountsService.class);
+                retrofit2.Call<app.fedilab.android.client.entities.api.Account> accountCall = mastodonAccountsService.verify_credentials(MainActivity.currentToken);
+                if (accountCall != null) {
+                    try {
+                        retrofit2.Response<app.fedilab.android.client.entities.api.Account> accountResponse = accountCall.execute();
+                        if (accountResponse.isSuccessful()) {
+                            currentAccount.mastodon_account = accountResponse.body();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null) {
+                if (currentAccount == null || currentAccount.mastodon_account == null) {
                     //It is not, the user is redirected to the login page
                     Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
                     startActivity(myIntent);

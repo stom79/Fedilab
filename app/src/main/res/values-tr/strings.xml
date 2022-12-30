@@ -937,4 +937,9 @@
     <string name="manage_accounts">Hesapları yönet</string>
     <string name="set_remove_left_margin_title">Sol kenar boşluğunu kaldır</string>
     <string name="set_remove_left_margin">Mesajları daha sıkı hale getirmek için zaman çizelgelerindeki sol kenar boşluğunu kaldır</string>
+    <string name="translator">Çevirmen</string>
+    <string name="set_translator_version">Çevirmen sürümü</string>
+    <string name="set_translator">Çevirmen</string>
+    <string name="api_key">Çevirmen API anahtarı</string>
+    <string name="version">Sürüm</string>
 </resources>

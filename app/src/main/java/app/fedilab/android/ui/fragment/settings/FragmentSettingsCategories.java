@@ -121,6 +121,16 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
                 return false;
             });
         }
+
+        Preference pref_category_key_extra_features = findPreference(getString(R.string.pref_category_key_extra_features));
+        if (pref_category_key_extra_features != null) {
+            pref_category_key_extra_features.setOnPreferenceClickListener(preference -> {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToExtraFeatures());
+                return false;
+            });
+        }
+
         ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted) {
                 try {

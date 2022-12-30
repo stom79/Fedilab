@@ -68,6 +68,14 @@
             app:exitAnim="@anim/exit"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_extra_features"
+            app:destination="@id/FragmentExtraFeaturesSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
     </fragment>
 
     <fragment
@@ -104,6 +112,11 @@
         android:id="@+id/FragmentLanguageSettings"
         android:name="app.fedilab.android.ui.fragment.settings.FragmentLanguageSettings"
         android:label="@string/languages" />
+
+    <fragment
+        android:id="@+id/FragmentExtraFeaturesSettings"
+        android:name="app.fedilab.android.ui.fragment.settings.FragmentExtraFeaturesSettings"
+        android:label="@string/set_extand_extra_features_title" />
 
     <fragment
         android:id="@+id/FragmentCustomLightSettings"

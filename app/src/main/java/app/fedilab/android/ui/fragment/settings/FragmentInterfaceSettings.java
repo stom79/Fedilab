@@ -27,9 +27,11 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LogoHelper;
 import es.dmoral.toasty.Toasty;
@@ -67,6 +69,12 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             SET_LOGO_LAUNCHER.getContext().setTheme(Helper.dialogStyle());
             SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
         }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        SwitchPreferenceCompat SET_EXTAND_EXTRA_FEATURES = findPreference(getString(R.string.SET_EXTAND_EXTRA_FEATURES));
+        if (SET_EXTAND_EXTRA_FEATURES != null) {
+            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+            SET_EXTAND_EXTRA_FEATURES.setChecked(checked);
+        }
         recreate = false;
     }
 
@@ -81,6 +89,7 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 editor.putFloat(getString(R.string.SET_FONT_SCALE), scale);
                 recreate = true;
             }
+
             if (key.compareToIgnoreCase(getString(R.string.SET_FONT_SCALE_ICON_INT)) == 0) {
                 int progress = sharedPreferences.getInt(getString(R.string.SET_FONT_SCALE_ICON_INT), 110);
                 float scale = (float) (progress) / 100.0f;
@@ -94,6 +103,13 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                 recreate = true;
             }
 
+            if (key.compareToIgnoreCase(getString(R.string.SET_EXTAND_EXTRA_FEATURES)) == 0) {
+                SwitchPreferenceCompat SET_EXTAND_EXTRA_FEATURES = findPreference(getString(R.string.SET_EXTAND_EXTRA_FEATURES));
+                if (SET_EXTAND_EXTRA_FEATURES != null) {
+                    editor.putBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, SET_EXTAND_EXTRA_FEATURES.isChecked());
+                }
+                recreate = true;
+            }
             if (key.compareToIgnoreCase(getString(R.string.SET_LOGO_LAUNCHER)) == 0) {
                 ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
                 if (SET_LOGO_LAUNCHER != null) {
