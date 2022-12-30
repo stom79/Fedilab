@@ -3,67 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
     android:orientation="vertical"
-    android:padding="@dimen/fab_margin">
+    android:padding="12dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/display_full_link"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/display_full_link"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp"
-        app:drawableTint="?colorPrimary" />
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_full_link" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/share_link"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/share_link"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp"
-        app:drawableTint="?colorPrimary" />
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_share_link" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/open_other_app"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/open_other_app"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp"
-        app:drawableTint="?colorPrimary" />
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_open_external" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/copy_link"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/copy_link"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp"
-        app:drawableTint="?colorPrimary" />
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_copy_link" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/check_redirect"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableEnd="@drawable/ic_baseline_navigate_next_24"
         android:text="@string/check_redirect"
-        android:textColor="?colorPrimary"
-        android:textSize="16sp"
-        app:drawableTint="?colorPrimary" />
+        android:textAlignment="textStart"
+        app:icon="@drawable/ic_check_redirect" />
+
 </LinearLayout>
