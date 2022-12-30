@@ -555,8 +555,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 int paddingDp = (int) (paddingPixel * density);
                 builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 builder.setTitle(R.string.insert_emoji);
-
-                if (emojis != null && emojis.size() > 0 && emojis.get(BaseMainActivity.currentInstance) != null) {
+                if (emojis != null && emojis.size() > 0) {
                     GridView gridView = new GridView(context);
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                     gridView.setNumColumns(5);
@@ -565,9 +564,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                         boolean alreadyAdded = false;
-                        if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
-                            return;
-                        }
                         for (Reaction reaction : status.pleroma.emoji_reactions) {
                             if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
                                 alreadyAdded = true;
