@@ -761,6 +761,15 @@
         <item>BrainCrash</item>
         <item>Mastalab</item>
     </string-array>
+
+    <string-array name="SET_POST_FORMAT" translatable="false">
+        <item>text/plain</item>
+        <item>text/html</item>
+        <item>text/markdown</item>
+        <item>text/bbcode</item>
+        <item>text/x.misskeymarkdown</item>
+    </string-array>
+
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
@@ -1420,6 +1429,8 @@
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
+    <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
+
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
 
@@ -2154,4 +2165,6 @@
     <string name="set_extand_extra_features">By enabling that option the app will display extra features. This feature is done for social softwares like Pleroma, Akkoma or Glitch Social</string>
     <string name="icons_visibility">Icons visibility</string>
     <string name="icons_visibility_summary">You can safely hide these icons at the bottom to have more space. They are also in the submenu.</string>
+    <string name="post_format">Post format</string>
+    <string name="set_post_format">Post format</string>
 </resources>

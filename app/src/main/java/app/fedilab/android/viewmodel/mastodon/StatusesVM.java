@@ -187,12 +187,13 @@ public class StatusesVM extends AndroidViewModel {
                                        String spoiler_text,
                                        String visibility,
                                        String language,
-                                       String quote_id) {
+                                       String quote_id,
+                                       String content_type) {
         MastodonStatusesService mastodonStatusesService = init(instance);
         statusMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<Status> statusCall = mastodonStatusesService.createStatus(idempotency_Key, token, text, media_ids, poll_options, poll_expire_in,
-                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, language, quote_id);
+                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, language, quote_id, content_type);
             Status status = null;
             if (statusCall != null) {
                 try {

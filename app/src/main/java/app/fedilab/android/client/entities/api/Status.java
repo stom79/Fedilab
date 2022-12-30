@@ -50,6 +50,8 @@ public class Status implements Serializable, Cloneable {
     public String text;
     @SerializedName("quote_id")
     public String quote_id;
+    @SerializedName("content_type")
+    public String content_type;
     @SerializedName("visibility")
     public String visibility;
     @SerializedName("language")

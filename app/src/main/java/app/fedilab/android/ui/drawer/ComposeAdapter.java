@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -99,6 +100,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.ComposeActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Emoji;
 import app.fedilab.android.client.entities.api.EmojiInstance;
@@ -1273,9 +1275,40 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Status statusDraft = statusList.get(position);
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
+            boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
 
 
             holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
+            if (extraFeatures) {
+                holder.binding.buttonTextFormat.setVisibility(View.VISIBLE);
+                holder.binding.buttonTextFormat.setOnClickListener(v -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    builder.setTitle(context.getString(R.string.post_format));
+                    Resources res = context.getResources();
+                    String[] formatArr = res.getStringArray(R.array.SET_POST_FORMAT);
+                    int selection = 0;
+                    String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_POST_FORMAT) + account.user_id + account.instance, "text/plain");
+                    for (String format : formatArr) {
+                        if (statusDraft.content_type != null && statusDraft.content_type.equalsIgnoreCase(format)) {
+                            break;
+                        } else if (statusDraft.content_type == null && defaultFormat.equalsIgnoreCase(format)) {
+                            break;
+                        }
+                        selection++;
+                    }
+                    builder.setSingleChoiceItems(formatArr, selection, null);
+                    builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        statusDraft.content_type = formatArr[selectedPosition];
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                    builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builder.create().show();
+                });
+            } else {
+                holder.binding.buttonTextFormat.setVisibility(View.GONE);
+            }
             holder.binding.buttonEmojiOne.setOnClickListener(v -> {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);

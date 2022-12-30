@@ -17,6 +17,7 @@ package app.fedilab.android.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -24,6 +25,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.helper.Helper;
 
 public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -55,6 +57,13 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_DISPLAY_TRANSLATE.setChecked(checked);
         }
+
+        ListPreference SET_POST_FORMAT = findPreference(getString(R.string.SET_POST_FORMAT));
+        if (SET_POST_FORMAT != null) {
+            SET_POST_FORMAT.getContext().setTheme(Helper.dialogStyle());
+            String format = sharedpreferences.getString(getString(R.string.SET_POST_FORMAT) + MainActivity.currentUserID + MainActivity.currentInstance, "text/plain");
+            SET_POST_FORMAT.setValue(format);
+        }
     }
 
     @Override
@@ -78,6 +87,12 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
                 SwitchPreferenceCompat SET_DISPLAY_TRANSLATE = findPreference(getString(R.string.SET_DISPLAY_TRANSLATE));
                 if (SET_DISPLAY_TRANSLATE != null) {
                     editor.putBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_TRANSLATE.isChecked());
+                }
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_POST_FORMAT)) == 0) {
+                ListPreference SET_POST_FORMAT = findPreference(getString(R.string.SET_POST_FORMAT));
+                if (SET_POST_FORMAT != null) {
+                    editor.putString(getString(R.string.SET_POST_FORMAT) + MainActivity.currentUserID + MainActivity.currentInstance, SET_POST_FORMAT.getValue());
                 }
             }
             editor.apply();

@@ -28,4 +28,16 @@
             app:title="@string/set_display_translate_indication" />
     </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
 
+    <ListPreference
+        app:defaultValue="text/plain"
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:dialogTitle="@string/post_format"
+        app:entries="@array/SET_POST_FORMAT"
+        app:entryValues="@array/SET_POST_FORMAT"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_POST_FORMAT"
+        app:summary="@string/change_logo_description"
+        app:title="@string/set_post_format"
+        app:useSimpleSummaryProvider="true" />
+
 </androidx.preference.PreferenceScreen>
