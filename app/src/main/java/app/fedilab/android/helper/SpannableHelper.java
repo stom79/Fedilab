@@ -52,6 +52,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -289,10 +290,10 @@ public class SpannableHelper {
                     @Override
                     public void onLongClick(View view) {
                         Context mContext = view.getContext();
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+                        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(mContext);
                         PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
-                        dialogBuilder.setView(popupLinksBinding.getRoot());
-                        AlertDialog alertDialog = dialogBuilder.create();
+                        materialAlertDialogBuilder.setView(popupLinksBinding.getRoot());
+                        AlertDialog alertDialog = materialAlertDialogBuilder.create();
                         alertDialog.show();
                         String finalURl = newURL;
                         String uniqueUrl = newURL.endsWith("…") ? newURL : newURL + "…";
