@@ -4,6 +4,10 @@ Added:
 - Support quotes, reactions with messages
 - Support text format (html, markdown, etc.) when composing
 
+Changed:
+- Context menu when long pressing a link
+- Display bookmark and translate buttons are now per account
+
 Fixed:
 - CW not working with media
 - Media not displayed for older instances
