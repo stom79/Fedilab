@@ -1,0 +1,2 @@
+- Corrigidos alguns bugs
+- Permite compartilhar com o aplicativo

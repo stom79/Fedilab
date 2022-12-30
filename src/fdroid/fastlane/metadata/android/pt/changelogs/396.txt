@@ -1,0 +1,13 @@
+Adicionado:
+- Permite definir um ponto de foco em nas prévias (editor de mídia)
+- Respeite o ponto de foco com prévias
+- Paginação com o suporte ao botão buscar mais leitura para cima ou para baixo
+- Adicionar tendências
+
+Fixo:
+- Somente a última notificação por push é exibida (não agrupada)
+- Mau comportamento com a rolagem direita/esquerda
+- Corrigir perfis longos não totalmente exibidos
+- Problemas com algumas enquetes
+- Algumas falhas
+- Alguns maus comportamentos
