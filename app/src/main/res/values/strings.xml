@@ -1428,6 +1428,9 @@
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
+    <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
+    <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
+
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
 
@@ -2167,4 +2170,8 @@
     <string name="icons_visibility_summary">You can safely hide these icons at the bottom to have more space. They are also in the submenu.</string>
     <string name="post_format">Post format</string>
     <string name="set_post_format">Post format</string>
+    <string name="icons_extra_features">Icons for extra features</string>
+    <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
+    <string name="set_display_quote_indication">Display the \"Quote\" button</string>
+    <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
 </resources>

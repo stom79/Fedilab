@@ -397,6 +397,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
         boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+        boolean displayQuote = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
 
         if (removeLeftMargin) {
             LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
@@ -609,9 +611,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
 
         if (extraFeatures) {
-            holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-            holder.binding.statusEmoji.setVisibility(View.VISIBLE);
-            holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
+            if (displayQuote) {
+                holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonQuote.setVisibility(View.GONE);
+            }
+            if (displayReactions) {
+                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
+                holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+                holder.binding.statusEmoji.setVisibility(View.GONE);
+            }
+
+
         }
 
         holder.binding.actionButtonFavorite.pressOnTouch(false);

@@ -28,6 +28,27 @@
             app:title="@string/set_display_translate_indication" />
     </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
 
+
+    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:iconSpaceReserved="false"
+        app:key="bottom_icon"
+        app:summary="@string/icons_extra_features_visibility_summary"
+        app:title="@string/icons_extra_features">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_QUOTES"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_quote_indication" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_REACTIONS"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_reaction_indication" />
+    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+
     <ListPreference
         app:defaultValue="text/plain"
         app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
