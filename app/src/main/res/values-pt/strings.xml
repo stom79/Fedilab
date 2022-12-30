@@ -257,7 +257,7 @@
     <string name="delete">Remover</string>
     <!-- About lists -->
     <string name="action_lists">Listas</string>
-    <string name="action_lists_confirm_delete">Tem certeza de que deseja excluir permanentemente esta lista?</string>
+    <string name="action_lists_confirm_delete">Você tem certeza que deseja excluir permanentemente esta lista\?</string>
     <string name="action_lists_add_to">Adicionar à lista</string>
     <string name="action_lists_delete">Excluir lista</string>
     <string name="action_lists_title_placeholder">Nome da nova lista</string>
@@ -314,9 +314,9 @@
     <string name="channel_notif_media">Baixar mídia</string>
     <string name="select_sound">Selecionar toque</string>
     <string name="set_enable_time_slot">Ativar definição de momento</string>
-    <string name="block_domain_confirm_message">Tem certeza que deseja bloquear %s\?
+    <string name="block_domain_confirm_message">Você tem certeza que deseja bloquear %s\?
 \n
-\nVocê não verá nenhum conteúdo dessa instância em nenhuma linha do tempo pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
+\nVocê não verá nenhum conteúdo dessa instância em nenhuma timeline pública ou em suas notificações. Seus seguidores dessa instância serão removidos.</string>
     <string name="block_domain">Bloquear instância</string>
     <string name="toast_block_domain">Instância bloqueada</string>
     <string name="retrieve_remote_status">Obtendo status remoto</string>
@@ -704,4 +704,16 @@
     <string name="set_unlisted_replies_indication">Diz respeito apenas a respostas \"públicas\". Quando ativado, suas respostas terão automaticamente a visibilidade \"não listada\" em vez de \"pública\"</string>
     <string name="delete_cache_message">Você tem certeza que deseja excluir o cache\? Se você tiver rascunhos com mídia, a mídia anexada será perdida.</string>
     <string name="import_settings">Importar configurações</string>
+    <string name="about_mastodon">\"O Mastodon não é um site único como o Twitter ou o Facebook, é uma rede de milhares de comunidades operadas por diferentes organizações e indivíduos que fornecem uma experiência de mídia social perfeita.\"</string>
+    <string name="unpin_timeline">Remover timeline fixada\?</string>
+    <string name="unblock_domain_confirm">Você tem certeza que deseja desbloquear %1$s\?</string>
+    <string name="clear_all_notif">Limpar todas as notificações</string>
+    <string name="invite_join_the_fediverse">OIá! Convidamos você a se juntar ao Fediverso.</string>
+    <string name="dont_have_an_account">Não possui uma conta\?</string>
+    <string name="display_all_categories">Exibir todas as categorias</string>
+    <string name="delete_notification_all_warning">Você tem certeza que deseja excluir todas as notificações\? Essa ação não pode ser desfeita.</string>
+    <string name="mark_all_as_read">Marcar todas as notificações como lidas</string>
+    <string name="join_the_fediverse">Junte-se ao Fediverso</string>
+    <string name="unpin_timeline_description">Você tem certeza que deseja desafixar essa timeline\?</string>
+    <string name="action_pinned_delete">Excluir as timelines fixadas\?</string>
 </resources>
