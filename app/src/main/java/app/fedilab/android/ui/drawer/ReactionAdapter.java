@@ -32,6 +32,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Reaction;
 import app.fedilab.android.databinding.DrawerReactionBinding;
 import app.fedilab.android.helper.Helper;
+import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.AnnouncementsVM;
 import app.fedilab.android.viewmodel.pleroma.ActionsVM;
 
@@ -74,6 +75,7 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
         holder.binding.reactionCount.setText(String.valueOf(reaction.count));
         if (reaction.me) {
             holder.binding.reactionContainer.setBackgroundResource(R.drawable.reaction_voted);
+            holder.binding.reactionCount.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
         } else {
             holder.binding.reactionContainer.setBackgroundResource(R.drawable.reaction_border);
         }

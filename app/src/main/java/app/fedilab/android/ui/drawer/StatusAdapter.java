@@ -440,10 +440,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
         if (statusToDeal.quote != null) {
-            holder.binding.quotedMessage.cardviewContainer.setCardElevation(5);
+            holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
             holder.binding.quotedMessage.dividerCard.setVisibility(View.GONE);
-            holder.binding.quotedMessage.cardviewContainer.setStrokeWidth(1);
-            holder.binding.quotedMessage.cardviewContainer.setOnClickListener(v -> {
+            holder.binding.quotedMessage.cardviewContainer.setStrokeWidth((int) Helper.convertDpToPixel(1, context));
+            holder.binding.quotedMessage.cardviewContainer.setOnClickListener(v -> holder.binding.quotedMessage.statusContent.callOnClick());
+            holder.binding.quotedMessage.statusContent.setOnTouchListener((view, motionEvent) -> {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP && !view.hasFocus()) {
+                    try {
+                        view.requestFocus();
+                    } catch (Exception ignored) {
+                    }
+                }
+                return false;
+            });
+            holder.binding.quotedMessage.statusContent.setOnClickListener(v -> {
+                if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
+                    if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
+                        v.setTag(null);
+                    }
+                    return;
+                }
                 Intent intent = new Intent(context, ContextActivity.class);
                 intent.putExtra(Helper.ARG_STATUS, statusToDeal.quote);
                 context.startActivity(intent);
@@ -651,7 +667,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null) {
             if (statusToDeal.card.width > statusToDeal.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
@@ -1217,7 +1233,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
                 holder.binding.statusContent.setVisibility(View.VISIBLE);
-                if (statusToDeal.card != null && (display_card || statusToDeal.isFocused)) {
+                if (statusToDeal.card != null && statusToDeal.quote_id == null && (display_card || statusToDeal.isFocused)) {
                     holder.binding.card.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.card.setVisibility(View.GONE);
