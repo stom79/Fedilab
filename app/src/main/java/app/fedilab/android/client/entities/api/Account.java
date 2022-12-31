@@ -115,7 +115,7 @@ public class Account implements Serializable {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, false, false, viewWeakReference);
+        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference);
     }
 
     public synchronized Spannable getSpanDisplayName(Activity activity, WeakReference<View> viewWeakReference) {
@@ -126,11 +126,11 @@ public class Account implements Serializable {
     }
 
     public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, false, false, viewWeakReference);
+        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference);
     }
 
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, null, true, true, viewWeakReference);
+        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference);
     }
 
     public static class AccountParams implements Serializable {
