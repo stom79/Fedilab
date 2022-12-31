@@ -141,6 +141,10 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
                 holder.binding.text.setText(R.string.v_direct);
                 break;
+            case BUBBLE:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
+                holder.binding.text.setText(R.string.bubble);
+                break;
         }
 
 

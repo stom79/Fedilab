@@ -16,7 +16,6 @@ package app.fedilab.android.ui.fragment.timeline;
 
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
-import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
 import android.content.BroadcastReceiver;
@@ -342,6 +341,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
+
         //When visiting a profile without being authenticated
         if (checkRemotely) {
             String[] acctArray = accountTimeline.acct.split("@");
@@ -619,7 +619,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             });
             //For first tab we fetch new messages, if we keep position
-            if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 && rememberPosition) {
+            if (slug != null /*&& slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0*/ && rememberPosition) {
                 route(DIRECTION.FETCH_NEW, true);
             }
         }
@@ -711,6 +711,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             case PUBLIC:
                 timelineParams.local = false;
                 timelineParams.remote = true;
+                break;
+            case BUBBLE:
+                timelineParams.onlyMedia = false;
+                timelineParams.remote = false;
                 break;
             case LIST:
                 timelineParams.listId = list_id;
@@ -897,6 +901,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
             routeCommon(direction, fetchingMissing, statusToUpdate);
         } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
+            routeCommon(direction, fetchingMissing, statusToUpdate);
+        } else if (timelineType == Timeline.TimeLineEnum.BUBBLE) { //BUBBLE TIMELINE
             routeCommon(direction, fetchingMissing, statusToUpdate);
         } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
             //NITTER TIMELINES

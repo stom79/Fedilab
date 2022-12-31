@@ -22,7 +22,6 @@ import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -57,6 +56,7 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.app.BottomMenu;
 import app.fedilab.android.client.entities.app.Pinned;
@@ -94,59 +94,6 @@ public class PinnedTimelineHelper {
     }
 
 
-    /**
-     * Returns the slug of the first loaded fragment
-     *
-     * @param context    - Context
-     * @param pinned     - {@link Pinned}
-     * @param bottomMenu - {@link BottomMenu}
-     * @return String - slug
-     */
-    public static String firstTimelineSlug(Context context, Pinned pinned, BottomMenu bottomMenu) {
-        String slug = Timeline.TimeLineEnum.HOME.getValue();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean singleBar = sharedpreferences.getBoolean(context.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-        PinnedTimeline pinnedTimelineMin = null;
-        if (singleBar) {
-            if (pinned != null && pinned.pinnedTimelines != null) {
-                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                    if (pinnedTimeline.displayed) {
-                        if (pinnedTimelineMin == null) {
-                            pinnedTimelineMin = pinnedTimeline;
-                        } else if (pinnedTimelineMin.position > pinnedTimeline.position) {
-                            pinnedTimelineMin = pinnedTimeline;
-                        }
-                    }
-                }
-            }
-        } else {
-            if (bottomMenu != null && bottomMenu.bottom_menu != null && bottomMenu.bottom_menu.size() > 0) {
-                BottomMenu.MenuItem menuItem = bottomMenu.bottom_menu.get(0);
-                return menuItem.item_menu_type.getValue();
-            }
-
-        }
-        String ident = null;
-        if (pinnedTimelineMin != null) {
-            if (pinnedTimelineMin.tagTimeline != null) {
-                ident = "@T@" + pinnedTimelineMin.tagTimeline.name;
-                if (pinnedTimelineMin.tagTimeline.isART) {
-                    pinnedTimelineMin.type = Timeline.TimeLineEnum.ART;
-                }
-            } else if (pinnedTimelineMin.mastodonList != null) {
-                ident = "@l@" + pinnedTimelineMin.mastodonList.id;
-            } else if (pinnedTimelineMin.remoteInstance != null) {
-                if (pinnedTimelineMin.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
-                    String remoteInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    ident = "@R@" + remoteInstance;
-                } else {
-                    ident = "@R@" + pinnedTimelineMin.remoteInstance.host;
-                }
-            }
-            slug = pinnedTimelineMin.type.getValue() + (ident != null ? "|" + ident : "");
-        }
-        return slug;
-    }
 
     public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, BottomMenu bottomMenu, List<MastodonList> mastodonLists) {
         //Values must be initialized if there is no records in db
@@ -159,8 +106,8 @@ public class PinnedTimelineHelper {
             pinned.pinnedTimelines = new ArrayList<>();
         }
         //Set the slug of first visible fragment
-        String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
-        Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);
+        /*String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
+        Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);*/
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -187,6 +134,7 @@ public class PinnedTimelineHelper {
 
         activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
+        boolean extraFeatures = sharedpreferences.getBoolean(activity.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
 
         if (singleBar) {
             boolean createDefaultAtTop = true;
@@ -222,15 +170,40 @@ public class PinnedTimelineHelper {
                 pinnedTimelineConversations.type = Timeline.TimeLineEnum.DIRECT;
                 pinnedTimelineConversations.position = 4;
                 pinned.pinnedTimelines.add(pinnedTimelineConversations);
-
                 try {
                     new Pinned(activity).updatePinned(pinned);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
             }
-
         }
+        if (extraFeatures) {
+            try {
+                Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                boolean createDefaultBubbleAtTop = true;
+                for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                    if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {
+                        createDefaultBubbleAtTop = false;
+                        break;
+                    }
+                }
+                if (createDefaultBubbleAtTop) {
+                    PinnedTimeline pinnedTimelineBubble = new PinnedTimeline();
+                    pinnedTimelineBubble.type = Timeline.TimeLineEnum.BUBBLE;
+                    pinnedTimelineBubble.position = pinnedAll.pinnedTimelines != null ? pinnedAll.pinnedTimelines.size() : 0;
+                    pinned.pinnedTimelines.add(pinnedTimelineBubble);
+                    boolean exist = new Pinned(activity).pinnedExist(pinned);
+                    if (exist) {
+                        new Pinned(activity).updatePinned(pinned);
+                    } else {
+                        new Pinned(activity).insertPinned(pinned);
+                    }
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+
         sortPositionAsc(pinnedTimelines);
         //Check if changes occurred, if mastodonLists is null it does need, because it is the first call to draw pinned
         boolean needRedraw = mastodonLists == null;
@@ -420,6 +393,9 @@ public class PinnedTimelineHelper {
                             break;
                         case DIRECT:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                            break;
+                        case BUBBLE:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
                             break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
