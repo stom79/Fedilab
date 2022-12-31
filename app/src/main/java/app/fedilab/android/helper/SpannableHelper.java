@@ -124,7 +124,7 @@ public class SpannableHelper {
             linkColor = -1;
         }
         List<Mention> mentions = new ArrayList<>();
-        if (status != null) {
+        if (status != null && status.mentions != null) {
             mentions.addAll(status.mentions);
         }
         text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!([<])).)*))", "$2<blockquote>$3</blockquote>");
@@ -437,7 +437,7 @@ public class SpannableHelper {
 
                 textView.setTag(CLICKABLE_SPAN);
                 Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                Matcher matcherLink = link.matcher(content);
+                Matcher matcherLink = link.matcher(finalUrl);
                 if (matcherLink.find() && !finalUrl.contains("medium.com")) {
                     if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
                         CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
