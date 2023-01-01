@@ -1,0 +1,8 @@
+Added:
+- Add Bubble timeline support in extra-features
+
+Changed:
+
+
+Fixed:
+- Spoiler text when editing
