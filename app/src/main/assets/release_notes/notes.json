@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.4",
+    "code": "458",
+    "note": "Added:\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n\nFixed:\n- Spoiler text when editing\n- Fix watermarks"
+  },
+  {
     "version": "3.13.3",
     "code": "457",
     "note": "Added:\n- Allow to enable extra features in Settings\n- Customizable settings for extra features\n- Support quotes, reactions with messages\n- Support text format (html, markdown, etc.) when composing\n\nFixed:\n- CW not working with media\n- Media not displayed for older instances\n- Some crashes\n"

@@ -1445,6 +1445,8 @@
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
+
+    <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
     <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
 
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
@@ -2182,4 +2184,6 @@
     <string name="v_list">List</string>
     <string name="following">Following</string>
     <string name="self">Self</string>
+    <string name="set_remote_profile_title">Remote profiles</string>
+    <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
 </resources>

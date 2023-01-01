@@ -28,6 +28,14 @@
         app:summary="@string/set_remove_left_margin"
         app:title="@string/set_remove_left_margin_title" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PROFILE_REMOTELY"
+        app:singleLineTitle="false"
+        app:summary="@string/set_remote_profile"
+        app:title="@string/set_remote_profile_title" />
+
 
     <SwitchPreferenceCompat
         app:defaultValue="true"

@@ -1173,19 +1173,17 @@ public class Helper {
         File files = new File(attachment.local_path);
         float textSize = 15;
         Paint paint = new Paint();
-        float textWidht = paint.measureText(waterMark);
-        float width = Helper.convertDpToPixel(textWidht, context);
+        float width = paint.measureText(waterMark, 0, waterMark.length());
         try {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             Bitmap backgroundBitmap = BitmapFactory.decodeFile(files.getAbsolutePath(), options);
-
-            int w = options.outWidth;
-            int h = options.outHeight;
-            float valx = (float) 1.0 - width / (float) w;
+            int w = backgroundBitmap.getWidth();
+            int h = backgroundBitmap.getHeight();
+            float valx = (float) 1.0 - ((Helper.convertDpToPixel(width, context) + 10)) / (float) w;
             if (valx < 0)
                 valx = 0;
-            float valy = (h - Helper.convertDpToPixel(textSize, context) - 10) / (float) h;
+            float valy = (h - Helper.convertDpToPixel(textSize, context) - 0) / (float) h;
             WatermarkText watermarkText = new WatermarkText(waterMark)
                     .setPositionX(valx)
                     .setPositionY(valy)
