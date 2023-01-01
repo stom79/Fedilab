@@ -952,4 +952,10 @@
     <string name="set_display_reaction_indication">\"Tepkiler\" düğmelerini göster</string>
     <string name="icons_visibility_summary">Daha fazla alana sahip olmak için bu simgeleri alt kısımda güvenle gizleyebilirsiniz. Ayrıca alt menüde de bulunurlar.</string>
     <string name="icons_visibility">Simge görünürlüğü</string>
+    <string name="exclude_visibility">Hariç tutma görünürlüğü</string>
+    <string name="v_list">Listele</string>
+    <string name="following">Takip edilenler</string>
+    <string name="bubble">Baloncuk</string>
+    <string name="reply_visibility">Yanıt görünürlüğü</string>
+    <string name="self">Kendi</string>
 </resources>
