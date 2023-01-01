@@ -69,22 +69,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.conversationList = conversations;
     }
 
-    public int getCount() {
-        return conversationList.size();
-    }
-
-    public Conversation getItem(int position) {
-        return conversationList.get(position);
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        DrawerConversationBinding itemBinding = DrawerConversationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ConversationHolder(itemBinding);
-    }
-
     public static void applyColorConversation(Context context, ConversationHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -121,6 +105,22 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.binding.spoiler.setTextColor(theme_text_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
         }
+    }
+
+    public int getCount() {
+        return conversationList.size();
+    }
+
+    public Conversation getItem(int position) {
+        return conversationList.get(position);
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        DrawerConversationBinding itemBinding = DrawerConversationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ConversationHolder(itemBinding);
     }
 
     @SuppressLint("ClickableViewAccessibility")

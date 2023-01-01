@@ -509,7 +509,7 @@ public class StatusCache {
         try {
             db.delete(Sqlite.TABLE_STATUS_CACHE,
                     Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =? AND " + Sqlite.COL_STATUS + " LIKE ?",
-                    new String[]{userid, instance, "%\"id\":\"" + targetedUser + "\"%" });
+                    new String[]{userid, instance, "%\"id\":\"" + targetedUser + "\"%"});
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -56,8 +56,8 @@ import es.dmoral.toasty.Toasty;
 public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Account> accountList;
-    private Context context;
     private final boolean home_mute;
+    private Context context;
 
     public AccountAdapter(List<Account> accountList, boolean home_mute) {
         this.accountList = accountList;

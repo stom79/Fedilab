@@ -409,15 +409,6 @@ public class MediaHelper {
         return maxHeight;
     }
 
-    //Listener for recording media
-    public interface ActionRecord {
-        void onRecorded(String file);
-    }
-
-    public interface OnSchedule {
-        void scheduledAt(String scheduledDate);
-    }
-
     public static void ResizedImageRequestBody(Context context, Uri uri, File targetedFile) {
         InputStream decodeBitmapInputStream = null;
         try {
@@ -529,7 +520,6 @@ public class MediaHelper {
         }
     }
 
-
     private static long getMaxSize(long maxSize) {
         if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
             maxSize = MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
@@ -582,6 +572,16 @@ public class MediaHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    //Listener for recording media
+    public interface ActionRecord {
+        void onRecorded(String file);
+    }
+
+    public interface OnSchedule {
+        void scheduledAt(String scheduledDate);
     }
 
 }

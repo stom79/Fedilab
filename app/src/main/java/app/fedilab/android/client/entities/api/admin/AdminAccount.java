@@ -25,16 +25,6 @@ import app.fedilab.android.client.entities.api.Account;
 
 public class AdminAccount implements Serializable {
 
-    @SerializedName("id")
-    public String id;
-    @SerializedName("username")
-    public String username;
-    @SerializedName("domain")
-    public String domain;
-    @SerializedName("created_at")
-    public Date created_at;
-    @SerializedName("email")
-    public String email;
     public static LinkedHashMap<Integer, String> permissions;
 
     static {
@@ -61,6 +51,16 @@ public class AdminAccount implements Serializable {
         permissions.put(80000, "Delete User Data");
     }
 
+    @SerializedName("id")
+    public String id;
+    @SerializedName("username")
+    public String username;
+    @SerializedName("domain")
+    public String domain;
+    @SerializedName("created_at")
+    public Date created_at;
+    @SerializedName("email")
+    public String email;
     @SerializedName("ip")
     public String ip;
     @SerializedName("role")

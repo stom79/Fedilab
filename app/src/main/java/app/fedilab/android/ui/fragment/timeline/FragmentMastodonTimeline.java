@@ -84,9 +84,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-    private boolean checkRemotely;
-    private String accountIDInRemoteInstance;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -162,6 +159,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
+    private boolean checkRemotely;
+    private String accountIDInRemoteInstance;
     private boolean isViewInitialized;
     private Statuses initialStatuses;
     private String list_id;
@@ -180,6 +179,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private int lockForResumeCall;
     private boolean isNotPinnedTimeline;
     private int extraCalls;
+
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;

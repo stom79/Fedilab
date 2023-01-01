@@ -46,6 +46,8 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentMediaProfile extends Fragment {
 
+    String tempToken;
+    String tempInstance;
     private FragmentPaginationBinding binding;
     private AccountsVM accountsVM;
     private Account accountTimeline;
@@ -53,8 +55,6 @@ public class FragmentMediaProfile extends Fragment {
     private List<Status> mediaStatuses;
     private String max_id;
     private ImageAdapter imageAdapter;
-    String tempToken;
-    String tempInstance;
     private boolean checkRemotely;
     private String accountId;
 

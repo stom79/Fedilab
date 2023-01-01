@@ -165,6 +165,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters, FragmentNotificationContainer.UpdateCounters, FragmentMastodonConversation.UpdateCounters {
 
+    private static final int REQUEST_CODE = 5415;
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
     public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
     public static Account.API api;
@@ -297,7 +298,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     };
     private NetworkStateReceiver networkStateReceiver;
     private boolean headerMenuOpen;
-    private static final int REQUEST_CODE = 5415;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -786,7 +786,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         });
 
 
-
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
         LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
@@ -1042,7 +1041,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     String title = "";
                                                     String description = "";
 
-                                                    if(titleEl != null) {
+                                                    if (titleEl != null) {
                                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                                             title = Html.fromHtml(titleEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
                                                         } else {
@@ -1050,7 +1049,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                         }
                                                     }
 
-                                                    if(descriptionEl != null) {
+                                                    if (descriptionEl != null) {
                                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                                             description = Html.fromHtml(descriptionEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
                                                         } else {
@@ -1059,13 +1058,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     }
 
                                                     String imageUrl = "";
-                                                    if(imageUrlEl != null) {
+                                                    if (imageUrlEl != null) {
                                                         imageUrl = imageUrlEl.attr("content");
                                                     }
 
                                                     StringBuilder titleBuilder = new StringBuilder();
 
-                                                    if(!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
+                                                    if (!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
                                                         // If the shared text is not just the URL, add it to the top
                                                         String toAppend = sharedText.replaceAll("\\s*" + Pattern.quote(originalUrl) + "\\s*", "");
                                                         titleBuilder.append(toAppend);
@@ -1073,7 +1072,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
                                                     if (title.length() > 0) {
                                                         // OG title fetched from source
-                                                        if(titleBuilder.length() > 0) titleBuilder.append("\n\n");
+                                                        if (titleBuilder.length() > 0)
+                                                            titleBuilder.append("\n\n");
                                                         titleBuilder.append(title);
                                                     }
 

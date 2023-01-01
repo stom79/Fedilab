@@ -88,15 +88,12 @@ import es.dmoral.toasty.Toasty;
 public class SpannableHelper {
 
     public static final String CLICKABLE_SPAN = "CLICKABLE_SPAN";
+    private static int linkColor;
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement, WeakReference<View> viewWeakReference) {
         return convert(context, text, status, account, announcement, viewWeakReference, null);
     }
-
-
-    private static int linkColor;
-
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
@@ -611,7 +608,6 @@ public class SpannableHelper {
                     flags);
         }
     }
-
 
 
     /**

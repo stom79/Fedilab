@@ -50,12 +50,11 @@ import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 public class FragmentMastodonContext extends Fragment {
 
 
+    public FirstMessage firstMessage;
     private FragmentPaginationBinding binding;
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
-    public FirstMessage firstMessage;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override

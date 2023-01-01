@@ -70,7 +70,6 @@ public class ThemeHelper {
     }
 
 
-
     /**
      * Animate two views, the current view will be hidden to left
      *
@@ -228,7 +227,6 @@ public class ThemeHelper {
         };
         return new ColorStateList(states, colors);
     }
-
 
 
     /**

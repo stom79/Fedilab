@@ -117,8 +117,6 @@ public class ProfileActivity extends BaseActivity {
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
     private boolean checkRemotely;
-    private boolean homeMuted;
-
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -133,6 +131,7 @@ public class ProfileActivity extends BaseActivity {
             }
         }
     };
+    private boolean homeMuted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

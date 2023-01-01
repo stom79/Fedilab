@@ -153,10 +153,6 @@ public class Status implements Serializable, Cloneable {
         return contentTranslateSpan;
     }
 
-    public interface Callback {
-        void emojiFetched();
-    }
-
     @NonNull
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -165,6 +161,10 @@ public class Status implements Serializable, Cloneable {
     public enum PositionFetchMore {
         TOP,
         BOTTOM
+    }
+
+    public interface Callback {
+        void emojiFetched();
     }
 
 }

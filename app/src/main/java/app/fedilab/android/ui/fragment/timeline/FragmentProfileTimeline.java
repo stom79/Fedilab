@@ -36,6 +36,7 @@ public class FragmentProfileTimeline extends Fragment {
     private Account account;
     private FragmentProfileTimelinesBinding binding;
     private boolean checkRemotely;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 

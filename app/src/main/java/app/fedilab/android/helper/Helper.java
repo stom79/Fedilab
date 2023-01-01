@@ -1965,6 +1965,20 @@ public class Helper {
         return R.style.AppTheme;
     }
 
+    public static void addMutedAccount(app.fedilab.android.client.entities.api.Account target) {
+        if (MainActivity.filteredAccounts == null) {
+            MainActivity.filteredAccounts = new ArrayList<>();
+        }
+        if (!MainActivity.filteredAccounts.contains(target)) {
+            MainActivity.filteredAccounts.add(target);
+        }
+    }
+
+    public static void removeMutedAccount(app.fedilab.android.client.entities.api.Account target) {
+        if (MainActivity.filteredAccounts != null) {
+            MainActivity.filteredAccounts.remove(target);
+        }
+    }
 
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
@@ -1995,20 +2009,5 @@ public class Helper {
 
     public interface OnFileCopied {
         void onFileCopied(File file);
-    }
-
-    public static void addMutedAccount(app.fedilab.android.client.entities.api.Account target) {
-        if (MainActivity.filteredAccounts == null) {
-            MainActivity.filteredAccounts = new ArrayList<>();
-        }
-        if (!MainActivity.filteredAccounts.contains(target)) {
-            MainActivity.filteredAccounts.add(target);
-        }
-    }
-
-    public static void removeMutedAccount(app.fedilab.android.client.entities.api.Account target) {
-        if (MainActivity.filteredAccounts != null) {
-            MainActivity.filteredAccounts.remove(target);
-        }
     }
 }

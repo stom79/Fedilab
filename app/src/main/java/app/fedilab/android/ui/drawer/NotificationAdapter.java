@@ -78,6 +78,50 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.notificationList = notificationList;
     }
 
+    public static void applyColorAccount(Context context, ViewHolderFollow holder) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        int theme_icons_color = -1;
+        int theme_statuses_color = -1;
+        int theme_text_color = -1;
+        int theme_text_header_1_line = -1;
+        int theme_text_header_2_line = -1;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
+            if (customLight) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_USERNAME), -1);
+            }
+        } else {
+            if (customDark) {
+                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
+                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BACKGROUND), -1);
+                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_TEXT), -1);
+                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_DISPLAY_NAME), -1);
+                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_USERNAME), -1);
+            }
+        }
+        if (theme_text_color != -1) {
+            holder.binding.title.setTextColor(theme_text_color);
+        }
+        if (theme_icons_color != -1) {
+            Helper.changeDrawableColor(context, holder.binding.icon, theme_icons_color);
+        }
+        if (theme_statuses_color != -1) {
+            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
+        }
+        if (theme_text_header_1_line != -1) {
+            holder.binding.displayName.setTextColor(theme_text_header_1_line);
+        }
+        if (theme_text_header_2_line != -1) {
+            holder.binding.username.setTextColor(theme_text_header_2_line);
+        }
+    }
+
     public int getCount() {
         return notificationList.size();
     }
@@ -142,50 +186,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusAdapter.StatusViewHolder(itemBinding);
-        }
-    }
-
-    public static void applyColorAccount(Context context, ViewHolderFollow holder) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
-        boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
-        int theme_icons_color = -1;
-        int theme_statuses_color = -1;
-        int theme_text_color = -1;
-        int theme_text_header_1_line = -1;
-        int theme_text_header_2_line = -1;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) { //LIGHT THEME
-            if (customLight) {
-                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_ICON), -1);
-                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_BACKGROUND), -1);
-                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_TEXT), -1);
-                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_DISPLAY_NAME), -1);
-                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_USERNAME), -1);
-            }
-        } else {
-            if (customDark) {
-                theme_icons_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_ICON), -1);
-                theme_statuses_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_BACKGROUND), -1);
-                theme_text_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_TEXT), -1);
-                theme_text_header_1_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_DISPLAY_NAME), -1);
-                theme_text_header_2_line = sharedpreferences.getInt(context.getString(R.string.SET_DARK_USERNAME), -1);
-            }
-        }
-        if (theme_text_color != -1) {
-            holder.binding.title.setTextColor(theme_text_color);
-        }
-        if (theme_icons_color != -1) {
-            Helper.changeDrawableColor(context, holder.binding.icon, theme_icons_color);
-        }
-        if (theme_statuses_color != -1) {
-            holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
-        }
-        if (theme_text_header_1_line != -1) {
-            holder.binding.displayName.setTextColor(theme_text_header_1_line);
-        }
-        if (theme_text_header_2_line != -1) {
-            holder.binding.username.setTextColor(theme_text_header_2_line);
         }
     }
 

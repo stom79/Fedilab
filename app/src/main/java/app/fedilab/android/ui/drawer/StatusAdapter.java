@@ -2215,28 +2215,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-
-        mRecyclerView = recyclerView;
-    }
-
-   /* private static boolean mediaObfuscated(Status status) {
-        //Media is not sensitive and  doesn't have a spoiler text
-        if (!status.isMediaObfuscated) {
-            return false;
-        }
-        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
-            return false;
-        }
-        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
-            return true;
-        } else {
-            return status.sensitive;
-        }
-    }*/
-
     /**
      * Send a broadcast to other open fragments that content a timeline
      *
@@ -2261,68 +2239,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
     }
 
-
-    @Override
-    public int getItemViewType(int position) {
-        if (timelineType == Timeline.TimeLineEnum.ART) {
-            return STATUS_ART;
+   /* private static boolean mediaObfuscated(Status status) {
+        //Media is not sensitive and  doesn't have a spoiler text
+        if (!status.isMediaObfuscated) {
+            return false;
+        }
+        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
+            return false;
+        }
+        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
+            return true;
         } else {
-            if (statusList.get(position).filteredByApp != null) {
-                if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
-                    return STATUS_FILTERED;
-                } else { //These messages should not be displayed unless they contain a fetch more button
-                    if (!statusList.get(position).isFetchMore) {
-                        return STATUS_HIDDEN;
-                    } else {
-                        return STATUS_FILTERED_HIDE;
-                    }
-                }
-            } else {
-                return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
-            }
-
+            return status.sensitive;
         }
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
-            DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_ART) { //Art statuses
-            DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_FILTERED) { //Filtered warn
-            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_FILTERED_HIDE) { //Filtered hide
-            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else { //Classic statuses
-            if (!minified) {
-                DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new StatusViewHolder(itemBinding);
-            } else {
-                DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new StatusViewHolder(itemBinding);
-            }
-        }
-    }
-
-    public int getCount() {
-        return statusList.size();
-    }
-
-    public Status getItem(int position) {
-        return statusList.get(position);
-    }
-
-
-    public long getItemId(int position) {
-        return position;
-    }
+    }*/
 
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2408,6 +2338,74 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (link_color != -1) {
             holder.binding.cardUrl.setTextColor(link_color);
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (timelineType == Timeline.TimeLineEnum.ART) {
+            return STATUS_ART;
+        } else {
+            if (statusList.get(position).filteredByApp != null) {
+                if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
+                    return STATUS_FILTERED;
+                } else { //These messages should not be displayed unless they contain a fetch more button
+                    if (!statusList.get(position).isFetchMore) {
+                        return STATUS_HIDDEN;
+                    } else {
+                        return STATUS_FILTERED_HIDE;
+                    }
+                }
+            } else {
+                return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+            }
+
+        }
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
+            DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_ART) { //Art statuses
+            DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED) { //Filtered warn
+            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED_HIDE) { //Filtered hide
+            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else { //Classic statuses
+            if (!minified) {
+                DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            } else {
+                DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            }
+        }
+    }
+
+    public int getCount() {
+        return statusList.size();
+    }
+
+    public Status getItem(int position) {
+        return statusList.get(position);
+    }
+
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -2604,6 +2602,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusArtBinding bindingArt;
         DrawerStatusFilteredBinding bindingFiltered;
         DrawerStatusFilteredHideBinding bindingFilteredHide;
+
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;

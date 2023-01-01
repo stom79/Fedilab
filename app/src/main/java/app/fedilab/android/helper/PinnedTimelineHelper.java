@@ -98,7 +98,6 @@ public class PinnedTimelineHelper {
     }
 
 
-
     public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, BottomMenu bottomMenu, List<MastodonList> mastodonLists) {
         //Values must be initialized if there is no records in db
         if (pinned == null) {

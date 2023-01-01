@@ -87,28 +87,6 @@ public class Account implements Serializable {
     public Account moved;
     @SerializedName("role")
     public Role role;
-
-
-    public static class Role implements Serializable {
-        @SerializedName("id")
-        public String id;
-        @SerializedName("name")
-        public String name;
-        @SerializedName("color")
-        public String color;
-        @SerializedName("position")
-        public int position;
-        @SerializedName("permissions")
-        public int permissions;
-        @SerializedName("highlighted")
-        public boolean highlighted;
-        @SerializedName("created_at")
-        public Date created_at;
-        @SerializedName("updated_at")
-        public Date updated_at;
-    }
-
-
     public transient RelationShip relationShip;
 
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
@@ -133,6 +111,34 @@ public class Account implements Serializable {
         return SpannableHelper.convert(context, note, null, this, null, viewWeakReference);
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Account) {
+            same = this.id.equals(((Account) obj).id);
+        }
+        return same;
+    }
+
+    public static class Role implements Serializable {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("name")
+        public String name;
+        @SerializedName("color")
+        public String color;
+        @SerializedName("position")
+        public int position;
+        @SerializedName("permissions")
+        public int permissions;
+        @SerializedName("highlighted")
+        public boolean highlighted;
+        @SerializedName("created_at")
+        public Date created_at;
+        @SerializedName("updated_at")
+        public Date updated_at;
+    }
+
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")
         public boolean discoverable;
@@ -149,15 +155,5 @@ public class Account implements Serializable {
         @SerializedName("fields_attributes")
         public LinkedHashMap<Integer, Field.FieldParams> fields;
 
-    }
-
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        boolean same = false;
-        if (obj instanceof Account) {
-            same = this.id.equals(((Account) obj).id);
-        }
-        return same;
     }
 }

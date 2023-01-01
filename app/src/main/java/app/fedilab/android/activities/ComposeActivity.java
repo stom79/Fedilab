@@ -107,11 +107,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention, statusQuoted;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
-    private boolean promptSaveDraft;
-    private boolean restoredDraft;
-    private List<Attachment> sharedAttachments;
-
-
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -138,7 +133,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
     };
-
+    private boolean promptSaveDraft;
+    private boolean restoredDraft;
+    private List<Attachment> sharedAttachments;
     private ActivityPaginationBinding binding;
     private BaseAccount account;
     private String instance, token;

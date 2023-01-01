@@ -32,7 +32,6 @@ import es.dmoral.toasty.Toasty;
 public class FragmentThemingSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
-
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         createPref();

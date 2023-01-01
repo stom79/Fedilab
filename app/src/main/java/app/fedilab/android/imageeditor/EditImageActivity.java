@@ -71,6 +71,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private final ConstraintSet mConstraintSet = new ConstraintSet();
     PhotoEditor mPhotoEditor;
     String path;
+    CropImageContractOptions cropImageContractOptions;
+    ActivityResultLauncher<CropImageContractOptions> cropImageContractOptionsActivityResultLauncher;
     private PropertiesBSFragment mPropertiesBSFragment;
     private ShapeBSFragment mShapeBSFragment;
     private ShapeBuilder mShapeBuilder;
@@ -79,8 +81,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private Uri uri;
     private boolean exit;
     private ActivityEditImageBinding binding;
-    CropImageContractOptions cropImageContractOptions;
-    ActivityResultLauncher<CropImageContractOptions> cropImageContractOptionsActivityResultLauncher;
 
     private static int exifToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {

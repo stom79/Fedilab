@@ -150,6 +150,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             "..--..", ".-.-.-", ".----.", "-.-.--", "-..-.", "-.--.", "-.--.-", ".-...", "---...", "-.-.-.", "-...-", ".-.-.", "-....-", "..--.-",
             ".-..-.", "...-..-", ".--.-.", "..-.-", "--...-"
     };
+    public static int currentCursorPosition;
+    private final List<Status> statusList;
+    private final int TYPE_NORMAL = 0;
+    private final BaseAccount account;
+    private final String visibility;
+    private final app.fedilab.android.client.entities.api.Account mentionedAccount;
+    private final String editMessageId;
+    public ManageDrafts manageDrafts;
+    public promptDraftListener promptDraftListener;
+    private int statusCount;
+    private Context context;
+    private AlertDialog alertDialogEmoji;
+    private List<Emoji> emojisList = new ArrayList<>();
+    private boolean unlisted_changed = false;
+
+    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
+        this.statusList = statusList;
+        this.statusCount = statusCount;
+        this.account = account;
+        this.mentionedAccount = mentionedAccount;
+        this.visibility = visibility;
+        this.editMessageId = editMessageId;
+
+    }
 
     public static int countMorseChar(String content) {
         int count_char = 0;
@@ -180,81 +204,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return morseContent;
     }
 
-    private final List<Status> statusList;
-    private final int TYPE_NORMAL = 0;
-    private final BaseAccount account;
-    private final String visibility;
-    private final app.fedilab.android.client.entities.api.Account mentionedAccount;
-    private final String editMessageId;
-    public ManageDrafts manageDrafts;
-    private int statusCount;
-    private Context context;
-    private AlertDialog alertDialogEmoji;
-    private List<Emoji> emojisList = new ArrayList<>();
-    public promptDraftListener promptDraftListener;
-    private boolean unlisted_changed = false;
-    public static int currentCursorPosition;
-
-    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
-        this.statusList = statusList;
-        this.statusCount = statusCount;
-        this.account = account;
-        this.mentionedAccount = mentionedAccount;
-        this.visibility = visibility;
-        this.editMessageId = editMessageId;
-
-    }
-
-    /**
-     * Add an attachment from ComposeActivity
-     *
-     * @param position int - position of the drawer that added a media
-     * @param uris     List<Uri> - uris of the media
-     */
-    public void addAttachment(int position, List<Uri> uris) {
-        if (position == -1) {
-            position = statusList.size() - 1;
-        }
-        // position = statusCount-1+position;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
-        }
-        if (promptDraftListener != null) {
-            promptDraftListener.promptDraft();
-        }
-        int finalPosition = position;
-        Helper.createAttachmentFromUri(context, uris, attachments -> {
-            for (Attachment attachment : attachments) {
-                statusList.get(finalPosition).media_attachments.add(attachment);
-            }
-            notifyItemChanged(finalPosition);
-        });
-    }
-
-
-    /**
-     * Add an attachment from ComposeActivity
-     *
-     * @param position   int - position of the drawer that added a media
-     * @param attachment Attachment - media attachment
-     */
-    public void addAttachment(int position, Attachment attachment) {
-        if (position == -1) {
-            position = statusList.size() - 1;
-        }
-        // position = statusCount-1+position;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
-        }
-        if (promptDraftListener != null) {
-            promptDraftListener.promptDraft();
-        }
-        int finalPosition = position;
-        statusList.get(finalPosition).media_attachments.add(attachment);
-        notifyItemChanged(finalPosition);
-
-    }
-
     private static void updateCharacterCount(ComposeViewHolder composeViewHolder) {
         int charCount = MastodonHelper.countLength(composeViewHolder);
         composeViewHolder.binding.characterCount.setText(String.valueOf(charCount));
@@ -283,6 +232,55 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         statusDraftDB.instance = instance;
         statusDraftDB.user_id = user_id;
         return statusDraftDB;
+    }
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position int - position of the drawer that added a media
+     * @param uris     List<Uri> - uris of the media
+     */
+    public void addAttachment(int position, List<Uri> uris) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        Helper.createAttachmentFromUri(context, uris, attachments -> {
+            for (Attachment attachment : attachments) {
+                statusList.get(finalPosition).media_attachments.add(attachment);
+            }
+            notifyItemChanged(finalPosition);
+        });
+    }
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position   int - position of the drawer that added a media
+     * @param attachment Attachment - media attachment
+     */
+    public void addAttachment(int position, Attachment attachment) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        statusList.get(finalPosition).media_attachments.add(attachment);
+        notifyItemChanged(finalPosition);
+
     }
 
     //Create text when mentioning a toot
