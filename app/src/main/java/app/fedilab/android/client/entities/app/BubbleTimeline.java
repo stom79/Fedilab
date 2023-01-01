@@ -17,34 +17,19 @@ package app.fedilab.android.client.entities.app;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-import app.fedilab.android.client.entities.api.MastodonList;
-
-public class PinnedTimeline implements Serializable {
-
+public class BubbleTimeline implements Serializable {
     @SerializedName("id")
     public int id;
-    @SerializedName("userId")
-    public String userId;
-    @SerializedName("instance")
-    public String instance;
-    @SerializedName("position")
-    public int position;
-    @SerializedName("displayed")
-    public boolean displayed = true;
-    @SerializedName("type")
-    public Timeline.TimeLineEnum type;
-    @SerializedName("remoteInstance")
-    public RemoteInstance remoteInstance;
-    @SerializedName("tagTimeline")
-    public TagTimeline tagTimeline;
-    @SerializedName("bubbleTimeline")
-    public BubbleTimeline bubbleTimeline;
-    @SerializedName("mastodonList")
-    public MastodonList mastodonList;
-    @SerializedName("currentFilter")
-    public String currentFilter;
-
-
-    public transient boolean isSelected = false;
+    @SerializedName("only_media")
+    public boolean only_media = false;
+    @SerializedName("remote")
+    public boolean remote = false;
+    @SerializedName("with_muted")
+    public boolean with_muted;
+    @SerializedName("exclude_visibilities")
+    public List<String> exclude_visibilities = null;
+    @SerializedName("reply_visibility")
+    public String reply_visibility = null;
 }

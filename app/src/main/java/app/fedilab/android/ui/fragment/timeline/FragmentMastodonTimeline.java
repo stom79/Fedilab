@@ -51,6 +51,7 @@ import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.BubbleTimeline;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.StatusCache;
@@ -165,6 +166,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private Statuses initialStatuses;
     private String list_id;
     private TagTimeline tagTimeline;
+    private BubbleTimeline bubbleTimeline;
     private LinearLayoutManager mLayoutManager;
     private Account accountTimeline;
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
@@ -331,6 +333,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
             isNotPinnedTimeline = isViewInitialized;
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
+            bubbleTimeline = (BubbleTimeline) getArguments().getSerializable(Helper.ARG_BUBBLE_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
             checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
@@ -354,6 +357,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (tagTimeline.isART) {
                 timelineType = Timeline.TimeLineEnum.ART;
             }
+        } else if (bubbleTimeline != null) {
+            ident = "@B@Bubble";
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null && !checkRemotely) {
@@ -713,8 +718,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineParams.remote = true;
                 break;
             case BUBBLE:
-                timelineParams.onlyMedia = false;
-                timelineParams.remote = false;
+                timelineParams.onlyMedia = bubbleTimeline.only_media;
+                timelineParams.remote = bubbleTimeline.remote;
+                timelineParams.replyVisibility = bubbleTimeline.reply_visibility;
+                timelineParams.excludeVisibilities = bubbleTimeline.exclude_visibilities;
                 break;
             case LIST:
                 timelineParams.listId = list_id;

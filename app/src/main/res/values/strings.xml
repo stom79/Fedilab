@@ -1365,6 +1365,8 @@
     <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
+
+
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
@@ -2175,4 +2177,9 @@
     <string name="set_display_quote_indication">Display the \"Quote\" button</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
     <string name="bubble">Bubble</string>
+    <string name="exclude_visibility">Exclude visibility</string>
+    <string name="reply_visibility">Reply visibility</string>
+    <string name="v_list">List</string>
+    <string name="following">Following</string>
+    <string name="self">Self</string>
 </resources>

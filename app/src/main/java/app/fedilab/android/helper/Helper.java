@@ -257,6 +257,7 @@ public class Helper {
     public static final String ARG_SEARCH_KEYWORD_CACHE = "ARG_SEARCH_KEYWORD_CACHE";
     public static final String ARG_VIEW_MODEL_KEY = "ARG_VIEW_MODEL_KEY";
     public static final String ARG_TAG_TIMELINE = "ARG_TAG_TIMELINE";
+    public static final String ARG_BUBBLE_TIMELINE = "ARG_BUBBLE_TIMELINE";
     public static final String ARG_MEDIA_POSITION = "ARG_MEDIA_POSITION";
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
     public static final String ARG_MEDIA_ATTACHMENTS = "ARG_MEDIA_ATTACHMENTS";
