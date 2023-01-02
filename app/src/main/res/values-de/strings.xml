@@ -960,4 +960,6 @@
     <string name="reply_visibility">Sichtbarkeit von Antworten</string>
     <string name="exclude_visibility">Sichtbarkeit ausschließen</string>
     <string name="bubble">Blase</string>
+    <string name="set_remote_profile">Die Anwendung ruft öffentlich verfügbare Profile ab, um deren Beiträge darzustellen. Interaktionen mit föderierten Beiträgen benötigen einen zusätzlichen Arbeitsschritt.</string>
+    <string name="set_remote_profile_title">Profile auf anderen Instanzen</string>
 </resources>
