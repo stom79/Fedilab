@@ -954,4 +954,10 @@
     <string name="set_extand_extra_features_title">Zusätzliche Funktionen</string>
     <string name="set_extand_extra_features">Wenn diese Option aktiviert ist, zeigt die App zusätzliche Funktionen an. Diese Funktion ist für soziale Plattformen wie Pleroma, Akkoma oder Glitch Social</string>
     <string name="icons_extra_features_visibility_summary">Sofern Deine Instanz nicht alle zusätzlichen Funktionen unterstützt, kannst Du diese Symbole ausblenden</string>
+    <string name="v_list">Liste</string>
+    <string name="self">Eigene</string>
+    <string name="following">Gefolgte</string>
+    <string name="reply_visibility">Sichtbarkeit von Antworten</string>
+    <string name="exclude_visibility">Sichtbarkeit ausschließen</string>
+    <string name="bubble">Blase</string>
 </resources>
