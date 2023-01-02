@@ -770,6 +770,10 @@
         <item>text/x.misskeymarkdown</item>
     </string-array>
 
+    <string-array name="SET_LOCAL_ONLY">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
     <string-array name="set_local_only">
         <item>No</item>
@@ -1441,7 +1445,7 @@
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
-    <string name="SET_LOCAL_ONLY" translatable="false">SET_LOCAL_ONLY</string>
+    <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
@@ -1455,7 +1459,7 @@
 
     <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
     <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
-
+    <string name="SET_DISPLAY_LOCAL_ONLY" translatable="false">SET_DISPLAY_LOCAL_ONLY</string>
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
@@ -2194,4 +2198,5 @@
     <string name="set_remote_profile_title">Remote profiles</string>
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
     <string name="local_only">Local only</string>
+    <string name="set_display_local_only">Display \"Local only\" button</string>
 </resources>

@@ -47,6 +47,12 @@
             app:key="@string/SET_DISPLAY_REACTIONS"
             app:singleLineTitle="false"
             app:title="@string/set_display_reaction_indication" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_LOCAL_ONLY"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_local_only" />
     </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
 
     <ListPreference
@@ -59,6 +65,17 @@
         app:key="@string/SET_POST_FORMAT"
         app:summary="@string/change_logo_description"
         app:title="@string/set_post_format"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:defaultValue="0"
+        app:dependency="@string/SET_EXTAND_EXTRA_FEATURES"
+        app:dialogTitle="@string/local_only"
+        app:entries="@array/set_local_only"
+        app:entryValues="@array/SET_LOCAL_ONLY"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_COMPOSE_LOCAL_ONLY"
+        app:title="@string/local_only"
         app:useSimpleSummaryProvider="true" />
 
 </androidx.preference.PreferenceScreen>

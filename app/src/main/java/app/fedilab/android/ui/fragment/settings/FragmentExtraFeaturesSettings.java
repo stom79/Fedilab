@@ -76,6 +76,13 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
             String format = sharedpreferences.getString(getString(R.string.SET_POST_FORMAT) + MainActivity.currentUserID + MainActivity.currentInstance, "text/plain");
             SET_POST_FORMAT.setValue(format);
         }
+
+        ListPreference SET_COMPOSE_LOCAL_ONLY = findPreference(getString(R.string.SET_COMPOSE_LOCAL_ONLY));
+        if (SET_COMPOSE_LOCAL_ONLY != null) {
+            SET_COMPOSE_LOCAL_ONLY.getContext().setTheme(Helper.dialogStyle());
+            int localOnly = sharedpreferences.getInt(getString(R.string.SET_COMPOSE_LOCAL_ONLY) + MainActivity.currentUserID + MainActivity.currentInstance, 0);
+            SET_COMPOSE_LOCAL_ONLY.setValue(String.valueOf(localOnly));
+        }
     }
 
     @Override
@@ -117,6 +124,12 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
                 ListPreference SET_POST_FORMAT = findPreference(getString(R.string.SET_POST_FORMAT));
                 if (SET_POST_FORMAT != null) {
                     editor.putString(getString(R.string.SET_POST_FORMAT) + MainActivity.currentUserID + MainActivity.currentInstance, SET_POST_FORMAT.getValue());
+                }
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_COMPOSE_LOCAL_ONLY)) == 0) {
+                ListPreference SET_COMPOSE_LOCAL_ONLY = findPreference(getString(R.string.SET_COMPOSE_LOCAL_ONLY));
+                if (SET_COMPOSE_LOCAL_ONLY != null) {
+                    editor.putInt(getString(R.string.SET_COMPOSE_LOCAL_ONLY) + MainActivity.currentUserID + MainActivity.currentInstance, Integer.parseInt(SET_COMPOSE_LOCAL_ONLY.getValue()));
                 }
             }
             editor.apply();

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.5",
+    "code": "459",
+    "note": "Added:\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n\nFixed:\n- Crashes"
+  },
+  {
     "version": "3.13.4",
     "code": "458",
     "note": "Added:\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n\nFixed:\n- Spoiler text when editing\n- Fix watermarks"
