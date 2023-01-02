@@ -958,4 +958,6 @@
     <string name="bubble">Baloncuk</string>
     <string name="reply_visibility">Yanıt görünürlüğü</string>
     <string name="self">Kendi</string>
+    <string name="set_remote_profile_title">Uzak profiller</string>
+    <string name="set_remote_profile">Uygulama, tüm mesajları almak için herkese açık profilleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
 </resources>
