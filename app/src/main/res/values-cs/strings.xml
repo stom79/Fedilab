@@ -961,4 +961,8 @@
     <string name="set_extand_extra_features">Povolením této volby se zobrazí extra funkce. Jsou určeny pro softwary sociálních sítí jako Pleroma, Akkoma nebo Glitch Social</string>
     <string name="set_extand_extra_features_title">Extra funkce</string>
     <string name="set_post_format">Formát příspěvků</string>
+    <string name="bubble">Bublina</string>
+    <string name="set_remote_profile">K získání všech zpráv bude aplikace veřejně zobrazovat profily. Interakce budou k federaci zpráv potřebovat dodatečný krok.</string>
+    <string name="v_list">Seznam</string>
+    <string name="set_remote_profile_title">Vzdálené profily</string>
 </resources>
