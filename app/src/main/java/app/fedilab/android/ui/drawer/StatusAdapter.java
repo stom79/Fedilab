@@ -1053,6 +1053,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ressource = R.drawable.ic_baseline_mail_24;
                 break;
         }
+
+        if (statusToDeal.local_only) {
+            holder.binding.localOnly.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.localOnly.setVisibility(View.GONE);
+        }
+
         if (status.isFocused) {
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
             holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));

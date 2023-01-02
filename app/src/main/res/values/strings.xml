@@ -770,6 +770,12 @@
         <item>text/x.misskeymarkdown</item>
     </string-array>
 
+
+    <string-array name="set_local_only">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
+
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
@@ -1435,6 +1441,7 @@
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
+    <string name="SET_LOCAL_ONLY" translatable="false">SET_LOCAL_ONLY</string>
 
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
@@ -2186,4 +2193,5 @@
     <string name="self">Self</string>
     <string name="set_remote_profile_title">Remote profiles</string>
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
+    <string name="local_only">Local only</string>
 </resources>

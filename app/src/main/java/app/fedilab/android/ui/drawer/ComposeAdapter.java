@@ -1279,6 +1279,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
             if (extraFeatures) {
                 holder.binding.buttonTextFormat.setVisibility(View.VISIBLE);
+                holder.binding.buttonLocalOnly.setVisibility(View.VISIBLE);
                 holder.binding.buttonTextFormat.setOnClickListener(v -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builder.setTitle(context.getString(R.string.post_format));
@@ -1298,6 +1299,28 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     builder.setPositiveButton(R.string.validate, (dialog, which) -> {
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         statusDraft.content_type = formatArr[selectedPosition];
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                    builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builder.create().show();
+                });
+                holder.binding.buttonLocalOnly.setOnClickListener(v -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    builder.setTitle(context.getString(R.string.local_only));
+                    Resources res = context.getResources();
+                    boolean[] valArr = new boolean[]{false, true};
+                    String[] labelArr = res.getStringArray(R.array.set_local_only);
+
+                    int selection = 0;
+                    boolean localOnly = sharedpreferences.getBoolean(context.getString(R.string.SET_LOCAL_ONLY) + account.user_id + account.instance, false);
+                    if (statusDraft.local_only || localOnly) {
+                        selection = 1;
+                    }
+                    builder.setSingleChoiceItems(labelArr, selection, null);
+                    builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        statusDraft.local_only = valArr[selectedPosition];
                         notifyItemChanged(holder.getLayoutPosition());
                         dialog.dismiss();
                     });

@@ -160,6 +160,14 @@
                             tools:text="@tools:sample/full_names" />
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/local_only"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:contentDescription="@string/local_only"
+                            android:src="@drawable/ic_baseline_local_only_24" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/visibility_small"
                             android:layout_width="20dp"
                             android:layout_height="20dp"

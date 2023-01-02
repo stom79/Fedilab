@@ -102,6 +102,8 @@ public class Status implements Serializable, Cloneable {
     public List<Filter.FilterResult> filtered;
     @SerializedName("pleroma")
     public Pleroma pleroma;
+    @SerializedName("local_only")
+    public boolean local_only = false;
     @SerializedName("cached")
     public boolean cached = false;
     public Attachment art_attachment;

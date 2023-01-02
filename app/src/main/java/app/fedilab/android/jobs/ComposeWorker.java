@@ -218,6 +218,9 @@ public class ComposeWorker extends Worker {
                     return;
                 }
                 String language = sharedPreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + dataPost.userId + dataPost.instance, null);
+                if (statuses.get(i).local_only) {
+                    statuses.get(i).text += " \uD83D\uDC41";
+                }
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
