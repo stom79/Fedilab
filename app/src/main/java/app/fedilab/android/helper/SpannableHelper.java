@@ -299,6 +299,9 @@ public class SpannableHelper {
         }
         int matchEnd = start + newUrl.length();
         String finalUrl = url;
+        if (content.length() < matchEnd) {
+            matchEnd = content.length();
+        }
         content.setSpan(new LongClickableSpan() {
             @Override
             public void onLongClick(View view) {

@@ -183,6 +183,12 @@ public class PinnedTimelineHelper {
         if (extraFeatures) {
             try {
                 Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                if (pinnedAll == null) {
+                    pinnedAll = new Pinned();
+                    pinnedAll.user_id = currentUserID;
+                    pinnedAll.instance = currentInstance;
+                    pinnedAll.pinnedTimelines = new ArrayList<>();
+                }
                 boolean createDefaultBubbleAtTop = true;
                 for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
                     if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {

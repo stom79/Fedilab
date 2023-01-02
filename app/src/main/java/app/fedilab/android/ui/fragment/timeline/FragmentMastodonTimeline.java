@@ -718,10 +718,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineParams.remote = true;
                 break;
             case BUBBLE:
-                timelineParams.onlyMedia = bubbleTimeline.only_media;
-                timelineParams.remote = bubbleTimeline.remote;
-                timelineParams.replyVisibility = bubbleTimeline.reply_visibility;
-                timelineParams.excludeVisibilities = bubbleTimeline.exclude_visibilities;
+                if (bubbleTimeline != null) {
+                    timelineParams.onlyMedia = bubbleTimeline.only_media;
+                    timelineParams.remote = bubbleTimeline.remote;
+                    timelineParams.replyVisibility = bubbleTimeline.reply_visibility;
+                    timelineParams.excludeVisibilities = bubbleTimeline.exclude_visibilities;
+                }
                 break;
             case LIST:
                 timelineParams.listId = list_id;
