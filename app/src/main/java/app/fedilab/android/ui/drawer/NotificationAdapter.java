@@ -437,7 +437,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         notification.account.getSpanDisplayNameTitle(context,
                                 new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
                         TextView.BufferType.SPANNABLE);
-                holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
