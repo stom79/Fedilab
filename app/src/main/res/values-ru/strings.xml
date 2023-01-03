@@ -644,6 +644,7 @@
     <string name="replace_twitter_host">Домен интерфейса Twitter</string>
     <string name="replace_instagram">Instagram</string>
     <string name="replace_instagram_description">Использовать альтернативный интерфейс для Instagram</string>
-    <string name="replace_instagram_host">Домен фронтеда Instagram</string>
+    <string name="replace_instagram_host">Домен интерфейса Instagram</string>
     <string name="replace_reddit_description">Использовать альтернативный фронтенд для Reddit</string>
+    <string name="replace_reddit">Reddit</string>
 </resources>
