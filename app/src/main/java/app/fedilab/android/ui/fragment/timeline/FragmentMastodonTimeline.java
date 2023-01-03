@@ -100,12 +100,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
-                        timelineStatuses.get(position).reblog = receivedStatus.reblog;
-                        timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
-                        timelineStatuses.get(position).favourited = receivedStatus.favourited;
-                        timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
-                        timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                        timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                        if (receivedStatus.reblog != null) {
+                            timelineStatuses.get(position).reblog = receivedStatus.reblog;
+                        }
+                        if (timelineStatuses.get(position).reblog != null) {
+                            timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
+                            timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
+                            timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
+                            timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
+                            timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
+                        } else {
+                            timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
+                            timelineStatuses.get(position).favourited = receivedStatus.favourited;
+                            timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
+                            timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                            timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                        }
+
+
                         statusAdapter.notifyItemChanged(position);
                     }
                 } else if (delete_statuses_for_user != null && statusAdapter != null) {
@@ -242,7 +254,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             return -1;
         }
         for (Status _status : timelineStatuses) {
-            if (_status.id != null && _status.id.compareTo(status.id) == 0) {
+            if (_status.reblog == null && _status.id != null && _status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            } else if (_status.reblog != null && _status.reblog.id != null && _status.reblog.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
             }
