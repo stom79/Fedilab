@@ -641,5 +641,6 @@
     <string name="delete_notification_all_warning">Вы уверены, что хотите удалить все уведомления\? Это не может быть отменено.</string>
     <string name="load_settings">Загрузить экспортированные настройки</string>
     <string name="replace_twitter_description">Использовать альтернативный интерфейс для Twitter</string>
-    <string name="replace_twitter_host">Домен фронтенда Twitter</string>
+    <string name="replace_twitter_host">Домен интерфейса Twitter</string>
+    <string name="replace_instagram">Instagram</string>
 </resources>
