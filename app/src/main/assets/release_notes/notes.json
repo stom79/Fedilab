@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.6",
+    "code": "460",
+    "note": "Fixed:\n- Cross-compose: Wrong instance emojis\n- Custom emojis not displayed in notifications\n- Fav/Boost markers with shared messages\n- Empty notifications\n- Fix cw removed when replying\n- Fix expand media with fit preview images when sensitive\n- Fix an issue with fetch more displayed too often (cache clear will help or wait new messages)"
+  },
+  {
     "version": "3.13.5",
     "code": "459",
     "note": "Added:\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n\nFixed:\n- Crashes"

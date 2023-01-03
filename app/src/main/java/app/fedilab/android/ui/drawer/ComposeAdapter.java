@@ -68,7 +68,6 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -1023,19 +1022,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
-                   /* if (editMessageId != null) {
-                        composeAttachmentItemBinding.editPreview.setVisibility(View.INVISIBLE);
+                    if (editMessageId != null && attachment.url != null) {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
                         composeAttachmentItemBinding.buttonDescription.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                        composeAttachmentItemBinding.buttonRemove.setVisibility(View.INVISIBLE);
-                    }*/
+                    }
                     String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
                     if (attachment.type != null || attachment.mimeType != null) {
                         if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
                             Glide.with(composeAttachmentItemBinding.preview.getContext())
                                     .load(attachmentPath)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    //.diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
                                     .into(composeAttachmentItemBinding.preview);
                         } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("video")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("video"))) {
