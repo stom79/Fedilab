@@ -960,4 +960,6 @@
     <string name="self">Kendi</string>
     <string name="set_remote_profile_title">Uzak profiller</string>
     <string name="set_remote_profile">Uygulama, tüm mesajları almak için herkese açık profilleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
+    <string name="set_display_local_only">\"Yalnızca yerel\" düğmesini göster</string>
+    <string name="local_only">Yalnızca yerel</string>
 </resources>
