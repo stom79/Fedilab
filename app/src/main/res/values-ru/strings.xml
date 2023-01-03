@@ -643,5 +643,5 @@
     <string name="replace_twitter_description">Использовать альтернативный интерфейс для Twitter</string>
     <string name="replace_twitter_host">Домен интерфейса Twitter</string>
     <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Использовать альтернативный фронтенд для Instagram</string>
+    <string name="replace_instagram_description">Использовать альтернативный интерфейс для Instagram</string>
 </resources>
