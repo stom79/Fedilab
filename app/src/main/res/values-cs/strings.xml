@@ -965,4 +965,6 @@
     <string name="set_remote_profile">K získání všech zpráv bude aplikace veřejně zobrazovat profily. Interakce budou k federaci zpráv potřebovat dodatečný krok.</string>
     <string name="v_list">Seznam</string>
     <string name="set_remote_profile_title">Vzdálené profily</string>
+    <string name="set_display_local_only">Zobrazit tlačítko „Jen místní“</string>
+    <string name="local_only">Jen místní</string>
 </resources>
