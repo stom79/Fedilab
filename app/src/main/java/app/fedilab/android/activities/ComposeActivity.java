@@ -534,10 +534,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (token == null) {
             token = account.token;
         }
-        if (emojis == null || !emojis.containsKey(currentInstance)) {
+        if (emojis == null || !emojis.containsKey(instance)) {
             new Thread(() -> {
                 try {
-                    emojis.put(currentInstance, new EmojiInstance(ComposeActivity.this).getEmojiList(currentInstance));
+                    emojis.put(instance, new EmojiInstance(ComposeActivity.this).getEmojiList(instance));
                 } catch (DBException e) {
                     e.printStackTrace();
                 }

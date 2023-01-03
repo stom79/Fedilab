@@ -1488,7 +1488,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 try {
-                    displayEmojiPicker(holder);
+                    displayEmojiPicker(holder, account.instance);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -1875,7 +1875,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param holder - view for the message {@link ComposeViewHolder}
      * @throws DBException
      */
-    private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
+    private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         int paddingPixel = 15;
@@ -1885,10 +1885,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         builder.setTitle(R.string.insert_emoji);
         if (emojis != null && emojis.size() > 0) {
             GridView gridView = new GridView(context);
-            gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
+            gridView.setAdapter(new EmojiAdapter(emojis.get(instance)));
             gridView.setNumColumns(5);
             gridView.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(BaseMainActivity.currentInstance).get(position).shortcode + ": ");
+                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(instance).get(position).shortcode + ": ");
                 alertDialogEmoji.dismiss();
             });
             gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
