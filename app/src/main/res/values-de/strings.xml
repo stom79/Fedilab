@@ -482,7 +482,7 @@
     <string name="select">Auswählen</string>
     <string name="add_instances">Instanz hinzufügen</string>
     <string name="set_enable_crash_report">Absturzberichte aktivieren</string>
-    <string name="set_enable_crash_report_indication">Wenn aktiviert, wird ein Absturzbericht erstellt. Anschließend kannst Du diesen teilen.</string>
+    <string name="set_enable_crash_report_indication">Wenn aktiviert, wird ein Absturzbericht auf Deinem Mobiltelefon erstellt. Anschließend kannst Du diesen teilen.</string>
     <string name="crash_title">Fedilab ist abgestürzt :(</string>
     <string name="crash_message">Du kannst mir den Fehlerreport per E-Mail senden. Dies hilft mir bei der Fehlerbehebung:)\n\nDu kannst weitere Inhalte hinzufügen. Danke!</string>
     <string name="visibility">Sichtbarkeit</string>
@@ -950,7 +950,7 @@
     <string name="set_post_format">Format des Beitrags</string>
     <string name="icons_extra_features">Symbole für zusätzliche Funktionen</string>
     <string name="set_display_quote_indication">Zeige den Knopf zum \"Zitieren\"</string>
-    <string name="set_display_reaction_indication">Zeige Knöpfe für \"Reaktionen\"</string>
+    <string name="set_display_reaction_indication">Zeige die Knöpfe für \"Reaktionen\"</string>
     <string name="set_extand_extra_features_title">Zusätzliche Funktionen</string>
     <string name="set_extand_extra_features">Wenn diese Option aktiviert ist, zeigt die App zusätzliche Funktionen an. Diese Funktion ist für soziale Plattformen wie Pleroma, Akkoma oder Glitch Social</string>
     <string name="icons_extra_features_visibility_summary">Sofern Deine Instanz nicht alle zusätzlichen Funktionen unterstützt, kannst Du diese Symbole ausblenden</string>
@@ -962,4 +962,6 @@
     <string name="bubble">Blase</string>
     <string name="set_remote_profile">Die Anwendung ruft öffentlich verfügbare Profile ab, um deren Beiträge darzustellen. Interaktionen mit föderierten Beiträgen benötigen einen zusätzlichen Arbeitsschritt.</string>
     <string name="set_remote_profile_title">Profile auf anderen Instanzen</string>
+    <string name="local_only">Nur Lokal</string>
+    <string name="set_display_local_only">Zeige den Knopf \"Nur Lokal\"</string>
 </resources>
