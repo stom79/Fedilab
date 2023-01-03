@@ -47,6 +47,7 @@ import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
+import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.helper.Helper;
@@ -70,6 +71,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_FILERED = 10;
     private final int TYPE_ADMIN_SIGNUP = 11;
     private final int TYPE_ADMIN_REPORT = 12;
+    private final int TYPE_HIDDEN = 13;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private RecyclerView mRecyclerView;
@@ -144,17 +146,41 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case "follow_request":
                     return TYPE_FOLLOW_REQUEST;
                 case "mention":
-                    return TYPE_MENTION;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_MENTION;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "reblog":
-                    return TYPE_REBLOG;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_REBLOG;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "update":
-                    return TYPE_UPDATE;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_UPDATE;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "favourite":
-                    return TYPE_FAVOURITE;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_FAVOURITE;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "poll":
-                    return TYPE_POLL;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_POLL;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "status":
-                    return TYPE_STATUS;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_STATUS;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
                 case "admin.sign_up":
                     return TYPE_ADMIN_SIGNUP;
                 case "admin.report":
@@ -167,7 +193,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
 
         mRecyclerView = recyclerView;
@@ -182,6 +208,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return new ViewHolderFollow(itemBinding);
         } else if (viewType == TYPE_FILERED) {
             DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
+        } else if (viewType == TYPE_HIDDEN) {
+            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusAdapter.StatusViewHolder(itemBinding);
         } else {
             DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -284,6 +313,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
+        } else if (getItemViewType(position) == TYPE_HIDDEN) {
+
         } else {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
