@@ -645,4 +645,5 @@
     <string name="replace_instagram">Instagram</string>
     <string name="replace_instagram_description">Использовать альтернативный интерфейс для Instagram</string>
     <string name="replace_instagram_host">Домен фронтеда Instagram</string>
+    <string name="replace_reddit_description">Использовать альтернативный фронтенд для Reddit</string>
 </resources>
