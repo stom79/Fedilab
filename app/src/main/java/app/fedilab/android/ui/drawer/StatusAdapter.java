@@ -392,6 +392,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
+        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
@@ -1278,7 +1279,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 boolean singleMedia = statusToDeal.media_attachments.size() == 1;
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context));
-                    if (fullAttachement && !statusToDeal.sensitive) {
+                    if (fullAttachement && (!statusToDeal.sensitive || expand_media)) {
                         float ratio = 1.0f;
                         float mediaH = -1.0f;
 
@@ -1317,7 +1318,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment, singleMedia);
                     }
                     mediaPosition++;
-                    if ((fullAttachement && !statusToDeal.sensitive) || singleMedia) {
+                    if ((fullAttachement && (!statusToDeal.sensitive || expand_media)) || singleMedia) {
                         holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
                     } else {
                         holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
@@ -2100,7 +2101,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
 
         LinearLayout.LayoutParams lp;
-        if (fullAttachement && mediaH > 0 && !statusToDeal.sensitive) {
+        if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
             lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
         } else {
@@ -2214,7 +2215,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
 
-        if (!statusToDeal.sensitive && (fullAttachement || singleImage)) {
+        if ((!statusToDeal.sensitive || expand_media) && (fullAttachement || singleImage)) {
             layoutMediaBinding.getRoot().setPadding(0, 0, 0, 10);
         } else {
             layoutMediaBinding.getRoot().setPadding(0, 0, 10, 0);
