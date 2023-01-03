@@ -640,4 +640,5 @@
     <string name="delete_cache">Удалить кеш</string>
     <string name="delete_notification_all_warning">Вы уверены, что хотите удалить все уведомления\? Это не может быть отменено.</string>
     <string name="load_settings">Загрузить экспортированные настройки</string>
+    <string name="replace_twitter_description">Использовать альтернативный фронтенд для Twitter</string>
 </resources>
