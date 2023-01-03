@@ -634,7 +634,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
             if (statusReply.spoiler_text != null) {
                 statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-                statusDraftList.get(0).spoilerChecked = true;
+                if (statusReply.spoiler_text.trim().length() > 0) {
+                    statusDraftList.get(0).spoilerChecked = true;
+                }
             }
             if (statusReply.language != null && !statusReply.language.isEmpty()) {
                 statusDraftList.get(0).language = statusReply.language;

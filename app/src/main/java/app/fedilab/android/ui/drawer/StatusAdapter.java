@@ -2031,7 +2031,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             drawerFetchMoreBinding.fetchMoreMin.setOnClickListener(v -> {
                 status.isFetchMore = false;
                 int position = holder.getBindingAdapterPosition();
-                int position2 = getStatusPosition(statusList, status);
                 adapter.notifyItemChanged(position);
                 if (position < statusList.size() - 1) {
                     String fromId;

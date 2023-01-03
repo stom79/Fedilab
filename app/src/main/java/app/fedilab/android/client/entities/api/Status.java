@@ -109,8 +109,8 @@ public class Status implements Serializable, Cloneable {
     public Attachment art_attachment;
     public boolean isExpended = false;
     public boolean isTruncated = true;
-    public boolean isFetchMore = false;
-    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+    public transient boolean isFetchMore = false;
+    public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public boolean isChecked = false;
     public String translationContent;
     public boolean translationShown;
