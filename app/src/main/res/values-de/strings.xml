@@ -358,12 +358,12 @@
     <string name="bot">Bot</string>
     <string name="pixelfed_instance">Pixelfed-Instanz</string>
     <string name="mastodon_instance">Mastodon-Instanz</string>
-    <string name="any_tags">Irgendwelche davon</string>
+    <string name="any_tags">Eines davon</string>
     <string name="all_tags">Alle davon</string>
     <string name="none_tags">Keine davon</string>
-    <string name="some_words_any">Eines dieser Wörter (durch Leerzeichen getrennt)</string>
-    <string name="some_words_all">Alle diese Wörter (durch Leerzeichen getrennt)</string>
-    <string name="some_tags">Wörter zum Filter hinzufügen (durch Leerzeichen getrennt)</string>
+    <string name="some_words_any">Einer dieser Hashtags (durch Leerzeichen getrennt)</string>
+    <string name="some_words_all">Alle dieser Hashtags (durch Leerzeichen getrennt)</string>
+    <string name="some_tags">Hashtags zum Filter hinzufügen (durch Leerzeichen getrennt)</string>
     <string name="change_tag_column">Spaltenname ändern</string>
     <string name="misskey_instance">Misskey Instanz</string>
     <string name="trending">Angesagt</string>
