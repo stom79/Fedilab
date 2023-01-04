@@ -313,7 +313,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
-        } else {
+        } else if (notification.status != null) {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
