@@ -705,4 +705,15 @@
     <string name="set_extand_extra_features_title">Дополнительные функции</string>
     <string name="set_extand_extra_features">Включив эту опцию, приложение будет отображать дополнительные функции. Это предназначается для социальных платформ, таких как Pleroma, Akkoma или Glitch Social</string>
     <string name="icons_visibility_summary">Вы можете смело спрятать эти значки внизу, чтобы было больше места. Они также находятся в подменю.</string>
+    <string name="cannot_be_empty">Это поле не может быть пустым!</string>
+    <string name="favourited_by">Добавлен в избранное</string>
+    <string name="followers_only">Только для подписчиков</string>
+    <string name="category_music">Музыка</string>
+    <string name="keepon">Продолжить</string>
+    <string name="category_custom">Пользовательский</string>
+    <string name="other">Другое</string>
+    <string name="data_export_settings_success">Настройки успешно экспортированы</string>
+    <string name="data_import_settings_success">Настройки успешно импортированы</string>
+    <string name="data_export_settings">Настройки экспортированы</string>
+    <string name="boosted_by">Продвинут</string>
 </resources>
