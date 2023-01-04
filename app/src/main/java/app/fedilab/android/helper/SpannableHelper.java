@@ -139,8 +139,6 @@ public class SpannableHelper {
         //Loop through links
         for (URLSpan span : urls) {
             String url = span.getURL();
-
-
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
             if (start < 0 || end > content.length()) {
