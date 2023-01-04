@@ -967,4 +967,8 @@
     <string name="set_remote_profile_title">Vzdálené profily</string>
     <string name="set_display_local_only">Zobrazit tlačítko „Jen místní“</string>
     <string name="local_only">Jen místní</string>
+    <string name="email_status">Stav e-mailu</string>
+    <string name="login_status">Stav přihlášení</string>
+    <string name="joined">Připojil(a) se</string>
+    <string name="silenced">Ztišen(a)</string>
 </resources>
