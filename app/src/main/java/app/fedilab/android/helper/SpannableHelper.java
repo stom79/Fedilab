@@ -124,7 +124,7 @@ public class SpannableHelper {
         if (status != null && status.mentions != null) {
             mentions.addAll(status.mentions);
         }
-        text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!([<])).)*))", "$2<blockquote>$3</blockquote>");
+        text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!(<\\s?br\\s?/?>|<\\s?/s?p\\s?>)).)*))", "$2<blockquote>$3</blockquote>");
         text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
         text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
         SpannableString initialContent;
