@@ -16,6 +16,7 @@ package app.fedilab.android.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.unifiedpush.android.connector.MessagingReceiver;
 
+import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.NotificationsHelper;
 import app.fedilab.android.helper.PushNotifications;
 
@@ -38,13 +40,15 @@ public class CustomReceiver extends MessagingReceiver {
     @Override
     public void onMessage(@NotNull Context context, @NotNull byte[] message, @NotNull String slug) {
         // Called when a new message is received. The message contains the full POST body of the push message
+        Log.v(Helper.TAG, "onMessage: " + slug);
         new Thread(() -> {
             try {
-               /* ECDH ecdh = ECDH.getInstance(slug);
-                if (ecdh == null) {
-                    return;
-                }*/
-                //String decrypted = ecdh.uncryptMessage(context, String.valueOf(message));
+                /*Notification notification = ECDHFedilab.decryptNotification(context, slug, message);
+                Log.v(Helper.TAG,"notification: " + notification);
+                if(notification != null) {
+                    Log.v(Helper.TAG,"id: " + notification.id);
+                }
+                */
                 NotificationsHelper.task(context, slug);
             } catch (Exception e) {
                 e.printStackTrace();
