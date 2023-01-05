@@ -1,0 +1,7 @@
+
+Changed:
+- Add pinned tag in "any" to avoid to lose it when renaming timeline
+
+Fixed:
+- Fix quotes with tags/mentions
+- Some crashes
