@@ -270,7 +270,11 @@ public class ComposeWorker extends Worker {
                             b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                             Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                             b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
-                            b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, statusResponse.errorBody().string());
+                            String err = statusResponse.errorBody().string();
+                            if (err.contains("{\"error\":\"")) {
+                                err = err.replaceAll("\\{\"error\":\"(.*)\"}", "$1");
+                            }
+                            b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
                             intentBD.putExtras(b);
                             LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
                             return;
