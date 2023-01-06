@@ -929,4 +929,25 @@
     <string name="import_data">Importa datos</string>
     <string name="group_reblogs">Agrupa is cumpartziduras in sa lìnia de tempus printzipale</string>
     <string name="manage_accounts">Amministra is contos</string>
+    <string name="set_extand_extra_features_title">Funtzionalidades extra</string>
+    <string name="set_post_format">Formadu de publicatzione</string>
+    <string name="icons_extra_features">Iconas pro funtzionalidades extra</string>
+    <string name="icons_visibility">Visibilidade de is iconas</string>
+    <string name="post_format">Formadu de publicatzione</string>
+    <string name="set_display_quote_indication">Ammustra su butone \"Tzita\"</string>
+    <string name="set_display_reaction_indication">Ammustra su butone \"Reatziones\"</string>
+    <string name="set_remote_profile_title">Profilos remotos</string>
+    <string name="bubble">Bullunca</string>
+    <string name="v_list">Lista</string>
+    <string name="following">Sighende</string>
+    <string name="set_remove_left_margin_title">Boga su màrgine a manca</string>
+    <string name="set_remove_left_margin">Boga su màrgine a manca de is lìnias de tempus pro chi is messàgios siant prus cumpatos</string>
+    <string name="translator">Tradutore</string>
+    <string name="set_translator">Tradutore</string>
+    <string name="api_key">Crae API de su tradutore</string>
+    <string name="version">Versione</string>
+    <string name="set_translator_version">Versione de su tradutore</string>
+    <string name="set_extand_extra_features">Ativende cussa optzione s\'aplicatzione at a ammustrare funtzionalidades extra. Custa funtzionalidade b\'est pro programmas sotziales che a Pleroma, Akkoma o Glitch Social</string>
+    <string name="icons_visibility_summary">Podes cuare custas iconas in manera segura in fundu pro tènnere prus logu. Sunt fintzas in su suta-menù.</string>
+    <string name="icons_extra_features_visibility_summary">Si s\'istàntzia tua no atzetat unas cantas funtzionalidades extra podes cuare custas iconas</string>
 </resources>
