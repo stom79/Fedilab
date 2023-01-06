@@ -87,6 +87,8 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
@@ -128,6 +130,7 @@ import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
+import app.fedilab.android.databinding.DrawerStatusPixelfedBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
 import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
@@ -157,6 +160,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_ART = 2;
     public static final int STATUS_FILTERED = 3;
     public static final int STATUS_FILTERED_HIDE = 4;
+    public static final int STATUS_PIXELFED = 5;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -164,6 +168,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean checkRemotely;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
+    private boolean visiblePixelfed;
 
     private RecyclerView mRecyclerView;
 
@@ -186,6 +191,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
         return -1;
+    }
+
+
+    private static boolean isVisiblePixelfed(Status status) {
+        return status.media_attachments != null && status.media_attachments.size() > 0;
     }
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status) {
@@ -2370,7 +2380,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
             } else {
-                return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
+                if (isVisible(timelineType, statusList.get(position))) {
+                    if (visiblePixelfed && isVisiblePixelfed(statusList.get(position)) && timelineType != Timeline.TimeLineEnum.UNKNOWN) {
+                        return STATUS_PIXELFED;
+                    } else {
+                        return STATUS_VISIBLE;
+                    }
+                } else {
+                    return STATUS_HIDDEN;
+                }
             }
 
         }
@@ -2380,11 +2398,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        visiblePixelfed = sharedpreferences.getBoolean(context.getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
             DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
         } else if (viewType == STATUS_ART) { //Art statuses
             DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_PIXELFED) { //Art statuses
+            DrawerStatusPixelfedBinding itemBinding = DrawerStatusPixelfedBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);
         } else if (viewType == STATUS_FILTERED) { //Filtered warn
             DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -2582,6 +2605,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra(Helper.ARG_STATUS, status);
                 context.startActivity(intent);
             });
+        } else if (viewHolder.getItemViewType() == STATUS_PIXELFED) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artPp, status.account);
+            SliderAdapter adapter = new SliderAdapter(status);
+            holder.bindingPixelfed.artMedia.setSliderAdapter(adapter);
+            holder.bindingPixelfed.artMedia.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+            holder.bindingPixelfed.artMedia.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+            holder.bindingPixelfed.artMedia.setScrollTimeInSec(4);
+            holder.bindingPixelfed.artMedia.startAutoCycle();
+            holder.bindingPixelfed.commentNumber.setText(String.valueOf(status.replies_count));
+            holder.bindingPixelfed.artUsername.setText(
+                    status.account.getSpanDisplayName(context,
+                            new WeakReference<>(holder.bindingPixelfed.artUsername)),
+                    TextView.BufferType.SPANNABLE);
+            holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
+            holder.bindingPixelfed.artPp.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable(Helper.ARG_ACCOUNT, status.account);
+                intent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, holder.bindingPixelfed.artPp, context.getString(R.string.activity_porfile_pp));
+                context.startActivity(intent, options.toBundle());
+            });
+            holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ContextActivity.class);
+                intent.putExtra(Helper.ARG_STATUS, status);
+                context.startActivity(intent);
+            });
         }
     }
 
@@ -2607,6 +2659,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusReportBinding bindingReport;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
+        DrawerStatusPixelfedBinding bindingPixelfed;
         DrawerStatusFilteredBinding bindingFiltered;
         DrawerStatusFilteredHideBinding bindingFilteredHide;
 
@@ -2636,6 +2689,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         StatusViewHolder(DrawerStatusArtBinding itemView) {
             super(itemView.getRoot());
             bindingArt = itemView;
+        }
+
+        StatusViewHolder(DrawerStatusPixelfedBinding itemView) {
+            super(itemView.getRoot());
+            bindingPixelfed = itemView;
         }
 
         StatusViewHolder(DrawerStatusFilteredBinding itemView) {

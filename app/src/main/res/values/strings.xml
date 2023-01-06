@@ -1440,6 +1440,7 @@
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
+    <string name="SET_PIXELFED_PRESENTATION" translatable="false">SET_PIXELFED_PRESENTATION</string>
     <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
     <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
 
@@ -2199,4 +2200,5 @@
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
     <string name="local_only">Local only</string>
     <string name="set_display_local_only">Display \"Local only\" button</string>
+    <string name="set_pixelfed_presentation">Pixelfed presentation for media</string>
 </resources>

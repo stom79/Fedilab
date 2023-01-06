@@ -73,6 +73,12 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_DISPLAY_TRANSLATE.setChecked(checked);
         }
+
+        SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
+        if (SET_PIXELFED_PRESENTATION != null) {
+            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+            SET_PIXELFED_PRESENTATION.setChecked(checked);
+        }
     }
 
     @Override
@@ -93,6 +99,12 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
                 SwitchPreferenceCompat SET_DISPLAY_TRANSLATE = findPreference(getString(R.string.SET_DISPLAY_TRANSLATE));
                 if (SET_DISPLAY_TRANSLATE != null) {
                     editor.putBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_TRANSLATE.isChecked());
+                }
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_PIXELFED_PRESENTATION)) == 0) {
+                SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
+                if (SET_PIXELFED_PRESENTATION != null) {
+                    editor.putBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, SET_PIXELFED_PRESENTATION.isChecked());
                 }
             }
             editor.apply();
