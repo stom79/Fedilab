@@ -3,6 +3,8 @@ Changed:
 - Add pinned tag in "any" to avoid to lose it when renaming timeline
 
 Fixed:
+- Fix push notifications with several accounts
 - Fix quotes with tags/mentions
 - Fix notifications
+- Fix sending multiple media
 - Some crashes

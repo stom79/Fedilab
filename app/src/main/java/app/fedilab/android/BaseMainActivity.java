@@ -1139,7 +1139,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
                         CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
                     });
-                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
                 } else {
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
