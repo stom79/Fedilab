@@ -195,6 +195,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     private static boolean isVisiblePixelfed(Status status) {
+        if (status.reblog != null) {
+            status = status.reblog;
+        }
         return status.media_attachments != null && status.media_attachments.size() > 0;
     }
 
@@ -2606,24 +2609,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 context.startActivity(intent);
             });
         } else if (viewHolder.getItemViewType() == STATUS_PIXELFED) {
+            Status statusToDeal = status.reblog != null ? status.reblog : status;
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artPp, status.account);
-            SliderAdapter adapter = new SliderAdapter(status);
+
+            if (status.reblog != null) {
+                MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artReblogPp, status.account);
+                holder.bindingPixelfed.artReblogPp.setVisibility(View.VISIBLE);
+            } else {
+                holder.bindingPixelfed.artReblogPp.setVisibility(View.GONE);
+            }
+
+            MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artPp, statusToDeal.account);
+            SliderAdapter adapter = new SliderAdapter(statusToDeal);
             holder.bindingPixelfed.artMedia.setSliderAdapter(adapter);
             holder.bindingPixelfed.artMedia.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
             holder.bindingPixelfed.artMedia.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
             holder.bindingPixelfed.artMedia.setScrollTimeInSec(4);
             holder.bindingPixelfed.artMedia.startAutoCycle();
-            holder.bindingPixelfed.commentNumber.setText(String.valueOf(status.replies_count));
+            holder.bindingPixelfed.commentNumber.setText(String.valueOf(statusToDeal.replies_count));
             holder.bindingPixelfed.artUsername.setText(
-                    status.account.getSpanDisplayName(context,
+                    statusToDeal.account.getSpanDisplayName(context,
                             new WeakReference<>(holder.bindingPixelfed.artUsername)),
                     TextView.BufferType.SPANNABLE);
-            holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
+            holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", statusToDeal.account.acct));
             holder.bindingPixelfed.artPp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, status.account);
+                b.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
                 intent.putExtras(b);
                 ActivityOptionsCompat options = ActivityOptionsCompat
                         .makeSceneTransitionAnimation((Activity) context, holder.bindingPixelfed.artPp, context.getString(R.string.activity_porfile_pp));
@@ -2631,7 +2643,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);
-                intent.putExtra(Helper.ARG_STATUS, status);
+                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
                 context.startActivity(intent);
             });
         }

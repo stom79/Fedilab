@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.13.7",
+    "code": "461",
+    "note": "Added:\n- Pixelfed: Custom layout to display Media fully \n*(Settings > Timelines > Pixelfed Presentation) - Also works for other softwares when there are media\n\nChanged:\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Fix push notifications with several accounts\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Some crashes"
+  },
+  {
     "version": "3.13.6",
     "code": "460",
     "note": "Fixed:\n- Cross-compose: Wrong instance emojis\n- Custom emojis not displayed in notifications\n- Fav/Boost markers with shared messages\n- Empty notifications\n- Fix cw removed when replying\n- Fix expand media with fit preview images when sensitive\n- Fix an issue with fetch more displayed too often (cache clear will help or wait new messages)"

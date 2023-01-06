@@ -18,6 +18,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/art_container"
+    android:layout_marginHorizontal="@dimen/card_margin"
+    android:layout_marginTop="@dimen/card_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -54,12 +56,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/art_pp"
+        <RelativeLayout
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center" />
+            android:layout_height="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/art_pp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/art_reblog_pp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/art_author"
