@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
@@ -104,7 +103,6 @@ public class PushNotifications {
                         }
                     }
                 } catch (Exception e) {
-                    Log.v(Helper.TAG, slug + " -> " + e.getMessage());
                     e.printStackTrace();
                 }
             }

@@ -19,7 +19,6 @@ import static app.fedilab.android.client.entities.app.StatusCache.restoreNotific
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
@@ -144,23 +143,14 @@ public class ECDHFedilab {
 
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        Log.v(Helper.TAG, ">>slug: " + slug);
         String pushPrivateKey = sharedPreferences.getString("pushPrivateKey" + slug, null);
         String pushPublicKey = sharedPreferences.getString("pushPublicKey" + slug, null);
         String encodedAuthKey = sharedPreferences.getString("encodedAuthKey" + slug, null);
         sharedPreferences.getString("pushAccountID" + slug, null);
 
 
-        Log.v(Helper.TAG, "getServerKey(context, slug): " + getServerKey(context, slug));
-
-
-        Log.v(Helper.TAG, "pushPrivateKey: " + pushPrivateKey);
-        Log.v(Helper.TAG, "pushPublicKey: " + pushPublicKey);
-        Log.v(Helper.TAG, "encodedAuthKey: " + encodedAuthKey);
-
         PublicKey serverKey = null;
         serverKey = deserializeRawPublicKey(Base64.decode(getServerKey(context, slug), Base64.URL_SAFE));
-        Log.v(Helper.TAG, "serverKey: " + serverKey);
         PrivateKey privateKey;
         PublicKey publicKey;
         byte[] authKey;
@@ -171,7 +161,6 @@ public class ECDHFedilab {
             authKey = Base64.decode(encodedAuthKey, Base64.URL_SAFE);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
-            Log.v(Helper.TAG, "err1: " + e.getMessage());
             return null;
         }
         byte[] sharedSecret;
@@ -182,7 +171,6 @@ public class ECDHFedilab {
             sharedSecret = keyAgreement.generateSecret();
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
-            Log.v(Helper.TAG, "err2: " + e.getMessage());
             return null;
         }
         byte[] secondSaltInfo = "Content-Encoding: auth\0".getBytes(StandardCharsets.UTF_8);
@@ -191,7 +179,6 @@ public class ECDHFedilab {
             deriveKey = deriveKey(authKey, sharedSecret, secondSaltInfo, 32);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
-            Log.v(Helper.TAG, "err3: " + e.getMessage());
             return null;
         }
         String decryptedStr;
@@ -207,7 +194,6 @@ public class ECDHFedilab {
             decryptedStr = new String(decrypted, 2, decrypted.length - 2, StandardCharsets.UTF_8);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
-            Log.v(Helper.TAG, "err4: " + e.getMessage());
             return null;
         }
         return restoreNotificationFromString(decryptedStr);

@@ -186,7 +186,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case "admin.report":
                     return TYPE_ADMIN_REPORT;
                 case "pleroma:emoji_reaction":
-                    return TYPE_REACTION;
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_REACTION;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
             }
         }
         return super.getItemViewType(position);
