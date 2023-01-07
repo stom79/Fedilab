@@ -1,0 +1,7 @@
+Hinzugefügt:
+- Zähler in den Einstellungen deaktivieren
+Behoben:
+- Doppelte Nachrichten aus dem Cache
+- Benachrichtigungen im Doppel
+- Entwürfe werden nicht automatisch entfernt
+- Nachrichten werden nach Löschung nicht aus dem Cache entfernt

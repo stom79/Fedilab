@@ -1,0 +1,15 @@
+Geändert:
+- Swipe zwischen Zeitleisten
+- Cache verbessern
+- Die Größe der Schaltflächen kann in den Einstellungen geändert werden
+- Französische Übersetzung
+
+Behoben:
+- Pleroma: Emoji-Reaktionen
+- Teilen (mehrere Korrekturen)
+- Theme-Probleme
+- Rendering-Problem für Links
+- Benachrichtigungen werden nicht aus dem Cache entfernt
+- Problem mit Wasserzeichen
+- Paginierung mit Lesezeichen/Favoriten
+- Einige Abstürze
