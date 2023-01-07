@@ -609,7 +609,7 @@
     <string name="profiled_updated">Profiel is bijgewerkt!</string>
     <string name="select_a_theme">Kies een thema</string>
     <string name="types_of_notifications_to_display">Soorten meldingen tonen</string>
-    <string name="fetch_more_messages">Laad meer berichten…</string>
+    <string name="fetch_more_messages">Meer laden…</string>
     <string name="label_oval">Ovaal</string>
     <string name="label_rectangle">Rechthoek</string>
     <string name="label_eraser_mode">Wis modus</string>
@@ -935,4 +935,22 @@
     <string name="mute_tag_action">Negeer tag</string>
     <string name="set_display_translate_indication">Vertaalknop altijd tonen</string>
     <string name="unpin_tag">Maak tag los</string>
+    <string name="import_data">Importeren gegevens</string>
+    <string name="manage_accounts">Beheer accounts</string>
+    <string name="set_remove_left_margin_title">Verwijder linker kantlijn</string>
+    <string name="translator">Vertaler</string>
+    <string name="set_translator">Vertaler</string>
+    <string name="api_key">Vertaler API key</string>
+    <string name="version">Versie</string>
+    <string name="set_translator_version">Vertaler versie</string>
+    <string name="set_extand_extra_features">Zet optie aan zodat de app meer mogelijkheden laat zien. Dit is voor social softwares zoals Pleroma, Akkoma or Glitch Social</string>
+    <string name="set_extand_extra_features_title">Extra mogelijkheden</string>
+    <string name="icons_visibility">Zichtbaarheid iconen</string>
+    <string name="icons_visibility_summary">Je kan deze iconen onderaan veilig verbergen voor meer ruimte. Ze staan ook in het submenu.</string>
+    <string name="icons_extra_features">Iconen voor extra mogelijkheden</string>
+    <string name="icons_extra_features_visibility_summary">Als je instance niet alle mogelijkheden toestaat, kan je deze iconen verbergen</string>
+    <string name="set_display_quote_indication">Toon de \"Quote\" knop</string>
+    <string name="set_display_reaction_indication">Toon \"Reacties\" knop</string>
+    <string name="group_reblogs">Groepeer reblogs in eigen tijdlijn</string>
+    <string name="set_remove_left_margin">Verwijder linker kantlijn in tijdlijnen voor compactere berichten</string>
 </resources>

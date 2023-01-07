@@ -1,0 +1,10 @@
+Added:
+- Add Bubble timeline support in extra-features with filters
+- Allow to display public profiles by default to get all messages (Settings > Interface)
+
+Changed:
+- Full rework on links in messages (also mentions and tags)
+
+Fixed:
+- Spoiler text when editing
+- Fix watermarks

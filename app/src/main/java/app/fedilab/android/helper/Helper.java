@@ -257,6 +257,7 @@ public class Helper {
     public static final String ARG_SEARCH_KEYWORD_CACHE = "ARG_SEARCH_KEYWORD_CACHE";
     public static final String ARG_VIEW_MODEL_KEY = "ARG_VIEW_MODEL_KEY";
     public static final String ARG_TAG_TIMELINE = "ARG_TAG_TIMELINE";
+    public static final String ARG_BUBBLE_TIMELINE = "ARG_BUBBLE_TIMELINE";
     public static final String ARG_MEDIA_POSITION = "ARG_MEDIA_POSITION";
     public static final String ARG_MEDIA_ATTACHMENT = "ARG_MEDIA_ATTACHMENT";
     public static final String ARG_MEDIA_ATTACHMENTS = "ARG_MEDIA_ATTACHMENTS";
@@ -1172,19 +1173,17 @@ public class Helper {
         File files = new File(attachment.local_path);
         float textSize = 15;
         Paint paint = new Paint();
-        float textWidht = paint.measureText(waterMark);
-        float width = Helper.convertDpToPixel(textWidht, context);
+        float width = paint.measureText(waterMark, 0, waterMark.length());
         try {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             Bitmap backgroundBitmap = BitmapFactory.decodeFile(files.getAbsolutePath(), options);
-
-            int w = options.outWidth;
-            int h = options.outHeight;
-            float valx = (float) 1.0 - width / (float) w;
+            int w = backgroundBitmap.getWidth();
+            int h = backgroundBitmap.getHeight();
+            float valx = (float) 1.0 - ((Helper.convertDpToPixel(width, context) + 10)) / (float) w;
             if (valx < 0)
                 valx = 0;
-            float valy = (h - Helper.convertDpToPixel(textSize, context) - 10) / (float) h;
+            float valy = (h - Helper.convertDpToPixel(textSize, context) - 0) / (float) h;
             WatermarkText watermarkText = new WatermarkText(waterMark)
                     .setPositionX(valx)
                     .setPositionY(valy)
@@ -1964,6 +1963,20 @@ public class Helper {
         return R.style.AppTheme;
     }
 
+    public static void addMutedAccount(app.fedilab.android.client.entities.api.Account target) {
+        if (MainActivity.filteredAccounts == null) {
+            MainActivity.filteredAccounts = new ArrayList<>();
+        }
+        if (!MainActivity.filteredAccounts.contains(target)) {
+            MainActivity.filteredAccounts.add(target);
+        }
+    }
+
+    public static void removeMutedAccount(app.fedilab.android.client.entities.api.Account target) {
+        if (MainActivity.filteredAccounts != null) {
+            MainActivity.filteredAccounts.remove(target);
+        }
+    }
 
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
@@ -1994,20 +2007,5 @@ public class Helper {
 
     public interface OnFileCopied {
         void onFileCopied(File file);
-    }
-
-    public static void addMutedAccount(app.fedilab.android.client.entities.api.Account target) {
-        if (MainActivity.filteredAccounts == null) {
-            MainActivity.filteredAccounts = new ArrayList<>();
-        }
-        if (!MainActivity.filteredAccounts.contains(target)) {
-            MainActivity.filteredAccounts.add(target);
-        }
-    }
-
-    public static void removeMutedAccount(app.fedilab.android.client.entities.api.Account target) {
-        if (MainActivity.filteredAccounts != null) {
-            MainActivity.filteredAccounts.remove(target);
-        }
     }
 }

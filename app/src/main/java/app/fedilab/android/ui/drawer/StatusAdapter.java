@@ -71,6 +71,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -87,6 +88,8 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
@@ -128,6 +131,7 @@ import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusHiddenBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
+import app.fedilab.android.databinding.DrawerStatusPixelfedBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
 import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
@@ -157,6 +161,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_ART = 2;
     public static final int STATUS_FILTERED = 3;
     public static final int STATUS_FILTERED_HIDE = 4;
+    public static final int STATUS_PIXELFED = 5;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -164,6 +169,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean checkRemotely;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
+    private boolean visiblePixelfed;
 
     private RecyclerView mRecyclerView;
 
@@ -186,6 +192,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
         return -1;
+    }
+
+
+    private static boolean isVisiblePixelfed(Status status) {
+        if (status.reblog != null) {
+            status = status.reblog;
+        }
+        return status.media_attachments != null && status.media_attachments.size() > 0;
     }
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status) {
@@ -392,6 +406,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
+        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
@@ -399,6 +414,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         boolean displayQuote = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        boolean compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
+
+        if (compactButtons) {
+            ConstraintSet set = new ConstraintSet();
+            set.clone(holder.binding.actionButtons);
+            set.clear(R.id.status_emoji, ConstraintSet.END);
+            set.applyTo(holder.binding.actionButtons);
+        }
 
         if (removeLeftMargin) {
             LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
@@ -1053,6 +1076,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ressource = R.drawable.ic_baseline_mail_24;
                 break;
         }
+
+        if (statusToDeal.local_only) {
+            holder.binding.localOnly.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.localOnly.setVisibility(View.GONE);
+        }
+
         if (status.isFocused) {
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
             holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));
@@ -1271,7 +1301,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 boolean singleMedia = statusToDeal.media_attachments.size() == 1;
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context));
-                    if (fullAttachement && !statusToDeal.sensitive) {
+                    if (fullAttachement && (!statusToDeal.sensitive || expand_media)) {
                         float ratio = 1.0f;
                         float mediaH = -1.0f;
 
@@ -1310,7 +1340,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment, singleMedia);
                     }
                     mediaPosition++;
-                    if ((fullAttachement && !statusToDeal.sensitive) || singleMedia) {
+                    if ((fullAttachement && (!statusToDeal.sensitive || expand_media)) || singleMedia) {
                         holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
                     } else {
                         holder.binding.attachmentsList.addView(layoutMediaBinding.getRoot());
@@ -1713,6 +1743,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     statusDraft.statusReplyList = new ArrayList<>();
                                     statusToDeal.text = statusSource.text;
                                     statusToDeal.spoiler_text = statusSource.spoiler_text;
+                                    if (statusToDeal.spoiler_text != null && statusToDeal.spoiler_text.length() > 0) {
+                                        statusToDeal.spoilerChecked = true;
+                                    }
                                     statusDraft.statusDraftList.add(statusToDeal);
                                     intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                                     intent.putExtra(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
@@ -2023,7 +2056,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             drawerFetchMoreBinding.fetchMoreMin.setOnClickListener(v -> {
                 status.isFetchMore = false;
                 int position = holder.getBindingAdapterPosition();
-                int position2 = getStatusPosition(statusList, status);
                 adapter.notifyItemChanged(position);
                 if (position < statusList.size() - 1) {
                     String fromId;
@@ -2093,7 +2125,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
 
         LinearLayout.LayoutParams lp;
-        if (fullAttachement && mediaH > 0 && !statusToDeal.sensitive) {
+        if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
             lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
         } else {
@@ -2207,35 +2239,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
 
-        if (!statusToDeal.sensitive && (fullAttachement || singleImage)) {
+        if ((!statusToDeal.sensitive || expand_media) && (fullAttachement || singleImage)) {
             layoutMediaBinding.getRoot().setPadding(0, 0, 0, 10);
         } else {
             layoutMediaBinding.getRoot().setPadding(0, 0, 10, 0);
         }
 
     }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-
-        mRecyclerView = recyclerView;
-    }
-
-   /* private static boolean mediaObfuscated(Status status) {
-        //Media is not sensitive and  doesn't have a spoiler text
-        if (!status.isMediaObfuscated) {
-            return false;
-        }
-        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
-            return false;
-        }
-        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
-            return true;
-        } else {
-            return status.sensitive;
-        }
-    }*/
 
     /**
      * Send a broadcast to other open fragments that content a timeline
@@ -2261,68 +2271,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
     }
 
-
-    @Override
-    public int getItemViewType(int position) {
-        if (timelineType == Timeline.TimeLineEnum.ART) {
-            return STATUS_ART;
+   /* private static boolean mediaObfuscated(Status status) {
+        //Media is not sensitive and  doesn't have a spoiler text
+        if (!status.isMediaObfuscated) {
+            return false;
+        }
+        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
+            return false;
+        }
+        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
+            return true;
         } else {
-            if (statusList.get(position).filteredByApp != null) {
-                if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
-                    return STATUS_FILTERED;
-                } else { //These messages should not be displayed unless they contain a fetch more button
-                    if (!statusList.get(position).isFetchMore) {
-                        return STATUS_HIDDEN;
-                    } else {
-                        return STATUS_FILTERED_HIDE;
-                    }
-                }
-            } else {
-                return isVisible(timelineType, statusList.get(position)) ? STATUS_VISIBLE : STATUS_HIDDEN;
-            }
-
+            return status.sensitive;
         }
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
-            DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_ART) { //Art statuses
-            DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_FILTERED) { //Filtered warn
-            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else if (viewType == STATUS_FILTERED_HIDE) { //Filtered hide
-            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusViewHolder(itemBinding);
-        } else { //Classic statuses
-            if (!minified) {
-                DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new StatusViewHolder(itemBinding);
-            } else {
-                DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-                return new StatusViewHolder(itemBinding);
-            }
-        }
-    }
-
-    public int getCount() {
-        return statusList.size();
-    }
-
-    public Status getItem(int position) {
-        return statusList.get(position);
-    }
-
-
-    public long getItemId(int position) {
-        return position;
-    }
+    }*/
 
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2408,6 +2370,87 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (link_color != -1) {
             holder.binding.cardUrl.setTextColor(link_color);
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (timelineType == Timeline.TimeLineEnum.ART) {
+            return STATUS_ART;
+        } else {
+            if (statusList.get(position).filteredByApp != null) {
+                if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
+                    return STATUS_FILTERED;
+                } else { //These messages should not be displayed unless they contain a fetch more button
+                    if (!statusList.get(position).isFetchMore) {
+                        return STATUS_HIDDEN;
+                    } else {
+                        return STATUS_FILTERED_HIDE;
+                    }
+                }
+            } else {
+                if (isVisible(timelineType, statusList.get(position))) {
+                    if (visiblePixelfed && isVisiblePixelfed(statusList.get(position)) && timelineType != Timeline.TimeLineEnum.UNKNOWN) {
+                        return STATUS_PIXELFED;
+                    } else {
+                        return STATUS_VISIBLE;
+                    }
+                } else {
+                    return STATUS_HIDDEN;
+                }
+            }
+
+        }
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        visiblePixelfed = sharedpreferences.getBoolean(context.getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+        if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
+            DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_ART) { //Art statuses
+            DrawerStatusArtBinding itemBinding = DrawerStatusArtBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_PIXELFED) { //Art statuses
+            DrawerStatusPixelfedBinding itemBinding = DrawerStatusPixelfedBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED) { //Filtered warn
+            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else if (viewType == STATUS_FILTERED_HIDE) { //Filtered hide
+            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusViewHolder(itemBinding);
+        } else { //Classic statuses
+            if (!minified) {
+                DrawerStatusBinding itemBinding = DrawerStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            } else {
+                DrawerStatusReportBinding itemBinding = DrawerStatusReportBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+                return new StatusViewHolder(itemBinding);
+            }
+        }
+    }
+
+    public int getCount() {
+        return statusList.size();
+    }
+
+    public Status getItem(int position) {
+        return statusList.get(position);
+    }
+
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -2577,6 +2620,44 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 intent.putExtra(Helper.ARG_STATUS, status);
                 context.startActivity(intent);
             });
+        } else if (viewHolder.getItemViewType() == STATUS_PIXELFED) {
+            Status statusToDeal = status.reblog != null ? status.reblog : status;
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+
+            if (status.reblog != null) {
+                MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artReblogPp, status.account);
+                holder.bindingPixelfed.artReblogPp.setVisibility(View.VISIBLE);
+            } else {
+                holder.bindingPixelfed.artReblogPp.setVisibility(View.GONE);
+            }
+
+            MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artPp, statusToDeal.account);
+            SliderAdapter adapter = new SliderAdapter(statusToDeal);
+            holder.bindingPixelfed.artMedia.setSliderAdapter(adapter);
+            holder.bindingPixelfed.artMedia.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+            holder.bindingPixelfed.artMedia.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+            holder.bindingPixelfed.artMedia.setScrollTimeInSec(4);
+            holder.bindingPixelfed.artMedia.startAutoCycle();
+            holder.bindingPixelfed.commentNumber.setText(String.valueOf(statusToDeal.replies_count));
+            holder.bindingPixelfed.artUsername.setText(
+                    statusToDeal.account.getSpanDisplayName(context,
+                            new WeakReference<>(holder.bindingPixelfed.artUsername)),
+                    TextView.BufferType.SPANNABLE);
+            holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", statusToDeal.account.acct));
+            holder.bindingPixelfed.artPp.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
+                intent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, holder.bindingPixelfed.artPp, context.getString(R.string.activity_porfile_pp));
+                context.startActivity(intent, options.toBundle());
+            });
+            holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ContextActivity.class);
+                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
+                context.startActivity(intent);
+            });
         }
     }
 
@@ -2602,8 +2683,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusReportBinding bindingReport;
         DrawerStatusNotificationBinding bindingNotification;
         DrawerStatusArtBinding bindingArt;
+        DrawerStatusPixelfedBinding bindingPixelfed;
         DrawerStatusFilteredBinding bindingFiltered;
         DrawerStatusFilteredHideBinding bindingFilteredHide;
+
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
@@ -2630,6 +2713,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         StatusViewHolder(DrawerStatusArtBinding itemView) {
             super(itemView.getRoot());
             bindingArt = itemView;
+        }
+
+        StatusViewHolder(DrawerStatusPixelfedBinding itemView) {
+            super(itemView.getRoot());
+            bindingPixelfed = itemView;
         }
 
         StatusViewHolder(DrawerStatusFilteredBinding itemView) {

@@ -1,0 +1,10 @@
+Geändert:
+- Ausgeblendete Medien mit Vorschaubildern
+
+Behoben:
+- Problem mit Medien für Android 11+
+- Absturz, wenn kein Übersetzungsschlüssel gesetzt wurde
+- Behoben DeepL für API pro
+- Absturz beim Besuch eines Profils mit vielen Medien
+- Stummgeschaltete Konten funktionieren nicht ohne Filter
+- Animierte benutzerdefinierte Emoji werden nicht angezeigt

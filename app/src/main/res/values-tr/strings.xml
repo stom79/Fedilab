@@ -942,4 +942,24 @@
     <string name="set_translator">Çevirmen</string>
     <string name="api_key">Çevirmen API anahtarı</string>
     <string name="version">Sürüm</string>
+    <string name="set_extand_extra_features_title">Ek özellikler</string>
+    <string name="set_extand_extra_features">Bu seçeneği etkinleştirdiğinizde uygulama ek özellikler gösterecektir. Bu özellik Pleroma, Akkoma veya Glitch Social gibi sosyal yazılımlar için yapılır</string>
+    <string name="post_format">Gönderi biçimi</string>
+    <string name="set_post_format">Gönderi biçimi</string>
+    <string name="icons_extra_features">Ek özellikler için simgeler</string>
+    <string name="icons_extra_features_visibility_summary">Sunucunuz bazı ek özellikleri kabul etmiyorsa, bu simgeleri gizleyebilirsiniz</string>
+    <string name="set_display_quote_indication">\"Alıntı\" düğmesini göster</string>
+    <string name="set_display_reaction_indication">\"Tepkiler\" düğmelerini göster</string>
+    <string name="icons_visibility_summary">Daha fazla alana sahip olmak için bu simgeleri alt kısımda güvenle gizleyebilirsiniz. Ayrıca alt menüde de bulunurlar.</string>
+    <string name="icons_visibility">Simge görünürlüğü</string>
+    <string name="exclude_visibility">Hariç tutma görünürlüğü</string>
+    <string name="v_list">Listele</string>
+    <string name="following">Takip edilenler</string>
+    <string name="bubble">Baloncuk</string>
+    <string name="reply_visibility">Yanıt görünürlüğü</string>
+    <string name="self">Kendi</string>
+    <string name="set_remote_profile_title">Uzak profiller</string>
+    <string name="set_remote_profile">Uygulama, tüm mesajları almak için herkese açık profilleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
+    <string name="set_display_local_only">\"Yalnızca yerel\" düğmesini göster</string>
+    <string name="local_only">Yalnızca yerel</string>
 </resources>

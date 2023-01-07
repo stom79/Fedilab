@@ -38,6 +38,8 @@ public class PinnedTimeline implements Serializable {
     public RemoteInstance remoteInstance;
     @SerializedName("tagTimeline")
     public TagTimeline tagTimeline;
+    @SerializedName("bubbleTimeline")
+    public BubbleTimeline bubbleTimeline;
     @SerializedName("mastodonList")
     public MastodonList mastodonList;
     @SerializedName("currentFilter")

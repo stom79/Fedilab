@@ -30,8 +30,8 @@ import app.fedilab.android.ui.fragment.timeline.FragmentProfileTimeline;
 
 public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     private final Account account;
-    private Fragment mCurrentFragment;
     private final boolean checkRemotely;
+    private Fragment mCurrentFragment;
 
     public FedilabProfileTLPageAdapter(FragmentManager fm, Account account, boolean remotely) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

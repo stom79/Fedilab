@@ -1,0 +1,9 @@
+Hinzugefügt:
+- DeepL Übersetzung unterstützt Free/Pro-Tasten
+
+Geändert:
+- Schaltflächen für Medien beim Bearbeiten ausblenden
+
+Behoben:
+- GIFs werden als statische Bilder geladen
+- Vorgeschlagene Konten können nicht verfolgt werden

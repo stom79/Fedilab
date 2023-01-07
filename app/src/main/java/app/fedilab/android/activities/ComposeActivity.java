@@ -107,11 +107,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Status statusReply, statusMention, statusQuoted;
     private StatusDraft statusDraft;
     private ComposeAdapter composeAdapter;
-    private boolean promptSaveDraft;
-    private boolean restoredDraft;
-    private List<Attachment> sharedAttachments;
-
-
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -138,7 +133,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
     };
-
+    private boolean promptSaveDraft;
+    private boolean restoredDraft;
+    private List<Attachment> sharedAttachments;
     private ActivityPaginationBinding binding;
     private BaseAccount account;
     private String instance, token;
@@ -537,10 +534,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (token == null) {
             token = account.token;
         }
-        if (emojis == null || !emojis.containsKey(currentInstance)) {
+        if (emojis == null || !emojis.containsKey(instance)) {
             new Thread(() -> {
                 try {
-                    emojis.put(currentInstance, new EmojiInstance(ComposeActivity.this).getEmojiList(currentInstance));
+                    emojis.put(instance, new EmojiInstance(ComposeActivity.this).getEmojiList(instance));
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -637,6 +634,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
             if (statusReply.spoiler_text != null) {
                 statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
+                if (statusReply.spoiler_text.trim().length() > 0) {
+                    statusDraftList.get(0).spoilerChecked = true;
+                }
             }
             if (statusReply.language != null && !statusReply.language.isEmpty()) {
                 statusDraftList.get(0).language = statusReply.language;

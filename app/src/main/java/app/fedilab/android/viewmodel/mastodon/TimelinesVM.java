@@ -417,6 +417,9 @@ public class TimelinesVM extends AndroidViewModel {
                 case PUBLIC:
                     timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, false, true, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
                     break;
+                case BUBBLE:
+                    timelineCall = mastodonTimelinesService.getBubble(timelineParams.token, timelineParams.onlyMedia, timelineParams.remote, timelineParams.withMuted, timelineParams.excludeVisibilities, timelineParams.replyVisibility, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    break;
                 case ART:
                 case TAG:
                     timelineCall = mastodonTimelinesService.getHashTag(timelineParams.token, timelineParams.hashtagTrim, timelineParams.local, timelineParams.onlyMedia, timelineParams.all, timelineParams.any, timelineParams.none, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
@@ -949,6 +952,7 @@ public class TimelinesVM extends AndroidViewModel {
         public String userId;
         public Boolean remote;
         public Boolean onlyMedia;
+        public Boolean withMuted;
         public String hashtagTrim;
         public List<String> all;
         public List<String> any;
@@ -961,6 +965,8 @@ public class TimelinesVM extends AndroidViewModel {
         public int limit = 40;
         public Boolean local;
         public List<String> excludeType;
+        public List<String> excludeVisibilities;
+        public String replyVisibility;
 
         public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
             if (type != Timeline.TimeLineEnum.REMOTE) {

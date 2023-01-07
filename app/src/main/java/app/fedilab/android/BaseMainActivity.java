@@ -165,6 +165,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class BaseMainActivity extends BaseActivity implements NetworkStateReceiver.NetworkStateReceiverListener, FragmentMastodonTimeline.UpdateCounters, FragmentNotificationContainer.UpdateCounters, FragmentMastodonConversation.UpdateCounters {
 
+    private static final int REQUEST_CODE = 5415;
     public static String currentInstance, currentToken, currentUserID, client_id, client_secret, software;
     public static HashMap<String, List<Emoji>> emojis = new HashMap<>();
     public static Account.API api;
@@ -297,7 +298,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     };
     private NetworkStateReceiver networkStateReceiver;
     private boolean headerMenuOpen;
-    private static final int REQUEST_CODE = 5415;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -683,6 +683,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
+
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                 Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
@@ -783,7 +784,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             binding.tabLayout.setVisibility(View.VISIBLE);
             return false;
         });
-
 
 
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
@@ -1041,7 +1041,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     String title = "";
                                                     String description = "";
 
-                                                    if(titleEl != null) {
+                                                    if (titleEl != null) {
                                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                                             title = Html.fromHtml(titleEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
                                                         } else {
@@ -1049,7 +1049,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                         }
                                                     }
 
-                                                    if(descriptionEl != null) {
+                                                    if (descriptionEl != null) {
                                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                                             description = Html.fromHtml(descriptionEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
                                                         } else {
@@ -1058,13 +1058,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     }
 
                                                     String imageUrl = "";
-                                                    if(imageUrlEl != null) {
+                                                    if (imageUrlEl != null) {
                                                         imageUrl = imageUrlEl.attr("content");
                                                     }
 
                                                     StringBuilder titleBuilder = new StringBuilder();
 
-                                                    if(!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
+                                                    if (!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
                                                         // If the shared text is not just the URL, add it to the top
                                                         String toAppend = sharedText.replaceAll("\\s*" + Pattern.quote(originalUrl) + "\\s*", "");
                                                         titleBuilder.append(toAppend);
@@ -1072,7 +1072,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
                                                     if (title.length() > 0) {
                                                         // OG title fetched from source
-                                                        if(titleBuilder.length() > 0) titleBuilder.append("\n\n");
+                                                        if (titleBuilder.length() > 0)
+                                                            titleBuilder.append("\n\n");
                                                         titleBuilder.append(title);
                                                     }
 
@@ -1138,7 +1139,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
                         CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
                     });
-                    CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
                 } else {
                     Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }

@@ -15,9 +15,6 @@ package app.fedilab.android.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.helper.ECDH.kp_private;
-import static app.fedilab.android.helper.ECDH.kp_public;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -26,10 +23,8 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.client.entities.api.PushSubscription;
@@ -50,24 +45,18 @@ public class PushNotifications {
 
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        String strPub = prefs.getString(kp_public + slug, "");
-        String strPriv = prefs.getString(kp_private + slug, "");
-        ECDH ecdh = null;
+        ECDHFedilab ecdh = null;
         try {
-            ecdh = ECDH.getInstance(slug);
+            ecdh = new ECDHFedilab(context, slug);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (ecdh == null) {
             return;
         }
-        if (strPub.trim().isEmpty() || strPriv.trim().isEmpty()) {
-            ecdh.newPair(context);
-        }
-        String pubKey = ecdh.getPublicKey(context);
-        byte[] randBytes = new byte[16];
-        new Random().nextBytes(randBytes);
-        String auth = ECDH.base64Encode(randBytes);
+
+        String pubKey = ecdh.getPublicKey();
+        String auth = ecdh.getAuthKey();
 
 
         boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
@@ -75,8 +64,10 @@ public class PushNotifications {
         boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
         boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
         boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
-        MastodonNotificationsService mastodonNotificationsService = init(context, BaseMainActivity.currentInstance);
-        ECDH finalEcdh = ecdh;
+        boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
+        boolean notif_updates = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
+        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
+        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
         new Thread(() -> {
             String[] slugArray = slug.split("@");
             BaseAccount accountDb = null;
@@ -85,9 +76,11 @@ public class PushNotifications {
             } catch (DBException e) {
                 e.printStackTrace();
             }
+
             if (accountDb == null) {
                 return;
             }
+            MastodonNotificationsService mastodonNotificationsService = init(context, accountDb.instance);
             PushSubscription pushSubscription;
             Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(
                     accountDb.token,
@@ -98,14 +91,23 @@ public class PushNotifications {
                     notif_fav,
                     notif_share,
                     notif_mention,
-                    notif_poll);
+                    notif_poll,
+                    notif_status,
+                    notif_updates,
+                    notif_signup,
+                    notif_report);
             if (pushSubscriptionCall != null) {
                 try {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();
                     if (pushSubscriptionResponse.isSuccessful()) {
                         pushSubscription = pushSubscriptionResponse.body();
                         if (pushSubscription != null) {
-                            finalEcdh.saveServerKey(context, pushSubscription.server_key);
+                            pushSubscription.server_key = pushSubscription.server_key.replace('/', '_');
+                            pushSubscription.server_key = pushSubscription.server_key.replace('+', '-');
+                            SharedPreferences.Editor prefsEditor = PreferenceManager
+                                    .getDefaultSharedPreferences(context).edit();
+                            prefsEditor.putString("server_key" + slug, pushSubscription.server_key);
+                            prefsEditor.apply();
                         }
                     }
                 } catch (Exception e) {
@@ -121,6 +123,7 @@ public class PushNotifications {
 
 
     }
+
 
     public static String getToken(Context context, String slug) {
         return context.getSharedPreferences("unifiedpush.connector", Context.MODE_PRIVATE).getString(

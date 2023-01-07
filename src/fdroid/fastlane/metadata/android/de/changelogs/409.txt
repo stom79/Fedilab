@@ -1,0 +1,5 @@
+- Behebung eines Problems mit dem Cache und der Home-Timeline
+- Nitter-Zeitleisten verwenden die benutzerdefinierte Instanz aus den Einstellungen
+- Behebung von Nitter-Problemen (nur RT)
+- Ungültiges Zertifikat für Onion-URLs (Google) wird nicht mehr akzeptiert
+- Behebung einiger Abstürze

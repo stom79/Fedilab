@@ -1,5 +1,30 @@
 [
   {
+    "version": "3.14.0",
+    "code": "462",
+    "note": "Added:\n\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n- Pixelfed: Custom layout to display Media fully (Also works for other software when there are media)\n- Allow to align left action buttons in messages\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Links to messages not handled by the app\n- CW when editing a message\n- Fix push notifications with several accounts\n- New messages or edition notifications not pushed\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Fix crashes"
+  },
+  {
+    "version": "3.13.7",
+    "code": "461",
+    "note": "Added:\n- Pixelfed: Custom layout to display Media fully \n*(Settings > Timelines > Pixelfed Presentation) - Also works for other softwares when there are media\n\nChanged:\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Fix push notifications with several accounts\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Some crashes"
+  },
+  {
+    "version": "3.13.6",
+    "code": "460",
+    "note": "Fixed:\n- Cross-compose: Wrong instance emojis\n- Custom emojis not displayed in notifications\n- Fav/Boost markers with shared messages\n- Empty notifications\n- Fix cw removed when replying\n- Fix expand media with fit preview images when sensitive\n- Fix an issue with fetch more displayed too often (cache clear will help or wait new messages)"
+  },
+  {
+    "version": "3.13.5",
+    "code": "459",
+    "note": "Added:\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n\nFixed:\n- Crashes"
+  },
+  {
+    "version": "3.13.4",
+    "code": "458",
+    "note": "Added:\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n\nFixed:\n- Spoiler text when editing\n- Fix watermarks"
+  },
+  {
     "version": "3.13.3",
     "code": "457",
     "note": "Added:\n- Allow to enable extra features in Settings\n- Customizable settings for extra features\n- Support quotes, reactions with messages\n- Support text format (html, markdown, etc.) when composing\n\nFixed:\n- CW not working with media\n- Media not displayed for older instances\n- Some crashes\n"

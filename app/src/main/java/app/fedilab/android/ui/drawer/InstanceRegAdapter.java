@@ -40,8 +40,12 @@ import app.fedilab.android.helper.Helper;
 
 public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<JoinMastodonInstance> joinMastodonInstanceList;
-    private Context context;
     public ActionClick actionClick;
+    private Context context;
+
+    public InstanceRegAdapter(List<JoinMastodonInstance> joinMastodonInstanceList) {
+        this.joinMastodonInstanceList = joinMastodonInstanceList;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
@@ -67,11 +71,6 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.binding.watchTrendig.setOnClickListener(v -> actionClick.trends(position));
     }
 
-
-    public InstanceRegAdapter(List<JoinMastodonInstance> joinMastodonInstanceList) {
-        this.joinMastodonInstanceList = joinMastodonInstanceList;
-    }
-
     public int getCount() {
         return joinMastodonInstanceList.size();
     }
@@ -88,12 +87,6 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return new ViewHolder(itemBinding);
     }
 
-    public interface ActionClick {
-        void instance(int position);
-
-        void trends(int position);
-    }
-
     public long getItemId(int position) {
         return position;
     }
@@ -101,6 +94,12 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
         return joinMastodonInstanceList.size();
+    }
+
+    public interface ActionClick {
+        void instance(int position);
+
+        void trends(int position);
     }
 
     public interface RecyclerViewClickListener {

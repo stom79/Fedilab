@@ -87,7 +87,38 @@ public class Account implements Serializable {
     public Account moved;
     @SerializedName("role")
     public Role role;
+    public transient RelationShip relationShip;
 
+    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
+        if (display_name == null || display_name.isEmpty()) {
+            display_name = username;
+        }
+        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanDisplayName(Activity activity, WeakReference<View> viewWeakReference) {
+        if (display_name == null || display_name.isEmpty()) {
+            display_name = username;
+        }
+        return SpannableHelper.convertEmoji(activity, display_name, this, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
+        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference);
+    }
+
+    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Account) {
+            same = this.id.equals(((Account) obj).id);
+        }
+        return same;
+    }
 
     public static class Role implements Serializable {
         @SerializedName("id")
@@ -108,31 +139,6 @@ public class Account implements Serializable {
         public Date updated_at;
     }
 
-
-    public transient RelationShip relationShip;
-
-    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
-        if (display_name == null || display_name.isEmpty()) {
-            display_name = username;
-        }
-        return SpannableHelper.convert(context, display_name, null, this, null, false, false, viewWeakReference);
-    }
-
-    public synchronized Spannable getSpanDisplayName(Activity activity, WeakReference<View> viewWeakReference) {
-        if (display_name == null || display_name.isEmpty()) {
-            display_name = username;
-        }
-        return SpannableHelper.convertEmoji(activity, display_name, this, viewWeakReference);
-    }
-
-    public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, false, false, viewWeakReference);
-    }
-
-    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, null, true, true, viewWeakReference);
-    }
-
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")
         public boolean discoverable;
@@ -149,15 +155,5 @@ public class Account implements Serializable {
         @SerializedName("fields_attributes")
         public LinkedHashMap<Integer, Field.FieldParams> fields;
 
-    }
-
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        boolean same = false;
-        if (obj instanceof Account) {
-            same = this.id.equals(((Account) obj).id);
-        }
-        return same;
     }
 }

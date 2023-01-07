@@ -46,7 +46,12 @@
         app:key="@string/SET_DISPLAY_BOOKMARK"
         app:singleLineTitle="false"
         app:title="@string/set_display_bookmark_indication" />
-
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PIXELFED_PRESENTATION"
+        app:singleLineTitle="false"
+        app:title="@string/set_pixelfed_presentation" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"

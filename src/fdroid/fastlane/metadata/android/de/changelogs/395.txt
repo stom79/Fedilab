@@ -1,0 +1,2 @@
+- Fehlerbehebungen
+- Ermöglicht das Teilen aus der App

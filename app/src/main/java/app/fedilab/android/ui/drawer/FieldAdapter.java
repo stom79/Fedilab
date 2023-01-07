@@ -37,8 +37,8 @@ import app.fedilab.android.databinding.DrawerFieldBinding;
 public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.FieldViewHolder> {
 
     private final List<Field> fields;
-    private Context context;
     private final Account account;
+    private Context context;
 
     public FieldAdapter(List<Field> fields, Account account) {
         this.fields = fields;

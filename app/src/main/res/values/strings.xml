@@ -770,6 +770,16 @@
         <item>text/x.misskeymarkdown</item>
     </string-array>
 
+    <string-array name="SET_LOCAL_ONLY">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="set_local_only">
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
+
     <string-array name="set_load_media_type_value">
         <item>Always</item>
         <item>Wifi only</item>
@@ -1361,10 +1371,14 @@
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
     <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
+    <string name="SET_DISPLAY_COMPACT_ACTION_BUTTON" translatable="false">SET_DISPLAY_COMPACT_ACTION_BUTTON</string>
+
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
+
+
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
@@ -1428,11 +1442,13 @@
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
+    <string name="SET_PIXELFED_PRESENTATION" translatable="false">SET_PIXELFED_PRESENTATION</string>
     <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
     <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
+    <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
@@ -1443,8 +1459,10 @@
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
-    <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
 
+    <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
+    <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
+    <string name="SET_DISPLAY_LOCAL_ONLY" translatable="false">SET_DISPLAY_LOCAL_ONLY</string>
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
@@ -2174,4 +2192,17 @@
     <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
     <string name="set_display_quote_indication">Display the \"Quote\" button</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
+    <string name="bubble">Bubble</string>
+    <string name="exclude_visibility">Exclude visibility</string>
+    <string name="reply_visibility">Reply visibility</string>
+    <string name="v_list">List</string>
+    <string name="following">Following</string>
+    <string name="self">Self</string>
+    <string name="set_remote_profile_title">Remote profiles</string>
+    <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
+    <string name="local_only">Local only</string>
+    <string name="set_display_local_only">Display \"Local only\" button</string>
+    <string name="set_pixelfed_presentation">Pixelfed presentation for media</string>
+    <string name="set_display_compact_buttons">Compact action buttons</string>
+    <string name="set_display_compact_buttons_description">Buttons at the bottom of messages will not take the whole width</string>
 </resources>

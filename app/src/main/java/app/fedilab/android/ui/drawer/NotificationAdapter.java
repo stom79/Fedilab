@@ -47,6 +47,7 @@ import app.fedilab.android.client.entities.api.Notification;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
+import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.helper.Helper;
@@ -70,79 +71,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_FILERED = 10;
     private final int TYPE_ADMIN_SIGNUP = 11;
     private final int TYPE_ADMIN_REPORT = 12;
+    private final int TYPE_HIDDEN = 13;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private RecyclerView mRecyclerView;
 
     public NotificationAdapter(List<Notification> notificationList) {
         this.notificationList = notificationList;
-    }
-
-    public int getCount() {
-        return notificationList.size();
-    }
-
-    public Notification getItem(int position) {
-        return notificationList.get(position);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        if (notificationList.get(position).filteredByApp != null) {
-            return TYPE_FILERED;
-        }
-        String type = notificationList.get(position).type;
-        if (type != null) {
-            switch (type) {
-                case "follow":
-                    return TYPE_FOLLOW;
-                case "follow_request":
-                    return TYPE_FOLLOW_REQUEST;
-                case "mention":
-                    return TYPE_MENTION;
-                case "reblog":
-                    return TYPE_REBLOG;
-                case "update":
-                    return TYPE_UPDATE;
-                case "favourite":
-                    return TYPE_FAVOURITE;
-                case "poll":
-                    return TYPE_POLL;
-                case "status":
-                    return TYPE_STATUS;
-                case "admin.sign_up":
-                    return TYPE_ADMIN_SIGNUP;
-                case "admin.report":
-                    return TYPE_ADMIN_REPORT;
-                case "pleroma:emoji_reaction":
-                    return TYPE_REACTION;
-            }
-        }
-        return super.getItemViewType(position);
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-
-        mRecyclerView = recyclerView;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST || viewType == TYPE_ADMIN_REPORT || viewType == TYPE_ADMIN_SIGNUP) {
-            DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new ViewHolderFollow(itemBinding);
-        } else if (viewType == TYPE_FILERED) {
-            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusAdapter.StatusViewHolder(itemBinding);
-        } else {
-            DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StatusAdapter.StatusViewHolder(itemBinding);
-        }
     }
 
     public static void applyColorAccount(Context context, ViewHolderFollow holder) {
@@ -186,6 +121,104 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (theme_text_header_2_line != -1) {
             holder.binding.username.setTextColor(theme_text_header_2_line);
+        }
+    }
+
+    public int getCount() {
+        return notificationList.size();
+    }
+
+    public Notification getItem(int position) {
+        return notificationList.get(position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (notificationList.get(position).filteredByApp != null) {
+            return TYPE_FILERED;
+        }
+        String type = notificationList.get(position).type;
+        if (type != null) {
+            switch (type) {
+                case "follow":
+                    return TYPE_FOLLOW;
+                case "follow_request":
+                    return TYPE_FOLLOW_REQUEST;
+                case "mention":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_MENTION;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "reblog":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_REBLOG;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "update":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_UPDATE;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "favourite":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_FAVOURITE;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "poll":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_POLL;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "status":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_STATUS;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                case "admin.sign_up":
+                    return TYPE_ADMIN_SIGNUP;
+                case "admin.report":
+                    return TYPE_ADMIN_REPORT;
+                case "pleroma:emoji_reaction":
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_REACTION;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+            }
+        }
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST || viewType == TYPE_ADMIN_REPORT || viewType == TYPE_ADMIN_SIGNUP) {
+            DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new ViewHolderFollow(itemBinding);
+        } else if (viewType == TYPE_FILERED) {
+            DrawerStatusFilteredBinding itemBinding = DrawerStatusFilteredBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
+        } else if (viewType == TYPE_HIDDEN) {
+            DrawerStatusFilteredHideBinding itemBinding = DrawerStatusFilteredHideBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
+        } else {
+            DrawerStatusNotificationBinding itemBinding = DrawerStatusNotificationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new StatusAdapter.StatusViewHolder(itemBinding);
         }
     }
 
@@ -284,7 +317,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
-        } else {
+        } else if (notification.status != null) {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
@@ -437,7 +470,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         notification.account.getSpanDisplayNameTitle(context,
                                 new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
                         TextView.BufferType.SPANNABLE);
-                holderStatus.bindingNotification.status.displayName.setText(title, TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }

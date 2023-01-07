@@ -68,11 +68,11 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentLoginMain extends Fragment {
 
+    private static final int REQUEST_CODE = 5412;
+    private final int PICK_IMPORT = 5557;
     private FragmentLoginMainBinding binding;
     private boolean searchInstanceRunning = false;
     private String oldSearch;
-    private static final int REQUEST_CODE = 5412;
-    private final int PICK_IMPORT = 5557;
     private ActivityResultLauncher<String> permissionLauncher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

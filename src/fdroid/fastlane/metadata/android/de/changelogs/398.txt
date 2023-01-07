@@ -1,0 +1,6 @@
+- Weiteres Verbessern des Scrollverhaltens
+- Scrollen nach oben (erneute Auswahl des Tabs) holt neue Nachrichten und scrollt dann nach oben
+- Fokuspunkt für die Medienvorschau entfernen
+- Behebung des Problems, dass Nachrichten nicht mit einem Konto geteilt werden können
+- Behebung des schwarzen Themas
+- Behebung einiger Schaltflächenfarben

@@ -221,6 +221,8 @@ public class HashTagActivity extends BaseActivity {
                         tagTimeline.name = stripTag.trim();
                         tagTimeline.isNSFW = false;
                         tagTimeline.isART = false;
+                        tagTimeline.any = new ArrayList<>();
+                        tagTimeline.any.add(stripTag.trim());
                         pinnedTimeline.tagTimeline = tagTimeline;
                         pinned.pinnedTimelines.add(pinnedTimeline);
                         if (update) {

@@ -28,6 +28,14 @@
         app:summary="@string/set_remove_left_margin"
         app:title="@string/set_remove_left_margin_title" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PROFILE_REMOTELY"
+        app:singleLineTitle="false"
+        app:summary="@string/set_remote_profile"
+        app:title="@string/set_remote_profile_title" />
+
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
@@ -44,6 +52,14 @@
         app:singleLineTitle="false"
         app:summary="@string/set_display_counters_description"
         app:title="@string/set_display_counters" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_COMPACT_ACTION_BUTTON"
+        app:singleLineTitle="false"
+        app:summary="@string/set_display_compact_buttons_description"
+        app:title="@string/set_display_compact_buttons" />
 
     <SwitchPreferenceCompat
         app:defaultValue="true"

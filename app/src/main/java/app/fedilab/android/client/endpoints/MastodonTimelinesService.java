@@ -53,6 +53,19 @@ public interface MastodonTimelinesService {
             @Query("limit") Integer limit
     );
 
+    @GET("timelines/bubble")
+    Call<List<Status>> getBubble(
+            @Header("Authorization") String token,
+            @Query("only_media") Boolean only_media,
+            @Query("remote") Boolean remote,
+            @Query("with_muted") Boolean with_muted,
+            @Query("exclude_visibilities") List<String> exclude_visibilities,
+            @Query("reply_visibility") String reply_visibility,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id,
+            @Query("min_id") String min_id,
+            @Query("limit") Integer limit
+    );
 
     @GET("trends/statuses")
     Call<List<Status>> getStatusTrends(

@@ -102,13 +102,15 @@ public class Status implements Serializable, Cloneable {
     public List<Filter.FilterResult> filtered;
     @SerializedName("pleroma")
     public Pleroma pleroma;
+    @SerializedName("local_only")
+    public boolean local_only = false;
     @SerializedName("cached")
     public boolean cached = false;
     public Attachment art_attachment;
     public boolean isExpended = false;
     public boolean isTruncated = true;
-    public boolean isFetchMore = false;
-    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+    public transient boolean isFetchMore = false;
+    public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public boolean isChecked = false;
     public String translationContent;
     public boolean translationShown;
@@ -134,27 +136,23 @@ public class Status implements Serializable, Cloneable {
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, true, false, viewWeakReference, callback);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback);
         }
         return contentSpan;
     }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpoilerSpan == null) {
-            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, true, false, viewWeakReference, callback);
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback);
         }
         return contentSpoilerSpan;
     }
 
     public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentTranslateSpan == null) {
-            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, true, false, viewWeakReference, callback);
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback);
         }
         return contentTranslateSpan;
-    }
-
-    public interface Callback {
-        void emojiFetched();
     }
 
     @NonNull
@@ -165,6 +163,10 @@ public class Status implements Serializable, Cloneable {
     public enum PositionFetchMore {
         TOP,
         BOTTOM
+    }
+
+    public interface Callback {
+        void emojiFetched();
     }
 
 }

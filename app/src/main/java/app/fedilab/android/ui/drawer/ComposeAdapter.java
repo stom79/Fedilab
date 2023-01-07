@@ -68,7 +68,6 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -150,6 +149,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             "..--..", ".-.-.-", ".----.", "-.-.--", "-..-.", "-.--.", "-.--.-", ".-...", "---...", "-.-.-.", "-...-", ".-.-.", "-....-", "..--.-",
             ".-..-.", "...-..-", ".--.-.", "..-.-", "--...-"
     };
+    public static int currentCursorPosition;
+    private final List<Status> statusList;
+    private final int TYPE_NORMAL = 0;
+    private final BaseAccount account;
+    private final String visibility;
+    private final app.fedilab.android.client.entities.api.Account mentionedAccount;
+    private final String editMessageId;
+    public ManageDrafts manageDrafts;
+    public promptDraftListener promptDraftListener;
+    private int statusCount;
+    private Context context;
+    private AlertDialog alertDialogEmoji;
+    private List<Emoji> emojisList = new ArrayList<>();
+    private boolean unlisted_changed = false;
+
+    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
+        this.statusList = statusList;
+        this.statusCount = statusCount;
+        this.account = account;
+        this.mentionedAccount = mentionedAccount;
+        this.visibility = visibility;
+        this.editMessageId = editMessageId;
+
+    }
 
     public static int countMorseChar(String content) {
         int count_char = 0;
@@ -180,81 +203,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return morseContent;
     }
 
-    private final List<Status> statusList;
-    private final int TYPE_NORMAL = 0;
-    private final BaseAccount account;
-    private final String visibility;
-    private final app.fedilab.android.client.entities.api.Account mentionedAccount;
-    private final String editMessageId;
-    public ManageDrafts manageDrafts;
-    private int statusCount;
-    private Context context;
-    private AlertDialog alertDialogEmoji;
-    private List<Emoji> emojisList = new ArrayList<>();
-    public promptDraftListener promptDraftListener;
-    private boolean unlisted_changed = false;
-    public static int currentCursorPosition;
-
-    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, app.fedilab.android.client.entities.api.Account mentionedAccount, String visibility, String editMessageId) {
-        this.statusList = statusList;
-        this.statusCount = statusCount;
-        this.account = account;
-        this.mentionedAccount = mentionedAccount;
-        this.visibility = visibility;
-        this.editMessageId = editMessageId;
-
-    }
-
-    /**
-     * Add an attachment from ComposeActivity
-     *
-     * @param position int - position of the drawer that added a media
-     * @param uris     List<Uri> - uris of the media
-     */
-    public void addAttachment(int position, List<Uri> uris) {
-        if (position == -1) {
-            position = statusList.size() - 1;
-        }
-        // position = statusCount-1+position;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
-        }
-        if (promptDraftListener != null) {
-            promptDraftListener.promptDraft();
-        }
-        int finalPosition = position;
-        Helper.createAttachmentFromUri(context, uris, attachments -> {
-            for (Attachment attachment : attachments) {
-                statusList.get(finalPosition).media_attachments.add(attachment);
-            }
-            notifyItemChanged(finalPosition);
-        });
-    }
-
-
-    /**
-     * Add an attachment from ComposeActivity
-     *
-     * @param position   int - position of the drawer that added a media
-     * @param attachment Attachment - media attachment
-     */
-    public void addAttachment(int position, Attachment attachment) {
-        if (position == -1) {
-            position = statusList.size() - 1;
-        }
-        // position = statusCount-1+position;
-        if (statusList.get(position).media_attachments == null) {
-            statusList.get(position).media_attachments = new ArrayList<>();
-        }
-        if (promptDraftListener != null) {
-            promptDraftListener.promptDraft();
-        }
-        int finalPosition = position;
-        statusList.get(finalPosition).media_attachments.add(attachment);
-        notifyItemChanged(finalPosition);
-
-    }
-
     private static void updateCharacterCount(ComposeViewHolder composeViewHolder) {
         int charCount = MastodonHelper.countLength(composeViewHolder);
         composeViewHolder.binding.characterCount.setText(String.valueOf(charCount));
@@ -283,6 +231,55 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         statusDraftDB.instance = instance;
         statusDraftDB.user_id = user_id;
         return statusDraftDB;
+    }
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position int - position of the drawer that added a media
+     * @param uris     List<Uri> - uris of the media
+     */
+    public void addAttachment(int position, List<Uri> uris) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        Helper.createAttachmentFromUri(context, uris, attachments -> {
+            for (Attachment attachment : attachments) {
+                statusList.get(finalPosition).media_attachments.add(attachment);
+            }
+            notifyItemChanged(finalPosition);
+        });
+    }
+
+    /**
+     * Add an attachment from ComposeActivity
+     *
+     * @param position   int - position of the drawer that added a media
+     * @param attachment Attachment - media attachment
+     */
+    public void addAttachment(int position, Attachment attachment) {
+        if (position == -1) {
+            position = statusList.size() - 1;
+        }
+        // position = statusCount-1+position;
+        if (statusList.get(position).media_attachments == null) {
+            statusList.get(position).media_attachments = new ArrayList<>();
+        }
+        if (promptDraftListener != null) {
+            promptDraftListener.promptDraft();
+        }
+        int finalPosition = position;
+        statusList.get(finalPosition).media_attachments.add(attachment);
+        notifyItemChanged(finalPosition);
+
     }
 
     //Create text when mentioning a toot
@@ -1025,19 +1022,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
-                    if (editMessageId != null) {
-                        composeAttachmentItemBinding.editPreview.setVisibility(View.INVISIBLE);
+                    if (editMessageId != null && attachment.url != null) {
+                        composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
                         composeAttachmentItemBinding.buttonDescription.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                        composeAttachmentItemBinding.buttonRemove.setVisibility(View.INVISIBLE);
                     }
                     String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
                     if (attachment.type != null || attachment.mimeType != null) {
                         if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
                             Glide.with(composeAttachmentItemBinding.preview.getContext())
                                     .load(attachmentPath)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    //.diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
                                     .into(composeAttachmentItemBinding.preview);
                         } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("video")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("video"))) {
@@ -1280,7 +1276,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
             if (extraFeatures) {
+                boolean displayLocalOnly = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_LOCAL_ONLY) + MainActivity.currentUserID + MainActivity.currentInstance, true);
                 holder.binding.buttonTextFormat.setVisibility(View.VISIBLE);
+                if (displayLocalOnly) {
+                    holder.binding.buttonLocalOnly.setVisibility(View.VISIBLE);
+                }
                 holder.binding.buttonTextFormat.setOnClickListener(v -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
                     builder.setTitle(context.getString(R.string.post_format));
@@ -1300,6 +1300,28 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     builder.setPositiveButton(R.string.validate, (dialog, which) -> {
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         statusDraft.content_type = formatArr[selectedPosition];
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                    builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builder.create().show();
+                });
+                holder.binding.buttonLocalOnly.setOnClickListener(v -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    builder.setTitle(context.getString(R.string.local_only));
+                    Resources res = context.getResources();
+                    boolean[] valArr = new boolean[]{false, true};
+                    String[] labelArr = res.getStringArray(R.array.set_local_only);
+
+                    int selection = 0;
+                    int localOnly = sharedpreferences.getInt(context.getString(R.string.SET_COMPOSE_LOCAL_ONLY) + account.user_id + account.instance, 0);
+                    if (statusDraft.local_only || localOnly == 1) {
+                        selection = 1;
+                    }
+                    builder.setSingleChoiceItems(labelArr, selection, null);
+                    builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        statusDraft.local_only = valArr[selectedPosition];
                         notifyItemChanged(holder.getLayoutPosition());
                         dialog.dismiss();
                     });
@@ -1442,7 +1464,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                 unlisted_changed = true;
             });
-            if (statusDraft.spoilerChecked) {
+
+            if (statusDraft.spoilerChecked || statusDraft.spoiler_text != null && statusDraft.spoiler_text.trim().length() > 0) {
                 holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.contentSpoiler.setVisibility(View.GONE);
@@ -1463,7 +1486,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 try {
-                    displayEmojiPicker(holder);
+                    displayEmojiPicker(holder, account.instance);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -1850,7 +1873,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param holder - view for the message {@link ComposeViewHolder}
      * @throws DBException
      */
-    private void displayEmojiPicker(ComposeViewHolder holder) throws DBException {
+    private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
         int paddingPixel = 15;
@@ -1860,10 +1883,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         builder.setTitle(R.string.insert_emoji);
         if (emojis != null && emojis.size() > 0) {
             GridView gridView = new GridView(context);
-            gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
+            gridView.setAdapter(new EmojiAdapter(emojis.get(instance)));
             gridView.setNumColumns(5);
             gridView.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(BaseMainActivity.currentInstance).get(position).shortcode + ": ");
+                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(instance).get(position).shortcode + ": ");
                 alertDialogEmoji.dismiss();
             });
             gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);

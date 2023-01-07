@@ -117,8 +117,6 @@ public class ProfileActivity extends BaseActivity {
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
     private boolean checkRemotely;
-    private boolean homeMuted;
-
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -133,6 +131,7 @@ public class ProfileActivity extends BaseActivity {
             }
         }
     };
+    private boolean homeMuted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,12 +144,16 @@ public class ProfileActivity extends BaseActivity {
         Bundle b = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
         checkRemotely = false;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         homeMuted = false;
         if (b != null) {
             account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
             account_id = b.getString(Helper.ARG_USER_ID, null);
             mention_str = b.getString(Helper.ARG_MENTION, null);
             checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
+        if (!checkRemotely) {
+            checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_PROFILE_REMOTELY), false);
         }
         ActivityCompat.postponeEnterTransition(ProfileActivity.this);
         //Remove title
@@ -162,7 +165,7 @@ public class ProfileActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);

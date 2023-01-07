@@ -951,4 +951,24 @@
     <string name="api_key">Klíč pro API překladače</string>
     <string name="version">Verze</string>
     <string name="set_translator_version">Verze překladače</string>
+    <string name="icons_visibility">Viditelnost ikon</string>
+    <string name="icons_visibility_summary">Můžete bezpečně skrýt tyto ikony v dolní oblasti, abyste získali více prostoru. Jsou k dispozici i v podnabídce.</string>
+    <string name="post_format">Formát příspěvků</string>
+    <string name="icons_extra_features">Ikony pro extra funkce</string>
+    <string name="icons_extra_features_visibility_summary">Pokud vaše instance nepodporuje některé extra funkce, můžete tyto ikony skýt</string>
+    <string name="set_display_quote_indication">Zobrazit tlačítko „Citovat“</string>
+    <string name="set_display_reaction_indication">Zobrazit tlačítko „Reakce“</string>
+    <string name="set_extand_extra_features">Povolením této volby se zobrazí extra funkce. Jsou určeny pro softwary sociálních sítí jako Pleroma, Akkoma nebo Glitch Social</string>
+    <string name="set_extand_extra_features_title">Extra funkce</string>
+    <string name="set_post_format">Formát příspěvků</string>
+    <string name="bubble">Bublina</string>
+    <string name="set_remote_profile">K získání všech zpráv bude aplikace veřejně zobrazovat profily. Interakce budou k federaci zpráv potřebovat dodatečný krok.</string>
+    <string name="v_list">Seznam</string>
+    <string name="set_remote_profile_title">Vzdálené profily</string>
+    <string name="set_display_local_only">Zobrazit tlačítko „Jen místní“</string>
+    <string name="local_only">Jen místní</string>
+    <string name="email_status">Stav e-mailu</string>
+    <string name="login_status">Stav přihlášení</string>
+    <string name="joined">Připojil(a) se</string>
+    <string name="silenced">Ztišen(a)</string>
 </resources>

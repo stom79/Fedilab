@@ -40,11 +40,12 @@ public class CustomReceiver extends MessagingReceiver {
         // Called when a new message is received. The message contains the full POST body of the push message
         new Thread(() -> {
             try {
-               /* ECDH ecdh = ECDH.getInstance(slug);
-                if (ecdh == null) {
-                    return;
-                }*/
-                //String decrypted = ecdh.uncryptMessage(context, String.valueOf(message));
+                /*Notification notification = ECDHFedilab.decryptNotification(context, slug, message);
+                Log.v(Helper.TAG,"notification: " + notification);
+                if(notification != null) {
+                    Log.v(Helper.TAG,"id: " + notification.id);
+                }
+                */
                 NotificationsHelper.task(context, slug);
             } catch (Exception e) {
                 e.printStackTrace();

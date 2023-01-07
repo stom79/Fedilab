@@ -14,6 +14,7 @@ package app.fedilab.android.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
@@ -22,7 +23,6 @@ import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -57,8 +57,10 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.app.BottomMenu;
+import app.fedilab.android.client.entities.app.BubbleTimeline;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.RemoteInstance;
@@ -66,6 +68,8 @@ import app.fedilab.android.client.entities.app.StatusCache;
 import app.fedilab.android.client.entities.app.TagTimeline;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
+import app.fedilab.android.databinding.DialogBubbleExcludeVisibilityBinding;
+import app.fedilab.android.databinding.DialogBubbleReplyVisibilityBinding;
 import app.fedilab.android.databinding.TabCustomDefaultViewBinding;
 import app.fedilab.android.databinding.TabCustomViewBinding;
 import app.fedilab.android.exception.DBException;
@@ -94,60 +98,6 @@ public class PinnedTimelineHelper {
     }
 
 
-    /**
-     * Returns the slug of the first loaded fragment
-     *
-     * @param context    - Context
-     * @param pinned     - {@link Pinned}
-     * @param bottomMenu - {@link BottomMenu}
-     * @return String - slug
-     */
-    public static String firstTimelineSlug(Context context, Pinned pinned, BottomMenu bottomMenu) {
-        String slug = Timeline.TimeLineEnum.HOME.getValue();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean singleBar = sharedpreferences.getBoolean(context.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-        PinnedTimeline pinnedTimelineMin = null;
-        if (singleBar) {
-            if (pinned != null && pinned.pinnedTimelines != null) {
-                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                    if (pinnedTimeline.displayed) {
-                        if (pinnedTimelineMin == null) {
-                            pinnedTimelineMin = pinnedTimeline;
-                        } else if (pinnedTimelineMin.position > pinnedTimeline.position) {
-                            pinnedTimelineMin = pinnedTimeline;
-                        }
-                    }
-                }
-            }
-        } else {
-            if (bottomMenu != null && bottomMenu.bottom_menu != null && bottomMenu.bottom_menu.size() > 0) {
-                BottomMenu.MenuItem menuItem = bottomMenu.bottom_menu.get(0);
-                return menuItem.item_menu_type.getValue();
-            }
-
-        }
-        String ident = null;
-        if (pinnedTimelineMin != null) {
-            if (pinnedTimelineMin.tagTimeline != null) {
-                ident = "@T@" + pinnedTimelineMin.tagTimeline.name;
-                if (pinnedTimelineMin.tagTimeline.isART) {
-                    pinnedTimelineMin.type = Timeline.TimeLineEnum.ART;
-                }
-            } else if (pinnedTimelineMin.mastodonList != null) {
-                ident = "@l@" + pinnedTimelineMin.mastodonList.id;
-            } else if (pinnedTimelineMin.remoteInstance != null) {
-                if (pinnedTimelineMin.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
-                    String remoteInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    ident = "@R@" + remoteInstance;
-                } else {
-                    ident = "@R@" + pinnedTimelineMin.remoteInstance.host;
-                }
-            }
-            slug = pinnedTimelineMin.type.getValue() + (ident != null ? "|" + ident : "");
-        }
-        return slug;
-    }
-
     public synchronized static void redrawTopBarPinned(BaseMainActivity activity, ActivityMainBinding activityMainBinding, Pinned pinned, BottomMenu bottomMenu, List<MastodonList> mastodonLists) {
         //Values must be initialized if there is no records in db
         if (pinned == null) {
@@ -159,8 +109,8 @@ public class PinnedTimelineHelper {
             pinned.pinnedTimelines = new ArrayList<>();
         }
         //Set the slug of first visible fragment
-        String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
-        Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);
+        /*String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
+        Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);*/
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -187,6 +137,7 @@ public class PinnedTimelineHelper {
 
         activityMainBinding.viewPager.setLayoutParams(params);
         List<PinnedTimeline> pinnedTimelines = pinned.pinnedTimelines;
+        boolean extraFeatures = sharedpreferences.getBoolean(activity.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
 
         if (singleBar) {
             boolean createDefaultAtTop = true;
@@ -222,15 +173,46 @@ public class PinnedTimelineHelper {
                 pinnedTimelineConversations.type = Timeline.TimeLineEnum.DIRECT;
                 pinnedTimelineConversations.position = 4;
                 pinned.pinnedTimelines.add(pinnedTimelineConversations);
-
                 try {
                     new Pinned(activity).updatePinned(pinned);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
             }
-
         }
+        if (extraFeatures) {
+            try {
+                Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                if (pinnedAll == null) {
+                    pinnedAll = new Pinned();
+                    pinnedAll.user_id = currentUserID;
+                    pinnedAll.instance = currentInstance;
+                    pinnedAll.pinnedTimelines = new ArrayList<>();
+                }
+                boolean createDefaultBubbleAtTop = true;
+                for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                    if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {
+                        createDefaultBubbleAtTop = false;
+                        break;
+                    }
+                }
+                if (createDefaultBubbleAtTop) {
+                    PinnedTimeline pinnedTimelineBubble = new PinnedTimeline();
+                    pinnedTimelineBubble.type = Timeline.TimeLineEnum.BUBBLE;
+                    pinnedTimelineBubble.position = pinnedAll.pinnedTimelines != null ? pinnedAll.pinnedTimelines.size() : 0;
+                    pinned.pinnedTimelines.add(pinnedTimelineBubble);
+                    boolean exist = new Pinned(activity).pinnedExist(pinned);
+                    if (exist) {
+                        new Pinned(activity).updatePinned(pinned);
+                    } else {
+                        new Pinned(activity).insertPinned(pinned);
+                    }
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+
         sortPositionAsc(pinnedTimelines);
         //Check if changes occurred, if mastodonLists is null it does need, because it is the first call to draw pinned
         boolean needRedraw = mastodonLists == null;
@@ -421,6 +403,9 @@ public class PinnedTimelineHelper {
                         case DIRECT:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
                             break;
+                        case BUBBLE:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
+                            break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
@@ -521,6 +506,9 @@ public class PinnedTimelineHelper {
                         break;
                     case TAG:
                         tagClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
+                        break;
+                    case BUBBLE:
+                        bubbleClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         break;
                     case REMOTE:
                         if (pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
@@ -989,6 +977,244 @@ public class PinnedTimelineHelper {
                         ((AppCompatTextView) titleView).setText(tagTimeline.displayName);
                     }
                     pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+                    try {
+                        new Pinned(activity).updatePinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                });
+                alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            }
+            return false;
+        });
+        popup.show();
+    }
+
+
+    /**
+     * Manage long clicks on Bubble timelines
+     *
+     * @param activity - BaseMainActivity activity
+     * @param pinned   - {@link Pinned}
+     * @param view     - View
+     * @param position - int position of the tab
+     */
+    public static void bubbleClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
+        int toRemove = itemToRemoveInBottomMenu(activity);
+        PopupMenu popup = new PopupMenu(activity, view);
+        int offSetPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+        if (singleBar) {
+            offSetPosition = position;
+        }
+
+        if (pinned.pinnedTimelines.get(offSetPosition).bubbleTimeline == null) {
+            pinned.pinnedTimelines.get(offSetPosition).bubbleTimeline = new BubbleTimeline();
+        }
+        BubbleTimeline bubbleTimeline = pinned.pinnedTimelines.get(offSetPosition).bubbleTimeline;
+
+        popup.getMenuInflater()
+                .inflate(R.menu.option_bubble_timeline, popup.getMenu());
+        Menu menu = popup.getMenu();
+
+        final MenuItem itemMediaOnly = menu.findItem(R.id.action_show_media_only);
+        final MenuItem itemRemote = menu.findItem(R.id.action_remote);
+
+
+        final boolean[] changes = {false};
+        final boolean[] mediaOnly = {false};
+        final boolean[] remote = {false};
+        mediaOnly[0] = bubbleTimeline.only_media;
+        remote[0] = bubbleTimeline.remote;
+        itemMediaOnly.setChecked(mediaOnly[0]);
+        itemRemote.setChecked(remote[0]);
+        popup.setOnDismissListener(menu1 -> {
+            if (changes[0]) {
+                if (activityMainBinding.viewPager.getAdapter() != null) {
+                    try {
+                        new StatusCache(activity).deleteForSlug(slug);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(activity.getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+                    editor.commit();
+                    Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
+                        FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
+                        fragTransaction.detach(fragmentMastodonTimeline).commit();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.BUBBLE);
+                        bundle.putSerializable(Helper.ARG_BUBBLE_TIMELINE, bubbleTimeline);
+                        bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
+                        fragmentMastodonTimeline.setArguments(bundle);
+                        FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                        fragTransaction2.attach(fragmentMastodonTimeline);
+                        fragTransaction2.commit();
+                        ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
+                    }
+                }
+            }
+        });
+
+
+        int finalOffSetPosition = offSetPosition;
+        popup.setOnMenuItemClickListener(item -> {
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            item.setActionView(new View(activity));
+            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    return false;
+                }
+            });
+            changes[0] = true;
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_show_media_only) {
+                mediaOnly[0] = !mediaOnly[0];
+                bubbleTimeline.only_media = mediaOnly[0];
+                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+                itemMediaOnly.setChecked(mediaOnly[0]);
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            } else if (itemId == R.id.action_remote) {
+                remote[0] = !remote[0];
+                bubbleTimeline.remote = remote[0];
+                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+                itemRemote.setChecked(remote[0]);
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            } else if (itemId == R.id.action_exclude_visibility) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                DialogBubbleExcludeVisibilityBinding dialogBinding = DialogBubbleExcludeVisibilityBinding.inflate(activity.getLayoutInflater());
+                dialogBuilder.setView(dialogBinding.getRoot());
+                dialogBuilder.setTitle(R.string.exclude_visibility);
+                if (bubbleTimeline.exclude_visibilities == null) {
+                    bubbleTimeline.exclude_visibilities = new ArrayList<>();
+                }
+                for (String value : bubbleTimeline.exclude_visibilities) {
+                    if (value.equalsIgnoreCase("public")) {
+                        dialogBinding.valuePublic.setChecked(true);
+                    }
+                    if (value.equalsIgnoreCase("local")) {
+                        dialogBinding.valueLocal.setChecked(true);
+                    }
+                    if (value.equalsIgnoreCase("direct")) {
+                        dialogBinding.valueDirect.setChecked(true);
+                    }
+                    if (value.equalsIgnoreCase("list")) {
+                        dialogBinding.valueList.setChecked(true);
+                    }
+                    if (value.equalsIgnoreCase("private")) {
+                        dialogBinding.valuePrivate.setChecked(true);
+                    }
+                    if (value.equalsIgnoreCase("unlisted")) {
+                        dialogBinding.valueUnlisted.setChecked(true);
+                    }
+                }
+                dialogBinding.valuePrivate.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("private")) {
+                            bubbleTimeline.exclude_visibilities.add("private");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("private");
+                    }
+                });
+                dialogBinding.valueDirect.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("direct")) {
+                            bubbleTimeline.exclude_visibilities.add("direct");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("direct");
+                    }
+                });
+                dialogBinding.valueList.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("list")) {
+                            bubbleTimeline.exclude_visibilities.add("list");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("list");
+                    }
+                });
+                dialogBinding.valueLocal.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("local")) {
+                            bubbleTimeline.exclude_visibilities.add("local");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("local");
+                    }
+                });
+                dialogBinding.valuePublic.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("public")) {
+                            bubbleTimeline.exclude_visibilities.add("public");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("public");
+                    }
+                });
+                dialogBinding.valueUnlisted.setOnCheckedChangeListener((compoundButton, checked) -> {
+                    if (checked) {
+                        if (!bubbleTimeline.exclude_visibilities.contains("unlisted")) {
+                            bubbleTimeline.exclude_visibilities.add("unlisted");
+                        }
+                    } else {
+                        bubbleTimeline.exclude_visibilities.remove("unlisted");
+                    }
+                });
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+                    try {
+                        new Pinned(activity).updatePinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            } else if (itemId == R.id.action_reply_visibility) {
+                AlertDialog.Builder dialogBuilder;
+                AlertDialog alertDialog;
+                dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                DialogBubbleReplyVisibilityBinding dialogBinding = DialogBubbleReplyVisibilityBinding.inflate(activity.getLayoutInflater());
+                dialogBuilder.setView(dialogBinding.getRoot());
+                dialogBuilder.setTitle(R.string.reply_visibility);
+                int checkedId = R.id.all;
+                if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("following")) {
+                    checkedId = R.id.following;
+                } else if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("self")) {
+                    checkedId = R.id.self;
+                }
+                dialogBinding.replyVisibility.check(checkedId);
+                dialogBinding.replyVisibility.setOnCheckedChangeListener((radioGroup, checkedElement) -> {
+                    if (checkedElement == R.id.all) {
+                        bubbleTimeline.reply_visibility = null;
+                    } else if (checkedElement == R.id.following) {
+                        bubbleTimeline.reply_visibility = "following";
+                    } else if (checkedElement == R.id.self) {
+                        bubbleTimeline.reply_visibility = "self";
+                    }
+                });
+                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                    pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
                     try {
                         new Pinned(activity).updatePinned(pinned);
                     } catch (DBException e) {

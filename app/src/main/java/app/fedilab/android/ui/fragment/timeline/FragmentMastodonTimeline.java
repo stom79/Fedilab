@@ -16,7 +16,6 @@ package app.fedilab.android.ui.fragment.timeline;
 
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
-import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
 import android.content.BroadcastReceiver;
@@ -52,6 +51,7 @@ import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Pagination;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.client.entities.api.Statuses;
+import app.fedilab.android.client.entities.app.BubbleTimeline;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.StatusCache;
@@ -84,9 +84,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-    private boolean checkRemotely;
-    private String accountIDInRemoteInstance;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -103,12 +100,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (receivedStatus != null && statusAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
-                        timelineStatuses.get(position).reblog = receivedStatus.reblog;
-                        timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
-                        timelineStatuses.get(position).favourited = receivedStatus.favourited;
-                        timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
-                        timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                        timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                        if (receivedStatus.reblog != null) {
+                            timelineStatuses.get(position).reblog = receivedStatus.reblog;
+                        }
+                        if (timelineStatuses.get(position).reblog != null) {
+                            timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
+                            timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
+                            timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
+                            timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
+                            timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
+                        } else {
+                            timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
+                            timelineStatuses.get(position).favourited = receivedStatus.favourited;
+                            timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
+                            timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                            timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                        }
+
+
                         statusAdapter.notifyItemChanged(position);
                     }
                 } else if (delete_statuses_for_user != null && statusAdapter != null) {
@@ -162,10 +171,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
+    private boolean checkRemotely;
+    private String accountIDInRemoteInstance;
     private boolean isViewInitialized;
     private Statuses initialStatuses;
     private String list_id;
     private TagTimeline tagTimeline;
+    private BubbleTimeline bubbleTimeline;
     private LinearLayoutManager mLayoutManager;
     private Account accountTimeline;
     private boolean exclude_replies, exclude_reblogs, show_pinned, media_only, minified;
@@ -179,6 +191,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private int lockForResumeCall;
     private boolean isNotPinnedTimeline;
     private int extraCalls;
+
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;
@@ -241,7 +254,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             return -1;
         }
         for (Status _status : timelineStatuses) {
-            if (_status.id != null && _status.id.compareTo(status.id) == 0) {
+            if (_status.reblog == null && _status.id != null && _status.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            } else if (_status.reblog != null && _status.reblog.id != null && _status.reblog.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
             }
@@ -332,6 +348,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
             isNotPinnedTimeline = isViewInitialized;
             tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
+            bubbleTimeline = (BubbleTimeline) getArguments().getSerializable(Helper.ARG_BUBBLE_TIMELINE);
             accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
             exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
             checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
@@ -342,11 +359,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
+
         //When visiting a profile without being authenticated
         if (checkRemotely) {
             String[] acctArray = accountTimeline.acct.split("@");
             if (acctArray.length > 1) {
                 remoteInstance = acctArray[1];
+            }
+            if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
+                checkRemotely = false;
+            } else if (remoteInstance == null) {
+                checkRemotely = false;
             }
         }
         if (tagTimeline != null) {
@@ -354,6 +377,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (tagTimeline.isART) {
                 timelineType = Timeline.TimeLineEnum.ART;
             }
+        } else if (bubbleTimeline != null) {
+            ident = "@B@Bubble";
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null && !checkRemotely) {
@@ -387,7 +412,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
-
+        int currentPosition = mLayoutManager.findFirstVisibleItemPosition();
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             try {
                 if (statusToUpdate != null) {
@@ -450,7 +475,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 update.onUpdate(0, timelineType, slug);
             }
             if (direction == DIRECTION.TOP && fetchingMissing) {
-                binding.recyclerView.scrollToPosition(getPosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1)) + 1);
+                int newPosition = currentPosition + fetched_statuses.statuses.size() + 1;
+                if (newPosition < timelineStatuses.size()) {
+                    binding.recyclerView.scrollToPosition(newPosition);
+                }
             }
             if (!fetchingMissing) {
                 if (fetched_statuses.pagination.max_id == null) {
@@ -619,7 +647,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             });
             //For first tab we fetch new messages, if we keep position
-            if (slug != null && slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0 && rememberPosition) {
+            if (slug != null /*&& slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0*/ && rememberPosition) {
                 route(DIRECTION.FETCH_NEW, true);
             }
         }
@@ -711,6 +739,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             case PUBLIC:
                 timelineParams.local = false;
                 timelineParams.remote = true;
+                break;
+            case BUBBLE:
+                if (bubbleTimeline != null) {
+                    timelineParams.onlyMedia = bubbleTimeline.only_media;
+                    timelineParams.remote = bubbleTimeline.remote;
+                    timelineParams.replyVisibility = bubbleTimeline.reply_visibility;
+                    timelineParams.excludeVisibilities = bubbleTimeline.exclude_visibilities;
+                }
                 break;
             case LIST:
                 timelineParams.listId = list_id;
@@ -897,6 +933,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
             routeCommon(direction, fetchingMissing, statusToUpdate);
         } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
+            routeCommon(direction, fetchingMissing, statusToUpdate);
+        } else if (timelineType == Timeline.TimeLineEnum.BUBBLE) { //BUBBLE TIMELINE
             routeCommon(direction, fetchingMissing, statusToUpdate);
         } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
             //NITTER TIMELINES

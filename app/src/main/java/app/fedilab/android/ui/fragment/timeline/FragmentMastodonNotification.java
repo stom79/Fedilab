@@ -209,6 +209,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("status");
         excludeType.add("admin.sign_up");
         excludeType.add("admin.report");
+        excludeType.add("pleroma:emoji_reaction");
         if (notificationType == NotificationTypeEnum.ALL) {
             aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
             if (excludedCategories != null) {

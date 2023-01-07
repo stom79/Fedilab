@@ -1,0 +1,5 @@
+Added:
+- Glitch: Allow to post messages locally (Can be turned off in Settings)
+
+Fixed:
+- Crashes
