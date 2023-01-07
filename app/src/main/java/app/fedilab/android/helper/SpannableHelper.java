@@ -41,6 +41,7 @@ import android.text.style.URLSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -286,19 +287,25 @@ public class SpannableHelper {
 
     private static void makeLinks(Context context, SpannableStringBuilder content, String url, int start, int end) {
         String newUrl = url;
-        String newURL = Helper.transformURL(context, url);
-        //If URL has been transformed
-        if (newURL.compareTo(url) != 0) {
-            content.replace(start, end, newURL);
-            end = start + newURL.length();
-            url = newURL;
+        boolean validUrl = URLUtil.isValidUrl(url) && url.length() == (end - start);
+        if (validUrl) {
+            newUrl = Helper.transformURL(context, url);
         }
-        if (url.length() > 30 && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("gimini://"))) {
+
+
+        //If URL has been transformed
+        if (validUrl && newUrl.compareTo(url) != 0) {
+            content.replace(start, end, newUrl);
+            end = start + newUrl.length();
+            url = newUrl;
+        }
+        if (url.length() > 30 && (validUrl || url.startsWith("gimini://"))) {
             newUrl = url.substring(0, 30);
             newUrl += "…";
             content.replace(start, end, newUrl);
         }
-        int matchEnd = start + newUrl.length();
+        int matchEnd = validUrl ? start + newUrl.length() : end;
+
         String finalUrl = url;
         if (content.length() < matchEnd) {
             matchEnd = content.length();
@@ -439,6 +446,8 @@ public class SpannableHelper {
                 textView.setTag(CLICKABLE_SPAN);
                 Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
                 Matcher matcherLink = link.matcher(finalUrl);
+                Pattern linkLong = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)(/[0-9]+)?$");
+                Matcher matcherLinkLong = linkLong.matcher(finalUrl);
                 if (matcherLink.find() && !finalUrl.contains("medium.com")) {
                     if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
                         CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
@@ -456,6 +465,38 @@ public class SpannableHelper {
                         });
                     } else {//It's an account
                         CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                            }
+
+                            @Override
+                            public void federatedAccount(Account account) {
+                                Intent intent = new Intent(context, ProfileActivity.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                intent.putExtras(b);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
+                } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
+                    if (matcherLinkLong.group(3) != null && Objects.requireNonNull(matcherLinkLong.group(3)).length() > 0) { //It's a toot
+                        CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                                Intent intent = new Intent(context, ContextActivity.class);
+                                intent.putExtra(Helper.ARG_STATUS, status);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+
+                            @Override
+                            public void federatedAccount(Account account) {
+                            }
+                        });
+                    } else if (matcherLinkLong.group(2) != null) {//It's an account
+                        CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLinkLong.group(2), new CrossActionHelper.Callback() {
                             @Override
                             public void federatedStatus(Status status) {
                             }

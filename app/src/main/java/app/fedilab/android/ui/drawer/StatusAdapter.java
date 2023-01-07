@@ -1743,6 +1743,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     statusDraft.statusReplyList = new ArrayList<>();
                                     statusToDeal.text = statusSource.text;
                                     statusToDeal.spoiler_text = statusSource.spoiler_text;
+                                    if (statusToDeal.spoiler_text != null && statusToDeal.spoiler_text.length() > 0) {
+                                        statusToDeal.spoilerChecked = true;
+                                    }
                                     statusDraft.statusDraftList.add(statusToDeal);
                                     intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
                                     intent.putExtra(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);

@@ -366,6 +366,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (acctArray.length > 1) {
                 remoteInstance = acctArray[1];
             }
+            if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
+                checkRemotely = false;
+            } else if (remoteInstance == null) {
+                checkRemotely = false;
+            }
         }
         if (tagTimeline != null) {
             ident = "@T@" + tagTimeline.name;

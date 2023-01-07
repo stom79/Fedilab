@@ -1,0 +1,20 @@
+Added:
+
+- Add Bubble timeline support in extra-features with filters
+- Allow to display public profiles by default to get all messages (Settings > Interface)
+- Glitch: Allow to post messages locally (Can be turned off in Settings)
+- Pixelfed: Custom layout to display Media fully (Also works for other software when there are media)
+- Allow to align left action buttons in messages
+
+Changed:
+- Full rework on links in messages (also mentions and tags)
+- Add pinned tag in "any" to avoid to lose it when renaming timeline
+
+Fixed:
+- Links to messages not handled by the app
+- CW when editing a message
+- Fix push notifications with several accounts
+- Fix quotes with tags/mentions
+- Fix notifications
+- Fix sending multiple media
+- Fix crashes
