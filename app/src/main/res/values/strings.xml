@@ -1371,6 +1371,8 @@
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
     <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
+    <string name="SET_DISPLAY_COMPACT_ACTION_BUTTON" translatable="false">SET_DISPLAY_COMPACT_ACTION_BUTTON</string>
+
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
@@ -2201,4 +2203,6 @@
     <string name="local_only">Local only</string>
     <string name="set_display_local_only">Display \"Local only\" button</string>
     <string name="set_pixelfed_presentation">Pixelfed presentation for media</string>
+    <string name="set_display_compact_buttons">Compact action buttons</string>
+    <string name="set_display_compact_buttons_description">Buttons at the bottom of messages will not take the whole width</string>
 </resources>
