@@ -962,4 +962,5 @@
     <string name="set_remote_profile">Uygulama, tüm mesajları almak için herkese açık profilleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
     <string name="set_display_local_only">\"Yalnızca yerel\" düğmesini göster</string>
     <string name="local_only">Yalnızca yerel</string>
+    <string name="set_pixelfed_presentation">Medya için Pixelfed sunumu</string>
 </resources>
