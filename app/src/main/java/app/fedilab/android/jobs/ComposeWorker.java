@@ -272,7 +272,7 @@ public class ComposeWorker extends Worker {
                             b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                             String err = statusResponse.errorBody().string();
                             if (err.contains("{\"error\":\"")) {
-                                err = err.replaceAll("\\{\"error\":\"(.*)\"}", "$1");
+                                err = err.replaceAll("\\{\"error\":\"(.*)\"\\}", "$1");
                             }
                             b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
                             intentBD.putExtras(b);
