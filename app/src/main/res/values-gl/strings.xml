@@ -958,4 +958,5 @@
     <string name="set_translator_version">Versión do tradutor</string>
     <string name="icons_visibility_summary">Podes agochar tranquilamente estas iconas ao pé para ter máis espazo. Están tamén no submenú.</string>
     <string name="set_remote_profile">A app mostrará públicamente os perfís para obter tódalas mensaxes. As interaccións precisarán un paso extra para federar as mensaxes.</string>
+    <string name="set_pixelfed_presentation">Presentación Pixelfed para multimedia</string>
 </resources>
