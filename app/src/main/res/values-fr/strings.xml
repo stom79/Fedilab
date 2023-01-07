@@ -938,4 +938,21 @@
     <string name="admin_domainblock_public_comment">Commentaire à propos de la limitation de ce domaine au public, si l\'annonce de la liste de limitation de domaines est activée.</string>
     <string name="group_reblogs">Re-blog de groupe dans la timeline d’accueil</string>
     <string name="add_all_users_home_muted">Ajouter tout les utilisateurs masqués à l’accueil</string>
+    <string name="api_key">Clé API du traducteur</string>
+    <string name="icons_extra_features_visibility_summary">Si votre instance n\'accepte pas certaines fonctionnalités supplémentaires, vous pouvez masquer ces icônes</string>
+    <string name="set_extand_extra_features">En activant cette option, l\'application affichera des fonctionnalités supplémentaires. Cette fonctionnalité est utilisée pour les logiciels sociaux comme Pleroma, Akkoma ou Glitch Social</string>
+    <string name="set_translator_version">Version du traducteur</string>
+    <string name="set_extand_extra_features_title">Fonctionnalités supplémentaires</string>
+    <string name="icons_visibility_summary">Vous pouvez sans risque cacher ces icônes en bas pour avoir plus d\'espace. Elles se trouvent également dans le sous-menu.</string>
+    <string name="icons_extra_features">Icônes pour les fonctions supplémentaires</string>
+    <string name="bubble">Bulle</string>
+    <string name="reply_visibility">Visibilité des réponses</string>
+    <string name="v_list">Liste</string>
+    <string name="following">Suivant</string>
+    <string name="icons_visibility">Visibilité des icônes</string>
+    <string name="translator">Traducteur</string>
+    <string name="set_translator">Traducteur</string>
+    <string name="set_remove_left_margin_title">Supprimer la marge de gauche</string>
+    <string name="set_remove_left_margin">Suppression de la marge de gauche dans les lignes de temps pour rendre les messages plus compacts</string>
+    <string name="version">Version</string>
 </resources>
