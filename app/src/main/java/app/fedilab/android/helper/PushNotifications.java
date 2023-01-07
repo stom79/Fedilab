@@ -64,6 +64,10 @@ public class PushNotifications {
         boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
         boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
         boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
+        boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
+        boolean notif_updates = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
+        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
+        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
         new Thread(() -> {
             String[] slugArray = slug.split("@");
             BaseAccount accountDb = null;
@@ -87,7 +91,11 @@ public class PushNotifications {
                     notif_fav,
                     notif_share,
                     notif_mention,
-                    notif_poll);
+                    notif_poll,
+                    notif_status,
+                    notif_updates,
+                    notif_signup,
+                    notif_report);
             if (pushSubscriptionCall != null) {
                 try {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();

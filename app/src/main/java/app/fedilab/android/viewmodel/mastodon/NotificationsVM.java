@@ -304,12 +304,17 @@ public class NotificationsVM extends AndroidViewModel {
                                                        boolean favourite,
                                                        boolean reblog,
                                                        boolean mention,
-                                                       boolean poll) {
+                                                       boolean poll,
+                                                       boolean status,
+                                                       boolean updates,
+                                                       boolean signup,
+                                                       boolean report
+    ) {
         pushSubscriptionMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             PushSubscription pushSubscription = null;
-            Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(token, endpoint, keys_p256dh, keys_auth, follow, favourite, reblog, mention, poll);
+            Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(token, endpoint, keys_p256dh, keys_auth, follow, favourite, reblog, mention, poll, status, updates, signup, report);
             if (pushSubscriptionCall != null) {
                 try {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();

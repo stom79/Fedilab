@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.0",
+    "code": "462",
+    "note": "Added:\n\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n- Pixelfed: Custom layout to display Media fully (Also works for other software when there are media)\n- Allow to align left action buttons in messages\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Links to messages not handled by the app\n- CW when editing a message\n- Fix push notifications with several accounts\n- New messages or edition notifications not pushed\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Fix crashes"
+  },
+  {
     "version": "3.13.7",
     "code": "461",
     "note": "Added:\n- Pixelfed: Custom layout to display Media fully \n*(Settings > Timelines > Pixelfed Presentation) - Also works for other softwares when there are media\n\nChanged:\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Fix push notifications with several accounts\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Some crashes"

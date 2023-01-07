@@ -71,7 +71,12 @@ public interface MastodonNotificationsService {
             @Field("data[alerts][favourite]") boolean favourite,
             @Field("data[alerts][reblog]") boolean reblog,
             @Field("data[alerts][mention]") boolean mention,
-            @Field("data[alerts][poll]") boolean poll
+            @Field("data[alerts][poll]") boolean poll,
+            @Field("data[alerts][status]") boolean status,
+            @Field("data[alerts][update]") boolean update,
+            @Field("data[alerts][admin.sign_up]") boolean admin_sign_up,
+            @Field("data[alerts][admin.report]") boolean admin_report
+
     );
 
     @GET("push/subscription")
