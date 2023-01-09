@@ -99,7 +99,9 @@ public class SpannableHelper {
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback) {
-
+        if (text == null) {
+            return null;
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
