@@ -398,7 +398,7 @@
     <string name="settings_category_notif_categories">Kategorien</string>
     <string name="move_timeline">Timeline verschieben</string>
     <string name="hide_timeline">Timeline ausblenden</string>
-    <string name="reorder_timelines">Verwaltung der Timelines</string>
+    <string name="reorder_timelines">Timelines verwalten</string>
     <string name="reorder_list_deleted">Liste endgültig gelöscht</string>
     <string name="reorder_instance_removed">Gefolgte Instanz entfernt</string>
     <string name="reorder_tag_removed">Angehefteter Hashtag entfernt</string>
@@ -639,7 +639,7 @@
     <string name="notif_display_poll_results">Ergebnisse der Umfrage</string>
     <string name="mark_all_as_read">Alle Benachrichtigungen als gelesen markieren</string>
     <string name="clear_all_notif">Alle Benachrichtigungen entfernen</string>
-    <string name="scheduled">Geplant</string>
+    <string name="scheduled">Beiträge planen</string>
     <string name="profiled_updated">Profil wurde aktualisiert!</string>
     <string name="not_valid_list_name">Listenname ist nicht gültig!</string>
     <string name="no_account_in_list">Keine Konten für diese Liste gefunden!</string>
@@ -964,4 +964,7 @@
     <string name="set_remote_profile_title">Profile auf anderen Instanzen</string>
     <string name="local_only">Nur Lokal</string>
     <string name="set_display_local_only">Zeige den Knopf \"Nur Lokal\"</string>
+    <string name="set_pixelfed_presentation">Pixelfed-Präsentation für Medien</string>
+    <string name="set_display_compact_buttons_description">Knöpfe am unteren Rand von Beiträgen benötigen nicht die gesamte Breite</string>
+    <string name="set_display_compact_buttons">Kompakte Aktions-Knöpfe</string>
 </resources>
