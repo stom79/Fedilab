@@ -161,8 +161,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     if (toRemove.size() > 0) {
                         for (int i = 0; i < toRemove.size(); i++) {
                             int position = getPosition(toRemove.get(i));
-                            timelineStatuses.remove(position);
-                            statusAdapter.notifyItemRemoved(position);
+                            if (position >= 0) {
+                                timelineStatuses.remove(position);
+                                statusAdapter.notifyItemRemoved(position);
+                            }
                         }
                     }
                 } else if (refreshAll) {
@@ -258,6 +260,29 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 found = true;
                 break;
             } else if (_status.reblog != null && _status.reblog.id != null && _status.reblog.id.compareTo(status.id) == 0) {
+                found = true;
+                break;
+            }
+            position++;
+        }
+        return found ? position : -1;
+    }
+
+
+    /**
+     * Return the position of the status in the ArrayList
+     *
+     * @param status - Status to fetch
+     * @return position or -1 if not found
+     */
+    private int getAbsolutePosition(Status status) {
+        int position = 0;
+        boolean found = false;
+        if (status.id == null) {
+            return -1;
+        }
+        for (Status _status : timelineStatuses) {
+            if (_status.id != null && _status.id.compareTo(status.id) == 0) {
                 found = true;
                 break;
             }
@@ -412,7 +437,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
-        int currentPosition = mLayoutManager.findFirstVisibleItemPosition();
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && fetched_statuses.statuses.size() > 0) {
             try {
                 if (statusToUpdate != null) {
@@ -475,9 +499,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 update.onUpdate(0, timelineType, slug);
             }
             if (direction == DIRECTION.TOP && fetchingMissing) {
-                int newPosition = currentPosition + fetched_statuses.statuses.size() + 1;
-                if (newPosition < timelineStatuses.size()) {
-                    binding.recyclerView.scrollToPosition(newPosition);
+                int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
+
+                if (position != -1) {
+                    binding.recyclerView.scrollToPosition(position + 1);
                 }
             }
             if (!fetchingMissing) {
