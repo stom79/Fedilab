@@ -522,9 +522,8 @@ public class Helper {
         long months = days / 30;
         long years = days / 365;
 
-        String format = DateFormat.getDateInstance(DateFormat.SHORT).format(date);
         if (years > 0) {
-            return format;
+            return DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(date);
         } else if (months > 0 || days > 7) {
             //Removes the year depending of the locale from DateFormat.SHORT format
             SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
