@@ -771,7 +771,7 @@
     <string name="action_unpin">Isbloca su messàgiu</string>
     <string name="toast_unpin">Su messàgiu no est prus apicadu!</string>
     <string name="toast_pin">Su messàgiu est istadu apicadu</string>
-    <string name="set_live_translate_title">Borta sos messàgios</string>
+    <string name="set_live_translate_title">Bortare sos messàgios</string>
     <string name="set_live_translate">Fortza sa tradutzione a una limba ispetzificada. Issèbera su primu valore pro torrare a is cunfiguratziones de su dispositivu</string>
     <string name="edit_message">Modìfica su messàgiu</string>
     <string name="full_date_edited">%1$s at modificadu %2$s</string>
@@ -950,4 +950,11 @@
     <string name="set_extand_extra_features">Ativende cussa optzione s\'aplicatzione at a ammustrare funtzionalidades extra. Custa funtzionalidade b\'est pro programmas sotziales che a Pleroma, Akkoma o Glitch Social</string>
     <string name="icons_visibility_summary">Podes cuare custas iconas in manera segura in fundu pro tènnere prus logu. Sunt fintzas in su suta-menù.</string>
     <string name="icons_extra_features_visibility_summary">Si s\'istàntzia tua no atzetat unas cantas funtzionalidades extra podes cuare custas iconas</string>
+    <string name="set_remote_profile">S\'aplicatzione at a ammustrare profilos in manera pùblica pro retzire totu is messàgios. Is interatziones ant a bisongiare de unu passu in prus pro federare is messàgios.</string>
+    <string name="set_pixelfed_presentation">Presentatzione de Pixelfed pro is mèdios</string>
+    <string name="set_display_compact_buttons">Butones de atziones cumpatos</string>
+    <string name="set_display_compact_buttons_description">Is butones in fundu a is messàgios no ant a pigare totu sa largària</string>
+    <string name="set_display_local_only">Mustra su butone \"In locale ebbia\"</string>
+    <string name="local_only">In locale ebbia</string>
+    <string name="reply_visibility">Visibilidade de is rispostas</string>
 </resources>

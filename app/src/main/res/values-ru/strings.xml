@@ -316,7 +316,9 @@
     <string name="channel_notif_media">Загрузка медиа</string>
     <string name="select_sound">Выбрать сигнал</string>
     <string name="set_enable_time_slot">Активировать временной интервал</string>
-    <string name="block_domain_confirm_message">Вы уверены, что хотите заблокировать %s\?</string>
+    <string name="block_domain_confirm_message">Вы уверены, что хотите заблокировать %s\?
+\n
+\nВы не будете получать уведомлений и видеть публикации из этого домена. Ваши подписчики из этого домена будут удалены.</string>
     <string name="block_domain">Заблокировать домен</string>
     <string name="toast_block_domain">Этот домен заблокирован</string>
     <string name="retrieve_remote_status">Получение внешнего статуса</string>
@@ -716,4 +718,26 @@
     <string name="data_import_settings_success">Настройки успешно импортированы</string>
     <string name="data_export_settings">Настройки экспортированы</string>
     <string name="boosted_by">Продвинут</string>
+    <string name="report_1_block">Вы не будете видеть публикации этого ползователя. Он не сможет видеть ваши публикации или подписаться на вас. Пользователь сможет понять, что был заблокирован.</string>
+    <string name="report_3_title">Какие правила были нарушены\?</string>
+    <string name="report_all_more">Выберите подходящие пункты</string>
+    <string name="report_more_remote">Этот аккаунт принадлежит другому серверу. Отправить анонимную копию жалобы туда\?</string>
+    <string name="set_display_compact_buttons_description">Кнопки внизу сообщений не будут занимать всю ширину</string>
+    <string name="instance_health_checkedat">Проверено в: %s</string>
+    <string name="post_message_text">Отправка сообщения %d/%d</string>
+    <string name="is_down">Не работает!</string>
+    <string name="report_1_title">Не хотите это видеть\?</string>
+    <string name="report_1_unfollow">Вы подписаны на этот аккаунт. Чтобы перестать видеть его публикации, отпишитесь от него.</string>
+    <string name="report_1_block_title">Заблокировать %1$s</string>
+    <string name="channel_notif_signup">Новая регистрация</string>
+    <string name="notif_update_push">Сообщение, которым вы поделились, было изменено</string>
+    <string name="instance_health_uptime">Онлайн: %,.2f %%</string>
+    <string name="report_2_title">Есть ли какие-либо публикации, которые подтверждают жалобу\?</string>
+    <string name="report_sent">Жалоба отправлена!</string>
+    <string name="add_status">Добавить статус</string>
+    <string name="remove_status">Убрать статус</string>
+    <string name="post_message">Сообщение публикуется…</string>
+    <string name="is_up">Работает!</string>
+    <string name="report_more_additional">Дополнительные комментарии</string>
+    <string name="report_more">Есть ли что-то ещё, что нам надо знать\?</string>
 </resources>

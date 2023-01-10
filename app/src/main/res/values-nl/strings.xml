@@ -3,7 +3,7 @@
     <string name="action_about">Over</string>
     <string name="action_about_instance">Over deze server</string>
     <string name="action_privacy">Privacy</string>
-    <string name="action_cache">Buffer</string>
+    <string name="action_cache">Cache</string>
     <string name="action_logout">Uitloggen</string>
     <!-- common -->
     <string name="close">Sluiten</string>
@@ -548,7 +548,7 @@
     <string name="status_count">Status telling</string>
     <string name="instance_count">Server-teller</string>
     <string name="poll_finish_in">Eindigt over %s</string>
-    <string name="no_instance_reccord">Deze server is niet beschikbaar</string>
+    <string name="no_instance_reccord">Deze server is niet beschikbaar op https://instances.social</string>
     <string name="display_full_link">Add a comment</string>
     <string name="share_link">Deel link</string>
     <string name="open_other_app">Open met een andere app</string>
@@ -627,7 +627,7 @@
     <string name="set_use_cache_indication">Tijdlijnen worden in cache gezet zodat de app sneller is.</string>
     <string name="load_media_type_title">Laad thumbnails voor media</string>
     <string name="display_timelines">Toon tijdlijnen</string>
-    <string name="cached_messages">Gebufferd bericht</string>
+    <string name="cached_messages">Bericht in cache</string>
     <string name="display_options">Toon opties</string>
     <string name="action_unpin">Bericht losmaken</string>
     <string name="edited_message_at">Bewerkt op %1$s</string>
@@ -683,7 +683,7 @@
     <string name="messages_in_cache_for_other_timelines">Berichten in cache andere tijdlijnen</string>
     <string name="bottom_menu">Onderste menu</string>
     <string name="tap_here_to_refresh_poll">Klik hier om poll bij te werken</string>
-    <string name="clear_cache">Buffer leegmaken</string>
+    <string name="clear_cache">Cache leegmaken</string>
     <string name="msg_save_image">Wil je afsluiten zonder de afbeelding te bewaren\?</string>
     <string name="default_system_language">Gebruik de standaard systeemtaal</string>
     <string name="set_your_max_char_count">Stel je maximale karakter limiet in</string>
@@ -953,4 +953,19 @@
     <string name="set_display_reaction_indication">Toon \"Reacties\" knop</string>
     <string name="group_reblogs">Groepeer reblogs in eigen tijdlijn</string>
     <string name="set_remove_left_margin">Verwijder linker kantlijn in tijdlijnen voor compactere berichten</string>
+    <string name="following">Volgend</string>
+    <string name="self">Zelf</string>
+    <string name="set_remote_profile_title">Remote profielen</string>
+    <string name="reply_visibility">Zichtbaarheid van antwoorden</string>
+    <string name="local_only">Alleen lokaal</string>
+    <string name="set_display_compact_buttons">Compacte actieknoppen</string>
+    <string name="set_display_compact_buttons_description">Knoppen aan de onderkant van berichten nemen niet de hele breedte in</string>
+    <string name="set_pixelfed_presentation">Pixelfed presentatie voor media</string>
+    <string name="set_remote_profile">De app toont openbare profielen om alle berichten te ontvangen. Interacties hebben een extra stap nodig om berichten te bundelen.</string>
+    <string name="bubble">Bubbel</string>
+    <string name="exclude_visibility">Zichtbaarheid uitsluiten</string>
+    <string name="v_list">Lijst</string>
+    <string name="set_display_local_only">Toon \"Alleen lokaal\" knop</string>
+    <string name="set_post_format">Bericht indeling</string>
+    <string name="post_format">Bericht indeling</string>
 </resources>
