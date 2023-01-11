@@ -40,6 +40,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +63,7 @@ import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
+import app.fedilab.android.helper.GlideApp;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.ui.drawer.StatusAdapter;
@@ -84,6 +88,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
+    private static final int PRELOAD_AHEAD_ITEMS = 5;
+    private ViewPreloadSizeProvider<Attachment> preloadSizeProvider;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -420,6 +426,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineType != null) {
             slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
+
+
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -636,6 +644,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
+
+        preloadSizeProvider = new ViewPreloadSizeProvider<>();
+        RecyclerViewPreloader<Attachment> preloader =
+                new RecyclerViewPreloader<>(
+                        GlideApp.with(this), statusAdapter, preloadSizeProvider, PRELOAD_AHEAD_ITEMS);
+        binding.recyclerView.addOnScrollListener(preloader);
+        binding.recyclerView.setItemViewCacheSize(0);
+
         if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE) {
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override

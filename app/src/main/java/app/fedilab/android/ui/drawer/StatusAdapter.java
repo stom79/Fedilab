@@ -48,6 +48,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -60,7 +61,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,8 +84,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -155,7 +155,7 @@ import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
-public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ListPreloader.PreloadModelProvider<Attachment> {
     public static final int STATUS_HIDDEN = 0;
     public static final int STATUS_VISIBLE = 1;
     public static final int STATUS_ART = 2;
@@ -172,6 +172,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private boolean visiblePixelfed;
 
     private RecyclerView mRecyclerView;
+    private static float measuredWidth = -1;
+    private static float measuredWidthArt = -1;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated, boolean checkRemotely) {
         this.statusList = statuses;
@@ -179,19 +181,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.minified = minified;
         this.canBeFederated = canBeFederated;
         this.checkRemotely = checkRemotely;
-    }
-
-    public static int getStatusPosition(List<Status> timelineStatuses, Status status) {
-        int position = 0;
-        if (timelineStatuses != null && status != null) {
-            for (Status _s : timelineStatuses) {
-                if (_s.id.compareTo(status.id) == 0) {
-                    return position;
-                }
-                position++;
-            }
-        }
-        return -1;
     }
 
 
@@ -434,7 +423,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.statusContent.setLayoutParams(psc);
             LinearLayoutCompat.MarginLayoutParams pct = (LinearLayoutCompat.MarginLayoutParams) holder.binding.containerTrans.getLayoutParams();
-            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pct.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.containerTrans.setLayoutParams(psc);
             LinearLayoutCompat.MarginLayoutParams pcv = (LinearLayoutCompat.MarginLayoutParams) holder.binding.card.getLayoutParams();
             pcv.setMarginStart((int) Helper.convertDpToPixel(6, context));
@@ -583,6 +572,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
                     gridView.setNumColumns(5);
                     gridView.setOnItemClickListener((parent, view, index, id) -> {
+                        if (emojis.get(BaseMainActivity.currentInstance) == null) {
+                            return;
+                        }
                         String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
@@ -772,9 +764,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, null, statusToDeal);
                 return true;
             });
-            holder.binding.actionButtonTranslate.setOnClickListener(v -> {
-                translate(context, statusToDeal, holder, adapter);
-            });
+            holder.binding.actionButtonTranslate.setOnClickListener(v -> translate(context, statusToDeal, holder, adapter));
             holder.binding.actionButtonBookmark.setOnClickListener(v -> {
                 if (remote) {
                     Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
@@ -1283,7 +1273,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.card.setVisibility(View.GONE);
         }
-
+        if (measuredWidth <= 0 && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+            holder.binding.mediaContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    holder.binding.mediaContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    measuredWidth = holder.binding.mediaContainer.getWidth();
+                    adapter.notifyItemChanged(0, statusList.size());
+                }
+            });
+        }
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         //--- MEDIA ATTACHMENT ---
         if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
@@ -1304,38 +1303,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (fullAttachement && (!statusToDeal.sensitive || expand_media)) {
                         float ratio = 1.0f;
                         float mediaH = -1.0f;
-
-                        if (attachment.measuredWidth > 0) {
-                            float viewWidth = attachment.measuredWidth;
-                            if (attachment.meta != null && attachment.meta.small != null) {
-                                mediaH = attachment.meta.small.height;
-                                float mediaW = attachment.meta.small.width;
-                                if (mediaW != 0) {
-                                    ratio = viewWidth / mediaW;
-                                }
+                        float mediaW = -1.0f;
+                        if (attachment.meta != null && attachment.meta.small != null) {
+                            mediaH = attachment.meta.small.height;
+                            mediaW = attachment.meta.small.width;
+                            if (mediaW != 0) {
+                                ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
                             }
-                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
-                        } else {
-                            int finalMediaPosition = mediaPosition;
-                            layoutMediaBinding.media.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                @Override
-                                public void onGlobalLayout() {
-                                    layoutMediaBinding.media.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                    attachment.measuredWidth = layoutMediaBinding.media.getWidth();
-                                    float ratio = 1.0f;
-                                    float mediaH = -1.0f;
-                                    float viewWidth = attachment.measuredWidth;
-                                    if (attachment.meta != null && attachment.meta.small != null) {
-                                        mediaH = attachment.meta.small.height;
-                                        float mediaW = attachment.meta.small.width;
-                                        if (mediaW != 0) {
-                                            ratio = viewWidth / mediaW;
-                                        }
-                                    }
-                                    loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, finalMediaPosition, viewWidth, mediaH, ratio, statusToDeal, attachment, singleMedia);
-                                }
-                            });
                         }
+                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaW, mediaH, ratio, statusToDeal, attachment, singleMedia);
+
                     } else {
                         loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment, singleMedia);
                     }
@@ -1813,9 +1790,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, statusToDeal.account)
-                            .observe((LifecycleOwner) context, account -> {
-                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                            }));
+                            .observe((LifecycleOwner) context, account -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show()));
                     builderInner.show();
                 } else if (itemId == R.id.action_mute_conversation) {
                     if (statusToDeal.muted) {
@@ -2113,10 +2088,43 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    private static RequestBuilder<Drawable> prepareRequestBuilder(Context context, Attachment attachment,
+                                                                  float mediaW, float mediaH,
+                                                                  float focusX, float focusY, boolean isSensitive, boolean isArt) {
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
+        if (isArt) {
+            fullAttachement = true;
+        }
+        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
+        RequestBuilder<Drawable> requestBuilder;
+        if (!isSensitive || expand_media) {
+            requestBuilder = Glide.with(context)
+                    .load(attachment.preview_url);
+            if (!fullAttachement) {
+                requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
+                requestBuilder = requestBuilder.dontAnimate();
+            } else {
+                requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
+                requestBuilder = requestBuilder.dontAnimate();
+                requestBuilder = requestBuilder.apply(new RequestOptions().override((int) mediaW, (int) mediaH));
+                requestBuilder = requestBuilder.fitCenter();
+            }
+        } else {
+            requestBuilder = Glide.with(context)
+                    .load(attachment.preview_url)
+                    .dontAnimate()
+                    .apply(new RequestOptions().transform(new BlurTransformation(50, 3)));
+            //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
+        }
+        return requestBuilder;
+    }
+
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
                                              RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
-                                             int mediaPosition, float viewWidth, float mediaH, float ratio,
+                                             int mediaPosition, float mediaW, float mediaH, float ratio,
                                              Status statusToDeal, Attachment attachment, boolean singleImage) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
@@ -2179,26 +2187,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
+        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false);
         if (!statusToDeal.sensitive || expand_media) {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
-            RequestBuilder<Drawable> requestBuilder = Glide.with(layoutMediaBinding.media.getContext())
-                    .load(attachment.preview_url);
-            if (!fullAttachement) {
-                requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
-            } else {
-                requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
-                requestBuilder = requestBuilder.apply(new RequestOptions().override((int) viewWidth, (int) mediaH));
-                requestBuilder = requestBuilder.fitCenter();
-            }
-            requestBuilder.into(layoutMediaBinding.media);
         } else {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
-            Glide.with(layoutMediaBinding.media.getContext())
-                    .load(attachment.preview_url)
-                    .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
-                    //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                    .into(layoutMediaBinding.media);
         }
+        requestBuilder.into(layoutMediaBinding.media);
         if (statusToDeal.sensitive) {
             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
         } else {
@@ -2245,6 +2240,55 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.getRoot().setPadding(0, 0, 10, 0);
         }
 
+    }
+
+    @NonNull
+    @Override
+    public List<Attachment> getPreloadItems(int position) {
+        List<Attachment> attachments = new ArrayList<>();
+        if (position == 0 && statusList.size() > 0) {
+            for (Status status : statusList.subList(0, 1)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        } else if (position > 0 && position < (statusList.size() - 1)) {
+            for (Status status : statusList.subList(position - 1, position + 1)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        } else {
+            for (Status status : statusList.subList(position, position)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        }
+        Log.v(Helper.TAG, position + " - getPreloadItems: " + attachments.size());
+        return attachments;
+    }
+
+    @Nullable
+    @Override
+    public RequestBuilder<Drawable> getPreloadRequestBuilder(@NonNull Attachment attachment) {
+        float focusX = 0.f;
+        float focusY = 0.f;
+        if (attachment.meta != null && attachment.meta.focus != null) {
+            focusX = attachment.meta.focus.x;
+            focusY = attachment.meta.focus.y;
+        }
+        int mediaH = 0;
+        int mediaW = 0;
+        if (attachment.meta != null && attachment.meta.small != null) {
+            mediaH = attachment.meta.small.height;
+            mediaW = attachment.meta.small.width;
+        }
+        Log.v(Helper.TAG, "getPreloadRequestBuilder: " + attachment);
+        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART);
     }
 
     /**
@@ -2549,45 +2593,29 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewHolder.getItemViewType() == STATUS_ART) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
-            if (status.art_attachment != null) {
-
+            if (measuredWidthArt <= 0) {
                 holder.bindingArt.artMedia.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
                         holder.bindingArt.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (status.art_attachment.meta != null && status.art_attachment.meta.small != null) {
-                            float viewWidth = holder.bindingArt.artMedia.getWidth();
-                            ConstraintLayout.LayoutParams lp;
-                            float mediaH = status.art_attachment.meta.small.height;
-                            float mediaW = status.art_attachment.meta.small.width;
-                            float ratio = 1.0f;
-                            if (mediaW != 0) {
-                                ratio = viewWidth / mediaW;
-                            }
-                            lp = new ConstraintLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
-                            holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                            holder.bindingArt.artMedia.setLayoutParams(lp);
-                        }
-
+                        measuredWidthArt = holder.bindingArt.artMedia.getWidth();
+                        notifyItemChanged(0, statusList.size());
                     }
                 });
+            }
+            if (status.art_attachment != null) {
                 if (status.art_attachment.meta != null && status.art_attachment.meta.small != null) {
-                    float viewWidth = holder.bindingArt.artMedia.getWidth();
                     ConstraintLayout.LayoutParams lp;
                     float mediaH = status.art_attachment.meta.small.height;
                     float mediaW = status.art_attachment.meta.small.width;
-                    float ratio = 1.0f;
-                    if (mediaW != 0) {
-                        ratio = viewWidth / mediaW;
-                    }
+                    float ratio = measuredWidthArt > 0 ? measuredWidthArt / mediaW : 1.0f;
                     lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.bindingArt.artMedia.setLayoutParams(lp);
+                    RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true);
+                    requestBuilder.into(holder.bindingArt.artMedia);
                 }
-                Glide.with(holder.bindingArt.artMedia.getContext())
-                        .load(status.art_attachment.preview_url)
-                        .apply(new RequestOptions().transform(new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
-                        .into(holder.bindingArt.artMedia);
+
             }
             holder.bindingArt.artUsername.setText(
                     status.account.getSpanDisplayName(context,
@@ -2670,6 +2698,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
     }
+
 
     public interface FetchMoreCallBack {
         void onClickMinId(String min_id, Status statusToUpdate);
