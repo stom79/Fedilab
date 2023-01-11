@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.1",
+    "code": "463",
+    "note": "Added:\n- Search bar: display suggestions when starting by \"@\" or \"#\"\n\nChanged:\n- Preload media in timelines to avoid jumps\n- Search: Automatically switch to account tab if no results for tags\n\nFixed:\n- Fix jumps with the fetch more feature\n- Fix videos cannot be saved\n- Tags cannot be pinned when there are no custom tabs\n- PixelFed view: NSFW not honored\n- Fix crashes"
+  },
+  {
     "version": "3.14.0",
     "code": "462",
     "note": "Added:\n\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n- Pixelfed: Custom layout to display Media fully (Also works for other software when there are media)\n- Allow to align left action buttons in messages\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Links to messages not handled by the app\n- CW when editing a message\n- Fix push notifications with several accounts\n- New messages or edition notifications not pushed\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Fix crashes"
