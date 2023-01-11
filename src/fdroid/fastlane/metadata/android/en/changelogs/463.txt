@@ -1,0 +1,13 @@
+Added:
+- Search bar: display suggestions when starting by "@" or "#"
+
+Changed:
+- Preload media in timelines to avoid jumps
+- Search: Automatically switch to account tab if no results for tags
+
+Fixed:
+- Fix jumps with the fetch more feature
+- Fix videos cannot be saved
+- Tags cannot be pinned when there are no custom tabs
+- PixelFed view: NSFW not honored
+- Fix crashes

@@ -464,6 +464,11 @@ public class PinnedTimelineHelper {
                                 break;
                             case NITTER:
                                 item.setIcon(R.drawable.nitter);
+                                if (pinnedTimeline.remoteInstance.displayName.trim().length() > 0) {
+                                    item.setTitle(pinnedTimeline.remoteInstance.displayName);
+                                } else {
+                                    item.setTitle(pinnedTimeline.remoteInstance.host);
+                                }
                                 break;
                         }
                         break;

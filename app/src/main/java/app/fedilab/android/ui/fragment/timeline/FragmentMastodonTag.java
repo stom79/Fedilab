@@ -33,6 +33,7 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.SearchResultTabActivity;
 import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
@@ -144,6 +145,9 @@ public class FragmentMastodonTag extends Fragment {
             router();
         });
         if (tags == null || tags.size() == 0) {
+            if (requireActivity() instanceof SearchResultTabActivity) {
+                ((SearchResultTabActivity) requireActivity()).moveToAccount();
+            }
             binding.recyclerView.setVisibility(View.GONE);
             binding.noAction.setVisibility(View.VISIBLE);
             binding.noActionText.setText(R.string.no_tags);

@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
-        versionCode 462
-        versionName "3.14.0"
+        versionCode 463
+        versionName "3.14.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
@@ -97,6 +97,10 @@ dependencies {
     implementation 'org.framagit.tom79:SparkButton:1.0.13'
     implementation "com.github.bumptech.glide:glide:4.14.2"
     implementation "com.github.bumptech.glide:okhttp3-integration:4.14.2"
+    implementation("com.github.bumptech.glide:recyclerview-integration:4.14.2") {
+        // Excludes the support library because it's already included by Glide.
+        transitive = false
+    }
 
     implementation "org.jsoup:jsoup:1.15.1"
 

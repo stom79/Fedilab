@@ -74,7 +74,7 @@ public class FragmentMediaProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         flagLoading = false;
-        accountsVM = new ViewModelProvider(FragmentMediaProfile.this).get(AccountsVM.class);
+        accountsVM = new ViewModelProvider(requireActivity()).get(AccountsVM.class);
         mediaStatuses = new ArrayList<>();
 
         if (checkRemotely) {

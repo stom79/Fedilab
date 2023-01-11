@@ -23,11 +23,13 @@ import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +37,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.BaseColumns;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -63,6 +66,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
+import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -75,7 +79,9 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -91,6 +97,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -129,6 +136,7 @@ import app.fedilab.android.client.entities.api.Filter;
 import app.fedilab.android.client.entities.api.Instance;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.Status;
+import app.fedilab.android.client.entities.api.Tag;
 import app.fedilab.android.client.entities.app.Account;
 import app.fedilab.android.client.entities.app.BaseAccount;
 import app.fedilab.android.client.entities.app.BottomMenu;
@@ -146,12 +154,15 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.MastodonHelper;
 import app.fedilab.android.helper.PinnedTimelineHelper;
 import app.fedilab.android.helper.PushHelper;
+import app.fedilab.android.ui.drawer.AccountsSearchTopBarAdapter;
+import app.fedilab.android.ui.drawer.TagSearchTopBarAdapter;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
 import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
 import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
+import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
 import app.fedilab.android.viewmodel.mastodon.TopBarVM;
 import es.dmoral.toasty.Toasty;
@@ -777,6 +788,75 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                String pattern = "^(@[\\w_-]+@[a-z0-9.\\-]+|@[\\w_-]+)";
+                final Pattern mentionPattern = Pattern.compile(pattern);
+                String patternTag = "^#([\\w-]{2,})$";
+                final Pattern tagPattern = Pattern.compile(patternTag);
+                Matcher matcherMention, matcherTag;
+                matcherMention = mentionPattern.matcher(newText);
+                matcherTag = tagPattern.matcher(newText);
+                if (newText.trim().isEmpty()) {
+                    binding.toolbarSearch.setSuggestionsAdapter(null);
+                }
+                if (matcherMention.matches()) {
+                    String[] from = new String[]{SearchManager.SUGGEST_COLUMN_ICON_1, SearchManager.SUGGEST_COLUMN_TEXT_1};
+                    int[] to = new int[]{R.id.account_pp, R.id.account_un};
+                    String searchGroup = matcherMention.group();
+                    AccountsVM accountsVM = new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class);
+                    MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
+                            SearchManager.SUGGEST_COLUMN_ICON_1,
+                            SearchManager.SUGGEST_COLUMN_TEXT_1});
+                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 5, false, false)
+                            .observe(BaseMainActivity.this, accounts -> {
+                                if (accounts == null) {
+                                    return;
+                                }
+                                AccountsSearchTopBarAdapter cursorAdapter = new AccountsSearchTopBarAdapter(BaseMainActivity.this, accounts, R.layout.drawer_account_search, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                                binding.toolbarSearch.setSuggestionsAdapter(cursorAdapter);
+                                new Thread(() -> {
+                                    int i = 0;
+                                    for (app.fedilab.android.client.entities.api.Account account : accounts) {
+                                        FutureTarget<File> futureTarget = Glide
+                                                .with(BaseMainActivity.this.getApplicationContext())
+                                                .load(account.avatar_static)
+                                                .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+                                        File cacheFile;
+                                        try {
+                                            cacheFile = futureTarget.get();
+                                            cursor.addRow(new String[]{String.valueOf(i), cacheFile.getAbsolutePath(), "@" + account.acct});
+                                            i++;
+                                        } catch (ExecutionException | InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    runOnUiThread(() -> cursorAdapter.changeCursor(cursor));
+                                }).start();
+
+                            });
+                } else if (matcherTag.matches()) {
+                    SearchVM searchVM = new ViewModelProvider(BaseMainActivity.this).get(SearchVM.class);
+                    String[] from = new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1};
+                    int[] to = new int[]{R.id.tag_name};
+                    String searchGroup = matcherTag.group();
+                    MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
+                            SearchManager.SUGGEST_COLUMN_TEXT_1});
+                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, null,
+                            "hashtags", false, true, false, 0,
+                            null, null, 10).observe(BaseMainActivity.this,
+                            results -> {
+                                if (results == null || results.hashtags == null) {
+                                    return;
+                                }
+                                TagSearchTopBarAdapter cursorAdapter = new TagSearchTopBarAdapter(BaseMainActivity.this, results.hashtags, R.layout.drawer_tag_search, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                                binding.toolbarSearch.setSuggestionsAdapter(cursorAdapter);
+                                int i = 0;
+                                for (Tag tag : results.hashtags) {
+                                    cursor.addRow(new String[]{String.valueOf(i), "#" + tag.name});
+                                    i++;
+                                }
+                                runOnUiThread(() -> cursorAdapter.changeCursor(cursor));
+                            });
+                }
                 return false;
             }
         });

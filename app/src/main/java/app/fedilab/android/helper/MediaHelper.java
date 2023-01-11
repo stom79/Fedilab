@@ -94,30 +94,14 @@ public class MediaHelper {
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));
         } catch (Exception e) {
+            e.printStackTrace();
             Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             return -1;
         }
         try {
             String mime = getMimeType(url);
-
             final String fileName = URLUtil.guessFileName(url, null, null);
             request.allowScanningByMediaScanner();
-            String myDir;
-            if (mime.toLowerCase().startsWith("video")) {
-                myDir = Environment.DIRECTORY_MOVIES + "/" + context.getString(R.string.app_name);
-            } else if (mime.toLowerCase().startsWith("audio")) {
-                myDir = Environment.DIRECTORY_MUSIC + "/" + context.getString(R.string.app_name);
-            } else {
-                myDir = Environment.DIRECTORY_DOWNLOADS;
-            }
-
-            if (!new File(myDir).exists()) {
-                boolean created = new File(myDir).mkdir();
-                if (!created) {
-                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                    return -1;
-                }
-            }
             if (mime.toLowerCase().startsWith("video")) {
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, context.getString(R.string.app_name) + "/" + fileName);
             } else if (mime.toLowerCase().startsWith("audio")) {

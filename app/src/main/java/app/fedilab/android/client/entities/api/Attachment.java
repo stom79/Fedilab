@@ -45,13 +45,14 @@ public class Attachment implements Serializable {
     public String local_path;
     @SerializedName("meta")
     public Meta meta;
+    @SerializedName("sensitive")
+    public boolean sensitive = false;
 
     public String peertubeHost = null;
     public String peertubeId = null;
     public String focus = null;
     public String translation = null;
 
-    public float measuredWidth = -1.f;
 
     public static class Meta implements Serializable {
         @SerializedName("focus")

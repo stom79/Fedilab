@@ -105,21 +105,22 @@ public class HashTagActivity extends BaseActivity {
         });
         ReorderVM reorderVM = new ViewModelProvider(HashTagActivity.this).get(ReorderVM.class);
         reorderVM.getAllPinned().observe(HashTagActivity.this, pinned -> {
-            if (pinned != null) {
-                this.pinned = pinned;
-                pinnedTag = false;
-                if (pinned.pinnedTimelines != null) {
-                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
-                        if (pinnedTimeline.tagTimeline != null) {
-                            if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(stripTag)) {
-                                this.pinnedTimeline = pinnedTimeline;
-                                pinnedTag = true;
-                                break;
-                            }
+            if (pinned == null) {
+                pinned = new Pinned();
+                pinned.pinnedTimelines = new ArrayList<>();
+            }
+            pinnedTag = false;
+            if (pinned.pinnedTimelines != null) {
+                for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                    if (pinnedTimeline.tagTimeline != null) {
+                        if (pinnedTimeline.tagTimeline.name.equalsIgnoreCase(stripTag)) {
+                            this.pinnedTimeline = pinnedTimeline;
+                            pinnedTag = true;
+                            break;
                         }
                     }
-                    invalidateOptionsMenu();
                 }
+                invalidateOptionsMenu();
             }
         });
         if (MainActivity.filterFetched && MainActivity.mainFilters != null) {
