@@ -188,6 +188,10 @@ public class SearchResultTabActivity extends BaseBarActivity {
     }
 
 
+    public void moveToAccount() {
+        binding.searchViewpager.setCurrentItem(1);
+    }
+
     /**
      * Pager adapter for the 4 fragments
      */
