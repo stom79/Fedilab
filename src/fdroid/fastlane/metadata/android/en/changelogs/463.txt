@@ -1,0 +1,10 @@
+Added:
+- Search bar display suggestions
+
+Changed:
+- Preload media in timelines
+
+Fixed:
+- Fix fetch more jumps
+- Fix videos cannot be saved
+- Fix crashes
