@@ -9,4 +9,5 @@ Fixed:
 - Fix jumps with the fetch more feature
 - Fix videos cannot be saved
 - Tags cannot be pinned when there are no custom tabs
+- PixelFed view: NSFW not honored
 - Fix crashes

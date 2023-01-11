@@ -17,23 +17,29 @@ package app.fedilab.android.ui.drawer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.R;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.client.entities.api.Attachment;
 import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.DrawerSliderBinding;
 import app.fedilab.android.helper.Helper;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 
@@ -63,21 +69,48 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
         Attachment sliderItem = mSliderItems.get(position);
+        if (status.sensitive) {
+            Glide.with(viewHolder.itemView)
+                    .load(sliderItem.preview_url)
+                    .centerCrop()
+                    .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
+                    .into(viewHolder.binding.ivAutoImageSlider);
+        } else {
+            Glide.with(viewHolder.itemView)
+                    .load(sliderItem.preview_url)
+                    .centerCrop()
+                    .into(viewHolder.binding.ivAutoImageSlider);
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
 
-        Glide.with(viewHolder.itemView)
-                .load(sliderItem.preview_url)
-                .centerCrop()
-                .into(viewHolder.binding.ivAutoImageSlider);
         viewHolder.itemView.setOnClickListener(v -> {
-            Intent mediaIntent = new Intent(context, MediaActivity.class);
-            Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-            mediaIntent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, viewHolder.binding.ivAutoImageSlider, status.media_attachments.get(0).url);
-            // start the new activity
-            context.startActivity(mediaIntent, options.toBundle());
+            if (status.sensitive && !expand_media) {
+                status.sensitive = false;
+                notifyDataSetChanged();
+                if (timeout > 0) {
+                    new CountDownTimer((timeout * 1000L), 1000) {
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+                            status.sensitive = true;
+                            notifyDataSetChanged();
+                        }
+                    }.start();
+                }
+            } else {
+                Intent mediaIntent = new Intent(context, MediaActivity.class);
+                Bundle b = new Bundle();
+                b.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
+                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+                mediaIntent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, viewHolder.binding.ivAutoImageSlider, status.media_attachments.get(0).url);
+                // start the new activity
+                context.startActivity(mediaIntent, options.toBundle());
+            }
         });
     }
 
