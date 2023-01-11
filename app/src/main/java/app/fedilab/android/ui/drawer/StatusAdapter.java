@@ -48,7 +48,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -137,7 +136,9 @@ import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
+import app.fedilab.android.helper.GlideApp;
 import app.fedilab.android.helper.GlideFocus;
+import app.fedilab.android.helper.GlideRequests;
 import app.fedilab.android.helper.Helper;
 import app.fedilab.android.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.helper.MastodonHelper;
@@ -2099,9 +2100,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         RequestBuilder<Drawable> requestBuilder;
+        GlideRequests glideRequests = GlideApp.with(context);
         if (!isSensitive || expand_media) {
-            requestBuilder = Glide.with(context)
-                    .load(attachment.preview_url);
+            requestBuilder = glideRequests.asDrawable();
             if (!fullAttachement) {
                 requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                 requestBuilder = requestBuilder.dontAnimate();
@@ -2112,8 +2113,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 requestBuilder = requestBuilder.fitCenter();
             }
         } else {
-            requestBuilder = Glide.with(context)
-                    .load(attachment.preview_url)
+            requestBuilder = glideRequests.asDrawable()
                     .dontAnimate()
                     .apply(new RequestOptions().transform(new BlurTransformation(50, 3)));
             //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
@@ -2193,7 +2193,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
-        requestBuilder.into(layoutMediaBinding.media);
+        requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
         if (statusToDeal.sensitive) {
             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
         } else {
@@ -2268,7 +2268,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         }
-        Log.v(Helper.TAG, position + " - getPreloadItems: " + attachments.size());
         return attachments;
     }
 
@@ -2287,8 +2286,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mediaH = attachment.meta.small.height;
             mediaW = attachment.meta.small.width;
         }
-        Log.v(Helper.TAG, "getPreloadRequestBuilder: " + attachment);
-        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART);
+        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART).load(attachment);
     }
 
     /**

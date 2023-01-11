@@ -88,7 +88,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-    private static final int PRELOAD_AHEAD_ITEMS = 5;
+    private static final int PRELOAD_AHEAD_ITEMS = 10;
     private ViewPreloadSizeProvider<Attachment> preloadSizeProvider;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
