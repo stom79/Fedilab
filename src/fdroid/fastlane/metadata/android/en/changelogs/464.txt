@@ -1,0 +1,9 @@
+Added:
+
+
+Changed:
+
+
+Fixed:
+- Fix a crash with Art timelines
+- Fix a crash with pinned timelines

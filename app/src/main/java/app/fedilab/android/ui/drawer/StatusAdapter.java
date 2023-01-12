@@ -2615,7 +2615,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.bindingArt.artMedia.setLayoutParams(lp);
                     RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true);
-                    requestBuilder.into(holder.bindingArt.artMedia);
+                    requestBuilder.load(status.art_attachment.preview_url).into(holder.bindingArt.artMedia);
                 }
 
             }
