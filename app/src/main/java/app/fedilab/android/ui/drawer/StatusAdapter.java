@@ -163,6 +163,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_FILTERED = 3;
     public static final int STATUS_FILTERED_HIDE = 4;
     public static final int STATUS_PIXELFED = 5;
+    private static float measuredWidth = -1;
+    private static float measuredWidthArt = -1;
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -171,10 +173,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean visiblePixelfed;
-
     private RecyclerView mRecyclerView;
-    private static float measuredWidth = -1;
-    private static float measuredWidthArt = -1;
 
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated, boolean checkRemotely) {
         this.statusList = statuses;
@@ -1288,7 +1287,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         //--- MEDIA ATTACHMENT ---
-        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+        boolean cardDisplayed = (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null);
+        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
+
             holder.binding.attachmentsList.removeAllViews();
             holder.binding.mediaContainer.removeAllViews();
             if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
@@ -2246,53 +2247,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    @NonNull
-    @Override
-    public List<Attachment> getPreloadItems(int position) {
-        List<Attachment> attachments = new ArrayList<>();
-        if (position == 0 && statusList.size() > 0) {
-            for (Status status : statusList.subList(0, 1)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
-            }
-        } else if (position > 0 && position < (statusList.size() - 1)) {
-            for (Status status : statusList.subList(position - 1, position + 1)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
-            }
-        } else {
-            for (Status status : statusList.subList(position, position)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
-            }
-        }
-        return attachments;
-    }
-
-    @Nullable
-    @Override
-    public RequestBuilder<Drawable> getPreloadRequestBuilder(@NonNull Attachment attachment) {
-        float focusX = 0.f;
-        float focusY = 0.f;
-        if (attachment.meta != null && attachment.meta.focus != null) {
-            focusX = attachment.meta.focus.x;
-            focusY = attachment.meta.focus.y;
-        }
-        int mediaH = 0;
-        int mediaW = 0;
-        if (attachment.meta != null && attachment.meta.small != null) {
-            mediaH = attachment.meta.small.height;
-            mediaW = attachment.meta.small.width;
-        }
-        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART).load(attachment);
-    }
-
     /**
      * Send a broadcast to other open fragments that content a timeline
      *
@@ -2316,21 +2270,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         intentBC.putExtras(b);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
     }
-
-   /* private static boolean mediaObfuscated(Status status) {
-        //Media is not sensitive and  doesn't have a spoiler text
-        if (!status.isMediaObfuscated) {
-            return false;
-        }
-        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
-            return false;
-        }
-        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
-            return true;
-        } else {
-            return status.sensitive;
-        }
-    }*/
 
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -2416,6 +2355,68 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (link_color != -1) {
             holder.binding.cardUrl.setTextColor(link_color);
         }
+    }
+
+    @NonNull
+    @Override
+    public List<Attachment> getPreloadItems(int position) {
+        List<Attachment> attachments = new ArrayList<>();
+        if (position == 0 && statusList.size() > 0) {
+            for (Status status : statusList.subList(0, 1)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        } else if (position > 0 && position < (statusList.size() - 1)) {
+            for (Status status : statusList.subList(position - 1, position + 1)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        } else {
+            for (Status status : statusList.subList(position, position)) {
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    attachments.addAll(statusToDeal.media_attachments);
+                }
+            }
+        }
+        return attachments;
+    }
+
+   /* private static boolean mediaObfuscated(Status status) {
+        //Media is not sensitive and  doesn't have a spoiler text
+        if (!status.isMediaObfuscated) {
+            return false;
+        }
+        if (!status.sensitive && (status.spoiler_text == null || status.spoiler_text.trim().isEmpty())) {
+            return false;
+        }
+        if (status.isMediaObfuscated && status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {
+            return true;
+        } else {
+            return status.sensitive;
+        }
+    }*/
+
+    @Nullable
+    @Override
+    public RequestBuilder<Drawable> getPreloadRequestBuilder(@NonNull Attachment attachment) {
+        float focusX = 0.f;
+        float focusY = 0.f;
+        if (attachment.meta != null && attachment.meta.focus != null) {
+            focusX = attachment.meta.focus.x;
+            focusY = attachment.meta.focus.y;
+        }
+        int mediaH = 0;
+        int mediaW = 0;
+        if (attachment.meta != null && attachment.meta.small != null) {
+            mediaH = attachment.meta.small.height;
+            mediaW = attachment.meta.small.width;
+        }
+        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART).load(attachment);
     }
 
     @Override
@@ -2615,7 +2616,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.bindingArt.artMedia.setLayoutParams(lp);
                     RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true);
-                    requestBuilder.into(holder.bindingArt.artMedia);
+                    requestBuilder.load(status.art_attachment.preview_url).into(holder.bindingArt.artMedia);
                 }
 
             }

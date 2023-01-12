@@ -1,0 +1,12 @@
+Added:
+- Display familiar followers on profiles
+- Display and filter Instance directory
+
+Changed:
+- Bot and reply icon indicators more visible
+- Single media are hidden with link previews
+
+Fixed:
+- Fix a crash with Art timelines
+- Friendica: media cannot be downloaded/shared
+- Fix a crash with pinned timelines

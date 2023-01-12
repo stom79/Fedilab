@@ -40,6 +40,9 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
@@ -262,6 +265,52 @@ public class MastodonHelper {
                 Glide.with(activity != null ? activity : context)
                         .asDrawable()
                         .load(placeholder)
+                        .thumbnail(0.1f)
+                        .into(view);
+            }
+        }
+    }
+
+    public static void loadProfileMediaMastodonRound(Activity activity, ImageView view, Account account) {
+        Context context = view.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
+        @DrawableRes int placeholder = R.drawable.ic_person;
+        if (Helper.isValidContextForGlide(activity != null ? activity : context)) {
+            if (account == null) {
+                Glide.with(activity != null ? activity : context)
+                        .asDrawable()
+                        .load(placeholder)
+                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(16)))
+                        .thumbnail(0.1f)
+                        .placeholder(placeholder)
+                        .into(view);
+                return;
+            }
+            String targetedUrl = disableGif ? account.avatar_static : account.avatar;
+            if (targetedUrl != null) {
+                if (disableGif || (!targetedUrl.endsWith(".gif"))) {
+                    Glide.with(activity != null ? activity : context)
+                            .asDrawable()
+                            .load(targetedUrl)
+                            .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                            .thumbnail(0.1f)
+                            .placeholder(placeholder)
+                            .into(view);
+                } else {
+                    Glide.with(activity != null ? activity : context)
+                            .asGif()
+                            .load(targetedUrl)
+                            .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                            .thumbnail(0.1f)
+                            .placeholder(placeholder)
+                            .into(view);
+                }
+            } else {
+                Glide.with(activity != null ? activity : context)
+                        .asDrawable()
+                        .load(placeholder)
+                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
                         .thumbnail(0.1f)
                         .into(view);
             }

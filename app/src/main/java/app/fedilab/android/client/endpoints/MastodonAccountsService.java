@@ -18,6 +18,7 @@ package app.fedilab.android.client.endpoints;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.FamiliarFollowers;
 import app.fedilab.android.client.entities.api.FeaturedTag;
 import app.fedilab.android.client.entities.api.IdentityProof;
 import app.fedilab.android.client.entities.api.MastodonList;
@@ -253,6 +254,13 @@ public interface MastodonAccountsService {
             @Query("id[]") List<String> ids
     );
 
+    //Get familiar followers
+    @GET("accounts/familiar_followers ")
+    Call<List<FamiliarFollowers>> getFamiliarFollowers(
+            @Header("Authorization") String token,
+            @Query("id[]") List<String> ids
+    );
+
     //Get search
     @GET("accounts/search")
     Call<List<Account>> searchAccounts(
@@ -408,5 +416,16 @@ public interface MastodonAccountsService {
     Call<Void> removeSuggestion(
             @Header("Authorization") String token,
             @Path("account_id") String account_id
+    );
+
+
+    //Get user suggestions
+    @GET("directory")
+    Call<List<Account>> getDirectory(
+            @Header("Authorization") String token,
+            @Query("offset") Integer offset,
+            @Query("limit") Integer limit,
+            @Query("order") String order,
+            @Query("local") Boolean local
     );
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/order"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/order_active"
+            android:checked="true"
+            android:title="@string/active"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/order_new"
+            android:title="@string/_new"
+            app:showAsAction="never" />
+    </group>
+    <item
+        android:id="@+id/action_local"
+        android:checkable="true"
+        android:title="@string/local"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="never" />
+</menu>

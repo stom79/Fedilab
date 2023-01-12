@@ -109,6 +109,7 @@ import app.fedilab.android.activities.BaseActivity;
 import app.fedilab.android.activities.CacheActivity;
 import app.fedilab.android.activities.ComposeActivity;
 import app.fedilab.android.activities.ContextActivity;
+import app.fedilab.android.activities.DirectoryActivity;
 import app.fedilab.android.activities.DraftActivity;
 import app.fedilab.android.activities.FilterActivity;
 import app.fedilab.android.activities.FollowRequestActivity;
@@ -408,6 +409,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_suggestions) {
                 Intent intent = new Intent(this, SuggestionActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_directory) {
+                Intent intent = new Intent(this, DirectoryActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_cache) {
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);

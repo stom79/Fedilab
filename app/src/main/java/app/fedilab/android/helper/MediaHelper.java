@@ -100,7 +100,10 @@ public class MediaHelper {
         }
         try {
             String mime = getMimeType(url);
-            final String fileName = URLUtil.guessFileName(url, null, null);
+            String fileName = URLUtil.guessFileName(url, null, null);
+            if (fileName.endsWith(".bin")) {
+                fileName = fileName.replace(".bin", ".mp4");
+            }
             request.allowScanningByMediaScanner();
             if (mime.toLowerCase().startsWith("video")) {
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, context.getString(R.string.app_name) + "/" + fileName);
@@ -134,9 +137,11 @@ public class MediaHelper {
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NotNull File file, Transition<? super File> transition) {
-                        final String fileName = URLUtil.guessFileName(url, null, null);
+                        String fileName = URLUtil.guessFileName(url, null, null);
 
-
+                        if (fileName.endsWith(".bin")) {
+                            fileName = fileName.replace(".bin", ".jpg");
+                        }
                         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                         File targeted_folder = new File(path, context.getString(R.string.app_name));
                         if (!targeted_folder.exists()) {
