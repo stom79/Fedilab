@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.2",
+    "code": "464",
+    "note": "Added:\n- Display familiar followers on profiles\n- Display and filter Instance directory\n\nChanged:\n- Bot and reply icon indicators more visible\n- Single media are hidden with link previews\n\nFixed:\n- Fix a crash with Art timelines\n- Friendica: media cannot be downloaded/shared\n- Fix a crash with pinned timelines"
+  },
+  {
     "version": "3.14.1",
     "code": "463",
     "note": "Added:\n- Search bar: display suggestions when starting by \"@\" or \"#\"\n\nChanged:\n- Preload media in timelines to avoid jumps\n- Search: Automatically switch to account tab if no results for tags\n\nFixed:\n- Fix jumps with the fetch more feature\n- Fix videos cannot be saved\n- Tags cannot be pinned when there are no custom tabs\n- PixelFed view: NSFW not honored\n- Fix crashes"

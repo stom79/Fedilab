@@ -1287,7 +1287,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         //--- MEDIA ATTACHMENT ---
-        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+        boolean cardDisplayed = (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null);
+        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
+
             holder.binding.attachmentsList.removeAllViews();
             holder.binding.mediaContainer.removeAllViews();
             if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {

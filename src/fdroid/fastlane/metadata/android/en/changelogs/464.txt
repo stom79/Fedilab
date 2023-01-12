@@ -4,6 +4,7 @@ Added:
 
 Changed:
 - Bot and reply icon indicators more visible
+- Single media are hidden with link previews
 
 Fixed:
 - Fix a crash with Art timelines
