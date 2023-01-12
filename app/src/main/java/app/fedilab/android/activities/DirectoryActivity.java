@@ -32,7 +32,6 @@ public class DirectoryActivity extends BaseBarActivity {
 
     private static boolean local = false;
     private static String order = "active";
-    private FragmentMastodonAccount fragmentMastodonAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +42,11 @@ public class DirectoryActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        fragmentMastodonAccount = new FragmentMastodonAccount();
         Bundle bundle = new Bundle();
         bundle.putBoolean(Helper.ARG_DIRECTORY_LOCAL, local);
         bundle.putString(Helper.ARG_DIRECTORY_ORDER, order);
         bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, ACCOUNT_DIRECTORY);
-        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_directory, fragmentMastodonAccount, bundle, null, null);
+        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_directory, new FragmentMastodonAccount(), bundle, null, null);
     }
 
     @Override
