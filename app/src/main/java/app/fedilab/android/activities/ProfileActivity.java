@@ -34,6 +34,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,6 +77,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Attachment;
+import app.fedilab.android.client.entities.api.FamiliarFollowers;
 import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.client.entities.api.IdentityProof;
 import app.fedilab.android.client.entities.api.MastodonList;
@@ -86,6 +88,7 @@ import app.fedilab.android.client.entities.app.RemoteInstance;
 import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.databinding.ActivityProfileBinding;
+import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.exception.DBException;
 import app.fedilab.android.helper.CrossActionHelper;
 import app.fedilab.android.helper.Helper;
@@ -106,6 +109,7 @@ public class ProfileActivity extends BaseActivity {
 
 
     private RelationShip relationship;
+    private FamiliarFollowers familiarFollowers;
     private Account account;
     private ScheduledExecutorService scheduledExecutorService;
     private action doAction;
@@ -255,6 +259,13 @@ public class ProfileActivity extends BaseActivity {
                 updateAccount();
             }
         });
+        accountsVM.getFamiliarFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, familiarFollowersList -> {
+            if (familiarFollowersList != null && familiarFollowersList.size() > 0) {
+                this.familiarFollowers = familiarFollowersList.get(0);
+                updateAccount();
+            }
+        });
+
         //Retrieve identity proofs
         accountsVM.getIdentityProofs(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id).observe(ProfileActivity.this, identityProofs -> {
             this.identityProofList = identityProofs;
@@ -565,6 +576,27 @@ public class ProfileActivity extends BaseActivity {
                             .show();
                 });
             }
+        }
+
+        if (familiarFollowers != null && familiarFollowers.accounts != null && familiarFollowers.accounts.size() > 0) {
+            binding.relatedAccounts.removeAllViews();
+            for (Account account : familiarFollowers.accounts) {
+                NotificationsRelatedAccountsBinding notificationsRelatedAccountsBinding = NotificationsRelatedAccountsBinding.inflate(LayoutInflater.from(ProfileActivity.this));
+                MastodonHelper.loadProfileMediaMastodonRound(ProfileActivity.this, notificationsRelatedAccountsBinding.profilePicture, account);
+                notificationsRelatedAccountsBinding.acc.setText(account.username);
+                notificationsRelatedAccountsBinding.relatedAccountContainer.setOnClickListener(v -> {
+                    Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable(Helper.ARG_ACCOUNT, account);
+                    intent.putExtras(b);
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(ProfileActivity.this, notificationsRelatedAccountsBinding.profilePicture, getString(R.string.activity_porfile_pp));
+                    // start the new activity
+                    startActivity(intent, options.toBundle());
+                });
+                binding.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
+            }
+            binding.familiarFollowers.setVisibility(View.VISIBLE);
         }
 
         binding.accountFollow.setEnabled(true);

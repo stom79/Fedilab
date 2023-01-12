@@ -38,6 +38,7 @@ import app.fedilab.android.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.client.entities.api.Account;
 import app.fedilab.android.client.entities.api.Accounts;
 import app.fedilab.android.client.entities.api.Domains;
+import app.fedilab.android.client.entities.api.FamiliarFollowers;
 import app.fedilab.android.client.entities.api.FeaturedTag;
 import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.client.entities.api.Filter;
@@ -90,6 +91,7 @@ public class AccountsVM extends AndroidViewModel {
     private MutableLiveData<List<IdentityProof>> identityProofListMutableLiveData;
     private MutableLiveData<RelationShip> relationShipMutableLiveData;
     private MutableLiveData<List<RelationShip>> relationShipListMutableLiveData;
+    private MutableLiveData<List<FamiliarFollowers>> familiarFollowersListMutableLiveData;
     private MutableLiveData<Filter> filterMutableLiveData;
     private MutableLiveData<List<Filter>> filterListMutableLiveData;
     private MutableLiveData<List<Tag>> tagListMutableLiveData;
@@ -1023,6 +1025,38 @@ public class AccountsVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return relationShipListMutableLiveData;
+    }
+
+
+    /**
+     * Obtain a list of all accounts that follow a given account, filtered for accounts you follow.
+     *
+     * @param ids {@link List} of account IDs to check
+     * @return {@link LiveData} containing a {@link List} of {@link FamiliarFollowers}s to given account(s)
+     */
+    public LiveData<List<FamiliarFollowers>> getFamiliarFollowers(@NonNull String instance, String token, @NonNull List<String> ids) {
+        familiarFollowersListMutableLiveData = new MutableLiveData<>();
+        MastodonAccountsService mastodonAccountsService = init(instance);
+        new Thread(() -> {
+            List<FamiliarFollowers> familiarFollowers = null;
+            Call<List<FamiliarFollowers>> familiarFollowersCall = mastodonAccountsService.getFamiliarFollowers(token, ids);
+
+            if (familiarFollowersCall != null) {
+                try {
+                    Response<List<FamiliarFollowers>> familiarFollowersResponse = familiarFollowersCall.execute();
+                    if (familiarFollowersResponse.isSuccessful()) {
+                        familiarFollowers = familiarFollowersResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<FamiliarFollowers> finalFamiliarFollowers = familiarFollowers;
+            Runnable myRunnable = () -> familiarFollowersListMutableLiveData.setValue(finalFamiliarFollowers);
+            mainHandler.post(myRunnable);
+        }).start();
+        return familiarFollowersListMutableLiveData;
     }
 
     /**

@@ -1,5 +1,5 @@
 Added:
-
+- Display familiar followers on profiles
 
 Changed:
 

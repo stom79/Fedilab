@@ -18,6 +18,7 @@ package app.fedilab.android.client.endpoints;
 import java.util.List;
 
 import app.fedilab.android.client.entities.api.Account;
+import app.fedilab.android.client.entities.api.FamiliarFollowers;
 import app.fedilab.android.client.entities.api.FeaturedTag;
 import app.fedilab.android.client.entities.api.IdentityProof;
 import app.fedilab.android.client.entities.api.MastodonList;
@@ -249,6 +250,13 @@ public interface MastodonAccountsService {
     //Get relationships
     @GET("accounts/relationships")
     Call<List<RelationShip>> getRelationships(
+            @Header("Authorization") String token,
+            @Query("id[]") List<String> ids
+    );
+
+    //Get familiar followers
+    @GET("accounts/familiar_followers ")
+    Call<List<FamiliarFollowers>> getFamiliarFollowers(
             @Header("Authorization") String token,
             @Query("id[]") List<String> ids
     );
