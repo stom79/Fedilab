@@ -3,7 +3,7 @@ Added:
 - Display and filter Instance directory
 
 Changed:
-
+- Bot and reply icon indicators more visible
 
 Fixed:
 - Fix a crash with Art timelines
