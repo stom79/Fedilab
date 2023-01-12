@@ -1595,7 +1595,7 @@ public class AccountsVM extends AndroidViewModel {
      * Accounts the user has had past positive interactions with, but is not yet following.
      *
      * @param limit Maximum number of results to return. Defaults to 40.
-     * @return {@link LiveData} containing a {@link List} of {@link Account}s
+     * @return {@link LiveData} containing a {@link List} of {@link Suggestion}s
      */
     public LiveData<Suggestions> getSuggestions(@NonNull String instance, String token, String limit) {
         suggestionsMutableLiveData = new MutableLiveData<>();
@@ -1619,6 +1619,37 @@ public class AccountsVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return suggestionsMutableLiveData;
+    }
+
+    /**
+     * List accounts visible in the directory.
+     *
+     * @param limit Maximum number of results to return. Defaults to 40.
+     * @return {@link LiveData} containing a {@link List} of {@link Account}s
+     */
+    public LiveData<Accounts> getDirectory(@NonNull String instance, String token, Integer offset, Integer limit, String order, Boolean local) {
+        accountsMutableLiveData = new MutableLiveData<>();
+        MastodonAccountsService mastodonAccountsService = init(instance);
+        new Thread(() -> {
+            Call<List<Account>> accountsCall = mastodonAccountsService.getDirectory(token, offset, limit, order, local);
+            Accounts accounts = new Accounts();
+
+            if (accountsCall != null) {
+                try {
+                    Response<List<Account>> directoryResponse = accountsCall.execute();
+                    if (directoryResponse.isSuccessful()) {
+                        accounts.pagination = MastodonHelper.getOffSetPagination(directoryResponse.headers());
+                        accounts.accounts = directoryResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> accountsMutableLiveData.setValue(accounts);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountsMutableLiveData;
     }
 
     /**

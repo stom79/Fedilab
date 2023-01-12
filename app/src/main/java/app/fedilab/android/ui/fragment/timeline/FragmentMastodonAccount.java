@@ -15,6 +15,8 @@ package app.fedilab.android.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.helper.MastodonHelper.ACCOUNTS_PER_CALL;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +65,8 @@ public class FragmentMastodonAccount extends Fragment {
     private FedilabProfileTLPageAdapter.follow_type followType;
     private String viewModelKey;
     private Timeline.TimeLineEnum timelineType;
+    private String order;
+    private Boolean local;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +76,8 @@ public class FragmentMastodonAccount extends Fragment {
             followType = (FedilabProfileTLPageAdapter.follow_type) getArguments().getSerializable(Helper.ARG_FOLLOW_TYPE);
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
+            order = getArguments().getString(Helper.ARG_DIRECTORY_ORDER, "active");
+            local = getArguments().getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
         }
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
@@ -159,7 +165,15 @@ public class FragmentMastodonAccount extends Fragment {
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
                 accountsVM.getBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
+                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
+            }
+        } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
+            if (firstLoad) {
+                accountsVM.getDirectory(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, 0, ACCOUNTS_PER_CALL, order, local)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            } else {
+                accountsVM.getDirectory(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, offset, ACCOUNTS_PER_CALL, order, local)
+                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         }
     }
@@ -223,8 +237,10 @@ public class FragmentMastodonAccount extends Fragment {
 
         this.accounts = accounts.accounts;
         accountAdapter = new AccountAdapter(this.accounts, timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME);
-        if (search == null) {
+        if (search == null && timelineType != Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
             flagLoading = accounts.pagination.max_id == null;
+        } else if (timelineType != Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
+            offset += ACCOUNTS_PER_CALL;
         } else {
             offset += MastodonHelper.SEARCH_PER_CALL;
         }
@@ -288,6 +304,8 @@ public class FragmentMastodonAccount extends Fragment {
             max_id = fetched_accounts.pagination.max_id;
             if (search != null) {
                 offset += MastodonHelper.SEARCH_PER_CALL;
+            } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
+                offset += ACCOUNTS_PER_CALL;
             }
             accountAdapter.notifyItemRangeInserted(startId, fetched_accounts.accounts.size());
         } else {

@@ -417,4 +417,15 @@ public interface MastodonAccountsService {
             @Header("Authorization") String token,
             @Path("account_id") String account_id
     );
+
+
+    //Get user suggestions
+    @GET("directory")
+    Call<List<Account>> getDirectory(
+            @Header("Authorization") String token,
+            @Query("offset") Integer offset,
+            @Query("limit") Integer limit,
+            @Query("order") String order,
+            @Query("local") Boolean local
+    );
 }

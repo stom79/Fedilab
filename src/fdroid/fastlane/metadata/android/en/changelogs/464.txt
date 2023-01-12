@@ -1,5 +1,6 @@
 Added:
 - Display familiar followers on profiles
+- Display and filter Instance directory
 
 Changed:
 

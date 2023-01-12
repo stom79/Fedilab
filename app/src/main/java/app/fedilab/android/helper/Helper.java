@@ -253,6 +253,8 @@ public class Helper {
     public static final String ARG_WORK_ID = "ARG_WORK_ID";
     public static final String ARG_LIST_ID = "ARG_LIST_ID";
     public static final String ARG_SEARCH_KEYWORD = "ARG_SEARCH_KEYWORD";
+    public static final String ARG_DIRECTORY_ORDER = "ARG_DIRECTORY_ORDER";
+    public static final String ARG_DIRECTORY_LOCAL = "ARG_DIRECTORY_LOCAL";
     public static final String ARG_SEARCH_TYPE = "ARG_SEARCH_TYPE";
     public static final String ARG_SEARCH_KEYWORD_CACHE = "ARG_SEARCH_KEYWORD_CACHE";
     public static final String ARG_VIEW_MODEL_KEY = "ARG_VIEW_MODEL_KEY";

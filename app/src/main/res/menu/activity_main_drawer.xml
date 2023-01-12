@@ -64,6 +64,11 @@
                         android:title="@string/Suggestions"
                         android:visible="true" />
                     <item
+                        android:id="@+id/nav_directory"
+                        android:icon="@drawable/ic_baseline_perm_contact_calendar_24"
+                        android:title="@string/Directory"
+                        android:visible="true" />
+                    <item
                         android:id="@+id/nav_about_instance"
                         android:icon="@drawable/ic_info_outline_white_24dp"
                         android:title="@string/action_about_instance"
