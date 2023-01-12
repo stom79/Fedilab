@@ -13,7 +13,7 @@
     <string name="download">Baixar</string>
     <string name="download_file">Baixar %1$s</string>
     <string name="save_over">Mídia salva</string>
-    <string name="download_from" formatted="false">Arquivo: %1$s</string>
+    <string name="download_from" formatted="false">Ficheiro: %1$s</string>
     <string name="password">Senha</string>
     <string name="email">E-mail</string>
     <string name="accounts">Contas</string>
@@ -547,7 +547,7 @@
     <string name="import_theme_title">Toque aqui para importar um tema exportado previamente</string>
     <string name="export_theme">Exportar o tema</string>
     <string name="export_theme_title">Toque aqui para exportar o tema atual</string>
-    <string name="theme_file_error">Ocorreu um erro ao selecionar o arquivo do tema</string>
+    <string name="theme_file_error">Ocorreu um erro ao selecionar o ficheiro do tema</string>
     <string name="user_count">Número de usuários</string>
     <string name="status_count">Número de status</string>
     <string name="instance_count">Número de instâncias</string>
