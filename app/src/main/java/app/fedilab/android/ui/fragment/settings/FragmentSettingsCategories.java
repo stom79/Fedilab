@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -164,9 +163,10 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
             pref_import_settings.setOnPreferenceClickListener(preference -> {
                 Intent openFileIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 openFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                openFileIntent.setType("text/plain");
-                String[] mimeTypes = new String[]{"text/plain"};
+                openFileIntent.setType("application/zip");
+                String[] mimeTypes = new String[]{"application/zip"};
                 openFileIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                //noinspection deprecation
                 startActivityForResult(
                         Intent.createChooser(
                                 openFileIntent,
@@ -184,13 +184,6 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
                 Toasty.error(requireActivity(), getString(R.string.toot_select_file_error), Toast.LENGTH_LONG).show();
                 return;
             }
-            String uriFullPath = data.getData().getPath();
-            String[] uriFullPathStr = uriFullPath.split(":");
-            String fullPath = uriFullPath;
-            if (uriFullPathStr.length > 1) {
-                fullPath = uriFullPathStr[1];
-            }
-            final String fileName = URLUtil.guessFileName(fullPath, null, null);
             Helper.createFileFromUri(requireActivity(), data.getData(), file -> ZipHelper.importData(requireActivity(), file));
         }
     }

@@ -821,6 +821,7 @@
     <string name="SET_PROXY_PORT" translatable="false">SET_PROXY_PORT</string>
     <string name="SET_DEFAULT_LOCALE_NEW" translatable="false">SET_DEFAULT_LOCALE_NEW</string>
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
+    <string name="SET_DISABLE_RELEASE_NOTES_ALERT" translatable="false">SET_DISABLE_RELEASE_NOTES_ALERT</string>
     <string name="SET_DISABLE_GIF" translatable="false">SET_DISABLE_GIF</string>
     <string name="SET_JAVASCRIPT" translatable="false">SET_JAVASCRIPT</string>
     <string name="SET_CUSTOM_USER_AGENT" translatable="false">SET_CUSTOM_USER_AGENT</string>
@@ -1472,6 +1473,7 @@
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
+    <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
 
     <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
@@ -2208,4 +2210,7 @@
     <string name="set_display_compact_buttons_description">Buttons at the bottom of messages will not take the whole width</string>
     <string name="also_followed_by">Followed by:</string>
     <string name="Directory">Directory</string>
+    <string name="boost_original_date">Display original date for boosts</string>
+    <string name="set_disable_release_notes">Disable release notes</string>
+    <string name="set_disable_release_notes_indication">When a new version is published, you will not be alerted inside the app.</string>
 </resources>

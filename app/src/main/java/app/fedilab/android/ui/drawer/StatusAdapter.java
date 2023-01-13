@@ -404,6 +404,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayQuote = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
+        boolean originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
 
         if (compactButtons) {
             ConstraintSet set = new ConstraintSet();
@@ -1081,7 +1082,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.editTime.setVisibility(View.GONE);
             }
-            holder.binding.time.setText(Helper.longDateToString(status.created_at));
+            if (originalDateForBoost || status.reblog == null) {
+                holder.binding.time.setText(Helper.longDateToString(statusToDeal.created_at));
+            } else {
+                holder.binding.time.setText(Helper.longDateToString(status.created_at));
+            }
             holder.binding.time.setVisibility(View.VISIBLE);
             holder.binding.dateShort.setVisibility(View.GONE);
             holder.binding.visibility.setImageResource(ressource);
@@ -1108,7 +1113,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
                 holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
                 holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
-                holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                if (originalDateForBoost || status.reblog == null) {
+                    holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                } else {
+                    holder.binding.time.setText(Helper.dateDiff(context, status.created_at));
+                }
                 if (statusToDeal.edited_at != null) {
                     Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
                     img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
@@ -1130,7 +1139,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
                 }
-                holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                if (originalDateForBoost || status.reblog == null) {
+                    holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                } else {
+                    holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
+                }
                 holder.binding.time.setVisibility(View.GONE);
                 Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
             }

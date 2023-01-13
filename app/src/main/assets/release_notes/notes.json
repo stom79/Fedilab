@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.3",
+    "code": "465",
+    "note": "Added:\n- Display date of the message instead of the boost (default: disabled)\n- Allow to disable release notes popup in Settings\n\nFixed:\n- Fix timelines slow down and stuttering after some scrolls\n- Fix color issues with follow buttons\n- Fix import from settings (import from login was OK)"
+  },
+  {
     "version": "3.14.2",
     "code": "464",
     "note": "Added:\n- Display familiar followers on profiles\n- Display and filter Instance directory\n\nChanged:\n- Bot and reply icon indicators more visible\n- Single media are hidden with link previews\n\nFixed:\n- Fix a crash with Art timelines\n- Friendica: media cannot be downloaded/shared\n- Fix a crash with pinned timelines"

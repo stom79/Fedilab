@@ -25,6 +25,12 @@
         app:key="@string/SET_GROUP_REBLOGS"
         app:singleLineTitle="false"
         app:title="@string/group_reblogs" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_BOOST_ORIGINAL_DATE"
+        app:singleLineTitle="false"
+        app:title="@string/boost_original_date" />
     <ListPreference
         android:defaultValue="default"
         app:entries="@array/SET_LIVE_TRANSLATE_VALUES"

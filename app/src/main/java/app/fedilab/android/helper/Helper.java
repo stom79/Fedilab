@@ -1781,6 +1781,10 @@ public class Helper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         int lastReleaseNoteRead = sharedpreferences.getInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), 0);
         int versionCode = BuildConfig.VERSION_CODE;
+        boolean disabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_RELEASE_NOTES_ALERT), false);
+        if (disabled && !forced) {
+            return;
+        }
         if (lastReleaseNoteRead != versionCode || forced) {
             try {
                 InputStream is = activity.getAssets().open("release_notes/notes.json");

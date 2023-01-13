@@ -86,6 +86,14 @@
         app:summary="@string/set_enable_crash_report_indication"
         app:title="@string/set_enable_crash_report" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISABLE_RELEASE_NOTES_ALERT"
+        app:singleLineTitle="false"
+        app:summary="@string/set_disable_release_notes_indication"
+        app:title="@string/set_disable_release_notes" />
+
     <androidx.preference.SeekBarPreference
         android:defaultValue="110"
         android:max="180"
