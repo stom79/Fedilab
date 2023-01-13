@@ -17,6 +17,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -655,12 +656,11 @@
                 android:layout_height="48dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/reblog_add"
-                app:sparkbutton_activeImage="@drawable/ic_round_repeat_24"
-                app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_round_repeat_24"
-                app:sparkbutton_primaryColor="@color/boost_icon"
-                app:sparkbutton_secondaryColor="@color/boost_icon" />
+                app:activeImage="@drawable/ic_round_repeat_active_24"
+                app:iconSize="28dp"
+                app:inactiveImage="@drawable/ic_round_repeat_24"
+                app:primaryColor="@color/boost_icon"
+                app:secondaryColor="@color/boost_icon" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/action_button_quote"
@@ -691,12 +691,12 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/favourite_add"
-                app:sparkbutton_activeImage="@drawable/ic_round_star_24"
-                app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_round_star_border_24"
-                app:sparkbutton_primaryColor="@color/marked_icon"
-                app:sparkbutton_secondaryColor="@color/marked_icon" />
+                app:activeImage="@drawable/ic_round_star_24"
+                app:animationSpeed="1.5"
+                app:inactiveImage="@drawable/ic_round_star_border_24"
+                app:primaryColor="@color/marked_icon"
+                app:secondaryColor="@color/marked_icon"
+                sparkbutton:iconSize="28dp" />
 
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_bookmark"
@@ -709,12 +709,12 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/bookmark_add"
-                app:sparkbutton_activeImage="@drawable/ic_round_bookmark_24"
-                app:sparkbutton_animationSpeed="1.5"
-                app:sparkbutton_iconSize="24dp"
-                app:sparkbutton_inActiveImage="@drawable/ic_round_bookmark_border_24"
-                app:sparkbutton_primaryColor="@color/marked_icon"
-                app:sparkbutton_secondaryColor="@color/marked_icon" />
+                app:activeImage="@drawable/ic_round_bookmark_24"
+                app:animationSpeed="1.5"
+                app:inactiveImage="@drawable/ic_round_bookmark_border_24"
+                app:primaryColor="@color/marked_icon"
+                app:secondaryColor="@color/marked_icon"
+                sparkbutton:iconSize="28dp" />
 
 
             <androidx.appcompat.widget.AppCompatImageButton
