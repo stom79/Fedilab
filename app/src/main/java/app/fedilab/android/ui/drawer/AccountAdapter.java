@@ -138,6 +138,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
             } else {
                 accountViewHolder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
+                accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorPrimary)));
             }
 
 
