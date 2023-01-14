@@ -1,125 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
+        android:id="@+id/media_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:keepScreenOn="true">
-
+        android:background="@color/black">
+        <!-- Main Loader -->
         <RelativeLayout
-            android:id="@+id/media_fragment_container"
+            android:id="@+id/loader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black">
-            <!-- Main Loader -->
-            <RelativeLayout
-                android:id="@+id/loader"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/pbar_inf"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:gravity="center">
-
-                <ProgressBar
-                    android:id="@+id/pbar_inf"
-                    style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/loader_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/videoLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                android:visibility="gone" />
-
-            <FrameLayout
-                android:id="@+id/media_picture_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true">
-                <!-- Description is set dynamically -->
-                <com.github.chrisbanes.photoview.PhotoView
-                    android:id="@+id/media_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:visibility="gone" />
-            </FrameLayout>
-
-
-            <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/media_video"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-
-
-            <ImageView
-                android:id="@+id/media_prev"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/transparent_grey"
-                android:contentDescription="@string/previous"
-                android:src="@drawable/ic_baseline_first_page_24"
-                android:visibility="gone"
-                app:tint="@color/white" />
-
-            <ImageView
-                android:id="@+id/media_next"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/transparent_grey"
-                android:contentDescription="@string/next"
-                android:src="@drawable/ic_baseline_last_page_24"
-                android:visibility="gone" />
-
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0" />
 
             <TextView
-                android:id="@+id/message_ready"
+                android:id="@+id/loader_progress"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/media_picture_container"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/media_message_border"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/media_ready"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:textSize="12sp" />
         </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/videoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/media_picture_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+            <!-- Description is set dynamically -->
+            <com.github.chrisbanes.photoview.PhotoView
+                android:id="@+id/media_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:visibility="gone" />
+        </FrameLayout>
+
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/media_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 </FrameLayout>

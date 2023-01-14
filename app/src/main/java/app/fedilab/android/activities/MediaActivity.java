@@ -110,7 +110,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         binding = ActivityMediaPagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         fullscreen = false;
         flags = getWindow().getDecorView().getSystemUiVisibility();
         Bundle b = getIntent().getExtras();
@@ -119,21 +118,19 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             attachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ARRAY);
             status = (Status) b.getSerializable(Helper.ARG_STATUS);
         }
+
+        if (attachments == null || attachments.size() == 0)
+            finish();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        if (attachments == null || attachments.size() == 0)
-            finish();
-
         setTitle("");
 
         ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         binding.mediaViewpager.setAdapter(mPagerAdapter);
         binding.mediaViewpager.setSaveEnabled(false);
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
-        binding.haulerView.setOnDragDismissedListener(dragDirection -> ActivityCompat.finishAfterTransition(MediaActivity.this));
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
@@ -214,8 +211,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
             }
         });
-
-
         setFullscreen(true);
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -401,6 +396,15 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         super.onPostResume();
     }
 
+    // Shows the system bars by removing all the flags
+    // except for the ones that make the content appear under the system bars.
+    private void showSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(flags |
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
 
     public boolean getFullScreen() {
         return this.fullscreen;
@@ -416,10 +420,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 binding.originalMessage.setVisibility(View.VISIBLE);
             }
         } else {
+            hideSystemUI();
             binding.mediaDescription.setVisibility(View.GONE);
             binding.translate.setVisibility(View.GONE);
             binding.originalMessage.setVisibility(View.INVISIBLE);
-            hideSystemUI();
         }
     }
 
@@ -438,16 +442,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
-    // Shows the system bars by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(flags |
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     public FragmentMedia getCurrentFragment() {

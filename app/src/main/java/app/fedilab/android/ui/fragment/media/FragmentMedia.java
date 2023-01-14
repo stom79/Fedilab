@@ -16,6 +16,7 @@ package app.fedilab.android.ui.fragment.media;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,8 +43,11 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
-
-import java.util.Timer;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MediaActivity;
@@ -58,13 +62,12 @@ public class FragmentMedia extends Fragment {
 
 
     private ExoPlayer player;
-    private Timer timer;
     private String url;
     private boolean canSwipe;
     private Attachment attachment;
     private boolean swipeEnabled;
     private FragmentSlideMediaBinding binding;
-
+    private SlidrInterface slidrInterface;
 
     public FragmentMedia() {
     }
@@ -113,9 +116,12 @@ public class FragmentMedia extends Fragment {
             url = attachment.remote_url;
             attachment.type = type;
         }
-
-        binding.mediaPicture.setVisibility(View.VISIBLE);
+        binding.mediaPicture.setZoomable(false);
         binding.mediaPicture.setTransitionName(attachment.url);
+        binding.mediaPicture.setVisibility(View.VISIBLE);
+        binding.pbarInf.setScaleY(1f);
+        binding.pbarInf.setIndeterminate(true);
+        binding.loader.setVisibility(View.VISIBLE);
         if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
             Glide.with(requireActivity())
                     .asBitmap()
@@ -124,21 +130,15 @@ public class FragmentMedia extends Fragment {
                             new CustomTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
+                                    if (binding == null || !isAdded() || getActivity() == null) {
+                                        return;
+                                    }
                                     binding.mediaPicture.setImageBitmap(resource);
                                     scheduleStartPostponedTransition(binding.mediaPicture);
                                     if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
+                                        binding.mediaPicture.setVisibility(View.VISIBLE);
                                         final Handler handler = new Handler();
                                         handler.postDelayed(() -> {
-                                            if (binding == null) {
-                                                return;
-                                            }
-                                            binding.pbarInf.setScaleY(1f);
-                                            binding.mediaPicture.setVisibility(View.VISIBLE);
-                                            binding.pbarInf.setIndeterminate(true);
-                                            binding.loader.setVisibility(View.VISIBLE);
-                                            if (binding == null || !isAdded() || getActivity() == null) {
-                                                return;
-                                            }
                                             if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
                                                 Glide.with(requireActivity())
                                                         .asBitmap()
@@ -147,18 +147,12 @@ public class FragmentMedia extends Fragment {
                                                                 new CustomTarget<Bitmap>() {
                                                                     @Override
                                                                     public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
-                                                                        if (binding != null) {
-                                                                            binding.loader.setVisibility(View.GONE);
-                                                                            if (binding.mediaPicture.getScale() < 1.1) {
-                                                                                binding.mediaPicture.setImageBitmap(resource);
-                                                                            } else {
-                                                                                binding.messageReady.setVisibility(View.VISIBLE);
-                                                                            }
-                                                                            binding.messageReady.setOnClickListener(view -> {
-                                                                                binding.mediaPicture.setImageBitmap(resource);
-                                                                                binding.messageReady.setVisibility(View.GONE);
-                                                                            });
+                                                                        if (binding == null || !isAdded() || getActivity() == null) {
+                                                                            return;
                                                                         }
+                                                                        binding.loader.setVisibility(View.GONE);
+                                                                        binding.mediaPicture.setImageBitmap(resource);
+                                                                        binding.mediaPicture.setZoomable(true);
                                                                     }
 
                                                                     @Override
@@ -168,16 +162,15 @@ public class FragmentMedia extends Fragment {
                                                                 }
                                                         );
                                             }
-                                        }, 1000);
-
-
+                                        }, 500);
                                     } else if (attachment.type.equalsIgnoreCase("image") && attachment.url.toLowerCase().endsWith(".gif")) {
                                         binding.loader.setVisibility(View.GONE);
+                                        binding.mediaPicture.setVisibility(View.VISIBLE);
                                         if (Helper.isValidContextForGlide(requireActivity())) {
+                                            binding.mediaPicture.setZoomable(true);
                                             Glide.with(requireActivity())
                                                     .load(url).into(binding.mediaPicture);
                                         }
-                                        scheduleStartPostponedTransition(binding.mediaPicture);
                                     }
                                 }
 
@@ -271,10 +264,6 @@ public class FragmentMedia extends Fragment {
             }
         } catch (Exception ignored) {
         }
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
     }
 
     @Override
@@ -282,6 +271,43 @@ public class FragmentMedia extends Fragment {
         super.onResume();
         if (player != null) {
             player.setPlayWhenReady(true);
+        }
+        if (slidrInterface == null) {
+            slidrInterface = Slidr.replace(binding.mediaFragmentContainer, new SlidrConfig.Builder().sensitivity(1f)
+                    .scrimColor(Color.BLACK)
+                    .scrimStartAlpha(0.8f)
+                    .scrimEndAlpha(0f)
+                    .position(SlidrPosition.VERTICAL)
+                    .velocityThreshold(2400)
+                    .distanceThreshold(0.25f)
+                    .edgeSize(0.18f)
+                    .listener(new SlidrListener() {
+                        @Override
+                        public void onSlideStateChanged(int state) {
+
+                        }
+
+                        @Override
+                        public void onSlideChange(float percent) {
+                            if (percent < 0.70) {
+                                binding.mediaVideo.setVisibility(View.GONE);
+                                binding.videoLayout.setVisibility(View.GONE);
+                                ActivityCompat.finishAfterTransition(requireActivity());
+                            }
+
+                        }
+
+                        @Override
+                        public void onSlideOpened() {
+
+                        }
+
+                        @Override
+                        public boolean onSlideClosed() {
+                            return false;
+                        }
+                    })
+                    .build());
         }
     }
 
@@ -299,7 +325,9 @@ public class FragmentMedia extends Fragment {
     private void enableSliding(boolean enable) {
         if (enable && !swipeEnabled) {
             swipeEnabled = true;
+            slidrInterface.unlock();
         } else if (!enable && swipeEnabled) {
+            slidrInterface.lock();
             swipeEnabled = false;
         }
     }
