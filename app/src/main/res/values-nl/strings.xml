@@ -244,7 +244,7 @@
     <!-- ACTIVITY CACHE -->
     <string name="v_public">Openbaar</string>
     <string name="v_unlisted">Minder openbaar</string>
-    <string name="v_private">Alleen volgers</string>
+    <string name="v_private">Directe berichten</string>
     <string name="v_direct">Direct</string>
     <!-- PRIVACY -->
     <string name="filter_regex">Wegfilteren met reguliere expressies</string>
@@ -968,4 +968,7 @@
     <string name="set_display_local_only">Toon \"Alleen lokaal\" knop</string>
     <string name="set_post_format">Bericht indeling</string>
     <string name="post_format">Bericht indeling</string>
+    <string name="also_followed_by">Gevolgd door:</string>
+    <string name="_new">Nieuw</string>
+    <string name="Directory">Gids</string>
 </resources>
