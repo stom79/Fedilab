@@ -961,4 +961,7 @@
     <string name="set_pixelfed_presentation">Presentación Pixelfed para multimedia</string>
     <string name="set_display_compact_buttons">Compactar botóns de accións</string>
     <string name="set_display_compact_buttons_description">Os botóns ao pé das mensaxes non ocuparán todo o ancho</string>
+    <string name="also_followed_by">Seguida por:</string>
+    <string name="Directory">Directorio</string>
+    <string name="_new">Novo</string>
 </resources>

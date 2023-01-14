@@ -976,4 +976,10 @@
     <string name="reply_visibility">Viditelnost odpovědí</string>
     <string name="exclude_visibility">Viditelnost vyloučení</string>
     <string name="also_followed_by">Sledován(a):</string>
+    <string name="Directory">Adresář</string>
+    <string name="set_pixelfed_presentation">Prezentace Pixelfed pro média</string>
+    <string name="_new">Nový</string>
+    <string name="boost_original_date">Pro boosty zobrazovat původní datum</string>
+    <string name="set_disable_release_notes">Vypnout poznámky k vydání</string>
+    <string name="set_disable_release_notes_indication">Když bude vydána nová verze, nezobrazí se vám v aplikaci upozornění.</string>
 </resources>
