@@ -644,7 +644,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
         holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);
         holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_round_bookmark_border_24);
-        holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_24);
+        holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_active_24);
         holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_round_repeat_24);
         applyColor(context, holder);
 
