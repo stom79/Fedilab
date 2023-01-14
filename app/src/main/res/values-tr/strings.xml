@@ -965,4 +965,10 @@
     <string name="set_pixelfed_presentation">Medya için Pixelfed sunumu</string>
     <string name="set_display_compact_buttons">Küçük eylem düğmeleri</string>
     <string name="set_display_compact_buttons_description">Mesajların altındaki düğmeler tüm genişliği kaplamayacak</string>
+    <string name="also_followed_by">Takip eden:</string>
+    <string name="_new">Yeni</string>
+    <string name="Directory">Dizin</string>
+    <string name="set_disable_release_notes">Sürüm notlarını devre dışı bırak</string>
+    <string name="boost_original_date">Arttırmalar için orijinal tarihi göster</string>
+    <string name="set_disable_release_notes_indication">Yeni bir sürüm yayınlandığında, uygulama içinde uyarı almayacaksınız.</string>
 </resources>
