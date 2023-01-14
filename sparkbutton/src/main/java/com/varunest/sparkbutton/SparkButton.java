@@ -107,7 +107,7 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         } else {
             throw new IllegalArgumentException("One of Inactive/Active Image Resources is required!");
         }
-        setOnTouchListener();
+      //  setOnTouchListener();
         setOnClickListener(this);
     }
 
