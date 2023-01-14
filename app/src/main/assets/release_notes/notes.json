@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.4",
+    "code": "466",
+    "note": "Changed:\n- Media viewer (pinch zoom)\n\nFixed:\n- Cross account actions (long press)\n- Boost color\n- Buttons not visible with custom themes.\n- Fix some bad behaviors with media viewer"
+  },
+  {
     "version": "3.14.3",
     "code": "465",
     "note": "Added:\n- Display date of the message instead of the boost (default: disabled)\n- Allow to disable release notes popup in Settings\n\nFixed:\n- Fix timelines slow down and stuttering after some scrolls\n- Fix color issues with follow buttons\n- Fix import from settings (import from login was OK)"

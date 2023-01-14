@@ -1,0 +1,8 @@
+Changed:
+- Media viewer (pinch zoom)
+
+Fixed:
+- Cross account actions (long press)
+- Boost color
+- Buttons not visible with custom themes.
+- Fix some bad behaviors with media viewer
