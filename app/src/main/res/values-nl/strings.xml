@@ -971,4 +971,7 @@
     <string name="also_followed_by">Gevolgd door:</string>
     <string name="_new">Nieuw</string>
     <string name="Directory">Gids</string>
+    <string name="set_disable_release_notes">Schakel release notes uit</string>
+    <string name="boost_original_date">Toon oorspronkelijke datum voor boosts</string>
+    <string name="set_disable_release_notes_indication">Als een nieuwe versie wordt uitgegeven, krijg je geen melding in de app.</string>
 </resources>
