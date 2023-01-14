@@ -30,7 +30,6 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -222,6 +221,11 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     }
 
 
+    public void toogleFullScreen() {
+        fullscreen = !fullscreen;
+        setFullscreen(fullscreen);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_media, menu);
@@ -310,70 +314,37 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = event.getX();
-                startY = event.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                float endX = event.getX();
-                float endY = event.getY();
-                if (endY > minTouch && endY < maxTouch && isAClick(startX, endX, startY, endY)) {
-                    setFullscreen(!fullscreen);
-                    if (!fullscreen) {
-                        String description = attachments.get(binding.mediaViewpager.getCurrentItem()).description;
-                        if (handler != null) {
-                            handler.removeCallbacksAndMessages(null);
-                        }
-                        handler = new Handler();
-                        if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
-                            binding.mediaDescription.setText(description);
-                            if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
-                                binding.mediaDescription.setVisibility(View.GONE);
-                                binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
-                                binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
-                            } else {
-                                binding.mediaDescription.setVisibility(View.VISIBLE);
-                                binding.mediaDescriptionTranslated.setVisibility(View.GONE);
-                            }
-                        } else {
-                            binding.translate.setVisibility(View.GONE);
-                            if (status != null) {
-                                binding.originalMessage.setVisibility(View.VISIBLE);
-                            } else {
-                                binding.originalMessage.setVisibility(View.INVISIBLE);
-                            }
-                            binding.mediaDescriptionTranslated.setVisibility(View.GONE);
-                            binding.mediaDescription.setVisibility(View.GONE);
-                        }
-                    } else {
-                        binding.originalMessage.setVisibility(View.INVISIBLE);
-                        binding.translate.setVisibility(View.GONE);
-                        binding.mediaDescriptionTranslated.setVisibility(View.GONE);
-                        binding.mediaDescription.setVisibility(View.GONE);
-                    }
+    private void toggleScreenContain(boolean fullscreen) {
+        if (!fullscreen) {
+            String description = attachments.get(binding.mediaViewpager.getCurrentItem()).description;
+            if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
+                binding.mediaDescription.setText(description);
+                if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
+                    binding.mediaDescription.setVisibility(View.GONE);
+                    binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
+                    binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
+                } else {
+                    binding.mediaDescription.setVisibility(View.VISIBLE);
+                    binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                 }
-                break;
+            } else {
+                binding.translate.setVisibility(View.GONE);
+                if (status != null) {
+                    binding.originalMessage.setVisibility(View.VISIBLE);
+                } else {
+                    binding.originalMessage.setVisibility(View.INVISIBLE);
+                }
+                binding.mediaDescriptionTranslated.setVisibility(View.GONE);
+                binding.mediaDescription.setVisibility(View.GONE);
+            }
+        } else {
+            binding.originalMessage.setVisibility(View.INVISIBLE);
+            binding.translate.setVisibility(View.GONE);
+            binding.mediaDescriptionTranslated.setVisibility(View.GONE);
+            binding.mediaDescription.setVisibility(View.GONE);
         }
-        try {
-            return super.dispatchTouchEvent(event);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-
     }
 
-
-    private boolean isAClick(float startX, float endX, float startY, float endY) {
-        float differenceX = Math.abs(startX - endX);
-        float differenceY = Math.abs(startY - endY);
-        int CLICK_ACTION_THRESHOLD = 200;
-        return !(differenceX > CLICK_ACTION_THRESHOLD/* =5 */ || differenceY > CLICK_ACTION_THRESHOLD);
-    }
 
     @Override
     public void onDestroy() {
@@ -425,6 +396,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             binding.translate.setVisibility(View.GONE);
             binding.originalMessage.setVisibility(View.INVISIBLE);
         }
+        toggleScreenContain(fullscreen);
     }
 
     private void hideSystemUI() {

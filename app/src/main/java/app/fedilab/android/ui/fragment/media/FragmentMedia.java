@@ -14,6 +14,7 @@ package app.fedilab.android.ui.fragment.media;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -104,6 +105,14 @@ public class FragmentMedia extends Fragment {
                 enableSliding(true);
             }
         });
+        binding.mediaPicture.setOnClickListener(v -> {
+            ((MediaActivity) requireActivity()).toogleFullScreen();
+        });
+
+        binding.mediaVideo.setOnClickListener(v -> {
+            ((MediaActivity) requireActivity()).toogleFullScreen();
+        });
+
         String type = attachment.type;
         String preview_url = attachment.preview_url;
         if (type.equalsIgnoreCase("unknown")) {
@@ -119,6 +128,7 @@ public class FragmentMedia extends Fragment {
         binding.mediaPicture.setZoomable(false);
         binding.mediaPicture.setTransitionName(attachment.url);
         binding.mediaPicture.setVisibility(View.VISIBLE);
+
         binding.pbarInf.setScaleY(1f);
         binding.pbarInf.setIndeterminate(true);
         binding.loader.setVisibility(View.VISIBLE);
@@ -321,6 +331,7 @@ public class FragmentMedia extends Fragment {
             }
         });
     }
+
 
     private void enableSliding(boolean enable) {
         if (enable && !swipeEnabled) {
