@@ -192,4 +192,6 @@
     <string name="set_share_validation_fav">Seall còmhradh dearbhaidh mus cuir thu rud ris na h-annsachdan</string>
     <string name="set_med_desc_timeout">Crìoch-ùine nan tuairisgeulan mheadhnan (diogan, is ciall dha 0 gum bi e dheth)</string>
     <string name="settings_title_custom_sharing">Co-roinneadh gnàthaichte</string>
+    <string name="set_display_compact_buttons"></string>
+    <string name="set_display_compact_buttons_description"></string>
 </resources>
