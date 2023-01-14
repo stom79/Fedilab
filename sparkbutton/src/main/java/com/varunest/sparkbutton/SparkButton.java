@@ -7,10 +7,10 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -55,21 +55,24 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
     private float animationSpeed = 1;
     private boolean isChecked = false;
     private AnimatorSet animatorSet;
-    private SparkEventListener listener;
+    private final Context context;
 
     SparkButton(Context context) {
         super(context);
+        this.context = context;
     }
 
     public SparkButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFromXML(attrs);
+        this.context = context;
         init();
     }
 
     public SparkButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initFromXML(attrs);
+        this.context = context;
         init();
     }
 
@@ -77,6 +80,7 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
     public SparkButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initFromXML(attrs);
+        this.context = context;
         init();
     }
 
@@ -221,6 +225,24 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         return isChecked;
     }
 
+
+    public void setInActiveImageTint(int inActiveImageTint) {
+        this.inActiveImageTint = getColor(inActiveImageTint);
+    }
+
+    public void setInActiveImageTintColor(int inActiveImageTint) {
+        this.inActiveImageTint = inActiveImageTint;
+    }
+
+    public void setActiveImageTint(int activeImageTint) {
+        this.activeImageTint = getColor(activeImageTint);
+    }
+
+    public void setActiveImageTintColor(int activeImageTint) {
+        this.activeImageTint = activeImageTint;
+    }
+
+
     /**
      * Change Button State (Works only if both active and disabled image resource is defined)
      *
@@ -229,6 +251,7 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
     public void setChecked(boolean flag) {
         isChecked = flag;
         imageView.setImageResource(isChecked ? imageResourceIdActive : imageResourceIdInactive);
+        imageView.setColorFilter(isChecked ? activeImageTint : inActiveImageTint, PorterDuff.Mode.SRC_ATOP);
     }
 
     public void setInactiveImage(int inactiveResource) {
@@ -241,58 +264,28 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         imageView.setImageResource(isChecked ? imageResourceIdActive : imageResourceIdInactive);
     }
 
+
     @Override
     public void onClick(View v) {
-        boolean shouldPlayAnimation = listener == null || listener.onEvent(this, isChecked);
+        if (imageResourceIdInactive != INVALID_RESOURCE_ID) {
+            isChecked = !isChecked;
 
-        if (shouldPlayAnimation) {
-            if (imageResourceIdInactive != INVALID_RESOURCE_ID) {
-                isChecked = !isChecked;
+            imageView.setImageResource(isChecked ? imageResourceIdActive : imageResourceIdInactive);
 
-                imageView.setImageResource(isChecked ? imageResourceIdActive : imageResourceIdInactive);
-
-                if (animatorSet != null) {
-                    animatorSet.cancel();
-                }
-                if (isChecked) {
-                    sparkAnimationView.setVisibility(VISIBLE);
-                    playAnimation();
-                } else {
-                    sparkAnimationView.setVisibility(INVISIBLE);
-                }
-            } else {
-                playAnimation();
+            if (animatorSet != null) {
+                animatorSet.cancel();
             }
+            if (isChecked) {
+                sparkAnimationView.setVisibility(VISIBLE);
+                playAnimation();
+            } else {
+                sparkAnimationView.setVisibility(INVISIBLE);
+            }
+        } else {
+            playAnimation();
         }
     }
 
-
-    private void setOnTouchListener() {
-        setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    imageView.animate().scaleX(0.8f).scaleY(0.8f).setDuration(150).setInterpolator(DECELERATE_INTERPOLATOR);
-                    setPressed(true);
-                    break;
-
-                case MotionEvent.ACTION_MOVE:
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    imageView.animate().scaleX(1).scaleY(1).setInterpolator(DECELERATE_INTERPOLATOR);
-                    if (isPressed()) {
-                        performClick();
-                        setPressed(false);
-                    }
-                    break;
-
-                case MotionEvent.ACTION_CANCEL:
-                    imageView.animate().scaleX(1).scaleY(1).setInterpolator(DECELERATE_INTERPOLATOR);
-                    break;
-            }
-            return true;
-        });
-    }
 
     private int getColor(int id) {
         return ContextCompat.getColor(getContext(), id);
@@ -310,4 +303,6 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
         // recycle typedArray
         a.recycle();
     }
+
+
 }
