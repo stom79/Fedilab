@@ -731,18 +731,20 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         Status status = new Status();
 
         status.id = Helper.generateIdString();
-        status.mentions = statusList.get(position).mentions;
-        status.visibility = statusList.get(position).visibility;
+        status.mentions = statusList.get(position - 1).mentions;
+        status.visibility = statusList.get(position - 1).visibility;
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
         boolean unlistedReplies = sharedpreferences.getBoolean(getString(R.string.SET_UNLISTED_REPLIES), true);
         if (status.visibility.equalsIgnoreCase("public") && unlistedReplies) {
             status.visibility = "unlisted";
         }
-        status.spoiler_text = statusList.get(position).spoiler_text;
-        status.sensitive = statusList.get(position).sensitive;
+        status.spoiler_text = statusList.get(position - 1).spoiler_text;
+        status.sensitive = statusList.get(position - 1).sensitive;
         statusList.add(status);
-        composeAdapter.notifyItemInserted(position + 1);
-        binding.recyclerView.smoothScrollToPosition(position + 1);
+        composeAdapter.notifyItemInserted(position);
+        composeAdapter.notifyItemRangeChanged(0, statusList.size());
+        binding.recyclerView.smoothScrollToPosition(statusList.size());
+
     }
 
     @Override

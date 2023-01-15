@@ -459,7 +459,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                        manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
+                        manageDrafts.onItemDraftAdded(statusList.size());
                         buttonVisibility(holder);
                     });
                 }
@@ -467,7 +467,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                 holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                 holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                    manageDrafts.onItemDraftAdded(holder.getLayoutPosition());
+                    manageDrafts.onItemDraftAdded(statusList.size());
                     buttonVisibility(holder);
                 });
             }

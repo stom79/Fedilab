@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -119,7 +118,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             mediaFromProfile = b.getBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, false);
             status = (Status) b.getSerializable(Helper.ARG_STATUS);
         }
-        Log.v(Helper.TAG, "mediaPosition: " + mediaPosition);
         if (mediaFromProfile && mediaAttachmentProfile != null) {
             attachments = new ArrayList<>();
             attachments.addAll(mediaAttachmentProfile);
