@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -115,10 +116,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
 
         if (attachments == null || attachments.size() == 0)
             finish();
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+
         setTitle("");
 
         ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -208,6 +206,15 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         setFullscreen(true);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        try {
+            return super.dispatchTouchEvent(event);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     public void toogleFullScreen() {
         fullscreen = !fullscreen;
