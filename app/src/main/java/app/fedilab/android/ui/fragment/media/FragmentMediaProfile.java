@@ -90,7 +90,7 @@ public class FragmentMediaProfile extends Fragment {
 
                 @Override
                 public void federatedAccount(Account account) {
-                    if (account != null) {
+                    if (account != null && !requireActivity().isFinishing() && isAdded()) {
                         accountId = account.id;
                         accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), statuses -> initializeStatusesCommonView(statuses));

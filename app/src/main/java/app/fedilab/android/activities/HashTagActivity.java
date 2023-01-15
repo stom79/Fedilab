@@ -109,6 +109,7 @@ public class HashTagActivity extends BaseActivity {
                 pinned = new Pinned();
                 pinned.pinnedTimelines = new ArrayList<>();
             }
+            this.pinned = pinned;
             pinnedTag = false;
             if (pinned.pinnedTimelines != null) {
                 for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
@@ -173,6 +174,9 @@ public class HashTagActivity extends BaseActivity {
                 unpinConfirm.setMessage(getString(R.string.unpin_timeline_description));
                 unpinConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 unpinConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    if (pinned == null || pinned.pinnedTimelines == null) {
+                        return;
+                    }
                     pinned.pinnedTimelines.remove(pinnedTimeline);
                     try {
                         new Pinned(HashTagActivity.this).updatePinned(pinned);

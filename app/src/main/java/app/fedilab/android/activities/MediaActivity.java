@@ -113,6 +113,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             attachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ARRAY);
             status = (Status) b.getSerializable(Helper.ARG_STATUS);
         }
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         if (attachments == null || attachments.size() == 0)
             finish();
