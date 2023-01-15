@@ -56,6 +56,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -370,64 +371,126 @@ public class SpannableHelper {
                         new Thread(() -> {
                             try {
                                 String redirect = null;
-                                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
-                                httpsURLConnection.setConnectTimeout(10 * 1000);
-                                httpsURLConnection.setRequestProperty("http.keepAlive", "false");
-                                //httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
-                                httpsURLConnection.setRequestMethod("HEAD");
-                                httpsURLConnection.setInstanceFollowRedirects(false);
-                                if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
-                                    Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
-                                    for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-                                        if (entry.toString().toLowerCase().startsWith("location")) {
-                                            Matcher matcher = Patterns.WEB_URL.matcher(entry.toString());
-                                            if (matcher.find()) {
-                                                redirect = matcher.group(1);
+                                if (finalUrl.startsWith("http://")) {
+                                    HttpURLConnection httpURLConnection = (HttpURLConnection) finalUrlCheck.openConnection();
+                                    httpURLConnection.setConnectTimeout(10 * 1000);
+                                    httpURLConnection.setRequestProperty("http.keepAlive", "false");
+                                    //httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                    httpURLConnection.setRequestMethod("HEAD");
+                                    httpURLConnection.setInstanceFollowRedirects(false);
+                                    if (httpURLConnection.getResponseCode() == 301 || httpURLConnection.getResponseCode() == 302) {
+                                        Map<String, List<String>> map = httpURLConnection.getHeaderFields();
+                                        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                                            if (entry.toString().toLowerCase().startsWith("location")) {
+                                                Matcher matcher = Patterns.WEB_URL.matcher(entry.toString());
+                                                if (matcher.find()) {
+                                                    redirect = matcher.group(1);
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                httpsURLConnection.getInputStream().close();
-                                if (redirect != null && redirect.compareTo(finalUrl) != 0) {
-                                    URL redirectURL = new URL(redirect);
-                                    String host = redirectURL.getHost();
-                                    String protocol = redirectURL.getProtocol();
-                                    if (protocol == null || host == null) {
-                                        redirect = null;
+                                    httpURLConnection.getInputStream().close();
+                                    if (redirect != null && redirect.compareTo(finalUrl) != 0) {
+                                        URL redirectURL = new URL(redirect);
+                                        String host = redirectURL.getHost();
+                                        String protocol = redirectURL.getProtocol();
+                                        if (protocol == null || host == null) {
+                                            redirect = null;
+                                        }
                                     }
-                                }
-                                Handler mainHandler = new Handler(context.getMainLooper());
-                                String finalRedirect = redirect;
-                                Runnable myRunnable = () -> {
-                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
-                                    if (finalRedirect != null) {
-                                        builder1.setMessage(context.getString(R.string.redirect_detected, finalUrl, finalRedirect));
-                                        builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
-                                            ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                                            ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
-                                            if (clipboard1 != null) {
-                                                clipboard1.setPrimaryClip(clip1);
-                                                Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
-                                            }
-                                            dialog.dismiss();
-                                        });
-                                        builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
-                                            Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
-                                            sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
-                                            sendIntent1.putExtra(Intent.EXTRA_TEXT, finalUrl);
-                                            sendIntent1.setType("text/plain");
-                                            context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
-                                            dialog.dismiss();
-                                        });
-                                    } else {
-                                        builder1.setMessage(R.string.no_redirect);
-                                    }
-                                    builder1.setTitle(context.getString(R.string.check_redirect));
-                                    builder1.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
-                                            .show();
+                                    Handler mainHandler = new Handler(context.getMainLooper());
+                                    String finalRedirect = redirect;
+                                    Runnable myRunnable = () -> {
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                                        if (finalRedirect != null) {
+                                            builder1.setMessage(context.getString(R.string.redirect_detected, finalUrl, finalRedirect));
+                                            builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
+                                                ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                                ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
+                                                if (clipboard1 != null) {
+                                                    clipboard1.setPrimaryClip(clip1);
+                                                    Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                                                }
+                                                dialog.dismiss();
+                                            });
+                                            builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
+                                                Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
+                                                sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                                                sendIntent1.putExtra(Intent.EXTRA_TEXT, finalUrl);
+                                                sendIntent1.setType("text/plain");
+                                                context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
+                                                dialog.dismiss();
+                                            });
+                                        } else {
+                                            builder1.setMessage(R.string.no_redirect);
+                                        }
+                                        builder1.setTitle(context.getString(R.string.check_redirect));
+                                        builder1.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                                .show();
 
-                                };
-                                mainHandler.post(myRunnable);
+                                    };
+                                    mainHandler.post(myRunnable);
+                                } else {
+                                    HttpsURLConnection httpsURLConnection = (HttpsURLConnection) finalUrlCheck.openConnection();
+                                    httpsURLConnection.setConnectTimeout(10 * 1000);
+                                    httpsURLConnection.setRequestProperty("http.keepAlive", "false");
+                                    //httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+                                    httpsURLConnection.setRequestMethod("HEAD");
+                                    httpsURLConnection.setInstanceFollowRedirects(false);
+                                    if (httpsURLConnection.getResponseCode() == 301 || httpsURLConnection.getResponseCode() == 302) {
+                                        Map<String, List<String>> map = httpsURLConnection.getHeaderFields();
+                                        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                                            if (entry.toString().toLowerCase().startsWith("location")) {
+                                                Matcher matcher = Patterns.WEB_URL.matcher(entry.toString());
+                                                if (matcher.find()) {
+                                                    redirect = matcher.group(1);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    httpsURLConnection.getInputStream().close();
+                                    if (redirect != null && redirect.compareTo(finalUrl) != 0) {
+                                        URL redirectURL = new URL(redirect);
+                                        String host = redirectURL.getHost();
+                                        String protocol = redirectURL.getProtocol();
+                                        if (protocol == null || host == null) {
+                                            redirect = null;
+                                        }
+                                    }
+                                    Handler mainHandler = new Handler(context.getMainLooper());
+                                    String finalRedirect = redirect;
+                                    Runnable myRunnable = () -> {
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                                        if (finalRedirect != null) {
+                                            builder1.setMessage(context.getString(R.string.redirect_detected, finalUrl, finalRedirect));
+                                            builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
+                                                ClipboardManager clipboard1 = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                                ClipData clip1 = ClipData.newPlainText(Helper.CLIP_BOARD, finalRedirect);
+                                                if (clipboard1 != null) {
+                                                    clipboard1.setPrimaryClip(clip1);
+                                                    Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                                                }
+                                                dialog.dismiss();
+                                            });
+                                            builder1.setNeutralButton(R.string.share_link, (dialog, which) -> {
+                                                Intent sendIntent1 = new Intent(Intent.ACTION_SEND);
+                                                sendIntent1.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                                                sendIntent1.putExtra(Intent.EXTRA_TEXT, finalUrl);
+                                                sendIntent1.setType("text/plain");
+                                                context.startActivity(Intent.createChooser(sendIntent1, context.getString(R.string.share_with)));
+                                                dialog.dismiss();
+                                            });
+                                        } else {
+                                            builder1.setMessage(R.string.no_redirect);
+                                        }
+                                        builder1.setTitle(context.getString(R.string.check_redirect));
+                                        builder1.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                                                .show();
+
+                                    };
+                                    mainHandler.post(myRunnable);
+                                }
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

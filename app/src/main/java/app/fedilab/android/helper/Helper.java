@@ -272,6 +272,7 @@ public class Helper {
     public static final String ARG_CHECK_REMOTELY = "ARG_CHECK_REMOTELY";
     public static final String ARG_USER_ID = "ARG_USER_ID";
     public static final String ARG_MEDIA_ARRAY = "ARG_MEDIA_ARRAY";
+    public static final String ARG_MEDIA_ARRAY_PROFILE = "ARG_MEDIA_ARRAY_PROFILE";
     public static final String ARG_VISIBILITY = "ARG_VISIBILITY";
     public static final String ARG_SCHEDULED_DATE = "ARG_SCHEDULED_DATE";
 

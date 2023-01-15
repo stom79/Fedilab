@@ -14,6 +14,8 @@ package app.fedilab.android.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.ui.fragment.media.FragmentMediaProfile.mediaAttachmentProfile;
+
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -26,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -95,6 +98,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     private ActivityMediaPagerBinding binding;
     private FragmentMedia mCurrentFragment;
     private Status status;
+    private boolean mediaFromProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +109,20 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         binding = ActivityMediaPagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         fullscreen = false;
         flags = getWindow().getDecorView().getSystemUiVisibility();
         Bundle b = getIntent().getExtras();
         if (b != null) {
             mediaPosition = b.getInt(Helper.ARG_MEDIA_POSITION, 1);
             attachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ARRAY);
+            mediaFromProfile = b.getBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, false);
             status = (Status) b.getSerializable(Helper.ARG_STATUS);
+        }
+        Log.v(Helper.TAG, "mediaPosition: " + mediaPosition);
+        if (mediaFromProfile && mediaAttachmentProfile != null) {
+            attachments = new ArrayList<>();
+            attachments.addAll(mediaAttachmentProfile);
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -130,10 +141,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
-        if (status != null) {
+        if (attachments.get(mediaPosition - 1).status != null) {
             binding.originalMessage.setOnClickListener(v -> {
                 Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
-                intentContext.putExtra(Helper.ARG_STATUS, status);
+                intentContext.putExtra(Helper.ARG_STATUS, attachments.get(mediaPosition - 1).status);
                 intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intentContext);
             });
@@ -171,6 +182,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             }
 
             public void onPageSelected(int position) {
+                mediaPosition = position;
                 String description = attachments.get(position).description;
                 if (handler != null) {
                     handler.removeCallbacksAndMessages(null);
@@ -386,7 +398,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             showSystemUI();
             binding.mediaDescription.setVisibility(View.VISIBLE);
             binding.translate.setVisibility(View.VISIBLE);
-            if (status != null) {
+            if (mediaFromProfile) {
                 binding.originalMessage.setVisibility(View.VISIBLE);
             }
         } else {

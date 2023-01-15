@@ -14,6 +14,8 @@ package app.fedilab.android.ui.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.ui.fragment.media.FragmentMediaProfile.mediaAttachmentProfile;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,31 +29,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import app.fedilab.android.activities.ContextActivity;
 import app.fedilab.android.activities.MediaActivity;
 import app.fedilab.android.client.entities.api.Attachment;
-import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.DrawerMediaBinding;
 import app.fedilab.android.helper.Helper;
 
 
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<Status> statuses;
+
     private Context context;
 
-    public ImageAdapter(List<Status> statuses) {
-        this.statuses = statuses;
+    public ImageAdapter() {
     }
 
     public int getCount() {
-        return statuses.size();
+        return mediaAttachmentProfile.size();
     }
 
-    public Status getItem(int position) {
-        return statuses.get(position);
+    public Attachment getItem(int position) {
+        return mediaAttachmentProfile.get(position);
     }
 
     @NonNull
@@ -64,35 +61,40 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        Status status = statuses.get(position);
 
+        Attachment attachment = mediaAttachmentProfile.get(position);
         final ViewHolder holder = (ViewHolder) viewHolder;
-
-        if (Helper.isValidContextForGlide(context) && status.art_attachment != null) {
-            if (status.art_attachment.preview_url != null) {
-                Glide.with(context).load(status.art_attachment.preview_url).into(holder.binding.media);
-            } else if (status.art_attachment.url != null) {
-                Glide.with(context).load(status.art_attachment.url).into(holder.binding.media);
+        if (Helper.isValidContextForGlide(context) && attachment != null) {
+            if (attachment.preview_url != null) {
+                Glide.with(context).load(attachment.preview_url).into(holder.binding.media);
+            } else if (attachment.url != null) {
+                Glide.with(context).load(attachment.url).into(holder.binding.media);
             }
         }
         holder.binding.media.setOnClickListener(v -> {
             Intent mediaIntent = new Intent(context, MediaActivity.class);
             Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            ArrayList<Attachment> attachmentsTmp = new ArrayList<>();
-            attachmentsTmp.add(status.art_attachment);
-            b.putSerializable(Helper.ARG_STATUS, status);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(attachmentsTmp));
+            b.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
+            b.putBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, true);
             mediaIntent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, holder.binding.media, status.media_attachments.get(0).url);
+            ActivityOptionsCompat options = null;
+            if (attachment != null) {
+                options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, holder.binding.media, attachment.url);
+            } else {
+                return;
+            }
             // start the new activity
             context.startActivity(mediaIntent, options.toBundle());
         });
 
         holder.binding.media.setOnLongClickListener(v -> {
             Intent intentContext = new Intent(context, ContextActivity.class);
-            intentContext.putExtra(Helper.ARG_STATUS, status);
+            if (attachment != null) {
+                intentContext.putExtra(Helper.ARG_STATUS, attachment.status);
+            } else {
+                return false;
+            }
             intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intentContext);
             return false;
@@ -105,7 +107,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return statuses.size();
+        return mediaAttachmentProfile.size();
     }
 
 

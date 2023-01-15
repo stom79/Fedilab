@@ -14,6 +14,8 @@ package app.fedilab.android.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -52,7 +54,7 @@ public class Attachment implements Serializable {
     public String peertubeId = null;
     public String focus = null;
     public String translation = null;
-
+    public transient Status status = null;
 
     public static class Meta implements Serializable {
         @SerializedName("focus")
@@ -80,4 +82,15 @@ public class Attachment implements Serializable {
         @SerializedName("aspect")
         public float aspect;
     }
+
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Attachment) {
+            same = this.id.equals(((Attachment) obj).id);
+        }
+        return same;
+    }
+
 }

@@ -149,7 +149,7 @@ public class FragmentMedia extends Fragment {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
                                         final Handler handler = new Handler();
                                         handler.postDelayed(() -> {
-                                            if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
+                                            if (isAdded() && Helper.isValidContextForGlide(requireActivity())) {
                                                 Glide.with(requireActivity())
                                                         .asBitmap()
                                                         .dontTransform()

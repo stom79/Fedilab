@@ -57,6 +57,8 @@ public class FragmentMediaProfile extends Fragment {
     private ImageAdapter imageAdapter;
     private boolean checkRemotely;
     private String accountId;
+    public static List<Attachment> mediaAttachmentProfile;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class FragmentMediaProfile extends Fragment {
      * @param statuses {@link Statuses}
      */
     private void initializeStatusesCommonView(final Statuses statuses) {
-
+        mediaAttachmentProfile = new ArrayList<>();
         flagLoading = false;
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
@@ -139,7 +141,7 @@ public class FragmentMediaProfile extends Fragment {
                 }
             }
         }
-        imageAdapter = new ImageAdapter(mediaStatuses);
+        imageAdapter = new ImageAdapter();
 
         flagLoading = statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
@@ -179,7 +181,7 @@ public class FragmentMediaProfile extends Fragment {
                 }
             }
         });
-
+        fillWithMedia();
     }
 
 
@@ -222,6 +224,24 @@ public class FragmentMediaProfile extends Fragment {
             }
         } else {
             flagLoading = true;
+        }
+        fillWithMedia();
+    }
+
+
+    public void fillWithMedia() {
+
+        if (mediaStatuses != null && mediaStatuses.size() > 0) {
+            for (Status status : mediaStatuses) {
+                if (status.media_attachments != null && status.media_attachments.size() > 0) {
+                    for (Attachment attachment : status.media_attachments) {
+                        attachment.status = status;
+                        if (!mediaAttachmentProfile.contains(attachment)) {
+                            mediaAttachmentProfile.add(attachment);
+                        }
+                    }
+                }
+            }
         }
     }
 }
