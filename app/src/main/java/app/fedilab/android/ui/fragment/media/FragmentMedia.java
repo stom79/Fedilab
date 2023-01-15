@@ -336,9 +336,13 @@ public class FragmentMedia extends Fragment {
     private void enableSliding(boolean enable) {
         if (enable && !swipeEnabled) {
             swipeEnabled = true;
-            slidrInterface.unlock();
+            if (slidrInterface != null) {
+                slidrInterface.unlock();
+            }
         } else if (!enable && swipeEnabled) {
-            slidrInterface.lock();
+            if (slidrInterface != null) {
+                slidrInterface.lock();
+            }
             swipeEnabled = false;
         }
     }

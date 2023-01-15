@@ -22,12 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,9 +91,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     };
     private boolean fullscreen;
     private Handler handler;
-    private int minTouch, maxTouch;
-    private float startX;
-    private float startY;
     private ActivityMediaPagerBinding binding;
     private FragmentMedia mCurrentFragment;
     private Status status;
@@ -211,13 +206,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             }
         });
         setFullscreen(true);
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenHeight = size.y;
-        minTouch = (int) (screenHeight * 0.1);
-        maxTouch = (int) (screenHeight * 0.9);
-
     }
 
 
