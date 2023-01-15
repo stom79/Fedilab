@@ -4,4 +4,4 @@ Changed:
 Fixed:
 - Fix crashes with pinch zoom
 - Fix crash when checking redirection on http links
-- Displaying options for media reset zoom
+- Displaying menu in media preview reset zoom
