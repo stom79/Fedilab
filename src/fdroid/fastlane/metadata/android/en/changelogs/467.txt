@@ -5,4 +5,4 @@ Fixed:
 - Fix crashes with pinch zoom
 - Copy/Paste in threads
 - Fix crash when checking redirection on http links
-- Displaying menu in media preview reset zoom
+- Display menu in media viewer resets pinch-zoom

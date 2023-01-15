@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.14.5",
+    "code": "467",
+    "note": "Changed:\n- Allow to swipe media for profiles\n\nFixed:\n- Fix crashes with pinch zoom\n- Copy/Paste in threads\n- Fix crash when checking redirection on http links\n- Display menu in media viewer resets pinch-zoom"
+  },
+  {
     "version": "3.14.4",
     "code": "466",
     "note": "Changed:\n- Media viewer (pinch zoom)\n\nFixed:\n- Cross account actions (long press)\n- Boost color\n- Buttons not visible with custom themes.\n- Fix some bad behaviors with media viewer"
