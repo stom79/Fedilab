@@ -964,4 +964,7 @@
     <string name="also_followed_by">Seguida por:</string>
     <string name="Directory">Directorio</string>
     <string name="_new">Novo</string>
+    <string name="boost_original_date">Mostrar a data orixinal nas promocións</string>
+    <string name="set_disable_release_notes">Desactivar notas da publicación</string>
+    <string name="set_disable_release_notes_indication">Cando se publica unha nova versión non recibirás o aviso desde a app.</string>
 </resources>
