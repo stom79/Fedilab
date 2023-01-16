@@ -2213,4 +2213,5 @@
     <string name="boost_original_date">Display original date for boosts</string>
     <string name="set_disable_release_notes">Disable release notes</string>
     <string name="set_disable_release_notes_indication">When a new version is published, you will not be alerted inside the app.</string>
+    <string name="formula">Formula</string>
 </resources>

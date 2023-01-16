@@ -1,0 +1,2 @@
+MathJax v2.5.3
+https://github.com/mathjax/MathJax/releases/tag/2.5.3

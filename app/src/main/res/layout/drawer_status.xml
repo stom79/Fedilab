@@ -258,6 +258,16 @@
             tools:maxLines="10"
             tools:text="@tools:sample/lorem/random" />
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/status_content_maths"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:textIsSelectable="true"
+            android:visibility="gone" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/toggle_truncate"
             style="@style/Widget.Material3.Button.TextButton"
@@ -729,10 +739,29 @@
                 android:contentDescription="@string/translate"
                 android:src="@drawable/ic_baseline_translate_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_maths"
                 app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
                 app:layout_constraintTop_toTopOf="parent"
                 android:visibility="gone"
+                tools:visibility="visible" />
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/action_button_maths"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/transparent"
+                android:clickable="true"
+                android:contentDescription="@string/formula"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_functions_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                app:layout_constraintStart_toEndOf="@+id/action_button_translate"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -740,7 +769,7 @@
                 android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/status_emoji"
-                app:layout_constraintStart_toEndOf="@+id/action_button_translate"
+                app:layout_constraintStart_toEndOf="@+id/action_button_maths"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

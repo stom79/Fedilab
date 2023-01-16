@@ -18,6 +18,7 @@ package app.fedilab.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
+import android.webkit.WebView;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -45,12 +46,15 @@ public class MainApplication extends MultiDexApplication {
         return app;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
+        try {
+            new WebView(this);
+        } catch (Exception ignored) {
+        }
 
         boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
         if (dynamicColor) {
@@ -60,6 +64,7 @@ public class MainApplication extends MultiDexApplication {
         StrictMode.setVmPolicy(builder.build());
         Toasty.Config.getInstance().apply();
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

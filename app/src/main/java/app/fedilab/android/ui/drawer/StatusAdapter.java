@@ -152,6 +152,8 @@ import app.fedilab.android.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.viewmodel.mastodon.StatusesVM;
 import app.fedilab.android.viewmodel.pleroma.ActionsVM;
+import de.timfreiheit.mathjax.android.MathJaxConfig;
+import de.timfreiheit.mathjax.android.MathJaxView;
 import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -639,7 +641,41 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-
+        if (status.isMaths == null) {
+            if (Helper.mathsPattern.matcher(status.content).find()) {
+                holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonMaths.setVisibility(View.GONE);
+            }
+        } else {
+            if (status.isMaths) {
+                holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonMaths.setVisibility(View.GONE);
+            }
+        }
+        holder.binding.actionButtonMaths.setOnClickListener(v -> {
+            if (holder.binding.statusContentMaths.getVisibility() == View.VISIBLE) {
+                holder.binding.statusContentMaths.setVisibility(View.GONE);
+                holder.binding.statusContent.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusContentMaths.removeAllViews();
+                MathJaxConfig mathJaxConfig = new MathJaxConfig();
+                switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        mathJaxConfig.setTextColor("white");
+                        break;
+                    case Configuration.UI_MODE_NIGHT_NO:
+                        mathJaxConfig.setTextColor("dark");
+                        break;
+                }
+                MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
+                holder.binding.statusContentMaths.addView(mathview);
+                mathview.setInputText(status.contentSpan.toString());
+                holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
+                holder.binding.statusContent.setVisibility(View.GONE);
+            }
+        });
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
         holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);

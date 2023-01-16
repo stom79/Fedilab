@@ -110,6 +110,7 @@ dependencies {
 
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
     implementation("com.vanniktech:android-image-cropper:4.3.3")
+    implementation project(path: ':mathjaxandroid')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.23.0'

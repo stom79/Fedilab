@@ -327,7 +327,7 @@ public class Helper {
     public static final Pattern groupPattern = Pattern.compile("(![\\w_]+)");
     public static final Pattern mentionPattern = Pattern.compile("(@[\\w_.-]?[\\w]+)");
     public static final Pattern mentionLongPattern = Pattern.compile("(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
-
+    public static final Pattern mathsPattern = Pattern.compile("\\\\\\(");
     public static final Pattern twitterPattern = Pattern.compile("((@[\\w]+)@twitter\\.com)");
     public static final Pattern youtubePattern = Pattern.compile("(www\\.|m\\.)?(youtube\\.com|youtu\\.be|youtube-nocookie\\.com)/(((?!([\"'<])).)*)");
     public static final Pattern nitterPattern = Pattern.compile("(mobile\\.|www\\.)?twitter.com([\\w-/]+)");
