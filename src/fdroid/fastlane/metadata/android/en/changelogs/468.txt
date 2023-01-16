@@ -3,6 +3,3 @@ Added:
 
 Changed:
 - Hide single media with preview is now a setting (default: disabled)
-
-Fixed:
-- 

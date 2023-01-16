@@ -48,6 +48,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -659,31 +660,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (status.mathsShown) {
             holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
             holder.binding.statusContent.setVisibility(View.GONE);
+            holder.binding.statusContentMaths.removeAllViews();
+            MathJaxConfig mathJaxConfig = new MathJaxConfig();
+            switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                case Configuration.UI_MODE_NIGHT_YES:
+                    mathJaxConfig.setTextColor("white");
+                    break;
+                case Configuration.UI_MODE_NIGHT_NO:
+                    mathJaxConfig.setTextColor("black");
+                    break;
+            }
+            mathJaxConfig.setAutomaticLinebreaks(true);
+
+            MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
+            holder.binding.statusContentMaths.addView(mathview);
+            if (status.contentSpan != null) {
+                mathview.setInputText(status.contentSpan.toString());
+            } else {
+                status.mathsShown = false;
+                holder.binding.statusContentMaths.setVisibility(View.GONE);
+                holder.binding.statusContent.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.binding.statusContentMaths.setVisibility(View.GONE);
             holder.binding.statusContent.setVisibility(View.VISIBLE);
         }
         holder.binding.actionButtonMaths.setOnClickListener(v -> {
 
-            if (status.mathsShown) {
-                status.mathsShown = false;
-            } else {
-                holder.binding.statusContentMaths.removeAllViews();
-                MathJaxConfig mathJaxConfig = new MathJaxConfig();
-                switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                    case Configuration.UI_MODE_NIGHT_YES:
-                        mathJaxConfig.setTextColor("white");
-                        break;
-                    case Configuration.UI_MODE_NIGHT_NO:
-                        mathJaxConfig.setTextColor("black");
-                        break;
-                }
-                mathJaxConfig.setAutomaticLinebreaks(true);
-                status.mathsShown = true;
-                MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
-                holder.binding.statusContentMaths.addView(mathview);
-                mathview.setInputText(status.contentSpan.toString());
-            }
+            status.mathsShown = !status.mathsShown;
+            Log.v(Helper.TAG, "notifyItemChanged: " + holder.getBindingAdapterPosition());
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
