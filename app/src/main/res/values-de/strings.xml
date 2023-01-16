@@ -972,5 +972,5 @@
     <string name="Directory">Verzeichnis</string>
     <string name="set_disable_release_notes">Deaktiviere Versionshinweise</string>
     <string name="boost_original_date">Zeige das Originaldatum geteilter Beiträge</string>
-    <string name="set_disable_release_notes_indication">Du erhälst nach einer Aktualisierung der App keine Übersicht über die Änderungen.</string>
+    <string name="set_disable_release_notes_indication">Du erhältst nach einer Aktualisierung der App keine Übersicht über die Änderungen.</string>
 </resources>
