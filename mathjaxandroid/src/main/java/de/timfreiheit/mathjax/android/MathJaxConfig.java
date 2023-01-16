@@ -28,6 +28,7 @@ public class MathJaxConfig {
         }
     }
 
+
     public MathJaxConfig(TypedArray attrs) {
         this();
         int inputIndex = attrs.getInteger(R.styleable.MathJaxView_input, -1);

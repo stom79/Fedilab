@@ -674,9 +674,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         mathJaxConfig.setTextColor("white");
                         break;
                     case Configuration.UI_MODE_NIGHT_NO:
-                        mathJaxConfig.setTextColor("dark");
+                        mathJaxConfig.setTextColor("black");
                         break;
                 }
+                mathJaxConfig.setAutomaticLinebreaks(true);
                 status.mathsShown = true;
                 MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
                 holder.binding.statusContentMaths.addView(mathview);

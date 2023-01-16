@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -531,7 +532,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (promptDraftListener != null) {
                     promptDraftListener.promptDraft();
                 }
-                statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
+                if (holder.binding.content.getSelectionStart() > 0) {
+                    statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
+                }
                 //Copy/past
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
                 if (currentLength > max_car) {
@@ -693,6 +696,24 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (currentCursorPosition[0] - (searchLength[0] - 1) < 0 || currentCursorPosition[0] == 0 || currentCursorPosition[0] > s.toString().length()) {
                     updateCharacterCount(holder);
                     return;
+                }
+                Matcher mathsPatterns = Helper.mathsComposePattern.matcher((s.toString()));
+                if (mathsPatterns.find()) {
+                    if (holder.binding.laTexViewContainer.getVisibility() != View.VISIBLE) {
+                        holder.binding.laTexViewContainer.setVisibility(View.VISIBLE);
+
+                        switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                            case Configuration.UI_MODE_NIGHT_YES:
+                                holder.binding.laTexView.setTextColor("white");
+                                break;
+                            case Configuration.UI_MODE_NIGHT_NO:
+                                holder.binding.laTexView.setTextColor("black");
+                                break;
+                        }
+                    }
+                    holder.binding.laTexView.setInputText(s.toString());
+                } else {
+                    holder.binding.laTexViewContainer.setVisibility(View.GONE);
                 }
 
                 String patternh = "^(.|\\s)*(:fedilab_hugs:)";
@@ -1272,7 +1293,34 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
             boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+            boolean mathsComposer = sharedpreferences.getBoolean(context.getString(R.string.SET_MATHS_COMPOSER), true);
 
+            if (mathsComposer) {
+                holder.binding.buttonMathsComposer.setVisibility(View.VISIBLE);
+                holder.binding.buttonMathsComposer.setOnClickListener(v -> {
+                    int cursorPosition = holder.binding.content.getSelectionStart();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+                    Resources res = context.getResources();
+                    String[] formatArr = res.getStringArray(R.array.SET_MATHS_FORMAT);
+                    builder.setItems(formatArr, (dialogInterface, i) -> {
+                        if (statusDraft.text == null) {
+                            statusDraft.text = "";
+                        }
+                        if (i == 0) {
+                            statusDraft.text = new StringBuilder(statusDraft.text).insert(cursorPosition, "\\(  \\)").toString();
+                        } else {
+                            statusDraft.text = new StringBuilder(statusDraft.text).insert(cursorPosition, "\\[  \\]").toString();
+                        }
+                        statusDraft.cursorPosition = cursorPosition + 3;
+                        notifyItemChanged(position);
+                        dialogInterface.dismiss();
+                    });
+                    builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builder.create().show();
+                });
+            } else {
+                holder.binding.buttonMathsComposer.setVisibility(View.GONE);
+            }
 
             holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
             if (extraFeatures) {

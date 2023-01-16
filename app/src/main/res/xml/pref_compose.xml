@@ -60,6 +60,12 @@
         app:key="@string/SET_WATERMARK_TEXT"
         app:useSimpleSummaryProvider="true" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MATHS_COMPOSER"
+        app:singleLineTitle="false"
+        app:title="@string/set_maths_support" />
 
     <SwitchPreferenceCompat
         app:defaultValue="false"

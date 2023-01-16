@@ -763,6 +763,12 @@
         <item>Mastalab</item>
     </string-array>
 
+
+    <string-array name="SET_MATHS_FORMAT">
+        <item>Inline\nNotation that sits inline with other text\n</item>
+        <item>Display-mode\nNotation that sits on its own line\n</item>
+    </string-array>
+
     <string-array name="SET_POST_FORMAT" translatable="false">
         <item>text/plain</item>
         <item>text/html</item>
@@ -1483,6 +1489,7 @@
     <string name="SET_UNLISTED_REPLIES" translatable="false">SET_UNLISTED_REPLIES</string>
     <string name="SET_SELECTED_LANGUAGE" translatable="false">SET_SELECTED_LANGUAGE</string>
     <string name="SET_WATERMARK_TEXT" translatable="false">SET_WATERMARK_TEXT</string>
+    <string name="SET_MATHS_COMPOSER" translatable="false">SET_MATHS_COMPOSER</string>
     <string name="SET_PROXY_PASSWORD" translatable="false">SET_PROXY_PASSWORD</string>
     <string name="SET_PROXY_LOGIN" translatable="false">SET_PROXY_LOGIN</string>
     <string name="SET_ACCOUNTS_PER_CALL" translatable="false">SET_ACCOUNTS_PER_CALL</string>
@@ -2214,4 +2221,6 @@
     <string name="set_disable_release_notes">Disable release notes</string>
     <string name="set_disable_release_notes_indication">When a new version is published, you will not be alerted inside the app.</string>
     <string name="formula">Formula</string>
+    <string name="set_maths_support">Write formula</string>
+    <string name="maths_format">Maths format</string>
 </resources>

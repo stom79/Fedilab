@@ -32,6 +32,27 @@
         android:clipToPadding="false"
         android:orientation="vertical">
 
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/laTexView_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/button_emoji"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.timfreiheit.mathjax.android.MathJaxView
+                android:id="@+id/laTexView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:automaticLinebreaks="true"
+                app:input="TeX"
+                app:output="SVG" />
+        </androidx.core.widget.NestedScrollView>
+
+
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/content_spoiler"
             android:layout_width="0dp"
@@ -44,7 +65,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/button_emoji"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/laTexView_container"
             tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
@@ -55,7 +76,7 @@
             android:contentDescription="@string/add_status"
             app:icon="@drawable/ic_compose_thread_add_status"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/laTexView_container" />
 
         <app.fedilab.android.helper.FedilabAutoCompleteTextView
             android:id="@+id/content"
@@ -104,6 +125,17 @@
             tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_maths_composer"
+            style="@style/Fedilab.SmallIconButton"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@string/maths_format"
+            android:visibility="gone"
+            app:icon="@drawable/ic_baseline_functions_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_text_format"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_local_only"
             style="@style/Fedilab.SmallIconButton"
             android:layout_marginEnd="6dp"
@@ -111,7 +143,7 @@
             android:visibility="gone"
             app:icon="@drawable/ic_baseline_remove_red_eye_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_text_format"
+            app:layout_constraintTop_toBottomOf="@id/button_maths_composer"
             tools:visibility="visible" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
