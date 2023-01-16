@@ -407,6 +407,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
         boolean originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
+        boolean hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
 
         if (compactButtons) {
             ConstraintSet set = new ConstraintSet();
@@ -1343,7 +1344,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         //--- MEDIA ATTACHMENT ---
         boolean cardDisplayed = (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null);
-        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
+        if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!hideSingleMediaWithCard || !cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
 
             holder.binding.attachmentsList.removeAllViews();
             holder.binding.mediaContainer.removeAllViews();

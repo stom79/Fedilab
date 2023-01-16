@@ -1480,7 +1480,7 @@
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
-
+    <string name="SET_HIDE_SINGLE_MEDIA_WITH_CARD" translatable="false">SET_HIDE_SINGLE_MEDIA_WITH_CARD</string>
     <string name="SET_LIVE_TRANSLATE" translatable="false">SET_LIVE_TRANSLATE</string>
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
     <string name="SET_ART_WITH_NSFW" translatable="false">SET_ART_WITH_NSFW</string>
@@ -2223,4 +2223,5 @@
     <string name="formula">Formula</string>
     <string name="set_maths_support">Write formula</string>
     <string name="maths_format">Maths format</string>
+    <string name="hide_single_media_with_card">Hide single media when there is a link preview</string>
 </resources>
