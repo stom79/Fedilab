@@ -9,12 +9,16 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -148,6 +152,32 @@ public class MathJaxView extends FrameLayout {
         mWebView.setVerticalScrollBarEnabled(verticalScrollbarsEnabled);
         mWebView.setHorizontalScrollBarEnabled(horizontalScrollbarsEnabled);
         mWebView.setBackgroundColor(0);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        float touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        final boolean[] scrollFlag = {true};
+        AtomicReference<Float> downX = new AtomicReference<>((float) 0);
+        AtomicReference<Float> downY = new AtomicReference<>((float) 0);
+        mWebView.setOnTouchListener((View v, MotionEvent event) -> {
+            if (!scrollFlag[0] && event.getY() < getHeight() / 2) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        downX.set(event.getX());
+                        downY.set(event.getY());
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (Math.abs(event.getY() - downY.get()) < touchSlop && Math.abs(event.getX() - downX.get()) > touchSlop) {
+                            getParent().requestDisallowInterceptTouchEvent(true);
+                            scrollFlag[0] = true;
+                        }
+                        break;
+                }
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP)
+                scrollFlag[0] = false;
+
+            return false;
+        });
     }
 
     /**

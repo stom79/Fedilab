@@ -41,7 +41,7 @@ public class MainApplication extends MultiDexApplication {
 
 
     private static MainApplication app;
-
+    private WebView webView;
     public static MainApplication getApp() {
         return app;
     }
@@ -52,10 +52,9 @@ public class MainApplication extends MultiDexApplication {
         app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
         try {
-            new WebView(this);
+            webView = new WebView(this);
         } catch (Exception ignored) {
         }
-
         boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
         if (dynamicColor) {
             DynamicColors.applyToActivitiesIfAvailable(this);
@@ -63,6 +62,12 @@ public class MainApplication extends MultiDexApplication {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         Toasty.Config.getInstance().apply();
+        if (webView != null) {
+            try {
+                webView.destroy();
+            } catch (Exception ignored) {
+            }
+        }
     }
 
 

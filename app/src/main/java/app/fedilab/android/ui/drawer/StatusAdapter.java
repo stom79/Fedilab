@@ -644,6 +644,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (status.isMaths == null) {
             if (Helper.mathsPattern.matcher(status.content).find()) {
                 holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+                status.isMaths = true;
             } else {
                 holder.binding.actionButtonMaths.setVisibility(View.GONE);
             }
@@ -654,10 +655,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.actionButtonMaths.setVisibility(View.GONE);
             }
         }
+        if (status.mathsShown) {
+            holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
+            holder.binding.statusContent.setVisibility(View.GONE);
+        } else {
+            holder.binding.statusContentMaths.setVisibility(View.GONE);
+            holder.binding.statusContent.setVisibility(View.VISIBLE);
+        }
         holder.binding.actionButtonMaths.setOnClickListener(v -> {
-            if (holder.binding.statusContentMaths.getVisibility() == View.VISIBLE) {
-                holder.binding.statusContentMaths.setVisibility(View.GONE);
-                holder.binding.statusContent.setVisibility(View.VISIBLE);
+
+            if (status.mathsShown) {
+                status.mathsShown = false;
             } else {
                 holder.binding.statusContentMaths.removeAllViews();
                 MathJaxConfig mathJaxConfig = new MathJaxConfig();
@@ -669,12 +677,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         mathJaxConfig.setTextColor("dark");
                         break;
                 }
+                status.mathsShown = true;
                 MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
                 holder.binding.statusContentMaths.addView(mathview);
                 mathview.setInputText(status.contentSpan.toString());
-                holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
-                holder.binding.statusContent.setVisibility(View.GONE);
             }
+            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
@@ -1305,7 +1313,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (statusToDeal.content.trim().length() == 0) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
-                holder.binding.statusContent.setVisibility(View.VISIBLE);
+                if (!status.mathsShown) {
+                    holder.binding.statusContent.setVisibility(View.VISIBLE);
+                }
                 if (statusToDeal.card != null && statusToDeal.quote_id == null && (display_card || statusToDeal.isFocused)) {
                     holder.binding.card.setVisibility(View.VISIBLE);
                 } else {
