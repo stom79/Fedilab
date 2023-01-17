@@ -413,7 +413,7 @@
     <string name="saving">Sarvende…</string>
     <string name="image_saved">Immàgine sarvada sena problemas!</string>
     <string name="save_image_failed">Sarvamentu de s\'immàgine fallidu</string>
-    <string name="add_poll_item">Agiunghe un\'elementu a su sondàgiu</string>
+    <string name="add_poll_item">Agiunghe un\'issèberu</string>
     <string name="mute_conversation">Silèntzia s\'arresonada</string>
     <string name="unmute_conversation">Boga su silentziamentu a s\'arresonada</string>
     <string name="toast_unmute_conversation">S\'arresonada no est prus a sa muda!</string>
@@ -804,7 +804,7 @@
     <string name="max_indentation_thread">Indentatzione màssima in is discussiones</string>
     <string name="email_status">Istadu de sa posta eletrònica</string>
     <string name="login_status">Istadu de intrada</string>
-    <string name="joined">Auni·du</string>
+    <string name="joined">Unidu</string>
     <string name="recent_ip">IP reghente</string>
     <string name="allow">Permite</string>
     <string name="silenced">Postu a sa muda</string>
@@ -860,7 +860,7 @@
     <string name="Suggestions">Cussìgios</string>
     <string name="not_interested">No interessadu</string>
     <string name="notif_submitted_report">At imbiadu un\'informe</string>
-    <string name="notif_signed_up">S\'est registradu</string>
+    <string name="notif_signed_up">Registradu</string>
     <string name="channel_notif_update">Atualizatzione noa</string>
     <string name="channel_notif_signup">Registratzione noa</string>
     <string name="channel_notif_report">Informe nou</string>
@@ -928,7 +928,7 @@
     <string name="mute_them_all">Pone·los totus a sa muda</string>
     <string name="import_data">Importa datos</string>
     <string name="group_reblogs">Agrupa is cumpartziduras in sa lìnia de tempus printzipale</string>
-    <string name="manage_accounts">Amministra is contos</string>
+    <string name="manage_accounts">Gestire is contos</string>
     <string name="set_extand_extra_features_title">Funtzionalidades extra</string>
     <string name="set_post_format">Formadu de publicatzione</string>
     <string name="icons_extra_features">Iconas pro funtzionalidades extra</string>
@@ -957,4 +957,18 @@
     <string name="set_display_local_only">Mustra su butone \"In locale ebbia\"</string>
     <string name="local_only">In locale ebbia</string>
     <string name="reply_visibility">Visibilidade de is rispostas</string>
+    <string name="_new">Nou</string>
+    <string name="Directory">Cartella</string>
+    <string name="boost_original_date">Mustra sa data originale pro is cumpartziduras</string>
+    <string name="set_disable_release_notes_indication">Cando s\'at a publicare una versione noa no as a retzire avisos a intro de s\'aplicatzione.</string>
+    <string name="formula">Fòrmula</string>
+    <string name="maths_format">Formadu matemàticu</string>
+    <string name="hide_single_media_with_card">Cua mèdios sìngulos cando dd\'at un\'anteprima de ligòngiu</string>
+    <string name="set_disable_release_notes">Disabìlita is notas de sa versione</string>
+    <string name="set_maths_support">Iscrie una fòrmula</string>
+    <string name="also_followed_by">Sighidu dae:</string>
+    <string name="exclude_visibility">Visibilidade de esclusione</string>
+    <string name="poll_type_multiple">Issèberos mùltiplos</string>
+    <string name="poll_type_single">Issèberu sìngulu</string>
+    <string name="show_privates">Ammustra is messàgios diretos</string>
 </resources>
