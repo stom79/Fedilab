@@ -982,4 +982,8 @@
     <string name="boost_original_date">Pro boosty zobrazovat původní datum</string>
     <string name="set_disable_release_notes">Vypnout poznámky k vydání</string>
     <string name="set_disable_release_notes_indication">Když bude vydána nová verze, nezobrazí se vám v aplikaci upozornění.</string>
+    <string name="formula">Vzorec</string>
+    <string name="maths_format">Formát matematiky</string>
+    <string name="hide_single_media_with_card">Skrýt samostatné médium, pokud existuje náhled odkazu</string>
+    <string name="set_maths_support">Napište vzorec</string>
 </resources>
