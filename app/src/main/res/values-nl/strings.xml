@@ -164,7 +164,7 @@
     <string name="notif_reblog">boostte jouw bericht</string>
     <string name="notif_favourite">markeerde jouw bericht als favoriet</string>
     <string name="notif_follow">volgt jou nu</string>
-    <string name="notif_follow_request">gevraagd om u te volgen</string>
+    <string name="notif_follow_request">vraagt om je te volgen</string>
     <string name="delete_notification_ask_all">Alle meldingen verwijderen?</string>
     <string name="delete_notification_all">Alle meldingen zijn verwijderd!</string>
     <!-- HEADER -->
@@ -199,7 +199,7 @@
     <string name="set_notif_status">Meld nieuwe berichten</string>
     <string name="set_share_validation">Vraag om bevestiging voor het boosten</string>
     <string name="set_share_validation_fav">Vraag om bevestiging voor het markeren als favoriet</string>
-    <string name="set_notify">Meldingen?</string>
+    <string name="set_notify">Melden\?</string>
     <string name="set_notif_silent">Stille meldingen</string>
     <string name="set_nsfw_timeout">Hoe lang gevoelige inhoud blijven tonen (in seconden, 0 is onbeperkt)</string>
     <string name="set_med_desc_timeout">Media omschrijving time-out (seconden, 0 betekent uit)</string>
@@ -207,7 +207,7 @@
     <string name="settings_custom_sharing_url">Jouw handmatige deel-URL…</string>
     <string name="set_lock_account">Account vergrendelen</string>
     <string name="set_save_changes">Wijzigingen opslaan</string>
-    <string name="set_fit_preview">Voorbeeldafbeeldingen passend maken</string>
+    <string name="set_fit_preview">Afbeeldingen passend maken</string>
     <string name="settings_time_from">Tussen</string>
     <string name="settings_time_to">en</string>
     <string name="embedded_browser">Gebruik de ingebouwde webbrowser</string>
@@ -297,7 +297,7 @@
     <string name="filter_expire">Vervallen na</string>
     <string name="action_filter_delete">Filter verwijderen?</string>
     <string name="action_update_filter">Filter bijwerken</string>
-    <string name="action_list_add">Je hebt nog geen lijst gemaakt. Klik op de \"+\" knop om een nieuwe toe te voegen.</string>
+    <string name="action_list_add">Je hebt nog geen lijst gemaakt. Klik op de \"+\" knop om een nieuwe lijst toe te voegen.</string>
     <string name="expand_image">Automatisch als gevoelig gemarkeerde media uitklappen</string>
     <string name="channel_notif_follow">Nieuwe volger</string>
     <string name="channel_notif_boost">Nieuwe boost</string>
@@ -318,7 +318,7 @@
     <string name="peertube_instance">PeerTube-server</string>
     <string name="set_display_emoji">Emoji One gebruiken</string>
     <string name="information">Informatie</string>
-    <string name="set_display_card">In alle berichten voorvertoningen tonen</string>
+    <string name="set_display_card">In alle berichten de link uitgebreid tonen</string>
     <string name="account_id_clipbloard">Het account-ID is naar het klembord gekopieerd!</string>
     <string name="set_change_locale">Taal veranderen</string>
     <string name="truncate_long_toots">Lange berichten afbreken</string>
@@ -472,7 +472,7 @@
     <string name="audio">Audio</string>
     <string name="voice_message">Spraakbericht</string>
     <string name="set_enable_time_slot_indication">Tijdens het tijdslot stuurt de app meldingen. Je kunt dit tijdslot omkeren door hieronder voor \'Stil\' te kiezen.</string>
-    <string name="set_fit_preview_indication">Previews worden niet bijgesneden in tijdlijnen</string>
+    <string name="set_fit_preview_indication">Afbeeldingen worden niet bijgesneden in tijdlijnen</string>
     <string name="set_capitalize_indication">Bij een reactie automatisch de eerste zin met een hoofdletter laten beginnen</string>
     <string name="settings_title_custom_sharing_indication">Gebruikers toestaan om berichten aan hun RSS feeds toe te voegen</string>
     <string name="compose">Opstellen</string>
@@ -951,7 +951,7 @@
     <string name="icons_extra_features_visibility_summary">Als je instance niet alle mogelijkheden toestaat, kan je deze iconen verbergen</string>
     <string name="set_display_quote_indication">Toon de \"Quote\" knop</string>
     <string name="set_display_reaction_indication">Toon \"Reacties\" knop</string>
-    <string name="group_reblogs">Groepeer reblogs in eigen tijdlijn</string>
+    <string name="group_reblogs">Groepeer boosts in eigen tijdlijn</string>
     <string name="set_remove_left_margin">Verwijder linker kantlijn in tijdlijnen voor compactere berichten</string>
     <string name="following">Volgend</string>
     <string name="self">Zelf</string>
@@ -974,4 +974,7 @@
     <string name="set_disable_release_notes">Schakel release notes uit</string>
     <string name="boost_original_date">Toon oorspronkelijke datum voor boosts</string>
     <string name="set_disable_release_notes_indication">Als een nieuwe versie wordt uitgegeven, krijg je geen melding in de app.</string>
+    <string name="hide_single_media_with_card">Verberg afbeelding als er een link preview is</string>
+    <string name="set_maths_support">Schrijf formule</string>
+    <string name="poll_type_single">Eén keus</string>
 </resources>
