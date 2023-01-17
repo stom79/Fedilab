@@ -83,6 +83,7 @@ import app.fedilab.android.client.entities.api.Field;
 import app.fedilab.android.client.entities.api.IdentityProof;
 import app.fedilab.android.client.entities.api.MastodonList;
 import app.fedilab.android.client.entities.api.RelationShip;
+import app.fedilab.android.client.entities.app.Languages;
 import app.fedilab.android.client.entities.app.Pinned;
 import app.fedilab.android.client.entities.app.PinnedTimeline;
 import app.fedilab.android.client.entities.app.RemoteInstance;
@@ -467,7 +468,7 @@ public class ProfileActivity extends BaseActivity {
                 Toasty.info(ProfileActivity.this, getString(R.string.nothing_to_do), Toast.LENGTH_LONG).show();
             } else if (doAction == action.FOLLOW) {
                 binding.accountFollow.setEnabled(false);
-                accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
                         .observe(ProfileActivity.this, relationShip -> {
                             this.relationship = relationShip;
                             updateAccount();
@@ -660,7 +661,7 @@ public class ProfileActivity extends BaseActivity {
             binding.accountNotification.setOnClickListener(v -> {
                 if (relationship != null && relationship.following) {
                     relationship.notifying = !relationship.notifying;
-                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, relationship.showing_reblogs, relationship.notifying)
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, relationship.showing_reblogs, relationship.notifying, relationship.languages)
                             .observe(ProfileActivity.this, relationShip -> {
                                 this.relationship = relationShip;
                                 updateAccount();
@@ -726,6 +727,7 @@ public class ProfileActivity extends BaseActivity {
                 menu.findItem(R.id.action_direct_message).setVisible(false);
                 menu.findItem(R.id.action_add_to_list).setVisible(false);
                 menu.findItem(R.id.action_mute_home).setVisible(false);
+                menu.findItem(R.id.action_subscribed_language).setVisible(false);
             } else {
                 menu.findItem(R.id.action_block).setVisible(true);
                 menu.findItem(R.id.action_mute).setVisible(true);
@@ -739,6 +741,7 @@ public class ProfileActivity extends BaseActivity {
                     menu.findItem(R.id.action_hide_boost).setVisible(false);
                     menu.findItem(R.id.action_endorse).setVisible(false);
                     menu.findItem(R.id.action_mute_home).setVisible(false);
+                    menu.findItem(R.id.action_subscribed_language).setVisible(false);
                 }
                 if (relationship.blocking) {
                     menu.findItem(R.id.action_block).setTitle(R.string.action_unblock);
@@ -898,13 +901,70 @@ public class ProfileActivity extends BaseActivity {
                             .observe(ProfileActivity.this, relationShip -> this.relationship = relationShip);
                 }
             return true;
+        } else if (itemId == R.id.action_subscribed_language) {
+            if (relationship != null) {
+                List<String> subscribedLanguages = relationship.languages;
+                Set<String> storedLanguages = sharedpreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
+                List<Languages.Language> languages = Languages.get(ProfileActivity.this);
+                if (languages == null) {
+                    return true;
+                }
+                String[] codesArr;
+                String[] languagesArr;
+                boolean[] presentArr;
+                if (storedLanguages != null && storedLanguages.size() > 0) {
+                    int i = 0;
+                    codesArr = new String[storedLanguages.size()];
+                    languagesArr = new String[storedLanguages.size()];
+                    presentArr = new boolean[storedLanguages.size()];
+                    for (String code : storedLanguages) {
+                        for (Languages.Language language : languages) {
+                            if (language.code.equalsIgnoreCase(code)) {
+                                languagesArr[i] = language.language;
+                            }
+                        }
+                        codesArr[i] = code;
+                        presentArr[i] = subscribedLanguages != null && subscribedLanguages.contains(code);
+                        i++;
+                    }
+                } else {
+                    codesArr = new String[languages.size()];
+                    presentArr = new boolean[languages.size()];
+                    languagesArr = new String[languages.size()];
+                    int i = 0;
+                    for (Languages.Language language : languages) {
+                        codesArr[i] = language.code;
+                        languagesArr[i] = language.language;
+                        if (subscribedLanguages != null && subscribedLanguages.contains(language.code)) {
+                            presentArr[i] = true;
+                        }
+                        i++;
+                    }
+                }
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ProfileActivity.this, Helper.dialogStyle());
+                builder.setTitle(getString(R.string.filter_languages));
+                builder.setMultiChoiceItems(languagesArr, presentArr, (dialog, which, isChecked) -> {
+                    List<String> languagesFilter = new ArrayList<>();
+                    for (int i = 0; i < codesArr.length; i++) {
+                        if (presentArr[i]) {
+                            languagesFilter.add(codesArr[i]);
+                        }
+                    }
+
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, relationship.showing_reblogs, relationship.notifying, languagesFilter)
+                            .observe(ProfileActivity.this, relationShip -> this.relationship = relationShip);
+                });
+                builder.setNegativeButton(R.string.close, (dialog, which) -> dialog.dismiss());
+                builder.create().show();
+            }
+            return true;
         } else if (itemId == R.id.action_hide_boost) {
             if (relationship != null)
                 if (relationship.showing_reblogs) {
-                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, false, relationship.notifying)
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, false, relationship.notifying, relationship.languages)
                             .observe(ProfileActivity.this, relationShip -> this.relationship = relationShip);
                 } else {
-                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, relationship.notifying)
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, relationship.notifying, relationship.languages)
                             .observe(ProfileActivity.this, relationShip -> this.relationship = relationShip);
                 }
             return true;
@@ -949,7 +1009,7 @@ public class ProfileActivity extends BaseActivity {
                                     }
                                     builderSingle.setMultiChoiceItems(listsArray, presentArray, (dialog, which, isChecked) -> {
                                         if (relationship == null || !relationship.following) {
-                                            accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                                            accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
                                                     .observe(ProfileActivity.this, newRelationShip -> {
                                                         if (newRelationShip != null) {
                                                             relationship = newRelationShip;

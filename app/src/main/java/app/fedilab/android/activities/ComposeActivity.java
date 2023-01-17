@@ -65,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -641,7 +642,20 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
             }
             if (statusReply.language != null && !statusReply.language.isEmpty()) {
-                statusDraftList.get(0).language = statusReply.language;
+                Set<String> storedLanguages = sharedpreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
+                if (storedLanguages == null || storedLanguages.size() == 0) {
+                    statusDraftList.get(0).language = statusReply.language;
+                } else {
+                    if (storedLanguages.contains(statusReply.language)) {
+                        statusDraftList.get(0).language = statusReply.language;
+                    } else {
+                        String currentCode = sharedpreferences.getString(getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, Locale.getDefault().getLanguage());
+                        if (currentCode.isEmpty()) {
+                            currentCode = "EN";
+                        }
+                        statusDraftList.get(0).language = currentCode;
+                    }
+                }
             }
             //StatusDraftList at this point should only have one element
             statusList.addAll(statusDraftList);

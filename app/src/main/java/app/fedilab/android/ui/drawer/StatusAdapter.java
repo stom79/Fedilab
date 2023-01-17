@@ -49,7 +49,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -693,7 +692,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonMaths.setOnClickListener(v -> {
 
             status.mathsShown = !status.mathsShown;
-            Log.v(Helper.TAG, "notifyItemChanged: " + holder.getBindingAdapterPosition());
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);

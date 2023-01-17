@@ -174,7 +174,8 @@ public interface MastodonAccountsService {
             @Header("Authorization") String app_token,
             @Path("id") String id,
             @Field("reblogs") boolean reblogs,
-            @Field("notify") boolean notify
+            @Field("notify") boolean notify,
+            @Field("languages[]") List<String> languages
     );
 
     //Follow account

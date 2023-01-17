@@ -16,6 +16,8 @@ package app.fedilab.android.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class RelationShip {
 
     @SerializedName("id")
@@ -40,6 +42,8 @@ public class RelationShip {
     public boolean requested;
     @SerializedName("domain_blocking")
     public boolean domain_blocking;
+    @SerializedName("languages")
+    public List<String> languages;
     @SerializedName("endorsed")
     public boolean endorsed;
     @SerializedName("note")

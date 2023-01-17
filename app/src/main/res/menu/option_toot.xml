@@ -18,59 +18,97 @@
         android:title="@string/administration"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_open_browser"
-        android:title="@string/action_open_in_web"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_pin"
         android:title="@string/action_pin"
         app:showAsAction="never" />
+
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_share_action"
         android:title="@string/more_action_6"
-        app:showAsAction="never" />
+        app:showAsAction="never">
+        <menu>
+
+            <item
+                android:id="@+id/action_share"
+                android:title="@string/more_action_6"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_mention"
+                android:title="@string/more_action_7"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_open_browser"
+                android:title="@string/action_open_in_web"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_open_with"
+                android:title="@string/open_with_account"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_copy_link"
+                android:title="@string/copy_link"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_copy"
+                android:title="@string/more_action_5"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_custom_sharing"
+                android:title="@string/settings_title_custom_sharing"
+                android:visible="false"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
     <item
-        android:id="@+id/action_custom_sharing"
-        android:title="@string/settings_title_custom_sharing"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_copy_link"
-        android:title="@string/copy_link"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_mute_conversation"
-        android:title="@string/mute_conversation"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_mute"
+        android:id="@+id/action_mute_menu"
         android:title="@string/more_action_1"
-        app:showAsAction="never" />
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/action_mute"
+                android:title="@string/more_action_1"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_mute_conversation"
+                android:title="@string/mute_conversation"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_mute_home"
+                android:title="@string/mute_home"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_timed_mute"
+                android:title="@string/more_action_8"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
     <item
-        android:id="@+id/action_mute_home"
-        android:title="@string/mute_home"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_timed_mute"
-        android:title="@string/more_action_8"
-        app:showAsAction="never" />
+        android:id="@+id/action_block_menu"
+        android:title="@string/more_action_3"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/action_block"
+                android:title="@string/more_action_2"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_report"
+                android:title="@string/more_action_3"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_block_domain"
+                android:title="@string/block_domain"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
     <item
         android:id="@+id/action_schedule_boost"
         android:title="@string/schedule_boost"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_block"
-        android:title="@string/more_action_2"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_report"
-        android:title="@string/more_action_3"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_block_domain"
-        android:title="@string/block_domain"
-        app:showAsAction="never" />
     <item
         android:id="@+id/action_redraft"
         android:title="@string/more_action_9"
@@ -79,16 +117,5 @@
         android:id="@+id/action_remove"
         android:title="@string/more_action_4"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_copy"
-        android:title="@string/more_action_5"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_mention"
-        android:title="@string/more_action_7"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_open_with"
-        android:title="@string/open_with_account"
-        app:showAsAction="never" />
+
 </menu>

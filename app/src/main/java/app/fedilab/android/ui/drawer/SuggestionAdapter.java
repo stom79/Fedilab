@@ -112,7 +112,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.binding.followAction.setOnClickListener(v -> {
             suggestionList.remove(position);
             notifyItemRemoved(position);
-            accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false);
+            accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null);
         });
         holder.binding.notInterested.setOnClickListener(view -> {
             suggestionList.remove(position);

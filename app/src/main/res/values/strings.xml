@@ -2227,4 +2227,6 @@
     <string name="set_maths_support">Write formula</string>
     <string name="maths_format">Maths format</string>
     <string name="hide_single_media_with_card">Hide single media when there is a link preview</string>
+    <string name="action_change_subscribed_language">Change subscribed languages</string>
+    <string name="filter_languages">Filter languages</string>
 </resources>

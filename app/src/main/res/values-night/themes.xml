@@ -100,7 +100,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="AppThemeAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="AppThemeAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="linkColor">@color/md_theme_dark_primary</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
@@ -223,7 +223,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="SolarizedAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="SolarizedAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="linkColor">@color/solarized_md_theme_dark_onPrimaryContainer</item>
         <item name="colorPrimary">@color/solarized_md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/solarized_md_theme_dark_onPrimary</item>
@@ -339,7 +339,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="BlackAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="BlackAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="linkColor">@color/black_200</item>
         <item name="colorPrimary">@color/dracula_comment</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -454,7 +454,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="DraculaAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+    <style name="DraculaAlertDialog" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="linkColor">@color/dracula_pink</item>
         <item name="colorPrimary">@color/dracula_comment</item>
         <item name="colorOnPrimary">@color/dracula_foreground</item>

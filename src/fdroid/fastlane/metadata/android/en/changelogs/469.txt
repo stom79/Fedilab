@@ -1,9 +1,11 @@
 Added:
 - Maths support (view and compose)
 - Filter DMs in HOME (long press on the tab)
+- Filter languages for users in home timeline (from their profile)
 
 Changed:
 - Hide single media with preview is now a setting (default: disabled)
+- Group items in menu of messages
 
 Fixed:
 - Cross-actions didn't display account instances

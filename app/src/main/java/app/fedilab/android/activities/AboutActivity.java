@@ -113,7 +113,7 @@ public class AboutActivity extends BaseBarActivity {
                                 if (relationShips != null && relationShips.size() > 0) {
                                     if (!relationShips.get(0).following) {
                                         binding.accountFollow.setVisibility(View.VISIBLE);
-                                        binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                                        binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
                                                 .observe(AboutActivity.this, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
                                     }
                                 }

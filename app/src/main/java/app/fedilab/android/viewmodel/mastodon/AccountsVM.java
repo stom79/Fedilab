@@ -602,21 +602,23 @@ public class AccountsVM extends AndroidViewModel {
     /**
      * Follow the given account. Can also be used to update whether to show reblogs or enable notifications.
      *
-     * @param id      The id of the account
-     * @param reblogs Receive this account's reblogs in home timeline? Defaults to true.
-     * @param notify  Receive notifications when this account posts a status? Defaults to false.
+     * @param id        The id of the account
+     * @param reblogs   Receive this account's reblogs in home timeline? Defaults to true.
+     * @param notify    Receive notifications when this account posts a status? Defaults to false.
+     * @param languages Filter received statuses for these languages.
      * @return {@link LiveData} containing the {@link RelationShip} to the given account
      */
-    public LiveData<RelationShip> follow(@NonNull String instance, String token, @NonNull String id, boolean reblogs, boolean notify) {
+    public LiveData<RelationShip> follow(@NonNull String instance, String token, @NonNull String id, boolean reblogs, boolean notify, List<String> languages) {
         relationShipMutableLiveData = new MutableLiveData<>();
         MastodonAccountsService mastodonAccountsService = init(instance);
         new Thread(() -> {
             RelationShip relationShip = null;
-            Call<RelationShip> followCall = mastodonAccountsService.follow(token, id, reblogs, notify);
+            Call<RelationShip> followCall = mastodonAccountsService.follow(token, id, reblogs, notify, languages);
             if (followCall != null) {
                 try {
                     Response<RelationShip> followResponse = followCall.execute();
                     if (followResponse.isSuccessful()) {
+
                         relationShip = followResponse.body();
                     }
                 } catch (Exception e) {

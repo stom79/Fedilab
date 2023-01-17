@@ -229,7 +229,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Toasty.info(context, context.getString(R.string.nothing_to_do), Toast.LENGTH_LONG).show();
                 } else if (finalDoAction == ProfileActivity.action.FOLLOW) {
                     accountViewHolder.binding.followAction.setEnabled(false);
-                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
                             .observe((LifecycleOwner) context, relationShip -> {
                                 account.relationShip = relationShip;
                                 adapter.notifyItemChanged(position);

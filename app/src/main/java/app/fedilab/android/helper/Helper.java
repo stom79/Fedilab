@@ -1861,7 +1861,7 @@ public class Helper {
                                             if (!relationShips.get(0).following) {
                                                 binding.acccountContainer.setVisibility(View.VISIBLE);
                                                 binding.accountFollow.setVisibility(View.VISIBLE);
-                                                binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false)
+                                                binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
                                                         .observe((LifecycleOwner) activity, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
                                             }
                                         }

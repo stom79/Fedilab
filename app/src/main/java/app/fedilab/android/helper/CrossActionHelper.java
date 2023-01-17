@@ -203,7 +203,7 @@ public class CrossActionHelper {
                 break;
             case FOLLOW_ACTION:
                 assert accountsVM != null;
-                accountsVM.follow(ownerAccount.instance, ownerAccount.token, targetedAccount.id, true, false)
+                accountsVM.follow(ownerAccount.instance, ownerAccount.token, targetedAccount.id, true, false, null)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_follow), Toasty.LENGTH_SHORT).show());
                 break;
             case UNFOLLOW_ACTION:
