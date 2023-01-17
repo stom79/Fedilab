@@ -72,6 +72,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vanniktech.emoji.EmojiManager;
@@ -1705,7 +1706,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param position    - int position
      */
     private void displayPollPopup(ComposeViewHolder holder, Status statusDraft, int position) {
-        AlertDialog.Builder alertPoll = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder alertPoll = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
         alertPoll.setTitle(R.string.create_poll);
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         alertPoll.setView(composePollBinding.getRoot());
@@ -1723,17 +1724,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(max_length);
         composePollBinding.option1.text.setFilters(fArray);
-        composePollBinding.option1.text.setHint(context.getString(R.string.poll_choice_s, 1));
+        composePollBinding.option1.textLayout.setHint(context.getString(R.string.poll_choice_s, 1));
         composePollBinding.option2.text.setFilters(fArray);
-        composePollBinding.option2.text.setHint(context.getString(R.string.poll_choice_s, 2));
+        composePollBinding.option2.textLayout.setHint(context.getString(R.string.poll_choice_s, 2));
         composePollBinding.option1.buttonRemove.setVisibility(View.GONE);
         composePollBinding.option2.buttonRemove.setVisibility(View.GONE);
         int finalMax_entry = max_entry;
         composePollBinding.buttonAddOption.setOnClickListener(v -> {
             if (pollCountItem[0] < finalMax_entry) {
-                ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
+                ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(composePollBinding.optionsList.getContext()), composePollBinding.optionsList, false);
+                if (composePollBinding.pollType.getCheckedButtonId() == R.id.poll_type_multiple)
+                    composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
                 composePollItemBinding.text.setFilters(fArray);
-                composePollItemBinding.text.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                composePollItemBinding.textLayout.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
                 LinearLayoutCompat viewItem = composePollItemBinding.getRoot();
                 composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
                 composePollItemBinding.buttonRemove.setOnClickListener(view -> {
@@ -1764,27 +1767,31 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ArrayAdapter<CharSequence> pollduration = ArrayAdapter.createFromResource(context,
                 R.array.poll_duration, android.R.layout.simple_spinner_dropdown_item);
-
-        ArrayAdapter<CharSequence> pollchoice = ArrayAdapter.createFromResource(context,
-                R.array.poll_choice_type, android.R.layout.simple_spinner_dropdown_item);
-        composePollBinding.pollType.setAdapter(pollchoice);
         composePollBinding.pollDuration.setAdapter(pollduration);
         composePollBinding.pollDuration.setSelection(4);
-        composePollBinding.pollType.setSelection(0);
         if (statusDraft != null && statusDraft.poll != null && statusDraft.poll.options != null) {
             int i = 1;
             for (Poll.PollItem pollItem : statusDraft.poll.options) {
                 if (i == 1) {
+                    if (statusDraft.poll.multiple)
+                        composePollBinding.option1.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
                     if (pollItem.title != null)
                         composePollBinding.option1.text.setText(pollItem.title);
                 } else if (i == 2) {
+                    if (statusDraft.poll.multiple)
+                        composePollBinding.option2.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
                     if (pollItem.title != null)
                         composePollBinding.option2.text.setText(pollItem.title);
                 } else {
 
                     ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
+                    if (composePollBinding.pollType.getCheckedButtonId() == R.id.poll_type_multiple)
+                        composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                    else
+                        composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_single);
+
                     composePollItemBinding.text.setFilters(fArray);
-                    composePollItemBinding.text.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                    composePollItemBinding.textLayout.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
                     composePollItemBinding.text.setText(pollItem.title);
                     composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
                     composePollItemBinding.buttonRemove.setOnClickListener(view -> {
@@ -1822,9 +1829,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
             }
             if (statusDraft.poll.multiple)
-                composePollBinding.pollType.setSelection(1);
+                composePollBinding.pollType.check(R.id.poll_type_multiple);
             else
-                composePollBinding.pollType.setSelection(0);
+                composePollBinding.pollType.check(R.id.poll_type_single);
 
 
         }
@@ -1834,15 +1841,32 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             dialog.dismiss();
             notifyItemChanged(position);
         });
-        alertPoll.setPositiveButton(R.string.validate, null);
+        alertPoll.setPositiveButton(R.string.save, null);
         final AlertDialog alertPollDiaslog = alertPoll.create();
         alertPollDiaslog.setOnShowListener(dialog -> {
 
+            composePollBinding.pollType.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+                if (isChecked) {
+                    if (checkedId == R.id.poll_type_single) {
+                        if (statusDraft != null && statusDraft.poll != null) statusDraft.poll.multiple = false;
+                        for (int i = 0; i < composePollBinding.optionsList.getChildCount(); i++) {
+                            ComposePollItemBinding child = ComposePollItemBinding.bind(composePollBinding.optionsList.getChildAt(i));
+                            child.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_single);
+                        }
+                    } else if (checkedId == R.id.poll_type_multiple) {
+                        if (statusDraft != null && statusDraft.poll != null) statusDraft.poll.multiple = true;
+                        for (int i = 0; i < composePollBinding.optionsList.getChildCount(); i++) {
+                            ComposePollItemBinding child = ComposePollItemBinding.bind(composePollBinding.optionsList.getChildAt(i));
+                            child.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                        }
+                    }
+                }
+            });
             Button b = alertPollDiaslog.getButton(AlertDialog.BUTTON_POSITIVE);
             b.setOnClickListener(view1 -> {
                 int poll_duration_pos = composePollBinding.pollDuration.getSelectedItemPosition();
 
-                int poll_choice_pos = composePollBinding.pollType.getSelectedItemPosition();
+                int selected_poll_type_id = composePollBinding.pollType.getCheckedButtonId();
                 String choice1 = composePollBinding.option1.text.getText().toString().trim();
                 String choice2 = composePollBinding.option2.text.getText().toString().trim();
 
@@ -1850,7 +1874,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Toasty.error(context, context.getString(R.string.poll_invalid_choices), Toasty.LENGTH_SHORT).show();
                 } else if (statusDraft != null) {
                     statusDraft.poll = new Poll();
-                    statusDraft.poll.multiple = (poll_choice_pos != 0);
+                    statusDraft.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
                     int expire;
                     switch (poll_duration_pos) {
                         case 0:
