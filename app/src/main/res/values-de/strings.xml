@@ -210,7 +210,7 @@
     <string name="settings_custom_sharing_url">Deine persönliche Freigabeadresse …</string>
     <string name="set_lock_account">Konto sperren</string>
     <string name="set_save_changes">Änderungen speichern</string>
-    <string name="set_fit_preview">Vorschaubilder anpassen</string>
+    <string name="set_fit_preview">Vollständige Vorschaubilder</string>
     <string name="settings_time_from">Zwischen</string>
     <string name="settings_time_to">und</string>
     <string name="embedded_browser">Benutze internen Browser</string>
@@ -973,4 +973,13 @@
     <string name="set_disable_release_notes">Deaktiviere Versionshinweise</string>
     <string name="boost_original_date">Zeige das Originaldatum geteilter Beiträge</string>
     <string name="set_disable_release_notes_indication">Du erhältst nach einer Aktualisierung der App keine Übersicht über die Änderungen.</string>
+    <string name="formula">Formel</string>
+    <string name="set_maths_support">Formel schreiben</string>
+    <string name="maths_format">Mathematisches Format</string>
+    <string name="hide_single_media_with_card">Verberge einzelne Medien wenn es eine Vorschau des Links gibt</string>
+    <string name="poll_type_single">Einzelne Auswahl</string>
+    <string name="poll_type_multiple">Mehrfach-Auswahl (Multiple Choice)</string>
+    <string name="action_change_subscribed_language">Ausgewählte Sprachen ändern</string>
+    <string name="filter_languages">Sprachen filtern</string>
+    <string name="show_privates">Zeige Direkt-Nachrichten</string>
 </resources>
