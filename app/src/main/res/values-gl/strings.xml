@@ -415,7 +415,7 @@
     <string name="saving">Gardando…</string>
     <string name="image_saved">Imaxe gardada!</string>
     <string name="save_image_failed">Fallo ao gardar a imaxe</string>
-    <string name="add_poll_item">Engadir un elemento a sondaxe</string>
+    <string name="add_poll_item">Engadir unha opción</string>
     <string name="mute_conversation">Acalar conversa</string>
     <string name="unmute_conversation">Desbloquear conversa</string>
     <string name="toast_unmute_conversation">Esta conversa deixou de estar acalada!</string>
@@ -967,4 +967,13 @@
     <string name="boost_original_date">Mostrar a data orixinal nas promocións</string>
     <string name="set_disable_release_notes">Desactivar notas da publicación</string>
     <string name="set_disable_release_notes_indication">Cando se publica unha nova versión non recibirás o aviso desde a app.</string>
+    <string name="set_maths_support">Escribir fórmula</string>
+    <string name="hide_single_media_with_card">Agochar multimedia individual cando existe vista previa da ligazón</string>
+    <string name="maths_format">Formato de matemáticas</string>
+    <string name="formula">Fórmula</string>
+    <string name="poll_type_single">Opción única</string>
+    <string name="filter_languages">Filtrar idiomas</string>
+    <string name="show_privates">Mostrar mensaxes directas</string>
+    <string name="poll_type_multiple">Varias opcións</string>
+    <string name="action_change_subscribed_language">Cambiar susbscrición a idiomas</string>
 </resources>
