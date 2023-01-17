@@ -38,12 +38,11 @@
         app:key="@string/SET_HIDE_SINGLE_MEDIA_WITH_CARD"
         app:singleLineTitle="false"
         app:title="@string/hide_single_media_with_card" />
-    <ListPreference
-        android:defaultValue="default"
+    <MultiSelectListPreference
         app:entries="@array/SET_LIVE_TRANSLATE_VALUES"
         app:entryValues="@array/SET_LIVE_TRANSLATE_ENTRIES"
         app:iconSpaceReserved="false"
-        app:key="@string/SET_LIVE_TRANSLATE"
+        app:key="@string/SET_LIVE_TRANSLATE_MULTIPLE"
         app:summary="@string/set_live_translate"
         app:title="@string/set_live_translate_title"
         app:useSimpleSummaryProvider="true" />

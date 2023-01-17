@@ -20,14 +20,20 @@ import android.os.Build;
 import android.text.Html;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
 import com.github.stom79.mytransl.MyTransL;
 import com.github.stom79.mytransl.client.HttpsConnectionException;
 import com.github.stom79.mytransl.client.Results;
 import com.github.stom79.mytransl.translate.Params;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.List;
+import java.util.Set;
 
 import app.fedilab.android.R;
+import app.fedilab.android.client.entities.app.Languages;
 import es.dmoral.toasty.Toasty;
 
 public class TranslateHelper {
@@ -63,28 +69,72 @@ public class TranslateHelper {
             }
         }
 
-        String translate = sharedpreferences.getString(context.getString(R.string.SET_LIVE_TRANSLATE), MyTransL.getLocale());
-        if (translate.equalsIgnoreCase("default")) {
+        Set<String> translates = sharedpreferences.getStringSet(context.getString(R.string.SET_LIVE_TRANSLATE_MULTIPLE), null);
+        String translate;
+        if (translates == null || translates.size() == 0) {
             translate = MyTransL.getLocale();
-        }
+            myTransL.translate(statusToTranslate, translate, params, new Results() {
+                @Override
+                public void onSuccess(com.github.stom79.mytransl.translate.Translate translate) {
+                    if (translate.getTranslatedContent() != null) {
+                        callback.onTranslate(translate.getTranslatedContent());
+                    } else {
+                        callback.onTranslate("");
+                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                    }
+                }
 
-        myTransL.translate(statusToTranslate, translate, params, new Results() {
-            @Override
-            public void onSuccess(com.github.stom79.mytransl.translate.Translate translate) {
-                if (translate.getTranslatedContent() != null) {
-                    callback.onTranslate(translate.getTranslatedContent());
-                } else {
+                @Override
+                public void onFail(HttpsConnectionException httpsConnectionException) {
                     callback.onTranslate("");
                     Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                 }
+            });
+        } else {
+            String[] codesArr = new String[translates.size()];
+            String[] languagesArr = new String[translates.size()];
+            int j = 0;
+            List<Languages.Language> languages = Languages.get(context);
+            if (languages == null) {
+                return;
             }
+            for (String val : translates) {
+                codesArr[j] = val;
+                for (Languages.Language language : languages) {
+                    if (language.code.trim().equalsIgnoreCase(val.trim())) {
+                        languagesArr[j] = language.language;
+                        break;
+                    }
+                }
+                j++;
+            }
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+            builder.setTitle(context.getString(R.string.translate_in));
+            builder.setItems(languagesArr, (dialogInterface, i) -> {
+                myTransL.translate(statusToTranslate, codesArr[i], params, new Results() {
+                    @Override
+                    public void onSuccess(com.github.stom79.mytransl.translate.Translate translate) {
+                        if (translate.getTranslatedContent() != null) {
+                            callback.onTranslate(translate.getTranslatedContent());
+                        } else {
+                            callback.onTranslate("");
+                            Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-            @Override
-            public void onFail(HttpsConnectionException httpsConnectionException) {
-                callback.onTranslate("");
-                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-            }
-        });
+                    @Override
+                    public void onFail(HttpsConnectionException httpsConnectionException) {
+                        callback.onTranslate("");
+                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                    }
+                });
+                dialogInterface.dismiss();
+            });
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+        }
+
+
     }
 
     public interface Translate {
