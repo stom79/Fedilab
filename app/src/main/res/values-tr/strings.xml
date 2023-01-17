@@ -971,4 +971,8 @@
     <string name="set_disable_release_notes">Sürüm notlarını devre dışı bırak</string>
     <string name="boost_original_date">Arttırmalar için orijinal tarihi göster</string>
     <string name="set_disable_release_notes_indication">Yeni bir sürüm yayınlandığında, uygulama içinde uyarı almayacaksınız.</string>
+    <string name="formula">Formül</string>
+    <string name="set_maths_support">Formül yaz</string>
+    <string name="maths_format">Matematik biçimi</string>
+    <string name="hide_single_media_with_card">Bir bağlantı ön izlemesi olduğunda tek medyayı gizle</string>
 </resources>
