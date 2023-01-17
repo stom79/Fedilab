@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import app.fedilab.android.R;
@@ -164,7 +165,7 @@ public class AdminActionActivity extends BaseBarActivity {
             return true;
         } else if (item.getItemId() == R.id.action_filter) {
             if (getTitle().toString().equalsIgnoreCase(getString(R.string.accounts))) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder alertDialogBuilder = new MaterialAlertDialogBuilder(AdminActionActivity.this, Helper.dialogStyle());
                 PopupAdminFilterAccountsBinding binding = PopupAdminFilterAccountsBinding.inflate(getLayoutInflater());
                 alertDialogBuilder.setView(binding.getRoot());
                 if (local != null && remote == null) {
@@ -258,7 +259,7 @@ public class AdminActionActivity extends BaseBarActivity {
                 AlertDialog alert = alertDialogBuilder.create();
                 alert.show();
             } else {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActionActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder alertDialogBuilder = new MaterialAlertDialogBuilder(AdminActionActivity.this, Helper.dialogStyle());
                 PopupAdminFilterReportsBinding binding = PopupAdminFilterReportsBinding.inflate(getLayoutInflater());
                 alertDialogBuilder.setView(binding.getRoot());
                 if (resolved == null) {

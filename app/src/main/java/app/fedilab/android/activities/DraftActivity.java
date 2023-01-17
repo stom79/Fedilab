@@ -33,6 +33,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +100,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(DraftActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(DraftActivity.this, Helper.dialogStyle());
             unfollowConfirm.setTitle(getString(R.string.delete_all));
             unfollowConfirm.setMessage(getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

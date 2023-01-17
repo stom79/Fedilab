@@ -33,6 +33,7 @@ import com.canhub.cropper.CropImageContractOptions;
 import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -454,7 +455,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     }
 
     private void showSaveDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(this);
         builder.setMessage(getString(R.string.msg_save_image));
         builder.setPositiveButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setNegativeButton(R.string.discard, (dialog, which) -> finish());

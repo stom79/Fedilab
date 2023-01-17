@@ -32,6 +32,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -60,7 +62,7 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
      * @param listener - {@link FilterAdapter.FilterAction}
      */
     public static void addEditFilter(Context context, Filter filter, FilterAdapter.FilterAction listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
         PopupAddFilterBinding popupAddFilterBinding = PopupAddFilterBinding.inflate(LayoutInflater.from(context));
         FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
         dialogBuilder.setView(popupAddFilterBinding.getRoot());

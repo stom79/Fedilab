@@ -28,6 +28,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +84,7 @@ public class CrossActionHelper {
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
-                        AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
                         builderSingle.setTitle(context.getString(R.string.choose_accounts));
                         final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
                         final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
@@ -97,7 +99,7 @@ public class CrossActionHelper {
                             boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
                             BaseAccount selectedAccount = accountArray[which];
                             if ((actionType == TypeOfCrossAction.REBLOG_ACTION && confirmBoost) || (actionType == TypeOfCrossAction.FAVOURITE_ACTION && confirmFav)) {
-                                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
                                 if (actionType == TypeOfCrossAction.REBLOG_ACTION) {
                                     alt_bld.setMessage(context.getString(R.string.reblog_add));
                                 } else {
@@ -410,7 +412,7 @@ public class CrossActionHelper {
                 context.startActivity(intentToot);
                 ((BaseActivity) context).finish();
             } else {
-                AlertDialog.Builder builderSingle = new AlertDialog.Builder(context, Helper.dialogStyle());
+                AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
                 builderSingle.setTitle(context.getString(R.string.choose_accounts));
                 final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
                 final BaseAccount[] accountArray = new BaseAccount[accounts.size()];

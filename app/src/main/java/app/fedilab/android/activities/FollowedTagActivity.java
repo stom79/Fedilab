@@ -28,6 +28,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 
 import app.fedilab.android.BaseMainActivity;
@@ -88,7 +90,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_unfollow && tag != null) {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(FollowedTagActivity.this, Helper.dialogStyle());
             alt_bld.setTitle(R.string.action_unfollow_tag);
             alt_bld.setMessage(R.string.action_unfollow_tag_confirm);
             alt_bld.setPositiveButton(R.string.unfollow, (dialog, id) -> {
@@ -120,7 +122,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             AlertDialog alert = alt_bld.create();
             alert.show();
         } else if (item.getItemId() == R.id.action_follow_tag) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(FollowedTagActivity.this, Helper.dialogStyle());
             PopupAddFollowedTagtBinding popupAddFollowedTagtBinding = PopupAddFollowedTagtBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddFollowedTagtBinding.getRoot());
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});

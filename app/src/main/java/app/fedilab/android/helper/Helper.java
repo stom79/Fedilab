@@ -95,6 +95,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -416,7 +417,7 @@ public class Helper {
      * @param url     String download url
      */
     public static void manageDownloads(final Context context, final String url) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
         final DownloadManager.Request request;
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));
@@ -1797,7 +1798,7 @@ public class Helper {
                 is.close();
                 String json = new String(buffer, StandardCharsets.UTF_8);
                 Gson gson = new Gson();
-                AlertDialog.Builder dialogBuilderOptin = new AlertDialog.Builder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilderOptin = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
                 PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
                 dialogBuilderOptin.setView(binding.getRoot());
                 try {

@@ -50,6 +50,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.github.piasy.rxandroidaudio.AudioRecorder;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -278,7 +279,7 @@ public class MediaHelper {
         AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
         File mAudioFile = new File(filePath);
         PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
-        AlertDialog.Builder audioPopup = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        AlertDialog.Builder audioPopup = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
         audioPopup.setView(binding.getRoot());
         AlertDialog alert = audioPopup.create();
         alert.show();
@@ -326,7 +327,7 @@ public class MediaHelper {
      * @param listener - OnSchedule
      */
     public static void scheduleMessage(Activity activity, OnSchedule listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
         DatetimePickerBinding binding = DatetimePickerBinding.inflate(activity.getLayoutInflater());
 
         dialogBuilder.setView(binding.getRoot());

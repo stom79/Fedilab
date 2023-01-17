@@ -35,6 +35,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.one.EmojiOneProvider;
@@ -157,7 +158,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             emojiPopup.toggle();
         });
         holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+            final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
             int paddingPixel = 15;
             float density = context.getResources().getDisplayMetrics().density;
             int paddingDp = (int) (paddingPixel * density);

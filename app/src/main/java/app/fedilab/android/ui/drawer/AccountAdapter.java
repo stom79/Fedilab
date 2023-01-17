@@ -36,6 +36,8 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
@@ -235,7 +237,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (finalDoAction == ProfileActivity.action.UNFOLLOW) {
                     boolean confirm_unfollow = sharedpreferences.getBoolean(context.getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                     if (confirm_unfollow) {
-                        AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
+                        AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
                         unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
                         unfollowConfirm.setMessage(account.acct);
                         unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

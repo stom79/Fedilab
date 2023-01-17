@@ -27,6 +27,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.Locale;
 
 import app.fedilab.android.R;
@@ -165,7 +167,7 @@ public class FragmentLoginRegisterMastodon extends Fragment {
                                     Locale.getDefault().getLanguage(), null
                             ).observe(requireActivity(), token -> {
                                 if (token != null) {
-                                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity());
+                                    AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity());
                                     dialogBuilder.setCancelable(false);
                                     dialogBuilder.setPositiveButton(R.string.validate, (dialog, which) -> {
                                         dialog.dismiss();

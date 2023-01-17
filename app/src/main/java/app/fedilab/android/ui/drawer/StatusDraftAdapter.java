@@ -28,6 +28,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +106,7 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
 
 
         holder.binding.delete.setOnClickListener(v -> {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
             unfollowConfirm.setMessage(context.getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {

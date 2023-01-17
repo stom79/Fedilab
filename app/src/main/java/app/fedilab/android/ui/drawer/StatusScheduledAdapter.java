@@ -35,6 +35,8 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.WorkManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -130,7 +132,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
 
         });
         holder.binding.delete.setOnClickListener(v -> {
-            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
             unfollowConfirm.setMessage(context.getString(R.string.remove_scheduled));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {

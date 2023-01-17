@@ -25,6 +25,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -88,7 +90,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.FilterView
             }
         }));
         holder.binding.deleteFilter.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
             builder.setTitle(R.string.action_filter_delete);
             builder.setMessage(R.string.action_lists_confirm_delete);
             builder.setIcon(android.R.drawable.ic_dialog_alert)

@@ -40,6 +40,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -170,7 +172,7 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
     }
 
     private void addInstance() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ReorderTimelinesActivity.this, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(ReorderTimelinesActivity.this, Helper.dialogStyle());
         PopupSearchInstanceBinding popupSearchInstanceBinding = PopupSearchInstanceBinding.inflate(getLayoutInflater());
         dialogBuilder.setView(popupSearchInstanceBinding.getRoot());
         TextWatcher textWatcher = autoComplete(popupSearchInstanceBinding);

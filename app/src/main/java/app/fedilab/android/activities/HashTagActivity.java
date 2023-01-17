@@ -30,6 +30,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +172,7 @@ public class HashTagActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.action_add_timeline) {
 
             if (pinnedTag) {
-                AlertDialog.Builder unpinConfirm = new AlertDialog.Builder(HashTagActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder unpinConfirm = new MaterialAlertDialogBuilder(HashTagActivity.this, Helper.dialogStyle());
                 unpinConfirm.setMessage(getString(R.string.unpin_timeline_description));
                 unpinConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 unpinConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {

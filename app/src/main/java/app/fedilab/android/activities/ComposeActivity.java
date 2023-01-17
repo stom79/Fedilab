@@ -56,6 +56,8 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.OutOfQuotaPolicy;
 import androidx.work.WorkManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -211,7 +213,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
         if (canBeSent(statusDraft)) {
             if (promptSaveDraft) {
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(ComposeActivity.this, Helper.dialogStyle());
                 alt_bld.setMessage(R.string.save_draft);
                 alt_bld.setPositiveButton(R.string.save, (dialog, id) -> {
                     dialog.dismiss();
@@ -312,7 +314,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         } else if (item.getItemId() == R.id.action_photo_camera) {
             photoFileUri = MediaHelper.dispatchTakePictureIntent(ComposeActivity.this);
         } else if (item.getItemId() == R.id.action_contacts) {
-            AlertDialog.Builder builderSingle = new AlertDialog.Builder(ComposeActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(ComposeActivity.this, Helper.dialogStyle());
 
             builderSingle.setTitle(getString(R.string.select_accounts));
             PopupContactBinding popupContactBinding = PopupContactBinding.inflate(getLayoutInflater(), new LinearLayout(ComposeActivity.this), false);

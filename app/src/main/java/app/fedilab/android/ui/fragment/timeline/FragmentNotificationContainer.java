@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -86,13 +87,13 @@ public class FragmentNotificationContainer extends Fragment {
         }
         AtomicBoolean changes = new AtomicBoolean(false);
         binding.settings.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), Helper.dialogStyle());
             PopupNotificationSettingsBinding dialogView = PopupNotificationSettingsBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(dialogView.getRoot());
 
 
             dialogView.clearAllNotif.setOnClickListener(v1 -> {
-                AlertDialog.Builder db = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                AlertDialog.Builder db = new MaterialAlertDialogBuilder(requireActivity(), Helper.dialogStyle());
                 db.setTitle(R.string.delete_notification_ask_all);
                 db.setMessage(R.string.delete_notification_all_warning);
                 db.setPositiveButton(R.string.delete_all, (dialog, id) -> {

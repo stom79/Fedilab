@@ -53,6 +53,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -317,13 +318,13 @@ public class SpannableHelper {
             @Override
             public void onLongClick(View view) {
                 Context mContext = view.getContext();
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(mContext);
                 PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                 dialogBuilder.setView(popupLinksBinding.getRoot());
                 AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.show();
                 popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(mContext);
                     builder.setMessage(finalUrl);
                     builder.setTitle(context.getString(R.string.display_full_link));
                     builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
@@ -401,7 +402,7 @@ public class SpannableHelper {
                                     Handler mainHandler = new Handler(context.getMainLooper());
                                     String finalRedirect = redirect;
                                     Runnable myRunnable = () -> {
-                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                                        AlertDialog.Builder builder1 = new MaterialAlertDialogBuilder(view.getContext());
                                         if (finalRedirect != null) {
                                             builder1.setMessage(context.getString(R.string.redirect_detected, finalUrl, finalRedirect));
                                             builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
@@ -460,7 +461,7 @@ public class SpannableHelper {
                                     Handler mainHandler = new Handler(context.getMainLooper());
                                     String finalRedirect = redirect;
                                     Runnable myRunnable = () -> {
-                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                                        AlertDialog.Builder builder1 = new MaterialAlertDialogBuilder(view.getContext());
                                         if (finalRedirect != null) {
                                             builder1.setMessage(context.getString(R.string.redirect_detected, finalUrl, finalRedirect));
                                             builder1.setNegativeButton(R.string.copy_link, (dialog, which) -> {
@@ -639,7 +640,7 @@ public class SpannableHelper {
                 return;
             }
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
         builder.setMessage(context.getString(R.string.mute_tag, tag));
         builder
                 .setPositiveButton(R.string.yes, (dialog, which) -> {

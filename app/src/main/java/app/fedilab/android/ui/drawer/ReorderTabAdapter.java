@@ -27,6 +27,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -183,7 +185,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         holder.binding.delete.setOnClickListener(v -> {
             if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
                 String title = "";
                 String message = "";
                 alt_bld.setTitle(R.string.action_lists_delete);

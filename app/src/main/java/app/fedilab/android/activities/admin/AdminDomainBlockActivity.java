@@ -30,6 +30,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BaseBarActivity;
 import app.fedilab.android.activities.MainActivity;
@@ -129,7 +131,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
             return true;
         } else if (itemId == R.id.action_delete) {
             if (adminDomainBlock.id != null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AdminDomainBlockActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(AdminDomainBlockActivity.this, Helper.dialogStyle());
                 builder.setMessage(getString(R.string.unblock_domain_confirm, adminDomainBlock.domain));
                 builder
                         .setPositiveButton(R.string.unblock_domain, (dialog, which) -> {

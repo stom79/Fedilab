@@ -25,6 +25,8 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import app.fedilab.android.R;
 import app.fedilab.android.helper.Helper;
 import es.dmoral.toasty.Toasty;
@@ -118,7 +120,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (SET_RESET_CUSTOM_COLOR != null) {
             SET_RESET_CUSTOM_COLOR.getContext().setTheme(Helper.dialogStyle());
             SET_RESET_CUSTOM_COLOR.setOnPreferenceClickListener(preference -> {
-                AlertDialog.Builder resetConfirm = new AlertDialog.Builder(requireActivity(), Helper.dialogStyle());
+                AlertDialog.Builder resetConfirm = new MaterialAlertDialogBuilder(requireActivity(), Helper.dialogStyle());
                 resetConfirm.setMessage(getString(R.string.reset_color));
                 resetConfirm.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
                 resetConfirm.setPositiveButton(R.string.reset, (dialog, which) -> {

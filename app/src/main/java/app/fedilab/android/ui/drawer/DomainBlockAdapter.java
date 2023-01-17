@@ -27,6 +27,8 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import app.fedilab.android.R;
@@ -74,7 +76,7 @@ public class DomainBlockAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.binding.domainName.setText(domain);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         holder.binding.unblockDomain.setOnClickListener(v -> {
-            AlertDialog.Builder alt_bld = new AlertDialog.Builder(context, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
             alt_bld.setMessage(context.getString(R.string.unblock_domain_confirm, domain));
             alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                 accountsVM.removeDomainBlocks(MainActivity.currentInstance, MainActivity.currentToken, domain);

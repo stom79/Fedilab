@@ -43,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
@@ -407,7 +408,7 @@ public class MastodonHelper {
      * @param status  {@link Status}
      */
     public static void scheduleBoost(Context context, ScheduleType scheduleType, Status status, Account account, TimedMuted listener) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
         DatetimePickerBinding binding = DatetimePickerBinding.inflate(((Activity) context).getLayoutInflater());
         dialogBuilder.setView(binding.getRoot());
         final AlertDialog alertDialogBoost = dialogBuilder.create();
