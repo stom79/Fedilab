@@ -14,97 +14,96 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>
 -->
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    app:cardElevation="2dp">
+    android:layout_height="wrap_content">
 
-    <ScrollView
-        android:id="@+id/options_list_container"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/options_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/options_list"
+            <include
+                android:id="@+id/option_1"
+                layout="@layout/compose_poll_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:orientation="vertical">
+                android:layout_marginTop="0dp" />
 
-                <include
-                    android:id="@+id/option_1"
-                    layout="@layout/compose_poll_item"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp" />
-
-                <include
-                    android:id="@+id/option_2"
-                    layout="@layout/compose_poll_item" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/button_add_option"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="6dp"
-                android:contentDescription="@string/add_poll_item"
-                android:src="@drawable/ic_baseline_add_24" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/poll_type"
-                    android:textAlignment="viewEnd" />
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/poll_type"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/poll_duration"
-                    android:textAlignment="viewEnd" />
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/poll_duration"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            <include
+                android:id="@+id/option_2"
+                layout="@layout/compose_poll_item" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </ScrollView>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_add_option"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="@string/add_poll_item"
+            app:icon="@drawable/ic_baseline_add_24" />
 
-</com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/poll_type"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/poll_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            app:checkedButton="@id/poll_type_single"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/poll_type_single"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/poll_type_single"
+                android:textAlignment="textStart"
+                app:icon="@drawable/ic_compose_poll_option_mark_single" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/poll_type_multiple"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/poll_type_multiple"
+                android:textAlignment="textStart"
+                app:icon="@drawable/ic_compose_poll_option_mark_multiple" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/poll_duration"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/poll_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</ScrollView>
