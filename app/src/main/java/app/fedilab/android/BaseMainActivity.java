@@ -187,7 +187,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static List<Filter> mainFilters;
     public static List<app.fedilab.android.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
-    public static boolean show_boosts, show_replies, show_art_nsfw;
+    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
@@ -694,6 +694,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
                 show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
+                show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, true);
                 regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
                 regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
@@ -1334,14 +1335,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
         final MenuItem itemFilter = menu.findItem(R.id.action_filter);
         if (!showExtendedFilter) {
             itemShowBoosts.setVisible(false);
             itemShowReplies.setVisible(false);
+            itemShowDMs.setVisible(false);
         } else {
             itemShowBoosts.setVisible(true);
             itemShowReplies.setVisible(true);
+            itemShowDMs.setVisible(true);
         }
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
@@ -1356,6 +1360,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         itemShowBoosts.setChecked(show_boosts);
         itemShowReplies.setChecked(show_replies);
+        itemShowDMs.setChecked(show_dms);
         if (show_filtered != null && show_filtered.length() > 0) {
             itemFilter.setTitle(show_filtered);
         }
@@ -1394,6 +1399,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 show_replies = !show_replies;
                 editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
                 itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_show_dms) {
+                show_dms = !show_dms;
+                editor.putBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+                itemShowDMs.setChecked(show_dms);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(BaseMainActivity.this, Helper.dialogStyle());

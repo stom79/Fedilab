@@ -1,0 +1,9 @@
+Added:
+- Maths support (view and compose)
+- Filter DMs in HOME (long press on the tab)
+
+Changed:
+- Hide single media with preview is now a setting (default: disabled)
+
+Fixed:
+- Cross-actions didn't display account instances

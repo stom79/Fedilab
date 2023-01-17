@@ -22,6 +22,7 @@ import static app.fedilab.android.BaseMainActivity.regex_home;
 import static app.fedilab.android.BaseMainActivity.regex_local;
 import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
+import static app.fedilab.android.BaseMainActivity.show_dms;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.activities.ContextActivity.expand;
 import static app.fedilab.android.helper.Helper.ARG_TIMELINE_REFRESH_ALL;
@@ -196,6 +197,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status) {
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
+            return false;
+        }
+        if (timelineType == Timeline.TimeLineEnum.HOME && !show_dms && status.visibility.equalsIgnoreCase("direct")) {
             return false;
         }
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_replies && status.in_reply_to_id != null) {

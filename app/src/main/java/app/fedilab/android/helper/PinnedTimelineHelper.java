@@ -19,6 +19,7 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
+import static app.fedilab.android.BaseMainActivity.show_dms;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.ui.pageadapter.FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
 
@@ -627,13 +628,16 @@ public class PinnedTimelineHelper {
         Menu menu = popup.getMenu();
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+        final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
         final MenuItem itemFilter = menu.findItem(R.id.action_filter);
         if (!showExtendedFilter) {
             itemShowBoosts.setVisible(false);
             itemShowReplies.setVisible(false);
+            itemShowDMs.setVisible(false);
         } else {
             itemShowBoosts.setVisible(true);
             itemShowReplies.setVisible(true);
+            itemShowDMs.setVisible(true);
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         String show_filtered = null;
@@ -647,6 +651,7 @@ public class PinnedTimelineHelper {
 
         itemShowBoosts.setChecked(show_boosts);
         itemShowReplies.setChecked(show_replies);
+        itemShowDMs.setChecked(show_dms);
         if (show_filtered != null && show_filtered.length() > 0) {
             itemFilter.setTitle(show_filtered);
         }
@@ -685,6 +690,11 @@ public class PinnedTimelineHelper {
                 show_replies = !show_replies;
                 editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
                 itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_show_dms) {
+                show_dms = !show_dms;
+                editor.putBoolean(activity.getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+                itemShowDMs.setChecked(show_dms);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, Helper.dialogStyle());
