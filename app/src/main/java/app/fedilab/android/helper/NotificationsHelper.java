@@ -17,6 +17,7 @@ package app.fedilab.android.helper;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static app.fedilab.android.helper.Helper.notify_user;
 import static app.fedilab.android.helper.LogoHelper.getMainLogo;
+import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -379,6 +380,7 @@ public class NotificationsHelper {
                 Helper.NotifType finalNotifType = notifType;
                 String finalMessage = message;
                 String finalTitle = title;
+                sendAction(context, Helper.ARG_REFRESH_NOTFICATION, null, null);
                 Runnable myRunnable = () -> Glide.with(context)
                         .asBitmap()
                         .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)

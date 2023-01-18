@@ -71,6 +71,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.mention)));
             binding.tabLayout.setTabMode(TabLayout.MODE_FIXED);
             binding.viewpagerNotificationContainer.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), false));
+            binding.viewpagerNotificationContainer.setOffscreenPageLimit(2);
         } else {
             binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.all)));
@@ -84,6 +85,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_report_24));
             binding.viewpagerNotificationContainer.setAdapter(new FedilabNotificationPageAdapter(getChildFragmentManager(), true));
+            binding.viewpagerNotificationContainer.setOffscreenPageLimit(10);
         }
         AtomicBoolean changes = new AtomicBoolean(false);
         binding.settings.setOnClickListener(v -> {

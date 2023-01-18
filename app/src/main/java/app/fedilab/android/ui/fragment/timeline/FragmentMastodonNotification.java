@@ -64,6 +64,17 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+    private final BroadcastReceiver receive_refresh = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (notificationType != null && notificationType == NotificationTypeEnum.ALL) {
+                if (notificationList != null && notificationList.size() > 0) {
+                    route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
+                }
+            }
+        }
+    };
 
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -192,6 +203,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         aggregateNotification = false;
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_refresh, new IntentFilter(Helper.ARG_REFRESH_NOTFICATION));
         return root;
     }
 
@@ -655,6 +667,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     @Override
     public void onDestroyView() {
         LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_refresh);
         if (isAdded()) {
             storeMarker();
         }
