@@ -15,39 +15,45 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.Window;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityProxyBinding;
 
 
-public class ProxyActivity extends BaseAlertDialogActivity {
+public class ProxyActivity extends DialogFragment {
 
     private ActivityProxyBinding binding;
     private int position;
 
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProxyActivity.this);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = ActivityProxyBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
+
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        materialAlertDialogBuilder.setView(binding.getRoot());
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         //Enable proxy
         boolean enable_proxy = sharedpreferences.getBoolean(getString(R.string.SET_PROXY_ENABLED), false);
         binding.enableProxy.setChecked(enable_proxy);
-        position = 0;
+        position = sharedpreferences.getInt(getString(R.string.SET_PROXY_TYPE), 0);
         String hostVal = sharedpreferences.getString(getString(R.string.SET_PROXY_HOST), "127.0.0.1");
         int portVal = sharedpreferences.getInt(getString(R.string.SET_PROXY_PORT), 8118);
         final String login = sharedpreferences.getString(getString(R.string.SET_PROXY_LOGIN), null);
@@ -62,22 +68,17 @@ public class ProxyActivity extends BaseAlertDialogActivity {
         if (pwd != null && binding.proxyPassword.length() > 0) {
             binding.proxyPassword.setText(pwd);
         }
-        ArrayAdapter<CharSequence> adapterTrans = ArrayAdapter.createFromResource(ProxyActivity.this,
-                R.array.proxy_type_choice, android.R.layout.simple_spinner_dropdown_item);
-        binding.type.setAdapter(adapterTrans);
-        binding.type.setSelection(sharedpreferences.getInt(getString(R.string.SET_PROXY_TYPE), 0), false);
-        binding.type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
-                position = p;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+        if (position == 1) binding.protocol.check(R.id.protocol_socks);
+        binding.protocol.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.protocol_http)
+                    position = 0;
+                else
+                    position = 1;
             }
         });
-        binding.setProxySave.setOnClickListener(view -> {
+
+        materialAlertDialogBuilder.setPositiveButton(R.string.save, (dialog1, which) -> {
             String hostVal1 = binding.host.getText().toString().trim();
             String portVal1 = binding.port.getText().toString().trim();
             String proxy_loginVal = binding.proxyLogin.getText().toString().trim();
@@ -91,18 +92,24 @@ public class ProxyActivity extends BaseAlertDialogActivity {
             editor.putString(getString(R.string.SET_PROXY_LOGIN), proxy_loginVal);
             editor.putString(getString(R.string.SET_PROXY_PASSWORD), proxy_passwordVal);
             editor.apply();
-            finish();
         });
+        materialAlertDialogBuilder.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        Dialog dialog = materialAlertDialogBuilder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        return dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
-
-
 }

@@ -14,173 +14,172 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_container"
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/background_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha="0.2"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                app:layout_constraintBottom_toTopOf="@id/description"
+                app:layout_constraintTop_toTopOf="@id/background_image"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Instance" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="6dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                app:layout_constraintBottom_toTopOf="@id/version"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:maxLines="6"
+                tools:text="@tools:sample/lorem/random" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                app:layout_constraintBottom_toTopOf="@id/uri"
+                app:layout_constraintTop_toBottomOf="@id/description"
+                tools:text="4.0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/uri"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:cornerRadius="0dp"
+                app:icon="@drawable/ic_open_external"
+                app:iconGravity="end"
+                app:layout_constraintBottom_toTopOf="@id/contact"
+                tools:text="instance.test" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/contact"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:text="@string/contact_instance_admin"
+                app:cornerRadius="0dp"
+                app:icon="@drawable/ic_baseline_mail_outline_24"
+                app:iconGravity="end"
+                app:layout_constraintBottom_toBottomOf="@id/background_image" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/instance_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="name,description,version,uri,contact"
+                tools:visibility="visible" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/loader"
+                style="@style/Widget.Material3.LinearProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                app:layout_constraintBottom_toBottomOf="@id/background_image"
+                app:layout_constraintEnd_toEndOf="@id/background_image"
+                app:layout_constraintStart_toStartOf="@id/background_image"
+                app:layout_constraintTop_toTopOf="@id/background_image" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/max_char_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/set_your_max_char_count"
+                app:layout_constraintTop_toBottomOf="@id/background_image">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/max_char"
+                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    tools:text="500" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/action_about_instance"
+                app:icon="@drawable/ic_open_external"
+                app:iconGravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/max_char_container" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/privacy"
+                style="@style/Fedilab.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/action_privacy_policy"
+                app:icon="@drawable/ic_open_external"
+                app:iconGravity="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/about" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/close"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/fab_margin"
-        android:paddingLeft="@dimen/drawer_padding"
-        android:paddingRight="@dimen/drawer_padding">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/close" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/instance_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent">
-            <!-- Instance title -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/instance_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_horizontal"
-                android:textSize="20sp" />
-
-            <!-- Instance description -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/instance_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:autoLink="web"
-                android:gravity="center_horizontal"
-                android:textSize="16sp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!-- Instance version -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/instance_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
-                <!-- Instance URI -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/instance_uri"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center_horizontal"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/max_char_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/instance_container"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/set_your_max_char_count"
-                android:textSize="18sp" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/max_char"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:hint="500"
-                android:inputType="number"
-                android:textSize="18sp"
-                tools:ignore="HardcodedText" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <!-- Main Loader -->
-        <RelativeLayout
-            android:id="@+id/loader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true" />
-        </RelativeLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/instance_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:contentDescription="@string/contact_instance_admin"
-            android:src="@drawable/ic_baseline_mail_outline_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/action_about_instance"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/max_char_container" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/privacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/action_privacy_policy"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tos" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/close"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingVertical="12dp"
-            android:text="@string/close"
-            android:textAlignment="textStart"
-            app:layout_constraintTop_toBottomOf="@+id/privacy"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>

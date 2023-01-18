@@ -179,8 +179,7 @@ public class LoginActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_proxy) {
-            Intent intent = new Intent(LoginActivity.this, ProxyActivity.class);
-            startActivity(intent);
+            (new ProxyActivity()).show(getSupportFragmentManager(), null);
         } else if (id == R.id.action_request_admin) {
             item.setChecked(!item.isChecked());
             requestedAdmin = item.isChecked();

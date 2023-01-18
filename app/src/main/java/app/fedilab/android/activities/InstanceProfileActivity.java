@@ -15,15 +15,17 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.app.Dialog;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityInstanceProfileBinding;
@@ -31,56 +33,46 @@ import app.fedilab.android.helper.Helper;
 import app.fedilab.android.viewmodel.mastodon.NodeInfoVM;
 import es.dmoral.toasty.Toasty;
 
-public class InstanceProfileActivity extends BaseAlertDialogActivity {
-
+public class InstanceProfileActivity extends DialogFragment {
 
     private String instance;
     private ActivityInstanceProfileBinding binding;
 
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = ActivityInstanceProfileBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        Bundle b = getIntent().getExtras();
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
+
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        materialAlertDialogBuilder.setView(binding.getRoot());
+
+        Dialog dialog = materialAlertDialogBuilder.create();
+
+        Bundle b = getArguments();
         if (b != null)
             instance = b.getString(Helper.ARG_INSTANCE, null);
         if (instance == null) {
-            finish();
+            requireDialog().dismiss();
         }
-        Button close = findViewById(R.id.close);
-        close.setOnClickListener(view -> finish());
+
+        binding.close.setOnClickListener(v -> requireDialog().dismiss());
+
         NodeInfoVM nodeInfoVM = new ViewModelProvider(InstanceProfileActivity.this).get(NodeInfoVM.class);
         nodeInfoVM.getNodeInfo(instance).observe(InstanceProfileActivity.this, nodeInfo -> {
             if (nodeInfo == null) {
-                Toasty.error(InstanceProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                finish();
+                Toasty.error(requireContext(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                requireDialog().dismiss();
                 return;
             }
             binding.name.setText(instance);
-            SpannableString descriptionSpan;
             binding.userCount.setText(Helper.withSuffix((nodeInfo.usage.users.total)));
             binding.statusCount.setText(Helper.withSuffix(((nodeInfo.usage.localPosts))));
             String softwareStr = nodeInfo.software.name + " - ";
             binding.software.setText(softwareStr);
             binding.version.setText(nodeInfo.software.version);
-            binding.instanceContainer.setVisibility(View.VISIBLE);
             binding.loader.setVisibility(View.GONE);
         });
+
+        return dialog;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }

@@ -1,130 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="wrap_content"
-    android:layout_height="300dp"
-    android:layout_margin="@dimen/fab_margin"
-    android:fitsSystemWindows="true"
-    tools:context=".activities.InstanceHealthActivity">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/background_image"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:alpha="0.2">
+        android:layout_height="0dp"
+        android:alpha="0.2"
+        android:contentDescription="@string/logo_of_the_instance"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
-        <ImageView
-            android:id="@+id/back_ground_image"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:contentDescription="@string/logo_of_the_instance"
-            android:scaleType="centerCrop" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/instance_container"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        tools:text="instance.test" />
 
-        <LinearLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/values"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:gravity="center" />
-
-
-            <TextView
-                android:id="@+id/checked_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/uptime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/ref_instance"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:text="via instances.social"
-                tools:ignore="HardcodedText" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/no_instance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:autoLink="web"
-            android:gravity="center"
-            android:text="@string/no_instance_reccord"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/close"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="@string/close"
-            android:textAllCaps="false" />
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/loader"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/values"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        tools:text="version: 4.0\n100 users - 10 k statuses" />
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
-    </RelativeLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/checked_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        tools:text="Checked at: 2023-01-01 00:00:00" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        tools:text="Is up!" />
 
-</RelativeLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/uptime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        tools:text="Uptime: 100.00 %" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ref_instance"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="via instances.social"
+        tools:ignore="HardcodedText" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/instance_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="name,values,checked_at,up,uptime,ref_instance"
+        app:flow_verticalGap="12dp"
+        app:layout_constraintBottom_toTopOf="@id/close"
+        app:layout_constraintTop_toTopOf="@id/background_image" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/no_instance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="@string/no_instance_reccord"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/close"
+        app:layout_constraintTop_toTopOf="@id/background_image" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loader"
+        style="@style/Widget.Material3.LinearProgressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateOnly="true"
+        app:layout_constraintBottom_toBottomOf="@id/background_image"
+        app:layout_constraintEnd_toEndOf="@id/background_image"
+        app:layout_constraintStart_toStartOf="@id/background_image"
+        app:layout_constraintTop_toTopOf="@id/background_image" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/close"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="12dp"
+        android:text="@string/close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/background_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

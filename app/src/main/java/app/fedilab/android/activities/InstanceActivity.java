@@ -15,9 +15,9 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,18 +26,16 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -48,42 +46,38 @@ import app.fedilab.android.helper.ThemeHelper;
 import app.fedilab.android.viewmodel.mastodon.InstancesVM;
 
 
-public class InstanceActivity extends BaseAlertDialogActivity {
-
+public class InstanceActivity extends DialogFragment {
 
     ActivityInstanceBinding binding;
     private boolean applyMaxChar = false;
 
+    @NonNull
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = ActivityInstanceBinding.inflate(getLayoutInflater());
 
-        setContentView(binding.getRoot());
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        materialAlertDialogBuilder.setView(binding.getRoot());
 
-        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().hide();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(InstanceActivity.this);
+        Dialog dialog = materialAlertDialogBuilder.create();
 
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         final SpannableString contentAbout = new SpannableString(getString(R.string.action_about_instance));
         contentAbout.setSpan(new UnderlineSpan(), 0, contentAbout.length(), 0);
-        contentAbout.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, contentAbout.length(),
+        contentAbout.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(requireContext(), R.attr.colorPrimary)), 0, contentAbout.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        binding.tos.setText(contentAbout);
+        binding.about.setText(contentAbout);
 
         final SpannableString contentPrivacy = new SpannableString(getString(R.string.action_privacy_policy));
         contentPrivacy.setSpan(new UnderlineSpan(), 0, contentPrivacy.length(), 0);
-        contentPrivacy.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(this, R.attr.colorPrimary)), 0, contentPrivacy.length(),
+        contentPrivacy.setSpan(new ForegroundColorSpan(ThemeHelper.getAttColor(requireContext(), R.attr.colorPrimary)), 0, contentPrivacy.length(),
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.privacy.setText(contentPrivacy);
 
-        binding.tos.setOnClickListener(v -> Helper.openBrowser(InstanceActivity.this, "https://" + MainActivity.currentInstance + "/about"));
-        binding.privacy.setOnClickListener(v -> Helper.openBrowser(InstanceActivity.this, "https://" + MainActivity.currentInstance + "/privacy-policy"));
-        binding.close.setOnClickListener(
-
-                view -> {
+        binding.about.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://" + MainActivity.currentInstance + "/about"));
+        binding.privacy.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://" + MainActivity.currentInstance + "/privacy-policy"));
+        binding.close.setOnClickListener(                view -> {
                     if (applyMaxChar) {
                         String max_char = binding.maxChar.getText().toString();
 
@@ -96,25 +90,18 @@ public class InstanceActivity extends BaseAlertDialogActivity {
                             }
                         }
                     }
-                    finish();
+                    requireDialog().dismiss();
                 }
 
         );
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
         InstancesVM instancesVM = new ViewModelProvider(InstanceActivity.this).get(InstancesVM.class);
         instancesVM.getInstance(BaseMainActivity.currentInstance).observe(InstanceActivity.this, instanceInfo -> {
-            binding.instanceContainer.setVisibility(View.VISIBLE);
             binding.loader.setVisibility(View.GONE);
 
             if (instanceInfo == null || instanceInfo.info == null || instanceInfo.info.description == null) {
-                binding.maxCharContainer.setVisibility(View.VISIBLE);
-                binding.instanceContainer.setVisibility(View.GONE);
-                binding.instanceContact.setVisibility(View.GONE);
+                binding.instanceData.setVisibility(View.GONE);
+                binding.contact.setVisibility(View.GONE);
                 int val = sharedpreferences.getInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
                 if (val != -1) {
                     binding.maxChar.setText(String.valueOf(val));
@@ -123,51 +110,48 @@ public class InstanceActivity extends BaseAlertDialogActivity {
 
             } else {
                 Instance instance = instanceInfo.info;
-                binding.instanceTitle.setText(instance.title);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    binding.instanceDescription.setText(Html.fromHtml(instance.description, Html.FROM_HTML_MODE_LEGACY));
-                else
-                    binding.instanceDescription.setText(Html.fromHtml(instance.description));
-                if (instance.description == null || instance.description.trim().length() == 0)
-                    binding.instanceDescription.setText(getString(R.string.instance_no_description));
-                binding.instanceVersion.setText(instance.version);
-                binding.instanceUri.setText(instance.uri);
-                if (instance.email == null) {
-                    binding.instanceContact.hide();
-                }
+
                 Glide.with(InstanceActivity.this)
                         .asDrawable()
+                        .placeholder(R.drawable.default_banner)
                         .load(instance.thumbnail)
-                        .into(new CustomTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                binding.background.setAlpha(0.2f);
-                                binding.background.setBackground(resource);
-                            }
+                        .into(binding.backgroundImage);
 
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                binding.name.setText(instance.title);
 
-                            }
-                        });
+                if (instance.description == null || instance.description.trim().length() == 0)
+                    binding.description.setText(getString(R.string.instance_no_description));
+                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    binding.description.setText(Html.fromHtml(instance.description, Html.FROM_HTML_MODE_LEGACY));
+                else
+                    binding.description.setText(Html.fromHtml(instance.description));
 
-                binding.instanceContact.setOnClickListener(v -> {
+                binding.version.setText(instance.version);
+
+                binding.uri.setText(instance.uri);
+
+                if (instance.email == null) {
+                    binding.contact.setVisibility(View.GONE);
+                } else {
+                    binding.contact.setVisibility(View.VISIBLE);
+                }
+
+                binding.contact.setOnClickListener(v -> {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", instance.email, null));
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Mastodon] - " + instance.uri);
                     startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
                 });
+
+                binding.instanceData.setVisibility(View.VISIBLE);
             }
         });
-    }
 
+        return dialog;
+    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
-
 }

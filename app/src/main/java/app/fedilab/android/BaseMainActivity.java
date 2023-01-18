@@ -418,15 +418,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_about_instance) {
-                Intent intent = new Intent(BaseMainActivity.this, InstanceActivity.class);
-                startActivity(intent);
+                (new InstanceActivity()).show(getSupportFragmentManager(), null);
             }
             binding.drawerLayout.close();
             return false;
         });
 
-
-        headerMainBinding.instanceInfo.setOnClickListener(v -> startActivity(new Intent(BaseMainActivity.this, InstanceHealthActivity.class)));
+        headerMainBinding.instanceInfo.setOnClickListener(v -> (new InstanceHealthActivity()).show(getSupportFragmentManager(), null));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle b = new Bundle();
@@ -585,8 +583,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     alert.show();
                     return true;
                 } else if (itemId == R.id.action_proxy) {
-                    Intent intent = new Intent(BaseMainActivity.this, ProxyActivity.class);
-                    startActivity(intent);
+                    (new ProxyActivity()).show(getSupportFragmentManager(), null);
                     return true;
                 }
                 return true;
