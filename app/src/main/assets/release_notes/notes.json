@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.15.1",
+    "code": "470",
+    "note": "Changed:\n- Material dialogs\n\nFixed:\n- Light theme issues"
+  },
+  {
     "version": "3.15.0",
     "code": "469",
     "note": "Added:\n- Maths support (view and compose)\n- Filter DMs in HOME (long press on the tab)\n- Filter languages for users in home timeline (from their profile)\n- Add several targeted languages for translator\n\nChanged:\n- Hide single media with preview is now a setting (default: disabled)\n- Group items in menu of messages\n\nFixed:\n- Cross-actions didn't display account instances"
