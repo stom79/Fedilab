@@ -976,4 +976,5 @@
     <string name="show_privates">Mostrar mensaxes directas</string>
     <string name="poll_type_multiple">Varias opcións</string>
     <string name="action_change_subscribed_language">Cambiar susbscrición a idiomas</string>
+    <string name="translate_in">Traducir ao</string>
 </resources>
