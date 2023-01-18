@@ -422,7 +422,7 @@
     <string name="saving">Ukladání…</string>
     <string name="image_saved">Obrázek byl úspěšně uložen!</string>
     <string name="save_image_failed">Nepodařilo se uložit obrázek</string>
-    <string name="add_poll_item">Přidat položku ankety</string>
+    <string name="add_poll_item">Přidat volbu</string>
     <string name="mute_conversation">Ztlumit konverzaci</string>
     <string name="unmute_conversation">Zrušit ztlumení konverzace</string>
     <string name="toast_unmute_conversation">Konverzace už není ztlumená!</string>
@@ -986,4 +986,10 @@
     <string name="maths_format">Formát matematiky</string>
     <string name="hide_single_media_with_card">Skrýt samostatné médium, pokud existuje náhled odkazu</string>
     <string name="set_maths_support">Napište vzorec</string>
+    <string name="poll_type_single">Jedna volba</string>
+    <string name="poll_type_multiple">Více voleb</string>
+    <string name="action_change_subscribed_language">Změnit přihlášené jazyky</string>
+    <string name="filter_languages">Filtrovat jazyky</string>
+    <string name="show_privates">Ukázat přímé zprávy</string>
+    <string name="translate_in">Překládat v</string>
 </resources>
