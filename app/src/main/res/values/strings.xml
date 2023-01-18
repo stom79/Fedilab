@@ -275,6 +275,9 @@
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Enable proxy?</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
     <string name="poxy_host">Host</string>
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
@@ -311,10 +314,6 @@
     <string name="action_update_filter">Update filter</string>
     <string name="action_list_add">You have not created a list yet. Tap on the \"+\" button to add a new one.</string>
     <string name="expand_image">Automatically expand hidden media</string>
-    <string-array name="proxy_type_choice" translatable="false">
-        <item>HTTP</item>
-        <item>SOCKS</item>
-    </string-array>
     <string name="channel_notif_follow">New follow</string>
     <string name="channel_notif_boost">New Boost</string>
     <string name="channel_notif_fav">New Favourite</string>

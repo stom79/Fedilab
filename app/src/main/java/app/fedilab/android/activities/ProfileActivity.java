@@ -532,12 +532,11 @@ public class ProfileActivity extends BaseActivity {
                 binding.instanceInfo.setVisibility(View.VISIBLE);
 
                 binding.instanceInfo.setOnClickListener(v -> {
-                    Intent intent = new Intent(ProfileActivity.this, InstanceProfileActivity.class);
+                    InstanceProfileActivity instanceProfileActivity = new InstanceProfileActivity();
                     Bundle b = new Bundle();
                     b.putString(Helper.ARG_INSTANCE, finalAccountInstance);
-                    intent.putExtras(b);
-                    startActivity(intent);
-
+                    instanceProfileActivity.setArguments(b);
+                    instanceProfileActivity.show(getSupportFragmentManager(), null);
                 });
             }
         });
