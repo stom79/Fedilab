@@ -404,6 +404,7 @@ public class CrossActionHelper {
             accounts = new Account(context).getAll();
             List<app.fedilab.android.client.entities.api.Account> accountList = new ArrayList<>();
             for (BaseAccount account : accounts) {
+                account.mastodon_account.acct += "@" + account.instance;
                 accountList.add(account.mastodon_account);
             }
             if (accounts.size() == 1) {
