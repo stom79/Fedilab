@@ -1,0 +1,6 @@
+Changed:
+- Add instance name when sharing
+
+Fixed:
+- Fix a crash when removing media
+- Other minor fixes

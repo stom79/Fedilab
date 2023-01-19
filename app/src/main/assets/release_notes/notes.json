@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.15.2",
+    "code": "471",
+    "note": "Changed:\n- Add instance name when sharing\n\nFixed:\n- Fix a crash when removing media\n- Other minor fixes"
+  },
+  {
     "version": "3.15.1",
     "code": "470",
     "note": "Changed:\n- Material dialogs\n\nFixed:\n- Light theme issues"

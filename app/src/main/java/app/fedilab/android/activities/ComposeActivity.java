@@ -864,6 +864,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     WorkManager.getInstance(ComposeActivity.this).enqueue(oneTimeWorkRequest);
                     statusDraft.workerUuid = oneTimeWorkRequest.getId();
                     statusDraft.scheduled_at = date;
+                    try {
+                        new StatusDraft(ComposeActivity.this).updateStatusDraft(statusDraft);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
                         Toasty.info(ComposeActivity.this, getString(R.string.toot_scheduled), Toasty.LENGTH_LONG).show();
