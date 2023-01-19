@@ -87,10 +87,11 @@ public class Attachment implements Serializable {
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;
-        if (obj instanceof Attachment) {
+        if (obj instanceof Attachment && ((Attachment) obj).id != null && this.id != null) {
             same = this.id.equals(((Attachment) obj).id);
-        }
-        return same;
+            return same;
+        } else return super.equals(obj);
+
     }
 
 }
