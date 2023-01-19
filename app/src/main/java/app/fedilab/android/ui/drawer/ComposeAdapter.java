@@ -533,7 +533,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (promptDraftListener != null) {
                     promptDraftListener.promptDraft();
                 }
-                if (holder.binding.content.getSelectionStart() > 0) {
+                if (holder.binding.content.getSelectionStart() > 0 && holder.getLayoutPosition() >= 0) {
                     statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 }
                 //Copy/past
