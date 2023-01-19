@@ -419,7 +419,7 @@
     <string name="saving">Enregistrement …</string>
     <string name="image_saved">Image enregistrée avec succès !</string>
     <string name="save_image_failed">Échec de l\'enregistrement de l\'image</string>
-    <string name="add_poll_item">Ajouter un élément de sondage</string>
+    <string name="add_poll_item">Ajouter un choix</string>
     <string name="mute_conversation">Masquer la conversation</string>
     <string name="unmute_conversation">Enlever la sourdine de la discussion</string>
     <string name="toast_unmute_conversation">La conversation n’est plus masquée !</string>
@@ -430,7 +430,7 @@
     <string name="category_activism">Activisme</string>
     <string name="category_games">Jeux</string>
     <string name="category_tech">Technologie</string>
-    <string name="category_furry">Furry</string>
+    <string name="category_furry">Fourrure</string>
     <string name="category_food">Nourriture</string>
     <string name="instance_logo">Logo de l’instance</string>
     <string name="join_mastodon">Rejoindre Mastodon</string>
@@ -955,4 +955,29 @@
     <string name="set_remove_left_margin_title">Supprimer la marge de gauche</string>
     <string name="set_remove_left_margin">Suppression de la marge de gauche dans les lignes de temps pour rendre les messages plus compacts</string>
     <string name="version">Version</string>
+    <string name="post_format">Format de publication</string>
+    <string name="set_pixelfed_presentation">Présentation de Pixelfed pour les médias</string>
+    <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
+    <string name="set_display_reaction_indication">Afficher les boutons « Réactions »</string>
+    <string name="set_post_format">Format de publication</string>
+    <string name="exclude_visibility">Exclure la visibilité</string>
+    <string name="set_remote_profile_title">Profils distants</string>
+    <string name="set_display_local_only">Afficher le bouton « Local uniquement »</string>
+    <string name="local_only">Local uniquement</string>
+    <string name="also_followed_by">Suivi par :</string>
+    <string name="_new">Nouveau</string>
+    <string name="Directory">Annuaire</string>
+    <string name="set_display_compact_buttons">Boutons d’action compacts</string>
+    <string name="set_disable_release_notes_indication">Lorsqu’une nouvelle version est publiée, vous ne serez pas alerté dans l’application.</string>
+    <string name="maths_format">Format mathématique</string>
+    <string name="action_change_subscribed_language">Modifier les langues abonnées</string>
+    <string name="filter_languages">Filtrer des langues</string>
+    <string name="translate_in">Traduire en</string>
+    <string name="show_privates">Afficher les messages directs</string>
+    <string name="poll_type_single">Choix unique</string>
+    <string name="poll_type_multiple">Choix multiples</string>
+    <string name="formula">Formule</string>
+    <string name="boost_original_date">Afficher la date originale pour les boosts</string>
+    <string name="set_disable_release_notes">Désactiver les notes de version</string>
+    <string name="set_maths_support">Écrire une formule</string>
 </resources>

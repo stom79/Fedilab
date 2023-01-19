@@ -415,7 +415,7 @@
     <string name="saving">Kaydediliyor…</string>
     <string name="image_saved">Resim Başarıyla Kaydedildi!</string>
     <string name="save_image_failed">Resim kaydedilemedi</string>
-    <string name="add_poll_item">Anket ögesi ekle</string>
+    <string name="add_poll_item">Seçenek ekle</string>
     <string name="mute_conversation">Görüşmeyi Sustur</string>
     <string name="unmute_conversation">Görüşmeyi susturmaktan vazgeç</string>
     <string name="toast_unmute_conversation">Görüşme artık susturulmuyor!</string>
@@ -975,4 +975,10 @@
     <string name="set_maths_support">Formül yaz</string>
     <string name="maths_format">Matematik biçimi</string>
     <string name="hide_single_media_with_card">Bir bağlantı ön izlemesi olduğunda tek medyayı gizle</string>
+    <string name="action_change_subscribed_language">Abone olunan dilleri değiştir</string>
+    <string name="filter_languages">Dilleri filtrele</string>
+    <string name="translate_in">Şuna çevir</string>
+    <string name="poll_type_single">Tek seçenek</string>
+    <string name="show_privates">Doğrudan mesajları göster</string>
+    <string name="poll_type_multiple">Çoklu seçenekler</string>
 </resources>
