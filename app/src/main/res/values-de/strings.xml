@@ -981,6 +981,9 @@
     <string name="poll_type_multiple">Mehrfach-Auswahl (Multiple Choice)</string>
     <string name="action_change_subscribed_language">Ausgewählte Sprachen ändern</string>
     <string name="filter_languages">Sprachen filtern</string>
-    <string name="show_privates">Zeige Direkt-Nachrichten</string>
+    <string name="show_privates">Direkt-Nachrichten anzeigen</string>
     <string name="translate_in">Übersetzen in</string>
+    <string name="proxy_protocol">Protokoll</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>
