@@ -411,7 +411,7 @@
     <string name="set_sensitive_content">Vždy označovat média jako citlivá</string>
     <string name="gnu_instance">Instance GNU</string>
     <string name="set_forward_tags">V odpovědích přeposílat tagy</string>
-    <string name="set_long_press_media">K uložení média dlouze stlačte</string>
+    <string name="set_long_press_media">Dlouhým stlačením uložit médium</string>
     <string name="add_tags">Spravovat tagy</string>
     <string name="display_name">Zobrazované jméno</string>
     <string name="label_emoji">Emoji</string>
@@ -992,4 +992,7 @@
     <string name="filter_languages">Filtrovat jazyky</string>
     <string name="show_privates">Ukázat přímé zprávy</string>
     <string name="translate_in">Překládat v</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="proxy_protocol">Protokol</string>
+    <string name="proxy_protocol_http">HTTP</string>
 </resources>
