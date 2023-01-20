@@ -415,7 +415,7 @@
     <string name="saving">Opslaan…</string>
     <string name="image_saved">Afbeelding succesvol opgeslagen!</string>
     <string name="save_image_failed">Opslaan van afbeelding mislukt</string>
-    <string name="add_poll_item">Een pollkeuze toevoegen</string>
+    <string name="add_poll_item">Een keuze toevoegen</string>
     <string name="mute_conversation">Gesprek negeren</string>
     <string name="unmute_conversation">Gesprek niet meer negeren</string>
     <string name="toast_unmute_conversation">Het gesprek wordt niet meer genegeerd!</string>
@@ -977,4 +977,14 @@
     <string name="hide_single_media_with_card">Verberg afbeelding als er een link preview is</string>
     <string name="set_maths_support">Schrijf formule</string>
     <string name="poll_type_single">Eén keus</string>
+    <string name="show_privates">Toon directe berichten</string>
+    <string name="formula">Formule</string>
+    <string name="maths_format">Wiskundig formaat</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="filter_languages">Filter talen</string>
+    <string name="translate_in">Vertaal in</string>
+    <string name="poll_type_multiple">Meedere keuzes</string>
+    <string name="action_change_subscribed_language">Wijzig geabonneerde talen</string>
 </resources>
