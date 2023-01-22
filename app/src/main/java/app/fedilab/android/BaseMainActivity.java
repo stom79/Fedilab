@@ -16,10 +16,10 @@ package app.fedilab.android;
 
 import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
-import static app.fedilab.android.helper.CacheHelper.deleteDir;
-import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.helper.Helper.displayReleaseNotesIfNeeded;
-import static app.fedilab.android.ui.drawer.StatusAdapter.sendAction;
+import static app.fedilab.android.mastodon.helper.CacheHelper.deleteDir;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
+import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -104,69 +104,69 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.activities.AboutActivity;
-import app.fedilab.android.activities.ActionActivity;
-import app.fedilab.android.activities.AnnouncementActivity;
-import app.fedilab.android.activities.BaseActivity;
-import app.fedilab.android.activities.CacheActivity;
-import app.fedilab.android.activities.ComposeActivity;
-import app.fedilab.android.activities.ContextActivity;
-import app.fedilab.android.activities.DirectoryActivity;
-import app.fedilab.android.activities.DraftActivity;
-import app.fedilab.android.activities.FilterActivity;
-import app.fedilab.android.activities.FollowRequestActivity;
-import app.fedilab.android.activities.FollowedTagActivity;
-import app.fedilab.android.activities.InstanceActivity;
-import app.fedilab.android.activities.InstanceHealthActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.activities.MastodonListActivity;
-import app.fedilab.android.activities.PartnerShipActivity;
-import app.fedilab.android.activities.ProfileActivity;
-import app.fedilab.android.activities.ProxyActivity;
-import app.fedilab.android.activities.ReorderTimelinesActivity;
-import app.fedilab.android.activities.ScheduledActivity;
-import app.fedilab.android.activities.SearchResultTabActivity;
-import app.fedilab.android.activities.SettingsActivity;
-import app.fedilab.android.activities.SuggestionActivity;
-import app.fedilab.android.activities.TrendsActivity;
-import app.fedilab.android.activities.admin.AdminActionActivity;
-import app.fedilab.android.broadcastreceiver.NetworkStateReceiver;
-import app.fedilab.android.client.endpoints.MastodonAccountsService;
-import app.fedilab.android.client.entities.api.Emoji;
-import app.fedilab.android.client.entities.api.EmojiInstance;
-import app.fedilab.android.client.entities.api.Filter;
-import app.fedilab.android.client.entities.api.Instance;
-import app.fedilab.android.client.entities.api.MastodonList;
-import app.fedilab.android.client.entities.api.Status;
-import app.fedilab.android.client.entities.api.Tag;
-import app.fedilab.android.client.entities.app.Account;
-import app.fedilab.android.client.entities.app.BaseAccount;
-import app.fedilab.android.client.entities.app.BottomMenu;
-import app.fedilab.android.client.entities.app.MutedAccounts;
-import app.fedilab.android.client.entities.app.Pinned;
-import app.fedilab.android.client.entities.app.PinnedTimeline;
-import app.fedilab.android.client.entities.app.StatusCache;
-import app.fedilab.android.client.entities.app.StatusDraft;
-import app.fedilab.android.client.entities.app.Timeline;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
-import app.fedilab.android.exception.DBException;
-import app.fedilab.android.helper.CrossActionHelper;
-import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.helper.PinnedTimelineHelper;
-import app.fedilab.android.helper.PushHelper;
-import app.fedilab.android.ui.drawer.AccountsSearchTopBarAdapter;
-import app.fedilab.android.ui.drawer.TagSearchTopBarAdapter;
-import app.fedilab.android.ui.fragment.timeline.FragmentMastodonConversation;
-import app.fedilab.android.ui.fragment.timeline.FragmentMastodonTimeline;
-import app.fedilab.android.ui.fragment.timeline.FragmentNotificationContainer;
-import app.fedilab.android.viewmodel.mastodon.AccountsVM;
-import app.fedilab.android.viewmodel.mastodon.FiltersVM;
-import app.fedilab.android.viewmodel.mastodon.InstancesVM;
-import app.fedilab.android.viewmodel.mastodon.SearchVM;
-import app.fedilab.android.viewmodel.mastodon.TimelinesVM;
-import app.fedilab.android.viewmodel.mastodon.TopBarVM;
+import app.fedilab.android.mastodon.activities.ActionActivity;
+import app.fedilab.android.mastodon.activities.AnnouncementActivity;
+import app.fedilab.android.mastodon.activities.BaseActivity;
+import app.fedilab.android.mastodon.activities.CacheActivity;
+import app.fedilab.android.mastodon.activities.ComposeActivity;
+import app.fedilab.android.mastodon.activities.ContextActivity;
+import app.fedilab.android.mastodon.activities.DirectoryActivity;
+import app.fedilab.android.mastodon.activities.DraftActivity;
+import app.fedilab.android.mastodon.activities.FilterActivity;
+import app.fedilab.android.mastodon.activities.FollowRequestActivity;
+import app.fedilab.android.mastodon.activities.FollowedTagActivity;
+import app.fedilab.android.mastodon.activities.InstanceActivity;
+import app.fedilab.android.mastodon.activities.InstanceHealthActivity;
+import app.fedilab.android.mastodon.activities.MastodonListActivity;
+import app.fedilab.android.mastodon.activities.PartnerShipActivity;
+import app.fedilab.android.mastodon.activities.ProfileActivity;
+import app.fedilab.android.mastodon.activities.ProxyActivity;
+import app.fedilab.android.mastodon.activities.ReorderTimelinesActivity;
+import app.fedilab.android.mastodon.activities.ScheduledActivity;
+import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
+import app.fedilab.android.mastodon.activities.SettingsActivity;
+import app.fedilab.android.mastodon.activities.SuggestionActivity;
+import app.fedilab.android.mastodon.activities.TrendsActivity;
+import app.fedilab.android.mastodon.activities.admin.AdminActionActivity;
+import app.fedilab.android.mastodon.broadcastreceiver.NetworkStateReceiver;
+import app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService;
+import app.fedilab.android.mastodon.client.entities.api.Emoji;
+import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
+import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.client.entities.api.Instance;
+import app.fedilab.android.mastodon.client.entities.api.MastodonList;
+import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.api.Tag;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
+import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
+import app.fedilab.android.mastodon.client.entities.app.Pinned;
+import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
+import app.fedilab.android.mastodon.client.entities.app.StatusCache;
+import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
+import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.CrossActionHelper;
+import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.helper.PinnedTimelineHelper;
+import app.fedilab.android.mastodon.helper.PushHelper;
+import app.fedilab.android.mastodon.ui.drawer.AccountsSearchTopBarAdapter;
+import app.fedilab.android.mastodon.ui.drawer.TagSearchTopBarAdapter;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonConversation;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentNotificationContainer;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.TopBarVM;
 import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -186,7 +186,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static status networkAvailable = UNKNOWN;
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;
-    public static List<app.fedilab.android.client.entities.api.Account> filteredAccounts;
+    public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
     public static boolean show_boosts, show_replies, show_dms, show_art_nsfw;
     public static String regex_home, regex_local, regex_public;
@@ -615,10 +615,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .client(okHttpClient)
                         .build();
                 MastodonAccountsService mastodonAccountsService = retrofit.create(MastodonAccountsService.class);
-                retrofit2.Call<app.fedilab.android.client.entities.api.Account> accountCall = mastodonAccountsService.verify_credentials(MainActivity.currentToken);
+                retrofit2.Call<app.fedilab.android.mastodon.client.entities.api.Account> accountCall = mastodonAccountsService.verify_credentials(MainActivity.currentToken);
                 if (accountCall != null) {
                     try {
-                        retrofit2.Response<app.fedilab.android.client.entities.api.Account> accountResponse = accountCall.execute();
+                        retrofit2.Response<app.fedilab.android.mastodon.client.entities.api.Account> accountResponse = accountCall.execute();
                         if (accountResponse.isSuccessful()) {
                             currentAccount.mastodon_account = accountResponse.body();
                         }
@@ -818,7 +818,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 binding.toolbarSearch.setSuggestionsAdapter(cursorAdapter);
                                 new Thread(() -> {
                                     int i = 0;
-                                    for (app.fedilab.android.client.entities.api.Account account : accounts) {
+                                    for (app.fedilab.android.mastodon.client.entities.api.Account account : accounts) {
                                         FutureTarget<File> futureTarget = Glide
                                                 .with(BaseMainActivity.this.getApplicationContext())
                                                 .load(account.avatar_static)
@@ -1047,7 +1047,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     }
 
                     @Override
-                    public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                    public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
 
                     }
                 });
@@ -1281,7 +1281,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             }
 
                             @Override
-                            public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
                             }
                         });
                     } else {//It's an account
@@ -1291,7 +1291,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             }
 
                             @Override
-                            public void federatedAccount(app.fedilab.android.client.entities.api.Account account) {
+                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
                                 if (account != null) {
                                     Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
                                     Bundle b = new Bundle();

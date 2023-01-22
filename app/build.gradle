@@ -63,6 +63,15 @@ android {
             java.srcDirs = ['src/main/java', 'src/fdroid/java']
             res.srcDirs = ['src/main/res', 'src/fdroid/res']
         }
+        main {
+            res.srcDirs = [
+                    'src/main/res/layouts/mastodon',
+                    'src/main/res/layouts/peertube',
+                    ' src/main/res/layouts',
+                    'src/main/res'
+
+            ]
+        }
     }
     configurations {
         all {

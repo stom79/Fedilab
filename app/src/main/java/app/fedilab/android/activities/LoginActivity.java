@@ -15,9 +15,6 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.helper.MastodonHelper.REDIRECT_CONTENT_WEB;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -39,13 +36,16 @@ import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.app.Account;
-import app.fedilab.android.exception.DBException;
-import app.fedilab.android.helper.Helper;
-import app.fedilab.android.ui.fragment.login.FragmentLoginMain;
-import app.fedilab.android.viewmodel.mastodon.AccountsVM;
-import app.fedilab.android.viewmodel.mastodon.AdminVM;
-import app.fedilab.android.viewmodel.mastodon.OauthVM;
+import app.fedilab.android.mastodon.activities.BaseActivity;
+import app.fedilab.android.mastodon.activities.ProxyActivity;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AdminVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.OauthVM;
+import app.fedilab.android.ui.fragment.FragmentLoginMain;
 import es.dmoral.toasty.Toasty;
 
 
@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
                 BaseMainActivity.api = Account.API.MASTODON;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(PREF_USER_TOKEN, account.token);
+                editor.putString(Helper.PREF_USER_TOKEN, account.token);
                 editor.commit();
                 //The user is now authenticated, it will be redirected to MainActivity
                 Runnable myRunnable = () -> {
@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity {
 
     private void manageItent(Intent intent) {
 
-        if (intent != null && intent.getData() != null && intent.getData().toString().contains(REDIRECT_CONTENT_WEB + "?code=")) {
+        if (intent != null && intent.getData() != null && intent.getData().toString().contains(MastodonHelper.REDIRECT_CONTENT_WEB + "?code=")) {
             String url = intent.getData().toString();
             Matcher matcher = Helper.codePattern.matcher(url);
             if (!matcher.find()) {

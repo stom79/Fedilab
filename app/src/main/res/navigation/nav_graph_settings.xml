@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/FragmentSettingsCategories"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentSettingsCategories"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentSettingsCategories"
         android:label="@string/settings">
 
         <action
@@ -80,57 +80,57 @@
 
     <fragment
         android:id="@+id/FragmentTimelinesSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentTimelinesSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentTimelinesSettings"
         android:label="@string/settings_category_label_timelines" />
 
     <fragment
         android:id="@+id/FragmentNotificationsSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentNotificationsSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentNotificationsSettings"
         android:label="@string/notifications" />
 
     <fragment
         android:id="@+id/FragmentInterfaceSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentInterfaceSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentInterfaceSettings"
         android:label="@string/settings_category_label_interface" />
 
     <fragment
         android:id="@+id/FragmentComposeSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentComposeSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentComposeSettings"
         android:label="@string/compose" />
 
     <fragment
         android:id="@+id/FragmentPrivacySettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentPrivacySettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPrivacySettings"
         android:label="@string/action_privacy" />
 
     <fragment
         android:id="@+id/FragmentThemingSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentThemingSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentThemingSettings"
         android:label="@string/theming" />
 
     <fragment
         android:id="@+id/FragmentLanguageSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentLanguageSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentLanguageSettings"
         android:label="@string/languages" />
 
     <fragment
         android:id="@+id/FragmentExtraFeaturesSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentExtraFeaturesSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentExtraFeaturesSettings"
         android:label="@string/set_extand_extra_features_title" />
 
     <fragment
         android:id="@+id/FragmentCustomLightSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentCustomLightSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentCustomLightSettings"
         android:label="@string/light_custom_colors" />
 
 
     <fragment
         android:id="@+id/FragmentCustomDarkSettings"
-        android:name="app.fedilab.android.ui.fragment.settings.FragmentCustomDarkSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentCustomDarkSettings"
         android:label="@string/cark_custom_colors" />
 
     <activity
         android:id="@+id/EditProfileActivity"
-        android:name="app.fedilab.android.activities.EditProfileActivity" />
+        android:name="app.fedilab.android.mastodon.activities.EditProfileActivity" />
 
 </navigation>

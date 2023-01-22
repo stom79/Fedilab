@@ -31,13 +31,15 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
-import app.fedilab.android.client.entities.api.Account;
-import app.fedilab.android.client.entities.api.Status;
 import app.fedilab.android.databinding.ActivityAboutBinding;
-import app.fedilab.android.helper.CrossActionHelper;
-import app.fedilab.android.helper.Helper;
-import app.fedilab.android.helper.MastodonHelper;
-import app.fedilab.android.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
+import app.fedilab.android.mastodon.activities.ProfileActivity;
+import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.helper.CrossActionHelper;
+import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 
 
 public class AboutActivity extends BaseBarActivity {

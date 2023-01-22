@@ -33,7 +33,7 @@ import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 
-import app.fedilab.android.helper.ThemeHelper;
+import app.fedilab.android.mastodon.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
 
@@ -42,6 +42,7 @@ public class MainApplication extends MultiDexApplication {
 
     private static MainApplication app;
     private WebView webView;
+
     public static MainApplication getApp() {
         return app;
     }

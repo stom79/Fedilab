@@ -151,7 +151,7 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <app.fedilab.android.helper.settings.LongSummaryPreferenceCategory
+    <app.fedilab.android.mastodon.helper.settings.LongSummaryPreferenceCategory
         app:iconSpaceReserved="false"
         app:key="notification_time_slot"
         app:summary="@string/set_enable_time_slot_indication"
@@ -162,14 +162,14 @@
             app:key="@string/SET_ENABLE_TIME_SLOT"
             app:singleLineTitle="false"
             app:title="@string/set_enable_time_slot" />
-        <app.fedilab.android.helper.settings.TimePreference
+        <app.fedilab.android.mastodon.helper.settings.TimePreference
             app:defaultValue="22:00"
             app:dependency="@string/SET_ENABLE_TIME_SLOT"
             app:iconSpaceReserved="false"
             app:key="@string/SET_TIME_FROM"
             app:title="@string/settings_time_from"
             app:useSimpleSummaryProvider="true" />
-        <app.fedilab.android.helper.settings.TimePreference
+        <app.fedilab.android.mastodon.helper.settings.TimePreference
             app:defaultValue="7:00"
             app:dependency="@string/SET_ENABLE_TIME_SLOT"
             app:iconSpaceReserved="false"
@@ -186,5 +186,5 @@
             app:key="@string/SET_NOTIFICATION_ACTION"
             app:title="@string/notifications_are"
             app:useSimpleSummaryProvider="true" />
-    </app.fedilab.android.helper.settings.LongSummaryPreferenceCategory>
+    </app.fedilab.android.mastodon.helper.settings.LongSummaryPreferenceCategory>
 </PreferenceScreen>

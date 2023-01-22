@@ -168,49 +168,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.StatusHistoryActivity"
+            android:name=".mastodon.activities.StatusHistoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/status_history"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.ContextActivity"
+            android:name=".mastodon.activities.ContextActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.DraftActivity"
+            android:name=".mastodon.activities.DraftActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".imageeditor.EditImageActivity"
+            android:name=".mastodon.imageeditor.EditImageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.ComposeActivity"
+            android:name=".mastodon.activities.ComposeActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/compose" />
         <activity
-            android:name=".activities.StatusInfoActivity"
+            android:name=".mastodon.activities.StatusInfoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.FollowRequestActivity"
+            android:name=".mastodon.activities.FollowRequestActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.ProfileActivity"
+            android:name=".mastodon.activities.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
-            android:name=".activities.admin.AdminAccountActivity"
+            android:name=".mastodon.activities.admin.AdminAccountActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />
         <activity
-            android:name=".activities.AccountReportActivity"
+            android:name=".mastodon.activities.AccountReportActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.admin.AdminReportActivity"
+            android:name=".mastodon.activities.admin.AdminReportActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/report"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.ScheduledActivity"
+            android:name=".mastodon.activities.ScheduledActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/scheduled" />
         <activity
@@ -219,17 +219,17 @@
 
 
         <activity
-            android:name=".activities.SearchResultTabActivity"
+            android:name=".mastodon.activities.SearchResultTabActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/search"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.TrendsActivity"
+            android:name=".mastodon.activities.TrendsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/trending"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.ReorderTimelinesActivity"
+            android:name=".mastodon.activities.ReorderTimelinesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/reorder_timelines"
             android:theme="@style/AppThemeBar" />
@@ -240,102 +240,102 @@
             android:theme="@style/AppThemeBar" />
 
         <activity
-            android:name=".activities.admin.AdminDomainBlockActivity"
+            android:name=".mastodon.activities.admin.AdminDomainBlockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/blocked_domains"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.SuggestionActivity"
+            android:name=".mastodon.activities.SuggestionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/Suggestions"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.DirectoryActivity"
+            android:name=".mastodon.activities.DirectoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/Directory"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.PartnerShipActivity"
+            android:name=".mastodon.activities.PartnerShipActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.ActionActivity"
+            android:name=".mastodon.activities.ActionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/interactions"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.admin.AdminActionActivity"
+            android:name=".mastodon.activities.admin.AdminActionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/administration"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.MastodonListActivity"
+            android:name=".mastodon.activities.MastodonListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_lists"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.FollowedTagActivity"
+            android:name=".mastodon.activities.FollowedTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/followed_tags"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".mastodon.activities.SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/settings"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".activities.InstanceActivity"
+            android:name=".mastodon.activities.InstanceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about_instance"
             android:theme="@style/AppThemeAlertDialog" />
         <activity
-            android:name=".activities.InstanceProfileActivity"
+            android:name=".mastodon.activities.InstanceProfileActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppThemeAlertDialog" />
         <activity
-            android:name=".activities.ProxyActivity"
+            android:name=".mastodon.activities.ProxyActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppThemeAlertDialog" />
         <activity
-            android:name=".activities.HashTagActivity"
+            android:name=".mastodon.activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.AnnouncementActivity"
+            android:name=".mastodon.activities.AnnouncementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".activities.MediaActivity"
+            android:name=".mastodon.activities.MediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Transparent" />
 
         <activity
-            android:name=".activities.InstanceHealthActivity"
+            android:name=".mastodon.activities.InstanceHealthActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AppThemeAlertDialog" />
 
         <activity
-            android:name=".activities.ReportActivity"
+            android:name=".mastodon.activities.ReportActivity"
             android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
-            android:name=".activities.CustomSharingActivity"
+            android:name=".mastodon.activities.CustomSharingActivity"
             android:label="@string/settings_title_custom_sharing"
             android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activities.FilterActivity"
+            android:name=".mastodon.activities.FilterActivity"
             android:label="@string/filters"
             android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activities.EditProfileActivity"
+            android:name=".mastodon.activities.EditProfileActivity"
             android:label="@string/edit_profile"
             android:theme="@style/AppThemeBar"
             android:windowSoftInputMode="stateVisible" />
 
         <activity
-            android:name=".activities.CacheActivity"
+            android:name=".mastodon.activities.CacheActivity"
             android:label="@string/action_cache"
             android:theme="@style/AppThemeBar" />
 
@@ -350,7 +350,7 @@
         </provider>
 
         <receiver
-            android:name=".broadcastreceiver.ToastMessage"
+            android:name=".mastodon.broadcastreceiver.ToastMessage"
             android:exported="false">
             <intent-filter>
                 <action android:name="RECEIVE_TOAST_MESSAGE" />
@@ -358,7 +358,7 @@
         </receiver>
 
         <receiver
-            android:name=".services.CustomReceiver"
+            android:name=".mastodon.services.CustomReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
