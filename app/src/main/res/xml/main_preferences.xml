@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:key="app_prefs">
+
+    <Preference android:key="my_account" />
+
+    <PreferenceCategory android:title="@string/video_settings">
+        <androidx.preference.ListPreference
+            android:icon="@drawable/ic_baseline_slow_motion_video_24"
+            android:key="@string/set_video_mode_choice"
+            android:summary="@string/set_video_mode_description"
+            android:title="@string/set_video_mode" />
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_featured_video_24"
+            android:key="@string/set_video_minimize_choice"
+            android:summary="@string/set_video_minimize_description"
+            android:title="@string/set_video_minimize" />
+
+        <androidx.preference.ListPreference
+            android:icon="@drawable/ic_baseline_high_quality_24"
+            android:key="@string/set_video_quality_choice"
+            android:summary="@string/set_video_quality_description"
+            android:title="@string/set_quality_mode" />
+
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_play_arrow_24"
+            android:key="@string/set_autoplay_choice"
+            android:summary="@string/set_autoplay_description"
+            android:title="@string/set_autoplay" />
+
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_open_in_full_24"
+            android:key="@string/set_fullscreen_choice"
+            android:summary="@string/set_fullscreen_description"
+            android:title="@string/set_fullscreen" />
+
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_featured_play_list_24"
+            android:key="@string/set_autoplay_next_video_choice"
+            android:summary="@string/set_autoplay_next_video_description"
+            android:title="@string/set_autoplay_next_video" />
+
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_screen_lock_portrait_24"
+            android:key="@string/set_play_screen_lock_choice"
+            android:summary="@string/set_play_screen_lock_description"
+            android:title="@string/set_play_screen_lock" />
+
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_baseline_storage_24"
+            android:key="@string/set_video_cache_choice"
+            android:max="50"
+            android:summary="@string/set_video_cache_description"
+            android:title="@string/set_cache_mode" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/app_interface">
+        <androidx.preference.ListPreference
+            android:icon="@drawable/ic_baseline_color_lens_24"
+            android:key="@string/set_theme_choice"
+            android:summary="@string/set_theme_description"
+            android:title="@string/set_theme" />
+        <androidx.preference.ListPreference
+            android:icon="@drawable/ic_baseline_blur_on_24"
+            android:key="@string/set_video_sensitive_choice"
+            android:title="@string/sepia_element_nsfw" />
+        <androidx.preference.MultiSelectListPreference
+            android:icon="@drawable/ic_baseline_language_24"
+            android:key="@string/set_video_language_choice"
+            android:summary="@string/set_video_language_description"
+            android:title="@string/set_video_language" />
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:key="@string/set_video_in_list_choice"
+            android:summary="@string/set_video_in_list_description"
+            android:title="@string/set_video_in_list" />
+        <androidx.preference.SwitchPreference
+            android:icon="@drawable/ic_baseline_cast_24"
+            android:key="@string/set_cast_choice"
+            android:summary="@string/set_cast_description"
+            android:title="@string/set_cast" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -6,14 +6,28 @@
 
     <application android:name=".MainApplication">
         <receiver
-            android:name=".services.EmbeddedDistrib"
+            android:name=".mastodon.services.EmbeddedDistrib"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="org.unifiedpush.android.distributor.feature.BYTES_MESSAGE"/>
+                <action android:name="org.unifiedpush.android.distributor.feature.BYTES_MESSAGE" />
                 <action android:name="org.unifiedpush.android.distributor.REGISTER" />
                 <action android:name="org.unifiedpush.android.distributor.UNREGISTER" />
             </intent-filter>
         </receiver>
+
+
+        <activity
+            android:name=".peertube.expandedcontrols.ExpandedControlsActivity"
+            android:theme="@style/AppThemeNoActionBar"
+
+            />
+
+        <meta-data
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="app.fedilab.android.peertube.provider.CastOptionsProvider" />
+
     </application>
+
+
 </manifest>

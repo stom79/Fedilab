@@ -12,4 +12,5 @@
     <dimen name="badge_count_textsize">12sp</dimen>
     <dimen name="editor_size">35dp</dimen>
     <dimen name="top_tool_icon_width">50dp</dimen>
+    <bool name="is_tablet">false</bool>
 </resources>

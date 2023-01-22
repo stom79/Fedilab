@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2020 Thomas Schneider
+
+    This file is a part of TubeLab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    TubeLab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with TubeLab; if not,
+    see <http://www.gnu.org/licenses>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:divider="?android:dividerHorizontal"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:showDividers="end">
+
+    <LinearLayout
+        android:id="@+id/decoration_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sub_comment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp">
+
+        <ImageView
+            android:id="@+id/comment_account_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/profile_picture"
+            android:src="@drawable/missing_peertube"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/comment_account_displayname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:singleLine="true"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/comment_date"
+            app:layout_constraintStart_toEndOf="@+id/comment_account_profile"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/comment_account_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/more_actions"
+            app:layout_constraintStart_toEndOf="@+id/comment_account_profile"
+            app:layout_constraintTop_toBottomOf="@+id/comment_account_displayname" />
+
+        <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="2dp"
+            android:layout_weight="0"
+            android:gravity="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/more_actions"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/more_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="end"
+            android:text=""
+            app:drawableTopCompat="@drawable/ic_baseline_more_vert_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comment_date" />
+
+        <TextView
+            android:id="@+id/comment_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toStartOf="@id/more_actions"
+            app:layout_constraintStart_toStartOf="@id/comment_account_profile"
+            app:layout_constraintTop_toBottomOf="@+id/comment_account_profile" />
+
+        <TextView
+            android:id="@+id/number_of_replies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:textColor="?attr/colorAccent"
+            app:layout_constraintEnd_toStartOf="@+id/replyButton"
+            app:layout_constraintStart_toStartOf="@id/comment_account_profile"
+            app:layout_constraintTop_toBottomOf="@+id/comment_content" />
+
+
+        <TextView
+            android:id="@+id/replyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/reply"
+            android:textColor="?attr/colorAccent"
+            app:layout_constraintStart_toEndOf="@id/number_of_replies"
+            app:layout_constraintTop_toTopOf="@+id/number_of_replies" />
+
+        <Button
+            android:id="@+id/post_reply_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/add_public_reply"
+            android:textColor="?attr/colorAccent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comment_content" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

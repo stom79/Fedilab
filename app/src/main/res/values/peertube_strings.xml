@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="set_video_mode_choice" translatable="false">set_video_mode_choice</string>
+    <string name="set_video_minimize_choice" translatable="false">set_video_minimize_choice</string>
+    <string name="set_video_language_choice" translatable="false">set_video_language_choice</string>
+    <string name="set_video_quality_choice" translatable="false">set_video_quality_choice</string>
+    <string name="set_video_cache_choice" translatable="false">set_video_cache_choice</string>
+    <string name="set_autoplay_choice" translatable="false">set_autoplay_choice</string>
+    <string name="set_store_in_history" translatable="false">set_store_in_history</string>
+    <string name="set_autoplay_next_video_choice" translatable="false">set_autoplay_next_video_choice</string>
+    <string name="set_theme_choice" translatable="false">set_theme_choice</string>
+    <string name="set_fullscreen_choice" translatable="false">set_fullscreen_choice</string>
+    <string name="set_play_screen_lock_choice" translatable="false">set_play_screen_lock_choice</string>
+    <string name="set_video_in_list_choice" translatable="false">set_video_in_list_choice</string>
+    <string name="set_cast_choice" translatable="false">set_cast_choice</string>
+
+
+    <string name="set_cast">Enable Chromecast (beta)</string>
+    <string name="please_wait">Please wait</string>
+    <string name="set_cast_description">Allow to discover Chromecast devices on the network.</string>
+    <string name="set_video_sensitive_choice" translatable="false">set_video_sensitive_choice</string>
+    <string name="set_video_in_list">Videos in list</string>
+    <string name="set_video_in_list_description">Change the layout for displaying videos in a list</string>
+    <string name="no_instances">No instances !</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
+    <string name="cast">ChromeCast</string>
+    <string name="chromecast_choice">ChromeCast choice</string>
+
+    <string name="set_play_screen_lock">Screen lock</string>
+    <string name="set_play_screen_lock_description">Keep playing videos when the screen is locked</string>
+
+    <string name="enable_history">Enable history</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="set_autoplay">Automatic playback</string>
+    <string name="set_autoplay_description">If enabled, videos will be played automatically</string>
+
+    <string name="set_fullscreen">Fullscreen</string>
+    <string name="set_fullscreen_description">Automatically open videos in fullscreen</string>
+    <string name="set_autoplay_next_video_settings">Autoplay</string>
+    <string name="set_autoplay_next_video">Automatically start playing the next video</string>
+    <string name="set_autoplay_next_video_description">When a video ends, follow up with the next suggested video.</string>
+    <string name="add_public_reply">Add a public reply</string>
+
+    <string name="originally_published">Originally published</string>
+    <string name="activity">Activity</string>
+    <string name="app">App</string>
+    <string name="notif_new_video">New video from your subscriptions</string>
+    <string name="notif_new_comment">New comment on your video</string>
+    <string name="notif_blocked">One of your video is blocked/unblocked</string>
+    <string name="notif_video_published">Video published (after transcoding/scheduled update)</string>
+    <string name="notif_video_imported">Video import finished</string>
+    <string name="notif_new_followers">You or your channel(s) has a new follower</string>
+    <string name="notif_video_mention">Someone mentioned you in video comments</string>
+    <string name="notif_abuse_received">An abuse report received a new message</string>
+    <string name="notif_abuse_accepted">One of your abuse reports has been accepted or rejected by moderators</string>
+
+    <plurals name="number_of_replies">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
+    </plurals>
+    <string name="set_theme">Theme</string>
+    <string name="set_theme_description">Allow to change app theme</string>
+    <string name="federation_issue">The video cannot be federated!</string>
+    <string name="title_home">Home</string>
+    <string name="title_local">Local</string>
+    <string name="title_discover">Discover</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_recently_added">Recently added</string>
+    <string name="title_trending">Trending</string>
+    <string name="title_most_liked">Most liked</string>
+    <string name="title_muted">Muted</string>
+    <string name="title_channel">Channels</string>
+    <string name="do_not_list">Do not list</string>
+    <string name="blur">Blur</string>
+    <string name="no_opinion">No opinion</string>
+    <string name="instance_choice">Pick an instance</string>
+    <string name="not_valide_instance">This instance does not seem to be valid!</string>
+    <string name="no_videos">No videos!</string>
+    <string name="action_playlist_edit">Edit a playlist</string>
+    <string name="upload_video">Upload</string>
+    <string name="image_preview">Image preview</string>
+    <string name="file_to_upload">Select the file to upload</string>
+
+    <string name="new_video">New video</string>
+    <string name="new_blacklist">New blacklist info</string>
+    <string name="new_my_video_published">Your video is published</string>
+    <string name="new_my_video_error">Error when publishing your video</string>
+    <string name="new_comment">New comment</string>
+    <string name="new_follow">New follow</string>
+
+    <string name="channel">Channel</string>
+    <string name="videos">Videos</string>
+    <string name="channels">Channels</string>
+
+    <string-array name="refresh_time">
+        <item>Never</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+    </string-array>
+
+    <string name="_retry">Retry</string>
+    <string name="refresh_token_failed">Token refresh failed!</string>
+    <string name="refresh_token_failed_message">You can retry this action or simply disconnect the current account</string>
+    <string name="update_video">Update video</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+
+
+    <string name="number_view_video">%s views</string>
+
+    <string name="title_instance_login">Instance host</string>
+    <string name="uploading">Uploading, please wait…</string>
+    <string name="upload_video_success">The video has been uploaded!</string>
+    <string name="toast_cancelled">Upload cancelled!</string>
+    <string name="video_uploaded_action">Tap here to edit the video data.</string>
+
+
+    <string name="account_updated">The account has been updated!</string>
+
+
+    <string name="login">Login</string>
+
+
+    <string name="unlimited">Unlimited</string>
+
+    <string name="peers">%1$d Peers</string>
+    <string name="b">B</string>
+    <string name="kb">KB</string>
+    <string name="mb">MB</string>
+    <string name="gb">GB</string>
+    <string name="total_video_quota">Total video quota</string>
+    <string name="daily_video_quota">Daily video quota</string>
+
+    <string name="nsfw_title_warning">Mature or explicit content</string>
+    <string name="nsfw_message_warning">This video contains mature or explicit content. Are you sure you want to watch it?</string>
+
+
+    <string name="no_comments">Be the first to leave a comment on this video with the top right button!</string>
+
+    <string name="comment_no_allowed_peertube">Comments are not enabled on this video!</string>
+    <string name="pickup_resolution">Pick up a resolution</string>
+    <string name="bookmark_add_peertube">The video has been added to bookmarks!</string>
+    <string name="bookmark_remove_peertube">The video has been removed from bookmarks!</string>
+
+
+    <string name="app_logo">Logo of the application</string>
+
+
+    <!-- languages not translated -->
+    <string name="subscriptions">Subscriptions</string>
+
+    <string name="delete_instance">Delete an instance</string>
+    <string name="delete_instance_confirm">Are you sure to delete this instance?</string>
+
+    <string name="delete_comment">Delete a comment</string>
+    <string name="delete_comment_confirm">Are you sure to delete this comment?</string>
+    <string name="set_video_mode">Mode for videos</string>
+
+
+    <string name="sepia_search">Sepia search</string>
+    <string name="sepia_element_nsfw">Display sensitive content</string>
+    <string name="sepia_element_published_date">Published date</string>
+    <string name="any">Any</string>
+    <string name="today">Today</string>
+    <string name="last_7_days">Last 7 days</string>
+    <string name="last_30_days">Last 30 days</string>
+    <string name="last_365_days">Last 365 days</string>
+
+    <string name="sepia_element_duration">Duration</string>
+    <string name="duration_short"><![CDATA[Short (<4 min)]]></string>
+    <string name="duration_medium"><![CDATA[Medium (4–10 min)]]></string>
+    <string name="duration_long"><![CDATA[Long (> 10 min)]]></string>
+
+
+    <string name="display_all_licenses">Display all licenses</string>
+    <string name="display_all_languages">Display all languages</string>
+
+    <string name="all_of_these_tags">All of these tags</string>
+    <string name="one_of_these_tags">One of these tags</string>
+    <string name="apply_filter">Apply filter</string>
+    <string-array name="sort_by_array">
+        <item>Best match</item>
+        <item>Most recent</item>
+        <item>Least recent</item>
+    </string-array>
+
+    <string name="sort_by">Sort by</string>
+    <string name="sepia_search_hint">Keyword, channel, video, etc.</string>
+    <string name="sepia_indication">Sepia Search displays videos and channels that match your search but is not the publisher, nor the owner. If you notice any problems with a video, report it to the administrators on the PeerTube website where the video is published.</string>
+    <string name="my_videos">My videos</string>
+
+    <string name="license">License</string>
+
+    <string name="language">Language</string>
+    <string name="peertube_nsfw">This video contains mature or explicit content</string>
+    <string name="peertube_enable_comments">Enable video comments</string>
+
+
+    <string name="toast_peertube_video_updated">The video has been updated!</string>
+
+
+    <string name="register_account">Register an account</string>
+    <string name="email_address">Email address</string>
+    <string name="preview">Preview</string>
+    <string name="change_preview">Change preview</string>
+    <string name="name">Name</string>
+    <string name="display_more">Display more</string>
+    <string name="no_channels">No channels!</string>
+    <string name="report_helper">Some explanations about your report…</string>
+    <string name="report_video">Report video</string>
+
+    <string name="change_instance">Pick another instance</string>
+    <string name="my_history">History</string>
+    <string name="edit">Edit</string>
+
+    <string name="video_settings">Video settings</string>
+    <string name="app_interface">Interface</string>
+
+
+    <string name="set_cache_mode">Cache</string>
+    <string name="set_video_cache_description">Set the cache for videos (default 100Mb)</string>
+    <string name="set_video_quality_description">Define a default quality for videos</string>
+    <string name="set_quality_mode">Resolution for videos</string>
+    <string name="video_cache_value">Video cache: %d Mb</string>
+
+    <string name="captions">Captions</string>
+    <string name="pickup_captions">Pick captions</string>
+    <string name="none">None</string>
+    <string name="set_video_mode_description">Allows to change mode for playing videos (default, streaming or via a browser).</string>
+
+    <string name="delete_account_comment">Delete account comments</string>
+    <string name="delete_account_comment_confirm">Are you sure you want to remove all the comments of this account?</string>
+
+    <string name="delete_video">Delete video</string>
+    <string name="delete_video_confirmation">Are you sure to delete this video?</string>
+    <string name="no_video_to_display">No videos to display!</string>
+    <string name="peertube_comment_on_video"><![CDATA[<b>%1$s</b> commented your video <b>%2$s</b>]]></string>
+    <string name="peertube_follow_channel"><![CDATA[<b>%1$s</b> is following your channel <b>%2$s</b>]]></string>
+    <string name="peertube_follow_account"><![CDATA[<b>%1$s</b> is following your account]]></string>
+
+    <string name="peertube_video_published"><![CDATA[Your video <b>%1$s</b> has been published]]></string>
+    <string name="peertube_video_import_success"><![CDATA[Your video import <b>%1$s</b> succeeded]]></string>
+    <string name="peertube_video_import_error"><![CDATA[Your video import <b>%1$s</b> failed]]></string>
+    <string name="peertube_video_from_subscription"><![CDATA[<b>%1$s</b> published a new video: <b>%2$s</b>]]></string>
+    <string name="peertube_video_blacklist"><![CDATA[Your video <b>%1$s</b> has been blacklisted]]></string>
+    <string name="peertube_video_unblacklist"><![CDATA[Your video <b>%1$s</b> has been unblacklisted]]></string>
+    <string name="peertube_video_report_success"><![CDATA[Your abuse report <b>%1$s</b> has been accepted]]></string>
+    <string name="peertube_video_abuse"><![CDATA[New abuse report for video: <b>%1$s</b>]]></string>
+    <string name="add_public_comment">Add a public comment</string>
+    <string name="send_comment">Send comment</string>
+
+    <!-- end languages -->
+    <string name="playback_speed">Playback speed</string>
+    <string name="normal">Normal</string>
+    <string name="delete_history">Delete videos history</string>
+    <string name="delete_history_confirm">Are you sure you want to delete all your videos history?</string>
+
+    <string name="export_list">Export</string>
+    <string name="import_list">Import</string>
+    <string name="export_notification_title">Successful export!</string>
+    <string name="export_notification_content">Tap here to send the export by email</string>
+    <string name="export_notification_subjet">New Playlist</string>
+    <string name="export_notification_body">Open the attached file with TubeLab</string>
+
+    <string name="playlists">Playlists</string>
+    <string name="no_playlist">No playlists</string>
+
+    <string name="action_playlist_add">You don\'t have any playlists. Tap on the \"+\" icon to add a new playlist</string>
+    <string name="error_display_name">You must provide a display name!</string>
+    <string name="error_channel_mandatory">The channel is required when the playlist is public.</string>
+    <string name="action_playlist_create">Create a playlist</string>
+    <string name="action_playlist_empty_content">There is nothing in this playlist yet.</string>
+
+
+    <string name="all_field_filled">Please, fill all the fields!</string>
+
+
+    <string-array name="settings_video_mode">
+        <item>Normal</item>
+        <item>Webview</item>
+    </string-array>
+
+
+    <string-array name="settings_theme">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Automatic</item>
+    </string-array>
+
+
+    <string-array name="settings_video_quality">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
+
+    <string name="title_video_peertube">Title for the video</string>
+    <string name="join_peertube">Join Peertube</string>
+    <string name="agreement_check_peertube">I am at least 16 years old and agree to the %1$s of this instance</string>
+
+
+    <string name="display_nsfw_videos">Display sensitive videos</string>
+    <string name="fullscreen">Fullscreen</string>
+    <string name="bookmark_peertube_empty">There are no videos in your favourites!</string>
+    <string name="delete_channel">Remove channel</string>
+    <string name="action_channel_confirm_delete">Are you sure to permanently delete this channel?</string>
+
+    <string name="modify_playlists">Video in playlists</string>
+    <string name="no_muted">No muted accounts!</string>
+
+    <string name="error_display_name_channel">You must define a name and a display name for this channel!</string>
+    <string name="action_channel_create">Create a channel</string>
+    <string name="action_channel_edit">Edit channel</string>
+
+    <string name="email_error_domain">Email addresses in %1$s are not allowed!</string>
+
+    <string name="report_comment_size">Please, specify the reasons</string>
+    <string name="not_logged_in">You must be authenticated to proceed to this action!</string>
+
+    <string name="successful_report">The account has been reported!</string>
+    <string name="successful_report_comment">The comment has been reported!</string>
+
+
+    <string name="successful_video_report">The video has been reported!</string>
+
+    <string name="password_length_error">The password must contain at least 6 characters!</string>
+
+    <string name="muted_done">The account has been muted!</string>
+
+    <string name="edit_video">Edit video</string>
+
+    <string name="create_an_account">Create an account</string>
+
+    <string name="followers_count">%1$s Subscribers</string>
+
+    <string name="developer">Developer</string>
+
+    <string name="about_the_app">About the app</string>
+    <string name="Donate">Donate</string>
+    <string name="source_code">Source code</string>
+    <string name="issue_tracker">Issue tracker</string>
+    <string name="action_instance_empty_content">No instances match these criteria</string>
+    <string name="instances_picker">Instances picker</string>
+    <string name="pickup_instance">Pick this instance</string>
+    <string name="sensitive_video"> Sensitive videos</string>
+    <string name="sensitive_content">Sensitive content: %1$s</string>
+    <string name="followers_instance">%1$s instance followers</string>
+    <string name="help">Help</string>
+
+    <string name="pickup_categories">Pick categories</string>
+    <string name="pickup_languages">Pick languages</string>
+    <string name="notification_channel_name">Update information</string>
+    <string name="fetch_notification_channel_name">Fetch notifications</string>
+
+
+    <string name="list_of_accounts">List of accounts</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="minimize">Minimize</string>
+    <string name="fast_rewind">Fast rewind</string>
+    <string name="fast_forward">Fast forward</string>
+
+    <string name="set_video_minimize">Minimize videos size</string>
+    <string name="set_video_minimize_description">Minimize videos size when the app is in background (Android N+)</string>
+
+
+    <string name="set_video_language">Language filter</string>
+    <string name="set_video_language_description">Filter videos with different languages</string>
+    <string name="live">Live</string>
+    <string name="live_not_started">This live has not started!</string>
+    <string name="remote_account">Account from another network!</string>
+    <string name="instance_not_availabe">Instance is not available!</string>
+    <string name="max_tag_size">The video should not have more than 5 tags!</string>
+    <string name="watermark">Watermark</string>
+
+    <string name="remote_account_from"><b>%1$s</b> remote account connected with the app.\n\nYou can proceed to some limited actions.</string>
+    <string name="donate">Donate</string>
+    <string name="my_donations">My donations</string>
+    <string name="one_time_donation_text">Here, you can make a one time donation for supporting the development of the app. This action will not bring extra features!</string>
+    <string name="recurrent_donation_text">Here, you can make a recurrent donation for supporting the development of the app. This action will not bring extra features!</string>
+    <string name="make_a_donation">Make a donation</string>
+    <string name="donations_description">Here you will find the list of your recurrent  donations made to support the development of the app! Thank you!</string>
+    <string name="support_the_app">Support the app</string>
+    <string name="donation_cancelled">Donation has been cancelled!</string>
+    <string name="donation_succeeded_null">Thank you for your donation!</string>
+    <string name="donation_succeeded">Thank you for your donation of %1$s!</string>
+    <string name="one_time">One time</string>
+    <string name="my_subscriptions">My subscription</string>
+    <string name="month">Month</string>
+    <string name="subscription_cancelled">Subscription cancelled!</string>
+    <string name="cancel_subscription">Cancel subscription</string>
+    <string name="cancel_subscription_confirm">Are you sure, you want to cancel that subscription?</string>
+    <string name="mark_all_notifications_as_read_confirm">Are you sure you want to mark all notifications as read?</string>
+
+</resources>

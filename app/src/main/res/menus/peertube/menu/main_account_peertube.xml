@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_mute"
+        android:icon="@drawable/ic_baseline_volume_mute_24"
+        android:title="@string/action_mute"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_report"
+        android:icon="@drawable/ic_baseline_report_24"
+        android:title="@string/report"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_display_account"
+        android:icon="@drawable/ic_outline_account_circle_24"
+        android:title="@string/account"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="@string/share"
+        app:showAsAction="never" />
+</menu>

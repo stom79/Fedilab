@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_report"
+        android:icon="@drawable/ic_baseline_report_24"
+        android:title="@string/report"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_playlist"
+        android:icon="@drawable/ic_baseline_playlist_play_24"
+        android:title="@string/playlists"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_follow"
+        android:icon="@drawable/ic_baseline_person_add_24"
+        android:title="@string/action_follow"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:title="@string/edit_video"
+        app:showAsAction="never" />
+</menu>

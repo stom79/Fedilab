@@ -23,7 +23,7 @@
     android:background="?android:windowBackground"
     android:orientation="vertical"
     android:padding="12dp"
-    tools:context=".activities.LoginActivity">
+    tools:context=".peertube.activities.LoginActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"

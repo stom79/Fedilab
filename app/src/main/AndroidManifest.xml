@@ -369,5 +369,122 @@
                 <action android:name="org.unifiedpush.android.connector.REGISTRATION_REFUSED" />
             </intent-filter>
         </receiver>
+
+
+        <activity
+            android:name=".peertube.activities.PeertubeActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            tools:targetApi="n" />
+        <activity
+            android:name=".peertube.activities.PeertubeEditUploadActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".peertube.activities.ShowChannelActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.ShowAccountActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.AccountActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.MyAccountActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.AllPlaylistsActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.AllLocalPlaylistsActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.InstancePickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".peertube.activities.PlaylistsActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.LocalPlaylistsActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.VideosTimelineActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.SepiaSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/sepia_search"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.ManageInstancesActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/instances_picker"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.WebviewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".peertube.activities.WebviewConnectActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".peertube.activities.MastodonWebviewConnectActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".peertube.activities.LoginActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="backtotubelab"
+                    android:scheme="tubelab" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".peertube.activities.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/settings"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.PeertubeRegisterActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/register_account"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".peertube.activities.PeertubeUploadActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/upload_video"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <service
+            android:name=".peertube.services.RetrieveInfoService"
+            android:exported="false" />
+
+
     </application>
 </manifest>

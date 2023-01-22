@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2020 Thomas Schneider
+
+    This file is a part of TubeLab
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation; either version 3 of the
+    License, or (at your option) any later version.
+
+    TubeLab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with TubeLab; if not,
+    see <http://www.gnu.org/licenses>.
+-->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".peertube.activities.SepiaSearchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:colorBackground"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.mancj.materialsearchbar.MaterialSearchBar
+                        android:id="@+id/searchBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mt_backIconTint="?attr/colorAccent"
+                        app:mt_clearIconTint="?attr/colorAccent"
+                        app:mt_hint="@string/sepia_search_hint"
+                        app:mt_maxSuggestionsCount="10"
+                        app:mt_menuIconTint="?attr/colorAccent"
+                        app:mt_searchIconTint="?attr/colorAccent"
+                        app:mt_speechMode="false" />
+
+                    <TextView
+                        android:id="@+id/explanations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/sepia_indication"
+                        android:textColor="?attr/colorAccent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+
+                    <Button
+                        android:id="@+id/filter"
+                        style="@style/Base.Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:text="@string/filter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/explanations" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sort_by"
+                        android:text="@string/sort_by"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sort_by"
+                        app:layout_constraintTop_toBottomOf="@+id/explanations" />
+
+                    <Spinner
+                        android:id="@+id/sort_by"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/explanations" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/filter_elements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/header">
+
+                    <TextView
+                        android:id="@+id/sepia_element_nsfw_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_nsfw"
+                        android:text="@string/sepia_element_nsfw"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioGroup
+                        android:id="@+id/sepia_element_nsfw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_nsfw_label">
+
+                        <RadioButton
+                            android:id="@+id/sepia_element_nsfw_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <RadioButton
+                            android:id="@+id/sepia_element_nsfw_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:id="@+id/sepia_element_published_date_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_published_date"
+                        android:text="@string/sepia_element_published_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_nsfw" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/sepia_element_published_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_published_date_label">
+
+                        <RadioGroup
+                            android:id="@+id/radio_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_published_date_any"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/any" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_published_date_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/today" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_published_date_last_7_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/last_7_days" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_published_date_last_30_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/last_30_days" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_published_date_last_365_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/last_365_days" />
+                        </RadioGroup>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/sepia_element_duration_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_duration"
+                        android:text="@string/sepia_element_duration"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_published_date" />
+
+                    <HorizontalScrollView
+                        android:id="@+id/sepia_element_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_duration_label">
+
+                        <RadioGroup
+                            android:id="@+id/duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_duration_any"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/any" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_duration_short"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/duration_short" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_duration_medium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/duration_medium" />
+
+                            <RadioButton
+                                android:id="@+id/sepia_element_duration_long"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/duration_long" />
+                        </RadioGroup>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:id="@+id/sepia_element_category_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_category"
+                        android:text="@string/category"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_duration" />
+
+                    <Spinner
+                        android:id="@+id/sepia_element_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@+id/sepia_element_category_label"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_category_label" />
+
+                    <TextView
+                        android:id="@+id/sepia_element_license_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_license"
+                        android:text="@string/license"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_category" />
+
+                    <Spinner
+                        android:id="@+id/sepia_element_license"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category"
+                        app:layout_constraintStart_toStartOf="@+id/sepia_element_license_label"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_license_label" />
+
+                    <TextView
+                        android:id="@+id/sepia_element_language_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_language"
+                        android:text="@string/language"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_license" />
+
+                    <Spinner
+                        android:id="@+id/sepia_element_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category"
+                        app:layout_constraintStart_toStartOf="@+id/sepia_element_language_label"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_language_label" />
+
+                    <TextView
+                        android:id="@+id/sepia_element_all_of_tags_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_all_of_tags"
+                        android:text="@string/all_of_these_tags"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_language" />
+
+                    <mabbas007.tagsedittext.TagsEditText
+                        android:id="@+id/sepia_element_all_of_tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:lines="2"
+                        android:minLines="2"
+                        TagsEditText:allowSpaceInTag="true"
+                        TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
+                        TagsEditText:tagsCloseImageRight="@drawable/tag_close"
+                        TagsEditText:tagsTextColor="?colorAccent"
+                        TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_all_of_tags_label" />
+
+
+                    <TextView
+                        android:id="@+id/sepia_element_one_of_tags_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/sepia_element_one_of_tags"
+                        android:text="@string/one_of_these_tags"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_all_of_tags" />
+
+                    <mabbas007.tagsedittext.TagsEditText
+                        android:id="@+id/sepia_element_one_of_tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:lines="2"
+                        android:minLines="2"
+                        TagsEditText:allowSpaceInTag="true"
+                        TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
+                        TagsEditText:tagsCloseImageRight="@drawable/tag_close"
+                        TagsEditText:tagsTextColor="?colorAccent"
+                        TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_one_of_tags_label" />
+
+                    <Button
+                        android:id="@+id/apply_filter"
+                        style="@style/Base.Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply_filter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sepia_element_one_of_tags" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
