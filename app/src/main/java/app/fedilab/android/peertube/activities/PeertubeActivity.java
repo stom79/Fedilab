@@ -120,7 +120,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.peertube.BasePeertubeActivity;
+import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.databinding.ActivityPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.BuildConfig;
 import app.fedilab.android.peertube.Matomo;
 import app.fedilab.android.peertube.R;
@@ -141,14 +143,12 @@ import app.fedilab.android.peertube.client.entities.PlaylistExist;
 import app.fedilab.android.peertube.client.entities.Report;
 import app.fedilab.android.peertube.client.entities.UserSettings;
 import app.fedilab.android.peertube.client.mastodon.RetrofitMastodonAPI;
-import app.fedilab.android.peertube.databinding.ActivityPeertubeBinding;
 import app.fedilab.android.peertube.drawer.CommentListAdapter;
 import app.fedilab.android.peertube.drawer.MenuAdapter;
 import app.fedilab.android.peertube.drawer.MenuItemAdapter;
 import app.fedilab.android.peertube.helper.CacheDataSourceFactory;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.sqlite.AccountDAO;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.CaptionsVM;
@@ -164,7 +164,7 @@ import app.fedilab.android.peertube.webview.MastalabWebViewClient;
 import es.dmoral.toasty.Toasty;
 
 
-public class PeertubeActivity extends BasePeertubeActivity implements CommentListAdapter.AllCommentRemoved, Player.EventListener, VideoListener, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction {
+public class PeertubeActivity extends BaseBarActivity implements CommentListAdapter.AllCommentRemoved, Player.EventListener, VideoListener, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction {
 
     public static String video_id;
     public static List<String> playedVideos = new ArrayList<>();
@@ -220,9 +220,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        binding = super.binding;
         videoOrientationType = videoOrientation.LANDSCAPE;
         max_id = "0";
         SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();

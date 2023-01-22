@@ -48,7 +48,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityPeertubeEditBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.ChannelData.Channel;
@@ -57,10 +59,7 @@ import app.fedilab.android.peertube.client.data.VideoData.Video;
 import app.fedilab.android.peertube.client.entities.Item;
 import app.fedilab.android.peertube.client.entities.ItemStr;
 import app.fedilab.android.peertube.client.entities.VideoParams;
-import app.fedilab.android.peertube.databinding.ActivityPeertubeEditBinding;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
 import app.fedilab.android.peertube.viewmodel.MyVideoVM;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
@@ -68,7 +67,7 @@ import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class PeertubeEditUploadActivity extends BaseActivity {
+public class PeertubeEditUploadActivity extends BaseBarActivity {
 
 
     private final int PICK_IMAGE = 50378;
@@ -87,7 +86,6 @@ public class PeertubeEditUploadActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         binding = ActivityPeertubeEditBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -637,7 +635,7 @@ public class PeertubeEditUploadActivity extends BaseActivity {
 
     @SuppressWarnings({"unused", "RedundantSuppression"})
     public void manageVIewPostActions(RetrofitPeertubeAPI.ActionType statusAction, APIResponse apiResponse) {
-        Intent intent = new Intent(PeertubeEditUploadActivity.this, MainActivity.class);
+        Intent intent = new Intent(PeertubeEditUploadActivity.this, PeertubeMainActivity.class);
         intent.putExtra(Helper.INTENT_ACTION, Helper.RELOAD_MYVIDEOS);
         startActivity(intent);
         finish();

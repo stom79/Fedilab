@@ -29,26 +29,24 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.databinding.ActivitySearchResultBinding;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivitySearchResultPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.fragment.DisplayChannelsFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import es.dmoral.toasty.Toasty;
 
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseBarActivity {
 
 
     private String search;
-    private ActivitySearchResultBinding binding;
+    private ActivitySearchResultPeertubeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        binding = ActivitySearchResultBinding.inflate(getLayoutInflater());
+        binding = ActivitySearchResultPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 

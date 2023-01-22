@@ -30,16 +30,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
 import app.fedilab.android.peertube.drawer.PlaylistAdapter;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 
 
-public class AllLocalPlaylistsActivity extends BaseActivity implements PlaylistAdapter.AllPlaylistRemoved {
+public class AllLocalPlaylistsActivity extends BaseBarActivity implements PlaylistAdapter.AllPlaylistRemoved {
 
 
     PlaylistAdapter playlistAdapter;
@@ -50,9 +49,8 @@ public class AllLocalPlaylistsActivity extends BaseActivity implements PlaylistA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_playlist);
+        setContentView(R.layout.activity_all_playlist_peertube);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

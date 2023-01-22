@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.MainActivity.badgeCount;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.badgeCount;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,8 +44,8 @@ import com.google.android.material.tabs.TabLayout;
 import org.jetbrains.annotations.NotNull;
 
 import app.fedilab.android.R;
-import app.fedilab.android.databinding.ActivityAccountBinding;
-import app.fedilab.android.mastodon.activities.BaseActivity;
+import app.fedilab.android.databinding.ActivityAccountPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.fragment.DisplayAccountsFragment;
@@ -57,15 +57,15 @@ import app.fedilab.android.peertube.sqlite.AccountDAO;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 
 
-public class AccountActivity extends BaseActivity {
+public class AccountActivity extends BaseBarActivity {
 
 
-    private ActivityAccountBinding binding;
+    private ActivityAccountPeertubeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAccountBinding.inflate(getLayoutInflater());
+        binding = ActivityAccountPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         if (getSupportActionBar() != null)

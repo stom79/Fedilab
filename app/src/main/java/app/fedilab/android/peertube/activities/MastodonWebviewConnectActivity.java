@@ -34,17 +34,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.entities.OauthParams;
 import app.fedilab.android.peertube.client.entities.Token;
 import app.fedilab.android.peertube.client.mastodon.RetrofitMastodonAPI;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import es.dmoral.toasty.Toasty;
 
 
-public class MastodonWebviewConnectActivity extends BaseActivity {
+public class MastodonWebviewConnectActivity extends BaseBarActivity {
 
 
     private WebView webView;
@@ -79,7 +78,6 @@ public class MastodonWebviewConnectActivity extends BaseActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     public void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview_connect);
         Bundle b = getIntent().getExtras();

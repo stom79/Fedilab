@@ -27,6 +27,7 @@ import app.fedilab.android.peertube.client.data.NotificationData;
 import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData.VideoPlaylist;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.OverviewVideo;
 import app.fedilab.android.peertube.client.entities.PlaylistExist;
 import app.fedilab.android.peertube.client.entities.Rating;

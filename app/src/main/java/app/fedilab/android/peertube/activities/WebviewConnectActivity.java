@@ -37,17 +37,15 @@ import androidx.appcompat.app.AlertDialog;
 import java.net.URL;
 import java.util.regex.Matcher;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.entities.OauthParams;
 import app.fedilab.android.peertube.client.entities.Token;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 
 
-public class WebviewConnectActivity extends BaseActivity {
+public class WebviewConnectActivity extends BaseBarActivity {
 
 
     private WebView webView;
@@ -75,7 +73,6 @@ public class WebviewConnectActivity extends BaseActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     public void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
         WebView.setWebContentsDebuggingEnabled(true);
@@ -102,7 +99,6 @@ public class WebviewConnectActivity extends BaseActivity {
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setSupportMultipleWindows(false);
-        webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setDatabaseEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setMediaPlaybackRequiresUserGesture(true);
@@ -130,7 +126,7 @@ public class WebviewConnectActivity extends BaseActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 //Avoid to load first page for academic  instances & openid
-                if (!BuildConfig.full_instances && url.contains("/client")) {
+                if (url.contains("/client")) {
                     view.stopLoading();
                 }
             }
@@ -156,12 +152,7 @@ public class WebviewConnectActivity extends BaseActivity {
                                 oauthParams.setPassword(externalAuthToken);
                                 String instance = new URL(url).getHost();
                                 Token token = null;
-                                try {
-                                    token = new RetrofitPeertubeAPI(WebviewConnectActivity.this, instance, null).manageToken(oauthParams);
-                                } catch (Error error) {
-                                    error.printStackTrace();
-                                    Error.displayError(WebviewConnectActivity.this, error);
-                                }
+                                token = new RetrofitPeertubeAPI(WebviewConnectActivity.this, instance, null).manageToken(oauthParams);
                                 if (token != null) {
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, token.getAccess_token());

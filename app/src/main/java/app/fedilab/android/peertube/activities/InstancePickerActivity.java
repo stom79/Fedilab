@@ -38,20 +38,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityInstancePickerPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.InstanceParams;
-import app.fedilab.android.peertube.databinding.ActivityInstancePickerBinding;
 import app.fedilab.android.peertube.drawer.InstanceAdapter;
-import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.InstancesVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class InstancePickerActivity extends BaseActivity {
+public class InstancePickerActivity extends BaseBarActivity {
 
 
     boolean[] checkedItemsCategory;
@@ -62,16 +61,15 @@ public class InstancePickerActivity extends BaseActivity {
     String[] itemsLabelLanguage;
     InstanceParams instanceParams;
     private InstancesVM viewModel;
-    private ActivityInstancePickerBinding binding;
+    private ActivityInstancePickerPeertubeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        binding = ActivityInstancePickerBinding.inflate(getLayoutInflater());
+        binding = ActivityInstancePickerPeertubeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.loader.setVisibility(View.VISIBLE);

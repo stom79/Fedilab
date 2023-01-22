@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.MainActivity.PICK_INSTANCE;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.PICK_INSTANCE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,22 +31,18 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityRegisterPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.entities.AccountCreation;
-import app.fedilab.android.peertube.databinding.ActivityRegisterPeertubeBinding;
-import app.fedilab.android.peertube.helper.HelperAcadInstance;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import es.dmoral.toasty.Toasty;
 
-public class PeertubeRegisterActivity extends BaseActivity {
+public class PeertubeRegisterActivity extends BaseBarActivity {
 
 
     private String instance;
@@ -56,7 +52,6 @@ public class PeertubeRegisterActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterPeertubeBinding.inflate(getLayoutInflater());
         View mainView = binding.getRoot();
@@ -66,14 +61,8 @@ public class PeertubeRegisterActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        if (BuildConfig.full_instances && BuildConfig.instance_switcher) {
-            binding.loginInstanceContainer.setVisibility(View.VISIBLE);
-            binding.titleLoginInstance.setVisibility(View.VISIBLE);
-        } else {
-            binding.loginInstanceContainer.setVisibility(View.GONE);
-            binding.titleLoginInstance.setVisibility(View.GONE);
-        }
-
+        binding.loginInstanceContainer.setVisibility(View.VISIBLE);
+        binding.titleLoginInstance.setVisibility(View.VISIBLE);
 
         binding.username.setOnFocusChangeListener((view, focused) -> {
             if (!focused && binding.username.getText() != null) {
@@ -134,12 +123,7 @@ public class PeertubeRegisterActivity extends BaseActivity {
                 return;
             }
             String[] emailArray = binding.email.getText().toString().split("@");
-            if (!BuildConfig.full_instances) {
-                if (emailArray.length > 1 && !Arrays.asList(HelperAcadInstance.valideEmails).contains(emailArray[1])) {
-                    Toasty.error(PeertubeRegisterActivity.this, getString(R.string.email_error_domain, emailArray[1])).show();
-                    return;
-                }
-            }
+
 
             if (binding.password.getText().toString().trim().length() < 8) {
                 Toasty.error(PeertubeRegisterActivity.this, getString(R.string.password_too_short)).show();
@@ -151,20 +135,16 @@ public class PeertubeRegisterActivity extends BaseActivity {
             }
             binding.signup.setEnabled(false);
 
-            if (BuildConfig.full_instances) {
-                if (binding.loginInstance.getText() != null) {
-                    instance = binding.loginInstance.getText().toString();
-                } else {
-                    instance = "";
-                }
-                binding.loginInstance.setOnFocusChangeListener((view1, focus) -> {
-                    if (!focus) {
-                        setTextAgreement();
-                    }
-                });
+            if (binding.loginInstance.getText() != null) {
+                instance = binding.loginInstance.getText().toString();
             } else {
-                instance = HelperInstance.getLiveInstance(PeertubeRegisterActivity.this);
+                instance = "";
             }
+            binding.loginInstance.setOnFocusChangeListener((view1, focus) -> {
+                if (!focus) {
+                    setTextAgreement();
+                }
+            });
             if (instance != null) {
                 instance = instance.toLowerCase().trim();
             }
@@ -262,16 +242,9 @@ public class PeertubeRegisterActivity extends BaseActivity {
         String content_agreement = null;
         agreement_text.setMovementMethod(null);
         agreement_text.setText(null);
-        if (BuildConfig.full_instances) {
-            if (binding.loginInstance.getText() != null) {
-                content_agreement = getString(R.string.agreement_check_peertube,
-                        "<a href='https://" + binding.loginInstance.getText().toString() + "/about/instance#terms-section' >" + tos + "</a>"
-                );
-            }
-        } else {
-            content_agreement = getString(R.string.agreement_check,
-                    "<a href='https://apps.education.fr/cgu#peertube' >" + serverrules + "</a>",
-                    "<a href='https://apps.education.fr/bonnes-pratiques/' >" + tos + "</a>"
+        if (binding.loginInstance.getText() != null) {
+            content_agreement = getString(R.string.agreement_check_peertube,
+                    "<a href='https://" + binding.loginInstance.getText().toString() + "/about/instance#terms-section' >" + tos + "</a>"
             );
         }
         agreement_text.setMovementMethod(LinkMovementMethod.getInstance());

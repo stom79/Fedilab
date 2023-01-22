@@ -39,7 +39,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MainApplication extends MultiDexApplication {
 
-
+    public static String UPLOAD_CHANNEL_ID = "upload_info_peertube";
     private static MainApplication app;
     private WebView webView;
 

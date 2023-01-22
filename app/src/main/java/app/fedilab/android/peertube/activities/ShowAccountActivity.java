@@ -46,22 +46,21 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.fragment.DisplayChannelsFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.AccountsVM;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class ShowAccountActivity extends BaseActivity {
+public class ShowAccountActivity extends BaseBarActivity {
 
 
     private ViewPager mPager;
@@ -75,9 +74,8 @@ public class ShowAccountActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_account);
+        setContentView(R.layout.activity_show_account_peertube);
         setTitle("");
         Bundle b = getIntent().getExtras();
         subscriber_count = findViewById(R.id.subscriber_count);
@@ -105,7 +103,7 @@ public class ShowAccountActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_account, menu);
+        getMenuInflater().inflate(R.menu.main_account_peertube, menu);
         if (!Helper.isLoggedIn(ShowAccountActivity.this)) {
             menu.findItem(R.id.action_mute).setVisible(false);
         }
@@ -124,7 +122,7 @@ public class ShowAccountActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.action_report) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShowAccountActivity.this);
             LayoutInflater inflater1 = getLayoutInflater();
-            View dialogView = inflater1.inflate(R.layout.popup_report, new LinearLayout(ShowAccountActivity.this), false);
+            View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(ShowAccountActivity.this), false);
             dialogBuilder.setView(dialogView);
             EditText report_content = dialogView.findViewById(R.id.report_content);
             dialogBuilder.setNeutralButton(R.string.cancel, (dialog, id) -> dialog.dismiss());

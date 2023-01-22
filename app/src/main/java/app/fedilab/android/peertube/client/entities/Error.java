@@ -19,7 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import es.dmoral.toasty.Toasty;
 
 @SuppressWarnings({"unused", "RedundantSuppression"})

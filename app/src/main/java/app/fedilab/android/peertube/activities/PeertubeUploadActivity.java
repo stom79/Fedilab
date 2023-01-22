@@ -14,7 +14,8 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.MainActivity.userMe;
+import static app.fedilab.android.MainApplication.UPLOAD_CHANNEL_ID;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userMe;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.DataType.MY_CHANNELS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
@@ -53,22 +54,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import app.fedilab.android.peertube.BaseFedilabTube;
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.BuildConfig;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityPeertubeUploadBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.entities.UserMe;
-import app.fedilab.android.peertube.databinding.ActivityPeertubeUploadBinding;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class PeertubeUploadActivity extends BaseActivity {
+public class PeertubeUploadActivity extends BaseBarActivity {
 
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 724;
@@ -83,7 +83,6 @@ public class PeertubeUploadActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -413,6 +412,6 @@ public class PeertubeUploadActivity extends BaseActivity {
                 clearOnAction
         );
 
-        return new UploadNotificationConfig(BaseFedilabTube.UPLOAD_CHANNEL_ID, ringToneEnabled, progress, success, error, cancelled);
+        return new UploadNotificationConfig(UPLOAD_CHANNEL_ID, ringToneEnabled, progress, success, error, cancelled);
     }
 }

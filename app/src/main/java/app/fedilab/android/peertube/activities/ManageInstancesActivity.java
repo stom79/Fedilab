@@ -14,8 +14,8 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.MainActivity.PICK_INSTANCE_SURF;
-import static app.fedilab.android.peertube.activities.MainActivity.showRadioButtonDialogFullInstances;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.PICK_INSTANCE_SURF;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.showRadioButtonDialogFullInstances;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,31 +32,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityManageInstancesPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.InstanceData;
-import app.fedilab.android.peertube.databinding.ActivityManageInstancesBinding;
 import app.fedilab.android.peertube.drawer.AboutInstanceAdapter;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.InfoInstanceVM;
 
 
-public class ManageInstancesActivity extends BaseActivity implements AboutInstanceAdapter.AllInstancesRemoved {
+public class ManageInstancesActivity extends BaseBarActivity implements AboutInstanceAdapter.AllInstancesRemoved {
 
-    private ActivityManageInstancesBinding binding;
+    private ActivityManageInstancesPeertubeBinding binding;
     private List<InstanceData.AboutInstance> aboutInstances;
     private AboutInstanceAdapter aboutInstanceAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        binding = ActivityManageInstancesBinding.inflate(getLayoutInflater());
+        binding = ActivityManageInstancesPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         if (getSupportActionBar() != null) {

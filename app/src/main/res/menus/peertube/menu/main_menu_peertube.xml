@@ -66,10 +66,4 @@
         android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/about_the_app"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_donate"
-        android:icon="@drawable/ic_baseline_attach_money_24"
-        android:title="@string/make_a_donation"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
 </menu>

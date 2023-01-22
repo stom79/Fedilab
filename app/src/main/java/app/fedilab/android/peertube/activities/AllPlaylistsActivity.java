@@ -55,25 +55,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityAllPlaylistPeertubeBinding;
+import app.fedilab.android.databinding.AddPlaylistPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.entities.Item;
 import app.fedilab.android.peertube.client.entities.PlaylistParams;
-import app.fedilab.android.peertube.databinding.ActivityAllPlaylistBinding;
-import app.fedilab.android.peertube.databinding.AddPlaylistBinding;
 import app.fedilab.android.peertube.drawer.PlaylistAdapter;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class AllPlaylistsActivity extends BaseActivity implements PlaylistAdapter.AllPlaylistRemoved {
+public class AllPlaylistsActivity extends BaseBarActivity implements PlaylistAdapter.AllPlaylistRemoved {
 
 
     private static final int PICK_AVATAR = 467;
@@ -84,16 +83,15 @@ public class AllPlaylistsActivity extends BaseActivity implements PlaylistAdapte
     private Playlist playlistToEdit;
     private List<ChannelData.Channel> myChannels;
     private ChannelData.Channel selectedChannel;
-    private AddPlaylistBinding bindingDialog;
+    private AddPlaylistPeertubeBinding bindingDialog;
     private Uri inputData;
-    private ActivityAllPlaylistBinding binding;
+    private ActivityAllPlaylistPeertubeBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
-        binding = ActivityAllPlaylistBinding.inflate(getLayoutInflater());
+        binding = ActivityAllPlaylistPeertubeBinding.inflate(getLayoutInflater());
         View viewRoot = binding.getRoot();
         setContentView(viewRoot);
 
@@ -163,7 +161,7 @@ public class AllPlaylistsActivity extends BaseActivity implements PlaylistAdapte
 
         playlistToEdit = playlistParam;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AllPlaylistsActivity.this);
-        bindingDialog = AddPlaylistBinding.inflate(LayoutInflater.from(AllPlaylistsActivity.this), null, false);
+        bindingDialog = AddPlaylistPeertubeBinding.inflate(LayoutInflater.from(AllPlaylistsActivity.this), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 
         dialogBuilder.setView(bindingDialog.getRoot());

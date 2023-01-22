@@ -33,17 +33,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityVideosTimelineBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
-import app.fedilab.android.peertube.databinding.ActivityVideosTimelineBinding;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 
 
-public class VideosTimelineActivity extends BaseActivity {
+public class VideosTimelineActivity extends BaseBarActivity {
 
     private TimelineVM.TimelineType type;
     private DisplayVideosFragment displayVideosFragment;
@@ -51,7 +50,6 @@ public class VideosTimelineActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         ActivityVideosTimelineBinding binding = ActivityVideosTimelineBinding.inflate(getLayoutInflater());
         View mainView = binding.getRoot();
@@ -126,7 +124,7 @@ public class VideosTimelineActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         if (type == HISTORY) {
-            getMenuInflater().inflate(R.menu.main_history, menu);
+            getMenuInflater().inflate(R.menu.main_history_peertube, menu);
             return true;
         } else {
             return super.onCreateOptionsMenu(menu);

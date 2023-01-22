@@ -34,17 +34,16 @@ import androidx.core.content.ContextCompat;
 
 import org.jetbrains.annotations.NotNull;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.MastalabWebChromeClient;
 import app.fedilab.android.peertube.webview.MastalabWebViewClient;
 import es.dmoral.toasty.Toasty;
 
 
-public class WebviewActivity extends BaseActivity {
+public class WebviewActivity extends BaseBarActivity {
 
     private String url;
     private boolean peertubeLink;
@@ -54,9 +53,8 @@ public class WebviewActivity extends BaseActivity {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.activity_webview_peertube);
         Bundle b = getIntent().getExtras();
         if (b != null) {
             url = b.getString("url", null);

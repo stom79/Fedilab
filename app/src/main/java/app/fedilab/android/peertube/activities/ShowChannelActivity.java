@@ -15,7 +15,7 @@ package app.fedilab.android.peertube.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
-import static app.fedilab.android.peertube.activities.MainActivity.TypeOfConnection.SURFING;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.TypeOfConnection.SURFING;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.FOLLOW;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.MUTE;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPORT_ACCOUNT;
@@ -43,7 +43,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -59,18 +58,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityShowChannelBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.ChannelData.Channel;
-import app.fedilab.android.peertube.databinding.ActivityShowChannelBinding;
 import app.fedilab.android.peertube.drawer.OwnAccountsAdapter;
 import app.fedilab.android.peertube.fragment.DisplayAccountsFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.sqlite.AccountDAO;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
@@ -80,7 +78,7 @@ import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class ShowChannelActivity extends BaseActivity {
+public class ShowChannelActivity extends BaseBarActivity {
 
 
     private Map<String, Boolean> relationship;
@@ -93,7 +91,6 @@ public class ShowChannelActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         binding = ActivityShowChannelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -119,7 +116,7 @@ public class ShowChannelActivity extends BaseActivity {
         viewModel.get(sepiaSearch ? peertubeInstance : null, CHANNEL, channelAcct == null ? channel.getAcct() : channelAcct).observe(ShowChannelActivity.this, this::manageViewAccounts);
         manageChannel();
 
-        if (MainActivity.typeOfConnection == MainActivity.TypeOfConnection.SURFING) {
+        if (PeertubeMainActivity.typeOfConnection == SURFING) {
             binding.accountFollow.setText(getString(R.string.action_follow));
             binding.accountFollow.setEnabled(true);
             new Thread(() -> {
@@ -160,7 +157,7 @@ public class ShowChannelActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_account, menu);
+        getMenuInflater().inflate(R.menu.main_account_peertube, menu);
         if (!Helper.isLoggedIn(ShowChannelActivity.this) || sepiaSearch) {
             menu.findItem(R.id.action_mute).setVisible(false);
         }
@@ -178,7 +175,7 @@ public class ShowChannelActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.action_report) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShowChannelActivity.this);
             LayoutInflater inflater1 = getLayoutInflater();
-            View dialogView = inflater1.inflate(R.layout.popup_report, new LinearLayout(ShowChannelActivity.this), false);
+            View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(ShowChannelActivity.this), false);
             dialogBuilder.setView(dialogView);
             EditText report_content = dialogView.findViewById(R.id.report_content);
             dialogBuilder.setNeutralButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -348,13 +345,13 @@ public class ShowChannelActivity extends BaseActivity {
 
     //Manages the visibility of the button
     private void manageButtonVisibility() {
-        if (relationship == null || MainActivity.typeOfConnection == SURFING || channel == null)
+        if (relationship == null || PeertubeMainActivity.typeOfConnection == SURFING || channel == null)
             return;
         binding.accountFollow.setEnabled(true);
         Boolean isFollowing = relationship.get(channel.getAcct());
         if (isFollowing != null && isFollowing) {
             binding.accountFollow.setText(R.string.action_unfollow);
-            binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(ShowChannelActivity.this, R.color.red_1)));
+            binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(Helper.getAttColor(ShowChannelActivity.this, R.attr.colorError)));
             doAction = action.UNFOLLOW;
         } else {
             binding.accountFollow.setText(R.string.action_follow);

@@ -167,6 +167,8 @@
                     android:scheme="fedilab" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".mastodon.activities.StatusHistoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -370,6 +372,10 @@
             </intent-filter>
         </receiver>
 
+
+        <activity
+            android:name=".peertube.activities.PeertubeMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".peertube.activities.PeertubeActivity"

@@ -21,31 +21,29 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.helper.PlaylistExportHelper;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class PlaylistsActivity extends BaseActivity {
+public class PlaylistsActivity extends BaseBarActivity {
 
     private final int PICK_IMPORT = 5556;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        setContentView(R.layout.activity_playlists);
+        setContentView(R.layout.activity_playlists_peertube);
 
 
         PlaylistData.Playlist playlist;

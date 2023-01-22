@@ -1,12 +1,5 @@
 package app.fedilab.android.peertube.activities;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-
-import app.fedilab.android.peertube.fragment.SettingsFragment;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
-
 /* Copyright 2020 Thomas Schneider
  *
  * This file is a part of TubeLab
@@ -22,12 +15,17 @@ import app.fedilab.android.peertube.helper.Theme;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-public class SettingsActivity extends BaseActivity {
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
+import app.fedilab.android.peertube.fragment.SettingsFragment;
+
+public class SettingsActivity extends BaseBarActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

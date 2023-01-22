@@ -39,16 +39,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivitySepiaSearchBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.entities.SepiaSearch;
-import app.fedilab.android.peertube.databinding.ActivitySepiaSearchBinding;
 import app.fedilab.android.peertube.fragment.DisplaySepiaSearchFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 
 
-public class SepiaSearchActivity extends BaseActivity {
+public class SepiaSearchActivity extends BaseBarActivity {
 
 
     private SepiaSearch sepiaSearchVideo, sepiaSearchChannel;
@@ -58,7 +57,6 @@ public class SepiaSearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
         binding = ActivitySepiaSearchBinding.inflate(getLayoutInflater());
         View rootView = binding.getRoot();

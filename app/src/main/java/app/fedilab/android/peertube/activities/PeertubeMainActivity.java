@@ -46,7 +46,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +58,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.InstanceData;
@@ -75,7 +76,6 @@ import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperAcadInstance;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.PlaylistExportHelper;
 import app.fedilab.android.peertube.helper.SwitchAccountHelper;
 import app.fedilab.android.peertube.services.RetrieveInfoService;
 import app.fedilab.android.peertube.sqlite.AccountDAO;
@@ -85,7 +85,7 @@ import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class MainActivity extends app.fedilab.android.activities.MainActivity {
+public abstract class PeertubeMainActivity extends BaseActivity {
 
 
     public static int PICK_INSTANCE = 5641;
@@ -100,31 +100,24 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
         int itemId = item.getItemId();
-        String type = null;
         if (itemId == R.id.navigation_discover) {
             setTitleCustom(R.string.title_discover);
             binding.viewpager.setCurrentItem(3);
-            type = HelperAcadInstance.DISCOVER;
         } else if (itemId == R.id.navigation_subscription) {
             binding.viewpager.setCurrentItem(4);
             setTitleCustom(R.string.subscriptions);
-            type = HelperAcadInstance.SUBSCRIPTIONS;
         } else if (itemId == R.id.navigation_trending) {
             setTitleCustom(R.string.title_trending);
             binding.viewpager.setCurrentItem(2);
-            type = HelperAcadInstance.TRENDING;
         } else if (itemId == R.id.navigation_recently_added) {
             setTitleCustom(R.string.title_recently_added);
             binding.viewpager.setCurrentItem(1);
-            type = HelperAcadInstance.RECENTLY_ADDED;
         } else if (itemId == R.id.navigation_local) {
             setTitleCustom(R.string.title_local);
             binding.viewpager.setCurrentItem(0);
-            type = HelperAcadInstance.LOCAL;
         }
         return true;
     };
-
 
     @SuppressLint("ApplySharedPref")
     public static void showRadioButtonDialogFullInstances(Activity activity, boolean storeInDb) {
@@ -166,7 +159,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                             } else {
                                 activity.runOnUiThread(() -> {
                                     dialog.dismiss();
-                                    Intent intent = new Intent(activity, MainActivity.class);
+                                    Intent intent = new Intent(activity, PeertubeMainActivity.class);
                                     activity.startActivity(intent);
                                 });
                             }
@@ -191,6 +184,8 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         alert.show();
     }
 
+    protected abstract void rateThisApp();
+
     private void setTitleCustom(int titleRId) {
         Toolbar toolbar = findViewById(R.id.toolbar);
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
@@ -206,13 +201,10 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         binding = null;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        binding = super.binding;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -253,16 +245,16 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         mostLikedFragment.setArguments(bundle);
 
         overviewFragment = new DisplayOverviewFragment();
-        if (!Helper.isLoggedIn(MainActivity.this)) {
+        if (!Helper.isLoggedIn(PeertubeMainActivity.this)) {
             PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
             binding.viewpager.setAdapter(mPagerAdapter);
         } else {
             new Thread(() -> {
-                badgeCount = new RetrofitPeertubeAPI(MainActivity.this).unreadNotifications();
+                badgeCount = new RetrofitPeertubeAPI(PeertubeMainActivity.this).unreadNotifications();
                 invalidateOptionsMenu();
             }).start();
         }
-        if (Helper.isLoggedIn(MainActivity.this)) {
+        if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
             binding.viewpager.setOffscreenPageLimit(5);
         } else {
             binding.viewpager.setOffscreenPageLimit(4);
@@ -301,7 +293,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
 
         setTitleCustom(R.string.title_discover);
 
-        if (Helper.isLoggedIn(MainActivity.this)) {
+        if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
             binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
             refreshToken();
 
@@ -317,25 +309,15 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         peertubeInformation.setTranslations(new LinkedHashMap<>());
         startInForeground();
 
-        if (BuildConfig.google_restriction && BuildConfig.full_instances) {
-            RateThisApp.onCreate(this);
-            RateThisApp.showRateDialogIfNeeded(this);
-        }
-        if (!BuildConfig.full_instances) {
-            PlaylistExportHelper.manageIntentUrl(MainActivity.this, getIntent());
-        }
+        rateThisApp();
 
 
         final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
 
 
-        int search_cast = sharedpreferences.getInt(getString(R.string.set_cast_choice), BuildConfig.cast_enabled);
-        if (search_cast == 1) {
-            super.discoverCast();
-        }
         //Instance
-        if (HelperInstance.getLiveInstance(MainActivity.this) == null) {
-            Intent intent = new Intent(MainActivity.this, InstancePickerActivity.class);
+        if (HelperInstance.getLiveInstance(PeertubeMainActivity.this) == null) {
+            Intent intent = new Intent(PeertubeMainActivity.this, InstancePickerActivity.class);
             startActivityForResult(intent, PICK_INSTANCE);
         }
     }
@@ -362,14 +344,14 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
     private void refreshToken() {
         new Thread(() -> {
             final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-            String tokenStr = Helper.getToken(MainActivity.this);
-            String instance = HelperInstance.getLiveInstance(MainActivity.this);
+            String tokenStr = Helper.getToken(PeertubeMainActivity.this);
+            String instance = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
             SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
             String instanceShar = sharedpreferences.getString(Helper.PREF_INSTANCE, null);
             String userIdShar = sharedpreferences.getString(Helper.PREF_KEY_ID, null);
-            Account account = new AccountDAO(MainActivity.this, db).getAccountByToken(tokenStr);
+            Account account = new AccountDAO(PeertubeMainActivity.this, db).getAccountByToken(tokenStr);
             if (account == null) {
-                account = new AccountDAO(MainActivity.this, db).getAccountByIdInstance(userIdShar, instanceShar);
+                account = new AccountDAO(PeertubeMainActivity.this, db).getAccountByIdInstance(userIdShar, instanceShar);
             }
             if (account != null) {
                 Account finalAccount = account;
@@ -380,23 +362,23 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                 oauthParams.setRefresh_token(account.getRefresh_token());
                 oauthParams.setAccess_token(account.getToken());
                 try {
-                    Token token = new RetrofitPeertubeAPI(MainActivity.this).manageToken(oauthParams);
+                    Token token = new RetrofitPeertubeAPI(PeertubeMainActivity.this).manageToken(oauthParams);
                     if (token == null) {
                         return;
                     }
                     runOnUiThread(() -> {
                         //To avoid a token issue with subscriptions, adding fragment is done when the token is refreshed.
                         new Handler().post(() -> {
-                            if (Helper.isLoggedIn(MainActivity.this)) {
+                            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
                                 PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
                                 binding.viewpager.setAdapter(mPagerAdapter);
                             }
                         });
                     });
 
-                    userMe = new RetrofitPeertubeAPI(MainActivity.this, instance, token.getAccess_token()).verifyCredentials();
+                    userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, instance, token.getAccess_token()).verifyCredentials();
                     if (userMe != null && userMe.getAccount() != null) {
-                        new AccountDAO(MainActivity.this, db).updateAccount(userMe.getAccount());
+                        new AccountDAO(PeertubeMainActivity.this, db).updateAccount(userMe.getAccount());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(Helper.PREF_KEY_ID, account.getId());
                         editor.putString(Helper.PREF_KEY_NAME, account.getUsername());
@@ -417,7 +399,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                             editor.apply();
                         }
                     }
-                    instanceConfig = new RetrofitPeertubeAPI(MainActivity.this).getConfigInstance();
+                    instanceConfig = new RetrofitPeertubeAPI(PeertubeMainActivity.this).getConfigInstance();
                 } catch (Error error) {
                     runOnUiThread(() -> {
                         AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
@@ -425,7 +407,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                         alt_bld.setMessage(R.string.refresh_token_failed_message);
                         alt_bld.setNegativeButton(R.string.action_logout, (dialog, id) -> {
                             dialog.dismiss();
-                            Helper.logoutCurrentUser(MainActivity.this, finalAccount);
+                            Helper.logoutCurrentUser(PeertubeMainActivity.this, finalAccount);
                         });
                         alt_bld.setPositiveButton(R.string._retry, (dialog, id) -> {
                             dialog.dismiss();
@@ -443,7 +425,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu_peertube, menu);
 
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) myActionMenuItem.getActionView();
@@ -453,13 +435,13 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                 Pattern link = Pattern.compile("(https?://[\\da-z.-]+\\.[a-z.]{2,10})/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})(\\?start=(\\d+[hH])?(\\d+[mM])?(\\d+[sS])?)?$");
                 Matcher matcherLink = link.matcher(query.trim());
                 if (matcherLink.find()) {
-                    Intent intent = new Intent(MainActivity.this, PeertubeActivity.class);
+                    Intent intent = new Intent(PeertubeMainActivity.this, PeertubeActivity.class);
                     intent.setData(Uri.parse(query.trim()));
                     startActivity(intent);
                     myActionMenuItem.collapseActionView();
                     return false;
                 }
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                Intent intent = new Intent(PeertubeMainActivity.this, SearchActivity.class);
                 Bundle b = new Bundle();
                 String search = query.trim();
                 b.putString("search", search);
@@ -487,7 +469,6 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         MenuItem sepiaSearchItem = menu.findItem(R.id.action_sepia_search);
         MenuItem incognitoItem = menu.findItem(R.id.action_incognito);
         MenuItem accountItem = menu.findItem(R.id.action_account);
-        MenuItem donateItem = menu.findItem(R.id.action_donate);
         MenuItem changeInstanceItem = menu.findItem(R.id.action_change_instance);
 
         FrameLayout rootView = (FrameLayout) accountItem.getActionView();
@@ -502,13 +483,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
             redCircle.setVisibility(View.GONE);
         }
         TooltipCompat.setTooltipText(accountItem.getActionView(), getText(R.string.account));
-        if (BuildConfig.FLAVOR.compareTo("google_full") == 0) {
-            donateItem.setVisible(true);
-        }
 
-        if (!BuildConfig.instance_switcher) {
-            changeInstanceItem.setVisible(false);
-        }
         switch (typeOfConnection) {
             case UNKNOWN:
                 accountItem.setVisible(false);
@@ -523,10 +498,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
             case REMOTE_ACCOUNT:
             case NORMAL:
                 accountItem.setVisible(true);
-                if (Helper.isLoggedIn(MainActivity.this)) {
-                    if (!BuildConfig.full_instances) {
-                        changeInstanceItem.setVisible(false);
-                    }
+                if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
                     uploadItem.setVisible(true);
                     myVideosItem.setVisible(true);
                     playslistItem.setVisible(true);
@@ -540,7 +512,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                 } else {
                     uploadItem.setVisible(false);
                     myVideosItem.setVisible(false);
-                    playslistItem.setVisible(!BuildConfig.full_instances);
+                    playslistItem.setVisible(false);
                     historyItem.setVisible(false);
                     settingsItem.setVisible(true);
                     mostLikedItem.setVisible(true);
@@ -559,10 +531,6 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                 break;
         }
 
-
-        if (!BuildConfig.sepia_search) {
-            sepiaSearchItem.setVisible(false);
-        }
         return true;
     }
 
@@ -571,9 +539,9 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         new Thread(() -> {
             try {
                 typeOfConnection = TypeOfConnection.NORMAL;
-                if (!Helper.canMakeAction(MainActivity.this)) {
+                if (!Helper.canMakeAction(PeertubeMainActivity.this)) {
                     SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                    List<Account> accounts = new AccountDAO(MainActivity.this, db).getAllAccount();
+                    List<Account> accounts = new AccountDAO(PeertubeMainActivity.this, db).getAllAccount();
                     if (accounts != null && accounts.size() > 0) {
                         //The user is not authenticated and there accounts in db. That means the user is surfing some other instances
                         typeOfConnection = TypeOfConnection.SURFING;
@@ -601,52 +569,48 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         String type = null;
         String action = "TIMELINE";
         if (item.getItemId() == R.id.action_change_instance) {
-            if (BuildConfig.full_instances) {
-                Intent intent = new Intent(MainActivity.this, ManageInstancesActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            } else {
-                showRadioButtonDialog();
-            }
+            Intent intent = new Intent(PeertubeMainActivity.this, ManageInstancesActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             action = "CHANGE_INSTANCE";
             type = "";
         } else if (item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, SettingsActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_account) {
             Intent intent;
             if (typeOfConnection == TypeOfConnection.SURFING) {
-                SwitchAccountHelper.switchDialog(MainActivity.this, false);
+                SwitchAccountHelper.switchDialog(PeertubeMainActivity.this, false);
             } else {
-                if (Helper.canMakeAction(MainActivity.this)) {
-                    intent = new Intent(MainActivity.this, AccountActivity.class);
+                if (Helper.canMakeAction(PeertubeMainActivity.this)) {
+                    intent = new Intent(PeertubeMainActivity.this, AccountActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                 } else {
-                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent = new Intent(PeertubeMainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
 
             }
         } else if (item.getItemId() == R.id.action_upload) {
-            Intent intent = new Intent(MainActivity.this, PeertubeUploadActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, PeertubeUploadActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_myvideos) {
-            Intent intent = new Intent(MainActivity.this, VideosTimelineActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("type", TimelineVM.TimelineType.MY_VIDEOS);
             intent.putExtras(bundle);
             startActivity(intent);
             type = HelperAcadInstance.MYVIDEOS;
         } else if (item.getItemId() == R.id.action_history) {
-            Intent intent = new Intent(MainActivity.this, VideosTimelineActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("type", TimelineVM.TimelineType.HISTORY);
             intent.putExtras(bundle);
             startActivity(intent);
             type = HelperAcadInstance.HISTORY;
         } else if (item.getItemId() == R.id.action_most_liked) {
-            Intent intent = new Intent(MainActivity.this, VideosTimelineActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("type", TimelineVM.TimelineType.MOST_LIKED);
             intent.putExtras(bundle);
@@ -654,20 +618,17 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
             type = HelperAcadInstance.MOSTLIKED;
         } else if (item.getItemId() == R.id.action_playlist) {
             Intent intent;
-            if (Helper.isLoggedIn(MainActivity.this)) {
-                intent = new Intent(MainActivity.this, AllPlaylistsActivity.class);
+            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+                intent = new Intent(PeertubeMainActivity.this, AllPlaylistsActivity.class);
             } else {
-                intent = new Intent(MainActivity.this, AllLocalPlaylistsActivity.class);
+                intent = new Intent(PeertubeMainActivity.this, AllLocalPlaylistsActivity.class);
             }
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_sepia_search) {
-            Intent intent = new Intent(MainActivity.this, SepiaSearchActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_about) {
-            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-            startActivity(intent);
-        } else if (item.getItemId() == R.id.action_donate) {
-            Intent intent = new Intent(MainActivity.this, DonationActivity.class);
+            Intent intent = new Intent(PeertubeMainActivity.this, AboutActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_incognito) {
             item.setChecked(!item.isChecked());
@@ -679,16 +640,13 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
                 UserSettings userSettings = new UserSettings();
                 userSettings.setVideosHistoryEnabled(item.isChecked());
                 try {
-                    RetrofitPeertubeAPI api = new RetrofitPeertubeAPI(MainActivity.this);
+                    RetrofitPeertubeAPI api = new RetrofitPeertubeAPI(PeertubeMainActivity.this);
                     api.updateUser(userSettings);
                 } catch (Exception | Error e) {
                     e.printStackTrace();
                 }
             }).start();
             return false;
-        }
-        if (type != null) {
-            Matomo.sendScreen(MainActivity.this, action, type);
         }
         return true;
     }
@@ -704,8 +662,6 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.ADD_USER_INTENT) {
                 recreate();
             }
-        } else if (!BuildConfig.full_instances) {
-            PlaylistExportHelper.manageIntentUrl(MainActivity.this, intent);
         }
     }
 
@@ -716,7 +672,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
         alt_bld.setTitle(R.string.instance_choice);
         final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        String acad = HelperInstance.getLiveInstance(MainActivity.this);
+        String acad = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
         int i = 0;
         List<AcadInstances> acadInstances = AcadInstances.getInstances();
         String[] academiesKey = new String[acadInstances.size()];
@@ -775,7 +731,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
         @NotNull
         @Override
         public Fragment getItem(final int position) {
-            if (Helper.isLoggedIn(MainActivity.this)) {
+            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
                 switch (position) {
                     case 0:
                         return locaFragment;
@@ -805,7 +761,7 @@ public class MainActivity extends app.fedilab.android.activities.MainActivity {
 
         @Override
         public int getCount() {
-            if (Helper.isLoggedIn(MainActivity.this)) {
+            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
                 return 5;
             } else {
                 return 4;

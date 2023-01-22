@@ -47,22 +47,21 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityMyAccountSettingsPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.entities.NotificationSettings;
 import app.fedilab.android.peertube.client.entities.UserMe;
 import app.fedilab.android.peertube.client.entities.UserSettings;
-import app.fedilab.android.peertube.databinding.ActivityMyAccountSettingsBinding;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.Theme;
 import app.fedilab.android.peertube.worker.WorkHelper;
 import es.dmoral.toasty.Toasty;
 
-public class MyAccountActivity extends BaseActivity {
+public class MyAccountActivity extends BaseBarActivity {
 
     private static final int PICK_IMAGE = 466;
-    ActivityMyAccountSettingsBinding binding;
+    ActivityMyAccountSettingsPeertubeBinding binding;
     private Uri inputData;
     private String fileName;
     private NotificationSettings notificationSettings;
@@ -70,23 +69,22 @@ public class MyAccountActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Theme.setTheme(this, HelperInstance.getLiveInstance(this), false);
         super.onCreate(savedInstanceState);
-        binding = ActivityMyAccountSettingsBinding.inflate(getLayoutInflater());
+        binding = ActivityMyAccountSettingsPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (MainActivity.userMe == null) {
+        if (PeertubeMainActivity.userMe == null) {
             finish();
             return;
         }
-        setTitle(String.format("@%s", MainActivity.userMe.getUsername()));
-        binding.displayname.setText(MainActivity.userMe.getAccount().getDisplayName());
-        binding.description.setText(MainActivity.userMe.getAccount().getDescription());
+        setTitle(String.format("@%s", PeertubeMainActivity.userMe.getUsername()));
+        binding.displayname.setText(PeertubeMainActivity.userMe.getAccount().getDisplayName());
+        binding.description.setText(PeertubeMainActivity.userMe.getAccount().getDescription());
 
-        notificationSettings = MainActivity.userMe.getNotificationSettings();
+        notificationSettings = PeertubeMainActivity.userMe.getNotificationSettings();
         initializeValues(notificationSettings.getAbuseStateChange(), binding.notifAbuseAcceptedApp, binding.notifAbuseAcceptedMail);
         initializeValues(notificationSettings.getAbuseNewMessage(), binding.notifAbuseReceivedApp, binding.notifAbuseReceivedMail);
         initializeValues(notificationSettings.getCommentMention(), binding.notifVideoMentionApp, binding.notifVideoMentionMail);
@@ -97,7 +95,7 @@ public class MyAccountActivity extends BaseActivity {
         initializeValues(notificationSettings.getNewCommentOnMyVideo(), binding.notifNewCommentApp, binding.notifNewCommentMail);
         initializeValues(notificationSettings.getNewVideoFromSubscription(), binding.notifNewVideoApp, binding.notifNewVideoMail);
 
-        Helper.loadAvatar(MyAccountActivity.this, MainActivity.userMe.getAccount(), binding.profilePicture);
+        Helper.loadAvatar(MyAccountActivity.this, PeertubeMainActivity.userMe.getAccount(), binding.profilePicture);
         String[] refresh_array = getResources().getStringArray(R.array.refresh_time);
         ArrayAdapter<String> refreshArray = new ArrayAdapter<>(MyAccountActivity.this,
                 android.R.layout.simple_spinner_dropdown_item, refresh_array);
@@ -193,7 +191,7 @@ public class MyAccountActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_my_account, menu);
+        getMenuInflater().inflate(R.menu.main_my_account_peertube, menu);
         return true;
     }
 
@@ -220,10 +218,10 @@ public class MyAccountActivity extends BaseActivity {
                 try {
                     RetrofitPeertubeAPI api = new RetrofitPeertubeAPI(MyAccountActivity.this);
                     UserMe.AvatarResponse avatarResponse = api.updateUser(userSettings);
-                    MainActivity.userMe.getAccount().setDisplayName(binding.displayname.getText().toString().trim());
-                    MainActivity.userMe.getAccount().setDescription(binding.description.getText().toString().trim());
+                    PeertubeMainActivity.userMe.getAccount().setDisplayName(binding.displayname.getText().toString().trim());
+                    PeertubeMainActivity.userMe.getAccount().setDescription(binding.description.getText().toString().trim());
                     if (avatarResponse != null && avatarResponse.getAvatar() != null) {
-                        MainActivity.userMe.getAccount().setAvatar(avatarResponse.getAvatar());
+                        PeertubeMainActivity.userMe.getAccount().setAvatar(avatarResponse.getAvatar());
                     }
 
                     Handler mainHandler = new Handler(Looper.getMainLooper());
