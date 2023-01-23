@@ -644,6 +644,7 @@ public class VideoData implements Serializable {
     public static class UserHistory implements Serializable {
 
 
+
         @SerializedName("currentTime")
         long currentTime;
 

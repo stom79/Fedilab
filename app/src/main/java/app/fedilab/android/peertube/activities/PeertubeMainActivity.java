@@ -14,6 +14,8 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.annotation.SuppressLint;
@@ -147,7 +149,7 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(activity, newInstance, null).getNodeInfo();
                         if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
                             SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(Helper.PREF_INSTANCE, newInstance);
+                            editor.putString(PREF_INSTANCE, newInstance);
                             editor.commit();
                             if (storeInDb) {
                                 newInstance = newInstance.trim().toLowerCase();
@@ -352,8 +354,8 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
             String tokenStr = Helper.getToken(PeertubeMainActivity.this);
             String instance = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
             SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-            String instanceShar = sharedpreferences.getString(Helper.PREF_INSTANCE, null);
-            String userIdShar = sharedpreferences.getString(Helper.PREF_KEY_ID, null);
+            String instanceShar = sharedpreferences.getString(PREF_INSTANCE, null);
+            String userIdShar = sharedpreferences.getString(PREF_USER_ID, null);
             BaseAccount account = null;
             try {
                 account = new Account(PeertubeMainActivity.this).getAccountByToken(tokenStr);
@@ -399,8 +401,7 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
                             e.printStackTrace();
                         }
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(Helper.PREF_KEY_ID, account.user_id);
-                        editor.putString(Helper.PREF_KEY_NAME, account.peertube_account.getUsername());
+                        editor.putString(PREF_USER_ID, account.user_id);
                         editor.putBoolean(getString(R.string.set_autoplay_choice), userMe.isAutoPlayVideo());
                         editor.putBoolean(getString(R.string.set_store_in_history), userMe.isVideosHistoryEnabled());
                         editor.putBoolean(getString(R.string.set_autoplay_next_video_choice), userMe.isAutoPlayNextVideo());
@@ -686,7 +687,7 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
         alt_bld.setSingleChoiceItems(academiesKey, position, (dialog, item) -> {
             String newInstance = academiesValue[item];
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(Helper.PREF_INSTANCE, newInstance);
+            editor.putString(PREF_INSTANCE, newInstance);
             editor.commit();
             dialog.dismiss();
             recreate();
@@ -704,7 +705,7 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
             if (data != null && data.getData() != null) {
                 final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Helper.PREF_INSTANCE, String.valueOf(data.getData()));
+                editor.putString(PREF_INSTANCE, String.valueOf(data.getData()));
                 editor.commit();
                 recreate();
             }

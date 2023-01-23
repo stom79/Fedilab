@@ -119,9 +119,6 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return;
         }
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        String userId = sharedpreferences.getString(Helper.PREF_KEY_ID, "");
-
-        assert userId != null;
 
         boolean videoInList = sharedpreferences.getBoolean(context.getString(R.string.set_video_in_list_choice), false);
 

@@ -37,6 +37,7 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.BlockData;
 import app.fedilab.android.peertube.drawer.AccountsListAdapter;
 import app.fedilab.android.peertube.viewmodel.AccountsVM;
@@ -49,7 +50,7 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
     private Context context;
     private AccountsListAdapter accountsListAdapter;
     private String max_id;
-    private List<Account> accounts;
+    private List<AccountData.PeertubeAccount> accounts;
     private RelativeLayout mainLoader, nextElementLoader, textviewNoAction;
     private boolean firstLoad;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -168,7 +169,7 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
             return;
         }
         flag_loading = (apiResponse.getMax_id() == null);
-        List<Account> accounts = apiResponse.getAccounts();
+        List<AccountData.PeertubeAccount> accounts = apiResponse.getAccounts();
         if (accountFetch == RetrofitPeertubeAPI.DataType.MUTED) {
             accounts = new ArrayList<>();
             List<BlockData.Block> blockList = apiResponse.getMuted();

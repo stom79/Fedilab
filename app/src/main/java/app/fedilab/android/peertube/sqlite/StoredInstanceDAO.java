@@ -14,6 +14,8 @@ package app.fedilab.android.peertube.sqlite;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -88,7 +90,7 @@ public class StoredInstanceDAO {
         }
         ContentValues values = new ContentValues();
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        String userId = sharedpreferences.getString(Helper.PREF_KEY_ID, null);
+        String userId = sharedpreferences.getString(PREF_USER_ID, null);
         String instance = HelperInstance.getLiveInstance(context);
 
         values.put(Sqlite.COL_USER_ID, userId != null ? userId : "_ALL_");

@@ -15,6 +15,9 @@ package app.fedilab.android.peertube.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.MODE_PRIVATE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -57,10 +60,9 @@ public class SwitchAccountHelper {
                 final BaseAccount account = accountArray[which];
                 SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, account.token);
-                editor.putString(Helper.PREF_INSTANCE, account.instance);
-                editor.putString(Helper.PREF_KEY_ID, account.user_id);
-                editor.putString(Helper.PREF_KEY_NAME, account.peertube_account != null ? account.peertube_account.getUsername() : null);
+                editor.putString(PREF_USER_TOKEN, account.token);
+                editor.putString(PREF_INSTANCE, account.instance);
+                editor.putString(PREF_USER_ID, account.user_id);
                 editor.apply();
                 dialog.dismiss();
                 Intent intent = new Intent(activity, BaseMainActivity.class);

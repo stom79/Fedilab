@@ -18,7 +18,6 @@ package app.fedilab.android.peertube.drawer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,15 +109,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             .setPositiveButton(R.string.yes, (dialog, which) -> {
                                 playlists.remove(playlist);
                                 notifyDataSetChanged();
-                                if (!locale) {
-                                    PlaylistsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PlaylistsVM.class);
-                                    viewModel.manage(PlaylistsVM.action.DELETE_PLAYLIST, playlist, null).observe((LifecycleOwner) context, apiResponse -> manageVIewPlaylists(PlaylistsVM.action.DELETE_PLAYLIST, apiResponse));
-                                } else {
-                                    new Thread(() -> {
-                                        SQLiteDatabase db = Sqlite.getInstance(context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                                        new ManagePlaylistsDAO(context, db).removePlaylist(playlist.getUuid());
-                                    }).start();
-                                }
+                                PlaylistsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PlaylistsVM.class);
+                                viewModel.manage(PlaylistsVM.action.DELETE_PLAYLIST, playlist, null).observe((LifecycleOwner) context, apiResponse -> manageVIewPlaylists(PlaylistsVM.action.DELETE_PLAYLIST, apiResponse));
                                 if (playlists.size() == 0) {
                                     allPlaylistRemoved.onAllPlaylistRemoved();
                                 }

@@ -14,6 +14,8 @@ package app.fedilab.android.peertube.helper;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -29,7 +31,7 @@ public class HelperInstance {
      */
     public static String getLiveInstance(Context context) {
         final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        return sharedpreferences.getString(Helper.PREF_INSTANCE, null);
+        return sharedpreferences.getString(PREF_INSTANCE, null);
     }
 
 }

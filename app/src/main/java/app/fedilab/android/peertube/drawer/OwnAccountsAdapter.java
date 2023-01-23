@@ -76,10 +76,10 @@ public class OwnAccountsAdapter extends ArrayAdapter<BaseAccount> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ac
-        holder.account_un.setText(String.format("@%s", account.getAcct()));
+
+        holder.account_un.setText(String.format("@%s", account.peertube_account.getAcct()));
         //Profile picture
-        Helper.loadAvatar(holder.account_pp.getContext(), account, holder.account_pp);
+        Helper.loadAvatar(holder.account_pp.getContext(), account.peertube_account, holder.account_pp);
         return convertView;
     }
 

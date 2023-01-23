@@ -14,6 +14,10 @@ package app.fedilab.android.peertube.client;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -174,9 +178,8 @@ public class RetrofitPeertubeAPI {
             boolean userExists = false;
             try {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Helper.PREF_KEY_ID, account.user_id);
-                editor.putString(Helper.PREF_KEY_NAME, peertubeAccount.getUsername());
-                editor.putString(Helper.PREF_INSTANCE, host);
+                editor.putString(PREF_USER_ID, account.user_id);
+                editor.putString(PREF_INSTANCE, host);
                 editor.apply();
                 new Account(activity).insertOrUpdate(account);
             } catch (DBException e) {
@@ -250,7 +253,7 @@ public class RetrofitPeertubeAPI {
                     if (oauthParams.getGrant_type().compareTo("refresh_token") == 0 && tokenReply != null) {
                         SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, tokenReply.getAccess_token());
+                        editor.putString(PREF_USER_TOKEN, tokenReply.getAccess_token());
                         editor.putString(Helper.PREF_SOFTWARE, null);
                         editor.putString(Helper.PREF_REMOTE_INSTANCE, null);
                         editor.apply();

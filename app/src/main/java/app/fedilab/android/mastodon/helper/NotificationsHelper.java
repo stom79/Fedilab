@@ -369,7 +369,7 @@ public class NotificationsHelper {
                 final Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
-                intent.putExtra(Helper.PREF_KEY_ID, account.user_id);
+                intent.putExtra(Helper.PREF_USER_ID, account.user_id);
                 if (targeted_account != null)
                     intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
                 intent.putExtra(Helper.PREF_INSTANCE, account.instance);

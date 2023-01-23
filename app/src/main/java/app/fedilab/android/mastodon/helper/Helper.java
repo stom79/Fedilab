@@ -177,8 +177,6 @@ public class Helper {
     public static final String INSTANCE_SOCIAL_KEY = "jGj9gW3z9ptyIpB8CMGhAlTlslcemMV6AgoiImfw3vPP98birAJTHOWiu5ZWfCkLvcaLsFZw9e3Pb7TIwkbIyrj3z6S7r2oE6uy6EFHvls3YtapP8QKNZ980p9RfzTb4";
     public static final String WEBSITE_VALUE = "https://fedilab.app";
 
-    public static final String OLD_DB_NAME = "mastodon_etalab_db";
-
     public static final String RECEIVE_TOAST_MESSAGE = "RECEIVE_TOAST_MESSAGE";
     public static final String RECEIVE_TOAST_TYPE = "RECEIVE_TOAST_TYPE";
     public static final String RECEIVE_TOAST_CONTENT = "RECEIVE_TOAST_CONTENT";
@@ -296,14 +294,15 @@ public class Helper {
 
     public static final String SCHEDULE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
+
     public static final String PREF_USER_TOKEN = "PREF_USER_TOKEN";
     public static final String PREF_USER_ID = "PREF_USER_ID";
     public static final String PREF_USER_INSTANCE = "PREF_USER_INSTANCE";
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";
-    public static final String PREF_KEY_ID = "PREF_KEY_ID";
     public static final String PREF_MESSAGE_URL = "PREF_MESSAGE_URL";
     public static final String PREF_INSTANCE = "PREF_INSTANCE";
+
 
     public static final String SET_SECURITY_PROVIDER = "SET_SECURITY_PROVIDER";
 

@@ -106,6 +106,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.mastodon.activities.ActionActivity;
@@ -334,6 +335,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             });
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
+
+
         filteredAccounts = new ArrayList<>();
         mamageNewIntent(getIntent());
         filterFetched = false;
@@ -598,6 +601,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
                 }
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                if (currentAccount.api == Account.API.PEERTUBE) {
+                    startActivity(new Intent(this, PeertubeBaseMainActivity.class));
+                    finish();
+                }
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -1006,7 +1013,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         Bundle extras = intent.getExtras();
         String userIdIntent, instanceIntent, urlOfMessage;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
-            userIdIntent = extras.getString(Helper.PREF_KEY_ID); //Id of the account in the intent
+            userIdIntent = extras.getString(Helper.PREF_USER_ID); //Id of the account in the intent
             instanceIntent = extras.getString(Helper.PREF_INSTANCE);
             urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {

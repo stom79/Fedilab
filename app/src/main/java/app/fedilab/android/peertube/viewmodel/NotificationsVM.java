@@ -24,8 +24,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.entities.Error;
 
 
 public class NotificationsVM extends AndroidViewModel {
@@ -35,13 +37,13 @@ public class NotificationsVM extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<APIResponse> getNotifications(Account account, String max_id) {
+    public LiveData<APIResponse> getNotifications(BaseAccount account, String max_id) {
         apiResponseMutableLiveData = new MutableLiveData<>();
         loadNotifications(account, max_id);
         return apiResponseMutableLiveData;
     }
 
-    private void loadNotifications(Account account, String max_id) {
+    private void loadNotifications(BaseAccount account, String max_id) {
         Context _mContext = getApplication().getApplicationContext();
         new Thread(() -> {
             try {
@@ -55,7 +57,7 @@ public class NotificationsVM extends AndroidViewModel {
                         apiResponse = new APIResponse();
                         apiResponse.setError(new Error());
                     }
-                    api = new RetrofitPeertubeAPI(_mContext, account.getHost(), account.getToken());
+                    api = new RetrofitPeertubeAPI(_mContext, account.instance, account.token);
                     apiResponse = api.getNotifications(null, max_id);
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());

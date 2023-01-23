@@ -15,6 +15,7 @@ package app.fedilab.android.peertube.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.RATEVIDEO;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPLY;
@@ -38,7 +39,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -85,12 +85,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.github.vkay94.dtpv.youtube.YouTubeOverlay;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -106,7 +106,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.video.VideoListener;
+import com.google.android.exoplayer2.video.VideoSize;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -124,10 +124,13 @@ import java.util.regex.Pattern;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.MenuItemVideo;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.CaptionData.Caption;
 import app.fedilab.android.peertube.client.data.CommentData;
 import app.fedilab.android.peertube.client.data.CommentData.Comment;
@@ -144,7 +147,6 @@ import app.fedilab.android.peertube.client.entities.UserSettings;
 import app.fedilab.android.peertube.drawer.CommentListAdapter;
 import app.fedilab.android.peertube.drawer.MenuAdapter;
 import app.fedilab.android.peertube.drawer.MenuItemAdapter;
-import app.fedilab.android.peertube.helper.CacheDataSourceFactory;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.viewmodel.CaptionsVM;
@@ -153,15 +155,13 @@ import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
 import app.fedilab.android.peertube.viewmodel.SearchVM;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
-import app.fedilab.android.peertube.viewmodel.mastodon.MastodonPostActionsVM;
 import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.MastalabWebChromeClient;
 import app.fedilab.android.peertube.webview.MastalabWebViewClient;
-import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
-public class PeertubeActivity extends BasePeertubeActivity implements CommentListAdapter.AllCommentRemoved, Player.EventListener, VideoListener, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction {
+public class PeertubeActivity extends BasePeertubeActivity implements CommentListAdapter.AllCommentRemoved, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction, Player.Listener {
 
     public static String video_id;
     public static List<String> playedVideos = new ArrayList<>();
@@ -198,18 +198,10 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
-            InputMethodManager imm = activity.getSystemService(INPUT_METHOD_SERVICE);
-            assert imm != null;
-            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
-        }
-    }
-
-    @Override
-    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-        if (width < height) {
-            videoOrientationType = videoOrientation.PORTRAIT;
-        } else {
-            videoOrientationType = videoOrientation.LANDSCAPE;
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+            }
         }
     }
 
@@ -219,17 +211,18 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         super.onCreate(savedInstanceState);
         videoOrientationType = videoOrientation.LANDSCAPE;
         max_id = "0";
-        SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
         SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-        String token = sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
+        String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
         if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
-            Account account = null;
+            BaseAccount account = null;
             try {
                 account = new app.fedilab.android.mastodon.client.entities.app.Account(PeertubeActivity.this).getAccountByToken(token);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            loadAvatar(PeertubeActivity.this, account, binding.myPp);
+            if (account != null) {
+                loadAvatar(PeertubeActivity.this, account.peertube_account, binding.myPp);
+            }
         }
         isRemote = false;
 
@@ -278,9 +271,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             binding.peertubeLikeCount.setVisibility(View.GONE);
             binding.peertubeDislikeCount.setVisibility(View.GONE);
             binding.peertubePlaylist.setVisibility(View.GONE);
-            binding.peertubeReblog.setVisibility(View.VISIBLE);
-            binding.peertubeFavorite.setVisibility(View.VISIBLE);
-            binding.peertubeBookmark.setVisibility(View.VISIBLE);
         } else {
             binding.peertubePlaylist.setVisibility(View.VISIBLE);
         }
@@ -424,7 +414,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             return;
         }
         peertube = apiResponse.getPeertubes().get(0);
-        Matomo.sendScreen(PeertubeActivity.this, "VIDEO_REGARDEE", peertube.getUuid());
         if (peertube.isNsfw()) {
             binding.videoSensitive.setVisibility(View.VISIBLE);
         } else {
@@ -583,7 +572,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void playVideo() {
         if (player != null) {
             player.release();
-            player = new SimpleExoPlayer.Builder(PeertubeActivity.this).build();
+            player = new ExoPlayer.Builder(PeertubeActivity.this).build();
             binding.mediaVideo.player(player);
             binding.doubleTapPlayerView.setPlayer(player);
             binding.loader.setVisibility(View.GONE);
@@ -889,7 +878,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding.videoInformation.setOnClickListener(v -> {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
             LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.popup_video_info, new LinearLayout(PeertubeActivity.this), false);
+            View dialogView = inflater.inflate(R.layout.popup_video_info_peertube, new LinearLayout(PeertubeActivity.this), false);
             TextView info_privacy = dialogView.findViewById(R.id.info_privacy);
             TextView info_published_at = dialogView.findViewById(R.id.info_published_at);
             TextView info_category = dialogView.findViewById(R.id.info_category);
@@ -1046,8 +1035,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
         if (mode != Helper.VIDEO_MODE_WEBVIEW) {
 
-            player = new SimpleExoPlayer.Builder(PeertubeActivity.this).build();
-            player.addVideoListener(PeertubeActivity.this);
+            player = new ExoPlayer.Builder(PeertubeActivity.this).build();
             player.addListener(this);
             binding.mediaVideo.player(player);
             binding.doubleTapPlayerView.setPlayer(player);
@@ -1437,7 +1425,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     @Override
-    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
         if (!isInPictureInPictureMode) {
             if (onStopCalled) {
                 isPlayInMinimized = false;
@@ -1445,7 +1434,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             }
         }
     }
-
 
     private void toogleFullscreen(boolean fullscreen) {
 
@@ -1645,7 +1633,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 if (mode == Helper.VIDEO_MODE_NORMAL) {
                     if (player != null)
                         player.release();
-                    player = new SimpleExoPlayer.Builder(PeertubeActivity.this).build();
+                    player = new ExoPlayer.Builder(PeertubeActivity.this).build();
                     binding.mediaVideo.player(player);
                     binding.doubleTapPlayerView.setPlayer(player);
                     binding.loader.setVisibility(View.GONE);
@@ -1688,7 +1676,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     player.release();
 
                 TrackSelector trackSelector = new DefaultTrackSelector(PeertubeActivity.this, new AdaptiveTrackSelection.Factory());
-                player = new SimpleExoPlayer.Builder(PeertubeActivity.this).setTrackSelector(trackSelector).build();
+                player = new ExoPlayer.Builder(PeertubeActivity.this).setTrackSelector(trackSelector).build();
                 binding.mediaVideo.player(player);
                 binding.doubleTapPlayerView.setPlayer(player);
                 captionLang = item.getStrId();
@@ -1788,10 +1776,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     if (Helper.isLoggedIn(PeertubeActivity.this)) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(ADD_COMMENT, peertube.getId(), null, commentStr).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(ADD_COMMENT, 0, apiResponse1));
-                    } else {//Remote account is posting a message
-                        String url = "https://" + peertube.getChannel().getHost() + "/videos/watch/" + peertube.getUuid();
-                        MastodonPostActionsVM viewModelCommentMastodon = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-                        viewModelCommentMastodon.comment(url, commentStr).observe(PeertubeActivity.this, status -> manageVIewPostActionsMastodon(ADD_COMMENT, position, status));
                     }
                     binding.addCommentWrite.setText("");
                 }
@@ -1801,9 +1785,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     if (Helper.isLoggedIn(PeertubeActivity.this)) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(REPLY, peertube.getId(), comment.getId(), commentView).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(REPLY, position, apiResponse1));
-                    } else {//Remote account is posting a message
-                        MastodonPostActionsVM viewModelCommentMastodon = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-                        viewModelCommentMastodon.comment(comment.getUrl(), commentView).observe(PeertubeActivity.this, status -> manageVIewPostActionsMastodon(REPLY, position, status));
                     }
                     binding.addCommentWrite.setText("");
                 }
@@ -1848,7 +1829,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     public void openPostComment(Comment comment, int position) {
         if (comment != null) {
             binding.replyContent.setVisibility(View.VISIBLE);
-            Account account = comment.getAccount();
+            AccountData.PeertubeAccount account = comment.getAccount();
             loadAvatar(PeertubeActivity.this, account, binding.commentAccountProfile);
             binding.commentAccountDisplayname.setText(account.getDisplayName());
             binding.commentAccountUsername.setText(account.getAcct());
@@ -1934,33 +1915,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
 
-    public void manageVIewPostActionsMastodon(RetrofitPeertubeAPI.ActionType statusAction, int position, app.fedilab.android.peertube.client.mastodon.Status status) {
-        if (peertube.isCommentsEnabled() && statusAction == ADD_COMMENT) {
-            if (status != null) {
-                Comment comment = app.fedilab.android.peertube.client.mastodon.Status.convertStatusToComment(status);
-                comments.add(0, comment);
-                commentListAdapter.notifyItemInserted(0);
-            }
-        } else if (peertube.isCommentsEnabled() && statusAction == REPLY) {
-            if (status != null) {
-                Comment comment = app.fedilab.android.peertube.client.mastodon.Status.convertStatusToComment(status);
-                if (commentsThread == null) {
-                    commentsThread = new ArrayList<>();
-                }
-                commentsThread.add(position + 1, comment);
-                commentReplyListAdapter.notifyItemInserted(position + 1);
-            }
-        }
-    }
-
-    public void retrieveRemoteStatus(app.fedilab.android.peertube.client.mastodon.Status status) {
-        this.status = status;
-        if (status != null) {
-            changeColorMastodon();
-            binding.peertubeFavorite.setText(String.valueOf(status.getFavouriteCount()));
-            binding.peertubeReblog.setText(String.valueOf(status.getReblogsCount()));
-        }
-    }
 
     @SuppressWarnings({"unused", "RedundantSuppression"})
     public void manageVIewPostActions(RetrofitPeertubeAPI.ActionType statusAction, int position, APIResponse apiResponse) {
@@ -2040,13 +1994,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
 
-    private void changeColorMastodon() {
-        Drawable reblog = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_repeat_24);
-        Drawable favorite = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_star_24);
-        Drawable bookmark = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_bookmark_24);
-
-    }
-
     private void changeColor() {
 
         Drawable thumbUp = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_thumb_up_alt_24);
@@ -2063,13 +2010,13 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         }
         if (peertube.getMyRating() != null && peertube.getMyRating().compareTo("like") == 0) {
             if (thumbUp != null) {
-                thumbUp.setColorFilter(getResources().getColor(R.color.positive_thumbs), PorterDuff.Mode.SRC_ATOP);
-                DrawableCompat.setTint(thumbUp, getResources().getColor(R.color.positive_thumbs));
+                thumbUp.setColorFilter(getAttColor(PeertubeActivity.this, R.attr.primaryColor), PorterDuff.Mode.SRC_ATOP);
+                DrawableCompat.setTint(thumbUp, getAttColor(PeertubeActivity.this, R.attr.primaryColor));
             }
         } else if (peertube.getMyRating() != null && peertube.getMyRating().compareTo("dislike") == 0) {
             if (thumbDown != null) {
-                thumbDown.setColorFilter(getResources().getColor(R.color.negative_thumbs), PorterDuff.Mode.SRC_ATOP);
-                DrawableCompat.setTint(thumbDown, getResources().getColor(R.color.negative_thumbs));
+                thumbDown.setColorFilter(getAttColor(PeertubeActivity.this, R.attr.colorError), PorterDuff.Mode.SRC_ATOP);
+                DrawableCompat.setTint(thumbDown, getAttColor(PeertubeActivity.this, R.attr.colorError));
             }
         }
         binding.peertubeLikeCount.setCompoundDrawablesWithIntrinsicBounds(null, thumbUp, null, null);
@@ -2228,10 +2175,20 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     @Override
-    public void onPlayerError(ExoPlaybackException error) {
-
+    public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+        Player.Listener.super.onVideoSizeChanged(videoSize);
+        if (videoSize.width < videoSize.height) {
+            videoOrientationType = videoOrientation.PORTRAIT;
+        } else {
+            videoOrientationType = videoOrientation.LANDSCAPE;
+        }
     }
 
+
+    @Override
+    public void onPlayerError(PlaybackException error) {
+        Player.Listener.super.onPlayerError(error);
+    }
 
     enum videoOrientation {
         LANDSCAPE,

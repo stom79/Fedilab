@@ -14,12 +14,8 @@ package app.fedilab.android.peertube.viewmodel;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -28,6 +24,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
@@ -59,10 +57,9 @@ public class ChannelsVM extends AndroidViewModel {
             String finalElement = element;
             try {
                 if (type == RetrofitPeertubeAPI.DataType.MY_CHANNELS) {
-                    SharedPreferences sharedpreferences = _mContext.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-                    SQLiteDatabase db = Sqlite.getInstance(_mContext.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
                     String token = Helper.getToken(_mContext);
-                    AccountData.PeertubeAccount account = new AccountDAO(_mContext, db).getAccountByToken(token);
+                    BaseAccount baseAccount = new Account(_mContext).getAccountByToken(token);
+                    AccountData.PeertubeAccount account = baseAccount.peertube_account;
                     finalElement = account.getUsername() + "@" + account.getHost();
                 }
                 RetrofitPeertubeAPI retrofitPeertubeAPI;

@@ -16,6 +16,7 @@ package app.fedilab.android.peertube.drawer;
 
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -45,6 +46,7 @@ import app.fedilab.android.databinding.DrawerAboutInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
+import app.fedilab.android.sqlite.Sqlite;
 
 
 public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -127,7 +129,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.binding.instanceContainer.setOnClickListener(v -> {
             final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(Helper.PREF_INSTANCE, aboutInstance.getHost());
+            editor.putString(PREF_INSTANCE, aboutInstance.getHost());
             editor.commit();
             Helper.logoutNoRemoval((Activity) context);
         });

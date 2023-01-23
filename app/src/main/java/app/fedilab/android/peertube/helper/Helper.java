@@ -16,6 +16,9 @@ package app.fedilab.android.peertube.helper;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -122,7 +125,8 @@ public class Helper {
     public static final String OAUTH_SCOPES_PEERTUBE = "openid profile";
     public static final String OAUTH_SCOPES_MASTODON = "read write follow";
     public static final String REDIRECT_CONTENT = "urn:ietf:wg:oauth:2.0:oob";
-    public static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
+    public static final String PREF_SOFTWARE = "pref_software";
+    public static final String PREF_REMOTE_INSTANCE = "pref_remote_instance";
     public static final Pattern redirectPattern = Pattern.compile("externalAuthToken=(\\w+)&username=([\\w.-]+)");
     public static final String SET_VIDEO_CACHE = "set_video_cache";
     public static final String RECEIVE_CAST_SETTINGS = "receive_cast_settings";
@@ -131,9 +135,6 @@ public class Helper {
     public static final String SET_PROXY_HOST = "set_proxy_host";
     public static final String SET_PROXY_PORT = "set_proxy_port";
     public static final String INTENT_ACTION = "intent_action";
-    public static final String PREF_KEY_ID = "userID";
-    public static final String PREF_KEY_NAME = "my_user_name";
-    public static final String PREF_INSTANCE = "instance";
     public static final int EXTERNAL_STORAGE_REQUEST_CODE = 84;
     public static final String SET_VIDEOS_PER_PAGE = "set_videos_per_page";
     public static final String VIDEO_ID = "video_id_update";
@@ -565,11 +566,11 @@ public class Helper {
     public static void logoutNoRemoval(Activity activity) {
         SharedPreferences sharedpreferences = activity.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(PREF_KEY_OAUTH_TOKEN, null);
+        editor.putString(PREF_USER_TOKEN, null);
         editor.putString(CLIENT_ID, null);
         editor.putString(CLIENT_SECRET, null);
-        editor.putString(PREF_KEY_ID, null);
-        editor.putString(ID, null);
+        editor.putString(PREF_USER_ID, null);
+        editor.putString(PREF_INSTANCE, null);
         editor.apply();
         Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
         activity.startActivity(loginActivity);
@@ -619,7 +620,7 @@ public class Helper {
      */
     public static PeertubeMainActivity.TypeOfConnection isLoggedInType(Context context) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-        String prefKeyOauthTokenT = sharedpreferences.getString(PREF_KEY_OAUTH_TOKEN, null);
+        String prefKeyOauthTokenT = sharedpreferences.getString(PREF_USER_TOKEN, null);
         String prefSoftware = sharedpreferences.getString(PREF_SOFTWARE, null);
         if (prefKeyOauthTokenT != null && prefSoftware == null) {
             return PeertubeMainActivity.TypeOfConnection.NORMAL;
@@ -633,7 +634,7 @@ public class Helper {
     public static String getToken(Context context) {
         if (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL) {
             SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-            return sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
+            return sharedpreferences.getString(PREF_USER_TOKEN, null);
         } else {
             return null;
         }
@@ -660,28 +661,24 @@ public class Helper {
 
     public static boolean isOwner(Context context, AccountData.PeertubeAccount account) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-        String userName = sharedpreferences.getString(Helper.PREF_KEY_NAME, "");
-        String instance = sharedpreferences.getString(Helper.PREF_INSTANCE, "");
-        if (instance != null && userName != null) {
-            return account.getUsername().compareTo(userName) == 0 && account.getHost().compareTo(instance) == 0;
-        } else {
-            return false;
-        }
+        String userId = sharedpreferences.getString(PREF_USER_ID, "");
+        String instance = sharedpreferences.getString(PREF_INSTANCE, "");
+        return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
     }
 
     public static boolean isVideoOwner(Context context, VideoData.Video video) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-        String userName = sharedpreferences.getString(Helper.PREF_KEY_NAME, "");
-        String instance = sharedpreferences.getString(Helper.PREF_INSTANCE, "");
+        String userId = sharedpreferences.getString(PREF_USER_ID, "");
+        String instance = sharedpreferences.getString(PREF_INSTANCE, "");
         if (video == null) {
             return false;
         }
         AccountData.PeertubeAccount account = video.getAccount();
         ChannelData.Channel channel = video.getChannel();
-        if (account != null && instance != null && userName != null) {
-            return account.getUsername().compareTo(userName) == 0 && account.getHost().compareTo(instance) == 0;
-        } else if (channel != null && instance != null && userName != null) {
-            return channel.getName().compareTo(userName) == 0 && channel.getHost().compareTo(instance) == 0;
+        if (account != null) {
+            return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
+        } else if (channel != null) {
+            return channel.getOwnerAccount().getUserId().compareTo(userId) == 0 && channel.getHost().compareTo(instance) == 0;
         } else {
             return false;
         }

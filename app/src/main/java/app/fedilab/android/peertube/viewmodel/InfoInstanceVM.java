@@ -29,6 +29,7 @@ import java.util.List;
 
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
+import app.fedilab.android.sqlite.Sqlite;
 
 
 public class InfoInstanceVM extends AndroidViewModel {
