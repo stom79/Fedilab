@@ -51,7 +51,7 @@ public class NotificationData {
         @SerializedName("videoBlacklist")
         private VideoBlacklist videoBlacklist;
         @SerializedName("account")
-        private AccountData.Account account;
+        private AccountData.PeertubeAccount account;
         @SerializedName("actorFollow")
         private ActorFollow actorFollow;
         @SerializedName("createdAt")
@@ -124,11 +124,11 @@ public class NotificationData {
             this.videoBlacklist = videoBlacklist;
         }
 
-        public AccountData.Account getAccount() {
+        public AccountData.PeertubeAccount getAccount() {
             return account;
         }
 
-        public void setAccount(AccountData.Account account) {
+        public void setAccount(AccountData.PeertubeAccount account) {
             this.account = account;
         }
 

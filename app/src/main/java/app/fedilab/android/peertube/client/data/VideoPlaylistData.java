@@ -15,16 +15,15 @@ package app.fedilab.android.peertube.client.data;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class VideoPlaylistData {
+public class VideoPlaylistData implements Serializable {
 
     @SerializedName("total")
     public int total;
@@ -47,7 +46,7 @@ public class VideoPlaylistData {
         this.data = data;
     }
 
-    public static class VideoPlaylist {
+    public static class VideoPlaylist implements Serializable {
         @SerializedName("id")
         private String id;
         @SerializedName("position")
@@ -110,7 +109,7 @@ public class VideoPlaylistData {
         }
     }
 
-    public static class VideoPlaylistCreation {
+    public static class VideoPlaylistCreation implements Serializable {
         @SerializedName("videoPlaylist")
         private VideoPlaylistCreationItem videoPlaylist;
 
@@ -123,7 +122,7 @@ public class VideoPlaylistData {
         }
     }
 
-    public static class PlaylistElement {
+    public static class PlaylistElement implements Serializable {
         @SerializedName("videoPlaylistElement")
         private VideoPlaylistCreationItem videoPlaylistElement;
 
@@ -136,7 +135,7 @@ public class VideoPlaylistData {
         }
     }
 
-    public static class VideoPlaylistCreationItem {
+    public static class VideoPlaylistCreationItem implements Serializable {
         @SerializedName("id")
         String id;
         @SerializedName("uuid")
@@ -159,19 +158,8 @@ public class VideoPlaylistData {
         }
     }
 
-    public static class VideoPlaylistExport implements Parcelable {
+    public static class VideoPlaylistExport implements Serializable {
 
-        public static final Creator<VideoPlaylistExport> CREATOR = new Creator<VideoPlaylistExport>() {
-            @Override
-            public VideoPlaylistExport createFromParcel(Parcel in) {
-                return new VideoPlaylistExport(in);
-            }
-
-            @Override
-            public VideoPlaylistExport[] newArray(int size) {
-                return new VideoPlaylistExport[size];
-            }
-        };
         private long playlistDBkey;
         private String acct;
         private String uuid;
@@ -182,13 +170,6 @@ public class VideoPlaylistData {
         public VideoPlaylistExport() {
         }
 
-        protected VideoPlaylistExport(Parcel in) {
-            playlistDBkey = in.readLong();
-            acct = in.readString();
-            uuid = in.readString();
-            playlist = in.readParcelable(PlaylistData.Playlist.class.getClassLoader());
-            in.readList(this.videos, VideoPlaylist.class.getClassLoader());
-        }
 
         public String getAcct() {
             return acct;
@@ -230,18 +211,5 @@ public class VideoPlaylistData {
             this.videos = videos;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeLong(playlistDBkey);
-            parcel.writeString(acct);
-            parcel.writeString(uuid);
-            parcel.writeParcelable(playlist, i);
-            parcel.writeList(videos);
-        }
     }
 }

@@ -39,7 +39,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
 import es.dmoral.toasty.Toasty;
@@ -47,13 +47,13 @@ import es.dmoral.toasty.Toasty;
 
 public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<Account> accounts;
+    private final List<AccountData.PeertubeAccount> accounts;
     private final AccountsListAdapter accountsListAdapter;
     private final RetrofitPeertubeAPI.DataType type;
     public AllAccountsRemoved allAccountsRemoved;
     private Context context;
 
-    public AccountsListAdapter(RetrofitPeertubeAPI.DataType type, List<Account> accounts) {
+    public AccountsListAdapter(RetrofitPeertubeAPI.DataType type, List<AccountData.PeertubeAccount> accounts) {
         this.accounts = accounts;
         this.accountsListAdapter = this;
         this.type = type;
@@ -70,7 +70,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
-        final Account account = accounts.get(position);
+        final AccountData.PeertubeAccount account = accounts.get(position);
         if (type == RetrofitPeertubeAPI.DataType.MUTED) {
             holder.account_action.setOnClickListener(v -> {
                 PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
@@ -96,7 +96,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.account_pp.setOnClickListener(v -> {
             Intent intent = new Intent(context, ShowAccountActivity.class);
             Bundle b = new Bundle();
-            b.putParcelable("account", account);
+            b.putSerializable("account", account);
             b.putString("accountAcct", account.getAcct());
             intent.putExtras(b);
             context.startActivity(intent);
@@ -122,7 +122,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (statusAction == RetrofitPeertubeAPI.ActionType.UNMUTE) {
             int position = 0;
-            for (Account account : accounts) {
+            for (AccountData.PeertubeAccount account : accounts) {
                 if (account.getAcct().equals(elementTargeted)) {
                     accounts.remove(position);
                     accountsListAdapter.notifyItemRemoved(position);

@@ -46,25 +46,25 @@ public class BlockData {
     @SuppressWarnings("unused")
     public static class Block {
         @SerializedName("blockedAccount")
-        private AccountData.Account blockedAccount;
+        private AccountData.PeertubeAccount blockedAccount;
         @SerializedName("byAccount")
-        private AccountData.Account byAccount;
+        private AccountData.PeertubeAccount byAccount;
         @SerializedName("createdAt")
         private Date createdAt;
 
-        public AccountData.Account getBlockedAccount() {
+        public AccountData.PeertubeAccount getBlockedAccount() {
             return blockedAccount;
         }
 
-        public void setBlockedAccount(AccountData.Account blockedAccount) {
+        public void setBlockedAccount(AccountData.PeertubeAccount blockedAccount) {
             this.blockedAccount = blockedAccount;
         }
 
-        public AccountData.Account getByAccount() {
+        public AccountData.PeertubeAccount getByAccount() {
             return byAccount;
         }
 
-        public void setByAccount(AccountData.Account byAccount) {
+        public void setByAccount(AccountData.PeertubeAccount byAccount) {
             this.byAccount = byAccount;
         }
 

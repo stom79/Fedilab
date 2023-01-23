@@ -311,7 +311,7 @@ public class SepiaSearchActivity extends BaseBarActivity {
         sepiaSearchVideo.setSearch(binding.searchBar.getText());
         DisplaySepiaSearchFragment displaySepiaSearchFragment = new DisplaySepiaSearchFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("sepiaSearchVideo", sepiaSearchVideo);
+        bundle.putSerializable("sepiaSearchVideo", sepiaSearchVideo);
         displaySepiaSearchFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.container, displaySepiaSearchFragment, "SEPIA_SEARCH").commit();

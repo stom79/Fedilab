@@ -394,7 +394,7 @@ public interface PeertubeService {
 
     //Get a single account
     @GET("accounts/{accountHandle}")
-    Call<AccountData.Account> getAccount(@Path("accountHandle") String accountHandle);
+    Call<AccountData.PeertubeAccount> getAccount(@Path("accountHandle") String accountHandle);
 
     //Get/Post/Update/Delete playlist
     @GET("accounts/{accountHandle}/video-playlists")

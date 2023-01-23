@@ -130,7 +130,7 @@ public class BasePeertubeActivity extends BaseBarActivity {
 
                             } else {
                                 b.putInt("displayed", 1);
-                                b.putParcelable("castedTube", peertube);
+                                b.putSerializable("castedTube", peertube);
                                 intentBC.putExtras(b);
                                 LocalBroadcastManager.getInstance(BasePeertubeActivity.this).sendBroadcast(intentBC);
                                 try {

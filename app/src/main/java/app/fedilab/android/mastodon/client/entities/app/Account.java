@@ -16,8 +16,11 @@ package app.fedilab.android.mastodon.client.entities.app;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -29,6 +32,9 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.peertube.client.data.AccountData;
+import app.fedilab.android.peertube.client.entities.Token;
+import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.sqlite.Sqlite;
 
 /**
@@ -69,6 +75,21 @@ public class Account extends BaseAccount implements Serializable {
     }
 
     /**
+     * Serialized a Peertube BaseAccount class
+     *
+     * @param peertube_account {@link AccountData.PeertubeAccount} to serialize
+     * @return String serialized account
+     */
+    public static String peertubeAccountToStringStorage(AccountData.PeertubeAccount peertube_account) {
+        Gson gson = new Gson();
+        try {
+            return gson.toJson(peertube_account);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * Unserialized a Mastodon BaseAccount
      *
      * @param serializedAccount String serialized account
@@ -83,6 +104,22 @@ public class Account extends BaseAccount implements Serializable {
         }
     }
 
+
+    /**
+     * Unserialized a Peertube account AccountData.PeertubeAccount
+     *
+     * @param serializedAccount String serialized account
+     * @return {@link AccountData.PeertubeAccount}
+     */
+    public static AccountData.PeertubeAccount restorePeertubeAccountFromString(String serializedAccount) {
+        Gson gson = new Gson();
+        try {
+            return gson.fromJson(serializedAccount, AccountData.PeertubeAccount.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * Returns all BaseAccount in db
      *
@@ -92,6 +129,21 @@ public class Account extends BaseAccount implements Serializable {
 
         try {
             Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, "(" + Sqlite.COL_API + " = 'MASTODON' OR " + Sqlite.COL_API + " = 'PLEROMA' OR " + Sqlite.COL_API + " = 'FRIENDICA') AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
+            return cursorToListUserWithOwner(c);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns all BaseAccount in db
+     *
+     * @return BaseAccount List<BaseAccount>
+     */
+    public List<BaseAccount> getPeertubeAccounts() {
+
+        try {
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, Sqlite.COL_API + " = 'PEERTUBE' AND " + Sqlite.COL_TOKEN + " IS NOT NULL", null, null, null, Sqlite.COL_INSTANCE + " ASC", null);
             return cursorToListUserWithOwner(c);
         } catch (Exception e) {
             return null;
@@ -144,6 +196,9 @@ public class Account extends BaseAccount implements Serializable {
         if (account.mastodon_account != null) {
             values.put(Sqlite.COL_ACCOUNT, mastodonAccountToStringStorage(account.mastodon_account));
         }
+        if (account.peertube_account != null) {
+            values.put(Sqlite.COL_ACCOUNT, peertubeAccountToStringStorage(account.peertube_account));
+        }
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
         //Inserts token
@@ -181,6 +236,9 @@ public class Account extends BaseAccount implements Serializable {
         if (account.mastodon_account != null) {
             values.put(Sqlite.COL_ACCOUNT, mastodonAccountToStringStorage(account.mastodon_account));
         }
+        if (account.peertube_account != null) {
+            values.put(Sqlite.COL_ACCOUNT, peertubeAccountToStringStorage(account.peertube_account));
+        }
         values.put(Sqlite.COL_UPDATED_AT, Helper.dateToString(new Date()));
         //Inserts token
         try {
@@ -191,6 +249,33 @@ public class Account extends BaseAccount implements Serializable {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    /**
+     * Update an account in db
+     *
+     * @param token {@link Token}
+     * @return long - db id
+     * @throws DBException exception with database
+     */
+    public long updatePeertubeToken(Token token) throws DBException {
+        ContentValues values = new ContentValues();
+        if (token.getRefresh_token() != null) {
+            values.put(Sqlite.COL_REFRESH_TOKEN, token.getRefresh_token());
+        }
+        if (token.getAccess_token() != null)
+            values.put(Sqlite.COL_TOKEN, token.getAccess_token());
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String userId = sharedpreferences.getString(Helper.PREF_KEY_ID, null);
+        String instance = HelperInstance.getLiveInstance(context);
+        try {
+            return db.update(Sqlite.TABLE_USER_ACCOUNT,
+                    values, Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                    new String[]{userId, instance});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     /**
@@ -454,6 +539,7 @@ public class Account extends BaseAccount implements Serializable {
         FRIENDICA,
         PLEROMA,
         PIXELFED,
+        PEERTUBE,
         UNKNOWN
     }
 }

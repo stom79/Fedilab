@@ -38,8 +38,6 @@ import app.fedilab.android.peertube.activities.AllPlaylistsActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.ManagePlaylistsDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 
 

@@ -28,7 +28,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import app.fedilab.android.peertube.client.data.InstanceData;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 
 

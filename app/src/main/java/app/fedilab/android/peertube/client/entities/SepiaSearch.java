@@ -14,29 +14,16 @@ package app.fedilab.android.peertube.client.entities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class SepiaSearch implements Parcelable {
+public class SepiaSearch implements Serializable {
 
-    public static final Creator<SepiaSearch> CREATOR = new Creator<SepiaSearch>() {
-        @Override
-        public SepiaSearch createFromParcel(Parcel source) {
-            return new SepiaSearch(source);
-        }
-
-        @Override
-        public SepiaSearch[] newArray(int size) {
-            return new SepiaSearch[size];
-        }
-    };
     @SerializedName("start")
     private String start;
     @SerializedName("count")
@@ -65,25 +52,6 @@ public class SepiaSearch implements Parcelable {
     private String sort;
 
     public SepiaSearch() {
-    }
-
-    protected SepiaSearch(Parcel in) {
-        this.start = in.readString();
-        this.count = in.readString();
-        this.search = in.readString();
-        this.durationMax = in.readInt();
-        this.durationMin = in.readInt();
-        long tmpStartDate = in.readLong();
-        this.startDate = tmpStartDate == -1 ? null : new Date(tmpStartDate);
-        this.boostLanguages = in.createStringArrayList();
-        this.categoryOneOf = new ArrayList<>();
-        in.readList(this.categoryOneOf, Integer.class.getClassLoader());
-        this.licenceOneOf = new ArrayList<>();
-        in.readList(this.licenceOneOf, Integer.class.getClassLoader());
-        this.tagsOneOf = in.createStringArrayList();
-        this.tagsAllOf = in.createStringArrayList();
-        this.nsfw = in.readByte() != 0;
-        this.sort = in.readString();
     }
 
     public String getStart() {
@@ -190,25 +158,4 @@ public class SepiaSearch implements Parcelable {
         this.sort = sort;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.start);
-        dest.writeString(this.count);
-        dest.writeString(this.search);
-        dest.writeInt(this.durationMax);
-        dest.writeInt(this.durationMin);
-        dest.writeLong(this.startDate != null ? this.startDate.getTime() : -1);
-        dest.writeStringList(this.boostLanguages);
-        dest.writeList(this.categoryOneOf);
-        dest.writeList(this.licenceOneOf);
-        dest.writeStringList(this.tagsOneOf);
-        dest.writeStringList(this.tagsAllOf);
-        dest.writeByte(this.nsfw ? (byte) 1 : (byte) 0);
-        dest.writeString(this.sort);
-    }
 }

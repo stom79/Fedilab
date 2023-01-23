@@ -19,14 +19,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.peertube.client.data.AccountData.PeertubeAccount;
 import app.fedilab.android.peertube.client.data.ChannelData;
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
 public class UserMe {
 
     @SerializedName("account")
-    private Account account;
+    private PeertubeAccount account;
     @SerializedName("autoPlayNextVideo")
     private boolean autoPlayNextVideo;
     @SerializedName("autoPlayNextVideoPlaylist")
@@ -74,11 +74,11 @@ public class UserMe {
     @SerializedName("webTorrentEnabled")
     private boolean webTorrentEnabled;
 
-    public Account getAccount() {
+    public PeertubeAccount getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(PeertubeAccount account) {
         this.account = account;
     }
 

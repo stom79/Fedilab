@@ -26,7 +26,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 
 
 public class NotificationsVM extends AndroidViewModel {

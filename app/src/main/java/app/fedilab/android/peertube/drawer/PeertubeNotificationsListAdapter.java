@@ -74,7 +74,7 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
         //Follow Notification
         boolean clickableNotification = true;
         holder.peertube_notif_pp.setVisibility(View.VISIBLE);
-        AccountData.Account accountAction = null;
+        AccountData.PeertubeAccount accountAction = null;
         ChannelData.Channel channelAction = null;
         if (notification.isRead()) {
             holder.unread.setVisibility(View.INVISIBLE);
@@ -97,7 +97,7 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
             else
                 holder.peertube_notif_message.setText(Html.fromHtml(message));
             Actor actor = notification.getActorFollow().getFollower();
-            accountAction = new AccountData.Account();
+            accountAction = new AccountData.PeertubeAccount();
             accountAction.setAvatar(actor.getAvatar());
             accountAction.setDisplayName(actor.getDisplayName());
             accountAction.setHost(actor.getHost());
@@ -112,11 +112,11 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
                 holder.peertube_notif_message.setText(Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY));
             else
                 holder.peertube_notif_message.setText(Html.fromHtml(message));
-            AccountData.Account finalAccountAction1 = accountAction;
+            AccountData.PeertubeAccount finalAccountAction1 = accountAction;
             holder.peertube_notif_message.setOnClickListener(v -> {
                 Intent intent = new Intent(context, PeertubeActivity.class);
                 Bundle b = new Bundle();
-                b.putParcelable("video", notification.getVideo());
+                b.putSerializable("video", notification.getVideo());
                 b.putString("peertube_instance", finalAccountAction1.getHost());
                 b.putString("video_id", notification.getComment().getVideo().getId());
                 b.putString("video_uuid", notification.getComment().getVideo().getUuid());
@@ -158,7 +158,7 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
                 holder.peertube_notif_message.setOnClickListener(v -> {
                     Intent intent = new Intent(context, PeertubeActivity.class);
                     Bundle b = new Bundle();
-                    b.putParcelable("video", notification.getVideo());
+                    b.putSerializable("video", notification.getVideo());
                     b.putString("peertube_instance", HelperInstance.getLiveInstance(context));
                     b.putBoolean("isMyVideo", finalMyVideo);
                     b.putString("video_id", notification.getVideo().getId());
@@ -188,7 +188,7 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
             }
         }
         holder.peertube_notif_date.setText(Helper.dateDiff(context, notification.getCreatedAt()));
-        AccountData.Account finalAccountAction = accountAction;
+        AccountData.PeertubeAccount finalAccountAction = accountAction;
         ChannelData.Channel finalChannelAction = channelAction;
         if (clickableNotification) {
             holder.peertube_notif_pp.setOnClickListener(v -> {
@@ -196,11 +196,11 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
                 Intent intent = null;
                 if (finalAccountAction != null) {
                     intent = new Intent(context, ShowAccountActivity.class);
-                    b.putParcelable("account", finalAccountAction);
+                    b.putSerializable("account", finalAccountAction);
                     b.putString("accountAcct", finalAccountAction.getUsername() + "@" + finalAccountAction.getHost());
                 } else if (finalChannelAction != null) {
                     intent = new Intent(context, ShowChannelActivity.class);
-                    b.putParcelable("channel", finalChannelAction);
+                    b.putSerializable("channel", finalChannelAction);
                 }
                 if (intent != null) {
                     intent.putExtras(b);

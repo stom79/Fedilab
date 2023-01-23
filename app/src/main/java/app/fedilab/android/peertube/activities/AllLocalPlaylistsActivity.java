@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +34,6 @@ import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
 import app.fedilab.android.peertube.drawer.PlaylistAdapter;
-import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 
 
 public class AllLocalPlaylistsActivity extends BaseBarActivity implements PlaylistAdapter.AllPlaylistRemoved {
@@ -63,8 +61,6 @@ public class AllLocalPlaylistsActivity extends BaseBarActivity implements Playli
         mainLoader.setVisibility(View.VISIBLE);
         nextElementLoader.setVisibility(View.GONE);
 
-        PlaylistsVM viewModel = new ViewModelProvider(AllLocalPlaylistsActivity.this).get(PlaylistsVM.class);
-        viewModel.localePlaylist().observe(AllLocalPlaylistsActivity.this, this::manageVIewPlaylists);
 
         FloatingActionButton add_new = findViewById(R.id.add_new);
         add_new.setVisibility(View.GONE);

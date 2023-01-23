@@ -26,7 +26,6 @@ import static app.fedilab.android.peertube.helper.Helper.isLoggedIn;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -63,14 +62,10 @@ import app.fedilab.android.databinding.ActivityShowChannelBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.ChannelData.Channel;
-import app.fedilab.android.peertube.drawer.OwnAccountsAdapter;
 import app.fedilab.android.peertube.fragment.DisplayAccountsFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
 import app.fedilab.android.peertube.viewmodel.RelationshipVM;
@@ -116,43 +111,7 @@ public class ShowChannelActivity extends BaseBarActivity {
         viewModel.get(sepiaSearch ? peertubeInstance : null, CHANNEL, channelAcct == null ? channel.getAcct() : channelAcct).observe(ShowChannelActivity.this, this::manageViewAccounts);
         manageChannel();
 
-        if (PeertubeMainActivity.typeOfConnection == SURFING) {
-            binding.accountFollow.setText(getString(R.string.action_follow));
-            binding.accountFollow.setEnabled(true);
-            new Thread(() -> {
-                try {
-                    SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                    List<AccountData.Account> accounts = new AccountDAO(ShowChannelActivity.this, db).getAllAccount();
-                    runOnUiThread(() -> {
-                        binding.accountFollow.setVisibility(View.VISIBLE);
-                        binding.accountFollow.setOnClickListener(v -> {
-                            AlertDialog.Builder builderSingle = new AlertDialog.Builder(ShowChannelActivity.this);
-                            builderSingle.setTitle(getString(R.string.list_of_accounts));
-                            if (accounts != null && accounts.size() > 0) {
-                                if (accounts.size() > 1) {
-                                    final OwnAccountsAdapter accountsListAdapter = new OwnAccountsAdapter(ShowChannelActivity.this, accounts);
-                                    builderSingle.setAdapter(accountsListAdapter, (dialog, which) -> new Thread(() -> {
-                                        try {
-                                            RetrofitPeertubeAPI peertubeAPI = new RetrofitPeertubeAPI(ShowChannelActivity.this, accounts.get(which).getHost(), accounts.get(which).getToken());
-                                            peertubeAPI.post(FOLLOW, channel.getAcct(), null);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }).start());
-                                } else {
-                                    RetrofitPeertubeAPI peertubeAPI = new RetrofitPeertubeAPI(ShowChannelActivity.this, accounts.get(0).getHost(), accounts.get(0).getToken());
-                                    peertubeAPI.post(FOLLOW, channel.getAcct(), null);
-                                }
-                            }
-                            builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                            builderSingle.show();
-                        });
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
+
     }
 
     @Override
@@ -204,7 +163,7 @@ public class ShowChannelActivity extends BaseBarActivity {
         } else if (item.getItemId() == R.id.action_display_account) {
             Bundle b = new Bundle();
             Intent intent = new Intent(ShowChannelActivity.this, ShowAccountActivity.class);
-            b.putParcelable("account", channel.getOwnerAccount());
+            b.putSerializable("account", channel.getOwnerAccount());
             b.putString("accountAcct", channel.getOwnerAccount().getAcct());
             intent.putExtras(b);
             startActivity(intent);
@@ -449,7 +408,7 @@ public class ShowChannelActivity extends BaseBarActivity {
             DisplayVideosFragment displayVideosFragment = new DisplayVideosFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.CHANNEL_VIDEOS);
-            bundle.putParcelable("channel", channel);
+            bundle.putSerializable("channel", channel);
             bundle.putString("peertube_instance", channel.getHost());
             bundle.putBoolean("sepia_search", sepiaSearch);
             displayVideosFragment.setArguments(bundle);

@@ -14,8 +14,7 @@ package app.fedilab.android.peertube.client.data;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
+
 import android.text.SpannableStringBuilder;
 
 import com.google.gson.annotations.SerializedName;
@@ -25,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class InstanceData {
+public class InstanceData implements Serializable {
 
     @SerializedName("total")
     public int total;
@@ -33,7 +32,7 @@ public class InstanceData {
     public List<Instance> data;
 
 
-    public static class Instance {
+    public static class Instance implements Serializable {
 
         @SerializedName("autoBlacklistUserVideosEnabled")
         private boolean autoBlacklistUserVideosEnabled;
@@ -278,19 +277,8 @@ public class InstanceData {
         }
     }
 
-    public static class AboutInstance implements Parcelable, Serializable {
+    public static class AboutInstance implements Serializable {
 
-        public static final Creator<AboutInstance> CREATOR = new Creator<AboutInstance>() {
-            @Override
-            public AboutInstance createFromParcel(Parcel in) {
-                return new AboutInstance(in);
-            }
-
-            @Override
-            public AboutInstance[] newArray(int size) {
-                return new AboutInstance[size];
-            }
-        };
         @SerializedName("name")
         private String name;
         @SerializedName("shortDescription")
@@ -305,13 +293,6 @@ public class InstanceData {
         public AboutInstance() {
         }
 
-        protected AboutInstance(Parcel in) {
-            name = in.readString();
-            shortDescription = in.readString();
-            description = in.readString();
-            terms = in.readString();
-            host = in.readString();
-        }
 
         public String getName() {
             return name;
@@ -361,23 +342,11 @@ public class InstanceData {
             this.truncatedDescription = truncatedDescription;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
 
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(name);
-            parcel.writeString(shortDescription);
-            parcel.writeString(description);
-            parcel.writeString(terms);
-            parcel.writeString(host);
-        }
     }
 
 
-    public static class InstanceConfig {
+    public static class InstanceConfig implements Serializable {
         @SerializedName("user")
         private User user;
         @SerializedName("plugin")
@@ -401,7 +370,7 @@ public class InstanceData {
     }
 
 
-    public static class User {
+    public static class User implements Serializable {
         @SerializedName("videoQuota")
         private long videoQuota;
         @SerializedName("videoQuotaDaily")

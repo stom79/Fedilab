@@ -61,8 +61,10 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.AcadInstances;
 import app.fedilab.android.peertube.client.entities.Error;
@@ -79,10 +81,9 @@ import app.fedilab.android.peertube.helper.HelperAcadInstance;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.helper.SwitchAccountHelper;
 import app.fedilab.android.peertube.services.RetrieveInfoService;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
+import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
@@ -219,7 +220,6 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        checkIfConnectedUsers();
 
         recentFragment = new DisplayVideosFragment();
         Bundle bundle = new Bundle();
@@ -354,18 +354,27 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
             SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
             String instanceShar = sharedpreferences.getString(Helper.PREF_INSTANCE, null);
             String userIdShar = sharedpreferences.getString(Helper.PREF_KEY_ID, null);
-            Account account = new AccountDAO(PeertubeMainActivity.this, db).getAccountByToken(tokenStr);
+            BaseAccount account = null;
+            try {
+                account = new Account(PeertubeMainActivity.this).getAccountByToken(tokenStr);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
             if (account == null) {
-                account = new AccountDAO(PeertubeMainActivity.this, db).getAccountByIdInstance(userIdShar, instanceShar);
+                try {
+                    account = new Account(PeertubeMainActivity.this).getUniqAccount(userIdShar, instanceShar);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
             }
             if (account != null) {
-                Account finalAccount = account;
+                BaseAccount finalAccount = account;
                 OauthParams oauthParams = new OauthParams();
                 oauthParams.setGrant_type("refresh_token");
-                oauthParams.setClient_id(account.getClient_id());
-                oauthParams.setClient_secret(account.getClient_secret());
-                oauthParams.setRefresh_token(account.getRefresh_token());
-                oauthParams.setAccess_token(account.getToken());
+                oauthParams.setClient_id(account.client_id);
+                oauthParams.setClient_secret(account.client_secret);
+                oauthParams.setRefresh_token(account.refresh_token);
+                oauthParams.setAccess_token(account.token);
                 try {
                     Token token = new RetrofitPeertubeAPI(PeertubeMainActivity.this).manageToken(oauthParams);
                     if (token == null) {
@@ -383,10 +392,15 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
                     userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, instance, token.getAccess_token()).verifyCredentials();
                     if (userMe != null && userMe.getAccount() != null) {
-                        new AccountDAO(PeertubeMainActivity.this, db).updateAccount(userMe.getAccount());
+                        account.peertube_account = userMe.getAccount();
+                        try {
+                            new Account(PeertubeMainActivity.this).insertOrUpdate(account);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(Helper.PREF_KEY_ID, account.getId());
-                        editor.putString(Helper.PREF_KEY_NAME, account.getUsername());
+                        editor.putString(Helper.PREF_KEY_ID, account.user_id);
+                        editor.putString(Helper.PREF_KEY_NAME, account.peertube_account.getUsername());
                         editor.putBoolean(getString(R.string.set_autoplay_choice), userMe.isAutoPlayVideo());
                         editor.putBoolean(getString(R.string.set_store_in_history), userMe.isVideosHistoryEnabled());
                         editor.putBoolean(getString(R.string.set_autoplay_next_video_choice), userMe.isAutoPlayNextVideo());
@@ -540,25 +554,6 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
     }
 
 
-    private void checkIfConnectedUsers() {
-        new Thread(() -> {
-            try {
-                typeOfConnection = TypeOfConnection.NORMAL;
-                if (!Helper.canMakeAction(PeertubeMainActivity.this)) {
-                    SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                    List<Account> accounts = new AccountDAO(PeertubeMainActivity.this, db).getAllAccount();
-                    if (accounts != null && accounts.size() > 0) {
-                        //The user is not authenticated and there accounts in db. That means the user is surfing some other instances
-                        typeOfConnection = TypeOfConnection.SURFING;
-                    }
-                }
-                runOnUiThread(this::invalidateOptionsMenu);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
 
 
     @Override
@@ -623,11 +618,7 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
             type = HelperAcadInstance.MOSTLIKED;
         } else if (item.getItemId() == R.id.action_playlist) {
             Intent intent;
-            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
-                intent = new Intent(PeertubeMainActivity.this, AllPlaylistsActivity.class);
-            } else {
-                intent = new Intent(PeertubeMainActivity.this, AllLocalPlaylistsActivity.class);
-            }
+            intent = new Intent(PeertubeMainActivity.this, AllPlaylistsActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_sepia_search) {
             Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);

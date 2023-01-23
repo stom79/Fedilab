@@ -35,7 +35,7 @@ import app.fedilab.android.peertube.client.entities.Rating;
 @SuppressWarnings({"unused", "RedundantSuppression"})
 public class APIResponse {
 
-    private List<AccountData.Account> accounts = null;
+    private List<AccountData.PeertubeAccount> accounts = null;
     private List<ChannelData.Channel> channels = null;
     private String targetedId = null;
     private String actionReturn = null;
@@ -59,11 +59,11 @@ public class APIResponse {
     private int statusCode;
     private String captionText;
 
-    public List<AccountData.Account> getAccounts() {
+    public List<AccountData.PeertubeAccount> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<AccountData.Account> accounts) {
+    public void setAccounts(List<AccountData.PeertubeAccount> accounts) {
         this.accounts = accounts;
     }
 

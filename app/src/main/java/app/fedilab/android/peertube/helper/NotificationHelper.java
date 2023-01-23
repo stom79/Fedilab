@@ -47,7 +47,7 @@ public class NotificationHelper {
      * @param message String message for the notification
      */
     @SuppressLint("UnspecifiedImmutableFlag")
-    public static void notify_user(Context context, AccountData.Account account, Intent intent, Bitmap icon, String title, String message) {
+    public static void notify_user(Context context, AccountData.PeertubeAccount account, Intent intent, Bitmap icon, String title, String message) {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         int notificationId = (int) System.currentTimeMillis();
         PendingIntent pIntent;
@@ -85,7 +85,7 @@ public class NotificationHelper {
                         .setContentIntent(pIntent)
                         .setLargeIcon(icon)
                         .setAutoCancel(true)
-                        .setSmallIcon(R.drawable.ic_notification_tubelab)
+                        .setSmallIcon(R.drawable.ic_notification)
                         .setGroup(account.getAcct())
                         .setGroupSummary(true)
                         .build();

@@ -64,6 +64,7 @@ import app.fedilab.android.mastodon.helper.ZipHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AppsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
+import app.fedilab.android.peertube.activities.LoginActivity;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentLoginMain extends Fragment {
@@ -162,7 +163,8 @@ public class FragmentLoginMain extends Fragment {
             }
             binding.continueButton.setEnabled(false);
             NodeInfoVM nodeInfoVM = new ViewModelProvider(requireActivity()).get(NodeInfoVM.class);
-            nodeInfoVM.getNodeInfo(binding.loginInstance.getText().toString()).observe(requireActivity(), nodeInfo -> {
+            String instance = binding.loginInstance.getText().toString();
+            nodeInfoVM.getNodeInfo(instance).observe(requireActivity(), nodeInfo -> {
                 if (nodeInfo != null) {
                     BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
                     switch (nodeInfo.software.name.toUpperCase().trim()) {
@@ -179,6 +181,9 @@ public class FragmentLoginMain extends Fragment {
                         case "PLEROMA":
                             apiLogin = Account.API.PLEROMA;
                             break;
+                        case "PEERTUBE":
+                            apiLogin = Account.API.PEERTUBE;
+                            break;
                         default:
                             apiLogin = Account.API.UNKNOWN;
                             break;
@@ -190,7 +195,14 @@ public class FragmentLoginMain extends Fragment {
                 }
 
                 binding.continueButton.setEnabled(true);
-                retrievesClientId(currentInstanceLogin);
+                if (apiLogin != Account.API.PEERTUBE) {
+                    retrievesClientId(currentInstanceLogin);
+                } else {
+                    Intent peertubeLogin = new Intent(requireActivity(), LoginActivity.class);
+                    peertubeLogin.putExtra(Helper.ARG_INSTANCE, instance);
+                    startActivity(peertubeLogin);
+                    requireActivity().finish();
+                }
             });
         });
         return root;

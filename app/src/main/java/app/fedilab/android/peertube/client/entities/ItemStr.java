@@ -14,37 +14,21 @@ package app.fedilab.android.peertube.client.entities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class ItemStr implements Parcelable {
+public class ItemStr implements Serializable {
 
-    public static final Creator<ItemStr> CREATOR = new Creator<ItemStr>() {
-        @Override
-        public ItemStr createFromParcel(Parcel source) {
-            return new ItemStr(source);
-        }
 
-        @Override
-        public ItemStr[] newArray(int size) {
-            return new ItemStr[size];
-        }
-    };
     @SerializedName("id")
     private String id;
     @SerializedName("label")
     private String label;
 
     public ItemStr() {
-    }
-
-
-    protected ItemStr(Parcel in) {
-        this.id = in.readString();
-        this.label = in.readString();
     }
 
     public String getId() {
@@ -61,16 +45,5 @@ public class ItemStr implements Parcelable {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.label);
     }
 }

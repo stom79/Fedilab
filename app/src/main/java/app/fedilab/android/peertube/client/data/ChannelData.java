@@ -14,12 +14,10 @@ package app.fedilab.android.peertube.client.data;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -35,18 +33,8 @@ public class ChannelData {
     @SerializedName("data")
     public List<Channel> data;
 
-    public static class Channel implements Parcelable {
-        public static final Creator<Channel> CREATOR = new Creator<Channel>() {
-            @Override
-            public Channel createFromParcel(Parcel source) {
-                return new Channel(source);
-            }
+    public static class Channel implements Serializable {
 
-            @Override
-            public Channel[] newArray(int size) {
-                return new Channel[size];
-            }
-        };
         @SerializedName("avatar")
         private Avatar avatar;
         @SerializedName("createdAt")
@@ -70,7 +58,7 @@ public class ChannelData {
         @SerializedName("name")
         private String name;
         @SerializedName("ownerAccount")
-        private AccountData.Account ownerAccount;
+        private AccountData.PeertubeAccount ownerAccount;
         @SerializedName("support")
         private String support;
         @SerializedName("updatedAt")
@@ -85,28 +73,6 @@ public class ChannelData {
         public Channel() {
         }
 
-        protected Channel(Parcel in) {
-            this.avatar = in.readParcelable(Avatar.class.getClassLoader());
-            long tmpCreatedAt = in.readLong();
-            this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-            this.description = in.readString();
-            this.displayName = in.readString();
-            this.followersCount = in.readInt();
-            this.followingCount = in.readInt();
-            this.host = in.readString();
-            this.hostRedundancyAllowed = in.readByte() != 0;
-            this.id = in.readString();
-            this.isLocal = in.readByte() != 0;
-            this.name = in.readString();
-            this.ownerAccount = in.readParcelable(AccountData.Account.class.getClassLoader());
-            this.support = in.readString();
-            long tmpUpdatedAt = in.readLong();
-            this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-            this.url = in.readString();
-            this.viewsPerDays = new ArrayList<>();
-            in.readList(this.viewsPerDays, ViewsPerDay.class.getClassLoader());
-            this.acct = in.readString();
-        }
 
         public Avatar getAvatar() {
             return avatar;
@@ -204,11 +170,11 @@ public class ChannelData {
             this.name = name;
         }
 
-        public AccountData.Account getOwnerAccount() {
+        public AccountData.PeertubeAccount getOwnerAccount() {
             return ownerAccount;
         }
 
-        public void setOwnerAccount(AccountData.Account ownerAccount) {
+        public void setOwnerAccount(AccountData.PeertubeAccount ownerAccount) {
             this.ownerAccount = ownerAccount;
         }
 
@@ -250,32 +216,6 @@ public class ChannelData {
 
         public void setSelected(boolean selected) {
             this.selected = selected;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeParcelable(this.avatar, flags);
-            dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-            dest.writeString(this.description);
-            dest.writeString(this.displayName);
-            dest.writeInt(this.followersCount);
-            dest.writeInt(this.followingCount);
-            dest.writeString(this.host);
-            dest.writeByte(this.hostRedundancyAllowed ? (byte) 1 : (byte) 0);
-            dest.writeString(this.id);
-            dest.writeByte(this.isLocal ? (byte) 1 : (byte) 0);
-            dest.writeString(this.name);
-            dest.writeParcelable(this.ownerAccount, flags);
-            dest.writeString(this.support);
-            dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
-            dest.writeString(this.url);
-            dest.writeList(this.viewsPerDays);
-            dest.writeString(this.acct);
         }
     }
 

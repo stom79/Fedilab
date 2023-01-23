@@ -39,9 +39,9 @@ import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.drawer.AboutInstanceAdapter;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.InfoInstanceVM;
+import app.fedilab.android.sqlite.Sqlite;
 
 
 public class ManageInstancesActivity extends BaseBarActivity implements AboutInstanceAdapter.AllInstancesRemoved {

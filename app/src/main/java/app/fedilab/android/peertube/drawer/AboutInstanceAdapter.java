@@ -44,7 +44,6 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerAboutInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 
 

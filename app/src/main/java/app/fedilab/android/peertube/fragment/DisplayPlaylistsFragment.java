@@ -58,7 +58,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.PlaylistsActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.entities.Item;
 import app.fedilab.android.peertube.client.entities.PlaylistParams;
@@ -242,7 +242,7 @@ public class DisplayPlaylistsFragment extends Fragment {
             if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
                 Intent intent = new Intent(context, PlaylistsActivity.class);
                 Bundle b = new Bundle();
-                b.putParcelable("playlist", apiResponse.getPlaylists().get(0));
+                b.putSerializable("playlist", apiResponse.getPlaylists().get(0));
                 intent.putExtras(b);
                 context.startActivity(intent);
                 this.playlists.add(0, apiResponse.getPlaylists().get(0));
@@ -268,14 +268,14 @@ public class DisplayPlaylistsFragment extends Fragment {
         }
 
         //Populate channels
-        List<Account> accounts = apiResponse.getAccounts();
+        List<AccountData.PeertubeAccount> accounts = apiResponse.getAccounts();
         String[] channelName = new String[accounts.size() + 1];
         String[] channelId = new String[accounts.size() + 1];
         int i = 1;
         channelName[0] = "";
         channelId[0] = "";
         channels = new HashMap<>();
-        for (Account account : accounts) {
+        for (AccountData.PeertubeAccount account : accounts) {
             channels.put(account.getUsername(), account.getId());
             channelName[i] = account.getUsername();
             channelId[i] = account.getId();

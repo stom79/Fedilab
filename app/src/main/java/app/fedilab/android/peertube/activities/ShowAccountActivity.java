@@ -68,7 +68,7 @@ public class ShowAccountActivity extends BaseBarActivity {
     private TextView account_note, subscriber_count;
     private ImageView account_pp;
     private TextView account_dn;
-    private AccountData.Account account;
+    private AccountData.PeertubeAccount account;
     private String accountAcct;
 
 
@@ -246,7 +246,7 @@ public class ShowAccountActivity extends BaseBarActivity {
 
     public void manageViewAccounts(APIResponse apiResponse) {
         if (apiResponse.getAccounts() != null && apiResponse.getAccounts().size() == 1) {
-            AccountData.Account account = apiResponse.getAccounts().get(0);
+            AccountData.PeertubeAccount account = apiResponse.getAccounts().get(0);
             if (this.account == null) {
                 this.account = account;
                 manageAccount();
@@ -257,7 +257,7 @@ public class ShowAccountActivity extends BaseBarActivity {
         }
     }
 
-    private void manageNotes(AccountData.Account account) {
+    private void manageNotes(AccountData.PeertubeAccount account) {
         if (account.getDescription() != null && account.getDescription().compareTo("null") != 0 && account.getDescription().trim().length() > 0) {
             SpannableString spannableString;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -295,7 +295,7 @@ public class ShowAccountActivity extends BaseBarActivity {
             }
             DisplayVideosFragment displayVideosFragment = new DisplayVideosFragment();
             bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.ACCOUNT_VIDEOS);
-            bundle.putParcelable("account", account);
+            bundle.putSerializable("account", account);
             bundle.putString("peertube_instance", account.getHost());
             displayVideosFragment.setArguments(bundle);
             return displayVideosFragment;

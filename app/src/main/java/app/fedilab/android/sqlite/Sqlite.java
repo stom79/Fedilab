@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -87,6 +87,11 @@ public class Sqlite extends SQLiteOpenHelper {
     //Muted accounts for home
     public static final String TABLE_MUTED = "TABLE_MUTED";
     public static final String COL_MUTED_ACCOUNTS = "MUTED_ACCOUNTS";
+
+    //Peertube bookmarked instances
+    public static final String TABLE_BOOKMARKED_INSTANCES = "BOOKMARKED_INSTANCES";
+    public static final String COL_ABOUT = "ABOUT";
+    public static final String COL_USER_INSTANCE = "USER_INSTANCE";
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -188,6 +193,14 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_MUTED_ACCOUNTS + " TEXT)";
 
+    private final String CREATE_TABLE_STORED_INSTANCES = "CREATE TABLE "
+            + TABLE_BOOKMARKED_INSTANCES + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_ABOUT + " TEXT NOT NULL, "
+            + COL_USER_INSTANCE + " TEXT NOT NULL)";
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -217,6 +230,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_BOTTOM_MENU);
         db.execSQL(CREATE_DOMAINS_TRACKING);
         db.execSQL(CREATE_TABLE_MUTED);
+        db.execSQL(CREATE_TABLE_STORED_INSTANCES);
     }
 
     @Override
@@ -243,6 +257,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOMAINS_TRACKING);
             case 7:
                 db.execSQL(CREATE_TABLE_MUTED);
+            case 8:
+                db.execSQL(CREATE_TABLE_STORED_INSTANCES);
             default:
                 break;
         }

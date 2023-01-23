@@ -17,16 +17,14 @@ package app.fedilab.android.peertube.client.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.Item;
 import app.fedilab.android.peertube.client.entities.ItemStr;
@@ -36,7 +34,7 @@ import app.fedilab.android.peertube.helper.Helper;
 
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class VideoData {
+public class VideoData implements Serializable {
 
     @SerializedName("total")
     public int total;
@@ -44,20 +42,9 @@ public class VideoData {
     public List<Video> data;
 
 
-    public static class Video implements Parcelable {
-        public static final Creator<Video> CREATOR = new Creator<Video>() {
-            @Override
-            public Video createFromParcel(Parcel source) {
-                return new Video(source);
-            }
-
-            @Override
-            public Video[] newArray(int size) {
-                return new Video[size];
-            }
-        };
+    public static class Video implements Serializable {
         @SerializedName("account")
-        private Account account;
+        private AccountData.PeertubeAccount account;
         @SerializedName("blacklisted")
         private boolean blacklisted;
         @SerializedName("blacklistedReason")
@@ -145,55 +132,6 @@ public class VideoData {
         public Video() {
         }
 
-
-        protected Video(Parcel in) {
-            this.account = in.readParcelable(Account.class.getClassLoader());
-            this.blacklisted = in.readByte() != 0;
-            this.blacklistedReason = in.readString();
-            this.category = in.readParcelable(Item.class.getClassLoader());
-            this.channel = in.readParcelable(ChannelData.Channel.class.getClassLoader());
-            this.commentsEnabled = in.readByte() != 0;
-            long tmpCreatedAt = in.readLong();
-            this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-            this.description = in.readString();
-            this.descriptionPath = in.readString();
-            this.dislikes = in.readInt();
-            this.downloadEnabled = in.readByte() != 0;
-            this.duration = in.readInt();
-            this.embedPath = in.readString();
-            this.embedUrl = in.readString();
-            this.files = new ArrayList<>();
-            in.readList(this.files, File.class.getClassLoader());
-            this.id = in.readString();
-            this.isLive = in.readByte() != 0;
-            this.isLocal = in.readByte() != 0;
-            this.language = in.readParcelable(ItemStr.class.getClassLoader());
-            this.licence = in.readParcelable(Item.class.getClassLoader());
-            this.likes = in.readInt();
-            this.name = in.readString();
-            this.nsfw = in.readByte() != 0;
-            long tmpOriginallyPublishedAt = in.readLong();
-            this.originallyPublishedAt = tmpOriginallyPublishedAt == -1 ? null : new Date(tmpOriginallyPublishedAt);
-            this.previewPath = in.readString();
-            this.privacy = in.readParcelable(Item.class.getClassLoader());
-            long tmpPublishedAt = in.readLong();
-            this.publishedAt = tmpPublishedAt == -1 ? null : new Date(tmpPublishedAt);
-            this.state = in.readParcelable(Item.class.getClassLoader());
-            this.streamingPlaylists = new ArrayList<>();
-            in.readList(this.streamingPlaylists, StreamingPlaylists.class.getClassLoader());
-            this.support = in.readString();
-            this.tags = in.createStringArrayList();
-            this.thumbnailPath = in.readString();
-            this.trackerUrls = in.createStringArrayList();
-            long tmpUpdatedAt = in.readLong();
-            this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-            this.userHistory = in.readParcelable(UserHistory.class.getClassLoader());
-            this.uuid = in.readString();
-            this.views = in.readInt();
-            this.waitTranscoding = in.readByte() != 0;
-            this.myRating = in.readString();
-        }
-
         public String getFileUrl(String resolution, Context context) {
             SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
             int mode = sharedpreferences.getInt(Helper.SET_VIDEO_MODE, Helper.VIDEO_MODE_NORMAL);
@@ -273,11 +211,11 @@ public class VideoData {
             return files != null && files.size() > 0 ? files.get(0).getFileDownloadUrl() : null;
         }
 
-        public Account getAccount() {
+        public AccountData.PeertubeAccount getAccount() {
             return account;
         }
 
-        public void setAccount(Account account) {
+        public void setAccount(AccountData.PeertubeAccount account) {
             this.account = account;
         }
 
@@ -641,54 +579,6 @@ public class VideoData {
             this.userHistory = userHistory;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeParcelable(this.account, flags);
-            dest.writeByte(this.blacklisted ? (byte) 1 : (byte) 0);
-            dest.writeString(this.blacklistedReason);
-            dest.writeParcelable(this.category, flags);
-            dest.writeParcelable(this.channel, flags);
-            dest.writeByte(this.commentsEnabled ? (byte) 1 : (byte) 0);
-            dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-            dest.writeString(this.description);
-            dest.writeString(this.descriptionPath);
-            dest.writeInt(this.dislikes);
-            dest.writeByte(this.downloadEnabled ? (byte) 1 : (byte) 0);
-            dest.writeInt(this.duration);
-            dest.writeString(this.embedPath);
-            dest.writeString(this.embedUrl);
-            dest.writeList(this.files);
-            dest.writeString(this.id);
-            dest.writeByte(this.isLive ? (byte) 1 : (byte) 0);
-            dest.writeByte(this.isLocal ? (byte) 1 : (byte) 0);
-            dest.writeParcelable(this.language, flags);
-            dest.writeParcelable(this.licence, flags);
-            dest.writeInt(this.likes);
-            dest.writeString(this.name);
-            dest.writeByte(this.nsfw ? (byte) 1 : (byte) 0);
-            dest.writeLong(this.originallyPublishedAt != null ? this.originallyPublishedAt.getTime() : -1);
-            dest.writeString(this.previewPath);
-            dest.writeParcelable(this.privacy, flags);
-            dest.writeLong(this.publishedAt != null ? this.publishedAt.getTime() : -1);
-            dest.writeParcelable(this.state, flags);
-            dest.writeList(this.streamingPlaylists);
-            dest.writeString(this.support);
-            dest.writeStringList(this.tags);
-            dest.writeString(this.thumbnailPath);
-            dest.writeStringList(this.trackerUrls);
-            dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
-            dest.writeParcelable(this.userHistory, flags);
-            dest.writeString(this.uuid);
-            dest.writeInt(this.views);
-            dest.writeByte(this.waitTranscoding ? (byte) 1 : (byte) 0);
-            dest.writeString(this.myRating);
-        }
-
         public enum titleType {
             TAG,
             CATEGORY,
@@ -696,7 +586,7 @@ public class VideoData {
         }
     }
 
-    public static class VideoImport {
+    public static class VideoImport implements Serializable {
         @SerializedName("id")
         private String id;
         @SerializedName("video")
@@ -751,30 +641,14 @@ public class VideoData {
 
     }
 
-    public static class UserHistory implements Parcelable {
+    public static class UserHistory implements Serializable {
 
-        public static final Creator<UserHistory> CREATOR = new Creator<UserHistory>() {
-            @Override
-            public UserHistory createFromParcel(Parcel in) {
-                return new UserHistory(in);
-            }
-
-            @Override
-            public UserHistory[] newArray(int size) {
-                return new UserHistory[size];
-            }
-        };
 
         @SerializedName("currentTime")
         long currentTime;
 
         public UserHistory() {
         }
-
-        protected UserHistory(Parcel in) {
-            this.currentTime = in.readLong();
-        }
-
 
         public long getCurrentTime() {
             return currentTime;
@@ -784,19 +658,10 @@ public class VideoData {
             this.currentTime = currentTime;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeLong(currentTime);
-        }
     }
 
 
-    public static class Description {
+    public static class Description implements Serializable {
         @SerializedName("description")
         private String description;
 
@@ -810,18 +675,8 @@ public class VideoData {
     }
 
 
-    public static class VideoExport implements Parcelable {
-        public static final Creator<VideoExport> CREATOR = new Creator<VideoExport>() {
-            @Override
-            public VideoExport createFromParcel(Parcel in) {
-                return new VideoExport(in);
-            }
+    public static class VideoExport implements Serializable {
 
-            @Override
-            public VideoExport[] newArray(int size) {
-                return new VideoExport[size];
-            }
-        };
         private int id;
         private String uuid;
         private Video videoData;
@@ -830,12 +685,6 @@ public class VideoData {
         public VideoExport() {
         }
 
-        protected VideoExport(Parcel in) {
-            id = in.readInt();
-            uuid = in.readString();
-            videoData = in.readParcelable(Video.class.getClassLoader());
-            playlistDBid = in.readInt();
-        }
 
         public int getId() {
             return id;
@@ -869,17 +718,5 @@ public class VideoData {
             this.playlistDBid = playlistDBid;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeInt(id);
-            parcel.writeString(uuid);
-            parcel.writeParcelable(videoData, i);
-            parcel.writeInt(playlistDBid);
-        }
     }
 }

@@ -1,25 +1,14 @@
 package app.fedilab.android.peertube.client.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class File implements Parcelable {
+public class File implements Serializable {
 
-    public static final Creator<File> CREATOR = new Creator<File>() {
-        @Override
-        public File createFromParcel(Parcel source) {
-            return new File(source);
-        }
-
-        @Override
-        public File[] newArray(int size) {
-            return new File[size];
-        }
-    };
     @SerializedName("fileDownloadUrl")
     private String fileDownloadUrl;
     @SerializedName("fileUrl")
@@ -40,18 +29,6 @@ public class File implements Parcelable {
     private String torrentUrl;
 
     public File() {
-    }
-
-    protected File(Parcel in) {
-        this.fileDownloadUrl = in.readString();
-        this.fileUrl = in.readString();
-        this.fps = in.readInt();
-        this.magnetUri = in.readString();
-        this.metadataUrl = in.readString();
-        this.resolutions = in.readParcelable(Item.class.getClassLoader());
-        this.size = in.readLong();
-        this.torrentDownloadUrl = in.readString();
-        this.torrentUrl = in.readString();
     }
 
     public String getFileDownloadUrl() {
@@ -126,21 +103,4 @@ public class File implements Parcelable {
         this.torrentUrl = torrentUrl;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.fileDownloadUrl);
-        dest.writeString(this.fileUrl);
-        dest.writeInt(this.fps);
-        dest.writeString(this.magnetUri);
-        dest.writeString(this.metadataUrl);
-        dest.writeParcelable(this.resolutions, flags);
-        dest.writeLong(this.size);
-        dest.writeString(this.torrentDownloadUrl);
-        dest.writeString(this.torrentUrl);
-    }
 }

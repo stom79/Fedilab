@@ -86,7 +86,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
     private SearchVM viewModelSearch;
     private AccountsVM viewModelAccounts;
     private ChannelData.Channel channel;
-    private AccountData.Account account;
+    private AccountData.PeertubeAccount account;
     private Map<String, Boolean> relationship;
     private Map<String, List<PlaylistExist>> playlists;
     private String playlistId;
@@ -118,8 +118,8 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             search_peertube = bundle.getString("search_peertube", null);
-            channel = bundle.getParcelable("channel");
-            account = bundle.getParcelable("account");
+            channel = (ChannelData.Channel) bundle.getSerializable("channel");
+            account = (AccountData.PeertubeAccount) bundle.getSerializable("account");
             remoteInstance = bundle.getString("peertube_instance", null);
             sepiaSearch = bundle.getBoolean("sepia_search", false);
             type = (TimelineVM.TimelineType) bundle.get(Helper.TIMELINE_TYPE);
@@ -498,8 +498,6 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
                 viewModelFeeds.getVideosInChannel(sepiaSearch ? remoteInstance : null, channelId, max_id).observe(this.requireActivity(), this::manageVIewVideos);
             } else if (type == TimelineVM.TimelineType.VIDEOS_IN_PLAYLIST) {
                 viewModelFeeds.loadVideosInPlaylist(playlistId, max_id).observe(this.requireActivity(), this::manageVIewVideos);
-            } else if (type == VIDEOS_IN_LOCAL_PLAYLIST) {
-                viewModelFeeds.loadVideosInLocalPlaylist(playlistId).observe(this.requireActivity(), this::manageVIewVideos);
             } else if (type == TimelineVM.TimelineType.HISTORY) {
                 viewModelFeeds.getVideoHistory(max_id, startDate, endDate).observe(this.requireActivity(), this::manageVIewVideos);
             } else {

@@ -14,11 +14,10 @@ package app.fedilab.android.peertube.client.data;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -32,18 +31,8 @@ public class PlaylistData {
     @SerializedName("data")
     public List<Playlist> data;
 
-    public static class Playlist implements Parcelable {
-        public static final Creator<Playlist> CREATOR = new Creator<Playlist>() {
-            @Override
-            public Playlist createFromParcel(Parcel source) {
-                return new Playlist(source);
-            }
+    public static class Playlist implements Serializable {
 
-            @Override
-            public Playlist[] newArray(int size) {
-                return new Playlist[size];
-            }
-        };
         @SerializedName("id")
         private String id;
         @SerializedName("createdAt")
@@ -67,29 +56,11 @@ public class PlaylistData {
         @SerializedName("type")
         private Item type;
         @SerializedName("ownerAccount")
-        private AccountData.Account ownerAccount;
+        private AccountData.PeertubeAccount ownerAccount;
         @SerializedName("videoChannel")
         private ChannelData.Channel videoChannel;
 
         public Playlist() {
-        }
-
-        protected Playlist(Parcel in) {
-            this.id = in.readString();
-            long tmpCreatedAt = in.readLong();
-            this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-            long tmpUpdatedAt = in.readLong();
-            this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-            this.description = in.readString();
-            this.uuid = in.readString();
-            this.displayName = in.readString();
-            this.isLocal = in.readByte() != 0;
-            this.videoLength = in.readLong();
-            this.thumbnailPath = in.readString();
-            this.privacy = in.readParcelable(Item.class.getClassLoader());
-            this.type = in.readParcelable(Item.class.getClassLoader());
-            this.ownerAccount = in.readParcelable(AccountData.Account.class.getClassLoader());
-            this.videoChannel = in.readParcelable(ChannelData.Channel.class.getClassLoader());
         }
 
         public String getId() {
@@ -180,11 +151,11 @@ public class PlaylistData {
             this.type = type;
         }
 
-        public AccountData.Account getOwnerAccount() {
+        public AccountData.PeertubeAccount getOwnerAccount() {
             return ownerAccount;
         }
 
-        public void setOwnerAccount(AccountData.Account ownerAccount) {
+        public void setOwnerAccount(AccountData.PeertubeAccount ownerAccount) {
             this.ownerAccount = ownerAccount;
         }
 
@@ -196,27 +167,6 @@ public class PlaylistData {
             this.videoChannel = videoChannel;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.id);
-            dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-            dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
-            dest.writeString(this.description);
-            dest.writeString(this.uuid);
-            dest.writeString(this.displayName);
-            dest.writeByte(this.isLocal ? (byte) 1 : (byte) 0);
-            dest.writeLong(this.videoLength);
-            dest.writeString(this.thumbnailPath);
-            dest.writeParcelable(this.privacy, flags);
-            dest.writeParcelable(this.type, flags);
-            dest.writeParcelable(this.ownerAccount, flags);
-            dest.writeParcelable(this.videoChannel, flags);
-        }
     }
 
 }

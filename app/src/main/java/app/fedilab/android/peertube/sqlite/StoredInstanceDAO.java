@@ -28,6 +28,7 @@ import java.util.List;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
+import app.fedilab.android.sqlite.Sqlite;
 
 
 @SuppressWarnings("UnusedReturnValue")
@@ -181,7 +182,7 @@ public class StoredInstanceDAO {
         //Take the first element
         c.moveToFirst();
         //New user
-        String aboutInstanceStr = c.getString(c.getColumnIndex(Sqlite.COL_ABOUT));
+        String aboutInstanceStr = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ABOUT));
         InstanceData.AboutInstance aboutInstance = restoreAboutInstanceFromString(aboutInstanceStr);
         //Close the cursor
         c.close();
@@ -202,8 +203,8 @@ public class StoredInstanceDAO {
         }
         List<InstanceData.AboutInstance> aboutInstances = new ArrayList<>();
         while (c.moveToNext()) {
-            String aboutInstanceStr = c.getString(c.getColumnIndex(Sqlite.COL_ABOUT));
-            String instance = c.getString(c.getColumnIndex(Sqlite.COL_INSTANCE));
+            String aboutInstanceStr = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ABOUT));
+            String instance = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_INSTANCE));
             InstanceData.AboutInstance aboutInstance = restoreAboutInstanceFromString(aboutInstanceStr);
             aboutInstance.setHost(instance);
             aboutInstances.add(aboutInstance);

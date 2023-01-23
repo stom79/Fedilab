@@ -279,7 +279,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.binding.commentAccountProfile.setOnClickListener(v -> {
             Bundle b = new Bundle();
             Intent intent = new Intent(context, ShowAccountActivity.class);
-            b.putParcelable("account", comment.getAccount());
+            b.putSerializable("account", comment.getAccount());
             b.putString("accountAcct", comment.getAccount().getAcct());
             intent.putExtras(b);
             context.startActivity(intent);

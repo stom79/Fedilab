@@ -16,6 +16,7 @@ package app.fedilab.android.peertube.client.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class CommentData {
     public List<Comment> data;
 
 
-    public static class Comment {
+    public static class Comment implements Serializable {
 
         @SerializedName("account")
-        private AccountData.Account account;
+        private AccountData.PeertubeAccount account;
         @SerializedName("createdAt")
         private Date createdAt;
         @SerializedName("deletedAt")
@@ -60,11 +61,11 @@ public class CommentData {
         private boolean isReplyViewOpen = false;
 
 
-        public AccountData.Account getAccount() {
+        public AccountData.PeertubeAccount getAccount() {
             return account;
         }
 
-        public void setAccount(AccountData.Account account) {
+        public void setAccount(AccountData.PeertubeAccount account) {
             this.account = account;
         }
 
@@ -228,7 +229,7 @@ public class CommentData {
         @SerializedName("video")
         private VideoData.Video video;
         @SerializedName("account")
-        private AccountData.Account account;
+        private AccountData.PeertubeAccount account;
 
         public String getId() {
             return id;
@@ -254,11 +255,11 @@ public class CommentData {
             this.video = video;
         }
 
-        public AccountData.Account getAccount() {
+        public AccountData.PeertubeAccount getAccount() {
             return account;
         }
 
-        public void setAccount(AccountData.Account account) {
+        public void setAccount(AccountData.PeertubeAccount account) {
             this.account = account;
         }
     }

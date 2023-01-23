@@ -18,7 +18,6 @@ import static app.fedilab.android.peertube.viewmodel.PlaylistsVM.action.GET_LIST
 
 import android.app.Application;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -27,18 +26,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.ChannelData;
-import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.sqlite.ManagePlaylistsDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 
 public class TimelineVM extends AndroidViewModel {
@@ -48,7 +41,7 @@ public class TimelineVM extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<APIResponse> getVideos(TimelineType action, String max_id, ChannelData.Channel forChannel, AccountData.Account forAccount) {
+    public LiveData<APIResponse> getVideos(TimelineType action, String max_id, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
         apiResponseMutableLiveData = new MutableLiveData<>();
         loadVideos(action, max_id, forChannel, forAccount);
         return apiResponseMutableLiveData;
@@ -82,12 +75,6 @@ public class TimelineVM extends AndroidViewModel {
     public LiveData<APIResponse> loadVideosInPlaylist(String playlistId, String maxId) {
         apiResponseMutableLiveData = new MutableLiveData<>();
         loadVideosInPlayList(playlistId, maxId);
-        return apiResponseMutableLiveData;
-    }
-
-    public LiveData<APIResponse> loadVideosInLocalPlaylist(String playlistUuid) {
-        apiResponseMutableLiveData = new MutableLiveData<>();
-        loadVideosInLocalPlayList(playlistUuid);
         return apiResponseMutableLiveData;
     }
 
@@ -168,28 +155,8 @@ public class TimelineVM extends AndroidViewModel {
         }).start();
     }
 
-    private void loadVideosInLocalPlayList(String playlistUuid) {
-        Context _mContext = getApplication().getApplicationContext();
-        new Thread(() -> {
-            try {
-                SQLiteDatabase db = Sqlite.getInstance(_mContext.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                List<VideoData.VideoExport> videoExports = new ManagePlaylistsDAO(_mContext, db).getAllVideosInPlaylist(playlistUuid);
-                APIResponse apiResponse = new APIResponse();
-                List<VideoData.Video> videos = new ArrayList<>();
-                for (VideoData.VideoExport videoExport : videoExports) {
-                    videos.add(videoExport.getVideoData());
-                }
-                apiResponse.setPeertubes(videos);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> apiResponseMutableLiveData.setValue(apiResponse);
-                mainHandler.post(myRunnable);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
 
-    private void loadVideos(TimelineType timeline, String max_id, ChannelData.Channel forChannel, AccountData.Account forAccount) {
+    private void loadVideos(TimelineType timeline, String max_id, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
         Context _mContext = getApplication().getApplicationContext();
         new Thread(() -> {
             try {

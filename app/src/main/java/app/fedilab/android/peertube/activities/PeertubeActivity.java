@@ -124,10 +124,10 @@ import java.util.regex.Pattern;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.MenuItemVideo;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.CaptionData.Caption;
 import app.fedilab.android.peertube.client.data.CommentData;
 import app.fedilab.android.peertube.client.data.CommentData.Comment;
@@ -147,8 +147,6 @@ import app.fedilab.android.peertube.drawer.MenuItemAdapter;
 import app.fedilab.android.peertube.helper.CacheDataSourceFactory;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.CaptionsVM;
 import app.fedilab.android.peertube.viewmodel.CommentVM;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
@@ -159,6 +157,7 @@ import app.fedilab.android.peertube.viewmodel.mastodon.MastodonPostActionsVM;
 import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.MastalabWebChromeClient;
 import app.fedilab.android.peertube.webview.MastalabWebViewClient;
+import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
@@ -224,7 +223,12 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
         String token = sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
         if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
-            Account account = new AccountDAO(PeertubeActivity.this, db).getAccountByToken(token);
+            Account account = null;
+            try {
+                account = new app.fedilab.android.mastodon.client.entities.app.Account(PeertubeActivity.this).getAccountByToken(token);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
             loadAvatar(PeertubeActivity.this, account, binding.myPp);
         }
         isRemote = false;
@@ -973,7 +977,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding.ppChannel.setOnClickListener(v -> {
             Intent intent = new Intent(PeertubeActivity.this, ShowChannelActivity.class);
             Bundle b = new Bundle();
-            b.putParcelable("channel", peertube.getChannel());
+            b.putSerializable("channel", peertube.getChannel());
             b.putBoolean("sepia_search", sepiaSearch);
             if (sepiaSearch) {
                 b.putString("peertube_instance", peertube.getAccount().getHost());
@@ -2201,7 +2205,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (nextVideo != null) {
             Intent intent = new Intent(PeertubeActivity.this, PeertubeActivity.class);
             Bundle b = new Bundle();
-            b.putParcelable("video", nextVideo);
+            b.putSerializable("video", nextVideo);
             b.putString("video_id", nextVideo.getId());
             b.putString("video_uuid", nextVideo.getUuid());
             playedVideos.add(nextVideo.getId());

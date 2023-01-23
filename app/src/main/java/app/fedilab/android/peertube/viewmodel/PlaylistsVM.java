@@ -16,7 +16,6 @@ package app.fedilab.android.peertube.viewmodel;
 
 import android.app.Application;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -28,15 +27,13 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.ManagePlaylistsDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 
 public class PlaylistsVM extends AndroidViewModel {
@@ -53,11 +50,6 @@ public class PlaylistsVM extends AndroidViewModel {
         return apiResponseMutableLiveData;
     }
 
-    public LiveData<List<VideoPlaylistData.VideoPlaylistExport>> localePlaylist() {
-        videoPlaylistExportMutableLiveData = new MutableLiveData<>();
-        loadLocalePlaylist();
-        return videoPlaylistExportMutableLiveData;
-    }
 
 
     public LiveData<APIResponse> videoExists(List<String> videoIds) {
@@ -77,28 +69,13 @@ public class PlaylistsVM extends AndroidViewModel {
     }
 
 
-    private void loadLocalePlaylist() {
-        Context _mContext = getApplication().getApplicationContext();
-        new Thread(() -> {
-            try {
-                SQLiteDatabase db = Sqlite.getInstance(_mContext.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                List<VideoPlaylistData.VideoPlaylistExport> videoPlaylistExports = new ManagePlaylistsDAO(_mContext, db).getAllPlaylists();
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> videoPlaylistExportMutableLiveData.setValue(videoPlaylistExports);
-                mainHandler.post(myRunnable);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
 
     private void managePlaylists(action apiAction, Playlist playlist, String videoId) {
         Context _mContext = getApplication().getApplicationContext();
         new Thread(() -> {
             try {
                 String token = Helper.getToken(_mContext);
-                SQLiteDatabase db = Sqlite.getInstance(_mContext.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                Account account = new AccountDAO(_mContext, db).getAccountByToken(token);
+                BaseAccount account = new Account(_mContext).getAccountByToken(token);
                 int statusCode = -1;
                 APIResponse apiResponse;
                 if (account == null) {
@@ -106,7 +83,7 @@ public class PlaylistsVM extends AndroidViewModel {
                     apiResponse = new APIResponse();
                     apiResponse.setPlaylists(new ArrayList<>());
                 } else {
-                    apiResponse = new RetrofitPeertubeAPI(_mContext).playlistAction(apiAction, playlist != null ? playlist.getId() : null, videoId, account.getAcct(), null);
+                    apiResponse = new RetrofitPeertubeAPI(_mContext).playlistAction(apiAction, playlist != null ? playlist.getId() : null, videoId, account.peertube_account.getAcct(), null);
                 }
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 if (apiResponse != null) {

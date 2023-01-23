@@ -32,8 +32,6 @@ import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 
 public class ChannelsVM extends AndroidViewModel {
@@ -64,7 +62,7 @@ public class ChannelsVM extends AndroidViewModel {
                     SharedPreferences sharedpreferences = _mContext.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
                     SQLiteDatabase db = Sqlite.getInstance(_mContext.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
                     String token = Helper.getToken(_mContext);
-                    AccountData.Account account = new AccountDAO(_mContext, db).getAccountByToken(token);
+                    AccountData.PeertubeAccount account = new AccountDAO(_mContext, db).getAccountByToken(token);
                     finalElement = account.getUsername() + "@" + account.getHost();
                 }
                 RetrofitPeertubeAPI retrofitPeertubeAPI;

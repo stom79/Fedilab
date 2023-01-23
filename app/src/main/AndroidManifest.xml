@@ -287,19 +287,6 @@
             android:label="@string/settings"
             android:theme="@style/AppThemeBar" />
         <activity
-            android:name=".mastodon.activities.InstanceActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/action_about_instance"
-            android:theme="@style/AppThemeAlertDialog" />
-        <activity
-            android:name=".mastodon.activities.InstanceProfileActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/AppThemeAlertDialog" />
-        <activity
-            android:name=".mastodon.activities.ProxyActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/AppThemeAlertDialog" />
-        <activity
             android:name=".mastodon.activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
@@ -309,11 +296,6 @@
             android:name=".mastodon.activities.MediaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Transparent" />
-
-        <activity
-            android:name=".mastodon.activities.InstanceHealthActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/AppThemeAlertDialog" />
 
         <activity
             android:name=".mastodon.activities.ReportActivity"
@@ -428,10 +410,6 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".peertube.activities.LocalPlaylistsActivity"
-            android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name=".peertube.activities.VideosTimelineActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -447,12 +425,6 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".peertube.activities.WebviewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".peertube.activities.WebviewConnectActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".peertube.activities.MastodonWebviewConnectActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".peertube.activities.LoginActivity"

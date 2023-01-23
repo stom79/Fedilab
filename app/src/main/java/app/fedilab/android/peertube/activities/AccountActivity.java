@@ -18,7 +18,6 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.badge
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,15 +45,16 @@ import org.jetbrains.annotations.NotNull;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityAccountPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.fragment.DisplayAccountsFragment;
 import app.fedilab.android.peertube.fragment.DisplayChannelsFragment;
 import app.fedilab.android.peertube.fragment.DisplayNotificationsFragment;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.SwitchAccountHelper;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 
 public class AccountActivity extends BaseBarActivity {
@@ -78,16 +78,21 @@ public class AccountActivity extends BaseBarActivity {
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
 
-        SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
         SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
         String token = sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
 
-        Account account = new AccountDAO(AccountActivity.this, db).getAccountByToken(token);
-        if (account == null) {
-            Helper.logoutCurrentUser(AccountActivity.this, null);
+        BaseAccount baseAccount = null;
+        try {
+            baseAccount = new Account(AccountActivity.this).getAccountByToken(token);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        if (baseAccount == null) {
+            finish();
             return;
         }
 
+        AccountData.PeertubeAccount account = baseAccount.peertube_account;
 
         setTitle(String.format("@%s", account.getUsername()));
 
@@ -97,11 +102,12 @@ public class AccountActivity extends BaseBarActivity {
 
         binding.instance.setText(account.getHost());
 
+        BaseAccount finalBaseAccount = baseAccount;
         binding.logoutButton.setOnClickListener(v -> {
             AlertDialog.Builder dialogBuilderLogoutAccount = new AlertDialog.Builder(AccountActivity.this);
             dialogBuilderLogoutAccount.setMessage(getString(R.string.logout_account_confirmation, account.getUsername(), account.getHost()));
             dialogBuilderLogoutAccount.setPositiveButton(R.string.action_logout, (dialog, id) -> {
-                Helper.logoutCurrentUser(AccountActivity.this, account);
+                Helper.logoutCurrentUser(AccountActivity.this, finalBaseAccount);
                 dialog.dismiss();
             });
             dialogBuilderLogoutAccount.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -215,9 +221,9 @@ public class AccountActivity extends BaseBarActivity {
             binding.remoteAccount.setVisibility(View.VISIBLE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                binding.remoteAccount.setText(Html.fromHtml(getString(R.string.remote_account_from, account.getSoftware()), Html.FROM_HTML_MODE_LEGACY));
+                binding.remoteAccount.setText(Html.fromHtml(getString(R.string.remote_account_from, baseAccount.software), Html.FROM_HTML_MODE_LEGACY));
             else
-                binding.remoteAccount.setText(Html.fromHtml(getString(R.string.remote_account_from, account.getSoftware())));
+                binding.remoteAccount.setText(Html.fromHtml(getString(R.string.remote_account_from, baseAccount.software)));
         }
     }
 

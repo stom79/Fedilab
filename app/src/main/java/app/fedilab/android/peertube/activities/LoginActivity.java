@@ -38,11 +38,10 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityLoginPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.Oauth;
 import app.fedilab.android.peertube.client.entities.OauthParams;
 import app.fedilab.android.peertube.client.entities.Token;
-import app.fedilab.android.peertube.client.entities.WellKnownNodeinfo;
-import app.fedilab.android.peertube.client.mastodon.RetrofitMastodonAPI;
 import app.fedilab.android.peertube.helper.Helper;
 import es.dmoral.toasty.Toasty;
 
@@ -53,7 +52,7 @@ public class LoginActivity extends BaseBarActivity {
     private static String client_id;
     private static String client_secret;
     private ActivityLoginPeertubeBinding binding;
-
+    private String instance;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -62,6 +61,13 @@ public class LoginActivity extends BaseBarActivity {
         binding = ActivityLoginPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            instance = b.getString(app.fedilab.android.mastodon.helper.Helper.ARG_INSTANCE, null);
+        }
+        if (instance == null) {
+            finish();
+        }
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,15 +83,13 @@ public class LoginActivity extends BaseBarActivity {
 
         binding.createAnAccountPeertube.setOnClickListener(v -> {
             Intent mainActivity = new Intent(LoginActivity.this, PeertubeRegisterActivity.class);
-            Bundle b = new Bundle();
-            mainActivity.putExtras(b);
             startActivity(mainActivity);
         });
 
 
         binding.loginInstanceContainer.setVisibility(View.VISIBLE);
 
-
+        binding.loginInstance.setText(instance);
         if (Helper.isTablet(LoginActivity.this)) {
 
             ViewGroup.LayoutParams layoutParamsI = binding.loginInstanceContainer.getLayoutParams();
@@ -137,10 +141,7 @@ public class LoginActivity extends BaseBarActivity {
                 return;
             }
             String finalInstance = instance;
-            new Thread(() -> {
-                WellKnownNodeinfo.NodeInfo instanceNodeInfo = null;
-                connectToFediverse(finalInstance, instanceNodeInfo);
-            }).start();
+            new Thread(() -> connectToFediverse(finalInstance)).start();
         });
     }
 
@@ -149,28 +150,8 @@ public class LoginActivity extends BaseBarActivity {
      *
      * @param finalInstance String
      */
-    private void connectToFediverse(String finalInstance, WellKnownNodeinfo.NodeInfo instanceNodeInfo) {
-        Oauth oauth = null;
-        String software;
-        if (instanceNodeInfo != null) {
-            software = instanceNodeInfo.getSoftware().getName().toUpperCase().trim();
-            switch (software) {
-                case "MASTODON":
-                case "PLEROMA":
-                    oauth = new RetrofitMastodonAPI(LoginActivity.this, finalInstance, null).oauthClient(Helper.CLIENT_NAME_VALUE, Helper.REDIRECT_CONTENT_WEB, Helper.OAUTH_SCOPES_MASTODON, Helper.WEBSITE_VALUE);
-                    break;
-
-                case "FRIENDICA":
-
-                    break;
-
-                default:
-                    oauth = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).oauthClient(Helper.CLIENT_NAME_VALUE, Helper.WEBSITE_VALUE, Helper.OAUTH_SCOPES_PEERTUBE, Helper.WEBSITE_VALUE);
-            }
-        } else {
-            oauth = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).oauthClient(Helper.CLIENT_NAME_VALUE, Helper.WEBSITE_VALUE, Helper.OAUTH_SCOPES_PEERTUBE, Helper.WEBSITE_VALUE);
-            software = "PEERTUBE";
-        }
+    private void connectToFediverse(String finalInstance) {
+        Oauth oauth = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).oauthClient(Helper.CLIENT_NAME_VALUE, Helper.WEBSITE_VALUE, Helper.OAUTH_SCOPES_PEERTUBE, Helper.WEBSITE_VALUE);
         if (oauth == null) {
             runOnUiThread(() -> {
                 binding.loginButton.setEnabled(true);
@@ -190,12 +171,7 @@ public class LoginActivity extends BaseBarActivity {
         oauthParams.setClient_id(client_id);
         oauthParams.setClient_secret(client_secret);
         oauthParams.setGrant_type("password");
-        final boolean isMastodonAPI = software.compareTo("MASTODON") == 0 || software.compareTo("PLEROMA") == 0;
-        if (software.compareTo("PEERTUBE") == 0) {
-            oauthParams.setScope("user");
-        } else if (isMastodonAPI) {
-            oauthParams.setScope("read write follow");
-        }
+        oauthParams.setScope("user");
         if (binding.loginUid.getText() != null) {
             oauthParams.setUsername(binding.loginUid.getText().toString().trim());
         }
@@ -203,45 +179,29 @@ public class LoginActivity extends BaseBarActivity {
             oauthParams.setPassword(binding.loginPasswd.getText().toString());
         }
         try {
-            Token token = null;
-            if (software.compareTo("PEERTUBE") == 0) {
-                token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
-            } else if (isMastodonAPI) {
-                Intent i = new Intent(LoginActivity.this, MastodonWebviewConnectActivity.class);
-                i.putExtra("software", software);
-                i.putExtra("instance", finalInstance);
-                i.putExtra("client_id", client_id);
-                i.putExtra("client_secret", client_secret);
-                startActivity(i);
-                return;
-            }
-            proceedLogin(token, finalInstance, software.compareTo("PEERTUBE") == 0 ? null : software);
+            Token token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
+            proceedLogin(token, finalInstance);
         } catch (final Exception e) {
             oauthParams.setUsername(binding.loginUid.getText().toString().toLowerCase().trim());
-            if (software.compareTo("PEERTUBE") == 0) {
-                Token token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
-                proceedLogin(token, finalInstance, software.compareTo("PEERTUBE") == 0 ? null : software);
+            Token token = null;
+            try {
+                token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
+            } catch (Error ex) {
+                ex.printStackTrace();
             }
+            proceedLogin(token, finalInstance);
+        } catch (Error e) {
+            e.printStackTrace();
         }
     }
 
 
     @SuppressLint("ApplySharedPref")
-    private void proceedLogin(Token token, String host, String software) {
+    private void proceedLogin(Token token, String host) {
         runOnUiThread(() -> {
             if (token != null) {
-                boolean remote_account = software != null && software.toUpperCase().trim().compareTo("PEERTUBE") != 0;
-                SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, token.getAccess_token());
-                editor.putString(Helper.PREF_SOFTWARE, remote_account ? software : null);
-                editor.putString(Helper.PREF_REMOTE_INSTANCE, remote_account ? host : null);
-                if (!remote_account) {
-                    editor.putString(Helper.PREF_INSTANCE, host);
-                }
-                editor.commit();
                 //Update the account with the token;
-                updateCredential(LoginActivity.this, token.getAccess_token(), client_id, client_secret, token.getRefresh_token(), host, software);
+                updateCredential(LoginActivity.this, token.getAccess_token(), client_id, client_secret, token.getRefresh_token(), host, null);
             } else {
                 binding.loginButton.setEnabled(true);
             }

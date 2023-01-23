@@ -123,7 +123,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.account_pp.setOnClickListener(v -> {
             Intent intent = new Intent(context, ShowChannelActivity.class);
             Bundle b = new Bundle();
-            b.putParcelable("channel", channel);
+            b.putSerializable("channel", channel);
             intent.putExtras(b);
             context.startActivity(intent);
         });

@@ -22,7 +22,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -42,6 +41,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
 import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
@@ -56,8 +57,6 @@ import app.fedilab.android.peertube.client.entities.UserMe;
 import app.fedilab.android.peertube.fragment.DisplayNotificationsFragment;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.NotificationHelper;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 public class NotificationsWorker extends Worker {
 
@@ -78,8 +77,7 @@ public class NotificationsWorker extends Worker {
     @Override
     public Result doWork() {
         Context applicationContext = getApplicationContext();
-        SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-        List<AccountData.Account> accounts = new AccountDAO(applicationContext, db).getAllPeertubeAccount();
+        List<BaseAccount> accounts = new Account(applicationContext).getPeertubeAccounts();
         if (accounts == null || accounts.size() == 0) {
             return Result.success();
         }
@@ -91,12 +89,11 @@ public class NotificationsWorker extends Worker {
 
     @SuppressWarnings({"SwitchStatementWithoutDefaultBranch", "DuplicateBranchesInSwitch"})
     private void fetchNotification() {
-        SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-        List<AccountData.Account> accounts = new AccountDAO(getApplicationContext(), db).getAllPeertubeAccount();
+        List<BaseAccount> accounts = new Account(getApplicationContext()).getPeertubeAccounts();
         SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        for (AccountData.Account account : accounts) {
-            RetrofitPeertubeAPI retrofitPeertubeAPI = new RetrofitPeertubeAPI(getApplicationContext(), account.getHost(), account.getToken());
+        for (BaseAccount account : accounts) {
+            RetrofitPeertubeAPI retrofitPeertubeAPI = new RetrofitPeertubeAPI(getApplicationContext(), account.instance, account.token);
             APIResponse apiResponse = retrofitPeertubeAPI.getNotifications();
             if (apiResponse == null) {
                 return;
@@ -107,8 +104,8 @@ public class NotificationsWorker extends Worker {
                     List<NotificationData.Notification> notifications = apiResponse.getPeertubeNotifications();
                     NotificationSettings notificationSettings = userMe.getNotificationSettings();
                     if (apiResponse.getPeertubeNotifications() != null && apiResponse.getPeertubeNotifications().size() > 0) {
-                        String last_read = sharedpreferences.getString(Helper.LAST_NOTIFICATION_READ + account.getId() + account.getHost(), null);
-                        editor.putString(Helper.LAST_NOTIFICATION_READ + account.getId() + account.getHost(), apiResponse.getPeertubeNotifications().get(0).getId());
+                        String last_read = sharedpreferences.getString(Helper.LAST_NOTIFICATION_READ + account.user_id + account.instance, null);
+                        editor.putString(Helper.LAST_NOTIFICATION_READ + account.user_id + account.instance, apiResponse.getPeertubeNotifications().get(0).getId());
                         editor.apply();
                         if (last_read != null) {
                             for (NotificationData.Notification notification : notifications) {
@@ -116,7 +113,7 @@ public class NotificationsWorker extends Worker {
                                 String message = "";
                                 FutureTarget<Bitmap> futureBitmap = Glide.with(getApplicationContext())
                                         .asBitmap()
-                                        .load("https://" + account.getHost() + account.getAvatar()).submit();
+                                        .load("https://" + account.instance + account.peertube_account.getAvatar()).submit();
                                 Bitmap icon;
                                 try {
                                     icon = futureBitmap.get();
@@ -133,7 +130,7 @@ public class NotificationsWorker extends Worker {
                                                 if (notification.getVideo().getChannel().getAvatar() != null) {
                                                     FutureTarget<Bitmap> futureBitmapChannel = Glide.with(getApplicationContext())
                                                             .asBitmap()
-                                                            .load("https://" + account.getHost() + notification.getVideo().getChannel().getAvatar().getPath()).submit();
+                                                            .load("https://" + account.instance + notification.getVideo().getChannel().getAvatar().getPath()).submit();
                                                     try {
                                                         icon = futureBitmapChannel.get();
                                                     } catch (Exception e) {
@@ -149,7 +146,7 @@ public class NotificationsWorker extends Worker {
                                                 message = getApplicationContext().getString(R.string.peertube_video_from_subscription, notification.getVideo().getChannel().getDisplayName(), notification.getVideo().getName());
                                                 intent = new Intent(getApplicationContext(), PeertubeActivity.class);
                                                 Bundle b = new Bundle();
-                                                b.putParcelable("video", notification.getVideo());
+                                                b.putSerializable("video", notification.getVideo());
                                                 b.putString("peertube_instance", notification.getVideo().getChannel().getHost());
                                                 b.putBoolean("isMyVideo", false);
                                                 b.putString("video_id", notification.getVideo().getId());
@@ -162,7 +159,7 @@ public class NotificationsWorker extends Worker {
                                                 if (notification.getComment().getAccount().getAvatar() != null) {
                                                     FutureTarget<Bitmap> futureBitmapChannel = Glide.with(getApplicationContext())
                                                             .asBitmap()
-                                                            .load("https://" + account.getHost() + notification.getComment().getAccount().getAvatar().getPath()).submit();
+                                                            .load("https://" + account.instance + notification.getComment().getAccount().getAvatar().getPath()).submit();
                                                     try {
                                                         icon = futureBitmapChannel.get();
                                                     } catch (Exception e) {
@@ -178,7 +175,7 @@ public class NotificationsWorker extends Worker {
                                                 message = getApplicationContext().getString(R.string.peertube_comment_on_video, notification.getComment().getAccount().getDisplayName(), notification.getComment().getAccount().getUsername());
                                                 intent = new Intent(getApplicationContext(), PeertubeActivity.class);
                                                 Bundle b = new Bundle();
-                                                b.putParcelable("video", notification.getVideo());
+                                                b.putSerializable("video", notification.getVideo());
                                                 b.putString("peertube_instance", notification.getVideo().getChannel().getHost());
                                                 b.putBoolean("isMyVideo", false);
                                                 b.putString("video_id", notification.getVideo().getId());
@@ -228,7 +225,7 @@ public class NotificationsWorker extends Worker {
                                                 if (notification.getVideo().getChannel().getAvatar() != null) {
                                                     FutureTarget<Bitmap> futureBitmapChannel = Glide.with(getApplicationContext())
                                                             .asBitmap()
-                                                            .load("https://" + account.getHost() + notification.getVideo().getChannel().getAvatar().getPath()).submit();
+                                                            .load("https://" + account.instance + notification.getVideo().getChannel().getAvatar().getPath()).submit();
                                                     icon = futureBitmapChannel.get();
 
                                                 } else {
@@ -244,13 +241,13 @@ public class NotificationsWorker extends Worker {
                                                 }
                                                 Bundle b = new Bundle();
                                                 Actor actor = notification.getActorFollow().getFollower();
-                                                AccountData.Account accountAction = new AccountData.Account();
+                                                AccountData.PeertubeAccount accountAction = new AccountData.PeertubeAccount();
                                                 accountAction.setAvatar(actor.getAvatar());
                                                 accountAction.setDisplayName(actor.getDisplayName());
                                                 accountAction.setHost(actor.getHost());
                                                 accountAction.setUsername(actor.getName());
                                                 intent = new Intent(getApplicationContext(), ShowAccountActivity.class);
-                                                b.putParcelable("account", accountAction);
+                                                b.putSerializable("account", accountAction);
                                                 b.putString("accountAcct", accountAction.getUsername() + "@" + accountAction.getHost());
                                                 intent.putExtras(b);
                                             }
@@ -279,7 +276,7 @@ public class NotificationsWorker extends Worker {
                                             message = Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY).toString();
                                         else
                                             message = Html.fromHtml(message).toString();
-                                        NotificationHelper.notify_user(getApplicationContext(), account, intent, icon, title, message);
+                                        NotificationHelper.notify_user(getApplicationContext(), account.peertube_account, intent, icon, title, message);
                                     }
                                 } else {
                                     break;

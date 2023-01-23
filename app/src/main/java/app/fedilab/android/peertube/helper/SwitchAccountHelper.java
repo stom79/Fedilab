@@ -19,53 +19,51 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 
 import androidx.appcompat.app.AlertDialog;
 
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.activities.LoginActivity;
-import app.fedilab.android.peertube.activities.PeertubeMainActivity;
-import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.drawer.OwnAccountsAdapter;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 
 public class SwitchAccountHelper {
 
 
     public static void switchDialog(Activity activity, boolean withAddAccount) {
-        SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-        List<AccountData.Account> accounts = new AccountDAO(activity, db).getAllAccount();
+        List<BaseAccount> accounts = null;
+        try {
+            accounts = new Account(activity).getAll();
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
 
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(activity);
         builderSingle.setTitle(activity.getString(R.string.list_of_accounts));
         if (accounts != null) {
             final OwnAccountsAdapter accountsListAdapter = new OwnAccountsAdapter(activity, accounts);
-            final AccountData.Account[] accountArray = new AccountData.Account[accounts.size()];
+            final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
             int i = 0;
-            for (AccountData.Account account : accounts) {
+            for (BaseAccount account : accounts) {
                 accountArray[i] = account;
                 i++;
             }
             builderSingle.setAdapter(accountsListAdapter, (dialog, which) -> {
-                final AccountData.Account account = accountArray[which];
+                final BaseAccount account = accountArray[which];
                 SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-                boolean remote_account = account.getSoftware() != null && account.getSoftware().toUpperCase().trim().compareTo("PEERTUBE") != 0;
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, account.getToken());
-                editor.putString(Helper.PREF_SOFTWARE, remote_account ? account.getSoftware() : null);
-                editor.putString(Helper.PREF_REMOTE_INSTANCE, remote_account ? account.getHost() : null);
-                if (!remote_account) {
-                    editor.putString(Helper.PREF_INSTANCE, account.getHost());
-                }
-                editor.putString(Helper.PREF_KEY_ID, account.getId());
-                editor.putString(Helper.PREF_KEY_NAME, account.getUsername());
+                editor.putString(Helper.PREF_KEY_OAUTH_TOKEN, account.token);
+                editor.putString(Helper.PREF_INSTANCE, account.instance);
+                editor.putString(Helper.PREF_KEY_ID, account.user_id);
+                editor.putString(Helper.PREF_KEY_NAME, account.peertube_account != null ? account.peertube_account.getUsername() : null);
                 editor.apply();
                 dialog.dismiss();
-                Intent intent = new Intent(activity, PeertubeMainActivity.class);
+                Intent intent = new Intent(activity, BaseMainActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
             });

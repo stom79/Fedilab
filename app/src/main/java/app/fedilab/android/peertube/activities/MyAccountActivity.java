@@ -51,6 +51,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityMyAccountSettingsPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.NotificationSettings;
 import app.fedilab.android.peertube.client.entities.UserMe;
 import app.fedilab.android.peertube.client.entities.UserSettings;

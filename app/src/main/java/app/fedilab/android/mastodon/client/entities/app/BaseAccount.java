@@ -19,6 +19,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
+import app.fedilab.android.peertube.client.data.AccountData;
+
 /**
  * Class that manages Accounts from database
  * Accounts details are serialized and can be for different softwares
@@ -51,6 +53,8 @@ public class BaseAccount implements Serializable {
     public Date updated_at;
     @SerializedName("mastodon_account")
     public app.fedilab.android.mastodon.client.entities.api.Account mastodon_account;
+    @SerializedName("peertube_account")
+    public AccountData.PeertubeAccount peertube_account;
     @SerializedName("admin")
     public boolean admin;
 

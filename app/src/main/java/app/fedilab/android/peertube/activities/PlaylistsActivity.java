@@ -14,7 +14,6 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -26,14 +25,12 @@ import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.PlaylistExportHelper;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
 public class PlaylistsActivity extends BaseBarActivity {
 
-    private final int PICK_IMPORT = 5556;
 
 
     @Override
@@ -68,22 +65,6 @@ public class PlaylistsActivity extends BaseBarActivity {
             ft.add(R.id.nav_host_fragment, displayVideosFragment).commit();
         }
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMPORT && resultCode == RESULT_OK) {
-            if (data == null || data.getData() == null) {
-                Toasty.error(PlaylistsActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                return;
-            }
-            PlaylistExportHelper.manageIntentUrl(PlaylistsActivity.this, data);
-
-        } else if (requestCode == PICK_IMPORT) {
-            Toasty.error(PlaylistsActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-        }
     }
 
 

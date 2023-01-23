@@ -85,9 +85,9 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private TimelineVM.TimelineType timelineType;
     private boolean sepiaSearch;
     private ChannelData.Channel forChannel;
-    private AccountData.Account forAccount;
+    private AccountData.PeertubeAccount forAccount;
 
-    public PeertubeAdapter(List<VideoData.Video> videos, TimelineVM.TimelineType timelineType, boolean sepiaSearch, ChannelData.Channel forChannel, AccountData.Account forAccount) {
+    public PeertubeAdapter(List<VideoData.Video> videos, TimelineVM.TimelineType timelineType, boolean sepiaSearch, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
         this.videos = videos;
         this.timelineType = timelineType;
         this.sepiaSearch = sepiaSearch || timelineType == SEPIA_SEARCH;
@@ -189,7 +189,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.binding.peertubeProfile.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ShowChannelActivity.class);
                 Bundle b = new Bundle();
-                b.putParcelable("channel", video.getChannel());
+                b.putSerializable("channel", video.getChannel());
                 b.putBoolean("sepia_search", sepiaSearch || forChannel != null);
                 if (sepiaSearch || forChannel != null) {
                     b.putString("peertube_instance", video.getAccount().getHost());
@@ -293,7 +293,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             b.putString("video_uuid", video.getUuid());
             b.putBoolean("isMyVideo", ownVideos);
             b.putBoolean("sepia_search", sepiaSearch);
-            b.putParcelable("video", video);
+            b.putSerializable("video", video);
             if (sepiaSearch) {
                 b.putString("peertube_instance", video.getAccount().getHost());
             }
@@ -304,7 +304,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context, PeertubeActivity.class);
             Bundle b = new Bundle();
             b.putString("video_id", video.getId());
-            b.putParcelable("video", video);
+            b.putSerializable("video", video);
             b.putString("video_uuid", video.getUuid());
             b.putBoolean("isMyVideo", ownVideos);
             b.putBoolean("sepia_search", sepiaSearch);

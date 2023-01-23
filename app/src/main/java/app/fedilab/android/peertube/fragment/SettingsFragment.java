@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.MyAccountActivity;
 import app.fedilab.android.peertube.activities.PeertubeMainActivity;
@@ -329,19 +328,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
 
         //****** App theme *******
-        ListPreference set_theme_choice = findPreference(getString(R.string.set_theme_choice));
-        List<String> arrayTheme = Arrays.asList(getResources().getStringArray(R.array.settings_theme));
-        CharSequence[] entriesTheme = arrayTheme.toArray(new CharSequence[0]);
-        CharSequence[] entryValuesTheme = new CharSequence[3];
         final SharedPreferences sharedpref = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        int currentTheme = sharedpref.getInt(Helper.SET_THEME, BuildConfig.default_theme);
-        entryValuesTheme[0] = String.valueOf(Helper.LIGHT_MODE);
-        entryValuesTheme[1] = String.valueOf(Helper.DARK_MODE);
-        entryValuesTheme[2] = String.valueOf(Helper.DEFAULT_MODE);
-        if (set_theme_choice != null) {
-            set_theme_choice.setEntries(entriesTheme);
-            set_theme_choice.setEntryValues(entryValuesTheme);
-            set_theme_choice.setValueIndex(currentTheme);
+        ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
+        if (SET_THEME_BASE != null) {
+            SET_THEME_BASE.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
+        if (SET_THEME_DEFAULT_LIGHT != null) {
+            SET_THEME_DEFAULT_LIGHT.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_DARK = findPreference(getString(R.string.SET_THEME_DEFAULT_DARK));
+        if (SET_THEME_DEFAULT_DARK != null) {
+            SET_THEME_DEFAULT_DARK.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         }
 
 
@@ -427,7 +425,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         set_video_in_list_choice.setChecked(videosInList);
 
         //****** Allow Chromecast *******
-        int cast = sharedpref.getInt(getString(R.string.set_cast_choice), BuildConfig.cast_enabled);
+        int cast = sharedpref.getInt(getString(R.string.set_cast_choice), 0);
         SwitchPreference set_cast_choice = findPreference(getString(R.string.set_cast_choice));
         assert set_cast_choice != null;
         set_cast_choice.setChecked(cast == 1);

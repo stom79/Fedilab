@@ -14,27 +14,15 @@ package app.fedilab.android.peertube.client.entities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings({"unused", "RedundantSuppression"})
-public class StreamingPlaylists implements Parcelable {
+public class StreamingPlaylists implements Serializable {
 
-    public static final Creator<StreamingPlaylists> CREATOR = new Creator<StreamingPlaylists>() {
-        @Override
-        public StreamingPlaylists createFromParcel(Parcel in) {
-            return new StreamingPlaylists(in);
-        }
-
-        @Override
-        public StreamingPlaylists[] newArray(int size) {
-            return new StreamingPlaylists[size];
-        }
-    };
     @SerializedName("id")
     private String id;
     @SerializedName("type")
@@ -47,15 +35,6 @@ public class StreamingPlaylists implements Parcelable {
     private List<File> files;
     @SerializedName("redundancies")
     private List<Redundancies> redundancies;
-
-    protected StreamingPlaylists(Parcel in) {
-        id = in.readString();
-        type = in.readInt();
-        playlistUrl = in.readString();
-        segmentsSha256Url = in.readString();
-        files = in.createTypedArrayList(File.CREATOR);
-        redundancies = in.createTypedArrayList(Redundancies.CREATOR);
-    }
 
     public String getId() {
         return id;
@@ -105,40 +84,10 @@ public class StreamingPlaylists implements Parcelable {
         this.redundancies = redundancies;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeInt(type);
-        parcel.writeString(playlistUrl);
-        parcel.writeString(segmentsSha256Url);
-        parcel.writeTypedList(files);
-        parcel.writeTypedList(redundancies);
-    }
-
-
-    public static class Redundancies implements Parcelable {
-        public static final Creator<Redundancies> CREATOR = new Creator<Redundancies>() {
-            @Override
-            public Redundancies createFromParcel(Parcel in) {
-                return new Redundancies(in);
-            }
-
-            @Override
-            public Redundancies[] newArray(int size) {
-                return new Redundancies[size];
-            }
-        };
+    public static class Redundancies implements Serializable {
         @SerializedName("baseUrl")
         private String baseUrl;
-
-        protected Redundancies(Parcel in) {
-            baseUrl = in.readString();
-        }
 
         public String getBaseUrl() {
             return baseUrl;
@@ -146,16 +95,6 @@ public class StreamingPlaylists implements Parcelable {
 
         public void setBaseUrl(String baseUrl) {
             this.baseUrl = baseUrl;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeString(baseUrl);
         }
     }
 }

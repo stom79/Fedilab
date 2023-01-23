@@ -47,6 +47,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.app.Account;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.BlockData;
@@ -78,12 +80,11 @@ import app.fedilab.android.peertube.client.entities.VideoParams;
 import app.fedilab.android.peertube.client.entities.WellKnownNodeinfo;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.ChannelsVM;
 import app.fedilab.android.peertube.viewmodel.CommentVM;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
+import app.fedilab.android.sqlite.Sqlite;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -146,11 +147,12 @@ public class RetrofitPeertubeAPI {
 
     public static void updateCredential(Activity activity, String token, String client_id, String client_secret, String refresh_token, String host, String software) {
         new Thread(() -> {
-            AccountData.Account account;
+            AccountData.PeertubeAccount peertubeAccount;
+            Account account = new Account();
             String instance = host;
             try {
                 UserMe userMe = new RetrofitPeertubeAPI(activity, instance, token).verifyCredentials();
-                account = userMe.getAccount();
+                peertubeAccount = userMe.getAccount();
             } catch (Error error) {
                 Error.displayError(activity, error);
                 error.printStackTrace();
@@ -162,27 +164,25 @@ public class RetrofitPeertubeAPI {
             } catch (UnsupportedEncodingException ignored) {
             }
             SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-            account.setToken(token);
-            account.setClient_id(client_id);
-            account.setClient_secret(client_secret);
-            account.setRefresh_token(refresh_token);
-            account.setHost(instance);
+            account.token = token;
+            account.client_id = client_id;
+            account.client_secret = client_secret;
+            account.refresh_token = refresh_token;
+            account.instance = instance;
+            account.peertube_account = peertubeAccount;
             SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-            boolean userExists = new AccountDAO(activity, db).userExist(account);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(Helper.PREF_KEY_ID, account.getId());
-            editor.putString(Helper.PREF_KEY_NAME, account.getUsername());
-            boolean remote_account = software != null && software.toUpperCase().trim().compareTo("PEERTUBE") != 0;
-            if (!remote_account) {
+            boolean userExists = false;
+            try {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(Helper.PREF_KEY_ID, account.user_id);
+                editor.putString(Helper.PREF_KEY_NAME, peertubeAccount.getUsername());
                 editor.putString(Helper.PREF_INSTANCE, host);
+                editor.apply();
+                new Account(activity).insertOrUpdate(account);
+            } catch (DBException e) {
+                e.printStackTrace();
             }
-            editor.apply();
-            if (userExists)
-                new AccountDAO(activity, db).updateAccountCredential(account);
-            else {
-                if (account.getUsername() != null && account.getCreatedAt() != null)
-                    new AccountDAO(activity, db).insertAccount(account, software);
-            }
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
                 Intent mainActivity = new Intent(activity, PeertubeMainActivity.class);
@@ -255,7 +255,7 @@ public class RetrofitPeertubeAPI {
                         editor.putString(Helper.PREF_REMOTE_INSTANCE, null);
                         editor.apply();
                         SQLiteDatabase db = Sqlite.getInstance(_context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                        new AccountDAO(_context, db).updateAccountToken(tokenReply);
+                        new Account(_context).updatePeertubeToken(tokenReply);
                     }
                     return tokenReply;
                 } else {
@@ -268,7 +268,7 @@ public class RetrofitPeertubeAPI {
                     }
                     throw error;
                 }
-            } catch (IOException e) {
+            } catch (IOException | DBException e) {
                 e.printStackTrace();
             }
         }
@@ -1356,13 +1356,13 @@ public class RetrofitPeertubeAPI {
      */
     public APIResponse getAccount(String accountHandle) {
         PeertubeService peertubeService = init();
-        Call<AccountData.Account> accountDataCall = peertubeService.getAccount(accountHandle);
+        Call<AccountData.PeertubeAccount> accountDataCall = peertubeService.getAccount(accountHandle);
         APIResponse apiResponse = new APIResponse();
         if (accountDataCall != null) {
             try {
-                Response<AccountData.Account> response = accountDataCall.execute();
+                Response<AccountData.PeertubeAccount> response = accountDataCall.execute();
                 if (response.isSuccessful() && response.body() != null) {
-                    List<AccountData.Account> accountList = new ArrayList<>();
+                    List<AccountData.PeertubeAccount> accountList = new ArrayList<>();
                     accountList.add(response.body());
                     apiResponse.setAccounts(accountList);
                 } else {

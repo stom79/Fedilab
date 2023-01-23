@@ -28,16 +28,16 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.helper.Helper;
 
 
-public class OwnAccountsAdapter extends ArrayAdapter<Account> {
+public class OwnAccountsAdapter extends ArrayAdapter<BaseAccount> {
 
-    private final List<Account> accounts;
+    private final List<BaseAccount> accounts;
     private final LayoutInflater layoutInflater;
 
-    public OwnAccountsAdapter(Context context, List<Account> accounts) {
+    public OwnAccountsAdapter(Context context, List<BaseAccount> accounts) {
         super(context, android.R.layout.simple_list_item_1, accounts);
         this.accounts = accounts;
         layoutInflater = LayoutInflater.from(context);
@@ -50,7 +50,7 @@ public class OwnAccountsAdapter extends ArrayAdapter<Account> {
     }
 
     @Override
-    public Account getItem(int position) {
+    public BaseAccount getItem(int position) {
         return accounts.get(position);
     }
 
@@ -63,7 +63,7 @@ public class OwnAccountsAdapter extends ArrayAdapter<Account> {
     @Override
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
-        final Account account = accounts.get(position);
+        final BaseAccount account = accounts.get(position);
         final ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.drawer_account_owner, parent, false);
@@ -76,7 +76,7 @@ public class OwnAccountsAdapter extends ArrayAdapter<Account> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        ac
         holder.account_un.setText(String.format("@%s", account.getAcct()));
         //Profile picture
         Helper.loadAvatar(holder.account_pp.getContext(), account, holder.account_pp);

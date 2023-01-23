@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -56,6 +55,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,15 +71,15 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.activities.WebviewActivity;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
+import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.PeertubeInformation;
-import app.fedilab.android.peertube.sqlite.AccountDAO;
-import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.ProxyHelper;
 import es.dmoral.toasty.Toasty;
@@ -123,8 +123,6 @@ public class Helper {
     public static final String OAUTH_SCOPES_MASTODON = "read write follow";
     public static final String REDIRECT_CONTENT = "urn:ietf:wg:oauth:2.0:oob";
     public static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
-    public static final String PREF_SOFTWARE = "pref_software";
-    public static final String PREF_REMOTE_INSTANCE = "pref_remote_instance";
     public static final Pattern redirectPattern = Pattern.compile("externalAuthToken=(\\w+)&username=([\\w.-]+)");
     public static final String SET_VIDEO_CACHE = "set_video_cache";
     public static final String RECEIVE_CAST_SETTINGS = "receive_cast_settings";
@@ -293,7 +291,7 @@ public class Helper {
     }
 
 
-    public static void loadAvatar(final Context context, Account account, final ImageView imageView) {
+    public static void loadAvatar(final Context context, AccountData.PeertubeAccount account, final ImageView imageView) {
         String url = null;
         if (account.getAvatar() != null) {
             url = account.getAvatar().getPath();
@@ -532,39 +530,30 @@ public class Helper {
     /**
      * Log out the authenticated user by removing its token
      *
-     * @param activity Activity
-     * @param account  Account
+     * @param activity       Activity
+     * @param currentAccount BaseAccount
      */
-    public static void logoutCurrentUser(Activity activity, Account account) {
-        SharedPreferences sharedpreferences = activity.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
-        //Current user
-        SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-
-        if (account != null) {
-            new AccountDAO(activity, db).removeUser(account);
-        }
-        Account newAccount = new AccountDAO(activity, db).getLastUsedAccount();
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        if (newAccount == null) {
-            editor.putString(PREF_KEY_OAUTH_TOKEN, null);
-            editor.putString(CLIENT_ID, null);
-            editor.putString(CLIENT_SECRET, null);
-            editor.putString(PREF_KEY_ID, null);
-            editor.putString(PREF_INSTANCE, null);
-            editor.putString(ID, null);
-            editor.apply();
-            Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
-            activity.startActivity(loginActivity);
-            activity.finish();
+    public static void logoutCurrentUser(Activity activity, BaseAccount currentAccount) {
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        alt_bld.setTitle(R.string.action_logout);
+        if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.username != null && currentAccount.instance != null) {
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
+        } else if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.acct != null) {
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.acct, ""));
         } else {
-            editor.putString(PREF_KEY_OAUTH_TOKEN, newAccount.getToken());
-            editor.putString(PREF_KEY_ID, newAccount.getId());
-            editor.putString(PREF_INSTANCE, newAccount.getHost().trim());
-            editor.commit();
-            Intent changeAccount = new Intent(activity, PeertubeMainActivity.class);
-            changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            activity.startActivity(changeAccount);
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, "", ""));
         }
+        alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
+            dialog.dismiss();
+            try {
+                app.fedilab.android.mastodon.helper.Helper.removeAccount(activity);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+        alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+        AlertDialog alert = alt_bld.create();
+        alert.show();
     }
 
 
@@ -669,7 +658,7 @@ public class Helper {
     }
 
 
-    public static boolean isOwner(Context context, Account account) {
+    public static boolean isOwner(Context context, AccountData.PeertubeAccount account) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
         String userName = sharedpreferences.getString(Helper.PREF_KEY_NAME, "");
         String instance = sharedpreferences.getString(Helper.PREF_INSTANCE, "");
@@ -687,7 +676,7 @@ public class Helper {
         if (video == null) {
             return false;
         }
-        Account account = video.getAccount();
+        AccountData.PeertubeAccount account = video.getAccount();
         ChannelData.Channel channel = video.getChannel();
         if (account != null && instance != null && userName != null) {
             return account.getUsername().compareTo(userName) == 0 && account.getHost().compareTo(instance) == 0;

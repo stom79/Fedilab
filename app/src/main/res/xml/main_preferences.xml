@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:key="app_prefs">
@@ -58,11 +59,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/app_interface">
-        <androidx.preference.ListPreference
-            android:icon="@drawable/ic_baseline_color_lens_24"
-            android:key="@string/set_theme_choice"
-            android:summary="@string/set_theme_description"
-            android:title="@string/set_theme" />
+
         <androidx.preference.ListPreference
             android:icon="@drawable/ic_baseline_blur_on_24"
             android:key="@string/set_video_sensitive_choice"
@@ -82,5 +79,41 @@
             android:key="@string/set_cast_choice"
             android:summary="@string/set_cast_description"
             android:title="@string/set_cast" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/theming">
+        <ListPreference
+            app:defaultValue="SYSTEM"
+            app:dialogTitle="@string/type_of_theme"
+            app:entries="@array/set_theme_mode_value"
+            app:entryValues="@array/SET_THEME_MODE_VALUE"
+            app:key="@string/SET_THEME_BASE"
+            app:title="@string/type_of_theme"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="@string/SET_DYNAMICCOLOR"
+            app:singleLineTitle="false"
+            app:summary="@string/set_dynamic_color_indication"
+            app:title="@string/set_dynamic_color" />
+
+        <ListPreference
+            app:defaultValue="LIGHT"
+            app:dialogTitle="@string/type_default_theme_light"
+            app:entries="@array/set_default_theme_light"
+            app:entryValues="@array/SET_DEFAULT_THEME_LIGHT"
+            app:key="@string/SET_THEME_DEFAULT_LIGHT"
+            app:title="@string/type_default_theme_light"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="DARK"
+            app:dialogTitle="@string/type_default_theme_dark"
+            app:entries="@array/set_default_theme_dark"
+            app:entryValues="@array/SET_THEME_DEFAULT_DARK"
+            app:key="@string/SET_THEME_DEFAULT_DARK"
+            app:title="@string/type_default_theme_dark"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

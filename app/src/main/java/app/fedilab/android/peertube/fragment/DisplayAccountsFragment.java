@@ -37,7 +37,6 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
-import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.BlockData;
 import app.fedilab.android.peertube.drawer.AccountsListAdapter;
 import app.fedilab.android.peertube.viewmodel.AccountsVM;
