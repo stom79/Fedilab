@@ -203,8 +203,8 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="6dp"
                 android:orientation="vertical"
-                app:selectionRequired="true"
                 app:layout_constraintTop_toBottomOf="@id/visibility_label"
+                app:selectionRequired="true"
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
@@ -219,9 +219,9 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_unlisted"
                     style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:layout_marginTop="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
                     android:text="@string/v_unlisted"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_compose_visibility_unlisted" />

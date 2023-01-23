@@ -10,40 +10,40 @@
 
 
     <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:id="@+id/fetch_more_max"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/fetch_more_messages"
         android:padding="0dp"
+        app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:strokeColor="?colorPrimary"
-        android:contentDescription="@string/fetch_more_messages"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24" />
+        app:strokeColor="?colorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="?colorPrimary"
+        android:layout_weight="1"
+        android:gravity="center"
         android:text="@string/fetch_more_messages"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="?colorPrimary"
         android:textSize="18sp"
         app:textAllCaps="false" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fetch_more_min"
         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        app:strokeColor="?colorPrimary"
-        android:padding="0dp"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/fetch_more_messages"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24" />
+        android:padding="0dp"
+        app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:strokeColor="?colorPrimary" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

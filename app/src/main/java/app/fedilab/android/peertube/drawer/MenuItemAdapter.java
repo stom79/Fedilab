@@ -23,9 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.databinding.DrawerMenuItemBinding;
 import app.fedilab.android.peertube.client.MenuItemVideo;
 import app.fedilab.android.peertube.client.entities.MenuItemView;
-import app.fedilab.android.peertube.databinding.DrawerMenuItemBinding;
 
 
 public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

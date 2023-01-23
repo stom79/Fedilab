@@ -9,5 +9,4 @@
     android:paddingVertical="12dp"
     android:textAlignment="textStart"
     app:icon="@drawable/ic_baseline_navigate_next_24"
-    app:iconGravity="end"
-    />
+    app:iconGravity="end" />

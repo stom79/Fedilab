@@ -27,9 +27,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.R;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.APIResponse;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.Oauth;
 import app.fedilab.android.peertube.client.entities.OauthParams;
 import app.fedilab.android.peertube.client.entities.Token;
@@ -138,7 +139,7 @@ public class RetrofitMastodonAPI {
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                Intent mainActivity = new Intent(activity, MainActivity.class);
+                Intent mainActivity = new Intent(activity, PeertubeMainActivity.class);
                 mainActivity.putExtra(Helper.INTENT_ACTION, Helper.ADD_USER_INTENT);
                 activity.startActivity(mainActivity);
                 activity.finish();

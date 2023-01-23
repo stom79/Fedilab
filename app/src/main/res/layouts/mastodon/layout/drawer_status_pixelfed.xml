@@ -18,10 +18,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/art_container"
-    android:layout_marginHorizontal="@dimen/card_margin"
-    android:layout_marginTop="@dimen/card_margin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/card_margin"
+    android:layout_marginTop="@dimen/card_margin">
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/art_media"

@@ -32,7 +32,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 
 
 public class MastalabWebChromeClient extends WebChromeClient implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {

@@ -14,7 +14,6 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.MainActivity.badgeCount;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,9 +32,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.AccountActivity;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.activities.ShowChannelActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -213,7 +213,7 @@ public class PeertubeNotificationsListAdapter extends RecyclerView.Adapter<Recyc
     private void markAsRead(Notification notification, int position) {
         if (!notification.isRead()) {
             notification.setRead(true);
-            badgeCount--;
+            PeertubeMainActivity.badgeCount--;
             if (context instanceof AccountActivity) {
                 ((AccountActivity) context).updateCounter();
             }

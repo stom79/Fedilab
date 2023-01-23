@@ -28,9 +28,9 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/add_title"
-            android:hint="@string/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/title"
             android:importantForAutofill="noExcludeDescendants"
             android:inputType="text"
             android:singleLine="true" />
@@ -128,9 +128,9 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/filter_action"
             android:textSize="12sp" />
 
@@ -148,6 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,8 +165,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:textSize="12sp"
-                    android:text="@string/hide_with_warning_description" />
+                    android:text="@string/hide_with_warning_description"
+                    android:textSize="12sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -177,23 +178,23 @@
                     android:id="@+id/action_remove"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/hide_completely"
-                    android:checked="true" />
+                    android:checked="true"
+                    android:text="@string/hide_completely" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:textSize="12sp"
-                    android:text="@string/hide_completely_description" />
+                    android:text="@string/hide_completely_description"
+                    android:textSize="12sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </RadioGroup>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -215,9 +216,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lv_keywords"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_keyword"

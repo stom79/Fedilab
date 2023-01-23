@@ -1,6 +1,7 @@
 package app.fedilab.android.peertube.fragment;
 
-import static app.fedilab.android.peertube.activities.MainActivity.userMe;
+
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userMe;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,11 +39,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.BuildConfig;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.MyAccountActivity;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.UserSettings;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
@@ -233,7 +235,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             SwitchPreference set_video_in_list_choice = findPreference(getString(R.string.set_video_in_list_choice));
             assert set_video_in_list_choice != null;
             editor.putBoolean(getString(R.string.set_video_in_list_choice), set_video_in_list_choice.isChecked());
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
+            Intent intent = new Intent(requireActivity(), PeertubeMainActivity.class);
             startActivity(intent);
         }
         if (key.compareTo(getString(R.string.set_cast_choice)) == 0) {

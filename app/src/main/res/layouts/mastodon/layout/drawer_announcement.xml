@@ -20,10 +20,10 @@
     android:id="@+id/cardview_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:layout_marginHorizontal="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     app:cardElevation="0dp"
     app:strokeWidth="0dp">
 

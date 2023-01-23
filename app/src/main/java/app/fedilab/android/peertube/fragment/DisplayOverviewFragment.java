@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.OverviewVideo;
@@ -84,7 +84,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_overview, container, false);
+        rootView = inflater.inflate(R.layout.fragment_overview_peertube, container, false);
 
 
         peertubes = new ArrayList<>();

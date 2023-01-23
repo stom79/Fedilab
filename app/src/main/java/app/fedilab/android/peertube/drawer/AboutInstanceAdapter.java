@@ -40,9 +40,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerAboutInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData;
-import app.fedilab.android.peertube.databinding.DrawerAboutInstanceBinding;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
@@ -74,7 +74,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        DrawerAboutInstanceBinding itemBinding = DrawerAboutInstanceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerAboutInstancePeertubeBinding itemBinding = DrawerAboutInstancePeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -135,7 +135,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.binding.instanceMore.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.instanceMore);
             popup.getMenuInflater()
-                    .inflate(R.menu.instance_menu, popup.getMenu());
+                    .inflate(R.menu.instance_menu_peertube, popup.getMenu());
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_delete) {
@@ -175,9 +175,9 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        DrawerAboutInstanceBinding binding;
+        DrawerAboutInstancePeertubeBinding binding;
 
-        ViewHolder(DrawerAboutInstanceBinding itemView) {
+        ViewHolder(DrawerAboutInstancePeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

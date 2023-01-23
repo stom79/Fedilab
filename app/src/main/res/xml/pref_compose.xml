@@ -84,8 +84,8 @@
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
-        app:singleLineTitle="false"
         app:key="@string/SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL"
+        app:singleLineTitle="false"
         app:title="@string/set_retrieve_metadata_share_from_extras" />
 
 
@@ -104,9 +104,9 @@
         app:useSimpleSummaryProvider="true" />
 
     <SwitchPreferenceCompat
-        app:singleLineTitle="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_FORWARD_TAGS_IN_REPLY"
+        app:singleLineTitle="false"
         app:title="@string/set_forward_tags" />
 
 

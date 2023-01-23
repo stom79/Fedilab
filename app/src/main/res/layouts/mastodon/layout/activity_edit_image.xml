@@ -32,9 +32,9 @@
 
         <app.fedilab.android.mastodon.helper.CirclesDrawingView
             android:id="@+id/focus_circle"
-            android:elevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="5dp"
             android:visibility="gone" />
     </RelativeLayout>
 

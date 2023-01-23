@@ -53,14 +53,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerCommentPeertubeBinding;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.CommentData.Comment;
 import app.fedilab.android.peertube.client.entities.Report;
-import app.fedilab.android.peertube.databinding.DrawerCommentBinding;
 import app.fedilab.android.peertube.helper.CommentDecorationHelper;
 import app.fedilab.android.peertube.helper.EmojiHelper;
 import app.fedilab.android.peertube.helper.Helper;
@@ -105,7 +105,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         context = parent.getContext();
-        DrawerCommentBinding itemBinding = DrawerCommentBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerCommentPeertubeBinding itemBinding = DrawerCommentPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -141,7 +141,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.binding.moreActions.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.moreActions);
             popup.getMenuInflater()
-                    .inflate(R.menu.comment_menu, popup.getMenu());
+                    .inflate(R.menu.comment_menu_peertube, popup.getMenu());
             if (!Helper.isOwner(context, comment.getAccount())) {
                 popup.getMenu().findItem(R.id.action_delete).setVisible(false);
             } else {
@@ -346,7 +346,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void reportComment(Comment comment) {
         androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new androidx.appcompat.app.AlertDialog.Builder(context);
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.popup_report, new LinearLayout(context), false);
+        View dialogView = inflater.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
         dialogBuilder.setView(dialogView);
         EditText report_content = dialogView.findViewById(R.id.report_content);
         dialogBuilder.setNeutralButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -374,9 +374,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        DrawerCommentBinding binding;
+        DrawerCommentPeertubeBinding binding;
 
-        ViewHolder(DrawerCommentBinding itemView) {
+        ViewHolder(DrawerCommentPeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

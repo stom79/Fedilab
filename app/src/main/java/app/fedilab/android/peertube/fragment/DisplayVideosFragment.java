@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.multidex.BuildConfig;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,9 +44,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.FragmentVideoPeertubeBinding;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
@@ -53,7 +54,6 @@ import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
 import app.fedilab.android.peertube.client.entities.PlaylistExist;
-import app.fedilab.android.peertube.databinding.FragmentVideoBinding;
 import app.fedilab.android.peertube.drawer.AccountsHorizontalListAdapter;
 import app.fedilab.android.peertube.drawer.PeertubeAdapter;
 import app.fedilab.android.peertube.helper.Helper;
@@ -93,7 +93,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
     private String remoteInstance;
     private boolean sepiaSearch;
     private String startDate, endDate;
-    private FragmentVideoBinding binding;
+    private FragmentVideoPeertubeBinding binding;
     private String channelId;
 
     public DisplayVideosFragment() {
@@ -102,7 +102,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentVideoBinding.inflate(inflater, container, false);
+        binding = FragmentVideoPeertubeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -351,7 +351,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
                 apiResponse.getPeertubes().add(v.getVideo());
             }
         }
-        if (!BuildConfig.google_restriction) {
+        if (BuildConfig.FLAVOR.equalsIgnoreCase("fdroid")) {
             this.peertubes.addAll(apiResponse.getPeertubes());
         } else {
             for (VideoData.Video video : apiResponse.getPeertubes()) {
@@ -459,9 +459,9 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
 
     public void pullToRefresh(boolean reload) {
         if (type == TimelineVM.TimelineType.SUBSCRIBTIONS && reload) {
-            DisplayVideosFragment subscriptionFragment = ((MainActivity) context).getSubscriptionFragment();
+            DisplayVideosFragment subscriptionFragment = ((PeertubeMainActivity) context).getSubscriptionFragment();
             if (subscriptionFragment != null) {
-                FragmentTransaction ft = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+                FragmentTransaction ft = ((PeertubeMainActivity) context).getSupportFragmentManager().beginTransaction();
                 ft.detach(subscriptionFragment).attach(subscriptionFragment).commit();
             }
         } else {

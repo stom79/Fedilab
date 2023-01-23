@@ -89,8 +89,8 @@ public class InstanceActivity extends DialogFragment {
                         editor.apply();
                     } catch (Exception ignored) {
                     }
-                        }
-                    }
+                }
+            }
                     requireDialog().dismiss();
                 }
 

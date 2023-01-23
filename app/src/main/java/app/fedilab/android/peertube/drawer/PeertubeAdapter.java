@@ -54,7 +54,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerPeertubeBinding;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
 import app.fedilab.android.peertube.activities.PeertubeEditUploadActivity;
 import app.fedilab.android.peertube.activities.ShowChannelActivity;
@@ -66,7 +67,6 @@ import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.PlaylistExist;
 import app.fedilab.android.peertube.client.entities.Report;
-import app.fedilab.android.peertube.databinding.DrawerPeertubeBinding;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
@@ -203,7 +203,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.binding.moreActions.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.moreActions);
             popup.getMenuInflater()
-                    .inflate(R.menu.video_drawer_menu, popup.getMenu());
+                    .inflate(R.menu.video_drawer_menu_peertube, popup.getMenu());
             if (timelineType == MY_VIDEOS) {
                 popup.getMenu().findItem(R.id.action_report).setVisible(false);
                 popup.getMenu().findItem(R.id.action_follow).setVisible(false);
@@ -261,7 +261,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 } else if (itemId == R.id.action_report) {
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                     LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
-                    View dialogView = inflater1.inflate(R.layout.popup_report, new LinearLayout(context), false);
+                    View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
                     dialogBuilder.setView(dialogView);
                     EditText report_content = dialogView.findViewById(R.id.report_content);
                     dialogBuilder.setNeutralButton(R.string.cancel, (dialog2, id) -> dialog2.dismiss());

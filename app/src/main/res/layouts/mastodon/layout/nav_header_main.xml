@@ -88,14 +88,14 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextAppearance.Material3.TitleSmall"
                 android:id="@+id/account_name"
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:singleLine="true"
                 android:ellipsize="end"
                 android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:singleLine="true"
                 tools:text="@tools:sample/full_names" />
 
             <ImageView
@@ -118,16 +118,16 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextAppearance.Material3.TitleSmall"
                 android:id="@+id/account_acc"
-                tools:text="@tools:sample/full_names"
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="@tools:sample/full_names" />
 
             <ImageView
                 android:id="@+id/instance_info"

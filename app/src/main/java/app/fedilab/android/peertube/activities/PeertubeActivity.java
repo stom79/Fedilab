@@ -23,6 +23,7 @@ import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType
 import static app.fedilab.android.peertube.helper.Helper.canMakeAction;
 import static app.fedilab.android.peertube.helper.Helper.getAttColor;
 import static app.fedilab.android.peertube.helper.Helper.isLoggedIn;
+import static app.fedilab.android.peertube.helper.Helper.loadAvatar;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.Manifest;
@@ -120,12 +121,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.R;
+import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
-import app.fedilab.android.mastodon.activities.BaseBarActivity;
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.Matomo;
-import app.fedilab.android.peertube.R;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.MenuItemVideo;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -137,12 +135,12 @@ import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.client.data.PluginData;
 import app.fedilab.android.peertube.client.data.VideoData;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.MenuItemView;
 import app.fedilab.android.peertube.client.entities.PlaylistExist;
 import app.fedilab.android.peertube.client.entities.Report;
 import app.fedilab.android.peertube.client.entities.UserSettings;
-import app.fedilab.android.peertube.client.mastodon.RetrofitMastodonAPI;
 import app.fedilab.android.peertube.drawer.CommentListAdapter;
 import app.fedilab.android.peertube.drawer.MenuAdapter;
 import app.fedilab.android.peertube.drawer.MenuItemAdapter;
@@ -164,7 +162,7 @@ import app.fedilab.android.peertube.webview.MastalabWebViewClient;
 import es.dmoral.toasty.Toasty;
 
 
-public class PeertubeActivity extends BaseBarActivity implements CommentListAdapter.AllCommentRemoved, Player.EventListener, VideoListener, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction {
+public class PeertubeActivity extends BasePeertubeActivity implements CommentListAdapter.AllCommentRemoved, Player.EventListener, VideoListener, MenuAdapter.ItemClicked, MenuItemAdapter.ItemAction {
 
     public static String video_id;
     public static List<String> playedVideos = new ArrayList<>();
@@ -197,7 +195,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
     private String currentCaption;
     private boolean isRemote;
     private boolean willPlayFromIntent;
-    private app.fedilab.android.peertube.client.mastodon.Status status;
 
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
@@ -228,7 +225,7 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         String token = sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
         if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
             Account account = new AccountDAO(PeertubeActivity.this, db).getAccountByToken(token);
-            Helper.loadAvatar(PeertubeActivity.this, account, binding.myPp);
+            loadAvatar(PeertubeActivity.this, account, binding.myPp);
         }
         isRemote = false;
 
@@ -273,7 +270,7 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
 
         willPlayFromIntent = manageIntentUrl(intent);
 
-        if (BuildConfig.allow_remote_connections && Helper.isLoggedInType(PeertubeActivity.this) == MainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+        if (Helper.isLoggedInType(PeertubeActivity.this) == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
             binding.peertubeLikeCount.setVisibility(View.GONE);
             binding.peertubeDislikeCount.setVisibility(View.GONE);
             binding.peertubePlaylist.setVisibility(View.GONE);
@@ -329,7 +326,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
             binding.webviewVideo.getSettings().setAllowFileAccess(true);
             binding.webviewVideo.setWebChromeClient(mastalabWebChromeClient);
             binding.webviewVideo.getSettings().setDomStorageEnabled(true);
-            binding.webviewVideo.getSettings().setAppCacheEnabled(true);
             binding.webviewVideo.getSettings().setMediaPlaybackRequiresUserGesture(false);
             binding.webviewVideo.setWebViewClient(new MastalabWebViewClient(PeertubeActivity.this));
             binding.webviewVideo.loadUrl("https://" + peertubeInstance + "/videos/embed/" + videoUuid);
@@ -689,7 +685,7 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
     private void reportAlert(RetrofitPeertubeAPI.ActionType type, AlertDialog alertDialog) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
         LayoutInflater inflater1 = getLayoutInflater();
-        View dialogView = inflater1.inflate(R.layout.popup_report, new LinearLayout(PeertubeActivity.this), false);
+        View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(PeertubeActivity.this), false);
         dialogBuilder.setView(dialogView);
         dialogBuilder.setNeutralButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
         EditText report_content = dialogView.findViewById(R.id.report_content);
@@ -991,35 +987,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         changeColor();
         initResolution();
 
-        binding.peertubeReblog.setOnClickListener(v -> {
-            if (status != null) {
-                MastodonPostActionsVM mastodonPostActionsVM = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-                RetrofitMastodonAPI.actionType type = status.isReblogged() ? RetrofitMastodonAPI.actionType.UNBOOST : RetrofitMastodonAPI.actionType.BOOST;
-                mastodonPostActionsVM.post(type, status).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
-            } else {
-                Toasty.error(PeertubeActivity.this, getString(R.string.federation_issue), Toasty.LENGTH_LONG).show();
-            }
-        });
-
-        binding.peertubeFavorite.setOnClickListener(v -> {
-            if (status != null) {
-                MastodonPostActionsVM mastodonPostActionsVM = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-                RetrofitMastodonAPI.actionType type = status.isFavourited() ? RetrofitMastodonAPI.actionType.UNFAVOURITE : RetrofitMastodonAPI.actionType.FAVOURITE;
-                mastodonPostActionsVM.post(type, status).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
-            } else {
-                Toasty.error(PeertubeActivity.this, getString(R.string.federation_issue), Toasty.LENGTH_LONG).show();
-            }
-        });
-
-        binding.peertubeBookmark.setOnClickListener(v -> {
-            if (status != null) {
-                MastodonPostActionsVM mastodonPostActionsVM = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-                RetrofitMastodonAPI.actionType type = status.isBookmarked() ? RetrofitMastodonAPI.actionType.UNBOOKMARK : RetrofitMastodonAPI.actionType.BOOKMARK;
-                mastodonPostActionsVM.post(type, status).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
-            } else {
-                Toasty.error(PeertubeActivity.this, getString(R.string.federation_issue), Toasty.LENGTH_LONG).show();
-            }
-        });
 
         binding.peertubeLikeCount.setOnClickListener(v -> {
             if (isLoggedIn(PeertubeActivity.this) && !sepiaSearch) {
@@ -1072,11 +1039,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
             }
         });
 
-        if (BuildConfig.allow_remote_connections && Helper.isLoggedInType(PeertubeActivity.this) == MainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
-            String url = "https://" + peertube.getChannel().getHost() + "/videos/watch/" + peertube.getUuid();
-            MastodonPostActionsVM postActionsVM = new ViewModelProvider(PeertubeActivity.this).get(MastodonPostActionsVM.class);
-            postActionsVM.searchRemoteStatus(url).observe(PeertubeActivity.this, this::retrieveRemoteStatus);
-        }
 
         if (mode != Helper.VIDEO_MODE_WEBVIEW) {
 
@@ -1101,7 +1063,7 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         binding.moreActions.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(PeertubeActivity.this, binding.moreActions);
             popup.getMenuInflater()
-                    .inflate(R.menu.main_video, popup.getMenu());
+                    .inflate(R.menu.main_video_peertube, popup.getMenu());
 
             if (!isMyVideo) {
                 popup.getMenu().findItem(R.id.action_edit).setVisible(false);
@@ -1883,7 +1845,7 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         if (comment != null) {
             binding.replyContent.setVisibility(View.VISIBLE);
             Account account = comment.getAccount();
-            Helper.loadAvatar(PeertubeActivity.this, account, binding.commentAccountProfile);
+            loadAvatar(PeertubeActivity.this, account, binding.commentAccountProfile);
             binding.commentAccountDisplayname.setText(account.getDisplayName());
             binding.commentAccountUsername.setText(account.getAcct());
             Spanned commentSpan;
@@ -1967,16 +1929,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         binding.postComment.startAnimation(animateComment);
     }
 
-    public void manageVIewPostActionsMastodon(app.fedilab.android.peertube.client.mastodon.Status status) {
-        if (status != null) {
-            this.status = status;
-            changeColorMastodon();
-            binding.peertubeFavorite.setText(String.valueOf(status.getFavouriteCount()));
-            binding.peertubeReblog.setText(String.valueOf(status.getReblogsCount()));
-        } else {
-            Toasty.error(PeertubeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
-        }
-    }
 
     public void manageVIewPostActionsMastodon(RetrofitPeertubeAPI.ActionType statusAction, int position, app.fedilab.android.peertube.client.mastodon.Status status) {
         if (peertube.isCommentsEnabled() && statusAction == ADD_COMMENT) {
@@ -2089,39 +2041,6 @@ public class PeertubeActivity extends BaseBarActivity implements CommentListAdap
         Drawable favorite = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_star_24);
         Drawable bookmark = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_bookmark_24);
 
-        int color = getAttColor(this, android.R.attr.colorControlNormal);
-
-        if (reblog != null) {
-            reblog.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(reblog, color);
-        }
-        if (favorite != null) {
-            favorite.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(favorite, color);
-        }
-
-        if (bookmark != null) {
-            bookmark.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(bookmark, color);
-        }
-
-        if (reblog != null && status.isReblogged()) {
-            reblog.setColorFilter(getResources().getColor(R.color.positive_thumbs), PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(reblog, getResources().getColor(R.color.positive_thumbs));
-        }
-        if (favorite != null && status.isFavourited()) {
-            favorite.setColorFilter(getResources().getColor(R.color.favorite), PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(favorite, getResources().getColor(R.color.favorite));
-        }
-
-        if (bookmark != null && status.isBookmarked()) {
-            bookmark.setColorFilter(getResources().getColor(R.color.bookmark), PorterDuff.Mode.SRC_ATOP);
-            DrawableCompat.setTint(bookmark, getResources().getColor(R.color.bookmark));
-        }
-
-        binding.peertubeReblog.setCompoundDrawablesWithIntrinsicBounds(null, reblog, null, null);
-        binding.peertubeFavorite.setCompoundDrawablesWithIntrinsicBounds(null, favorite, null, null);
-        binding.peertubeBookmark.setCompoundDrawablesWithIntrinsicBounds(null, bookmark, null, null);
     }
 
     private void changeColor() {

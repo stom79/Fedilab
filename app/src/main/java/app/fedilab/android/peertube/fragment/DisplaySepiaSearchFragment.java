@@ -39,12 +39,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.BuildConfig;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.FragmentVideoPeertubeBinding;
 import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.SepiaSearch;
-import app.fedilab.android.peertube.databinding.FragmentVideoBinding;
 import app.fedilab.android.peertube.drawer.AccountsHorizontalListAdapter;
 import app.fedilab.android.peertube.drawer.PeertubeAdapter;
 import app.fedilab.android.peertube.helper.Helper;
@@ -65,7 +65,7 @@ public class DisplaySepiaSearchFragment extends Fragment implements AccountsHori
     private SharedPreferences sharedpreferences;
     private SepiaSearchVM viewModelSearch;
     private SepiaSearch sepiaSearchVideo;
-    private FragmentVideoBinding binding;
+    private FragmentVideoPeertubeBinding binding;
 
     public DisplaySepiaSearchFragment() {
     }
@@ -73,7 +73,7 @@ public class DisplaySepiaSearchFragment extends Fragment implements AccountsHori
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentVideoBinding.inflate(inflater, container, false);
+        binding = FragmentVideoPeertubeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -209,7 +209,7 @@ public class DisplaySepiaSearchFragment extends Fragment implements AccountsHori
         int videoPerPage = sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE);
         sepiaSearchVideo.setStart(String.valueOf(Integer.parseInt(sepiaSearchVideo.getStart()) + videoPerPage));
 
-        if (!BuildConfig.google_restriction) {
+        if (BuildConfig.FLAVOR.equalsIgnoreCase("fdroid")) {
             this.peertubes.addAll(videoData.data);
         } else {
             for (VideoData.Video video : videoData.data) {

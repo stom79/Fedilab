@@ -41,15 +41,16 @@ import com.bumptech.glide.request.FutureTarget;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.NotificationData;
 import app.fedilab.android.peertube.client.entities.Actor;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.NotificationSettings;
 import app.fedilab.android.peertube.client.entities.UserMe;
 import app.fedilab.android.peertube.fragment.DisplayNotificationsFragment;
@@ -306,7 +307,7 @@ public class NotificationsWorker extends Worker {
             channel.setSound(null, null);
             notificationManager.createNotificationChannel(channel);
         }
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent myIntent = new Intent(getApplicationContext(), PeertubeMainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 getApplicationContext(),
                 0,
@@ -318,7 +319,7 @@ public class NotificationsWorker extends Worker {
                 .setProgress(100, 0, false)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_notification_tubelab)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setSound(null)
                 .setAutoCancel(true)
                 .setOngoing(true);

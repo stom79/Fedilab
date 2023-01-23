@@ -46,9 +46,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.R;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.client.data.BlockData;
 import app.fedilab.android.peertube.client.data.CaptionData;
@@ -62,6 +61,7 @@ import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
 import app.fedilab.android.peertube.client.entities.AccountCreation;
 import app.fedilab.android.peertube.client.entities.ChannelParams;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.InstanceParams;
 import app.fedilab.android.peertube.client.entities.Oauth;
 import app.fedilab.android.peertube.client.entities.OauthParams;
@@ -185,7 +185,7 @@ public class RetrofitPeertubeAPI {
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                Intent mainActivity = new Intent(activity, MainActivity.class);
+                Intent mainActivity = new Intent(activity, PeertubeMainActivity.class);
                 mainActivity.putExtra(Helper.INTENT_ACTION, Helper.ADD_USER_INTENT);
                 activity.startActivity(mainActivity);
                 activity.finish();
@@ -1518,11 +1518,7 @@ public class RetrofitPeertubeAPI {
         PeertubeService peertubeService = init();
         try {
             Call<Oauth> oauth;
-            if (BuildConfig.full_instances) {
-                oauth = peertubeService.getOauth(client_name, redirect_uris, scopes, website);
-            } else {
-                oauth = peertubeService.getOauthAcad();
-            }
+            oauth = peertubeService.getOauth(client_name, redirect_uris, scopes, website);
             Response<Oauth> response = oauth.execute();
             if (response.isSuccessful() && response.body() != null) {
                 return response.body();

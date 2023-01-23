@@ -14,65 +14,33 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.viewmodel.PlaylistsVM.action.GET_LIST_VIDEOS;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import app.fedilab.android.peertube.BuildConfig;
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerPlaylistPeertubeBinding;
 import app.fedilab.android.peertube.activities.AllPlaylistsActivity;
-import app.fedilab.android.peertube.activities.LocalPlaylistsActivity;
-import app.fedilab.android.peertube.activities.MainActivity;
-import app.fedilab.android.peertube.activities.PlaylistsActivity;
 import app.fedilab.android.peertube.client.APIResponse;
-import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
-import app.fedilab.android.peertube.client.data.VideoPlaylistData;
-import app.fedilab.android.peertube.databinding.DrawerPlaylistBinding;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.NotificationHelper;
-import app.fedilab.android.peertube.helper.PlaylistExportHelper;
 import app.fedilab.android.peertube.sqlite.ManagePlaylistsDAO;
 import app.fedilab.android.peertube.sqlite.Sqlite;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
-import es.dmoral.toasty.Toasty;
 
 
 public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -91,7 +59,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        DrawerPlaylistBinding itemBinding = DrawerPlaylistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerPlaylistPeertubeBinding itemBinding = DrawerPlaylistPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -120,13 +88,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         holder.binding.previewVisibility.setText(playlist.getPrivacy().getLabel());
 
-        holder.binding.playlistContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(context, locale ? LocalPlaylistsActivity.class : PlaylistsActivity.class);
-            Bundle b = new Bundle();
-            b.putParcelable("playlist", playlist);
-            intent.putExtras(b);
-            context.startActivity(intent);
-        });
 
         if (playlist.getDisplayName().compareTo("Watch later") == 0) {
             holder.binding.playlistMore.setVisibility(View.GONE);
@@ -137,12 +98,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.binding.playlistMore.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.playlistMore);
             popup.getMenuInflater()
-                    .inflate(R.menu.playlist_menu, popup.getMenu());
-            if (!BuildConfig.full_instances) {
-                popup.getMenu().findItem(R.id.action_export).setVisible(true);
-            }
+                    .inflate(R.menu.playlist_menu_peertube, popup.getMenu());
             if (locale) {
-                popup.getMenu().findItem(R.id.action_export).setVisible(false);
                 popup.getMenu().findItem(R.id.action_edit).setVisible(false);
             }
             popup.setOnMenuItemClickListener(item -> {
@@ -175,16 +132,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if (context instanceof AllPlaylistsActivity) {
                         ((AllPlaylistsActivity) context).manageAlert(playlist);
                     }
-                } else if (itemId == R.id.action_export) {
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE);
-                        } else {
-                            doExport(playlist);
-                        }
-                    } else {
-                        doExport(playlist);
-                    }
                 }
                 return true;
             });
@@ -203,69 +150,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return playlists.size();
     }
 
-    private void doExport(Playlist playlist) {
-        new Thread(() -> {
-            File file;
-            RetrofitPeertubeAPI retrofitPeertubeAPI = new RetrofitPeertubeAPI(context);
-            APIResponse apiResponse = retrofitPeertubeAPI.playlistAction(GET_LIST_VIDEOS, playlist.getId(), null, null, null);
-            if (apiResponse != null) {
-                List<VideoPlaylistData.VideoPlaylist> videos = apiResponse.getVideoPlaylist();
-                VideoPlaylistData.VideoPlaylistExport videoPlaylistExport = new VideoPlaylistData.VideoPlaylistExport();
-                videoPlaylistExport.setPlaylist(playlist);
-                videoPlaylistExport.setUuid(playlist.getUuid());
-                videoPlaylistExport.setAcct(MainActivity.userMe.getAccount().getAcct());
-                videoPlaylistExport.setVideos(videos);
-
-                String data = PlaylistExportHelper.playlistToStringStorage(videoPlaylistExport);
-
-
-                File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
-
-                if (!root.exists()) {
-                    //noinspection ResultOfMethodCallIgnored
-                    root.mkdirs();
-                }
-                String fileName = "playlist_" + playlist.getUuid() + ".tubelab";
-                file = new File(root, fileName);
-                FileWriter writer;
-                try {
-                    writer = new FileWriter(file);
-                    writer.append(data);
-                    writer.flush();
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
-                    mainHandler.post(myRunnable);
-                    return;
-                }
-                String urlAvatar = playlist.getThumbnailPath() != null ? HelperInstance.getLiveInstance(context) + playlist.getThumbnailPath() : null;
-                FutureTarget<Bitmap> futureBitmapChannel = Glide.with(context.getApplicationContext())
-                        .asBitmap()
-                        .load(urlAvatar != null ? urlAvatar : R.drawable.missing_peertube).submit();
-                Bitmap icon = null;
-                try {
-                    icon = futureBitmapChannel.get();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Intent mailIntent = new Intent(Intent.ACTION_SEND);
-                mailIntent.setType("message/rfc822");
-                Uri contentUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider", file);
-                mailIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.export_notification_subjet));
-                mailIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.export_notification_body));
-                mailIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                mailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                NotificationHelper.notify_user(context.getApplicationContext(),
-                        playlist.getOwnerAccount(), mailIntent, icon,
-                        context.getString(R.string.export_notification_title),
-                        context.getString(R.string.export_notification_content));
-            }
-
-        }).start();
-    }
-
 
     @SuppressWarnings({"unused", "RedundantSuppression"})
     public void manageVIewPlaylists(PlaylistsVM.action actionType, APIResponse apiResponse) {
@@ -277,9 +161,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        DrawerPlaylistBinding binding;
+        DrawerPlaylistPeertubeBinding binding;
 
-        ViewHolder(DrawerPlaylistBinding itemView) {
+        ViewHolder(DrawerPlaylistPeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

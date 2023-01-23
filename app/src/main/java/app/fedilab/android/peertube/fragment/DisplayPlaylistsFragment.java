@@ -54,7 +54,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.PlaylistsActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -87,7 +87,7 @@ public class DisplayPlaylistsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //View for fragment is the same that fragment accounts
-        View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_playlists_peertube, container, false);
 
         context = getContext();
         playlists = new ArrayList<>();
@@ -122,7 +122,7 @@ public class DisplayPlaylistsFragment extends Fragment {
             add_new.setOnClickListener(view -> {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                 LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
-                View dialogView = inflater1.inflate(R.layout.add_playlist, new LinearLayout(context), false);
+                View dialogView = inflater1.inflate(R.layout.add_playlist_peertube, new LinearLayout(context), false);
                 dialogBuilder.setView(dialogView);
                 EditText display_name = dialogView.findViewById(R.id.display_name);
                 EditText description = dialogView.findViewById(R.id.description);

@@ -23,8 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.databinding.DrawerMenuPeertubeBinding;
 import app.fedilab.android.peertube.client.MenuItemVideo;
-import app.fedilab.android.peertube.databinding.DrawerMenuBinding;
 
 
 public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -52,7 +52,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        DrawerMenuBinding itemBinding = DrawerMenuBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerMenuPeertubeBinding itemBinding = DrawerMenuPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -75,9 +75,9 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        DrawerMenuBinding binding;
+        DrawerMenuPeertubeBinding binding;
 
-        ViewHolder(DrawerMenuBinding itemView) {
+        ViewHolder(DrawerMenuPeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

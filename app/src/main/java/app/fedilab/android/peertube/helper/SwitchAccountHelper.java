@@ -25,9 +25,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.LoginActivity;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.data.AccountData;
 import app.fedilab.android.peertube.drawer.OwnAccountsAdapter;
 import app.fedilab.android.peertube.sqlite.AccountDAO;
@@ -65,7 +65,7 @@ public class SwitchAccountHelper {
                 editor.putString(Helper.PREF_KEY_NAME, account.getUsername());
                 editor.apply();
                 dialog.dismiss();
-                Intent intent = new Intent(activity, MainActivity.class);
+                Intent intent = new Intent(activity, PeertubeMainActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
             });

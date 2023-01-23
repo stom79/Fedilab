@@ -40,9 +40,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData.Instance;
-import app.fedilab.android.peertube.databinding.DrawerInstanceBinding;
 import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
 
 
@@ -61,7 +61,7 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        DrawerInstanceBinding itemBinding = DrawerInstanceBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerInstancePeertubeBinding itemBinding = DrawerInstancePeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -166,9 +166,9 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        DrawerInstanceBinding binding;
+        DrawerInstancePeertubeBinding binding;
 
-        ViewHolder(DrawerInstanceBinding itemView) {
+        ViewHolder(DrawerInstancePeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

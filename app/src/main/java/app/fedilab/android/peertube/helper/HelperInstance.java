@@ -17,8 +17,6 @@ package app.fedilab.android.peertube.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import app.fedilab.android.peertube.BuildConfig;
-
 
 public class HelperInstance {
 
@@ -31,11 +29,7 @@ public class HelperInstance {
      */
     public static String getLiveInstance(Context context) {
         final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-        if (BuildConfig.FLAVOR.compareTo("fdroid_full") == 0 || BuildConfig.FLAVOR.compareTo("google_full") == 0) {
-            return sharedpreferences.getString(Helper.PREF_INSTANCE, null);
-        } else {
-            return sharedpreferences.getString(Helper.PREF_INSTANCE, "tube-institutionnel.apps.education.fr");
-        }
+        return sharedpreferences.getString(Helper.PREF_INSTANCE, null);
     }
 
 }

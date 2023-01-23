@@ -107,7 +107,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                                 } else {
                                     Toasty.error(AdminDomainBlockActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
-                        Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
+                                Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
                                 LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
                                 finish();
                             }

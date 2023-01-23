@@ -129,8 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/support_the_app_on_liberapay"
-             />
+            android:text="@string/support_the_app_on_liberapay" />
 
 
         <com.google.android.material.button.MaterialButton

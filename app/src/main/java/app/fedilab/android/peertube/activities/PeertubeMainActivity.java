@@ -59,12 +59,13 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
+import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
-import app.fedilab.android.mastodon.activities.BaseActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.AcadInstances;
+import app.fedilab.android.peertube.client.entities.Error;
 import app.fedilab.android.peertube.client.entities.OauthParams;
 import app.fedilab.android.peertube.client.entities.PeertubeInformation;
 import app.fedilab.android.peertube.client.entities.Token;
@@ -85,7 +86,7 @@ import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import es.dmoral.toasty.Toasty;
 
 
-public abstract class PeertubeMainActivity extends BaseActivity {
+public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
 
     public static int PICK_INSTANCE = 5641;
@@ -205,6 +206,7 @@ public abstract class PeertubeMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        binding = super.binding;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -313,7 +315,10 @@ public abstract class PeertubeMainActivity extends BaseActivity {
 
 
         final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
-
+        int search_cast = sharedpreferences.getInt(getString(R.string.set_cast_choice), 0);
+        if (search_cast == 1) {
+            super.discoverCast();
+        }
 
         //Instance
         if (HelperInstance.getLiveInstance(PeertubeMainActivity.this) == null) {

@@ -71,7 +71,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
-import app.fedilab.android.peertube.activities.MainActivity;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.activities.WebviewActivity;
 import app.fedilab.android.peertube.client.data.AccountData.Account;
 import app.fedilab.android.peertube.client.data.ChannelData;
@@ -553,7 +553,7 @@ public class Helper {
             editor.putString(PREF_INSTANCE, null);
             editor.putString(ID, null);
             editor.apply();
-            Intent loginActivity = new Intent(activity, MainActivity.class);
+            Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
             activity.startActivity(loginActivity);
             activity.finish();
         } else {
@@ -561,7 +561,7 @@ public class Helper {
             editor.putString(PREF_KEY_ID, newAccount.getId());
             editor.putString(PREF_INSTANCE, newAccount.getHost().trim());
             editor.commit();
-            Intent changeAccount = new Intent(activity, MainActivity.class);
+            Intent changeAccount = new Intent(activity, PeertubeMainActivity.class);
             changeAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(changeAccount);
         }
@@ -582,7 +582,7 @@ public class Helper {
         editor.putString(PREF_KEY_ID, null);
         editor.putString(ID, null);
         editor.apply();
-        Intent loginActivity = new Intent(activity, MainActivity.class);
+        Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
         activity.startActivity(loginActivity);
         activity.finish();
     }
@@ -609,7 +609,7 @@ public class Helper {
      * @return boolean
      */
     public static boolean isLoggedIn(Context context) {
-        return isLoggedInType(context) == MainActivity.TypeOfConnection.NORMAL;
+        return isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL;
     }
 
     /**
@@ -619,30 +619,30 @@ public class Helper {
      * @return boolean
      */
     public static boolean canMakeAction(Context context) {
-        return (isLoggedInType(context) == MainActivity.TypeOfConnection.NORMAL || isLoggedInType(context) == MainActivity.TypeOfConnection.REMOTE_ACCOUNT);
+        return (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL || isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT);
     }
 
     /**
      * Returns boolean depending if the user is authenticated
      *
      * @param context Context
-     * @return MainActivity.TypeOfConnection
+     * @return PeertubeMainActivity.TypeOfConnection
      */
-    public static MainActivity.TypeOfConnection isLoggedInType(Context context) {
+    public static PeertubeMainActivity.TypeOfConnection isLoggedInType(Context context) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
         String prefKeyOauthTokenT = sharedpreferences.getString(PREF_KEY_OAUTH_TOKEN, null);
         String prefSoftware = sharedpreferences.getString(PREF_SOFTWARE, null);
         if (prefKeyOauthTokenT != null && prefSoftware == null) {
-            return MainActivity.TypeOfConnection.NORMAL;
+            return PeertubeMainActivity.TypeOfConnection.NORMAL;
         } else if (prefKeyOauthTokenT != null) {
-            return MainActivity.TypeOfConnection.REMOTE_ACCOUNT;
+            return PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT;
         } else {
-            return MainActivity.TypeOfConnection.UNKNOWN;
+            return PeertubeMainActivity.TypeOfConnection.UNKNOWN;
         }
     }
 
     public static String getToken(Context context) {
-        if (isLoggedInType(context) == MainActivity.TypeOfConnection.NORMAL) {
+        if (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL) {
             SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
             return sharedpreferences.getString(Helper.PREF_KEY_OAUTH_TOKEN, null);
         } else {

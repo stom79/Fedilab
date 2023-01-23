@@ -35,7 +35,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;

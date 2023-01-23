@@ -31,7 +31,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.data.AccountData;
 
 public class NotificationHelper {
@@ -60,7 +60,7 @@ public class NotificationHelper {
         RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, FETCH_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification_tubelab).setTicker(message)
+                .setSmallIcon(R.drawable.ic_notification).setTicker(message)
                 .setWhen(System.currentTimeMillis());
         notificationBuilder.setGroup(account.getAcct())
                 .setContentIntent(pIntent)

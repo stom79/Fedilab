@@ -26,8 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import app.fedilab.android.databinding.DrawerHorizontalAccountPeertubeBinding;
 import app.fedilab.android.peertube.client.data.ChannelData;
-import app.fedilab.android.peertube.databinding.DrawerHorizontalAccountBinding;
 import app.fedilab.android.peertube.helper.Helper;
 
 
@@ -46,7 +46,7 @@ public class AccountsHorizontalListAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        DrawerHorizontalAccountBinding itemBinding = DrawerHorizontalAccountBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        DrawerHorizontalAccountPeertubeBinding itemBinding = DrawerHorizontalAccountPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(itemBinding);
     }
 
@@ -87,9 +87,9 @@ public class AccountsHorizontalListAdapter extends RecyclerView.Adapter<Recycler
 
 
     private class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        DrawerHorizontalAccountBinding binding;
+        DrawerHorizontalAccountPeertubeBinding binding;
 
-        ViewHolder(DrawerHorizontalAccountBinding itemView) {
+        ViewHolder(DrawerHorizontalAccountPeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
             itemView.getRoot().setOnClickListener(this);

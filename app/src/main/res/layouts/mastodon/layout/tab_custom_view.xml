@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"
-        tools:src="@drawable/nitter"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        tools:src="@drawable/nitter" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
@@ -18,11 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
-        tools:text="fedilab_app"
         android:ellipsize="end"
         android:maxWidth="150dp"
         android:singleLine="true"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="fedilab_app" />
 
     <TextView
         android:id="@+id/tab_counter"

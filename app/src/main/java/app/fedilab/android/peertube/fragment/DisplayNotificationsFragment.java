@@ -34,7 +34,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.NotificationData.Notification;
 import app.fedilab.android.peertube.drawer.PeertubeNotificationsListAdapter;
@@ -79,7 +79,7 @@ public class DisplayNotificationsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+        rootView = inflater.inflate(R.layout.fragment_recyclerview_peertube, container, false);
 
         context = getContext();
         notifications = new ArrayList<>();

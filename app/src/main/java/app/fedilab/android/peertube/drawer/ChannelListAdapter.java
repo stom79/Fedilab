@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.AccountActivity;
 import app.fedilab.android.peertube.activities.ShowChannelActivity;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -60,7 +60,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return new ViewHolder(layoutInflater.inflate(R.layout.drawer_channel, parent, false));
+        return new ViewHolder(layoutInflater.inflate(R.layout.drawer_channel_peertube, parent, false));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.more_actions.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(context, holder.more_actions);
             popup.getMenuInflater()
-                    .inflate(R.menu.playlist_menu, popup.getMenu());
+                    .inflate(R.menu.playlist_menu_peertube, popup.getMenu());
             if (channels.size() == 1) {
                 popup.getMenu().findItem(R.id.action_delete).setEnabled(false);
             }

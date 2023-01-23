@@ -8,7 +8,7 @@ import android.text.style.ReplacementSpan;
 
 import org.jetbrains.annotations.NotNull;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
 
 public class RoundedBackgroundSpan extends ReplacementSpan {
 
@@ -17,8 +17,8 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
     public RoundedBackgroundSpan(Context context) {
         super();
-        backgroundColor = context.getResources().getColor(R.color.colorAccent);
-        textColor = context.getResources().getColor(R.color.tag_color_text);
+        backgroundColor = Helper.getAttColor(context, R.attr.colorError);
+        textColor = Helper.getAttColor(context, R.attr.colorOnError);
     }
 
     @Override

@@ -51,13 +51,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.peertube.R;
+import app.fedilab.android.R;
+import app.fedilab.android.databinding.AddChannelPeertubeBinding;
+import app.fedilab.android.databinding.FragmentRecyclerviewPeertubeBinding;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.entities.ChannelParams;
-import app.fedilab.android.peertube.databinding.AddChannelBinding;
-import app.fedilab.android.peertube.databinding.FragmentRecyclerviewBinding;
 import app.fedilab.android.peertube.drawer.ChannelListAdapter;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
@@ -75,8 +75,8 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     private String name;
     private View rootView;
     private FloatingActionButton action_button;
-    private FragmentRecyclerviewBinding binding;
-    private AddChannelBinding bindingDialog;
+    private FragmentRecyclerviewPeertubeBinding binding;
+    private AddChannelPeertubeBinding bindingDialog;
     private Uri inputData;
     private String search_peertube;
     private String max_id;
@@ -85,7 +85,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        binding = FragmentRecyclerviewBinding.inflate(LayoutInflater.from(context));
+        binding = FragmentRecyclerviewPeertubeBinding.inflate(LayoutInflater.from(context));
         rootView = binding.getRoot();
         context = getContext();
         Bundle bundle = this.getArguments();
@@ -235,7 +235,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
 
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        bindingDialog = AddChannelBinding.inflate(LayoutInflater.from(context), null, false);
+        bindingDialog = AddChannelPeertubeBinding.inflate(LayoutInflater.from(context), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 
         if (oldChannelValues != null) {

@@ -11,10 +11,4 @@
         android:icon="@drawable/ic_baseline_edit_24"
         android:title="@string/edit"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_export"
-        android:icon="@drawable/ic_baseline_import_export_24"
-        android:title="@string/export_list"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
 </menu>
