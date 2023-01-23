@@ -182,8 +182,9 @@ public class LoginActivity extends BaseBarActivity {
             oauthParams.setPassword(binding.loginPasswd.getText().toString());
         }
         try {
+            Log.v(TAG, "token: GET");
             Token token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
-            Log.v(TAG, "token: " + token);
+            Log.v(TAG, ">token: " + token);
             proceedLogin(token, finalInstance);
         } catch (final Exception e) {
             oauthParams.setUsername(binding.loginUid.getText().toString().toLowerCase().trim());

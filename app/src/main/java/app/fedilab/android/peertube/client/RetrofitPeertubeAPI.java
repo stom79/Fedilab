@@ -177,19 +177,19 @@ public class RetrofitPeertubeAPI {
             account.refresh_token = refresh_token;
             account.instance = instance;
             account.api = Account.API.PEERTUBE;
+            account.software = Account.API.PEERTUBE.name();
             account.peertube_account = peertubeAccount;
-            SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-            boolean userExists = false;
+            account.user_id = peertubeAccount.getId();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(PREF_USER_ID, account.user_id);
+            editor.putString(PREF_INSTANCE, host);
+            editor.putString(PREF_USER_TOKEN, token);
+            editor.apply();
             try {
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(PREF_USER_ID, account.user_id);
-                editor.putString(PREF_INSTANCE, host);
-                editor.apply();
                 new Account(activity).insertOrUpdate(account);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
                 Intent mainActivity = new Intent(activity, PeertubeMainActivity.class);
@@ -257,8 +257,6 @@ public class RetrofitPeertubeAPI {
                         SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(PREF_USER_TOKEN, tokenReply.getAccess_token());
-                        editor.putString(Helper.PREF_SOFTWARE, null);
-                        editor.putString(Helper.PREF_REMOTE_INSTANCE, null);
                         editor.apply();
                         SQLiteDatabase db = Sqlite.getInstance(_context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
                         new Account(_context).updatePeertubeToken(tokenReply);

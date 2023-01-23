@@ -263,8 +263,9 @@ public class Account extends BaseAccount implements Serializable {
         if (token.getRefresh_token() != null) {
             values.put(Sqlite.COL_REFRESH_TOKEN, token.getRefresh_token());
         }
-        if (token.getAccess_token() != null)
+        if (token.getAccess_token() != null) {
             values.put(Sqlite.COL_TOKEN, token.getAccess_token());
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(Helper.PREF_USER_ID, null);
         String instance = HelperInstance.getLiveInstance(context);

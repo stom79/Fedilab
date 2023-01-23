@@ -18,6 +18,7 @@ import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.mastodon.helper.CacheHelper.deleteDir;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
 
@@ -41,6 +42,7 @@ import android.provider.BaseColumns;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -335,8 +337,195 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             });
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
+        NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
+        currentAccount = null;
+        //Update account details
+        new Thread(() -> {
+            try {
+                if (currentToken == null) {
+                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                }
+                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                Log.v(TAG, "currentToken! " + currentToken);
+                Log.v(TAG, "currentAccount! " + currentAccount);
+                if (currentAccount != null && currentAccount.api == Account.API.PEERTUBE) {
+                    startActivity(new Intent(this, PeertubeBaseMainActivity.class));
+                    finish();
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            //If the attached account is null, the app will fetch remote instance to get up-to-date values
+            if (currentAccount != null && currentAccount.mastodon_account == null) {
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .callTimeout(60, TimeUnit.SECONDS)
+                        .proxy(Helper.getProxy(getApplication().getApplicationContext()))
+                        .build();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
+                        .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                        .client(okHttpClient)
+                        .build();
+                MastodonAccountsService mastodonAccountsService = retrofit.create(MastodonAccountsService.class);
+                retrofit2.Call<app.fedilab.android.mastodon.client.entities.api.Account> accountCall = mastodonAccountsService.verify_credentials(MainActivity.currentToken);
+                if (accountCall != null) {
+                    try {
+                        retrofit2.Response<app.fedilab.android.mastodon.client.entities.api.Account> accountResponse = accountCall.execute();
+                        if (accountResponse.isSuccessful()) {
+                            currentAccount.mastodon_account = accountResponse.body();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> {
+                if (currentAccount == null || currentAccount.mastodon_account == null) {
+                    //It is not, the user is redirected to the login page
+                    Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                    return;
+                }
+                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                if (currentAccount.mastodon_account.locked) {
+                    binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
+                }
+                if (currentAccount.admin) {
+                    binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
+                }
+                if (bottomMenu != null) {
+                    //ManageClick on bottom menu items
+                    if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                        binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                            if (position >= 0) {
+                                manageFilters(position);
+                            }
+                            return false;
+                        });
+                    }
+                    binding.bottomNavView.setOnItemSelectedListener(item -> {
+                        int itemId = item.getItemId();
+                        int position = BottomMenu.getPosition(bottomMenu, itemId);
+                        if (position >= 0) {
+                            if (binding.viewPager.getCurrentItem() == position) {
+                                scrollToTop();
+                                binding.bottomNavView.removeBadge(itemId);
+                            } else {
+                                binding.viewPager.setCurrentItem(position, false);
+                            }
+                        }
+                        return true;
+                    });
+                }
 
+                currentInstance = currentAccount.instance;
+                currentUserID = currentAccount.user_id;
 
+                show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
+                show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
+                show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, true);
+                regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
+                regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
+                regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
+                show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
+
+                binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
+                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
+                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
+                if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
+                    currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
+                }
+                if (!isFinishing()) {
+                    headerMainBinding.accountName.setText(
+                            currentAccount.mastodon_account.getSpanDisplayName(BaseMainActivity.this,
+                                    new WeakReference<>(headerMainBinding.accountName)),
+                            TextView.BufferType.SPANNABLE);
+                }
+                float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+                headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+                headerMainBinding.backgroundImage.setAlpha(0.5f);
+                /*
+                 * Some general data are loaded when the app starts such;
+                 *  - Pinned timelines (in app feature)
+                 *  - Instance info (for limits)
+                 *  - Emoji for picker
+                 *  - Filters for timelines
+
+                 */
+
+                //Update pinned timelines
+                new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
+                        .observe(this, pinned -> {
+                            this.pinned = pinned;
+                            //Initialize the slug of the first fragment
+                            //First it's taken from db (last stored values)
+                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
+                            //Fetch remote lists for the authenticated account and update them
+                            new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
+                                    .observe(this, mastodonLists ->
+                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
+                                    );
+                        });
+
+                //Update emoji in db for the current instance
+                new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getEmoji(currentInstance);
+                //Retrieve instance info
+                new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getInstance(currentInstance)
+                        .observe(BaseMainActivity.this, instance -> {
+                            instanceInfo = instance.info;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(getString(R.string.INSTANCE_INFO) + MainActivity.currentInstance, Instance.serialize(instanceInfo));
+                            editor.apply();
+                        });
+                //Retrieve filters
+                new ViewModelProvider(BaseMainActivity.this).get(FiltersVM.class).getFilters(currentInstance, currentToken)
+                        .observe(BaseMainActivity.this, filters -> mainFilters = filters);
+                new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
+                        .observe(BaseMainActivity.this, mastodonAccount -> {
+                            //Initialize static var
+                            if (mastodonAccount != null && currentAccount != null) {
+                                currentAccount.mastodon_account = mastodonAccount;
+                                displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
+                                new Thread(() -> {
+                                    try {
+                                        //Update account in db
+                                        new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
+                        });
+
+            };
+            mainHandler.post(myRunnable);
+        }).start();
         filteredAccounts = new ArrayList<>();
         mamageNewIntent(getIntent());
         filterFetched = false;
@@ -363,7 +552,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 .setOpenableLayout(binding.drawerLayout)
                 .build();
 
-        NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
+
         binding.navView.addHeaderView(headerMainBinding.getRoot());
         binding.navView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -593,192 +782,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             });
             popup.show();
         });
-        currentAccount = null;
-        //Update account details
-        new Thread(() -> {
-            try {
-                if (currentToken == null) {
-                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
-                }
-                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
-                if (currentAccount.api == Account.API.PEERTUBE) {
-                    startActivity(new Intent(this, PeertubeBaseMainActivity.class));
-                    finish();
-                }
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            //If the attached account is null, the app will fetch remote instance to get up-to-date values
-            if (currentAccount != null && currentAccount.mastodon_account == null) {
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
-                        .callTimeout(60, TimeUnit.SECONDS)
-                        .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                        .build();
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
-                        .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
-                        .client(okHttpClient)
-                        .build();
-                MastodonAccountsService mastodonAccountsService = retrofit.create(MastodonAccountsService.class);
-                retrofit2.Call<app.fedilab.android.mastodon.client.entities.api.Account> accountCall = mastodonAccountsService.verify_credentials(MainActivity.currentToken);
-                if (accountCall != null) {
-                    try {
-                        retrofit2.Response<app.fedilab.android.mastodon.client.entities.api.Account> accountResponse = accountCall.execute();
-                        if (accountResponse.isSuccessful()) {
-                            currentAccount.mastodon_account = accountResponse.body();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> {
-                if (currentAccount == null || currentAccount.mastodon_account == null) {
-                    //It is not, the user is redirected to the login page
-                    Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
-                    startActivity(myIntent);
-                    finish();
-                    return;
-                }
-                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
-                if (currentAccount.mastodon_account.locked) {
-                    binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
-                }
-                if (currentAccount.admin) {
-                    binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
-                }
-                if (bottomMenu != null) {
-                    //ManageClick on bottom menu items
-                    if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
-                        binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
-                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
-                            if (position >= 0) {
-                                manageFilters(position);
-                            }
-                            return false;
-                        });
-                    }
-                    if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
-                        binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
-                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
-                            if (position >= 0) {
-                                manageFilters(position);
-                            }
-                            return false;
-                        });
-                    }
-                    if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
-                        binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
-                            int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
-                            if (position >= 0) {
-                                manageFilters(position);
-                            }
-                            return false;
-                        });
-                    }
-                    binding.bottomNavView.setOnItemSelectedListener(item -> {
-                        int itemId = item.getItemId();
-                        int position = BottomMenu.getPosition(bottomMenu, itemId);
-                        if (position >= 0) {
-                            if (binding.viewPager.getCurrentItem() == position) {
-                                scrollToTop();
-                                binding.bottomNavView.removeBadge(itemId);
-                            } else {
-                                binding.viewPager.setCurrentItem(position, false);
-                            }
-                        }
-                        return true;
-                    });
-                }
 
-                currentInstance = currentAccount.instance;
-                currentUserID = currentAccount.user_id;
-
-                show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
-                show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
-                show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, true);
-                regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
-                regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
-                regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
-                show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
-
-                binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
-                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
-                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
-                if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
-                    currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
-                }
-                if (!isFinishing()) {
-                    headerMainBinding.accountName.setText(
-                            currentAccount.mastodon_account.getSpanDisplayName(BaseMainActivity.this,
-                                    new WeakReference<>(headerMainBinding.accountName)),
-                            TextView.BufferType.SPANNABLE);
-                }
-                float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
-                headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
-                MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
-                headerMainBinding.backgroundImage.setAlpha(0.5f);
-                /*
-                 * Some general data are loaded when the app starts such;
-                 *  - Pinned timelines (in app feature)
-                 *  - Instance info (for limits)
-                 *  - Emoji for picker
-                 *  - Filters for timelines
-
-                 */
-
-                //Update pinned timelines
-                new ViewModelProvider(BaseMainActivity.this).get(TopBarVM.class).getDBPinned()
-                        .observe(this, pinned -> {
-                            this.pinned = pinned;
-                            //Initialize the slug of the first fragment
-                            //First it's taken from db (last stored values)
-                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
-                            //Fetch remote lists for the authenticated account and update them
-                            new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
-                                    .observe(this, mastodonLists ->
-                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
-                                    );
-                        });
-
-                //Update emoji in db for the current instance
-                new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getEmoji(currentInstance);
-                //Retrieve instance info
-                new ViewModelProvider(BaseMainActivity.this).get(InstancesVM.class).getInstance(currentInstance)
-                        .observe(BaseMainActivity.this, instance -> {
-                            instanceInfo = instance.info;
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(getString(R.string.INSTANCE_INFO) + MainActivity.currentInstance, Instance.serialize(instanceInfo));
-                            editor.apply();
-                        });
-                //Retrieve filters
-                new ViewModelProvider(BaseMainActivity.this).get(FiltersVM.class).getFilters(currentInstance, currentToken)
-                        .observe(BaseMainActivity.this, filters -> mainFilters = filters);
-                new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
-                        .observe(BaseMainActivity.this, mastodonAccount -> {
-                            //Initialize static var
-                            if (mastodonAccount != null && currentAccount != null) {
-                                currentAccount.mastodon_account = mastodonAccount;
-                                displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
-                                new Thread(() -> {
-                                    try {
-                                        //Update account in db
-                                        new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
-                                    }
-                                }).start();
-                            }
-                        });
-
-            };
-            mainHandler.post(myRunnable);
-        }).start();
         //Toolbar search
         binding.toolbarSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

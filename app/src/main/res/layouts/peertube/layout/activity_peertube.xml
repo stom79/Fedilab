@@ -80,7 +80,7 @@
                     android:id="@+id/min_controller"
                     layout="@layout/min_controller" />
 
-                <app.fedilab.android.peertube.webview.CustomWebview
+                <WebView
                     android:id="@+id/webview_video"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -382,7 +382,7 @@
         android:id="@+id/video_params"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?backgroundColor"
+        android:background="?android:windowBackground"
         android:minHeight="100dp"
         android:translationZ="2dp"
         android:visibility="gone"
@@ -571,7 +571,7 @@
         android:id="@+id/video_params_submenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?backgroundColor"
+        android:background="?android:colorBackground"
         android:minHeight="300dp"
         android:translationZ="3dp"
         android:visibility="gone"

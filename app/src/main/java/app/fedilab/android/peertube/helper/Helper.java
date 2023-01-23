@@ -46,6 +46,7 @@ import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -83,7 +84,6 @@ import app.fedilab.android.peertube.client.data.ChannelData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.PeertubeInformation;
-import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.ProxyHelper;
 import es.dmoral.toasty.Toasty;
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -447,9 +447,9 @@ public class Helper {
      * @return CustomWebview
      */
     @SuppressLint("SetJavaScriptEnabled")
-    public static CustomWebview initializeWebview(Activity activity, int webviewId, View rootView) {
+    public static WebView initializeWebview(Activity activity, int webviewId, View rootView) {
 
-        CustomWebview webView;
+        WebView webView;
         if (rootView == null) {
             webView = activity.findViewById(webviewId);
         } else {
@@ -677,9 +677,9 @@ public class Helper {
         }
         AccountData.PeertubeAccount account = video.getAccount();
         ChannelData.Channel channel = video.getChannel();
-        if (account != null) {
+        if (account != null && account.getUserId() != null && account.getHost() != null) {
             return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
-        } else if (channel != null) {
+        } else if (channel != null && channel.getOwnerAccount() != null && channel.getOwnerAccount().getUserId() != null && channel.getOwnerAccount().getHost() != null) {
             return channel.getOwnerAccount().getUserId().compareTo(userId) == 0 && channel.getHost().compareTo(instance) == 0;
         } else {
             return false;

@@ -63,6 +63,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -155,7 +156,6 @@ import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 import app.fedilab.android.peertube.viewmodel.PostActionsVM;
 import app.fedilab.android.peertube.viewmodel.SearchVM;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
-import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.MastalabWebChromeClient;
 import app.fedilab.android.peertube.webview.MastalabWebViewClient;
 import es.dmoral.toasty.Toasty;
@@ -209,6 +209,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityPeertubeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         videoOrientationType = videoOrientation.LANDSCAPE;
         max_id = "0";
         SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
@@ -306,7 +308,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             binding.webviewVideo.setVisibility(View.VISIBLE);
             binding.mediaVideo.setVisibility(View.GONE);
             binding.doubleTapPlayerView.setVisibility(View.GONE);
-            CustomWebview webview_video = Helper.initializeWebview(PeertubeActivity.this, R.id.webview_video, null);
+            WebView webview_video = Helper.initializeWebview(PeertubeActivity.this, R.id.webview_video, null);
 
             MastalabWebChromeClient mastalabWebChromeClient = new MastalabWebChromeClient(PeertubeActivity.this, webview_video, binding.mainMediaFrame, binding.videoLayout);
             mastalabWebChromeClient.setOnToggledFullscreen(fullscreen -> {
@@ -1940,35 +1942,45 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void initControllerButtons() {
 
         PlayerControlView controlView = binding.doubleTapPlayerView.findViewById(R.id.exo_controller);
+        if (controlView == null) {
+            return;
+        }
         fullScreenIcon = controlView.findViewById(R.id.exo_fullscreen_icon);
         View fullScreenButton = controlView.findViewById(R.id.exo_fullscreen_button);
-        fullScreenButton.setOnClickListener(v -> {
-            if (!fullScreenMode) {
-                openFullscreenDialog();
-            } else {
-                closeFullscreenDialog();
-                setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            }
-        });
-
+        if (fullScreenButton != null) {
+            fullScreenButton.setOnClickListener(v -> {
+                if (!fullScreenMode) {
+                    openFullscreenDialog();
+                } else {
+                    closeFullscreenDialog();
+                    setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+            });
+        }
         ImageButton playButton = controlView.findViewById(R.id.exo_play);
-        playButton.setOnClickListener(v -> {
-            if (autoFullscreen && !fullScreenMode) {
-                openFullscreenDialog();
-            }
-            player.setPlayWhenReady(true);
-        });
+        if (playButton != null) {
+            playButton.setOnClickListener(v -> {
+                if (autoFullscreen && !fullScreenMode) {
+                    openFullscreenDialog();
+                }
+                player.setPlayWhenReady(true);
+            });
+        }
         View exo_next = controlView.findViewById(R.id.exo_next);
-        exo_next.setOnClickListener(v -> playNextVideo());
+        if (exo_next != null) {
+            exo_next.setOnClickListener(v -> playNextVideo());
+        }
 
         View exoSettings = controlView.findViewById(R.id.exo_settings);
-        exoSettings.setOnClickListener(v -> {
-            if (binding.videoParams.getVisibility() == View.VISIBLE) {
-                closeMainMenuOptions();
-            } else {
-                openMainMenuOptions();
-            }
-        });
+        if (exoSettings != null) {
+            exoSettings.setOnClickListener(v -> {
+                if (binding.videoParams.getVisibility() == View.VISIBLE) {
+                    closeMainMenuOptions();
+                } else {
+                    openMainMenuOptions();
+                }
+            });
+        }
 
     }
 

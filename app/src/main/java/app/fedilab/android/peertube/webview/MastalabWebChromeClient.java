@@ -37,7 +37,7 @@ import app.fedilab.android.R;
 
 public class MastalabWebChromeClient extends WebChromeClient implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
-    private final CustomWebview webView;
+    private final WebView webView;
     private final View activityNonVideoView;
     private final ViewGroup activityVideoView;
     private final ProgressBar pbar;
@@ -48,7 +48,7 @@ public class MastalabWebChromeClient extends WebChromeClient implements MediaPla
     private boolean isVideoFullscreen;
 
 
-    public MastalabWebChromeClient(Activity activity, CustomWebview webView, FrameLayout activityNonVideoView, ViewGroup activityVideoView) {
+    public MastalabWebChromeClient(Activity activity, WebView webView, FrameLayout activityNonVideoView, ViewGroup activityVideoView) {
         this.activity = activity;
         this.isVideoFullscreen = false;
         this.webView = webView;

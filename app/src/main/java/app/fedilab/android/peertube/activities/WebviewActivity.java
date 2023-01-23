@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -37,7 +38,6 @@ import org.jetbrains.annotations.NotNull;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.webview.CustomWebview;
 import app.fedilab.android.peertube.webview.MastalabWebChromeClient;
 import app.fedilab.android.peertube.webview.MastalabWebViewClient;
 import es.dmoral.toasty.Toasty;
@@ -47,7 +47,7 @@ public class WebviewActivity extends BaseBarActivity {
 
     private String url;
     private boolean peertubeLink;
-    private CustomWebview webView;
+    private WebView webView;
 
 
     @SuppressLint("SetJavaScriptEnabled")
