@@ -17,6 +17,7 @@ package app.fedilab.android.peertube.client;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 
@@ -156,6 +158,7 @@ public class RetrofitPeertubeAPI {
             String instance = host;
             try {
                 UserMe userMe = new RetrofitPeertubeAPI(activity, instance, token).verifyCredentials();
+                Log.v(TAG, "userMe: " + userMe);
                 peertubeAccount = userMe.getAccount();
             } catch (Error error) {
                 Error.displayError(activity, error);
@@ -173,6 +176,7 @@ public class RetrofitPeertubeAPI {
             account.client_secret = client_secret;
             account.refresh_token = refresh_token;
             account.instance = instance;
+            account.api = Account.API.PEERTUBE;
             account.peertube_account = peertubeAccount;
             SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
             boolean userExists = false;
@@ -238,14 +242,13 @@ public class RetrofitPeertubeAPI {
     public Token manageToken(OauthParams oauthParams) throws Error {
         PeertubeService peertubeService = init();
         Call<Token> refreshTokenCall = null;
-        if (oauthParams.getExternalAuthToken() != null) {
-            refreshTokenCall = peertubeService.createOpenIdToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getResponse_type(), oauthParams.getGrant_type(), oauthParams.getScope(), oauthParams.getUsername(), oauthParams.getPassword(), oauthParams.getExternalAuthToken());
-        } else if (oauthParams.getGrant_type().compareTo("password") == 0) {
+        if (oauthParams.getGrant_type().compareTo("password") == 0) {
             refreshTokenCall = peertubeService.createToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getGrant_type(), oauthParams.getUsername(), oauthParams.getPassword());
         } else if (oauthParams.getGrant_type().compareTo("refresh_token") == 0) {
             refreshTokenCall = peertubeService.refreshToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getRefresh_token(), oauthParams.getGrant_type());
         }
         if (refreshTokenCall != null) {
+            Log.v(TAG, "request: " + refreshTokenCall.request());
             try {
                 Response<Token> response = refreshTokenCall.execute();
                 if (response.isSuccessful()) {
@@ -264,6 +267,7 @@ public class RetrofitPeertubeAPI {
                 } else {
                     Error error = new Error();
                     error.setStatusCode(response.code());
+                    Log.v(TAG, "err: " + response.errorBody().string());
                     if (response.errorBody() != null) {
                         error.setError(response.errorBody().string());
                     } else {

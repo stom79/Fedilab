@@ -115,7 +115,6 @@ public class Helper {
     public static final String REDIRECT_CONTENT_WEB = "tubelab://backtotubelab";
     public static final int DEFAULT_VIDEO_CACHE_MB = 100;
     @SuppressWarnings({"unused", "RedundantSuppression"})
-    public static final String TAG = "TubeLab";
     public static final String ID = "id";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
@@ -668,9 +667,12 @@ public class Helper {
 
     public static boolean isVideoOwner(Context context, VideoData.Video video) {
         SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
-        String userId = sharedpreferences.getString(PREF_USER_ID, "");
-        String instance = sharedpreferences.getString(PREF_INSTANCE, "");
+        String userId = sharedpreferences.getString(PREF_USER_ID, null);
+        String instance = sharedpreferences.getString(PREF_INSTANCE, null);
         if (video == null) {
+            return false;
+        }
+        if (userId == null || instance == null) {
             return false;
         }
         AccountData.PeertubeAccount account = video.getAccount();

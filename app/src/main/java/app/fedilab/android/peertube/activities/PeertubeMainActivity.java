@@ -48,6 +48,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +60,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.PeertubeBaseMainActivity;
@@ -89,7 +91,7 @@ import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
-public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
+public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
 
     public static int PICK_INSTANCE = 5641;
@@ -188,7 +190,6 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
         alert.show();
     }
 
-    protected abstract void rateThisApp();
 
     private void setTitleCustom(int titleRId) {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -313,7 +314,11 @@ public abstract class PeertubeMainActivity extends PeertubeBaseMainActivity {
         peertubeInformation.setTranslations(new LinkedHashMap<>());
         startInForeground();
 
-        rateThisApp();
+        //noinspection ConstantConditions
+        if (BuildConfig.FLAVOR.compareTo("playstore") == 0) {
+            RateThisApp.onCreate(this);
+            RateThisApp.showRateDialogIfNeeded(this);
+        }
 
 
         final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
