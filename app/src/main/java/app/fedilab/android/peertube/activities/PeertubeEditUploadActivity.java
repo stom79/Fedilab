@@ -37,6 +37,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -91,7 +92,7 @@ public class PeertubeEditUploadActivity extends BaseBarActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeEditUploadActivity.this);
 
         Bundle b = getIntent().getExtras();
 

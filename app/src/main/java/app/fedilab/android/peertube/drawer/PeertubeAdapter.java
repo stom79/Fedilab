@@ -40,6 +40,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -118,7 +119,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (video == null) {
             return;
         }
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean videoInList = sharedpreferences.getBoolean(context.getString(R.string.set_video_in_list_choice), false);
 

@@ -358,7 +358,9 @@
         <activity
             android:name=".peertube.activities.PeertubeMainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-
+        <activity
+            android:name=".peertube.activities.PeertubeMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".peertube.activities.PeertubeActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"

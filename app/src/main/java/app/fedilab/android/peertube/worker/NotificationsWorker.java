@@ -30,6 +30,7 @@ import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 import androidx.work.ForegroundInfo;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -90,7 +91,7 @@ public class NotificationsWorker extends Worker {
     @SuppressWarnings({"SwitchStatementWithoutDefaultBranch", "DuplicateBranchesInSwitch"})
     private void fetchNotification() {
         List<BaseAccount> accounts = new Account(getApplicationContext()).getPeertubeAccounts();
-        SharedPreferences sharedpreferences = getApplicationContext().getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedpreferences.edit();
         for (BaseAccount account : accounts) {
             RetrofitPeertubeAPI retrofitPeertubeAPI = new RetrofitPeertubeAPI(getApplicationContext(), account.instance, account.token);

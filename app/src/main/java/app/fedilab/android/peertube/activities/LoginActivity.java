@@ -14,7 +14,6 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.updateCredential;
 
 import android.annotation.SuppressLint;
@@ -25,13 +24,14 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.preference.PreferenceManager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -163,9 +163,7 @@ public class LoginActivity extends BaseBarActivity {
         }
         client_id = oauth.getClient_id();
         client_secret = oauth.getClient_secret();
-        Log.v(TAG, "client_id: " + client_id);
-        Log.v(TAG, "client_secret: " + client_secret);
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(Helper.CLIENT_ID, client_id);
         editor.putString(Helper.CLIENT_SECRET, client_secret);
@@ -182,9 +180,7 @@ public class LoginActivity extends BaseBarActivity {
             oauthParams.setPassword(binding.loginPasswd.getText().toString());
         }
         try {
-            Log.v(TAG, "token: GET");
             Token token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
-            Log.v(TAG, ">token: " + token);
             proceedLogin(token, finalInstance);
         } catch (final Exception e) {
             oauthParams.setUsername(binding.loginUid.getText().toString().toLowerCase().trim());

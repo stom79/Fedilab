@@ -18,6 +18,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
+
 import net.gotev.uploadservice.data.UploadInfo;
 import net.gotev.uploadservice.network.ServerResponse;
 import net.gotev.uploadservice.observer.request.RequestObserverDelegate;
@@ -55,7 +57,7 @@ public class GlobalUploadObserver implements RequestObserverDelegate {
 
             if (response.has("video")) {
                 String videoUuid = response.getJSONObject("video").getString("uuid");
-                SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(Helper.VIDEO_ID, videoUuid);
                 editor.commit();

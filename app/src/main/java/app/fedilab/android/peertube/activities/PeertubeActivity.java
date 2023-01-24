@@ -80,6 +80,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -213,7 +214,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         setContentView(binding.getRoot());
         videoOrientationType = videoOrientation.LANDSCAPE;
         max_id = "0";
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
         if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
             BaseAccount account = null;
@@ -954,7 +955,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         });
 
         fetchComments();
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         setTitle(peertube.getName());
 
         binding.peertubeDescription.setText(peertube.getDescription());
@@ -1148,7 +1149,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (subtitles != null) {
             subtitlesStr = subtitles.toString();
         }
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         int video_cache = sharedpreferences.getInt(Helper.SET_VIDEO_CACHE, Helper.DEFAULT_VIDEO_CACHE_MB);
         ProgressiveMediaSource videoSource = null;
         HlsMediaSource hlsMediaSource = null;
@@ -1242,7 +1243,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             return;
         }
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         String nsfwAction = sharedpreferences.getString(getString(R.string.set_video_sensitive_choice), Helper.BLUR);
         if (promptNSFW && peertube != null && peertube.isNsfw() && (nsfwAction.compareTo(Helper.BLUR) == 0 || nsfwAction.compareTo(Helper.DO_NOT_LIST) == 0)) {
             AlertDialog alertDialog;
@@ -1346,7 +1347,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         final IntentFilter theFilter = new IntentFilter();
         theFilter.addAction(Intent.ACTION_SCREEN_ON);
         theFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         mPowerKeyReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -1597,7 +1598,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 break;
             case AUTONEXT:
                 binding.subMenuTitle.setText(R.string.set_autoplay_next_video_settings);
-                SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
                 boolean autoplayNextVideo = sharedpreferences.getBoolean(getString(R.string.set_autoplay_next_video_choice), true);
                 items.add(new MenuItemView(0, getString(R.string.no), !autoplayNextVideo));
                 items.add(new MenuItemView(1, getString(R.string.yes), autoplayNextVideo));
@@ -1693,7 +1694,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 );
                 break;
             case AUTONEXT:
-                SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean(getString(R.string.set_autoplay_next_video_choice), item.getId() == 1);
                 editor.apply();
@@ -2141,7 +2142,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void updateHistory(long position) {
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         boolean storeInHistory = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
         if (Helper.isLoggedIn(PeertubeActivity.this) && peertube != null && storeInHistory) {
             new Thread(() -> {
@@ -2176,7 +2177,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     @Override
     public void onMediaItemTransition(MediaItem mediaItem, int reason) {
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         boolean autoplayNextVideo = sharedpreferences.getBoolean(getString(R.string.set_autoplay_next_video_choice), true);
         if (reason == MEDIA_ITEM_TRANSITION_REASON_AUTO) {
             player.removeMediaItems(0, player.getMediaItemCount());

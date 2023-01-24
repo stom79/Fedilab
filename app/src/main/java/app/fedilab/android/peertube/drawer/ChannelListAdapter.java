@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -136,7 +137,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     private boolean isMyChannel(Channel channel) {
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String channeIdOwner = channel.getOwnerAccount().getId();
         String channeInstanceOwner = channel.getOwnerAccount().getHost();
         String instanceShar = sharedpreferences.getString(PREF_INSTANCE, null);

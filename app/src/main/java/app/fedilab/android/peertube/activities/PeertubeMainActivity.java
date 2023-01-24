@@ -16,11 +16,13 @@ package app.fedilab.android.peertube.activities;
 
 import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +47,7 @@ import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -127,7 +131,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     @SuppressLint("ApplySharedPref")
     public static void showRadioButtonDialogFullInstances(Activity activity, boolean storeInDb) {
-        final SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         AlertDialog.Builder alt_bld = new AlertDialog.Builder(activity);
         alt_bld.setTitle(R.string.instance_choice);
         String instance = HelperInstance.getLiveInstance(activity);
@@ -259,6 +263,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 invalidateOptionsMenu();
             }).start();
         }
+        Log.v(TAG, "logged: " + Helper.isLoggedIn(PeertubeMainActivity.this));
         if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
             binding.viewpager.setOffscreenPageLimit(5);
         } else {
@@ -321,7 +326,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         }
 
 
-        final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
         int search_cast = sharedpreferences.getInt(getString(R.string.set_cast_choice), 0);
         if (search_cast == 1) {
             super.discoverCast();
@@ -355,10 +360,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     private void refreshToken() {
         new Thread(() -> {
-            final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
             String tokenStr = Helper.getToken(PeertubeMainActivity.this);
             String instance = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
-            SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
             String instanceShar = sharedpreferences.getString(PREF_INSTANCE, null);
             String userIdShar = sharedpreferences.getString(PREF_USER_ID, null);
             BaseAccount account = null;
@@ -387,6 +391,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     if (token == null) {
                         return;
                     }
+
                     runOnUiThread(() -> {
                         //To avoid a token issue with subscriptions, adding fragment is done when the token is refreshed.
                         new Handler().post(() -> {
@@ -398,6 +403,17 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     });
 
                     userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, instance, token.getAccess_token()).verifyCredentials();
+                    account.token = token.getAccess_token();
+                    account.refresh_token = token.getRefresh_token();
+                    account.peertube_account = userMe.getAccount();
+                    account.software = Account.API.PEERTUBE.name();
+                    account.user_id = userMe.getAccount().getUserId();
+                    account.instance = userMe.getAccount().getHost();
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(PREF_USER_TOKEN, token.getAccess_token());
+                    editor.putString(PREF_USER_SOFTWARE, account.software);
+                    Log.v(TAG, "put 7: " + account.software);
+                    editor.apply();
                     if (userMe != null && userMe.getAccount() != null) {
                         account.peertube_account = userMe.getAccount();
                         try {
@@ -405,7 +421,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         } catch (DBException e) {
                             e.printStackTrace();
                         }
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
+
                         editor.putString(PREF_USER_ID, account.user_id);
                         editor.putBoolean(getString(R.string.set_autoplay_choice), userMe.isAutoPlayVideo());
                         editor.putBoolean(getString(R.string.set_store_in_history), userMe.isVideosHistoryEnabled());
@@ -531,7 +547,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     settingsItem.setVisible(false);
                     mostLikedItem.setVisible(true);
                     incognitoItem.setVisible(true);
-                    final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+                    final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
                     boolean checked = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
                     incognitoItem.setChecked(checked);
                 } else {
@@ -634,7 +650,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             startActivity(intent);
         } else if (item.getItemId() == R.id.action_incognito) {
             item.setChecked(!item.isChecked());
-            final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putBoolean(getString(R.string.set_store_in_history), item.isChecked());
             editor.apply();
@@ -673,7 +689,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
         alt_bld.setTitle(R.string.instance_choice);
-        final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
         String acad = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
         int i = 0;
         List<AcadInstances> acadInstances = AcadInstances.getInstances();
@@ -708,7 +724,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_INSTANCE && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getData() != null) {
-                final SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_INSTANCE, String.valueOf(data.getData()));
                 editor.commit();

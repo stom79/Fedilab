@@ -22,13 +22,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.peertube.client.data.InstanceData;
-import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.sqlite.Sqlite;
 
@@ -89,7 +90,7 @@ public class StoredInstanceDAO {
             return true;
         }
         ContentValues values = new ContentValues();
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, null);
         String instance = HelperInstance.getLiveInstance(context);
 

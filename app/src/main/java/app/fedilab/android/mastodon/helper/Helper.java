@@ -58,6 +58,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -298,6 +299,7 @@ public class Helper {
     public static final String PREF_USER_TOKEN = "PREF_USER_TOKEN";
     public static final String PREF_USER_ID = "PREF_USER_ID";
     public static final String PREF_USER_INSTANCE = "PREF_USER_INSTANCE";
+    public static final String PREF_USER_SOFTWARE = "PREF_USER_SOFTWARE";
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";
     public static final String PREF_MESSAGE_URL = "PREF_MESSAGE_URL";
@@ -922,6 +924,7 @@ public class Helper {
         if (newAccount == null) {
             editor.putString(PREF_USER_TOKEN, null);
             editor.putString(PREF_USER_INSTANCE, null);
+            //   editor.putString(PREF_USER_SOFTWARE, null);
             editor.putString(PREF_USER_ID, null);
             editor.commit();
             Intent loginActivity = new Intent(activity, LoginActivity.class);
@@ -930,6 +933,8 @@ public class Helper {
         } else {
             currentAccount = newAccount;
             editor.putString(PREF_USER_TOKEN, newAccount.token);
+            editor.putString(PREF_USER_SOFTWARE, newAccount.software);
+            Log.v(TAG, "put 4: " + newAccount.software);
             editor.putString(PREF_USER_INSTANCE, newAccount.instance);
             editor.putString(PREF_USER_ID, newAccount.user_id);
             BaseMainActivity.currentUserID = newAccount.user_id;
@@ -1073,7 +1078,16 @@ public class Helper {
     public static void loadPP(Activity activity, ImageView view, BaseAccount account, boolean crop) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean disableGif = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_GIF), false);
-        String targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
+        String targetedUrl = "";
+        if (account.mastodon_account != null) {
+            targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
+        } else if (account.peertube_account != null) {
+            targetedUrl = account.peertube_account.getAvatar().getPath();
+            if (targetedUrl != null && targetedUrl.startsWith("/")) {
+                targetedUrl = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+            }
+        }
+
         if (targetedUrl != null && Helper.isValidContextForGlide(activity)) {
             if (disableGif || (!targetedUrl.endsWith(".gif"))) {
                 try {

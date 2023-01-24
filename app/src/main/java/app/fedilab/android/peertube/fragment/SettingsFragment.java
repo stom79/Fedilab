@@ -3,7 +3,6 @@ package app.fedilab.android.peertube.fragment;
 
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userMe;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,6 +21,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
@@ -93,7 +93,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         requireActivity();
-        SharedPreferences sharedpreferences = requireActivity().getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         if (key.compareTo(getString(R.string.set_video_mode_choice)) == 0) {
@@ -328,7 +328,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
 
         //****** App theme *******
-        final SharedPreferences sharedpref = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences sharedpref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
         if (SET_THEME_BASE != null) {
             SET_THEME_BASE.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());

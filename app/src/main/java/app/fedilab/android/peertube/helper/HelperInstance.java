@@ -19,6 +19,8 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
+
 
 public class HelperInstance {
 
@@ -30,7 +32,7 @@ public class HelperInstance {
      * @return String domain instance
      */
     public static String getLiveInstance(Context context) {
-        final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedpreferences.getString(PREF_INSTANCE, null);
     }
 

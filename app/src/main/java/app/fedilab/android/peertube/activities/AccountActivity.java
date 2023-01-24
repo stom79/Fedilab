@@ -36,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -79,7 +80,7 @@ public class AccountActivity extends BaseBarActivity {
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(AccountActivity.this);
         String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
 
         BaseAccount baseAccount = null;

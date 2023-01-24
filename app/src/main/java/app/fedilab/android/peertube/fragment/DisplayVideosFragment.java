@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.multidex.BuildConfig;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -307,7 +308,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
             if (max_id_accounts == null) {
                 max_id_accounts = "0";
             }
-            final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             //max_id_accounts needs to work like an offset
             int tootPerPage = sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE);
             max_id_accounts = String.valueOf(Integer.parseInt(max_id_accounts) + tootPerPage);
@@ -339,7 +340,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
         if (max_id == null)
             max_id = "0";
         //max_id needs to work like an offset
-        final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int videoPerPage = sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE);
         max_id = String.valueOf(Integer.parseInt(max_id) + videoPerPage);
         if (apiResponse.getPeertubes() == null && apiResponse.getVideoPlaylist() == null) {

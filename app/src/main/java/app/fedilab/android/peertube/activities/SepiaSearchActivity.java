@@ -17,7 +17,6 @@ package app.fedilab.android.peertube.activities;
 import static app.fedilab.android.peertube.activities.PeertubeActivity.hideKeyboard;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
@@ -65,7 +65,7 @@ public class SepiaSearchActivity extends BaseBarActivity {
 
         sepiaSearchVideo = new SepiaSearch();
         sepiaSearchChannel = new SepiaSearch();
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(SepiaSearchActivity.this);
         sepiaSearchVideo.setCount(String.valueOf(sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE)));
         sepiaSearchVideo.setDurationMin(0);
         sepiaSearchVideo.setDurationMax(9999999);

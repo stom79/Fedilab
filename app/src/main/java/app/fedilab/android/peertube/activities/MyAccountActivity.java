@@ -19,7 +19,6 @@ import static app.fedilab.android.peertube.worker.WorkHelper.NOTIFICATION_WORKER
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -38,6 +37,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
+import androidx.preference.PreferenceManager;
 import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
@@ -102,7 +102,7 @@ public class MyAccountActivity extends BaseBarActivity {
                 android.R.layout.simple_spinner_dropdown_item, refresh_array);
         binding.refreshTime.setAdapter(refreshArray);
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MyAccountActivity.this);
         int interval = sharedpreferences.getInt(Helper.NOTIFICATION_INTERVAL, 60);
         binding.refreshTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

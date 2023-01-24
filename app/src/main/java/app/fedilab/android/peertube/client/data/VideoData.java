@@ -18,6 +18,8 @@ package app.fedilab.android.peertube.client.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -133,7 +135,7 @@ public class VideoData implements Serializable {
         }
 
         public String getFileUrl(String resolution, Context context) {
-            SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             int mode = sharedpreferences.getInt(Helper.SET_VIDEO_MODE, Helper.VIDEO_MODE_NORMAL);
             List<File> files = getAllFile(context);
             if (files != null && files.size() > 0) {

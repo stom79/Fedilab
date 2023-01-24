@@ -17,6 +17,7 @@ package app.fedilab.android;
 import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.mastodon.helper.CacheHelper.deleteDir;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
@@ -108,7 +109,6 @@ import java.util.regex.Pattern;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.mastodon.activities.ActionActivity;
@@ -170,6 +170,7 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TopBarVM;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -328,6 +329,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         } else {
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
+        String software = sharedpreferences.getString(PREF_USER_SOFTWARE, null);
+        Log.v(TAG, "software: " + software);
+        if (software != null && software.equalsIgnoreCase("peertube")) {
+            startActivity(new Intent(this, PeertubeMainActivity.class));
+            finish();
+            return;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -346,17 +354,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
                 }
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
-                Log.v(TAG, "currentToken! " + currentToken);
-                Log.v(TAG, "currentAccount! " + currentAccount);
-                if (currentAccount != null && currentAccount.api == Account.API.PEERTUBE) {
-                    startActivity(new Intent(this, PeertubeBaseMainActivity.class));
-                    finish();
-                }
             } catch (DBException e) {
                 e.printStackTrace();
             }
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
-            if (currentAccount != null && currentAccount.mastodon_account == null) {
+            if (currentAccount != null && currentAccount.mastodon_account == null && currentAccount.peertube_account == null) {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .readTimeout(60, TimeUnit.SECONDS)
                         .connectTimeout(60, TimeUnit.SECONDS)
@@ -383,11 +385,22 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null || currentAccount.mastodon_account == null) {
+                if (currentAccount == null || (currentAccount.mastodon_account == null && currentAccount.peertube_account == null)) {
                     //It is not, the user is redirected to the login page
-                    Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
-                    startActivity(myIntent);
-                    finish();
+                    if (currentAccount != null) {
+                        try {
+                            Helper.removeAccount(BaseMainActivity.this);
+                        } catch (DBException e) {
+                            Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
+                        startActivity(myIntent);
+                        finish();
+                    }
                     return;
                 }
                 bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
@@ -654,13 +667,25 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                         if (currentSubmenu == null) {
                                             continue;
                                         }
-                                        final MenuItem item = currentSubmenu.add("@" + account.mastodon_account.acct);
-                                        item.setIcon(R.drawable.ic_person);
+                                        String acct = "";
+                                        String url = "";
                                         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
-                                        String url = !disableGif ? account.mastodon_account.avatar : account.mastodon_account.avatar_static;
-                                        if (url != null && url.startsWith("/")) {
-                                            url = "https://" + account.instance + account.mastodon_account.avatar;
+                                        if (account.mastodon_account != null) {
+                                            acct = account.mastodon_account.acct;
+                                            url = !disableGif ? account.mastodon_account.avatar : account.mastodon_account.avatar_static;
+                                            if (url != null && url.startsWith("/")) {
+                                                url = "https://" + account.instance + account.mastodon_account.avatar;
+                                            }
+                                        } else if (account.peertube_account != null) {
+                                            acct = account.peertube_account.getAcct();
+                                            url = account.peertube_account.getAvatar().getPath();
+                                            if (url != null && url.startsWith("/")) {
+                                                url = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+                                            }
                                         }
+
+                                        final MenuItem item = currentSubmenu.add("@" + acct);
+                                        item.setIcon(R.drawable.ic_person);
                                         if (!this.isDestroyed() && !this.isFinishing() && url != null) {
                                             if (url.contains(".gif")) {
                                                 Glide.with(BaseMainActivity.this)
@@ -706,6 +731,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                 api = account.api;
                                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                                 editor.putString(PREF_USER_TOKEN, account.token);
+                                                editor.putString(PREF_USER_SOFTWARE, account.software);
+                                                Log.v(TAG, "put 2: " + account.software);
                                                 editor.commit();
                                                 //The user is now aut
                                                 //The user is now authenticated, it will be redirected to MainActivity
@@ -908,9 +935,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         e.printStackTrace();
                     }
                 }
-                MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
-                if (mutedAccounts != null && mutedAccounts.accounts != null) {
-                    filteredAccounts = mutedAccounts.accounts;
+                if (currentAccount != null) {
+                    MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
+                    if (mutedAccounts != null && mutedAccounts.accounts != null) {
+                        filteredAccounts = mutedAccounts.accounts;
+                    }
                 }
                 //Delete cache older than 7 days
                 new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
@@ -930,12 +959,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         headerMainBinding.otherAccount1.setVisibility(View.VISIBLE);
                         headerMainBinding.otherAccount1.setOnClickListener(v -> {
                             headerMenuOpen = false;
-                            Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance), Toasty.LENGTH_LONG).show();
+                            String account = "";
+                            if (accounts.get(0).mastodon_account != null) {
+                                account = "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance;
+                            } else if (accounts.get(0).peertube_account != null) {
+                                account = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
+                            }
+                            Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
                             BaseMainActivity.currentToken = accounts.get(0).token;
                             BaseMainActivity.currentUserID = accounts.get(0).user_id;
                             api = accounts.get(0).api;
                             SharedPreferences.Editor editor = sharedpreferences.edit();
                             editor.putString(PREF_USER_TOKEN, accounts.get(0).token);
+                            editor.putString(PREF_USER_SOFTWARE, accounts.get(0).software);
                             editor.commit();
                             //The user is now aut
                             //The user is now authenticated, it will be redirected to MainActivity
@@ -948,12 +984,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             headerMainBinding.otherAccount2.setVisibility(View.VISIBLE);
                             headerMainBinding.otherAccount2.setOnClickListener(v -> {
                                 headerMenuOpen = false;
-                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance), Toasty.LENGTH_LONG).show();
+                                String account = "";
+                                if (accounts.get(1).mastodon_account != null) {
+                                    account = "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance;
+                                } else if (accounts.get(1).peertube_account != null) {
+                                    account = "@" + accounts.get(1).peertube_account.getAcct() + "@" + accounts.get(1).instance;
+                                }
+                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
                                 BaseMainActivity.currentToken = accounts.get(1).token;
                                 BaseMainActivity.currentUserID = accounts.get(1).user_id;
                                 api = accounts.get(1).api;
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString(PREF_USER_TOKEN, accounts.get(1).token);
+                                editor.putString(PREF_USER_SOFTWARE, accounts.get(1).software);
                                 editor.commit();
                                 //The user is now aut
                                 //The user is now authenticated, it will be redirected to MainActivity
@@ -1034,6 +1077,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         api = account.api;
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(PREF_USER_TOKEN, account.token);
+                        editor.putString(PREF_USER_SOFTWARE, account.software);
+                        Log.v(TAG, "put 3: " + account.software);
                         editor.commit();
                         Intent mainActivity = new Intent(this, MainActivity.class);
                         mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);

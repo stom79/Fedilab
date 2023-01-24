@@ -15,7 +15,6 @@ package app.fedilab.android.peertube.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static android.content.Context.MODE_PRIVATE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
@@ -52,6 +51,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
@@ -455,7 +455,7 @@ public class Helper {
         } else {
             webView = rootView.findViewById(webviewId);
         }
-        final SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -563,13 +563,14 @@ public class Helper {
      * @param activity Activity
      */
     public static void logoutNoRemoval(Activity activity) {
-        SharedPreferences sharedpreferences = activity.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(PREF_USER_TOKEN, null);
         editor.putString(CLIENT_ID, null);
         editor.putString(CLIENT_SECRET, null);
         editor.putString(PREF_USER_ID, null);
         editor.putString(PREF_INSTANCE, null);
+        // editor.putString(PREF_USER_SOFTWARE, null);
         editor.apply();
         Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
         activity.startActivity(loginActivity);
@@ -618,7 +619,7 @@ public class Helper {
      * @return PeertubeMainActivity.TypeOfConnection
      */
     public static PeertubeMainActivity.TypeOfConnection isLoggedInType(Context context) {
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String prefKeyOauthTokenT = sharedpreferences.getString(PREF_USER_TOKEN, null);
         String prefSoftware = sharedpreferences.getString(PREF_SOFTWARE, null);
         if (prefKeyOauthTokenT != null && prefSoftware == null) {
@@ -632,7 +633,7 @@ public class Helper {
 
     public static String getToken(Context context) {
         if (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL) {
-            SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             return sharedpreferences.getString(PREF_USER_TOKEN, null);
         } else {
             return null;
@@ -659,14 +660,14 @@ public class Helper {
 
 
     public static boolean isOwner(Context context, AccountData.PeertubeAccount account) {
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, "");
         String instance = sharedpreferences.getString(PREF_INSTANCE, "");
         return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
     }
 
     public static boolean isVideoOwner(Context context, VideoData.Video video) {
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, null);
         String instance = sharedpreferences.getString(PREF_INSTANCE, null);
         if (video == null) {
@@ -696,7 +697,7 @@ public class Helper {
         if (files == null || files.size() == 0) {
             return null;
         }
-        SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int video_quality = sharedpreferences.getInt(Helper.SET_QUALITY_MODE, Helper.QUALITY_HIGH);
         if (video_quality == QUALITY_HIGH) {
             return files.get(0);

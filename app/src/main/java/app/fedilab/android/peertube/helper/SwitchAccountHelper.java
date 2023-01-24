@@ -14,16 +14,19 @@ package app.fedilab.android.peertube.helper;
  * You should have received a copy of the GNU General Public License along with TubeLab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static android.content.Context.MODE_PRIVATE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.preference.PreferenceManager;
 
 import java.util.List;
 
@@ -58,9 +61,11 @@ public class SwitchAccountHelper {
             }
             builderSingle.setAdapter(accountsListAdapter, (dialog, which) -> {
                 final BaseAccount account = accountArray[which];
-                SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, MODE_PRIVATE);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_TOKEN, account.token);
+                editor.putString(PREF_USER_SOFTWARE, account.software);
+                Log.v(TAG, "put 1: " + account.software);
                 editor.putString(PREF_INSTANCE, account.instance);
                 editor.putString(PREF_USER_ID, account.user_id);
                 editor.apply();

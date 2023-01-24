@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -127,7 +128,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         holder.binding.aboutInstanceName.setText(aboutInstance.getName());
         holder.binding.instanceContainer.setOnClickListener(v -> {
-            final SharedPreferences sharedpreferences = context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_INSTANCE, aboutInstance.getHost());
             editor.commit();

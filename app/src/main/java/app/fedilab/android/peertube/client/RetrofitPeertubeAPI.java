@@ -16,6 +16,7 @@ package app.fedilab.android.peertube.client;
 
 import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
@@ -32,6 +33,7 @@ import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 
 import androidx.documentfile.provider.DocumentFile;
+import androidx.preference.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -52,6 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -121,7 +124,7 @@ public class RetrofitPeertubeAPI {
         _context = context;
         instance = HelperInstance.getLiveInstance(context);
         finalUrl = "https://" + HelperInstance.getLiveInstance(context) + "/api/v1/";
-        SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(_context);
         count = String.valueOf(sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE));
         String currentSensitive = sharedpreferences.getString(_context.getString(R.string.set_video_sensitive_choice), Helper.BLUR);
         if (currentSensitive.compareTo(Helper.DO_NOT_LIST) == 0) {
@@ -138,7 +141,7 @@ public class RetrofitPeertubeAPI {
         this.instance = instance;
         this.token = token;
         finalUrl = "https://" + instance + "/api/v1/";
-        SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(_context);
         count = String.valueOf(sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE));
         String currentSensitive = sharedpreferences.getString(_context.getString(R.string.set_video_sensitive_choice), Helper.BLUR);
         if (currentSensitive.compareTo(Helper.DO_NOT_LIST) == 0) {
@@ -158,7 +161,7 @@ public class RetrofitPeertubeAPI {
             String instance = host;
             try {
                 UserMe userMe = new RetrofitPeertubeAPI(activity, instance, token).verifyCredentials();
-                Log.v(TAG, "userMe: " + userMe);
+
                 peertubeAccount = userMe.getAccount();
             } catch (Error error) {
                 Error.displayError(activity, error);
@@ -170,7 +173,7 @@ public class RetrofitPeertubeAPI {
                 instance = URLDecoder.decode(instance, "utf-8");
             } catch (UnsupportedEncodingException ignored) {
             }
-            SharedPreferences sharedpreferences = activity.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
             account.token = token;
             account.client_id = client_id;
             account.client_secret = client_secret;
@@ -179,12 +182,16 @@ public class RetrofitPeertubeAPI {
             account.api = Account.API.PEERTUBE;
             account.software = Account.API.PEERTUBE.name();
             account.peertube_account = peertubeAccount;
-            account.user_id = peertubeAccount.getId();
+            account.user_id = peertubeAccount.getUserId();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_USER_ID, account.user_id);
             editor.putString(PREF_INSTANCE, host);
             editor.putString(PREF_USER_TOKEN, token);
+            editor.putString(PREF_USER_SOFTWARE, account.software);
+            Log.v(TAG, "put 8: " + account.software);
             editor.apply();
+
+            Log.v(TAG, "PREF_USER_SOFTWARE: " + account.software);
             try {
                 new Account(activity).insertOrUpdate(account);
             } catch (DBException e) {
@@ -215,7 +222,7 @@ public class RetrofitPeertubeAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
-        SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(_context);
         if (token == null) {
             token = Helper.getToken(_context);
         }
@@ -242,6 +249,7 @@ public class RetrofitPeertubeAPI {
     public Token manageToken(OauthParams oauthParams) throws Error {
         PeertubeService peertubeService = init();
         Call<Token> refreshTokenCall = null;
+        Log.v(TAG, "oauthParams.getGrant_type(): " + oauthParams.getGrant_type());
         if (oauthParams.getGrant_type().compareTo("password") == 0) {
             refreshTokenCall = peertubeService.createToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getGrant_type(), oauthParams.getUsername(), oauthParams.getPassword());
         } else if (oauthParams.getGrant_type().compareTo("refresh_token") == 0) {
@@ -254,11 +262,12 @@ public class RetrofitPeertubeAPI {
                 if (response.isSuccessful()) {
                     Token tokenReply = response.body();
                     if (oauthParams.getGrant_type().compareTo("refresh_token") == 0 && tokenReply != null) {
-                        SharedPreferences sharedpreferences = _context.getSharedPreferences(Helper.APP_PREFS, Context.MODE_PRIVATE);
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(_context);
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(PREF_USER_TOKEN, tokenReply.getAccess_token());
                         editor.apply();
                         SQLiteDatabase db = Sqlite.getInstance(_context.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+                        BaseMainActivity.currentToken = tokenReply.getAccess_token();
                         new Account(_context).updatePeertubeToken(tokenReply);
                     }
                     return tokenReply;

@@ -526,12 +526,19 @@ public class Account extends BaseAccount implements Serializable {
             case "PLEROMA":
                 api = API.PLEROMA;
                 break;
+            case "PEERTUBE":
+                api = API.PEERTUBE;
+                break;
             default:
                 api = API.UNKNOWN;
                 break;
         }
         account.api = api;
-        account.mastodon_account = restoreAccountFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ACCOUNT)));
+        if (api != API.PEERTUBE) {
+            account.mastodon_account = restoreAccountFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ACCOUNT)));
+        } else {
+            account.peertube_account = restorePeertubeAccountFromString(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_ACCOUNT)));
+        }
         return account;
     }
 
