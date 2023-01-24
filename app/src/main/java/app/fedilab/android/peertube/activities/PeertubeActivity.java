@@ -2017,8 +2017,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         }
         if (peertube.getMyRating() != null && peertube.getMyRating().compareTo("like") == 0) {
             if (thumbUp != null) {
-                thumbUp.setColorFilter(getAttColor(PeertubeActivity.this, R.attr.primaryColor), PorterDuff.Mode.SRC_ATOP);
-                DrawableCompat.setTint(thumbUp, getAttColor(PeertubeActivity.this, R.attr.primaryColor));
+                thumbUp.setColorFilter(getAttColor(PeertubeActivity.this, R.attr.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                DrawableCompat.setTint(thumbUp, getAttColor(PeertubeActivity.this, R.attr.colorPrimary));
             }
         } else if (peertube.getMyRating() != null && peertube.getMyRating().compareTo("dislike") == 0) {
             if (thumbDown != null) {
