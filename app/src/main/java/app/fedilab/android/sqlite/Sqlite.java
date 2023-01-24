@@ -192,7 +192,8 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_MUTED_ACCOUNTS + " TEXT)";
-
+    public static SQLiteDatabase db;
+    private static Sqlite sInstance;
     private final String CREATE_TABLE_STORED_INSTANCES = "CREATE TABLE "
             + TABLE_BOOKMARKED_INSTANCES + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -200,9 +201,6 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_ABOUT + " TEXT NOT NULL, "
             + COL_USER_INSTANCE + " TEXT NOT NULL)";
-
-    public static SQLiteDatabase db;
-    private static Sqlite sInstance;
 
     public Sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

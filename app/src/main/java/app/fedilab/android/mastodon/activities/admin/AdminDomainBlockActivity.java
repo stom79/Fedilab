@@ -135,7 +135,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                         .setPositiveButton(R.string.unblock_domain, (dialog, which) -> {
                             adminVM.deleteDomain(MainActivity.currentInstance, MainActivity.currentToken, adminDomainBlock.id)
                                     .observe(AdminDomainBlockActivity.this, adminDomainBlockResult -> {
-                                        Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
+                                                Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
                                                 LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
                                                 finish();
                                             }

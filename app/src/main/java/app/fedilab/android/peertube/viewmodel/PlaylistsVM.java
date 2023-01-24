@@ -1,17 +1,17 @@
 package app.fedilab.android.peertube.viewmodel;
-/* Copyright 2020 Thomas Schneider
+/* Copyright 2023 Thomas Schneider
  *
- * This file is a part of TubeLab
+ * This file is a part of Fedilab
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 3 of the
  * License, or (at your option) any later version.
  *
- * TubeLab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * Fedilab is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with TubeLab; if not,
+ * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
 import android.app.Application;
@@ -51,7 +51,6 @@ public class PlaylistsVM extends AndroidViewModel {
     }
 
 
-
     public LiveData<APIResponse> videoExists(List<String> videoIds) {
         apiResponseMutableLiveData = new MutableLiveData<>();
         checkVideosExist(videoIds);
@@ -67,7 +66,6 @@ public class PlaylistsVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
     }
-
 
 
     private void managePlaylists(action apiAction, Playlist playlist, String videoId) {
