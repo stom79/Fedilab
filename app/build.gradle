@@ -68,6 +68,7 @@ android {
                     'src/main/res/layouts/mastodon',
                     'src/main/res/layouts/peertube',
                     'src/main/res/layouts',
+                    'src/main/layout',
                     'src/main/res/drawables/mastodon',
                     'src/main/res/drawables/peertube',
                     'src/main/res/drawables',

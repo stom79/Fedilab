@@ -21,7 +21,6 @@ import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPLY;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPORT_ACCOUNT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPORT_VIDEO;
-import static app.fedilab.android.peertube.helper.Helper.canMakeAction;
 import static app.fedilab.android.peertube.helper.Helper.getAttColor;
 import static app.fedilab.android.peertube.helper.Helper.isLoggedIn;
 import static app.fedilab.android.peertube.helper.Helper.loadAvatar;
@@ -216,7 +215,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         max_id = "0";
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
-        if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
+        if (Helper.isLoggedIn() && !sepiaSearch) {
             BaseAccount account = null;
             try {
                 account = new app.fedilab.android.mastodon.client.entities.app.Account(PeertubeActivity.this).getAccountByToken(token);
@@ -264,17 +263,13 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             videoUuid = b.getString("video_uuid", null);
             isMyVideo = b.getBoolean("isMyVideo", false);
             sepiaSearch = b.getBoolean("sepia_search", false);
-            peertube = b.getParcelable("video");
+            peertube = (VideoData.Video) b.getSerializable("video");
         }
 
 
         willPlayFromIntent = manageIntentUrl(intent);
 
-        if (Helper.isLoggedInType(PeertubeActivity.this) == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
-            binding.peertubeLikeCount.setVisibility(View.GONE);
-            binding.peertubeDislikeCount.setVisibility(View.GONE);
-            binding.peertubePlaylist.setVisibility(View.GONE);
-        } else {
+        if (Helper.isLoggedIn()) {
             binding.peertubePlaylist.setVisibility(View.VISIBLE);
         }
 
@@ -289,7 +284,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         });
-        if (!Helper.canMakeAction(PeertubeActivity.this) || sepiaSearch) {
+        if (!Helper.isLoggedIn() || sepiaSearch) {
             binding.writeCommentContainer.setVisibility(View.GONE);
         }
         playInMinimized = sharedpreferences.getBoolean(getString(R.string.set_video_minimize_choice), true);
@@ -385,7 +380,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         });
-        if (!willPlayFromIntent && peertube != null && sepiaSearch && peertube.getEmbedUrl() != null && Helper.isLoggedIn(PeertubeActivity.this)) {
+        if (!willPlayFromIntent && peertube != null && sepiaSearch && peertube.getEmbedUrl() != null && Helper.isLoggedIn()) {
             SearchVM viewModelSearch = new ViewModelProvider(PeertubeActivity.this).get(SearchVM.class);
             viewModelSearch.getVideos("0", peertube.getUuid()).observe(PeertubeActivity.this, this::manageVIewVideos);
         } else {
@@ -397,7 +392,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             openFullscreenDialog();
         }
         binding.postCommentButton.setOnClickListener(v -> {
-            if (canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
+            if (Helper.isLoggedIn() && !sepiaSearch) {
                 openPostComment(null, 0);
             } else {
                 if (sepiaSearch) {
@@ -862,7 +857,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         PlaylistsVM viewModel = new ViewModelProvider(this).get(PlaylistsVM.class);
         viewModel.videoExists(videoIds).observe(this, this::manageVIewPlaylist);
 
-        if (!Helper.canMakeAction(PeertubeActivity.this) || sepiaSearch) {
+        if (!Helper.isLoggedIn() || sepiaSearch) {
             binding.writeCommentContainer.setVisibility(View.GONE);
         }
 
@@ -985,7 +980,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
 
         binding.peertubeLikeCount.setOnClickListener(v -> {
-            if (isLoggedIn(PeertubeActivity.this) && !sepiaSearch) {
+            if (isLoggedIn() && !sepiaSearch) {
                 String newState = peertube.getMyRating().equals("like") ? "none" : "like";
                 PostActionsVM viewModelLike = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                 viewModelLike.post(RATEVIDEO, peertube.getId(), newState).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(RATEVIDEO, 0, apiResponse1));
@@ -1010,7 +1005,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             }
         });
         binding.peertubeDislikeCount.setOnClickListener(v -> {
-            if (isLoggedIn(PeertubeActivity.this) && !sepiaSearch) {
+            if (isLoggedIn() && !sepiaSearch) {
                 String newState = peertube.getMyRating().equals("dislike") ? "none" : "dislike";
                 PostActionsVM viewModelLike = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                 viewModelLike.post(RATEVIDEO, peertube.getId(), newState).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(RATEVIDEO, 0, apiResponse1));
@@ -1210,14 +1205,14 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     private void fetchComments() {
         if (peertube.isCommentsEnabled()) {
-            if (Helper.canMakeAction(PeertubeActivity.this)) {
+            if (Helper.isLoggedIn()) {
                 binding.postCommentButton.setVisibility(View.VISIBLE);
             } else {
                 binding.postCommentButton.setVisibility(View.GONE);
             }
             CommentVM commentViewModel = new ViewModelProvider(PeertubeActivity.this).get(CommentVM.class);
             commentViewModel.getThread(sepiaSearch ? peertubeInstance : null, videoUuid, max_id).observe(PeertubeActivity.this, this::manageVIewComment);
-            if (Helper.canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
+            if (Helper.isLoggedIn() && !sepiaSearch) {
                 binding.writeCommentContainer.setVisibility(View.VISIBLE);
             }
             binding.peertubeComments.setVisibility(View.VISIBLE);
@@ -1698,7 +1693,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putBoolean(getString(R.string.set_autoplay_next_video_choice), item.getId() == 1);
                 editor.apply();
-                if (Helper.isLoggedIn(PeertubeActivity.this)) {
+                if (Helper.isLoggedIn()) {
                     new Thread(() -> {
                         UserSettings userSettings = new UserSettings();
                         userSettings.setAutoPlayNextVideo(item.getId() == 1);
@@ -1772,11 +1767,11 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
 
     private void sendComment(Comment comment, int position) {
-        if (canMakeAction(PeertubeActivity.this) && !sepiaSearch) {
+        if (Helper.isLoggedIn() && !sepiaSearch) {
             if (comment == null) {
                 String commentStr = binding.addCommentWrite.getText() != null ? binding.addCommentWrite.getText().toString() : "";
                 if (commentStr.trim().length() > 0) {
-                    if (Helper.isLoggedIn(PeertubeActivity.this)) {
+                    if (Helper.isLoggedIn()) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(ADD_COMMENT, peertube.getId(), null, commentStr).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(ADD_COMMENT, 0, apiResponse1));
                     }
@@ -1785,7 +1780,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             } else {
                 String commentView = binding.addCommentWrite.getText() != null ? binding.addCommentWrite.getText().toString() : "";
                 if (commentView.trim().length() > 0) {
-                    if (Helper.isLoggedIn(PeertubeActivity.this)) {
+                    if (Helper.isLoggedIn()) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(REPLY, peertube.getId(), comment.getId(), commentView).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(REPLY, position, apiResponse1));
                     }
@@ -2143,7 +2138,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void updateHistory(long position) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         boolean storeInHistory = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
-        if (Helper.isLoggedIn(PeertubeActivity.this) && peertube != null && storeInHistory) {
+        if (Helper.isLoggedIn() && peertube != null && storeInHistory) {
             new Thread(() -> {
                 try {
                     RetrofitPeertubeAPI api = new RetrofitPeertubeAPI(PeertubeActivity.this);

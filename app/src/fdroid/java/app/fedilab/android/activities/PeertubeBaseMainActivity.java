@@ -107,7 +107,7 @@ public abstract class PeertubeBaseMainActivity extends AppCompatActivity impleme
                 assert b != null;
                 int state = b.getInt("state_asked", -1);
                 int displayed = b.getInt("displayed", -1);
-                castedTube = b.getParcelable("castedTube");
+                castedTube = (VideoData.Video) b.getSerializable("castedTube");
 
                 if (state == 1) {
                     discoverCast();

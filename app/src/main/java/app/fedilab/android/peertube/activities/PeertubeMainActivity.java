@@ -14,12 +14,12 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
+import static app.fedilab.android.peertube.helper.SwitchAccountHelper.switchDialog;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,7 +86,6 @@ import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperAcadInstance;
 import app.fedilab.android.peertube.helper.HelperInstance;
-import app.fedilab.android.peertube.helper.SwitchAccountHelper;
 import app.fedilab.android.peertube.services.RetrieveInfoService;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
@@ -102,11 +100,12 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public static int PICK_INSTANCE_SURF = 5642;
     public static UserMe userMe;
     public static InstanceData.InstanceConfig instanceConfig;
-    public static TypeOfConnection typeOfConnection;
+    public static TypeOfConnection typeOfConnection = TypeOfConnection.NORMAL;
     public static int badgeCount;
     private DisplayVideosFragment recentFragment, locaFragment, trendingFragment, subscriptionFragment, mostLikedFragment;
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
+
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
         int itemId = item.getItemId();
@@ -155,7 +154,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(activity, newInstance, null).getNodeInfo();
                         if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
                             SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(PREF_INSTANCE, newInstance);
+                            editor.putString(PREF_USER_INSTANCE, newInstance);
                             editor.commit();
                             if (storeInDb) {
                                 newInstance = newInstance.trim().toLowerCase();
@@ -219,7 +218,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        typeOfConnection = TypeOfConnection.UNKNOWN;
+
         badgeCount = 0;
 
         binding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -227,7 +226,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
         recentFragment = new DisplayVideosFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.RECENT);
@@ -254,7 +252,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         mostLikedFragment.setArguments(bundle);
 
         overviewFragment = new DisplayOverviewFragment();
-        if (!Helper.isLoggedIn(PeertubeMainActivity.this)) {
+        if (!Helper.isLoggedIn()) {
             PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
             binding.viewpager.setAdapter(mPagerAdapter);
         } else {
@@ -263,8 +261,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 invalidateOptionsMenu();
             }).start();
         }
-        Log.v(TAG, "logged: " + Helper.isLoggedIn(PeertubeMainActivity.this));
-        if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+        if (Helper.isLoggedIn()) {
             binding.viewpager.setOffscreenPageLimit(5);
         } else {
             binding.viewpager.setOffscreenPageLimit(4);
@@ -303,7 +300,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         setTitleCustom(R.string.title_discover);
 
-        if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+        if (Helper.isLoggedIn()) {
             binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
             refreshToken();
 
@@ -327,8 +324,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
 
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
-        int search_cast = sharedpreferences.getInt(getString(R.string.set_cast_choice), 0);
-        if (search_cast == 1) {
+        boolean search_cast = sharedpreferences.getBoolean(getString(R.string.set_cast_choice), false);
+        if (search_cast) {
             super.discoverCast();
         }
 
@@ -363,7 +360,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
             String tokenStr = Helper.getToken(PeertubeMainActivity.this);
             String instance = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
-            String instanceShar = sharedpreferences.getString(PREF_INSTANCE, null);
+            String instanceShar = sharedpreferences.getString(PREF_USER_INSTANCE, null);
             String userIdShar = sharedpreferences.getString(PREF_USER_ID, null);
             BaseAccount account = null;
             try {
@@ -372,6 +369,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 e.printStackTrace();
             }
             if (account == null) {
+
                 try {
                     account = new Account(PeertubeMainActivity.this).getUniqAccount(userIdShar, instanceShar);
                 } catch (DBException e) {
@@ -395,7 +393,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     runOnUiThread(() -> {
                         //To avoid a token issue with subscriptions, adding fragment is done when the token is refreshed.
                         new Handler().post(() -> {
-                            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+                            if (Helper.isLoggedIn()) {
                                 PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
                                 binding.viewpager.setAdapter(mPagerAdapter);
                             }
@@ -412,7 +410,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(PREF_USER_TOKEN, token.getAccess_token());
                     editor.putString(PREF_USER_SOFTWARE, account.software);
-                    Log.v(TAG, "put 7: " + account.software);
                     editor.apply();
                     if (userMe != null && userMe.getAccount() != null) {
                         account.peertube_account = userMe.getAccount();
@@ -421,7 +418,11 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         } catch (DBException e) {
                             e.printStackTrace();
                         }
-
+                        BaseAccount finalAccount1 = account;
+                        runOnUiThread(() -> {
+                            app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, finalAccount1);
+                            binding.profilePicture.setOnClickListener(v -> switchDialog(PeertubeMainActivity.this, false));
+                        });
                         editor.putString(PREF_USER_ID, account.user_id);
                         editor.putBoolean(getString(R.string.set_autoplay_choice), userMe.isAutoPlayVideo());
                         editor.putBoolean(getString(R.string.set_store_in_history), userMe.isVideosHistoryEnabled());
@@ -526,20 +527,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         TooltipCompat.setTooltipText(accountItem.getActionView(), getText(R.string.account));
 
         switch (typeOfConnection) {
-            case UNKNOWN:
-                accountItem.setVisible(false);
-                uploadItem.setVisible(false);
-                myVideosItem.setVisible(false);
-                playslistItem.setVisible(false);
-                historyItem.setVisible(false);
-                settingsItem.setVisible(false);
-                mostLikedItem.setVisible(false);
-                incognitoItem.setVisible(false);
-                break;
-            case REMOTE_ACCOUNT:
             case NORMAL:
                 accountItem.setVisible(true);
-                if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+                if (Helper.isLoggedIn()) {
                     uploadItem.setVisible(true);
                     myVideosItem.setVisible(true);
                     playslistItem.setVisible(true);
@@ -600,9 +590,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         } else if (item.getItemId() == R.id.action_account) {
             Intent intent;
             if (typeOfConnection == TypeOfConnection.SURFING) {
-                SwitchAccountHelper.switchDialog(PeertubeMainActivity.this, false);
+                switchDialog(PeertubeMainActivity.this, false);
             } else {
-                if (Helper.canMakeAction(PeertubeMainActivity.this)) {
+                if (Helper.isLoggedIn()) {
                     intent = new Intent(PeertubeMainActivity.this, AccountActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
@@ -706,7 +696,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         alt_bld.setSingleChoiceItems(academiesKey, position, (dialog, item) -> {
             String newInstance = academiesValue[item];
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(PREF_INSTANCE, newInstance);
+            editor.putString(PREF_USER_INSTANCE, newInstance);
             editor.commit();
             dialog.dismiss();
             recreate();
@@ -724,7 +714,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             if (data != null && data.getData() != null) {
                 final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(PREF_INSTANCE, String.valueOf(data.getData()));
+                editor.putString(PREF_USER_INSTANCE, String.valueOf(data.getData()));
                 editor.commit();
                 recreate();
             }
@@ -732,10 +722,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     }
 
     public enum TypeOfConnection {
-        UNKNOWN,
         NORMAL,
-        SURFING,
-        REMOTE_ACCOUNT,
+        SURFING
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -747,7 +735,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         @NotNull
         @Override
         public Fragment getItem(final int position) {
-            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+            if (Helper.isLoggedIn()) {
                 switch (position) {
                     case 0:
                         return locaFragment;
@@ -777,7 +765,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         @Override
         public int getCount() {
-            if (Helper.isLoggedIn(PeertubeMainActivity.this)) {
+            if (Helper.isLoggedIn()) {
                 return 5;
             } else {
                 return 4;

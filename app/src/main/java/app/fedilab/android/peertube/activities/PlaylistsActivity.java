@@ -45,7 +45,7 @@ public class PlaylistsActivity extends BaseBarActivity {
         PlaylistData.Playlist playlist;
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            playlist = b.getParcelable("playlist");
+            playlist = (PlaylistData.Playlist) b.getSerializable("playlist");
             if (playlist == null) {
                 return;
             }

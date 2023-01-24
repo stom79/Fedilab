@@ -58,7 +58,6 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -303,7 +302,6 @@ public class Helper {
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";
     public static final String PREF_MESSAGE_URL = "PREF_MESSAGE_URL";
-    public static final String PREF_INSTANCE = "PREF_INSTANCE";
 
 
     public static final String SET_SECURITY_PROVIDER = "SET_SECURITY_PROVIDER";
@@ -915,10 +913,12 @@ public class Helper {
 
         OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
 
-        //Revoke the token
-        oauthVM.revokeToken(currentAccount.instance, currentAccount.token, currentAccount.client_id, currentAccount.client_secret);
-        //Log out the current user
-        accountDB.removeUser(currentAccount);
+        if (currentAccount != null) {
+            //Revoke the token
+            oauthVM.revokeToken(currentAccount.instance, currentAccount.token, currentAccount.client_id, currentAccount.client_secret);
+            //Log out the current user
+            accountDB.removeUser(currentAccount);
+        }
         BaseAccount newAccount = accountDB.getLastUsedAccount();
         SharedPreferences.Editor editor = sharedpreferences.edit();
         if (newAccount == null) {
@@ -934,7 +934,6 @@ public class Helper {
             currentAccount = newAccount;
             editor.putString(PREF_USER_TOKEN, newAccount.token);
             editor.putString(PREF_USER_SOFTWARE, newAccount.software);
-            Log.v(TAG, "put 4: " + newAccount.software);
             editor.putString(PREF_USER_INSTANCE, newAccount.instance);
             editor.putString(PREF_USER_ID, newAccount.user_id);
             BaseMainActivity.currentUserID = newAccount.user_id;

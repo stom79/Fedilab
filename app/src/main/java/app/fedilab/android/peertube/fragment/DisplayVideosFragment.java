@@ -381,7 +381,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
         flag_loading = false;
         firstLoad = false;
 
-        if (Helper.isLoggedIn(context)) {
+        if (Helper.isLoggedIn()) {
             List<String> uids = new ArrayList<>();
             for (VideoData.Video video : apiResponse.getPeertubes()) {
                 if (video != null) {

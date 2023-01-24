@@ -14,24 +14,22 @@ package app.fedilab.android.peertube.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -65,12 +63,11 @@ public class SwitchAccountHelper {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_TOKEN, account.token);
                 editor.putString(PREF_USER_SOFTWARE, account.software);
-                Log.v(TAG, "put 1: " + account.software);
-                editor.putString(PREF_INSTANCE, account.instance);
+                editor.putString(PREF_USER_INSTANCE, account.instance);
                 editor.putString(PREF_USER_ID, account.user_id);
-                editor.apply();
+                editor.commit();
                 dialog.dismiss();
-                Intent intent = new Intent(activity, BaseMainActivity.class);
+                Intent intent = new Intent(activity, MainActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
             });

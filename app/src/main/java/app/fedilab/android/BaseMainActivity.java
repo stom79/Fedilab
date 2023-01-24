@@ -17,9 +17,10 @@ package app.fedilab.android;
 import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.mastodon.helper.CacheHelper.deleteDir;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
 
@@ -43,7 +44,6 @@ import android.provider.BaseColumns;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -330,7 +330,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
         String software = sharedpreferences.getString(PREF_USER_SOFTWARE, null);
-        Log.v(TAG, "software: " + software);
         if (software != null && software.equalsIgnoreCase("peertube")) {
             startActivity(new Intent(this, PeertubeMainActivity.class));
             finish();
@@ -725,14 +724,22 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                         item.setOnMenuItemClickListener(item1 -> {
                                             if (!this.isFinishing()) {
                                                 headerMenuOpen = false;
-                                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                                String acctForAccount = "";
+                                                if (account.mastodon_account != null) {
+                                                    acctForAccount = "@" + account.mastodon_account.username + "@" + account.instance;
+                                                } else if (account.peertube_account != null) {
+                                                    acctForAccount = "@" + account.peertube_account.getUsername() + "@" + account.instance;
+                                                }
+                                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, acctForAccount), Toasty.LENGTH_LONG).show();
                                                 BaseMainActivity.currentToken = account.token;
                                                 BaseMainActivity.currentUserID = account.user_id;
+                                                BaseMainActivity.currentInstance = account.instance;
                                                 api = account.api;
                                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                                 editor.putString(PREF_USER_TOKEN, account.token);
                                                 editor.putString(PREF_USER_SOFTWARE, account.software);
-                                                Log.v(TAG, "put 2: " + account.software);
+                                                editor.putString(PREF_USER_INSTANCE, account.instance);
+                                                editor.putString(PREF_USER_ID, account.user_id);
                                                 editor.commit();
                                                 //The user is now aut
                                                 //The user is now authenticated, it will be redirected to MainActivity
@@ -968,9 +975,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
                             BaseMainActivity.currentToken = accounts.get(0).token;
                             BaseMainActivity.currentUserID = accounts.get(0).user_id;
+                            BaseMainActivity.currentInstance = accounts.get(0).instance;
                             api = accounts.get(0).api;
                             SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(PREF_USER_ID, accounts.get(0).user_id);
                             editor.putString(PREF_USER_TOKEN, accounts.get(0).token);
+                            editor.putString(PREF_USER_INSTANCE, accounts.get(0).instance);
                             editor.putString(PREF_USER_SOFTWARE, accounts.get(0).software);
                             editor.commit();
                             //The user is now aut
@@ -993,10 +1003,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
                                 BaseMainActivity.currentToken = accounts.get(1).token;
                                 BaseMainActivity.currentUserID = accounts.get(1).user_id;
+                                BaseMainActivity.currentInstance = accounts.get(1).instance;
                                 api = accounts.get(1).api;
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString(PREF_USER_ID, accounts.get(1).user_id);
                                 editor.putString(PREF_USER_TOKEN, accounts.get(1).token);
                                 editor.putString(PREF_USER_SOFTWARE, accounts.get(1).software);
+                                editor.putString(PREF_USER_INSTANCE, accounts.get(1).instance);
                                 editor.commit();
                                 //The user is now aut
                                 //The user is now authenticated, it will be redirected to MainActivity
@@ -1061,7 +1074,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         String userIdIntent, instanceIntent, urlOfMessage;
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
             userIdIntent = extras.getString(Helper.PREF_USER_ID); //Id of the account in the intent
-            instanceIntent = extras.getString(Helper.PREF_INSTANCE);
+            instanceIntent = extras.getString(Helper.PREF_USER_INSTANCE);
             urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
             if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
                 if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
@@ -1078,7 +1091,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(PREF_USER_TOKEN, account.token);
                         editor.putString(PREF_USER_SOFTWARE, account.software);
-                        Log.v(TAG, "put 3: " + account.software);
                         editor.commit();
                         Intent mainActivity = new Intent(this, MainActivity.class);
                         mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);

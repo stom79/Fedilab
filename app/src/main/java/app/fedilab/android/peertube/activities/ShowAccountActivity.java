@@ -83,7 +83,7 @@ public class ShowAccountActivity extends BaseBarActivity {
         account_dn = findViewById(R.id.account_dn);
         account_pp.setBackgroundResource(R.drawable.account_pp_border);
         if (b != null) {
-            account = b.getParcelable("account");
+            account = (AccountData.PeertubeAccount) b.getSerializable("account");
             accountAcct = b.getString("accountAcct");
         } else {
             Toasty.error(ShowAccountActivity.this, getString(R.string.toast_error_loading_account), Toast.LENGTH_LONG).show();
@@ -104,7 +104,7 @@ public class ShowAccountActivity extends BaseBarActivity {
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.main_account_peertube, menu);
-        if (!Helper.isLoggedIn(ShowAccountActivity.this)) {
+        if (!Helper.isLoggedIn()) {
             menu.findItem(R.id.action_mute).setVisible(false);
         }
         menu.findItem(R.id.action_display_account).setVisible(false);

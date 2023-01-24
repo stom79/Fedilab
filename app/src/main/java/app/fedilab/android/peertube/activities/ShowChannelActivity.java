@@ -95,7 +95,7 @@ public class ShowChannelActivity extends BaseBarActivity {
         binding.accountFollow.setEnabled(false);
         binding.accountPp.setBackgroundResource(R.drawable.account_pp_border);
         if (b != null) {
-            channel = b.getParcelable("channel");
+            channel = (Channel) b.getSerializable("channel");
             channelAcct = b.getString("channelId");
             sepiaSearch = b.getBoolean("sepia_search", false);
             peertubeInstance = b.getString("peertube_instance", null);
@@ -118,7 +118,7 @@ public class ShowChannelActivity extends BaseBarActivity {
     @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.main_account_peertube, menu);
-        if (!Helper.isLoggedIn(ShowChannelActivity.this) || sepiaSearch) {
+        if (!Helper.isLoggedIn() || sepiaSearch) {
             menu.findItem(R.id.action_mute).setVisible(false);
         }
         return true;
@@ -176,7 +176,7 @@ public class ShowChannelActivity extends BaseBarActivity {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ShowChannelActivity.this);
 
         String accountIdRelation = channel.getAcct();
-        if (isLoggedIn(ShowChannelActivity.this)) {
+        if (isLoggedIn()) {
             RelationshipVM viewModel = new ViewModelProvider(ShowChannelActivity.this).get(RelationshipVM.class);
             List<String> uids = new ArrayList<>();
             uids.add(accountIdRelation);

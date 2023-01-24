@@ -85,7 +85,7 @@ public class DisplaySepiaSearchFragment extends Fragment implements AccountsHori
         context = getContext();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            sepiaSearchVideo = bundle.getParcelable("sepiaSearchVideo");
+            sepiaSearchVideo = (SepiaSearch) bundle.getSerializable("sepiaSearchVideo");
         }
         flag_loading = true;
         firstLoad = true;

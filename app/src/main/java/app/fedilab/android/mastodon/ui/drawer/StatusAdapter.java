@@ -30,7 +30,6 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -51,7 +50,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -1999,7 +1997,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(PREF_USER_TOKEN, account.token);
                                         editor.putString(PREF_USER_SOFTWARE, account.software);
-                                        Log.v(TAG, "put 5: " + account.software);
                                         editor.putString(PREF_USER_INSTANCE, account.instance);
                                         editor.putString(PREF_USER_ID, account.user_id);
                                         editor.commit();
@@ -2026,7 +2023,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString(PREF_USER_TOKEN, account.token);
                                     editor.putString(PREF_USER_SOFTWARE, account.software);
-                                    Log.v(TAG, "put 6: " + account.software);
                                     editor.putString(PREF_USER_INSTANCE, account.instance);
                                     editor.putString(PREF_USER_ID, account.user_id);
                                     editor.commit();

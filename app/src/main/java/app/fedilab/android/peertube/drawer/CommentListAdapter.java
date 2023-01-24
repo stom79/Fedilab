@@ -152,7 +152,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (!isVideoOwner) {
                 popup.getMenu().findItem(R.id.action_remove_comments).setVisible(false);
             }
-            if (!Helper.isLoggedIn(context)) {
+            if (!Helper.isLoggedIn()) {
                 popup.getMenu().findItem(R.id.action_mute).setVisible(false);
                 popup.getMenu().findItem(R.id.action_remove_comments).setVisible(false);
                 popup.getMenu().findItem(R.id.action_delete).setVisible(false);
@@ -295,7 +295,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.binding.postReplyButton.setVisibility(View.GONE);
         }
         holder.binding.postReplyButton.setOnClickListener(v -> {
-            if (Helper.canMakeAction(context) && !sepiaSearch) {
+            if (Helper.isLoggedIn() && !sepiaSearch) {
                 ((PeertubeActivity) context).openPostComment(comment, i);
             } else {
                 if (sepiaSearch) {
@@ -306,7 +306,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
         });
-        if (Helper.canMakeAction(context) && !sepiaSearch) {
+        if (Helper.isLoggedIn() && !sepiaSearch) {
             holder.binding.replyButton.setVisibility(View.VISIBLE);
         } else {
             holder.binding.replyButton.setVisibility(View.GONE);

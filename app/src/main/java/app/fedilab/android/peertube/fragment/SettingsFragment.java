@@ -140,7 +140,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             if (set_video_sensitive_choice != null) {
                 editor.putString(getString(R.string.set_video_sensitive_choice), set_video_sensitive_choice.getValue());
                 editor.apply();
-                if (Helper.isLoggedIn(getActivity())) {
+                if (Helper.isLoggedIn()) {
                     new Thread(() -> {
                         UserSettings userSettings = new UserSettings();
                         userSettings.setNsfwPolicy(set_video_sensitive_choice.getValue());
@@ -190,7 +190,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             SwitchPreference set_autoplay_choice = findPreference(getString(R.string.set_autoplay_choice));
             assert set_autoplay_choice != null;
             editor.putBoolean(getString(R.string.set_autoplay_choice), set_autoplay_choice.isChecked());
-            if (Helper.isLoggedIn(getActivity())) {
+            if (Helper.isLoggedIn()) {
                 new Thread(() -> {
                     UserSettings userSettings = new UserSettings();
                     userSettings.setAutoPlayVideo(set_autoplay_choice.isChecked());
@@ -212,7 +212,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             SwitchPreference set_autoplay_next_video_choice = findPreference(getString(R.string.set_autoplay_next_video_choice));
             assert set_autoplay_next_video_choice != null;
             editor.putBoolean(getString(R.string.set_autoplay_next_video_choice), set_autoplay_next_video_choice.isChecked());
-            if (Helper.isLoggedIn(getActivity())) {
+            if (Helper.isLoggedIn()) {
                 new Thread(() -> {
                     UserSettings userSettings = new UserSettings();
                     userSettings.setAutoPlayNextVideo(set_autoplay_next_video_choice.isChecked());
@@ -240,7 +240,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if (key.compareTo(getString(R.string.set_cast_choice)) == 0) {
             SwitchPreference set_cast_choice = findPreference(getString(R.string.set_cast_choice));
             assert set_cast_choice != null;
-            editor.putInt(getString(R.string.set_cast_choice), set_cast_choice.isChecked() ? 1 : 0);
+            editor.putBoolean(getString(R.string.set_cast_choice), set_cast_choice.isChecked());
             Intent intentBC = new Intent(Helper.RECEIVE_CAST_SETTINGS);
             Bundle b = new Bundle();
             b.putInt("state_asked", set_cast_choice.isChecked() ? 1 : 0);
@@ -251,7 +251,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             MultiSelectListPreference set_video_language_choice = findPreference(getString(R.string.set_video_language_choice));
             assert set_video_language_choice != null;
             editor.putStringSet(getString(R.string.set_video_language_choice), set_video_language_choice.getValues());
-            if (Helper.isLoggedIn(getActivity())) {
+            if (Helper.isLoggedIn()) {
                 new Thread(() -> {
                     UserSettings userSettings = new UserSettings();
                     Set<String> language_choiceValues = set_video_language_choice.getValues();
@@ -286,7 +286,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 startActivity(new Intent(requireActivity(), MyAccountActivity.class));
                 return false;
             });
-            if (!Helper.isLoggedIn(getActivity()) || userMe == null) {
+            if (!Helper.isLoggedIn() || userMe == null) {
                 my_account.setVisible(false);
             } else {
                 my_account.setTitle(userMe.getUsername());
@@ -425,10 +425,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         set_video_in_list_choice.setChecked(videosInList);
 
         //****** Allow Chromecast *******
-        int cast = sharedpref.getInt(getString(R.string.set_cast_choice), 0);
+        boolean cast = sharedpref.getBoolean(getString(R.string.set_cast_choice), false);
         SwitchPreference set_cast_choice = findPreference(getString(R.string.set_cast_choice));
         assert set_cast_choice != null;
-        set_cast_choice.setChecked(cast == 1);
+        set_cast_choice.setChecked(cast);
 
         //****** Language filter  *********
         LinkedHashMap<String, String> languages = new LinkedHashMap<>(Helper.peertubeInformation.getLanguages());

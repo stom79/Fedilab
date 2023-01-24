@@ -15,9 +15,10 @@ package app.fedilab.android.peertube.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -569,7 +570,7 @@ public class Helper {
         editor.putString(CLIENT_ID, null);
         editor.putString(CLIENT_SECRET, null);
         editor.putString(PREF_USER_ID, null);
-        editor.putString(PREF_INSTANCE, null);
+        editor.putString(PREF_USER_INSTANCE, null);
         // editor.putString(PREF_USER_SOFTWARE, null);
         editor.apply();
         Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
@@ -595,49 +596,16 @@ public class Helper {
     /**
      * Returns boolean depending if the user is authenticated
      *
-     * @param context Context
      * @return boolean
      */
-    public static boolean isLoggedIn(Context context) {
-        return isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL;
+    public static boolean isLoggedIn() {
+        return typeOfConnection == PeertubeMainActivity.TypeOfConnection.NORMAL;
     }
 
-    /**
-     * Some actions like following writing comment can be performed with remote accounts
-     *
-     * @param context Context
-     * @return boolean
-     */
-    public static boolean canMakeAction(Context context) {
-        return (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL || isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT);
-    }
-
-    /**
-     * Returns boolean depending if the user is authenticated
-     *
-     * @param context Context
-     * @return PeertubeMainActivity.TypeOfConnection
-     */
-    public static PeertubeMainActivity.TypeOfConnection isLoggedInType(Context context) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String prefKeyOauthTokenT = sharedpreferences.getString(PREF_USER_TOKEN, null);
-        String prefSoftware = sharedpreferences.getString(PREF_SOFTWARE, null);
-        if (prefKeyOauthTokenT != null && prefSoftware == null) {
-            return PeertubeMainActivity.TypeOfConnection.NORMAL;
-        } else if (prefKeyOauthTokenT != null) {
-            return PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT;
-        } else {
-            return PeertubeMainActivity.TypeOfConnection.UNKNOWN;
-        }
-    }
 
     public static String getToken(Context context) {
-        if (isLoggedInType(context) == PeertubeMainActivity.TypeOfConnection.NORMAL) {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedpreferences.getString(PREF_USER_TOKEN, null);
-        } else {
-            return null;
-        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedpreferences.getString(PREF_USER_TOKEN, null);
     }
 
     /**
@@ -662,14 +630,14 @@ public class Helper {
     public static boolean isOwner(Context context, AccountData.PeertubeAccount account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, "");
-        String instance = sharedpreferences.getString(PREF_INSTANCE, "");
+        String instance = sharedpreferences.getString(PREF_USER_INSTANCE, "");
         return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
     }
 
     public static boolean isVideoOwner(Context context, VideoData.Video video) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, null);
-        String instance = sharedpreferences.getString(PREF_INSTANCE, null);
+        String instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         if (video == null) {
             return false;
         }

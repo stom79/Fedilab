@@ -123,7 +123,7 @@ public class TimelineVM extends AndroidViewModel {
                     retrofitPeertubeAPI = new RetrofitPeertubeAPI(_mContext, instance, null);
                 }
                 APIResponse apiResponse = retrofitPeertubeAPI.getVideos(videoId, myVideo, finalCanUseToken);
-                if (Helper.isLoggedIn(_mContext) && instance == null) {
+                if (Helper.isLoggedIn() && instance == null) {
                     if (apiResponse.getPeertubes() != null && apiResponse.getPeertubes().size() > 0 && apiResponse.getPeertubes().get(0) != null) {
                         APIResponse response = new RetrofitPeertubeAPI(_mContext).getRating(videoId);
                         if (response != null)

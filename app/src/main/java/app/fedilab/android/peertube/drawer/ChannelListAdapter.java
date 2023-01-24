@@ -14,8 +14,8 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -140,7 +140,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String channeIdOwner = channel.getOwnerAccount().getId();
         String channeInstanceOwner = channel.getOwnerAccount().getHost();
-        String instanceShar = sharedpreferences.getString(PREF_INSTANCE, null);
+        String instanceShar = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         String userIdShar = sharedpreferences.getString(PREF_USER_ID, null);
         if (channeIdOwner != null && channeInstanceOwner != null && instanceShar != null && userIdShar != null) {
             return channeIdOwner.compareTo(userIdShar) == 0 && channeInstanceOwner.compareTo(instanceShar) == 0;

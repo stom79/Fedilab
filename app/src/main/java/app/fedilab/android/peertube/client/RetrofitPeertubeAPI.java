@@ -14,11 +14,10 @@ package app.fedilab.android.peertube.client;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.PREF_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +27,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 
@@ -185,13 +183,11 @@ public class RetrofitPeertubeAPI {
             account.user_id = peertubeAccount.getUserId();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_USER_ID, account.user_id);
-            editor.putString(PREF_INSTANCE, host);
+            editor.putString(PREF_USER_INSTANCE, host);
             editor.putString(PREF_USER_TOKEN, token);
             editor.putString(PREF_USER_SOFTWARE, account.software);
-            Log.v(TAG, "put 8: " + account.software);
-            editor.apply();
+            editor.commit();
 
-            Log.v(TAG, "PREF_USER_SOFTWARE: " + account.software);
             try {
                 new Account(activity).insertOrUpdate(account);
             } catch (DBException e) {
@@ -249,14 +245,12 @@ public class RetrofitPeertubeAPI {
     public Token manageToken(OauthParams oauthParams) throws Error {
         PeertubeService peertubeService = init();
         Call<Token> refreshTokenCall = null;
-        Log.v(TAG, "oauthParams.getGrant_type(): " + oauthParams.getGrant_type());
         if (oauthParams.getGrant_type().compareTo("password") == 0) {
             refreshTokenCall = peertubeService.createToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getGrant_type(), oauthParams.getUsername(), oauthParams.getPassword());
         } else if (oauthParams.getGrant_type().compareTo("refresh_token") == 0) {
             refreshTokenCall = peertubeService.refreshToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getRefresh_token(), oauthParams.getGrant_type());
         }
         if (refreshTokenCall != null) {
-            Log.v(TAG, "request: " + refreshTokenCall.request());
             try {
                 Response<Token> response = refreshTokenCall.execute();
                 if (response.isSuccessful()) {
@@ -274,7 +268,6 @@ public class RetrofitPeertubeAPI {
                 } else {
                     Error error = new Error();
                     error.setStatusCode(response.code());
-                    Log.v(TAG, "err: " + response.errorBody().string());
                     if (response.errorBody() != null) {
                         error.setError(response.errorBody().string());
                     } else {

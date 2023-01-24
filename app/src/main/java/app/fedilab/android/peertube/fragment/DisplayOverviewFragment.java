@@ -275,7 +275,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
             }
         }
 
-        if (Helper.isLoggedIn(context)) {
+        if (Helper.isLoggedIn()) {
             List<String> uids = new ArrayList<>();
             for (VideoData.Video video : apiResponse.getPeertubes()) {
                 uids.add(video.getChannel().getName() + "@" + video.getChannel().getHost());

@@ -124,7 +124,7 @@ public class AccountActivity extends BaseBarActivity {
 
 
         TabLayout.Tab notificationTab = binding.accountTabLayout.newTab();
-        if (Helper.isLoggedIn(AccountActivity.this)) {
+        if (Helper.isLoggedIn()) {
             if (badgeCount > 0) {
                 binding.accountTabLayout.addTab(notificationTab.setText(getString(R.string.title_notifications) + " (" + badgeCount + ")"));
             } else {

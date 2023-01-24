@@ -29,6 +29,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.peertube.helper.Helper;
 
 
@@ -76,10 +77,18 @@ public class OwnAccountsAdapter extends ArrayAdapter<BaseAccount> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        String acct = "";
+        if (account.peertube_account != null) {
+            acct = account.peertube_account.getUsername() + "@" + account.instance;
+            Helper.loadAvatar(holder.account_pp.getContext(), account.peertube_account, holder.account_pp);
+        } else if (account.mastodon_account != null) {
+            acct = account.mastodon_account.username + "@" + account.instance;
+            MastodonHelper.loadPPMastodon(holder.account_pp, account.mastodon_account);
+        }
 
-        holder.account_un.setText(String.format("@%s", account.peertube_account.getAcct()));
+        holder.account_un.setText(String.format("@%s", acct));
         //Profile picture
-        Helper.loadAvatar(holder.account_pp.getContext(), account.peertube_account, holder.account_pp);
+
         return convertView;
     }
 

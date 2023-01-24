@@ -372,7 +372,7 @@ public class NotificationsHelper {
                 intent.putExtra(Helper.PREF_USER_ID, account.user_id);
                 if (targeted_account != null)
                     intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
-                intent.putExtra(Helper.PREF_INSTANCE, account.instance);
+                intent.putExtra(Helper.PREF_USER_INSTANCE, account.instance);
                 notificationUrl = notification.account.avatar;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 final String finalNotificationUrl = notificationUrl;

@@ -54,6 +54,7 @@
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabLayout"
+                        android:layout_marginStart="10dp"
                         android:layout_width="0dp"
                         android:layout_height="?actionBarSize"
                         android:layout_weight="1"
