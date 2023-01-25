@@ -14,143 +14,192 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_container"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="?android:dividerHorizontal"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:showDividers="end">
+    android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="?colorAccent"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        android:layout_marginTop="6dp"
+        android:background="?colorSecondaryContainer"
+        android:padding="6dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Science"
+        tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/preview_container"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-        <ImageView
-            android:id="@+id/peertube_video_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:contentDescription="@string/image_preview"
-            android:gravity="center"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/peertube_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_corner"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/bottom_container"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:orientation="horizontal">
+        android:layout_margin="6dp">
 
-        <ImageView
-            android:id="@+id/peertube_profile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/profile_picture"
-            android:gravity="center"
-            android:scaleType="fitCenter" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/peertube_title"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/peertube_channel_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="?colorAccent"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:padding="6dp">
 
-            <TextView
-                android:id="@+id/peertube_account_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:singleLine="true" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/peertube_channel_avatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/profile_picture"
+                    android:scaleType="fitCenter"
+                    tools:src="@tools:sample/avatars" />
 
-            <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/peertube_displayname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        tools:text="@tools:sample/full_names" />
+
+                    <TextView
+                        android:id="@+id/peertube_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        tools:text="username@instance.test" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <RelativeLayout
+                android:id="@+id/preview_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="200dp">
 
-                <TextView
-                    android:id="@+id/peertube_views"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/peertube_video_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_preview"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
-                <TextView
-                    android:id="@+id/peertube_date"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/peertube_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp" />
-            </LinearLayout>
-        </LinearLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/rounded_corner"
+                    android:paddingHorizontal="6dp"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="@android:color/white"
+                    tools:text="1:00" />
 
-        <ImageView
-            android:id="@+id/peertube_video_image_small"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/image_preview"
-            android:gravity="center"
-            android:scaleType="centerCrop"
-            android:visibility="gone" />
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/more_actions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:drawablePadding="5dp"
-            android:gravity="center_horizontal"
-            android:text=""
-            app:drawableTopCompat="@drawable/ic_baseline_more_vert_24" />
-    </LinearLayout>
-</LinearLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/peertube_video_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="6dp"
+                    android:paddingHorizontal="6dp">
+
+                    <ImageView
+                        android:id="@+id/peertube_video_image_small"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_marginEnd="6dp"
+                        android:contentDescription="@string/image_preview"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        tools:src="@tools:sample/backgrounds/scenic"
+                        tools:visibility="visible" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/peertube_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="?colorAccent"
+                            android:textStyle="bold"
+                            tools:maxLines="1"
+                            tools:text="@tools:sample/lorem/random" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/peertube_views"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Material3.ActionBar.Subtitle"
+                                tools:text="100 views" />
+
+                            <TextView
+                                android:id="@+id/peertube_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:textAppearance="@style/TextAppearance.Material3.ActionBar.Subtitle"
+                                tools:text="- 1 h" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/more_actions"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_baseline_more_vert_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/peertube_video_image" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -140,9 +140,9 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             instance = forAccount.getHost();
         }
 
-
-        holder.binding.peertubeAccountName.setText(video.getChannel().getAcct());
-        Helper.loadAvatar(context, video.getChannel(), holder.binding.peertubeProfile);
+        holder.binding.peertubeDisplayname.setText(video.getChannel().getDisplayName());
+        holder.binding.peertubeUsername.setText(video.getChannel().getAcct());
+        Helper.loadAvatar(context, video.getChannel(), holder.binding.peertubeChannelAvatar);
         holder.binding.peertubeTitle.setText(video.getName());
         if (video.isLive()) {
             holder.binding.peertubeDuration.setText(R.string.live);
@@ -184,7 +184,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         if (!ownVideos) {
-            holder.binding.peertubeProfile.setOnClickListener(v -> {
+            holder.binding.peertubeChannelInfo.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ShowChannelActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("channel", video.getChannel());
@@ -284,7 +284,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             popup.show();
         });
-        holder.binding.bottomContainer.setOnClickListener(v -> {
+        holder.binding.peertubeVideoInfo.setOnClickListener(v -> {
             Intent intent = new Intent(context, PeertubeActivity.class);
             Bundle b = new Bundle();
             b.putString("video_id", video.getId());
