@@ -14,6 +14,11 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentToken;
+import static app.fedilab.android.BaseMainActivity.fetchRecentAccounts;
+import static app.fedilab.android.BaseMainActivity.manageDrawerMenu;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
@@ -30,6 +35,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +50,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -68,6 +76,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
+import app.fedilab.android.databinding.NavHeaderMainBinding;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -84,13 +93,13 @@ import app.fedilab.android.peertube.client.entities.WellKnownNodeinfo;
 import app.fedilab.android.peertube.fragment.DisplayOverviewFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.HelperAcadInstance;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.services.RetrieveInfoService;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
+
 
 
 public class PeertubeMainActivity extends PeertubeBaseMainActivity {
@@ -105,6 +114,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private DisplayVideosFragment recentFragment, locaFragment, trendingFragment, subscriptionFragment, mostLikedFragment;
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
+    private static boolean headerMenuOpen;
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -218,9 +228,10 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
 
         badgeCount = 0;
-
+        headerMenuOpen = false;
         binding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (getSupportActionBar() != null) {
@@ -250,6 +261,106 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         bundle = new Bundle();
         bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.MOST_LIKED);
         mostLikedFragment.setArguments(bundle);
+
+        NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
+        currentAccount = null;
+        new Thread(() -> {
+            try {
+                if (currentToken == null) {
+                    currentToken = sharedpreferences.getString(app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN, null);
+                }
+                currentAccount = new Account(PeertubeMainActivity.this).getConnectedAccount();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+
+            //If the attached account is null, the app will fetch remote instance to get up-to-date values
+            if (currentAccount != null && currentAccount.mastodon_account == null && currentAccount.peertube_account == null) {
+                try {
+                    userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, currentInstance, currentToken).verifyCredentials();
+                    currentAccount.peertube_account = userMe.getAccount();
+                } catch (Error e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> {
+                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
+                if (currentAccount.peertube_account.getDisplayName() == null || currentAccount.peertube_account.getDisplayName().isEmpty()) {
+                    currentAccount.peertube_account.setDisplayName(currentAccount.peertube_account.getAcct());
+                }
+                headerMainBinding.accountName.setText(currentAccount.peertube_account.getDisplayName());
+                float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+                headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                headerMainBinding.backgroundImage.setAlpha(0.5f);
+
+            };
+            mainHandler.post(myRunnable);
+        }).start();
+        headerMainBinding.instanceInfo.setVisibility(View.GONE);
+        headerMainBinding.headerOptionInfo.setVisibility(View.GONE);
+        binding.drawerNavView.addHeaderView(headerMainBinding.getRoot());
+        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
+        headerMainBinding.changeAccount.setOnClickListener(v -> {
+            headerMenuOpen = !headerMenuOpen;
+            manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
+        });
+        binding.drawerNavView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.action_settings) {
+                Intent intent = new Intent(PeertubeMainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_account) {
+                Intent intent;
+                if (typeOfConnection == TypeOfConnection.SURFING) {
+                    switchDialog(PeertubeMainActivity.this, false);
+                } else {
+                    if (Helper.isLoggedIn()) {
+                        intent = new Intent(PeertubeMainActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                    } else {
+                        intent = new Intent(PeertubeMainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+
+                }
+            } else if (item.getItemId() == R.id.action_upload) {
+                Intent intent = new Intent(PeertubeMainActivity.this, PeertubeUploadActivity.class);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_myvideos) {
+                Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
+                Bundle bundledrawer = new Bundle();
+                bundledrawer.putSerializable("type", TimelineVM.TimelineType.MY_VIDEOS);
+                intent.putExtras(bundledrawer);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_history) {
+                Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
+                Bundle bundledrawer = new Bundle();
+                bundledrawer.putSerializable("type", TimelineVM.TimelineType.HISTORY);
+                intent.putExtras(bundledrawer);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_most_liked) {
+                Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
+                Bundle bundledrawer = new Bundle();
+                bundledrawer.putSerializable("type", TimelineVM.TimelineType.MOST_LIKED);
+                intent.putExtras(bundledrawer);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_playlist) {
+                Intent intent;
+                intent = new Intent(PeertubeMainActivity.this, AllPlaylistsActivity.class);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_sepia_search) {
+                Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
+                startActivity(intent);
+            } else if (item.getItemId() == R.id.action_about) {
+                Intent intent = new Intent(PeertubeMainActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+            binding.drawerLayout.close();
+            return false;
+        });
 
         overviewFragment = new DisplayOverviewFragment();
         if (!Helper.isLoggedIn()) {
@@ -298,7 +409,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             }
         });
 
-        setTitleCustom(R.string.title_discover);
+        setTitleCustom(R.string.title_home);
 
         if (Helper.isLoggedIn()) {
             binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
@@ -322,8 +433,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             RateThisApp.showRateDialogIfNeeded(this);
         }
 
-
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
         boolean search_cast = sharedpreferences.getBoolean(getString(R.string.set_cast_choice), false);
         if (search_cast) {
             super.discoverCast();
@@ -334,6 +443,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             Intent intent = new Intent(PeertubeMainActivity.this, InstancePickerActivity.class);
             startActivityForResult(intent, PICK_INSTANCE);
         }
+
+        fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
     }
 
     public DisplayVideosFragment getSubscriptionFragment() {
@@ -421,7 +532,28 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         BaseAccount finalAccount1 = account;
                         runOnUiThread(() -> {
                             app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, finalAccount1);
-                            binding.profilePicture.setOnClickListener(v -> switchDialog(PeertubeMainActivity.this, false));
+                            MenuItem accountItem = binding.drawerNavView.getMenu().findItem(R.id.action_account);
+                            FrameLayout rootView = (FrameLayout) accountItem.getActionView();
+                            FrameLayout redCircle = rootView.findViewById(R.id.view_alert_red_circle);
+                            TextView countTextView = rootView.findViewById(R.id.view_alert_count_textview);
+                            //change counter for notifications
+                            if (badgeCount > 0) {
+                                countTextView.setText(String.valueOf(badgeCount));
+                                redCircle.setVisibility(View.VISIBLE);
+                            } else {
+                                redCircle.setVisibility(View.GONE);
+                            }
+                            TooltipCompat.setTooltipText(accountItem.getActionView(), getText(R.string.account));
+
+                            switch (typeOfConnection) {
+                                case NORMAL:
+                                    accountItem.setVisible(true);
+                                    break;
+                                case SURFING:
+                                    accountItem.setVisible(false);
+                                    break;
+                            }
+                            binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
                         });
                         editor.putString(PREF_USER_ID, account.user_id);
                         editor.putBoolean(getString(R.string.set_autoplay_choice), userMe.isAutoPlayVideo());
@@ -469,7 +601,26 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu_peertube, menu);
 
+
+        MenuItem incognitoItem = menu.findItem(R.id.action_incognito);
+        switch (typeOfConnection) {
+            case NORMAL:
+                if (Helper.isLoggedIn()) {
+                    incognitoItem.setVisible(true);
+                    final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
+                    boolean checked = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
+                    incognitoItem.setChecked(checked);
+                } else {
+                    incognitoItem.setVisible(false);
+                }
+                break;
+            case SURFING:
+                incognitoItem.setVisible(false);
+                break;
+        }
+
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+
         SearchView searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -501,138 +652,21 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 return false;
             }
         });
-
-        MenuItem uploadItem = menu.findItem(R.id.action_upload);
-        MenuItem myVideosItem = menu.findItem(R.id.action_myvideos);
-        MenuItem playslistItem = menu.findItem(R.id.action_playlist);
-        MenuItem historyItem = menu.findItem(R.id.action_history);
-        MenuItem mostLikedItem = menu.findItem(R.id.action_most_liked);
-        MenuItem settingsItem = menu.findItem(R.id.action_settings);
-        MenuItem sepiaSearchItem = menu.findItem(R.id.action_sepia_search);
-        MenuItem incognitoItem = menu.findItem(R.id.action_incognito);
-        MenuItem accountItem = menu.findItem(R.id.action_account);
-        MenuItem changeInstanceItem = menu.findItem(R.id.action_change_instance);
-
-        FrameLayout rootView = (FrameLayout) accountItem.getActionView();
-
-        FrameLayout redCircle = rootView.findViewById(R.id.view_alert_red_circle);
-        TextView countTextView = rootView.findViewById(R.id.view_alert_count_textview);
-        //change counter for notifications
-        if (badgeCount > 0) {
-            countTextView.setText(String.valueOf(badgeCount));
-            redCircle.setVisibility(View.VISIBLE);
-        } else {
-            redCircle.setVisibility(View.GONE);
-        }
-        TooltipCompat.setTooltipText(accountItem.getActionView(), getText(R.string.account));
-
-        switch (typeOfConnection) {
-            case NORMAL:
-                accountItem.setVisible(true);
-                if (Helper.isLoggedIn()) {
-                    uploadItem.setVisible(true);
-                    myVideosItem.setVisible(true);
-                    playslistItem.setVisible(true);
-                    historyItem.setVisible(true);
-                    settingsItem.setVisible(false);
-                    mostLikedItem.setVisible(true);
-                    incognitoItem.setVisible(true);
-                    final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
-                    boolean checked = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
-                    incognitoItem.setChecked(checked);
-                } else {
-                    uploadItem.setVisible(false);
-                    myVideosItem.setVisible(false);
-                    playslistItem.setVisible(false);
-                    historyItem.setVisible(false);
-                    settingsItem.setVisible(true);
-                    mostLikedItem.setVisible(true);
-                    incognitoItem.setVisible(false);
-                }
-                break;
-            case SURFING:
-                accountItem.setVisible(true);
-                uploadItem.setVisible(false);
-                myVideosItem.setVisible(false);
-                playslistItem.setVisible(false);
-                historyItem.setVisible(false);
-                settingsItem.setVisible(false);
-                mostLikedItem.setVisible(false);
-                incognitoItem.setVisible(false);
-                break;
-        }
-
         return true;
     }
 
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final MenuItem accountItem = menu.findItem(R.id.action_account);
-        FrameLayout rootView = (FrameLayout) accountItem.getActionView();
-        rootView.setOnClickListener(v -> onOptionsItemSelected(accountItem));
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String type = null;
-        String action = "TIMELINE";
         if (item.getItemId() == R.id.action_change_instance) {
             Intent intent = new Intent(PeertubeMainActivity.this, ManageInstancesActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            action = "CHANGE_INSTANCE";
-            type = "";
-        } else if (item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent(PeertubeMainActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        } else if (item.getItemId() == R.id.action_account) {
-            Intent intent;
-            if (typeOfConnection == TypeOfConnection.SURFING) {
-                switchDialog(PeertubeMainActivity.this, false);
-            } else {
-                if (Helper.isLoggedIn()) {
-                    intent = new Intent(PeertubeMainActivity.this, AccountActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-                } else {
-                    intent = new Intent(PeertubeMainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        } else if (item.getItemId() == R.id.action_upload) {
-            Intent intent = new Intent(PeertubeMainActivity.this, PeertubeUploadActivity.class);
-            startActivity(intent);
-        } else if (item.getItemId() == R.id.action_myvideos) {
-            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("type", TimelineVM.TimelineType.MY_VIDEOS);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            type = HelperAcadInstance.MYVIDEOS;
-        } else if (item.getItemId() == R.id.action_history) {
-            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("type", TimelineVM.TimelineType.HISTORY);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            type = HelperAcadInstance.HISTORY;
-        } else if (item.getItemId() == R.id.action_most_liked) {
-            Intent intent = new Intent(PeertubeMainActivity.this, VideosTimelineActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("type", TimelineVM.TimelineType.MOST_LIKED);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            type = HelperAcadInstance.MOSTLIKED;
-        } else if (item.getItemId() == R.id.action_playlist) {
-            Intent intent;
-            intent = new Intent(PeertubeMainActivity.this, AllPlaylistsActivity.class);
-            startActivity(intent);
-        } else if (item.getItemId() == R.id.action_sepia_search) {
-            Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
-            startActivity(intent);
         } else if (item.getItemId() == R.id.action_about) {
             Intent intent = new Intent(PeertubeMainActivity.this, AboutActivity.class);
             startActivity(intent);
@@ -705,6 +739,17 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         AlertDialog alert = alt_bld.create();
         alert.show();
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @SuppressLint("ApplySharedPref")
     @Override

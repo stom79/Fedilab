@@ -54,6 +54,7 @@
                         android:contentDescription="@string/select_accounts" />
 
                     <TextView
+                        android:layout_marginStart="10dp"
                         android:id="@+id/toolbar_title"
                         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                         android:layout_width="0dp"
@@ -163,4 +164,11 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/drawer_nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false"
+        app:menu="@menu/activity_main_drawer_peertube" />
 </androidx.drawerlayout.widget.DrawerLayout>

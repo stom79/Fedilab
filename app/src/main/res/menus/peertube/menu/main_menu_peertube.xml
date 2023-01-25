@@ -1,69 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
     <item
         android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
-    <item
-        android:id="@+id/action_account"
-        android:title="@string/account"
-        app:actionLayout="@layout/counter_account_icon_peertube"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_change_instance"
         android:icon="@drawable/ic_baseline_track_changes_24"
         android:title="@string/change_instance"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_playlist"
-        android:icon="@drawable/ic_baseline_playlist_play_24"
-        android:title="@string/playlists"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_upload"
-        android:icon="@drawable/ic_baseline_cloud_upload_24"
-        android:title="@string/upload_video"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_myvideos"
-        android:icon="@drawable/ic_baseline_personal_video_24"
-        android:title="@string/my_videos"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_history"
-        android:icon="@drawable/ic_baseline_history_24"
-        android:title="@string/my_history"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_most_liked"
-        android:icon="@drawable/ic_baseline_thumb_up_24"
-        android:title="@string/title_most_liked"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_sepia_search"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="@string/sepia_search"
-        app:showAsAction="ifRoom" />
+        android:visible="false"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_incognito"
         android:checkable="true"
         android:icon="@drawable/ic_baseline_history_toggle_off_24"
         android:title="@string/enable_history"
         app:actionViewClass="android.widget.CheckBox"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/about_the_app"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

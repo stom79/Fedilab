@@ -26,6 +26,7 @@ import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -87,6 +88,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -314,7 +316,251 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     };
     private NetworkStateReceiver networkStateReceiver;
-    private boolean headerMenuOpen;
+    private static boolean headerMenuOpen;
+
+    public static void fetchRecentAccounts(Activity activity, NavHeaderMainBinding headerMainBinding) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        //Fetch some db values to initialize data
+        new Thread(() -> {
+            try {
+                if (currentAccount == null) {
+                    if (currentToken == null || currentToken.trim().isEmpty()) {
+                        currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                    }
+                    try {
+                        currentAccount = new Account(activity).getConnectedAccount();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (currentAccount != null) {
+                    MutedAccounts mutedAccounts = new MutedAccounts(activity).getMutedAccount(currentAccount);
+                    if (mutedAccounts != null && mutedAccounts.accounts != null) {
+                        filteredAccounts = mutedAccounts.accounts;
+                    }
+                }
+                //Delete cache older than 7 days
+                new StatusCache(activity).deleteForAllAccountAfter7Days();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        //Fetch recent used accounts
+        new Thread(() -> {
+            try {
+                List<BaseAccount> accounts = new Account(activity).getLastUsedAccounts();
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    if (accounts != null && accounts.size() > 0) {
+                        Helper.loadPP(activity, headerMainBinding.otherAccount1, accounts.get(0));
+                        headerMainBinding.otherAccount1.setVisibility(View.VISIBLE);
+                        headerMainBinding.otherAccount1.setOnClickListener(v -> {
+                            headerMenuOpen = false;
+                            String account = "";
+                            if (accounts.get(0).mastodon_account != null) {
+                                account = "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance;
+                            } else if (accounts.get(0).peertube_account != null) {
+                                account = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
+                            }
+                            Toasty.info(activity, activity.getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
+                            BaseMainActivity.currentToken = accounts.get(0).token;
+                            BaseMainActivity.currentUserID = accounts.get(0).user_id;
+                            BaseMainActivity.currentInstance = accounts.get(0).instance;
+                            api = accounts.get(0).api;
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString(PREF_USER_ID, accounts.get(0).user_id);
+                            editor.putString(PREF_USER_TOKEN, accounts.get(0).token);
+                            editor.putString(PREF_USER_INSTANCE, accounts.get(0).instance);
+                            editor.putString(PREF_USER_SOFTWARE, accounts.get(0).software);
+                            editor.commit();
+                            //The user is now aut
+                            //The user is now authenticated, it will be redirected to MainActivity
+                            Intent mainActivity = new Intent(activity, MainActivity.class);
+                            activity.startActivity(mainActivity);
+                            activity.finish();
+                        });
+                        if (accounts.size() > 1) {
+                            Helper.loadPP(activity, headerMainBinding.otherAccount2, accounts.get(1));
+                            headerMainBinding.otherAccount2.setVisibility(View.VISIBLE);
+                            headerMainBinding.otherAccount2.setOnClickListener(v -> {
+                                headerMenuOpen = false;
+                                String account = "";
+                                if (accounts.get(1).mastodon_account != null) {
+                                    account = "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance;
+                                } else if (accounts.get(1).peertube_account != null) {
+                                    account = "@" + accounts.get(1).peertube_account.getAcct() + "@" + accounts.get(1).instance;
+                                }
+                                Toasty.info(activity, activity.getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
+                                BaseMainActivity.currentToken = accounts.get(1).token;
+                                BaseMainActivity.currentUserID = accounts.get(1).user_id;
+                                BaseMainActivity.currentInstance = accounts.get(1).instance;
+                                api = accounts.get(1).api;
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString(PREF_USER_ID, accounts.get(1).user_id);
+                                editor.putString(PREF_USER_TOKEN, accounts.get(1).token);
+                                editor.putString(PREF_USER_SOFTWARE, accounts.get(1).software);
+                                editor.putString(PREF_USER_INSTANCE, accounts.get(1).instance);
+                                editor.commit();
+                                //The user is now aut
+                                //The user is now authenticated, it will be redirected to MainActivity
+                                Intent mainActivity = new Intent(activity, MainActivity.class);
+                                activity.startActivity(mainActivity);
+                                activity.finish();
+                            });
+                        }
+                    }
+                };
+                mainHandler.post(myRunnable);
+
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static void manageDrawerMenu(Activity activity, NavigationView navigationView, NavHeaderMainBinding headerMainBinding) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        if (headerMenuOpen) {
+            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
+            new Thread(() -> {
+                try {
+                    List<BaseAccount> accounts = new Account(activity).getCrossAccounts();
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    Runnable myRunnable = () -> {
+                        navigationView.getMenu().clear();
+                        navigationView.inflateMenu(R.menu.menu_accounts);
+                        headerMenuOpen = true;
+
+                        Menu mainMenu = navigationView.getMenu();
+                        SubMenu currentSubmenu = null;
+                        String lastInstance = "";
+                        if (accounts != null) {
+                            for (final BaseAccount account : accounts) {
+                                if (!currentToken.equalsIgnoreCase(account.token)) {
+                                    if (!lastInstance.trim().equalsIgnoreCase(account.instance.trim())) {
+                                        lastInstance = account.instance.toUpperCase();
+                                        currentSubmenu = mainMenu.addSubMenu(account.instance.toUpperCase());
+                                    }
+                                    if (currentSubmenu == null) {
+                                        continue;
+                                    }
+                                    String acct = "";
+                                    String url = "";
+                                    boolean disableGif = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_GIF), false);
+                                    if (account.mastodon_account != null) {
+                                        acct = account.mastodon_account.acct;
+                                        url = !disableGif ? account.mastodon_account.avatar : account.mastodon_account.avatar_static;
+                                        if (url != null && url.startsWith("/")) {
+                                            url = "https://" + account.instance + account.mastodon_account.avatar;
+                                        }
+                                    } else if (account.peertube_account != null) {
+                                        acct = account.peertube_account.getAcct();
+                                        url = account.peertube_account.getAvatar().getPath();
+                                        if (url != null && url.startsWith("/")) {
+                                            url = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+                                        }
+                                    }
+
+                                    final MenuItem item = currentSubmenu.add("@" + acct);
+                                    item.setIcon(R.drawable.ic_person);
+                                    if (!activity.isDestroyed() && !activity.isFinishing() && url != null) {
+                                        if (url.contains(".gif")) {
+                                            Glide.with(activity)
+                                                    .asGif()
+                                                    .load(url)
+                                                    .into(new CustomTarget<GifDrawable>() {
+                                                        @Override
+                                                        public void onResourceReady(@NonNull GifDrawable resource, Transition<? super GifDrawable> transition) {
+                                                            item.setIcon(resource);
+                                                            item.getIcon().setColorFilter(0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
+                                                        }
+
+                                                        @Override
+                                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                        }
+                                                    });
+                                        } else {
+                                            Glide.with(activity)
+                                                    .asDrawable()
+                                                    .load(url)
+                                                    .into(new CustomTarget<Drawable>() {
+                                                        @Override
+                                                        public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                                            item.setIcon(resource);
+                                                            item.getIcon().setColorFilter(0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
+                                                        }
+
+                                                        @Override
+                                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                        }
+                                                    });
+                                        }
+
+                                    }
+                                    item.setOnMenuItemClickListener(item1 -> {
+                                        if (!activity.isFinishing()) {
+                                            headerMenuOpen = false;
+                                            String acctForAccount = "";
+                                            if (account.mastodon_account != null) {
+                                                acctForAccount = "@" + account.mastodon_account.username + "@" + account.instance;
+                                            } else if (account.peertube_account != null) {
+                                                acctForAccount = "@" + account.peertube_account.getUsername() + "@" + account.instance;
+                                            }
+                                            Toasty.info(activity, activity.getString(R.string.toast_account_changed, acctForAccount), Toasty.LENGTH_LONG).show();
+                                            BaseMainActivity.currentToken = account.token;
+                                            BaseMainActivity.currentUserID = account.user_id;
+                                            BaseMainActivity.currentInstance = account.instance;
+                                            api = account.api;
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString(PREF_USER_TOKEN, account.token);
+                                            editor.putString(PREF_USER_SOFTWARE, account.software);
+                                            editor.putString(PREF_USER_INSTANCE, account.instance);
+                                            editor.putString(PREF_USER_ID, account.user_id);
+                                            editor.commit();
+                                            //The user is now aut
+                                            //The user is now authenticated, it will be redirected to MainActivity
+                                            Intent mainActivity = new Intent(activity, MainActivity.class);
+                                            activity.startActivity(mainActivity);
+                                            activity.finish();
+                                            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                                            return true;
+                                        }
+                                        return false;
+                                    });
+
+                                }
+                            }
+
+                        }
+                        currentSubmenu = mainMenu.addSubMenu("");
+                        MenuItem addItem = currentSubmenu.add(R.string.add_account);
+                        addItem.setIcon(R.drawable.ic_baseline_person_add_24);
+                        addItem.setOnMenuItemClickListener(item -> {
+                            Intent intent = new Intent(activity, LoginActivity.class);
+                            activity.startActivity(intent);
+                            return true;
+                        });
+
+                    };
+                    mainHandler.post(myRunnable);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } else {
+            navigationView.getMenu().clear();
+            if (MainActivity.currentAccount.mastodon_account != null) {
+                navigationView.inflateMenu(R.menu.activity_main_drawer);
+            } else if (MainActivity.currentAccount.peertube_account != null) {
+                navigationView.inflateMenu(R.menu.activity_main_drawer_peertube);
+            }
+            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+            headerMenuOpen = false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -642,141 +888,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
         headerMainBinding.changeAccount.setOnClickListener(v -> {
             headerMenuOpen = !headerMenuOpen;
-            if (headerMenuOpen) {
-                headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
-                new Thread(() -> {
-                    try {
-                        List<BaseAccount> accounts = new Account(BaseMainActivity.this).getCrossAccounts();
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> {
-                            binding.navView.getMenu().clear();
-                            binding.navView.inflateMenu(R.menu.menu_accounts);
-                            headerMenuOpen = true;
-
-                            Menu mainMenu = binding.navView.getMenu();
-                            SubMenu currentSubmenu = null;
-                            String lastInstance = "";
-                            if (accounts != null) {
-                                for (final BaseAccount account : accounts) {
-                                    if (!currentToken.equalsIgnoreCase(account.token)) {
-                                        if (!lastInstance.trim().equalsIgnoreCase(account.instance.trim())) {
-                                            lastInstance = account.instance.toUpperCase();
-                                            currentSubmenu = mainMenu.addSubMenu(account.instance.toUpperCase());
-                                        }
-                                        if (currentSubmenu == null) {
-                                            continue;
-                                        }
-                                        String acct = "";
-                                        String url = "";
-                                        boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
-                                        if (account.mastodon_account != null) {
-                                            acct = account.mastodon_account.acct;
-                                            url = !disableGif ? account.mastodon_account.avatar : account.mastodon_account.avatar_static;
-                                            if (url != null && url.startsWith("/")) {
-                                                url = "https://" + account.instance + account.mastodon_account.avatar;
-                                            }
-                                        } else if (account.peertube_account != null) {
-                                            acct = account.peertube_account.getAcct();
-                                            url = account.peertube_account.getAvatar().getPath();
-                                            if (url != null && url.startsWith("/")) {
-                                                url = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
-                                            }
-                                        }
-
-                                        final MenuItem item = currentSubmenu.add("@" + acct);
-                                        item.setIcon(R.drawable.ic_person);
-                                        if (!this.isDestroyed() && !this.isFinishing() && url != null) {
-                                            if (url.contains(".gif")) {
-                                                Glide.with(BaseMainActivity.this)
-                                                        .asGif()
-                                                        .load(url)
-                                                        .into(new CustomTarget<GifDrawable>() {
-                                                            @Override
-                                                            public void onResourceReady(@NonNull GifDrawable resource, Transition<? super GifDrawable> transition) {
-                                                                item.setIcon(resource);
-                                                                item.getIcon().setColorFilter(0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
-                                                            }
-
-                                                            @Override
-                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                                            }
-                                                        });
-                                            } else {
-                                                Glide.with(BaseMainActivity.this)
-                                                        .asDrawable()
-                                                        .load(url)
-                                                        .into(new CustomTarget<Drawable>() {
-                                                            @Override
-                                                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                                                                item.setIcon(resource);
-                                                                item.getIcon().setColorFilter(0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
-                                                            }
-
-                                                            @Override
-                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                                            }
-                                                        });
-                                            }
-
-                                        }
-                                        item.setOnMenuItemClickListener(item1 -> {
-                                            if (!this.isFinishing()) {
-                                                headerMenuOpen = false;
-                                                String acctForAccount = "";
-                                                if (account.mastodon_account != null) {
-                                                    acctForAccount = "@" + account.mastodon_account.username + "@" + account.instance;
-                                                } else if (account.peertube_account != null) {
-                                                    acctForAccount = "@" + account.peertube_account.getUsername() + "@" + account.instance;
-                                                }
-                                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, acctForAccount), Toasty.LENGTH_LONG).show();
-                                                BaseMainActivity.currentToken = account.token;
-                                                BaseMainActivity.currentUserID = account.user_id;
-                                                BaseMainActivity.currentInstance = account.instance;
-                                                api = account.api;
-                                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                                editor.putString(PREF_USER_TOKEN, account.token);
-                                                editor.putString(PREF_USER_SOFTWARE, account.software);
-                                                editor.putString(PREF_USER_INSTANCE, account.instance);
-                                                editor.putString(PREF_USER_ID, account.user_id);
-                                                editor.commit();
-                                                //The user is now aut
-                                                //The user is now authenticated, it will be redirected to MainActivity
-                                                Intent mainActivity = new Intent(this, MainActivity.class);
-                                                startActivity(mainActivity);
-                                                finish();
-                                                headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
-                                                return true;
-                                            }
-                                            return false;
-                                        });
-
-                                    }
-                                }
-
-                            }
-                            currentSubmenu = mainMenu.addSubMenu("");
-                            MenuItem addItem = currentSubmenu.add(R.string.add_account);
-                            addItem.setIcon(R.drawable.ic_baseline_person_add_24);
-                            addItem.setOnMenuItemClickListener(item -> {
-                                Intent intent = new Intent(BaseMainActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                return true;
-                            });
-
-                        };
-                        mainHandler.post(myRunnable);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            } else {
-                binding.navView.getMenu().clear();
-                binding.navView.inflateMenu(R.menu.activity_main_drawer);
-                headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
-                headerMenuOpen = false;
-            }
+            manageDrawerMenu(BaseMainActivity.this, binding.navView, headerMainBinding);
         });
 
         headerMainBinding.headerOptionInfo.setOnClickListener(v -> {
@@ -929,103 +1041,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
-        //Fetch some db values to initialize data
-        new Thread(() -> {
-            try {
-                if (currentAccount == null) {
-                    if (currentToken == null || currentToken.trim().isEmpty()) {
-                        currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
-                    }
-                    try {
-                        currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (currentAccount != null) {
-                    MutedAccounts mutedAccounts = new MutedAccounts(BaseMainActivity.this).getMutedAccount(currentAccount);
-                    if (mutedAccounts != null && mutedAccounts.accounts != null) {
-                        filteredAccounts = mutedAccounts.accounts;
-                    }
-                }
-                //Delete cache older than 7 days
-                new StatusCache(BaseMainActivity.this).deleteForAllAccountAfter7Days();
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-        }).start();
-
-        //Fetch recent used accounts
-        new Thread(() -> {
-            try {
-                List<BaseAccount> accounts = new Account(BaseMainActivity.this).getLastUsedAccounts();
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    if (accounts != null && accounts.size() > 0) {
-                        Helper.loadPP(this, headerMainBinding.otherAccount1, accounts.get(0));
-                        headerMainBinding.otherAccount1.setVisibility(View.VISIBLE);
-                        headerMainBinding.otherAccount1.setOnClickListener(v -> {
-                            headerMenuOpen = false;
-                            String account = "";
-                            if (accounts.get(0).mastodon_account != null) {
-                                account = "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance;
-                            } else if (accounts.get(0).peertube_account != null) {
-                                account = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
-                            }
-                            Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
-                            BaseMainActivity.currentToken = accounts.get(0).token;
-                            BaseMainActivity.currentUserID = accounts.get(0).user_id;
-                            BaseMainActivity.currentInstance = accounts.get(0).instance;
-                            api = accounts.get(0).api;
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(PREF_USER_ID, accounts.get(0).user_id);
-                            editor.putString(PREF_USER_TOKEN, accounts.get(0).token);
-                            editor.putString(PREF_USER_INSTANCE, accounts.get(0).instance);
-                            editor.putString(PREF_USER_SOFTWARE, accounts.get(0).software);
-                            editor.commit();
-                            //The user is now aut
-                            //The user is now authenticated, it will be redirected to MainActivity
-                            Intent mainActivity = new Intent(this, MainActivity.class);
-                            startActivity(mainActivity);
-                            finish();
-                        });
-                        if (accounts.size() > 1) {
-                            Helper.loadPP(this, headerMainBinding.otherAccount2, accounts.get(1));
-                            headerMainBinding.otherAccount2.setVisibility(View.VISIBLE);
-                            headerMainBinding.otherAccount2.setOnClickListener(v -> {
-                                headerMenuOpen = false;
-                                String account = "";
-                                if (accounts.get(1).mastodon_account != null) {
-                                    account = "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance;
-                                } else if (accounts.get(1).peertube_account != null) {
-                                    account = "@" + accounts.get(1).peertube_account.getAcct() + "@" + accounts.get(1).instance;
-                                }
-                                Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
-                                BaseMainActivity.currentToken = accounts.get(1).token;
-                                BaseMainActivity.currentUserID = accounts.get(1).user_id;
-                                BaseMainActivity.currentInstance = accounts.get(1).instance;
-                                api = accounts.get(1).api;
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString(PREF_USER_ID, accounts.get(1).user_id);
-                                editor.putString(PREF_USER_TOKEN, accounts.get(1).token);
-                                editor.putString(PREF_USER_SOFTWARE, accounts.get(1).software);
-                                editor.putString(PREF_USER_INSTANCE, accounts.get(1).instance);
-                                editor.commit();
-                                //The user is now aut
-                                //The user is now authenticated, it will be redirected to MainActivity
-                                Intent mainActivity = new Intent(this, MainActivity.class);
-                                startActivity(mainActivity);
-                                finish();
-                            });
-                        }
-                    }
-                };
-                mainHandler.post(myRunnable);
-
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
     }
 
     protected abstract void rateThisApp();
