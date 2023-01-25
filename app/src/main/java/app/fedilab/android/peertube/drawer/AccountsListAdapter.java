@@ -18,11 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,11 +27,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerAccountPeertubeBinding;
 import app.fedilab.android.peertube.activities.ShowAccountActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -63,37 +58,37 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        return new ViewHolder(layoutInflater.inflate(R.layout.drawer_account, parent, false));
+        DrawerAccountPeertubeBinding itemBinding = DrawerAccountPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new AccountViewHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        final ViewHolder holder = (ViewHolder) viewHolder;
+        final AccountViewHolder holder = (AccountViewHolder) viewHolder;
         final AccountData.PeertubeAccount account = accounts.get(position);
         if (type == RetrofitPeertubeAPI.DataType.MUTED) {
-            holder.account_action.setOnClickListener(v -> {
+            holder.binding.accountAction.setOnClickListener(v -> {
                 PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
                 viewModel.post(RetrofitPeertubeAPI.ActionType.UNMUTE, account.getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(RetrofitPeertubeAPI.ActionType.UNMUTE, apiResponse, account.getAcct()));
             });
         } else {
-            holder.account_action.hide();
+            holder.binding.accountAction.hide();
         }
 
-        holder.account_dn.setText(account.getDisplayName());
-        holder.account_ac.setText(String.format("@%s", account.getAcct()));
+        holder.binding.accountDn.setText(account.getDisplayName());
+        holder.binding.accountAc.setText(String.format("@%s", account.getAcct()));
         if (account.getDescription() == null) {
             account.setDescription("");
         }
         //Profile picture
-        Helper.loadAvatar(context, account, holder.account_pp);
+        Helper.loadAvatar(context, account, holder.binding.accountPp);
         //Follow button
         if (type == RetrofitPeertubeAPI.DataType.MUTED) {
-            holder.account_action.show();
-            holder.account_action.setImageResource(R.drawable.ic_baseline_volume_mute_24);
+            holder.binding.accountAction.show();
+            holder.binding.accountAction.setImageResource(R.drawable.ic_baseline_volume_mute_24);
         }
 
-        holder.account_pp.setOnClickListener(v -> {
+        holder.binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(context, ShowAccountActivity.class);
             Bundle b = new Bundle();
             b.putSerializable("account", account);
@@ -142,21 +137,12 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView account_pp;
-        TextView account_ac;
-        TextView account_dn;
-        FloatingActionButton account_action;
-        LinearLayout account_container;
+    public static class AccountViewHolder extends RecyclerView.ViewHolder {
+        DrawerAccountPeertubeBinding binding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            account_pp = itemView.findViewById(R.id.account_pp);
-            account_dn = itemView.findViewById(R.id.account_dn);
-            account_ac = itemView.findViewById(R.id.account_ac);
-            account_action = itemView.findViewById(R.id.account_action);
-            account_container = itemView.findViewById(R.id.account_container);
+        AccountViewHolder(DrawerAccountPeertubeBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
     }
-
 }

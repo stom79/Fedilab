@@ -32,9 +32,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -61,36 +59,33 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:mt_backIconTint="?attr/colorAccent"
-                        app:mt_clearIconTint="?attr/colorAccent"
                         app:mt_hint="@string/sepia_search_hint"
                         app:mt_maxSuggestionsCount="10"
-                        app:mt_menuIconTint="?attr/colorAccent"
-                        app:mt_searchIconTint="?attr/colorAccent"
                         app:mt_speechMode="false" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/explanations"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:text="@string/sepia_indication"
-                        android:textColor="?attr/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/searchBar" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/filter"
-                        style="@style/Base.Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                         android:text="@string/filter"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/explanations" />
 
                     <TextView
+                        android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:labelFor="@+id/sort_by"
@@ -100,6 +95,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/explanations" />
 
                     <Spinner
+                        android:layout_marginTop="10dp"
                         android:id="@+id/sort_by"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,7 +145,7 @@
                             android:text="@string/no" />
                     </RadioGroup>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/sepia_element_published_date_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -288,7 +284,7 @@
                         app:layout_constraintStart_toStartOf="@+id/sepia_element_license_label"
                         app:layout_constraintTop_toBottomOf="@+id/sepia_element_license_label" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/sepia_element_language_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -305,7 +301,7 @@
                         app:layout_constraintStart_toStartOf="@+id/sepia_element_language_label"
                         app:layout_constraintTop_toBottomOf="@+id/sepia_element_language_label" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/sepia_element_all_of_tags_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -325,7 +321,7 @@
                         TagsEditText:allowSpaceInTag="true"
                         TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
                         TagsEditText:tagsCloseImageRight="@drawable/tag_close"
-                        TagsEditText:tagsTextColor="?colorAccent"
+                        TagsEditText:tagsTextColor="?colorSecondary"
                         TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -352,7 +348,7 @@
                         TagsEditText:allowSpaceInTag="true"
                         TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
                         TagsEditText:tagsCloseImageRight="@drawable/tag_close"
-                        TagsEditText:tagsTextColor="?colorAccent"
+                        TagsEditText:tagsTextColor="?colorSecondary"
                         TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

@@ -56,11 +56,10 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <com.github.ybq.android.spinkit.SpinKitView
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:SpinKit_Color="?colorAccent" />
+            android:layout_gravity="center" />
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

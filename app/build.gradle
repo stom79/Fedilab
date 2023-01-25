@@ -174,7 +174,6 @@ dependencies {
     implementation "net.gotev:uploadservice:4.5.1"
     implementation "net.gotev:uploadservice-okhttp:4.5.1"
     implementation 'androidx.media:media:1.6.0'
-    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
     implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.0'

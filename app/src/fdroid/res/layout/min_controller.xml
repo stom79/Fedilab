@@ -37,13 +37,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.github.ybq.android.spinkit.SpinKitView
+        <ProgressBar
             android:id="@+id/cast_loader_small"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
-            app:SpinKit_Color="?colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cast_loader_text"
