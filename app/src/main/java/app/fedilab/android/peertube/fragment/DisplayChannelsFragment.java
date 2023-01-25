@@ -14,6 +14,7 @@ package app.fedilab.android.peertube.fragment;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.activities.PeertubeUploadActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 import android.Manifest;
@@ -46,6 +47,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -234,7 +236,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     public void manageAlert(ChannelParams oldChannelValues) {
 
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, dialogStyle());
         bindingDialog = AddChannelPeertubeBinding.inflate(LayoutInflater.from(context), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 

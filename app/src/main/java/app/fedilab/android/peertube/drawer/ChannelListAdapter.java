@@ -16,8 +16,8 @@ package app.fedilab.android.peertube.drawer;
 
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +36,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_delete) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     builder.setTitle(context.getString(R.string.delete_channel) + ": " + channel.getName());
                     builder.setMessage(context.getString(R.string.action_channel_confirm_delete));
                     builder.setIcon(android.R.drawable.ic_dialog_alert)

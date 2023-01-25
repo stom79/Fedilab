@@ -14,12 +14,12 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.MUTE;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPLY;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -48,6 +48,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -159,8 +161,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
+                MaterialAlertDialogBuilder builder;
                 if (itemId == R.id.action_delete) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     builder.setTitle(R.string.delete_comment);
                     builder.setMessage(R.string.delete_comment_confirm);
                     builder.setIcon(android.R.drawable.ic_dialog_alert)
@@ -193,8 +196,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         allCommentRemoved.onAllCommentRemoved();
                     }
                 } else if (itemId == R.id.action_remove_comments) {
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(context);
+                    builder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     builder.setTitle(R.string.delete_account_comment);
                     builder.setMessage(R.string.delete_account_comment_confirm);
                     builder.setIcon(android.R.drawable.ic_dialog_alert)

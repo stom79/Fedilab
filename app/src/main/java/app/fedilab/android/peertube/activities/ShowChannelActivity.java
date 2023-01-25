@@ -50,6 +50,7 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -133,7 +134,7 @@ public class ShowChannelActivity extends BaseBarActivity {
             PostActionsVM viewModel = new ViewModelProvider(ShowChannelActivity.this).get(PostActionsVM.class);
             viewModel.post(MUTE, channel.getOwnerAccount().getAcct(), null).observe(ShowChannelActivity.this, apiResponse -> manageVIewPostActions(MUTE, apiResponse));
         } else if (item.getItemId() == R.id.action_report) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShowChannelActivity.this);
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(ShowChannelActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
             LayoutInflater inflater1 = getLayoutInflater();
             View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(ShowChannelActivity.this), false);
             dialogBuilder.setView(dialogView);
@@ -264,7 +265,7 @@ public class ShowChannelActivity extends BaseBarActivity {
             } else if (doAction == action.UNFOLLOW) {
                 boolean confirm_unfollow = sharedpreferences.getBoolean(Helper.SET_UNFOLLOW_VALIDATION, true);
                 if (confirm_unfollow) {
-                    AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(ShowChannelActivity.this);
+                    AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(ShowChannelActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                     unfollowConfirm.setTitle(getString(R.string.unfollow_confirm));
                     unfollowConfirm.setMessage(channel.getAcct());
                     unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

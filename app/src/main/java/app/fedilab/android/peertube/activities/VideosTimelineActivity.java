@@ -16,7 +16,6 @@ package app.fedilab.android.peertube.activities;
 
 import static app.fedilab.android.peertube.viewmodel.TimelineVM.TimelineType.HISTORY;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +23,8 @@ import android.view.View;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -144,7 +145,7 @@ public class VideosTimelineActivity extends BaseBarActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(VideosTimelineActivity.this);
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(VideosTimelineActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
             builder.setTitle(R.string.delete_history);
             builder.setMessage(R.string.delete_history_confirm);
             builder.setIcon(android.R.drawable.ic_dialog_alert)

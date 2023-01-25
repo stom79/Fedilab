@@ -15,8 +15,9 @@ package app.fedilab.android.peertube.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
+
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -102,7 +105,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_delete) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     builder.setTitle(context.getString(R.string.action_lists_delete) + ": " + playlist.getDisplayName());
                     builder.setMessage(context.getString(R.string.action_lists_confirm_delete));
                     builder.setIcon(android.R.drawable.ic_dialog_alert)

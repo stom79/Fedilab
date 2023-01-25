@@ -32,6 +32,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -106,7 +108,7 @@ public class InstancePickerActivity extends BaseBarActivity {
             itemsKeyLanguage = new String[languages.size()];
 
             binding.pickupLanguages.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(InstancePickerActivity.this);
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(InstancePickerActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
 
                 int i = 0;
                 if (languages.size() > 0) {
@@ -173,7 +175,7 @@ public class InstancePickerActivity extends BaseBarActivity {
 
 
             binding.pickupCategories.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(InstancePickerActivity.this);
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(InstancePickerActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                 int i = 0;
                 if (categories.size() > 0) {
                     Iterator<Map.Entry<Integer, String>> it = categories.entrySet().iterator();

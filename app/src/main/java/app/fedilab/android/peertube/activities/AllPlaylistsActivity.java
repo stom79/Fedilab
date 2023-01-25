@@ -47,6 +47,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -160,7 +161,7 @@ public class AllPlaylistsActivity extends BaseBarActivity implements PlaylistAda
     public void manageAlert(Playlist playlistParam) {
 
         playlistToEdit = playlistParam;
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AllPlaylistsActivity.this);
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(AllPlaylistsActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         bindingDialog = AddPlaylistPeertubeBinding.inflate(LayoutInflater.from(AllPlaylistsActivity.this), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 

@@ -108,6 +108,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -674,7 +675,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void reportAlert(RetrofitPeertubeAPI.ActionType type, AlertDialog alertDialog) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         LayoutInflater inflater1 = getLayoutInflater();
         View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(PeertubeActivity.this), false);
         dialogBuilder.setView(dialogView);
@@ -874,7 +875,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         });
 
         binding.videoInformation.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
             LayoutInflater inflater = getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.popup_video_info_peertube, new LinearLayout(PeertubeActivity.this), false);
             TextView info_privacy = dialogView.findViewById(R.id.info_privacy);
@@ -1111,7 +1112,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 } else if (itemId == R.id.action_report) {
                     AlertDialog alertDialog;
                     AlertDialog.Builder dialogBuilder;
-                    dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
+                    dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                     LayoutInflater inflater1 = getLayoutInflater();
                     View dialogView = inflater1.inflate(R.layout.popup_report_choice, new LinearLayout(PeertubeActivity.this), false);
                     dialogBuilder.setView(dialogView);
@@ -1243,7 +1244,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (promptNSFW && peertube != null && peertube.isNsfw() && (nsfwAction.compareTo(Helper.BLUR) == 0 || nsfwAction.compareTo(Helper.DO_NOT_LIST) == 0)) {
             AlertDialog alertDialog;
             AlertDialog.Builder dialogBuilder;
-            dialogBuilder = new AlertDialog.Builder(PeertubeActivity.this);
+            dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
             dialogBuilder.setTitle(R.string.nsfw_title_warning);
             dialogBuilder.setCancelable(false);
             dialogBuilder.setMessage(R.string.nsfw_message_warning);
@@ -2035,7 +2036,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             return;
         }
         if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(PeertubeActivity.this);
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
             builder.setTitle(R.string.modify_playlists);
 
             List<PlaylistData.Playlist> ownerPlaylists = apiResponse.getPlaylists();

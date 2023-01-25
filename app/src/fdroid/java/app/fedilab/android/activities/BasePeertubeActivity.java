@@ -30,6 +30,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -96,7 +97,7 @@ public class BasePeertubeActivity extends BaseBarActivity {
         if (item.getItemId() == R.id.action_cast) {
             if (PeertubeBaseMainActivity.chromeCasts != null && PeertubeBaseMainActivity.chromeCasts.size() > 0) {
                 String[] chromecast_choice = new String[PeertubeBaseMainActivity.chromeCasts.size()];
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                 alt_bld.setTitle(R.string.chromecast_choice);
                 int i = 0;
                 for (ChromeCast cc : PeertubeBaseMainActivity.chromeCasts) {

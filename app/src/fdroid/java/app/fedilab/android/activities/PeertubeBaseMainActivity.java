@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
@@ -36,6 +35,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
+import app.fedilab.android.mastodon.activities.BaseActivity;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.helper.Helper;
 import su.litvak.chromecast.api.v2.ChromeCast;
@@ -43,7 +43,7 @@ import su.litvak.chromecast.api.v2.ChromeCasts;
 import su.litvak.chromecast.api.v2.ChromeCastsListener;
 import su.litvak.chromecast.api.v2.MediaStatus;
 
-public abstract class PeertubeBaseMainActivity extends AppCompatActivity implements ChromeCastsListener {
+public abstract class PeertubeBaseMainActivity extends BaseActivity implements ChromeCastsListener {
 
     public static List<ChromeCast> chromeCasts;
     public static ChromeCast chromeCast;

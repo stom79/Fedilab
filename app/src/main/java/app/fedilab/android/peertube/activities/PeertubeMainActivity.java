@@ -60,6 +60,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.kobakei.ratethisapp.RateThisApp;
 
 import org.jetbrains.annotations.NotNull;
@@ -141,7 +142,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     @SuppressLint("ApplySharedPref")
     public static void showRadioButtonDialogFullInstances(Activity activity, boolean storeInDb) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        AlertDialog.Builder alt_bld = new AlertDialog.Builder(activity);
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         alt_bld.setTitle(R.string.instance_choice);
         String instance = HelperInstance.getLiveInstance(activity);
         final EditText input = new EditText(activity);
@@ -577,7 +578,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     instanceConfig = new RetrofitPeertubeAPI(PeertubeMainActivity.this).getConfigInstance();
                 } catch (Error error) {
                     runOnUiThread(() -> {
-                        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+                        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                         alt_bld.setTitle(R.string.refresh_token_failed);
                         alt_bld.setMessage(R.string.refresh_token_failed_message);
                         alt_bld.setNegativeButton(R.string.action_logout, (dialog, id) -> {
@@ -710,7 +711,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     @SuppressLint("ApplySharedPref")
     private void showRadioButtonDialog() {
 
-        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         alt_bld.setTitle(R.string.instance_choice);
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
         String acad = HelperInstance.getLiveInstance(PeertubeMainActivity.this);

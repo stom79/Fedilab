@@ -14,6 +14,7 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.FOLLOW;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.UNFOLLOW;
 import static app.fedilab.android.peertube.viewmodel.TimelineVM.TimelineType.MY_VIDEOS;
@@ -50,6 +51,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -227,7 +229,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
                         boolean confirm_unfollow = sharedpreferences.getBoolean(Helper.SET_UNFOLLOW_VALIDATION, true);
                         if (confirm_unfollow) {
-                            AlertDialog.Builder unfollowConfirm = new AlertDialog.Builder(context);
+                            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, dialogStyle());
                             unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
                             unfollowConfirm.setMessage(video.getChannel().getAcct());
                             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -257,7 +259,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     intent.putExtras(b);
                     context.startActivity(intent);
                 } else if (itemId == R.id.action_report) {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
                     View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
                     dialogBuilder.setView(dialogView);
@@ -321,7 +323,7 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return;
         }
         if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, dialogStyle());
             builder.setTitle(R.string.modify_playlists);
 
             List<PlaylistData.Playlist> ownerPlaylists = apiResponse.getPlaylists();

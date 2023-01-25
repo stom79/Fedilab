@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -184,7 +186,7 @@ public class PeertubeRegisterActivity extends BaseBarActivity {
                             return;
                         }
 
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PeertubeRegisterActivity.this);
+                        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeRegisterActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                         dialogBuilder.setCancelable(false);
                         dialogBuilder.setPositiveButton(R.string.validate, (dialog, which) -> {
                             dialog.dismiss();

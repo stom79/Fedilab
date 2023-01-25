@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import app.fedilab.android.R;
@@ -47,7 +49,7 @@ public class SwitchAccountHelper {
             e.printStackTrace();
         }
 
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
         builderSingle.setTitle(activity.getString(R.string.list_of_accounts));
         if (accounts != null) {
             final OwnAccountsAdapter accountsListAdapter = new OwnAccountsAdapter(activity, accounts);

@@ -17,10 +17,10 @@ package app.fedilab.android.peertube.drawer;
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,6 +39,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -141,7 +143,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
             popup.setOnMenuItemClickListener(item -> {
                 int itemId = item.getItemId();
                 if (itemId == R.id.action_delete) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, dialogStyle());
                     builder.setTitle(R.string.delete_instance);
                     builder.setMessage(R.string.delete_instance_confirm);
                     builder.setIcon(android.R.drawable.ic_dialog_alert)
