@@ -25,8 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +33,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.FragmentOverviewPeertubeBinding;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.OverviewVideo;
@@ -63,20 +61,16 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     private LinearLayoutManager mLayoutManager;
     private GridLayoutManager gLayoutManager;
     private boolean flag_loading;
-    private Context context;
     private PeertubeAdapter peertubeAdapater;
     private int page;
     private List<VideoData.Video> peertubes;
-    private RelativeLayout mainLoader, nextElementLoader, textviewNoAction;
     private boolean firstLoad;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView textviewNoActionText;
     private View rootView;
     private RecyclerView lv_status;
     private TimelineVM viewModelFeeds;
     private Map<String, Boolean> relationship;
     private Map<String, List<PlaylistExist>> playlists;
-
+    private FragmentOverviewPeertubeBinding binding;
 
     public DisplayOverviewFragment() {
     }
@@ -84,23 +78,17 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_overview_peertube, container, false);
 
+        binding = FragmentOverviewPeertubeBinding.inflate(getLayoutInflater());
 
         peertubes = new ArrayList<>();
-        context = getContext();
         lv_status = rootView.findViewById(R.id.lv_status);
         page = 1;
         flag_loading = true;
         firstLoad = true;
 
-        swipeRefreshLayout = rootView.findViewById(R.id.swipeContainer);
-        mainLoader = rootView.findViewById(R.id.loader);
-        nextElementLoader = rootView.findViewById(R.id.loading_next_status);
-        textviewNoAction = rootView.findViewById(R.id.no_action);
-        textviewNoActionText = rootView.findViewById(R.id.no_action_text);
-        mainLoader.setVisibility(View.VISIBLE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.loadingNextStatus.setVisibility(View.GONE);
 
         peertubeAdapater = new PeertubeAdapter(this.peertubes);
 
@@ -110,19 +98,19 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
         lv_status.setAdapter(peertubeAdapater);
 
 
-        if (!Helper.isTablet(context)) {
-            mLayoutManager = new LinearLayoutManager(context);
+        if (!Helper.isTablet(requireActivity())) {
+            mLayoutManager = new LinearLayoutManager(requireActivity());
             lv_status.setLayoutManager(mLayoutManager);
         } else {
-            gLayoutManager = new GridLayoutManager(context, 2);
-            int spanCount = (int) Helper.convertDpToPixel(2, context);
-            int spacing = (int) Helper.convertDpToPixel(5, context);
+            gLayoutManager = new GridLayoutManager(requireActivity(), 2);
+            int spanCount = (int) Helper.convertDpToPixel(2, requireActivity());
+            int spacing = (int) Helper.convertDpToPixel(5, requireActivity());
             lv_status.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, true));
             lv_status.setLayoutManager(gLayoutManager);
         }
 
         viewModelFeeds = new ViewModelProvider(DisplayOverviewFragment.this).get(TimelineVM.class);
-        swipeRefreshLayout.setOnRefreshListener(this::pullToRefresh);
+        binding.swipeContainer.setOnRefreshListener(this::pullToRefresh);
         loadTimeline(page);
         lv_status.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -131,14 +119,14 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
                     if (dy > 0) {
                         int visibleItemCount = mLayoutManager.getChildCount();
                         int totalItemCount = mLayoutManager.getItemCount();
-                        if (firstVisibleItem + visibleItemCount == totalItemCount && context != null) {
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
                             if (!flag_loading) {
                                 flag_loading = true;
                                 loadTimeline(page);
-                                nextElementLoader.setVisibility(View.VISIBLE);
+                                binding.loadingNextStatus.setVisibility(View.VISIBLE);
                             }
                         } else {
-                            nextElementLoader.setVisibility(View.GONE);
+                            binding.loadingNextStatus.setVisibility(View.GONE);
                         }
                     }
                 } else if (gLayoutManager != null) {
@@ -146,14 +134,14 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
                     if (dy > 0) {
                         int visibleItemCount = gLayoutManager.getChildCount();
                         int totalItemCount = gLayoutManager.getItemCount();
-                        if (firstVisibleItem + visibleItemCount == totalItemCount && context != null) {
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
                             if (!flag_loading) {
                                 flag_loading = true;
                                 loadTimeline(page);
-                                nextElementLoader.setVisibility(View.VISIBLE);
+                                binding.loadingNextStatus.setVisibility(View.VISIBLE);
                             }
                         } else {
-                            nextElementLoader.setVisibility(View.GONE);
+                            binding.loadingNextStatus.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -167,11 +155,9 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     @Override
     public void onPause() {
         super.onPause();
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setEnabled(false);
-            swipeRefreshLayout.setRefreshing(false);
-            swipeRefreshLayout.clearAnimation();
-        }
+        binding.swipeContainer.setEnabled(false);
+        binding.swipeContainer.setRefreshing(false);
+        binding.swipeContainer.clearAnimation();
         if (getActivity() != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm != null && getView() != null) {
@@ -187,12 +173,6 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     }
 
 
-    @Override
-    public void onAttach(@NotNull Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
 
     @Override
     public void onStop() {
@@ -207,16 +187,16 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
 
     private void manageVIewVideos(APIResponse apiResponse) {
         //hide loaders
-        mainLoader.setVisibility(View.GONE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.loader.setVisibility(View.GONE);
+        binding.loadingNextStatus.setVisibility(View.GONE);
         //handle other API error
         if (this.peertubes == null || apiResponse == null || apiResponse.getOverviewVideo() == null || (apiResponse.getError() != null)) {
             if (apiResponse == null || apiResponse.getError() == null)
-                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             else {
-                Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+                Toasty.error(requireActivity(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             }
-            swipeRefreshLayout.setRefreshing(false);
+            binding.swipeContainer.setRefreshing(false);
             flag_loading = false;
             return;
         }
@@ -313,11 +293,11 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
         } else
             peertubeAdapater.notifyItemRangeInserted(previousPosition, totalAdded);
         //remove handlers
-        swipeRefreshLayout.setRefreshing(false);
-        textviewNoAction.setVisibility(View.GONE);
+        binding.swipeContainer.setRefreshing(false);
+        binding.noAction.setVisibility(View.GONE);
         if (firstLoad && (this.peertubes == null || this.peertubes.size() == 0)) {
-            textviewNoActionText.setText(R.string.no_video_to_display);
-            textviewNoAction.setVisibility(View.VISIBLE);
+            binding.noActionText.setText(R.string.no_video_to_display);
+            binding.noAction.setVisibility(View.VISIBLE);
         }
         flag_loading = false;
         firstLoad = false;
@@ -339,7 +319,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     @Override
     public void onResume() {
         super.onResume();
-        swipeRefreshLayout.setEnabled(true);
+        binding.swipeContainer.setEnabled(true);
     }
 
 

@@ -18,7 +18,6 @@ import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.DataType.MY_CHANNELS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,22 +31,14 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +48,8 @@ import java.util.List;
 import java.util.Map;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.AddPlaylistPeertubeBinding;
+import app.fedilab.android.databinding.FragmentPlaylistsPeertubeBinding;
 import app.fedilab.android.peertube.activities.PlaylistsActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -73,41 +66,30 @@ import es.dmoral.toasty.Toasty;
 public class DisplayPlaylistsFragment extends Fragment {
 
 
-    private Context context;
     private List<Playlist> playlists;
-    private RelativeLayout mainLoader;
-    private FloatingActionButton add_new;
     private PlaylistAdapter playlistAdapter;
-    private RelativeLayout textviewNoAction;
     private HashMap<Integer, String> privacyToSend;
     private HashMap<String, String> channelToSend;
-    private Spinner set_upload_channel;
-    private Spinner set_upload_privacy;
     private HashMap<String, String> channels;
+    private FragmentPlaylistsPeertubeBinding binding;
+    private AddPlaylistPeertubeBinding bindingAlert;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //View for fragment is the same that fragment accounts
-        View rootView = inflater.inflate(R.layout.fragment_playlists_peertube, container, false);
+        binding = FragmentPlaylistsPeertubeBinding.inflate(getLayoutInflater());
 
-        context = getContext();
         playlists = new ArrayList<>();
 
-
-        RecyclerView lv_playlist = rootView.findViewById(R.id.lv_playlist);
-        textviewNoAction = rootView.findViewById(R.id.no_action);
-        mainLoader = rootView.findViewById(R.id.loader);
-        RelativeLayout nextElementLoader = rootView.findViewById(R.id.loading_next_items);
-        mainLoader.setVisibility(View.VISIBLE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.loadingNextItems.setVisibility(View.GONE);
         playlists = new ArrayList<>();
         playlistAdapter = new PlaylistAdapter(playlists, false);
-        lv_playlist.setAdapter(playlistAdapter);
+        binding.lvPlaylist.setAdapter(playlistAdapter);
         PlaylistsVM viewModel = new ViewModelProvider(this).get(PlaylistsVM.class);
         viewModel.manage(PlaylistsVM.action.GET_PLAYLISTS, null, null).observe(DisplayPlaylistsFragment.this.requireActivity(), apiResponse -> manageVIewPlaylists(PlaylistsVM.action.GET_PLAYLISTS, apiResponse));
 
-        add_new = rootView.findViewById(R.id.add_new);
 
         LinkedHashMap<Integer, String> privaciesInit = new LinkedHashMap<>(peertubeInformation.getPrivacies());
         Map.Entry<Integer, String> entryInt = privaciesInit.entrySet().iterator().next();
@@ -120,89 +102,80 @@ public class DisplayPlaylistsFragment extends Fragment {
             it.remove();
         }
 
-        if (add_new != null) {
-            add_new.setOnClickListener(view -> {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, dialogStyle());
-                LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
-                View dialogView = inflater1.inflate(R.layout.add_playlist_peertube, new LinearLayout(context), false);
-                dialogBuilder.setView(dialogView);
-                EditText display_name = dialogView.findViewById(R.id.display_name);
-                EditText description = dialogView.findViewById(R.id.description);
-                set_upload_channel = dialogView.findViewById(R.id.set_upload_channel);
-                set_upload_privacy = dialogView.findViewById(R.id.set_upload_privacy);
+        binding.addNew.setOnClickListener(view -> {
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), dialogStyle());
+            bindingAlert = AddPlaylistPeertubeBinding.inflate(getLayoutInflater());
+            dialogBuilder.setView(bindingAlert.getRoot());
 
-                ChannelsVM viewModelC = new ViewModelProvider(this).get(ChannelsVM.class);
-                viewModelC.get(MY_CHANNELS, null).observe(DisplayPlaylistsFragment.this.requireActivity(), this::manageVIewChannels);
+            ChannelsVM viewModelC = new ViewModelProvider(this).get(ChannelsVM.class);
+            viewModelC.get(MY_CHANNELS, null).observe(DisplayPlaylistsFragment.this.requireActivity(), this::manageVIewChannels);
 
-                display_name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
-                description.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
+            bindingAlert.displayName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(120)});
+            bindingAlert.description.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1000)});
+            dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                if (bindingAlert.displayName.getText() != null && bindingAlert.displayName.getText().toString().trim().length() > 0) {
 
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-
-                    if (display_name.getText() != null && display_name.getText().toString().trim().length() > 0) {
-
-                        Playlist playlist = new Playlist();
-                        playlist.setDisplayName(display_name.getText().toString().trim());
-                        if (description.getText() != null && description.getText().toString().trim().length() > 0) {
-                            playlist.setDescription(description.getText().toString().trim());
-                        }
-                        String idChannel = null;
-                        if (channelToSend != null) {
-                            Map.Entry<String, String> channelM = channelToSend.entrySet().iterator().next();
-                            idChannel = channelM.getValue();
-                        }
-                        Map.Entry<Integer, String> privacyM = privacyToSend.entrySet().iterator().next();
-                        Item privacyItem = new Item();
-                        privacyItem.setLabel(privacyM.getValue());
-                        privacyItem.setId(privacyM.getKey());
-                        if (privacyItem.getLabel().equals("Public") && (playlist.getVideoChannel() == null)) {
-                            Toasty.error(context, context.getString(R.string.error_channel_mandatory), Toast.LENGTH_LONG).show();
-                        } else {
-                            if (privacyToSend != null) {
-                                playlist.setPrivacy(privacyItem);
-                            }
-                            PlaylistParams playlistParams = new PlaylistParams();
-                            playlistParams.setVideoChannelId(idChannel);
-                            playlistParams.setDisplayName(playlist.getDisplayName());
-                            playlistParams.setDescription(playlist.getDescription());
-                            new Thread(() -> {
-                                APIResponse apiResponse = new RetrofitPeertubeAPI(context).createOrUpdatePlaylist(PlaylistsVM.action.CREATE_PLAYLIST, null, playlistParams, null);
-                                Handler mainHandler = new Handler(Looper.getMainLooper());
-                                Runnable myRunnable = () -> {
-                                    if (getActivity() == null)
-                                        return;
-                                    playlist.setId(apiResponse.getActionReturn());
-                                    playlists.add(0, playlist);
-                                    playlistAdapter.notifyDataSetChanged();
-                                };
-                                mainHandler.post(myRunnable);
-                                add_new.setEnabled(true);
-                            }).start();
-
-                            dialog.dismiss();
-                            add_new.setEnabled(false);
-                        }
-                    } else {
-                        Toasty.error(context, context.getString(R.string.error_display_name), Toast.LENGTH_LONG).show();
+                    Playlist playlist = new Playlist();
+                    playlist.setDisplayName(bindingAlert.displayName.getText().toString().trim());
+                    if (bindingAlert.description.getText() != null && bindingAlert.description.getText().toString().trim().length() > 0) {
+                        playlist.setDescription(bindingAlert.description.getText().toString().trim());
                     }
+                    String idChannel = null;
+                    if (channelToSend != null) {
+                        Map.Entry<String, String> channelM = channelToSend.entrySet().iterator().next();
+                        idChannel = channelM.getValue();
+                    }
+                    Map.Entry<Integer, String> privacyM = privacyToSend.entrySet().iterator().next();
+                    Item privacyItem = new Item();
+                    privacyItem.setLabel(privacyM.getValue());
+                    privacyItem.setId(privacyM.getKey());
+                    if (privacyItem.getLabel().equals("Public") && (playlist.getVideoChannel() == null)) {
+                        Toasty.error(requireActivity(), getString(R.string.error_channel_mandatory), Toast.LENGTH_LONG).show();
+                    } else {
+                        if (privacyToSend != null) {
+                            playlist.setPrivacy(privacyItem);
+                        }
+                        PlaylistParams playlistParams = new PlaylistParams();
+                        playlistParams.setVideoChannelId(idChannel);
+                        playlistParams.setDisplayName(playlist.getDisplayName());
+                        playlistParams.setDescription(playlist.getDescription());
+                        new Thread(() -> {
+                            APIResponse apiResponse = new RetrofitPeertubeAPI(requireActivity()).createOrUpdatePlaylist(PlaylistsVM.action.CREATE_PLAYLIST, null, playlistParams, null);
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> {
+                                if (getActivity() == null)
+                                    return;
+                                playlist.setId(apiResponse.getActionReturn());
+                                playlists.add(0, playlist);
+                                playlistAdapter.notifyDataSetChanged();
+                            };
+                            mainHandler.post(myRunnable);
+                            binding.addNew.setEnabled(true);
+                        }).start();
 
-                });
-                dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                        dialog.dismiss();
+                        binding.addNew.setEnabled(false);
+                    }
+                } else {
+                    Toasty.error(requireActivity(), getString(R.string.error_display_name), Toast.LENGTH_LONG).show();
+                }
 
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.setTitle(getString(R.string.action_playlist_create));
-                alertDialog.setOnDismissListener(dialogInterface -> {
-                    //Hide keyboard
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(display_name.getWindowToken(), 0);
-                });
-                if (alertDialog.getWindow() != null)
-                    alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                alertDialog.show();
             });
-        }
-        return rootView;
+            dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.setTitle(getString(R.string.action_playlist_create));
+            alertDialog.setOnDismissListener(dialogInterface -> {
+                //Hide keyboard
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(bindingAlert.displayName.getWindowToken(), 0);
+            });
+            if (alertDialog.getWindow() != null)
+                alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            alertDialog.show();
+        });
+        return binding.getRoot();
     }
 
 
@@ -213,22 +186,17 @@ public class DisplayPlaylistsFragment extends Fragment {
 
 
     @Override
-    public void onAttach(@NotNull Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
+        binding = null;
     }
 
 
     public void manageVIewPlaylists(PlaylistsVM.action actionType, APIResponse apiResponse) {
-        mainLoader.setVisibility(View.GONE);
-        add_new.setEnabled(true);
+        binding.loader.setVisibility(View.GONE);
+        binding.addNew.setEnabled(true);
         if (apiResponse.getError() != null) {
-            Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+            Toasty.error(requireActivity(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -236,26 +204,26 @@ public class DisplayPlaylistsFragment extends Fragment {
             if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
                 this.playlists.addAll(apiResponse.getPlaylists());
                 playlistAdapter.notifyDataSetChanged();
-                textviewNoAction.setVisibility(View.GONE);
+                binding.noAction.setVisibility(View.GONE);
             } else {
-                textviewNoAction.setVisibility(View.VISIBLE);
+                binding.noAction.setVisibility(View.VISIBLE);
             }
         } else if (actionType == PlaylistsVM.action.CREATE_PLAYLIST) {
             if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
-                Intent intent = new Intent(context, PlaylistsActivity.class);
+                Intent intent = new Intent(requireActivity(), PlaylistsActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("playlist", apiResponse.getPlaylists().get(0));
                 intent.putExtras(b);
-                context.startActivity(intent);
+                startActivity(intent);
                 this.playlists.add(0, apiResponse.getPlaylists().get(0));
                 playlistAdapter.notifyDataSetChanged();
-                textviewNoAction.setVisibility(View.GONE);
+                binding.noAction.setVisibility(View.GONE);
             } else {
-                Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+                Toasty.error(requireActivity(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             }
         } else if (actionType == PlaylistsVM.action.DELETE_PLAYLIST) {
             if (this.playlists.size() == 0)
-                textviewNoAction.setVisibility(View.VISIBLE);
+                binding.noAction.setVisibility(View.VISIBLE);
         }
     }
 
@@ -263,9 +231,9 @@ public class DisplayPlaylistsFragment extends Fragment {
     public void manageVIewChannels(APIResponse apiResponse) {
         if (apiResponse.getError() != null || apiResponse.getAccounts() == null || apiResponse.getAccounts().size() == 0) {
             if (apiResponse.getError() != null && apiResponse.getError().getError() != null)
-                Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+                Toasty.error(requireActivity(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             else
-                Toasty.error(context, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -286,9 +254,9 @@ public class DisplayPlaylistsFragment extends Fragment {
 
         channelToSend = new HashMap<>();
         channelToSend.put(channelName[0], channelId[0]);
-        ArrayAdapter<String> adapterChannel = new ArrayAdapter<>(context,
+        ArrayAdapter<String> adapterChannel = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_spinner_dropdown_item, channelName);
-        set_upload_channel.setAdapter(adapterChannel);
+        bindingAlert.setUploadChannel.setAdapter(adapterChannel);
 
         LinkedHashMap<String, String> translations = null;
         if (peertubeInformation.getTranslations() != null)
@@ -313,12 +281,12 @@ public class DisplayPlaylistsFragment extends Fragment {
             i++;
         }
 
-        ArrayAdapter<String> adapterPrivacies = new ArrayAdapter<>(context,
+        ArrayAdapter<String> adapterPrivacies = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_spinner_dropdown_item, privaciesA);
-        set_upload_privacy.setAdapter(adapterPrivacies);
+        bindingAlert.setUploadPrivacy.setAdapter(adapterPrivacies);
 
         //Manage privacies
-        set_upload_privacy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        bindingAlert.setUploadPrivacy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LinkedHashMap<Integer, String> privaciesCheck = new LinkedHashMap<>(peertubeInformation.getPrivacies());
@@ -342,7 +310,7 @@ public class DisplayPlaylistsFragment extends Fragment {
             }
         });
         //Manage languages
-        set_upload_channel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        bindingAlert.setUploadChannel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LinkedHashMap<String, String> channelsCheck = new LinkedHashMap<>(channels);

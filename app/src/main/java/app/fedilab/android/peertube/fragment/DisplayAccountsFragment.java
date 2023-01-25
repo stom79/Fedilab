@@ -14,13 +14,10 @@ package app.fedilab.android.peertube.fragment;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +26,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.FragmentRecyclerviewPeertubeBinding;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
@@ -47,23 +44,18 @@ import es.dmoral.toasty.Toasty;
 public class DisplayAccountsFragment extends Fragment implements AccountsListAdapter.AllAccountsRemoved {
 
     private boolean flag_loading;
-    private Context context;
     private AccountsListAdapter accountsListAdapter;
     private String max_id;
     private List<AccountData.PeertubeAccount> accounts;
-    private RelativeLayout mainLoader, nextElementLoader, textviewNoAction;
     private boolean firstLoad;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView lv_accounts;
-    private View rootView;
     private RetrofitPeertubeAPI.DataType accountFetch;
+    private FragmentRecyclerviewPeertubeBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_recyclerview_peertube, container, false);
+        binding = FragmentRecyclerviewPeertubeBinding.inflate(getLayoutInflater());
 
-        context = getContext();
         Bundle bundle = this.getArguments();
         accounts = new ArrayList<>();
         if (bundle != null) {
@@ -75,27 +67,18 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
         firstLoad = true;
         flag_loading = true;
 
-        swipeRefreshLayout = rootView.findViewById(R.id.swipeContainer);
-
-
-        lv_accounts = rootView.findViewById(R.id.lv_elements);
-        lv_accounts.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mainLoader = rootView.findViewById(R.id.loader);
-        nextElementLoader = rootView.findViewById(R.id.loading_next);
-        textviewNoAction = rootView.findViewById(R.id.no_action);
-        mainLoader.setVisibility(View.VISIBLE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.lvElements.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.loadingNext.setVisibility(View.GONE);
         accountsListAdapter = new AccountsListAdapter(accountFetch, this.accounts);
         accountsListAdapter.allAccountsRemoved = this;
-        lv_accounts.setAdapter(accountsListAdapter);
-        TextView no_action_text = rootView.findViewById(R.id.no_action_text);
+        binding.lvElements.setAdapter(accountsListAdapter);
         if (accountFetch == RetrofitPeertubeAPI.DataType.MUTED) {
-            no_action_text.setText(context.getString(R.string.no_muted));
+            binding.noActionText.setText(getString(R.string.no_muted));
         }
-        final LinearLayoutManager mLayoutManager;
-        mLayoutManager = new LinearLayoutManager(context);
-        lv_accounts.setLayoutManager(mLayoutManager);
-        lv_accounts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(requireActivity());
+        binding.lvElements.setLayoutManager(mLayoutManager);
+        binding.lvElements.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
                     int visibleItemCount = mLayoutManager.getChildCount();
@@ -106,18 +89,18 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
                             flag_loading = true;
                             AccountsVM viewModel = new ViewModelProvider(DisplayAccountsFragment.this).get(AccountsVM.class);
                             viewModel.getAccounts(accountFetch, max_id).observe(DisplayAccountsFragment.this.requireActivity(), apiResponse -> manageViewAccounts(apiResponse));
-                            nextElementLoader.setVisibility(View.VISIBLE);
+                            binding.loadingNext.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        nextElementLoader.setVisibility(View.GONE);
+                        binding.loadingNext.setVisibility(View.GONE);
                     }
                 }
             }
         });
-        swipeRefreshLayout.setOnRefreshListener(this::pullToRefresh);
+        binding.swipeContainer.setOnRefreshListener(this::pullToRefresh);
         AccountsVM viewModel = new ViewModelProvider(this).get(AccountsVM.class);
         viewModel.getAccounts(RetrofitPeertubeAPI.DataType.MUTED, max_id).observe(DisplayAccountsFragment.this.requireActivity(), this::manageViewAccounts);
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override
@@ -134,7 +117,7 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        rootView = null;
+        binding = null;
     }
 
     @Override
@@ -144,27 +127,20 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
 
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
     public void scrollToTop() {
-        if (lv_accounts != null)
-            lv_accounts.setAdapter(accountsListAdapter);
+        binding.lvElements.setAdapter(accountsListAdapter);
     }
 
     private void manageViewAccounts(APIResponse apiResponse) {
-        mainLoader.setVisibility(View.GONE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.loader.setVisibility(View.GONE);
+        binding.loadingNext.setVisibility(View.GONE);
         if (apiResponse.getError() != null) {
-            Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
-            swipeRefreshLayout.setRefreshing(false);
+            Toasty.error(requireActivity(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+            binding.swipeContainer.setRefreshing(false);
             flag_loading = false;
             return;
         }
@@ -181,9 +157,9 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
             max_id = "0";
         }
         if (firstLoad && (accounts == null || accounts.size() == 0))
-            textviewNoAction.setVisibility(View.VISIBLE);
+            binding.noAction.setVisibility(View.VISIBLE);
         else
-            textviewNoAction.setVisibility(View.GONE);
+            binding.noAction.setVisibility(View.GONE);
         max_id = String.valueOf(Integer.parseInt(max_id) + 20);
         if (accounts != null && accounts.size() > 0) {
             int previousPosition = this.accounts.size();
@@ -192,11 +168,11 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
             if (previousPosition == 0) {
                 accountsListAdapter = new AccountsListAdapter(accountFetch, this.accounts);
                 accountsListAdapter.allAccountsRemoved = this;
-                lv_accounts.setAdapter(accountsListAdapter);
+                binding.lvElements.setAdapter(accountsListAdapter);
             } else
                 accountsListAdapter.notifyItemRangeChanged(currentPosition, accounts.size());
         }
-        swipeRefreshLayout.setRefreshing(false);
+        binding.swipeContainer.setRefreshing(false);
         firstLoad = false;
     }
 
@@ -205,14 +181,14 @@ public class DisplayAccountsFragment extends Fragment implements AccountsListAda
         accounts = new ArrayList<>();
         firstLoad = true;
         flag_loading = true;
-        swipeRefreshLayout.setRefreshing(true);
+        binding.swipeContainer.setRefreshing(true);
         AccountsVM viewModel = new ViewModelProvider(this).get(AccountsVM.class);
         viewModel.getAccounts(RetrofitPeertubeAPI.DataType.MUTED, null).observe(DisplayAccountsFragment.this.requireActivity(), this::manageViewAccounts);
     }
 
     @Override
     public void onAllAccountsRemoved() {
-        textviewNoAction.setVisibility(View.VISIBLE);
+        binding.noAction.setVisibility(View.VISIBLE);
     }
 
 

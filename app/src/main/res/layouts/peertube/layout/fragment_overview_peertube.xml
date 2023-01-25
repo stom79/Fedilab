@@ -52,16 +52,13 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/no_action_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/no_videos"
-                android:textSize="25sp" />
+                android:text="@string/no_videos" />
         </RelativeLayout>
         <!-- Main Loader -->
         <RelativeLayout
@@ -71,11 +68,10 @@
             android:gravity="center"
             android:visibility="gone">
 
-            <com.github.ybq.android.spinkit.SpinKitView
+            <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:SpinKit_Color="?colorAccent" />
+                android:layout_gravity="center" />
         </RelativeLayout>
         <!-- Loader for next videos -->
         <RelativeLayout
@@ -88,11 +84,10 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.github.ybq.android.spinkit.SpinKitView
+            <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:SpinKit_Color="?colorAccent" />
+                android:layout_gravity="center" />
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

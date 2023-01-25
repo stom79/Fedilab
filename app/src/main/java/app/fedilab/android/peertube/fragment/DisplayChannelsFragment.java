@@ -75,7 +75,6 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     private ChannelListAdapter channelListAdapter;
     private List<ChannelData.Channel> channels;
     private String name;
-    private View rootView;
     private FloatingActionButton action_button;
     private FragmentRecyclerviewPeertubeBinding binding;
     private AddChannelPeertubeBinding bindingDialog;
@@ -88,8 +87,6 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
 
 
         binding = FragmentRecyclerviewPeertubeBinding.inflate(LayoutInflater.from(context));
-        rootView = binding.getRoot();
-        context = getContext();
         Bundle bundle = this.getArguments();
         channels = new ArrayList<>();
         max_id = "0";
@@ -119,7 +116,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
         binding.swipeContainer.setOnRefreshListener(this::pullToRefresh);
 
         loadChannels(max_id);
-        return rootView;
+        return binding.getRoot();
     }
 
     private void loadChannels(String max_id) {
@@ -168,7 +165,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        rootView = null;
+        binding = null;
     }
 
     @Override
