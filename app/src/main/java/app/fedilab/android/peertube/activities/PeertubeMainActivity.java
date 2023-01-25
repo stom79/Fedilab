@@ -18,6 +18,7 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.BaseMainActivity.fetchRecentAccounts;
+import static app.fedilab.android.BaseMainActivity.headerMenuOpen;
 import static app.fedilab.android.BaseMainActivity.manageDrawerMenu;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
@@ -114,7 +115,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private DisplayVideosFragment recentFragment, locaFragment, trendingFragment, subscriptionFragment, mostLikedFragment;
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
-    private static boolean headerMenuOpen;
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -295,18 +295,19 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                 app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
                 headerMainBinding.backgroundImage.setAlpha(0.5f);
+                headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
+                headerMainBinding.changeAccount.setOnClickListener(v -> {
 
+                    headerMenuOpen = !headerMenuOpen;
+                    manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
+                });
             };
             mainHandler.post(myRunnable);
         }).start();
         headerMainBinding.instanceInfo.setVisibility(View.GONE);
         headerMainBinding.headerOptionInfo.setVisibility(View.GONE);
         binding.drawerNavView.addHeaderView(headerMainBinding.getRoot());
-        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
-        headerMainBinding.changeAccount.setOnClickListener(v -> {
-            headerMenuOpen = !headerMenuOpen;
-            manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
-        });
+
         binding.drawerNavView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent(PeertubeMainActivity.this, SettingsActivity.class);

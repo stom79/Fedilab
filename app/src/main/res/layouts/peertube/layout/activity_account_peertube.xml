@@ -106,28 +106,16 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <Button
-                            android:id="@+id/logout_button"
+                            android:id="@+id/edit_button"
                             style="@style/Widget.AppCompat.Button.Colored"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="@string/action_logout"
+                            android:text="@string/edit"
                             android:textAllCaps="false"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Button
-                            android:id="@+id/settings"
-                            style="@style/Widget.AppCompat.Button.Colored"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/settings"
-                            android:textAllCaps="false"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/logout_button" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

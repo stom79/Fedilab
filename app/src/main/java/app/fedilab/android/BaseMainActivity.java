@@ -316,7 +316,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     };
     private NetworkStateReceiver networkStateReceiver;
-    private static boolean headerMenuOpen;
+    public static boolean headerMenuOpen;
 
     public static void fetchRecentAccounts(Activity activity, NavHeaderMainBinding headerMainBinding) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);

@@ -32,7 +32,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -104,22 +103,8 @@ public class AccountActivity extends BaseBarActivity {
 
         binding.instance.setText(account.getHost());
 
-        BaseAccount finalBaseAccount = baseAccount;
-        binding.logoutButton.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilderLogoutAccount = new AlertDialog.Builder(AccountActivity.this);
-            dialogBuilderLogoutAccount.setMessage(getString(R.string.logout_account_confirmation, account.getUsername(), account.getHost()));
-            dialogBuilderLogoutAccount.setPositiveButton(R.string.action_logout, (dialog, id) -> {
-                Helper.logoutCurrentUser(AccountActivity.this, finalBaseAccount);
-                dialog.dismiss();
-            });
-            dialogBuilderLogoutAccount.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-            AlertDialog alertDialogLogoutAccount = dialogBuilderLogoutAccount.create();
-            alertDialogLogoutAccount.show();
-        });
-
-        binding.settings.setOnClickListener(v -> {
-            Intent intent = new Intent(AccountActivity.this, SettingsActivity.class);
-            startActivity(intent);
+        binding.editButton.setOnClickListener(v -> {
+            startActivity(new Intent(AccountActivity.this, MyAccountActivity.class));
         });
 
 

@@ -250,7 +250,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
         AlertDialog alertDialog = dialogBuilder.create();
         int position;
         if (oldChannelValues == null) {
-            position = -1;
+            position = 0;
         } else {
             position = 0;
             for (ChannelData.Channel channel : channels) {
