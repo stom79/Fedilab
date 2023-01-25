@@ -39,6 +39,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
+            android:padding="10dp"
+            android:textSize="20sp"
             android:text="@string/action_playlist_add" />
     </RelativeLayout>
     <!-- Main Loader -->

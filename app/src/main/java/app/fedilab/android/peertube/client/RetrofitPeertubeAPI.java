@@ -180,7 +180,7 @@ public class RetrofitPeertubeAPI {
             account.api = Account.API.PEERTUBE;
             account.software = Account.API.PEERTUBE.name();
             account.peertube_account = peertubeAccount;
-            account.user_id = peertubeAccount.getUserId();
+            account.user_id = peertubeAccount.getId();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_USER_ID, account.user_id);
             editor.putString(PREF_USER_INSTANCE, host);

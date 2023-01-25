@@ -46,7 +46,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/no_instances"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
     <!-- Main Loader -->
     <RelativeLayout

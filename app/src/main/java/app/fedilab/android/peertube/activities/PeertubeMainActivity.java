@@ -518,7 +518,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     account.refresh_token = token.getRefresh_token();
                     account.peertube_account = userMe.getAccount();
                     account.software = Account.API.PEERTUBE.name();
-                    account.user_id = userMe.getAccount().getUserId();
+                    account.user_id = userMe.getAccount().getId();
                     account.instance = userMe.getAccount().getHost();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(PREF_USER_TOKEN, token.getAccess_token());

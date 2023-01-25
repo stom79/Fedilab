@@ -25,13 +25,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:expandedTitleGravity="top"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -40,6 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -50,6 +54,7 @@
                         android:id="@+id/profile_picture"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
+                        tools:src="@tools:sample/avatars"
                         android:contentDescription="@string/profile_picture"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +68,8 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:textSize="18sp"
-                        app:layout_constraintRight_toLeftOf="@+id/button_container"
+                        app:layout_constraintRight_toLeftOf="@+id/edit_button"
+                        tools:text="@tools:sample/full_names"
                         app:layout_constraintStart_toEndOf="@+id/profile_picture"
                         app:layout_constraintTop_toTopOf="@+id/profile_picture" />
 
@@ -76,34 +82,27 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:textSize="14sp"
+                        app:layout_constraintRight_toLeftOf="@+id/edit_button"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/button_container"
+                        tools:text="@tools:sample/full_names"
                         app:layout_constraintStart_toEndOf="@+id/profile_picture"
                         app:layout_constraintTop_toTopOf="@+id/displayname" />
 
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/button_container"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/edit_button"
+                        style="@style/Widget.Material3.Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/edit"
+                        android:textAllCaps="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/edit_button"
-                            style="@style/Widget.Material3.Button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/edit"
-                            android:textAllCaps="false"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout

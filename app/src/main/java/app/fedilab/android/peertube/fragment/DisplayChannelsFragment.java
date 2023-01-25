@@ -95,14 +95,11 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
             search_peertube = bundle.getString("search_peertube", null);
         }
 
-        if (getActivity() != null) {
-            action_button = getActivity().findViewById(R.id.action_button);
-            if (action_button != null) {
-                action_button.setVisibility(View.VISIBLE);
-                action_button.setOnClickListener(view -> manageAlert(null));
-            }
+        action_button = getActivity().findViewById(R.id.action_button);
+        if (action_button != null) {
+            action_button.setVisibility(View.VISIBLE);
+            action_button.setOnClickListener(view -> manageAlert(null));
         }
-
         binding.lvElements.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         channelListAdapter = new ChannelListAdapter(this.channels);
         channelListAdapter.allChannelRemoved = this;

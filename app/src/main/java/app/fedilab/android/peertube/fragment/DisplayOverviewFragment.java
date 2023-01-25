@@ -65,8 +65,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     private int page;
     private List<VideoData.Video> peertubes;
     private boolean firstLoad;
-    private View rootView;
-    private RecyclerView lv_status;
+
     private TimelineVM viewModelFeeds;
     private Map<String, Boolean> relationship;
     private Map<String, List<PlaylistExist>> playlists;
@@ -82,7 +81,6 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
         binding = FragmentOverviewPeertubeBinding.inflate(getLayoutInflater());
 
         peertubes = new ArrayList<>();
-        lv_status = rootView.findViewById(R.id.lv_status);
         page = 1;
         flag_loading = true;
         firstLoad = true;
@@ -95,24 +93,24 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
         peertubeAdapater.playlistListener = this;
         peertubeAdapater.relationShipListener = this;
 
-        lv_status.setAdapter(peertubeAdapater);
+        binding.lvStatus.setAdapter(peertubeAdapater);
 
 
         if (!Helper.isTablet(requireActivity())) {
             mLayoutManager = new LinearLayoutManager(requireActivity());
-            lv_status.setLayoutManager(mLayoutManager);
+            binding.lvStatus.setLayoutManager(mLayoutManager);
         } else {
             gLayoutManager = new GridLayoutManager(requireActivity(), 2);
             int spanCount = (int) Helper.convertDpToPixel(2, requireActivity());
             int spacing = (int) Helper.convertDpToPixel(5, requireActivity());
-            lv_status.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, true));
-            lv_status.setLayoutManager(gLayoutManager);
+            binding.lvStatus.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, true));
+            binding.lvStatus.setLayoutManager(gLayoutManager);
         }
 
         viewModelFeeds = new ViewModelProvider(DisplayOverviewFragment.this).get(TimelineVM.class);
         binding.swipeContainer.setOnRefreshListener(this::pullToRefresh);
         loadTimeline(page);
-        lv_status.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.lvStatus.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (mLayoutManager != null) {
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
@@ -149,7 +147,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
         });
 
 
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override
@@ -289,7 +287,7 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
             peertubeAdapater = new PeertubeAdapter(this.peertubes);
             peertubeAdapater.playlistListener = DisplayOverviewFragment.this;
             peertubeAdapater.relationShipListener = DisplayOverviewFragment.this;
-            lv_status.setAdapter(peertubeAdapater);
+            binding.lvStatus.setAdapter(peertubeAdapater);
         } else
             peertubeAdapater.notifyItemRangeInserted(previousPosition, totalAdded);
         //remove handlers
@@ -306,14 +304,12 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
 
     @Override
     public void onDestroyView() {
-        if (lv_status != null) {
-            try {
-                lv_status.setAdapter(null);
-            } catch (Exception ignored) {
-            }
+        try {
+            binding.lvStatus.setAdapter(null);
+        } catch (Exception ignored) {
         }
         super.onDestroyView();
-        rootView = null;
+        binding = null;
     }
 
     @Override

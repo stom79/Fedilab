@@ -140,6 +140,10 @@ public class ChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private boolean isMyChannel(Channel channel) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (channel.getOwnerAccount() == null) {
+            return true;
+        }
         String channeIdOwner = channel.getOwnerAccount().getId();
         String channeInstanceOwner = channel.getOwnerAccount().getHost();
         String instanceShar = sharedpreferences.getString(PREF_USER_INSTANCE, null);

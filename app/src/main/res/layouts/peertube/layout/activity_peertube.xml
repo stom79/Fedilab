@@ -324,7 +324,7 @@
                             android:gravity="center"
                             android:padding="10dp"
                             android:text="@string/no_comments"
-                            android:textSize="25sp" />
+                            android:textSize="20sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
