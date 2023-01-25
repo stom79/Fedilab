@@ -28,7 +28,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -55,7 +54,6 @@ import app.fedilab.android.peertube.fragment.DisplayAccountsFragment;
 import app.fedilab.android.peertube.fragment.DisplayChannelsFragment;
 import app.fedilab.android.peertube.fragment.DisplayNotificationsFragment;
 import app.fedilab.android.peertube.helper.Helper;
-import app.fedilab.android.peertube.helper.SwitchAccountHelper;
 
 
 public class AccountActivity extends BaseBarActivity {
@@ -95,17 +93,14 @@ public class AccountActivity extends BaseBarActivity {
 
         AccountData.PeertubeAccount account = baseAccount.peertube_account;
 
-        setTitle(String.format("@%s", account.getUsername()));
+        setTitle(String.format("@%s@%s", account.getUsername(), baseAccount.instance));
 
         Helper.loadAvatar(AccountActivity.this, account, binding.profilePicture);
         binding.username.setText(String.format("@%s", account.getUsername()));
         binding.displayname.setText(account.getDisplayName());
 
-        binding.instance.setText(account.getHost());
 
-        binding.editButton.setOnClickListener(v -> {
-            startActivity(new Intent(AccountActivity.this, MyAccountActivity.class));
-        });
+        binding.editButton.setOnClickListener(v -> startActivity(new Intent(AccountActivity.this, MyAccountActivity.class)));
 
 
         TabLayout.Tab notificationTab = binding.accountTabLayout.newTab();
@@ -227,11 +222,6 @@ public class AccountActivity extends BaseBarActivity {
         super.onResume();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(@NotNull Menu menu) {
-        getMenuInflater().inflate(R.menu.main_profile_peertube, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -239,8 +229,6 @@ public class AccountActivity extends BaseBarActivity {
             finish();
             overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_up_down);
             return true;
-        } else if (item.getItemId() == R.id.action_add_account) {
-            SwitchAccountHelper.switchDialog(AccountActivity.this, true);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -39,15 +39,14 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/no_action_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/no_channels"
-            android:textSize="25sp" />
+            android:text="@string/no_channels" />
     </RelativeLayout>
     <!-- Main Loader -->
     <RelativeLayout
@@ -57,11 +56,10 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:SpinKit_Color="?colorAccent" />
+            android:layout_gravity="center" />
     </RelativeLayout>
     <!-- Loader for next accounts -->
     <RelativeLayout
@@ -73,11 +71,10 @@
         android:gravity="bottom|center_horizontal"
         android:visibility="gone">
 
-        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:SpinKit_Color="?colorAccent" />
+            android:layout_gravity="center" />
     </RelativeLayout>
 </RelativeLayout>
 

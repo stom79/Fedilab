@@ -19,8 +19,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +27,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.FragmentRecyclerviewPeertubeBinding;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.NotificationData.Notification;
 import app.fedilab.android.peertube.drawer.PeertubeNotificationsListAdapter;
@@ -69,44 +67,35 @@ public class DisplayNotificationsFragment extends Fragment {
     private PeertubeNotificationsListAdapter peertubeNotificationsListAdapter;
     private String max_id;
     private List<Notification> notifications;
-    private RelativeLayout mainLoader, nextElementLoader, textviewNoAction;
     private boolean firstLoad;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView lv_notifications;
-    private View rootView;
     private NotificationsVM viewModel;
+    FragmentRecyclerviewPeertubeBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_recyclerview_peertube, container, false);
-
+        binding = FragmentRecyclerviewPeertubeBinding.inflate(getLayoutInflater());
         context = getContext();
         notifications = new ArrayList<>();
         max_id = "0";
         firstLoad = true;
         flag_loading = true;
 
-        swipeRefreshLayout = rootView.findViewById(R.id.swipeContainer);
 
         viewModel = new ViewModelProvider(this).get(NotificationsVM.class);
 
-        lv_notifications = rootView.findViewById(R.id.lv_elements);
-        lv_notifications.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        mainLoader = rootView.findViewById(R.id.loader);
-        nextElementLoader = rootView.findViewById(R.id.loading_next);
-        textviewNoAction = rootView.findViewById(R.id.no_action);
-        TextView no_action_text = rootView.findViewById(R.id.no_action_text);
-        no_action_text.setText(context.getString(R.string.no_notifications));
-        mainLoader.setVisibility(View.VISIBLE);
-        nextElementLoader.setVisibility(View.GONE);
+
+        binding.lvElements.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        binding.noActionText.setText(context.getString(R.string.no_notifications));
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.loadingNext.setVisibility(View.GONE);
         peertubeNotificationsListAdapter = new PeertubeNotificationsListAdapter(this.notifications);
-        lv_notifications.setAdapter(peertubeNotificationsListAdapter);
+        binding.lvElements.setAdapter(peertubeNotificationsListAdapter);
 
         final LinearLayoutManager mLayoutManager;
         mLayoutManager = new LinearLayoutManager(context);
-        lv_notifications.setLayoutManager(mLayoutManager);
-        lv_notifications.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.lvElements.setLayoutManager(mLayoutManager);
+        binding.lvElements.addOnScrollListener(new RecyclerView.OnScrollListener() {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
                     int visibleItemCount = mLayoutManager.getChildCount();
@@ -116,48 +105,40 @@ public class DisplayNotificationsFragment extends Fragment {
                         if (!flag_loading) {
                             flag_loading = true;
                             viewModel.getNotifications(null, max_id).observe(DisplayNotificationsFragment.this.requireActivity(), apiResponse -> manageVIewNotifications(apiResponse));
-                            nextElementLoader.setVisibility(View.VISIBLE);
+                            binding.loadingNext.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        nextElementLoader.setVisibility(View.GONE);
+                        binding.loadingNext.setVisibility(View.GONE);
                     }
                 }
             }
         });
-        swipeRefreshLayout.setOnRefreshListener(this::pullToRefresh);
+        binding.swipeContainer.setOnRefreshListener(this::pullToRefresh);
 
         viewModel.getNotifications(null, "0").observe(DisplayNotificationsFragment.this.requireActivity(), this::manageVIewNotifications);
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        rootView = null;
+        binding = null;
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setEnabled(false);
-            swipeRefreshLayout.setRefreshing(false);
-            swipeRefreshLayout.clearAnimation();
-        }
+        binding.swipeContainer.setEnabled(false);
+        binding.swipeContainer.setRefreshing(false);
+        binding.swipeContainer.clearAnimation();
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        swipeRefreshLayout.setEnabled(true);
-        if (getActivity() != null && getActivity() != null) {
-            View action_button = getActivity().findViewById(R.id.action_button);
-            if (action_button != null) {
-                action_button.setVisibility(View.GONE);
-            }
-        }
+        binding.swipeContainer.setEnabled(true);
     }
 
     @Override
@@ -177,8 +158,7 @@ public class DisplayNotificationsFragment extends Fragment {
     }
 
     public void scrollToTop() {
-        if (lv_notifications != null)
-            lv_notifications.setAdapter(peertubeNotificationsListAdapter);
+        binding.lvElements.setAdapter(peertubeNotificationsListAdapter);
     }
 
 
@@ -190,17 +170,17 @@ public class DisplayNotificationsFragment extends Fragment {
         peertubeNotificationsListAdapter.notifyItemRangeRemoved(0, size);
         firstLoad = true;
         flag_loading = true;
-        swipeRefreshLayout.setRefreshing(true);
+        binding.swipeContainer.setRefreshing(true);
         viewModel.getNotifications(null, "0").observe(DisplayNotificationsFragment.this.requireActivity(), this::manageVIewNotifications);
     }
 
     private void manageVIewNotifications(APIResponse apiResponse) {
-        mainLoader.setVisibility(View.GONE);
-        nextElementLoader.setVisibility(View.GONE);
+        binding.loader.setVisibility(View.GONE);
+        binding.loadingNext.setVisibility(View.GONE);
         if (apiResponse.getError() != null) {
             Toasty.error(context, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             flag_loading = false;
-            swipeRefreshLayout.setRefreshing(false);
+            binding.swipeContainer.setRefreshing(false);
             return;
         }
 
@@ -208,23 +188,23 @@ public class DisplayNotificationsFragment extends Fragment {
         max_id = String.valueOf(Integer.parseInt(max_id) + 20);
         List<Notification> notifications = apiResponse.getPeertubeNotifications();
         if (firstLoad && (notifications == null || notifications.size() == 0))
-            textviewNoAction.setVisibility(View.VISIBLE);
+            binding.noAction.setVisibility(View.VISIBLE);
         else
-            textviewNoAction.setVisibility(View.GONE);
+            binding.noAction.setVisibility(View.GONE);
 
 
         if (notifications != null && notifications.size() > 0) {
             this.notifications.addAll(notifications);
             if (previousPosition == 0) {
                 peertubeNotificationsListAdapter = new PeertubeNotificationsListAdapter(this.notifications);
-                lv_notifications.setAdapter(peertubeNotificationsListAdapter);
+                binding.lvElements.setAdapter(peertubeNotificationsListAdapter);
             } else
                 peertubeNotificationsListAdapter.notifyItemRangeInserted(previousPosition, notifications.size());
         } else {
             if (firstLoad)
-                textviewNoAction.setVisibility(View.VISIBLE);
+                binding.noAction.setVisibility(View.VISIBLE);
         }
-        swipeRefreshLayout.setRefreshing(false);
+        binding.swipeContainer.setRefreshing(false);
         firstLoad = false;
         //The initial call comes from a classic tab refresh
         flag_loading = (max_id == null);

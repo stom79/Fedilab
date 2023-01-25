@@ -32,34 +32,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/instance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/profile_picture"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
@@ -68,20 +55,19 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/displayname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         app:layout_constraintRight_toLeftOf="@+id/button_container"
                         app:layout_constraintStart_toEndOf="@+id/profile_picture"
                         app:layout_constraintTop_toTopOf="@+id/profile_picture" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,7 +75,6 @@
                         android:layout_marginTop="30dp"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toLeftOf="@+id/button_container"
@@ -105,10 +90,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/edit_button"
-                            style="@style/Widget.AppCompat.Button.Colored"
-                            android:layout_width="0dp"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:text="@string/edit"
@@ -116,10 +101,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -127,12 +111,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="?colorAccent"
-            app:tabTextColor="@android:color/white" />
+            app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/remote_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,7 +139,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_baseline_add_24"
-        android:tint="@android:color/white"
         android:visibility="gone"
         tools:ignore="ContentDescription" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
