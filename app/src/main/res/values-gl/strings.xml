@@ -977,4 +977,7 @@
     <string name="poll_type_multiple">Varias opcións</string>
     <string name="action_change_subscribed_language">Cambiar susbscrición a idiomas</string>
     <string name="translate_in">Traducir ao</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol">Protocolo</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>

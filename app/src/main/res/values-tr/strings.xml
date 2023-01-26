@@ -981,4 +981,7 @@
     <string name="poll_type_single">Tek seçenek</string>
     <string name="show_privates">Doğrudan mesajları göster</string>
     <string name="poll_type_multiple">Çoklu seçenekler</string>
+    <string name="proxy_protocol">Protokol</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>

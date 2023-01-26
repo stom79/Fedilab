@@ -959,7 +959,7 @@
     <string name="set_pixelfed_presentation">Présentation de Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
     <string name="set_display_reaction_indication">Afficher les boutons « Réactions »</string>
-    <string name="set_post_format">Format de publication</string>
+    <string name="set_post_format">Format du message</string>
     <string name="exclude_visibility">Exclure la visibilité</string>
     <string name="set_remote_profile_title">Profils distants</string>
     <string name="set_display_local_only">Afficher le bouton « Local uniquement »</string>
@@ -980,4 +980,7 @@
     <string name="boost_original_date">Afficher la date originale pour les boosts</string>
     <string name="set_disable_release_notes">Désactiver les notes de version</string>
     <string name="set_maths_support">Écrire une formule</string>
+    <string name="proxy_protocol">Protocole</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>

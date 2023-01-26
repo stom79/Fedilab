@@ -971,4 +971,10 @@
     <string name="poll_type_multiple">Issèberos mùltiplos</string>
     <string name="poll_type_single">Issèberu sìngulu</string>
     <string name="show_privates">Ammustra is messàgios diretos</string>
+    <string name="proxy_protocol">Protocollu</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="action_change_subscribed_language">Modìfica is limbas de iscritzione</string>
+    <string name="filter_languages">Filtra is limbas</string>
+    <string name="translate_in">Borta in</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>

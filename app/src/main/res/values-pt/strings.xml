@@ -893,4 +893,16 @@
     <string name="toast_fetch_error">O aplicativo não consegue encontrar dados remotos!</string>
     <string name="display_remote_profile">Exibir perfil remoto</string>
     <string name="delete_timeline">Excluir timeline</string>
+    <string name="set_display_reaction_indication">Exibir botões \"Reações\"</string>
+    <string name="set_display_quote_indication">Exibir o botão \"Citação\"</string>
+    <string name="set_display_local_only">Exibir o botão \"Somente local\"</string>
+    <string name="v_list">Lista</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="local_only">Somente local</string>
+    <string name="formula">Fórmula</string>
+    <string name="filter_languages">Filtrar idiomas</string>
+    <string name="proxy_protocol">Protocolo</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="set_maths_support">Escrever fórmula</string>
+    <string name="show_privates">Mostrar mensagens diretas</string>
 </resources>
