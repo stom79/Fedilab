@@ -93,6 +93,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_emoji"
             style="@style/Fedilab.SmallIconButton"
+            app:layout_goneMarginTop="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:contentDescription="@string/emoji_picker"
