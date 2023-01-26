@@ -14,14 +14,11 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.peertube.activities.PeertubeUploadActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 import static app.fedilab.android.peertube.worker.WorkHelper.NOTIFICATION_WORKER;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,8 +31,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.preference.PreferenceManager;
 import androidx.work.WorkManager;
@@ -148,7 +143,6 @@ public class MyAccountActivity extends BaseBarActivity {
         int position = 0;
         switch (interval) {
             case 0:
-                position = 0;
                 break;
             case 15:
                 position = 1;
@@ -171,22 +165,14 @@ public class MyAccountActivity extends BaseBarActivity {
         }
         binding.refreshTime.setSelection(position, false);
 
-        binding.selectFile.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(MyAccountActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MyAccountActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                return;
-            }
-
+        binding.selectFile.setOnClickListener(v -> Helper.requestPermissionAndProceed(MyAccountActivity.this, () -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("*/*");
             String[] mimetypes = {"image/*"};
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
             startActivityForResult(intent, PICK_IMAGE);
-        });
+        }));
 
     }
 
