@@ -904,4 +904,5 @@
     <string name="proxy_protocol">Protocolo</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="set_maths_support">Escrever fórmula</string>
+    <string name="show_privates">Mostrar mensagens diretas</string>
 </resources>
