@@ -72,6 +72,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -562,6 +563,52 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     }
 
+    public static void headerOptionInfoClick(Activity activity, NavHeaderMainBinding headerMainBinding, FragmentManager fragmentManager) {
+        PopupMenu popup = new PopupMenu(activity, headerMainBinding.headerOptionInfo);
+        popup.getMenuInflater()
+                .inflate(R.menu.main, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_logout_account) {
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                alt_bld.setTitle(R.string.action_logout);
+                if (currentAccount.mastodon_account != null && currentAccount.instance != null) {
+                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
+                } else if (currentAccount.peertube_account != null && currentAccount.instance != null) {
+                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.peertube_account.getUsername(), currentAccount.instance));
+                } else {
+                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, "", ""));
+                }
+                alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
+                    dialog.dismiss();
+                    try {
+                        Helper.removeAccount(activity);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                });
+                alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                AlertDialog alert = alt_bld.create();
+                alert.show();
+                return true;
+            } else if (itemId == R.id.action_proxy) {
+                (new ProxyActivity()).show(fragmentManager, null);
+                return true;
+            }
+            return true;
+        });
+        popup.show();
+    }
+
+    protected abstract void rateThisApp();
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mamageNewIntent(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -891,43 +938,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             manageDrawerMenu(BaseMainActivity.this, binding.navView, headerMainBinding);
         });
 
-        headerMainBinding.headerOptionInfo.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(BaseMainActivity.this, headerMainBinding.headerOptionInfo);
-            popup.getMenuInflater()
-                    .inflate(R.menu.main, popup.getMenu());
-
-            popup.setOnMenuItemClickListener(item -> {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_logout_account) {
-                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(BaseMainActivity.this, Helper.dialogStyle());
-                    alt_bld.setTitle(R.string.action_logout);
-                    if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.username != null && currentAccount.instance != null) {
-                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
-                    } else if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.acct != null) {
-                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.acct, ""));
-                    } else {
-                        alt_bld.setMessage(getString(R.string.logout_account_confirmation, "", ""));
-                    }
-                    alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
-                        dialog.dismiss();
-                        try {
-                            Helper.removeAccount(BaseMainActivity.this);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                    AlertDialog alert = alt_bld.create();
-                    alert.show();
-                    return true;
-                } else if (itemId == R.id.action_proxy) {
-                    (new ProxyActivity()).show(getSupportFragmentManager(), null);
-                    return true;
-                }
-                return true;
-            });
-            popup.show();
-        });
+        headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(BaseMainActivity.this, headerMainBinding, getSupportFragmentManager()));
 
         //Toolbar search
         binding.toolbarSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -1042,14 +1053,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }).start();
         }
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
-    }
-
-    protected abstract void rateThisApp();
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        mamageNewIntent(intent);
     }
 
     /**
