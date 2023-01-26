@@ -29,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +47,7 @@ import com.google.android.material.tabs.TabLayout;
 import org.jetbrains.annotations.NotNull;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.ActivityShowAccountPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -64,25 +64,18 @@ import es.dmoral.toasty.Toasty;
 public class ShowAccountActivity extends BaseBarActivity {
 
 
-    private ViewPager mPager;
-    private TabLayout tabLayout;
-    private TextView account_note, subscriber_count;
-    private ImageView account_pp;
-    private TextView account_dn;
     private AccountData.PeertubeAccount account;
     private String accountAcct;
-
+    private ActivityShowAccountPeertubeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_account_peertube);
+        binding = ActivityShowAccountPeertubeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         setTitle("");
         Bundle b = getIntent().getExtras();
-        subscriber_count = findViewById(R.id.subscriber_count);
-        account_pp = findViewById(R.id.account_pp);
-        account_dn = findViewById(R.id.account_dn);
-        account_pp.setBackgroundResource(R.drawable.account_pp_border);
+        binding.accountPp.setBackgroundResource(R.drawable.account_pp_border);
         if (b != null) {
             account = (AccountData.PeertubeAccount) b.getSerializable("account");
             accountAcct = b.getString("accountAcct");
@@ -94,8 +87,7 @@ public class ShowAccountActivity extends BaseBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        tabLayout = findViewById(R.id.account_tabLayout);
-        account_note = findViewById(R.id.account_note);
+
 
         manageAccount();
         AccountsVM viewModel = new ViewModelProvider(ShowAccountActivity.this).get(AccountsVM.class);
@@ -158,14 +150,13 @@ public class ShowAccountActivity extends BaseBarActivity {
 
         setTitle(account.getAcct());
 
-        mPager = findViewById(R.id.account_viewpager);
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.channels)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.videos)));
-        mPager.setOffscreenPageLimit(2);
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.channels)));
+        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.videos)));
+        binding.accountViewpager.setOffscreenPageLimit(2);
 
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.accountViewpager.setAdapter(mPagerAdapter);
+        binding.accountViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -173,7 +164,7 @@ public class ShowAccountActivity extends BaseBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                TabLayout.Tab tab = tabLayout.getTabAt(position);
+                TabLayout.Tab tab = binding.accountTabLayout.getTabAt(position);
                 if (tab != null)
                     tab.select();
             }
@@ -184,10 +175,10 @@ public class ShowAccountActivity extends BaseBarActivity {
             }
         });
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.accountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mPager.setCurrentItem(tab.getPosition());
+                binding.accountViewpager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -198,8 +189,8 @@ public class ShowAccountActivity extends BaseBarActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Fragment fragment = null;
-                if (mPager.getAdapter() != null)
-                    fragment = (Fragment) mPager.getAdapter().instantiateItem(mPager, tab.getPosition());
+                if (binding.accountViewpager.getAdapter() != null)
+                    fragment = (Fragment) binding.accountViewpager.getAdapter().instantiateItem(binding.accountViewpager, tab.getPosition());
                 switch (tab.getPosition()) {
                     case 0:
                         if (fragment != null) {
@@ -217,10 +208,10 @@ public class ShowAccountActivity extends BaseBarActivity {
             }
         });
 
-        account_dn.setText(account.getDisplayName());
+        binding.accountDn.setText(account.getDisplayName());
 
         manageNotes(account);
-        Helper.loadAvatar(ShowAccountActivity.this, account, account_pp);
+        Helper.loadAvatar(ShowAccountActivity.this, account, binding.accountPp);
     }
 
     @Override
@@ -252,8 +243,8 @@ public class ShowAccountActivity extends BaseBarActivity {
                 this.account = account;
                 manageAccount();
             }
-            subscriber_count.setText(getString(R.string.followers_count, Helper.withSuffix(account.getFollowersCount())));
-            subscriber_count.setVisibility(View.VISIBLE);
+            binding.subscriberCount.setText(getString(R.string.followers_count, Helper.withSuffix(account.getFollowersCount())));
+            binding.subscriberCount.setVisibility(View.VISIBLE);
             manageNotes(account);
         }
     }
@@ -266,11 +257,11 @@ public class ShowAccountActivity extends BaseBarActivity {
             else
                 spannableString = new SpannableString(Html.fromHtml(account.getDescription()));
 
-            account_note.setText(spannableString, TextView.BufferType.SPANNABLE);
-            account_note.setMovementMethod(LinkMovementMethod.getInstance());
-            account_note.setVisibility(View.VISIBLE);
+            binding.accountNote.setText(spannableString, TextView.BufferType.SPANNABLE);
+            binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
+            binding.accountNote.setVisibility(View.VISIBLE);
         } else {
-            account_note.setVisibility(View.GONE);
+            binding.accountNote.setVisibility(View.GONE);
         }
     }
 

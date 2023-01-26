@@ -25,14 +25,12 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -66,7 +64,6 @@
                         android:layout_marginStart="10dp"
                         android:singleLine="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@+id/subscriber_count"
                         app:layout_constraintStart_toEndOf="@+id/account_pp"
@@ -81,7 +78,6 @@
                         android:gravity="center_vertical"
                         android:singleLine="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@android:color/white"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/account_pp"
@@ -90,7 +86,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/top_banner"
@@ -99,17 +95,16 @@
                     android:paddingTop="8dp"
                     app:layout_scrollFlags="scroll|enterAlways">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/account_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:textColor="@android:color/white"
                         android:textIsSelectable="true"
                         android:visibility="gone" />
-                </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -118,9 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="?colorAccent"
-            app:tabTextColor="@android:color/white" />
+            app:tabMode="fixed" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
