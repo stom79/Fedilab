@@ -15,6 +15,7 @@ package app.fedilab.android.peertube.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.RATEVIDEO;
@@ -126,6 +127,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
+import app.fedilab.android.databinding.PopupVideoInfoPeertubeBinding;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
@@ -266,7 +268,9 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             sepiaSearch = b.getBoolean("sepia_search", false);
             peertube = (VideoData.Video) b.getSerializable("video");
         }
-
+        if (currentAccount != null && currentAccount.peertube_account != null) {
+            binding.myAcct.setText(String.format("@%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
+        }
 
         willPlayFromIntent = manageIntentUrl(intent);
 
@@ -876,35 +880,28 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
         binding.videoInformation.setOnClickListener(v -> {
             AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.popup_video_info_peertube, new LinearLayout(PeertubeActivity.this), false);
-            TextView info_privacy = dialogView.findViewById(R.id.info_privacy);
-            TextView info_published_at = dialogView.findViewById(R.id.info_published_at);
-            TextView info_category = dialogView.findViewById(R.id.info_category);
-            TextView info_license = dialogView.findViewById(R.id.info_license);
-            TextView info_language = dialogView.findViewById(R.id.info_language);
-            TextView info_duration = dialogView.findViewById(R.id.info_duration);
-            TextView info_tags = dialogView.findViewById(R.id.info_tags);
+
+            PopupVideoInfoPeertubeBinding videoInfo = PopupVideoInfoPeertubeBinding.inflate(getLayoutInflater());
 
             LinkedHashMap<Integer, String> privaciesInit = new LinkedHashMap<>(peertubeInformation.getPrivacies());
-            info_privacy.setText(privaciesInit.get(peertube.getPrivacy().getId()));
+            videoInfo.infoPrivacy.setText(privaciesInit.get(peertube.getPrivacy().getId()));
             LinkedHashMap<Integer, String> licenseInit = new LinkedHashMap<>(peertubeInformation.getLicences());
-            info_license.setText(licenseInit.get(peertube.getLicence().getId()));
+            videoInfo.infoLicense.setText(licenseInit.get(peertube.getLicence().getId()));
             LinkedHashMap<String, String> languageStr = new LinkedHashMap<>(peertubeInformation.getLanguages());
-            info_language.setText(languageStr.get(peertube.getLanguage().getId()));
+            videoInfo.infoLanguage.setText(languageStr.get(peertube.getLanguage().getId()));
             LinkedHashMap<Integer, String> categoryInit = new LinkedHashMap<>(peertubeInformation.getCategories());
-            info_category.setText(categoryInit.get(peertube.getCategory().getId()));
+            videoInfo.infoCategory.setText(categoryInit.get(peertube.getCategory().getId()));
 
             if (peertube.isLive()) {
-                info_duration.setText(R.string.live);
-                info_duration.setBackgroundResource(R.drawable.rounded_live);
-                info_duration.setBackgroundResource(R.drawable.rounded_live);
+                videoInfo.infoDuration.setText(R.string.live);
+                videoInfo.infoDuration.setBackgroundResource(R.drawable.rounded_live);
+                videoInfo.infoDuration.setBackgroundResource(R.drawable.rounded_live);
             } else {
-                info_duration.setText(Helper.secondsToString(peertube.getDuration()));
+                videoInfo.infoDuration.setText(Helper.secondsToString(peertube.getDuration()));
             }
 
             String format = DateFormat.getDateInstance(DateFormat.LONG).format(peertube.getPublishedAt());
-            info_published_at.setText(format);
+            videoInfo.infoPublishedAt.setText(format);
             List<String> tags = peertube.getTags();
             StringBuilder sb = new StringBuilder();
             for (String tag : tags) {
@@ -942,9 +939,9 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     }
                 }
             }
-            info_tags.setText(spannableString, TextView.BufferType.SPANNABLE);
-            info_tags.setMovementMethod(LinkMovementMethod.getInstance());
-            dialogBuilder.setView(dialogView);
+            videoInfo.infoTags.setText(spannableString, TextView.BufferType.SPANNABLE);
+            videoInfo.infoTags.setMovementMethod(LinkMovementMethod.getInstance());
+            dialogBuilder.setView(videoInfo.getRoot());
             dialogBuilder.setNeutralButton(R.string.close, (dialog, id) -> dialog.dismiss());
             AlertDialog alertDialog = dialogBuilder.create();
             alertDialog.show();

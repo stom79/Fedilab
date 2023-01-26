@@ -635,7 +635,7 @@ public class Helper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String userId = sharedpreferences.getString(PREF_USER_ID, "");
         String instance = sharedpreferences.getString(PREF_USER_INSTANCE, "");
-        return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
+        return account.getId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
     }
 
     public static boolean isVideoOwner(Context context, VideoData.Video video) {
@@ -650,10 +650,10 @@ public class Helper {
         }
         AccountData.PeertubeAccount account = video.getAccount();
         ChannelData.Channel channel = video.getChannel();
-        if (account != null && account.getUserId() != null && account.getHost() != null) {
-            return account.getUserId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
-        } else if (channel != null && channel.getOwnerAccount() != null && channel.getOwnerAccount().getUserId() != null && channel.getOwnerAccount().getHost() != null) {
-            return channel.getOwnerAccount().getUserId().compareTo(userId) == 0 && channel.getHost().compareTo(instance) == 0;
+        if (account != null && account.getId() != null && account.getHost() != null) {
+            return account.getId().compareTo(userId) == 0 && account.getHost().compareTo(instance) == 0;
+        } else if (channel != null && channel.getOwnerAccount() != null && channel.getOwnerAccount().getId() != null && channel.getOwnerAccount().getHost() != null) {
+            return channel.getOwnerAccount().getId().compareTo(userId) == 0 && channel.getHost().compareTo(instance) == 0;
         } else {
             return false;
         }

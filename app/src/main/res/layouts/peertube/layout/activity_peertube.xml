@@ -22,7 +22,7 @@
     android:keepScreenOn="true"
     tools:context=".peertube.activities.PeertubeActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -67,7 +67,7 @@
                     android:visibility="invisible"
                     app:yt_playerView="@+id/doubleTapPlayerView" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/watermark"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
@@ -107,33 +107,37 @@
             android:id="@+id/bottom_video"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginEnd="@dimen/fab_margin"
+            android:paddingStart="@dimen/fab_margin"
+            android:paddingEnd="@dimen/fab_margin"
             android:layout_weight="2">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/peertube_information_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?android:colorBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp">
 
-                        <LinearLayout
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="10dp">
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -141,7 +145,7 @@
                                 android:orientation="horizontal"
                                 tools:ignore="UseCompoundDrawables">
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/peertube_title"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -179,7 +183,7 @@
                                     android:layout_marginRight="10dp"
                                     android:contentDescription="@string/profile_picture" />
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/peertube_view_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -194,7 +198,7 @@
                                     app:drawableTopCompat="@drawable/ic_baseline_visibility_24"
                                     tools:ignore="HardcodedText" />
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/peertube_like_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -209,7 +213,7 @@
                                     app:drawableTopCompat="@drawable/ic_baseline_thumb_up_alt_24"
                                     tools:ignore="HardcodedText" />
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/peertube_dislike_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -260,7 +264,7 @@
                                     tools:ignore="UselessLeaf" />
 
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/more_actions"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -276,7 +280,7 @@
 
                             </LinearLayout>
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/peertube_description"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -284,24 +288,17 @@
                                 android:autoLink="web"
                                 android:textIsSelectable="true" />
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/peertube_description_more"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="@string/show_more"
-                                android:textColor="?attr/colorAccent"
+                                android:textColor="?attr/colorPrimary"
                                 android:visibility="gone" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </com.google.android.material.card.MaterialCardView>
 
-                    <Button
-                        android:id="@+id/post_comment_button"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/add_public_comment" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/peertube_comments"
@@ -309,13 +306,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/post_comment_button"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/add_public_comment" />
+
                     <RelativeLayout
                         android:id="@+id/no_action"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/no_action_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -325,7 +330,8 @@
                             android:text="@string/no_comments"
                             android:textSize="20sp" />
                     </RelativeLayout>
-                </LinearLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
 
             <androidx.core.widget.NestedScrollView
@@ -334,6 +340,7 @@
                 android:layout_height="match_parent"
                 android:background="?android:colorBackground"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -375,7 +382,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/black"
             android:visibility="gone" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <RelativeLayout
         android:id="@+id/video_params"
@@ -432,7 +439,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/comment_account_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -441,7 +448,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/comment_account_displayname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -452,7 +459,7 @@
                     app:layout_constraintStart_toEndOf="@+id/comment_account_profile"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/comment_account_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -464,7 +471,7 @@
                     app:layout_constraintStart_toEndOf="@+id/comment_account_profile"
                     app:layout_constraintTop_toBottomOf="@+id/comment_account_displayname" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/comment_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -477,7 +484,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/comment_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -513,7 +520,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/separator_top">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/my_pp"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -521,13 +528,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/my_acct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/my_pp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/text_field_boxes"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/my_pp"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/my_pp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/add_comment_write"
@@ -540,9 +555,9 @@
                             android:minLines="4" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/send"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/send_comment"
@@ -582,7 +597,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/subMenuTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
