@@ -19,11 +19,9 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userM
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.DataType.MY_CHANNELS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -34,8 +32,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -269,22 +265,14 @@ public class PeertubeUploadActivity extends BaseBarActivity {
         });
         binding.setUploadFile.setEnabled(true);
 
-        binding.setUploadFile.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(PeertubeUploadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                    PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(PeertubeUploadActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                return;
-            }
+        binding.setUploadFile.setOnClickListener(v -> Helper.requestPermissionAndProceed(this, () -> {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("*/*");
             String[] mimetypes = {"video/*"};
             intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
             startActivityForResult(intent, PICK_IVDEO);
-
-        });
+        }));
 
         //Manage languages
         binding.setUploadChannel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

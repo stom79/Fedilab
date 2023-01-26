@@ -21,6 +21,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -28,6 +29,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -52,6 +54,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
@@ -764,6 +767,26 @@ public class Helper {
             DecimalFormat df = new DecimalFormat("#.#");
             return String.format(Locale.getDefault(), "%s%s", df.format(rounded), context.getString(R.string.b));
         }
+    }
+
+    public static void requestPermissionAndProceed(Activity activity, PermissionGranted permissionGranted) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, app.fedilab.android.mastodon.helper.Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
+                } else {
+                    permissionGranted.proceed();
+                }
+            } else {
+                permissionGranted.proceed();
+            }
+        } else {
+            permissionGranted.proceed();
+        }
+    }
+
+    public interface PermissionGranted {
+        void proceed();
     }
 
 

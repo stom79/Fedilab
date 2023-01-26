@@ -18,79 +18,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".peertube.activities.PeertubeUploadActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
 
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal">
+            android:layout_margin="12dp"
+            app:cardElevation="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/total_quota"
-                android:text="@string/total_video_quota" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/total_quota_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp" />
-        </LinearLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/total_quota"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="300dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progressDrawable="@drawable/progress_bar" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/total_quota"
+                        android:text="@string/total_video_quota" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/total_quota_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@+id/daily_quota"
-                android:text="@string/daily_video_quota" />
+                <ProgressBar
+                    android:id="@+id/total_quota"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_bar" />
 
-            <TextView
-                android:id="@+id/daily_quota_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp" />
-        </LinearLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/daily_quota"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="300dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progressDrawable="@drawable/progress_bar" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/daily_quota"
+                        android:text="@string/daily_video_quota" />
 
-        <Button
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/daily_quota_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ProgressBar
+                    android:id="@+id/daily_quota"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="300dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp"
+                    android:layout_marginTop="10dp"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_bar" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/set_upload_file"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -100,7 +116,7 @@
             android:text="@string/file_to_upload"
             android:textSize="16sp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/set_upload_file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,52 +125,58 @@
             android:gravity="center"
             android:visibility="gone" />
 
-        <!-- Videos channels -->
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
+            android:orientation="horizontal">
+            <!-- Videos channels -->
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/channel"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/set_upload_channel"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/channel"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/set_upload_channel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <!-- Videos Privacy -->
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/action_privacy"
+                    android:textSize="16sp" />
 
-        <!-- Videos Privacy -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+                <Spinner
+                    android:id="@+id/set_upload_privacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/action_privacy"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/set_upload_privacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp" />
-        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="300dp"
@@ -175,9 +197,9 @@
 
 
         <!-- Videos upload submit -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/set_upload_submit"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -186,5 +208,5 @@
             android:gravity="center"
             android:text="@string/upload_video"
             android:textSize="18sp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.core.widget.NestedScrollView>
