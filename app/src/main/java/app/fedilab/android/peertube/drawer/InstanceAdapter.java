@@ -15,14 +15,10 @@ package app.fedilab.android.peertube.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static android.app.Activity.RESULT_OK;
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.text.SpannableString;
@@ -51,6 +47,8 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final List<Instance> instances;
 
     private Context context;
+
+    public ActionClick actionClick;
 
     public InstanceAdapter(List<Instance> instances) {
         this.instances = instances;
@@ -146,11 +144,7 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.binding.followersInstance.setText(context.getString(R.string.followers_instance, String.valueOf(instance.getTotalInstanceFollowers())));
 
         holder.binding.pickup.setOnClickListener(v -> {
-            Intent data = new Intent();
-            String instanceHost = instance.getHost();
-            data.setData(Uri.parse(instanceHost));
-            ((Activity) context).setResult(RESULT_OK, data);
-            ((Activity) context).finish();
+            actionClick.instance(instance.getHost());
         });
     }
 
@@ -174,4 +168,7 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    public interface ActionClick {
+        void instance(String instance);
+    }
 }

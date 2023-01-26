@@ -67,8 +67,8 @@ public class FragmentLoginRegisterMastodon extends Fragment {
                     "<a href='https://" + instance + "/about/more' >" + serverrules + "</a>",
                     "<a href='https://" + instance + "/terms' >" + tos + "</a>"
             );
-            binding.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
-            binding.agreementText.setText(Html.fromHtml(content_agreement));
+            binding.agreement.setMovementMethod(LinkMovementMethod.getInstance());
+            binding.agreement.setText(Html.fromHtml(content_agreement));
         } else {
             binding.loginInstance.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
@@ -80,8 +80,8 @@ public class FragmentLoginRegisterMastodon extends Fragment {
                                     "<a href='https://" + binding.loginInstance.getText() + "/about/more' >" + serverrules + "</a>",
                                     "<a href='https://" + binding.loginInstance.getText() + "/terms' >" + tos + "</a>"
                             );
-                            binding.agreementText.setMovementMethod(LinkMovementMethod.getInstance());
-                            binding.agreementText.setText(Html.fromHtml(content_agreement));
+                            binding.agreement.setMovementMethod(LinkMovementMethod.getInstance());
+                            binding.agreement.setText(Html.fromHtml(content_agreement));
                         } else {
                             binding.loginInstanceLayout.setError(getString(R.string.instance_not_valid));
                         }

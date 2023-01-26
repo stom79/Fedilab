@@ -359,9 +359,6 @@
             android:name=".peertube.activities.PeertubeMainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".peertube.activities.PeertubeMainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".peertube.activities.PeertubeActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
@@ -402,11 +399,6 @@
             android:name=".peertube.activities.AllLocalPlaylistsActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".peertube.activities.InstancePickerActivity"
-            android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".peertube.activities.PlaylistsActivity"
             android:configChanges="orientation|screenSize"
@@ -449,11 +441,6 @@
             android:name=".peertube.activities.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/settings"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".peertube.activities.PeertubeRegisterActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/register_account"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".peertube.activities.PeertubeUploadActivity"

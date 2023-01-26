@@ -25,14 +25,13 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.addFragment;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 import static app.fedilab.android.peertube.helper.SwitchAccountHelper.switchDialog;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,11 +41,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
@@ -66,7 +62,6 @@ import com.kobakei.ratethisapp.RateThisApp;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -92,24 +87,18 @@ import app.fedilab.android.peertube.client.entities.PeertubeInformation;
 import app.fedilab.android.peertube.client.entities.Token;
 import app.fedilab.android.peertube.client.entities.UserMe;
 import app.fedilab.android.peertube.client.entities.UserSettings;
-import app.fedilab.android.peertube.client.entities.WellKnownNodeinfo;
 import app.fedilab.android.peertube.fragment.DisplayOverviewFragment;
 import app.fedilab.android.peertube.fragment.DisplayVideosFragment;
+import app.fedilab.android.peertube.fragment.FragmentLoginPickInstancePeertube;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.services.RetrieveInfoService;
-import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
-import app.fedilab.android.sqlite.Sqlite;
-import es.dmoral.toasty.Toasty;
-
 
 
 public class PeertubeMainActivity extends PeertubeBaseMainActivity {
-
-
-    public static int PICK_INSTANCE = 5641;
-    public static int PICK_INSTANCE_SURF = 5642;
+    public static String PICK_INSTANCE = "pick_instance";
+    public static String INSTANCE_ADDRESS = "instance_address";
     public static UserMe userMe;
     public static InstanceData.InstanceConfig instanceConfig;
     public static TypeOfConnection typeOfConnection = TypeOfConnection.NORMAL;
@@ -143,71 +132,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         return true;
     };
 
-    @SuppressLint("ApplySharedPref")
-    public static void showRadioButtonDialogFullInstances(Activity activity, boolean storeInDb) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
-        alt_bld.setTitle(R.string.instance_choice);
-        String instance = HelperInstance.getLiveInstance(activity);
-        final EditText input = new EditText(activity);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        alt_bld.setView(input);
-        input.setText(instance);
-        alt_bld.setPositiveButton(R.string.validate,
-                (dialog, which) -> new Thread(() -> {
-                    try {
-                        String newInstance = input.getText().toString().trim();
-                        if (!newInstance.startsWith("http")) {
-                            newInstance = "http://" + newInstance;
-                        }
-                        URL url = new URL(newInstance);
-                        newInstance = url.getHost();
-
-                        WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(activity, newInstance, null).getNodeInfo();
-                        if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(PREF_USER_INSTANCE, newInstance);
-                            editor.commit();
-                            if (storeInDb) {
-                                newInstance = newInstance.trim().toLowerCase();
-                                InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, newInstance, null).getAboutInstance();
-                                SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                                new StoredInstanceDAO(activity, db).insertInstance(aboutInstance, newInstance);
-                                activity.runOnUiThread(() -> {
-                                    dialog.dismiss();
-                                    Helper.logoutNoRemoval(activity);
-                                });
-                            } else {
-                                activity.runOnUiThread(() -> {
-                                    dialog.dismiss();
-                                    Intent intent = new Intent(activity, PeertubeMainActivity.class);
-                                    activity.startActivity(intent);
-                                });
-                            }
-                        } else {
-                            activity.runOnUiThread(() -> Toasty.error(activity, activity.getString(R.string.not_valide_instance), Toast.LENGTH_LONG).show());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }).start());
-        alt_bld.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        alt_bld.setNeutralButton(R.string.help, (dialog, which) -> {
-            Intent intent = new Intent(activity, InstancePickerActivity.class);
-            if (storeInDb) {
-                activity.startActivityForResult(intent, PICK_INSTANCE_SURF);
-            } else {
-                activity.startActivityForResult(intent, PICK_INSTANCE);
-            }
-        });
-        AlertDialog alert = alt_bld.create();
-        alert.show();
-    }
-
 
     private void setTitleCustom(int titleRId) {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -224,6 +148,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         binding = null;
     }
 
+    @SuppressLint("ApplySharedPref")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -448,8 +373,19 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         //Instance
         if (HelperInstance.getLiveInstance(PeertubeMainActivity.this) == null) {
-            Intent intent = new Intent(PeertubeMainActivity.this, InstancePickerActivity.class);
-            startActivityForResult(intent, PICK_INSTANCE);
+            getSupportFragmentManager().setFragmentResultListener(PICK_INSTANCE, this, (requestKey, result) -> {
+                String instance = result.getString(INSTANCE_ADDRESS, null);
+                if (instance != null) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(PREF_USER_INSTANCE, instance);
+                    editor.commit();
+                    PeertubeMainActivity.this.recreate();
+                }
+                getSupportFragmentManager().clearFragmentResultListener(requestKey);
+            });
+            addFragment(
+                    getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
+                    null, null, FragmentLoginPickInstancePeertube.class.getName());
         }
 
         fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
@@ -755,22 +691,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
-    }
-
-
-    @SuppressLint("ApplySharedPref")
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_INSTANCE && resultCode == Activity.RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString(PREF_USER_INSTANCE, String.valueOf(data.getData()));
-                editor.commit();
-                recreate();
-            }
         }
     }
 

@@ -1,4 +1,4 @@
-package app.fedilab.android.peertube.activities;
+package app.fedilab.android.peertube.fragment;
 /* Copyright 2023 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -15,22 +15,26 @@ package app.fedilab.android.peertube.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.INSTANCE_ADDRESS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -41,8 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import app.fedilab.android.R;
-import app.fedilab.android.databinding.ActivityInstancePickerPeertubeBinding;
-import app.fedilab.android.mastodon.activities.BaseBarActivity;
+import app.fedilab.android.databinding.FragmentLoginPickInstancePeertubeBinding;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.InstanceParams;
@@ -52,7 +56,7 @@ import app.fedilab.android.peertube.viewmodel.InstancesVM;
 import es.dmoral.toasty.Toasty;
 
 
-public class InstancePickerActivity extends BaseBarActivity {
+public class FragmentLoginPickInstancePeertube extends Fragment implements InstanceAdapter.ActionClick {
 
 
     boolean[] checkedItemsCategory;
@@ -63,28 +67,24 @@ public class InstancePickerActivity extends BaseBarActivity {
     String[] itemsLabelLanguage;
     InstanceParams instanceParams;
     private InstancesVM viewModel;
-    private ActivityInstancePickerPeertubeBinding binding;
+    private FragmentLoginPickInstancePeertubeBinding binding;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        binding = ActivityInstancePickerPeertubeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentLoginPickInstancePeertubeBinding.inflate(inflater, container, false);
 
         binding.loader.setVisibility(View.VISIBLE);
 
 
         String[] channelSensitive = new String[]{"do_not_list", "blur", "display", "no_opinion"};
         String[] channelSensitivesLabel = new String[]{getString(R.string.do_not_list), getString(R.string.blur), getString(R.string.display), getString(R.string.no_opinion)};
-        ArrayAdapter<String> adapterChannel = new ArrayAdapter<>(InstancePickerActivity.this,
+        ArrayAdapter<String> adapterChannel = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_spinner_dropdown_item, channelSensitivesLabel);
         binding.sensitive.setAdapter(adapterChannel);
 
 
-        viewModel = new ViewModelProvider(InstancePickerActivity.this).get(InstancesVM.class);
+        viewModel = new ViewModelProvider(this).get(InstancesVM.class);
 
         binding.sensitive.setSelection(1, false);
         binding.sensitive.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -92,7 +92,7 @@ public class InstancePickerActivity extends BaseBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 instanceParams.setNsfwPolicy(channelSensitive[position]);
                 binding.loader.setVisibility(View.VISIBLE);
-                viewModel.getInstances(instanceParams).observe(InstancePickerActivity.this, apiResponse -> manageVIewInstance(apiResponse));
+                viewModel.getInstances(instanceParams).observe(getViewLifecycleOwner(), apiResponse -> manageVIewInstance(apiResponse));
             }
 
             @Override
@@ -108,7 +108,7 @@ public class InstancePickerActivity extends BaseBarActivity {
             itemsKeyLanguage = new String[languages.size()];
 
             binding.pickupLanguages.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(InstancePickerActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext(), app.fedilab.android.mastodon.helper.Helper.dialogStyle());
 
                 int i = 0;
                 if (languages.size() > 0) {
@@ -143,7 +143,7 @@ public class InstancePickerActivity extends BaseBarActivity {
                                 if (between.length() == 0) between = "  ";
                                 String tag = "  " + lang + "  ";
                                 stringBuilder.append(tag);
-                                stringBuilder.setSpan(new RoundedBackgroundSpan(InstancePickerActivity.this), stringBuilder.length() - tag.length(), stringBuilder.length() - tag.length() + tag.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                stringBuilder.setSpan(new RoundedBackgroundSpan(requireContext()), stringBuilder.length() - tag.length(), stringBuilder.length() - tag.length() + tag.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                                 stringBuilder.append(" ");
                             }
                         }
@@ -157,7 +157,7 @@ public class InstancePickerActivity extends BaseBarActivity {
                         binding.languagesView.setVisibility(View.GONE);
                     }
                     binding.loader.setVisibility(View.VISIBLE);
-                    viewModel.getInstances(instanceParams).observe(InstancePickerActivity.this, this::manageVIewInstance);
+                    viewModel.getInstances(instanceParams).observe(getViewLifecycleOwner(), this::manageVIewInstance);
                 });
                 dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> dialog.dismiss());
 
@@ -175,7 +175,7 @@ public class InstancePickerActivity extends BaseBarActivity {
 
 
             binding.pickupCategories.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(InstancePickerActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext(), app.fedilab.android.mastodon.helper.Helper.dialogStyle());
                 int i = 0;
                 if (categories.size() > 0) {
                     Iterator<Map.Entry<Integer, String>> it = categories.entrySet().iterator();
@@ -208,7 +208,7 @@ public class InstancePickerActivity extends BaseBarActivity {
                                 if (between.length() == 0) between = "  ";
                                 String tag = "  " + cat + "  ";
                                 stringBuilder.append(tag);
-                                stringBuilder.setSpan(new RoundedBackgroundSpan(InstancePickerActivity.this), stringBuilder.length() - tag.length(), stringBuilder.length() - tag.length() + tag.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                stringBuilder.setSpan(new RoundedBackgroundSpan(requireContext()), stringBuilder.length() - tag.length(), stringBuilder.length() - tag.length() + tag.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                                 stringBuilder.append(" ");
                             }
                         }
@@ -222,7 +222,7 @@ public class InstancePickerActivity extends BaseBarActivity {
                         binding.categoriesView.setVisibility(View.GONE);
                     }
                     binding.loader.setVisibility(View.VISIBLE);
-                    viewModel.getInstances(instanceParams).observe(InstancePickerActivity.this, this::manageVIewInstance);
+                    viewModel.getInstances(instanceParams).observe(getViewLifecycleOwner(), this::manageVIewInstance);
                 });
                 dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> dialog.dismiss());
 
@@ -235,41 +235,40 @@ public class InstancePickerActivity extends BaseBarActivity {
 
         binding.loader.setVisibility(View.VISIBLE);
 
-        setTitle(R.string.instances_picker);
-
         instanceParams = new InstanceParams();
         instanceParams.setNsfwPolicy(channelSensitive[1]);
-        viewModel.getInstances(instanceParams).observe(InstancePickerActivity.this, this::manageVIewInstance);
+        viewModel.getInstances(instanceParams).observe(getViewLifecycleOwner(), this::manageVIewInstance);
+
+
+        return binding.getRoot();
     }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void manageVIewInstance(APIResponse apiResponse) {
         binding.loader.setVisibility(View.GONE);
         if (apiResponse.getError() != null) {
-            Toasty.error(InstancePickerActivity.this, apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
+            Toasty.error(requireContext(), apiResponse.getError().getError(), Toast.LENGTH_LONG).show();
             return;
         }
         List<InstanceData.Instance> instances = apiResponse.getInstances();
-        RecyclerView lv_instances = findViewById(R.id.lv_instances);
         if ((instances == null || instances.size() == 0)) {
             binding.noAction.setVisibility(View.VISIBLE);
-            lv_instances.setVisibility(View.GONE);
+            binding.lvInstances.setVisibility(View.GONE);
         } else {
             binding.noAction.setVisibility(View.GONE);
-            lv_instances.setVisibility(View.VISIBLE);
+            binding.lvInstances.setVisibility(View.VISIBLE);
             InstanceAdapter instanceAdapter = new InstanceAdapter(instances);
-            lv_instances.setAdapter(instanceAdapter);
-            lv_instances.setLayoutManager(new LinearLayoutManager(InstancePickerActivity.this));
+            instanceAdapter.actionClick = this;
+            binding.lvInstances.setAdapter(instanceAdapter);
+            binding.lvInstances.setLayoutManager(new LinearLayoutManager(requireContext()));
         }
+    }
+
+    @Override
+    public void instance(String instance) {
+        Bundle bundle = new Bundle();
+        bundle.putString(INSTANCE_ADDRESS, instance);
+        Helper.addFragment(
+                getParentFragmentManager(), android.R.id.content, new PeertubeRegisterFragment(),
+                bundle, null, PeertubeRegisterFragment.class.getName());
     }
 }

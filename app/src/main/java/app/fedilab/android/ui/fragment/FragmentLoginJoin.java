@@ -14,7 +14,6 @@ package app.fedilab.android.ui.fragment;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import app.fedilab.android.databinding.FragmentLoginJoinBinding;
 import app.fedilab.android.mastodon.helper.Helper;
-import app.fedilab.android.peertube.activities.PeertubeRegisterActivity;
+import app.fedilab.android.peertube.fragment.FragmentLoginPickInstancePeertube;
 
 
 public class FragmentLoginJoin extends Fragment {
@@ -41,10 +40,9 @@ public class FragmentLoginJoin extends Fragment {
                     getParentFragmentManager(), android.R.id.content, new FragmentLoginPickInstanceMastodon(),
                     null, null, FragmentLoginPickInstanceMastodon.class.getName());
         });
-        binding.joinPeertube.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(requireActivity(), PeertubeRegisterActivity.class);
-            startActivity(mainActivity);
-        });
+        binding.joinPeertube.setOnClickListener(v -> Helper.addFragment(
+                getParentFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
+                null, null, FragmentLoginPickInstancePeertube.class.getName()));
         return root;
     }
 
