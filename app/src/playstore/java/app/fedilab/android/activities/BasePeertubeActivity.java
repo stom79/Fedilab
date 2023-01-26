@@ -158,15 +158,19 @@ public class BasePeertubeActivity extends BaseBarActivity {
 
     @Override
     protected void onResume() {
-        mCastContext.getSessionManager().addSessionManagerListener(
-                mSessionManagerListener, CastSession.class);
+        if (mCastContext != null) {
+            mCastContext.getSessionManager().addSessionManagerListener(
+                    mSessionManagerListener, CastSession.class);
+        }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        mCastContext.getSessionManager().removeSessionManagerListener(
-                mSessionManagerListener, CastSession.class);
+        if (mCastContext != null) {
+            mCastContext.getSessionManager().removeSessionManagerListener(
+                    mSessionManagerListener, CastSession.class);
+        }
         super.onPause();
     }
 
