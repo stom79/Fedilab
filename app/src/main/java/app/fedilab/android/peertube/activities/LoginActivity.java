@@ -71,23 +71,10 @@ public class LoginActivity extends BaseBarActivity {
             finish();
         }
 
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        SpannableString content_create;
-        content_create = new SpannableString(getString(R.string.join_peertube));
-
-        content_create.setSpan(new UnderlineSpan(), 0, content_create.length(), 0);
-        content_create.setSpan(new ForegroundColorSpan(Helper.fetchAccentColor(LoginActivity.this)), 0, content_create.length(),
-                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        binding.createAnAccountPeertube.setText(content_create, TextView.BufferType.SPANNABLE);
-
-        binding.createAnAccountPeertube.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(LoginActivity.this, PeertubeRegisterActivity.class);
-            startActivity(mainActivity);
-        });
-
+            getSupportActionBar().setTitle(R.string.login);
+        }
 
         binding.loginInstanceContainer.setVisibility(View.VISIBLE);
 

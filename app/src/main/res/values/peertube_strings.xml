@@ -302,6 +302,7 @@
     <string name="title_video_peertube">Title for the video</string>
     <string name="join_peertube">Join Peertube</string>
     <string name="agreement_check_peertube">I am at least 16 years old and agree to the %1$s of this instance</string>
+    <string name="username_or_email">Username/Email</string>
 
 
     <string name="display_nsfw_videos">Display sensitive videos</string>

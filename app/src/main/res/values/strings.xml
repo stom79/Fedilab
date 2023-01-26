@@ -673,6 +673,7 @@
     <string name="join_the_fediverse">Join the fediverse</string>
     <string name="invite_join_the_fediverse">Hi! We invite you to join the Fediverse.</string>
     <string name="about_mastodon">\"Mastodon isn’t a single website like Twitter or Facebook, it\'s a network of thousands of communities operated by different organizations and individuals that provide a seamless social media experience.\"</string>
+    <string name="about_peertube">\"PeerTube is a tool for sharing online videos developed by Framasoft, a french non-profit.…PeerTube allows platforms to be connected to each other, creating a big network of platforms that are both autonomous and interconnected.\"</string>
     <string name="notif_display_mentions">Mentions</string>
     <string name="notif_display_favourites">Favourites</string>
     <string name="notif_display_reblogs">Reblogs</string>
