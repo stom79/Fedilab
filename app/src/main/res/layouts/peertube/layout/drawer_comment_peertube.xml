@@ -87,14 +87,13 @@
             app:layout_constraintEnd_toStartOf="@id/more_actions"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/more_actions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
-            android:gravity="end"
-            android:text=""
-            app:drawableTopCompat="@drawable/ic_baseline_more_vert_24"
+            app:icon="@drawable/ic_baseline_more_vert_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comment_date" />
 

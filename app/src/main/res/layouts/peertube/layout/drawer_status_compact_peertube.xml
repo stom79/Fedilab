@@ -122,7 +122,7 @@
         android:drawablePadding="2dp"
         android:gravity="center_vertical"
         android:text="@string/delete"
-        android:textColor="?colorAccent"
+        android:textColor="?colorPrimary"
         android:visibility="gone" />
 
 
