@@ -6,7 +6,7 @@
 
     <application android:name=".MainApplication">
         <receiver
-            android:name=".mastodon.services.EmbeddedDistrib"
+            android:name=".services.EmbeddedDistrib"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -18,8 +18,8 @@
 
 
         <activity
-            android:name=".peertube.expandedcontrols.ExpandedControlsActivity"
-            android:theme="@style/AppThemeNoActionBar"
+            android:name=".expandedcontrols.ExpandedControlsActivity"
+            android:theme="@style/AppTheme"
 
             />
 
