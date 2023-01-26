@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -72,7 +73,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewModel.post(RetrofitPeertubeAPI.ActionType.UNMUTE, account.getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(RetrofitPeertubeAPI.ActionType.UNMUTE, apiResponse, account.getAcct()));
             });
         } else {
-            holder.binding.accountAction.hide();
+            holder.binding.accountAction.setVisibility(View.GONE);
         }
 
         holder.binding.accountDn.setText(account.getDisplayName());
@@ -84,8 +85,8 @@ public class AccountsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Helper.loadAvatar(context, account, holder.binding.accountPp);
         //Follow button
         if (type == RetrofitPeertubeAPI.DataType.MUTED) {
-            holder.binding.accountAction.show();
-            holder.binding.accountAction.setImageResource(R.drawable.ic_baseline_volume_mute_24);
+            holder.binding.accountAction.setVisibility(View.VISIBLE);
+            holder.binding.accountAction.setIconResource(R.drawable.ic_baseline_volume_mute_24);
         }
 
         holder.binding.accountPp.setOnClickListener(v -> {

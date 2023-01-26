@@ -114,7 +114,10 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public static InstanceData.InstanceConfig instanceConfig;
     public static TypeOfConnection typeOfConnection = TypeOfConnection.NORMAL;
     public static int badgeCount;
-    private DisplayVideosFragment recentFragment, locaFragment, trendingFragment, subscriptionFragment, mostLikedFragment;
+    private DisplayVideosFragment recentFragment;
+    private DisplayVideosFragment locaFragment;
+    private DisplayVideosFragment trendingFragment;
+    private DisplayVideosFragment subscriptionFragment;
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
 
@@ -259,7 +262,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.SUBSCRIBTIONS);
         subscriptionFragment.setArguments(bundle);
 
-        mostLikedFragment = new DisplayVideosFragment();
+        DisplayVideosFragment mostLikedFragment = new DisplayVideosFragment();
         bundle = new Bundle();
         bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.MOST_LIKED);
         mostLikedFragment.setArguments(bundle);

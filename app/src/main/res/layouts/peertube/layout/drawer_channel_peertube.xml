@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,14 +22,14 @@
     android:layout_marginBottom="5dp"
     android:orientation="horizontal">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/account_pp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/profile_picture" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/account_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/account_dn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="18sp" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/account_ac"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,15 +54,15 @@
             android:singleLine="true"
             android:textSize="16sp" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/more_actions"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:contentDescription="@string/display_more"
         android:src="@drawable/ic_baseline_more_vert_24" />
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
