@@ -15,11 +15,19 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
+
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
 
 import app.fedilab.android.mastodon.helper.Helper;
 
@@ -29,9 +37,23 @@ public class BaseFragmentActivity extends FragmentActivity {
 
 
     static {
-        Helper.installProvider();
         EmojiManager.install(new EmojiOneProvider());
     }
 
-
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        boolean patch_provider = true;
+        try {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            patch_provider = sharedpreferences.getBoolean(Helper.SET_SECURITY_PROVIDER, true);
+        } catch (Exception ignored) {
+        }
+        if (patch_provider) {
+            try {
+                Security.insertProviderAt(Conscrypt.newProvider(), 1);
+            } catch (Exception ignored) {
+            }
+        }
+        super.onCreate(savedInstanceState);
+    }
 }

@@ -171,8 +171,8 @@ dependencies {
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'com.google.android.exoplayer:extension-mediasession:2.18.1'
     implementation "com.github.mabbas007:TagsEditText:1.0.5"
-    implementation "net.gotev:uploadservice:4.5.1"
-    implementation "net.gotev:uploadservice-okhttp:4.5.1"
+    implementation "net.gotev:uploadservice:4.7.0"
+    implementation "net.gotev:uploadservice-okhttp:4.7.0"
     implementation 'androidx.media:media:1.6.0'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 

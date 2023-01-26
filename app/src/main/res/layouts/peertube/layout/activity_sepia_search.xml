@@ -132,13 +132,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/sepia_element_nsfw_label">
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/sepia_element_nsfw_yes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/yes" />
 
-                        <RadioButton
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/sepia_element_nsfw_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -169,31 +169,31 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_published_date_any"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/any" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_published_date_today"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/today" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_published_date_last_7_days"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/last_7_days" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_published_date_last_30_days"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/last_30_days" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_published_date_last_365_days"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -225,25 +225,25 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_duration_any"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/any" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_duration_short"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/duration_short" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_duration_medium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/duration_medium" />
 
-                            <RadioButton
+                            <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/sepia_element_duration_long"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -354,9 +354,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/sepia_element_one_of_tags_label" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/apply_filter"
-                        style="@style/Base.Widget.AppCompat.Button.Colored"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/apply_filter"

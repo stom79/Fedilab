@@ -104,8 +104,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
-import org.conscrypt.Conscrypt;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,7 +118,6 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.Security;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -143,7 +140,6 @@ import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
-import app.fedilab.android.MainApplication;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
@@ -453,22 +449,7 @@ public class Helper {
         }
     }
 
-    public static void installProvider() {
 
-        boolean patch_provider = true;
-        try {
-            Context ctx = MainApplication.getApp();
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-            patch_provider = sharedpreferences.getBoolean(Helper.SET_SECURITY_PROVIDER, true);
-        } catch (Exception ignored) {
-        }
-        if (patch_provider) {
-            try {
-                Security.insertProviderAt(Conscrypt.newProvider(), 1);
-            } catch (Exception ignored) {
-            }
-        }
-    }
 
     /***
      *  Check if the user is connected to Internet

@@ -19,6 +19,7 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userM
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.DataType.MY_CHANNELS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -333,9 +334,17 @@ public class PeertubeUploadActivity extends BaseBarActivity {
         });
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     UploadNotificationConfig getNotificationConfig(String uploadId) {
-        PendingIntent clickIntent = PendingIntent.getActivity(
-                PeertubeUploadActivity.this, 1, new Intent(this, PeertubeEditUploadActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent clickIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            clickIntent = PendingIntent.getActivity(
+                    PeertubeUploadActivity.this, 1, new Intent(this, PeertubeEditUploadActivity.class), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            clickIntent = PendingIntent.getActivity(
+                    PeertubeUploadActivity.this, 1, new Intent(this, PeertubeEditUploadActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        }
 
         final boolean autoClear = false;
         final boolean clearOnAction = true;

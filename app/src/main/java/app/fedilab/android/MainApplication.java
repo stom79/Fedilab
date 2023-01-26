@@ -15,8 +15,11 @@ package app.fedilab.android;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.StrictMode;
 import android.webkit.WebView;
 
@@ -26,6 +29,9 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.color.DynamicColors;
 
+import net.gotev.uploadservice.UploadServiceConfig;
+import net.gotev.uploadservice.observer.request.GlobalRequestObserver;
+
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.config.CoreConfigurationBuilder;
@@ -33,24 +39,21 @@ import org.acra.config.DialogConfigurationBuilder;
 import org.acra.config.MailSenderConfigurationBuilder;
 import org.acra.data.StringFormat;
 
+import java.util.Objects;
+
 import app.fedilab.android.mastodon.helper.ThemeHelper;
+import app.fedilab.android.peertube.services.GlobalUploadObserver;
 import es.dmoral.toasty.Toasty;
 
 
 public class MainApplication extends MultiDexApplication {
 
     public static String UPLOAD_CHANNEL_ID = "upload_info_peertube";
-    private static MainApplication app;
     private WebView webView;
-
-    public static MainApplication getApp() {
-        return app;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        app = this;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
         try {
             webView = new WebView(this);
@@ -69,6 +72,11 @@ public class MainApplication extends MultiDexApplication {
             } catch (Exception ignored) {
             }
         }
+
+        createNotificationChannel();
+        UploadServiceConfig.initialize(MainApplication.this, UPLOAD_CHANNEL_ID, true);
+
+        new GlobalRequestObserver(this, new GlobalUploadObserver());
     }
 
 
@@ -109,6 +117,17 @@ public class MainApplication extends MultiDexApplication {
                             ReportField.USER_CRASH_DATE,
                             ReportField.STACK_TRACE)
             );
+        }
+    }
+
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(UPLOAD_CHANNEL_ID,
+                    getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            channel.setSound(null, null);
+            ((NotificationManager) Objects.requireNonNull(getSystemService(Context.NOTIFICATION_SERVICE))).createNotificationChannel(channel);
         }
     }
 }

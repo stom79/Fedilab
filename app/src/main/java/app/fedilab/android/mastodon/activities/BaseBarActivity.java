@@ -33,6 +33,10 @@ import androidx.preference.PreferenceManager;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -42,13 +46,23 @@ import app.fedilab.android.mastodon.helper.ThemeHelper;
 public class BaseBarActivity extends AppCompatActivity {
 
     static {
-        Helper.installProvider();
         EmojiManager.install(new EmojiOneProvider());
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean patch_provider = true;
+        try {
+            patch_provider = sharedpreferences.getBoolean(Helper.SET_SECURITY_PROVIDER, true);
+        } catch (Exception ignored) {
+        }
+        if (patch_provider) {
+            try {
+                Security.insertProviderAt(Conscrypt.newProvider(), 1);
+            } catch (Exception ignored) {
+            }
+        }
         String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
         //Default automatic switch
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
