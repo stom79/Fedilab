@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:background="?colorSecondaryContainer"
+        android:textColor="?colorOnSecondaryContainer"
         android:padding="6dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
@@ -156,7 +157,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                            android:textColor="?colorAccent"
+                            android:textColor="?colorPrimary"
                             android:textStyle="bold"
                             tools:maxLines="1"
                             tools:text="@tools:sample/lorem/random" />

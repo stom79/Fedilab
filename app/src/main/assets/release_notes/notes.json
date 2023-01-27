@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.16.0",
+    "code": "472",
+    "note": "Changed:\n- Peertube support\n- Compose shortcut\n- Long press compose button to write with another account\n\nChanged:\n- Cross actions with two accounts display a dialog\n- Order & compact og values when sharing > title - url - content\n\nFixed:\n- Text cleared when adding a media\n- Fix crashes"
+  },
+  {
     "version": "3.15.2",
     "code": "471",
     "note": "Changed:\n- Add instance name when sharing\n\nFixed:\n- Fix a crash when removing media\n- Other minor fixes"

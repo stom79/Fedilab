@@ -54,6 +54,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -65,6 +67,8 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
@@ -379,10 +383,36 @@ public class Helper {
         }
         try {
             RequestBuilder<Drawable> requestBuilder = Glide.with(imageView.getContext())
-                    .load(url)
-                    .thumbnail(0.1f);
+                    .load(url);
             requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                    .into(imageView);
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                            imageView.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+                                    .setLabel(channel.getAcct())
+                                    .setAvatarSize(120)
+                                    .setTextSize(30)
+                                    .toSquare()
+                                    .setBackgroundColor(fetchAccentColor(context))
+                                    .build();
+                            Glide.with(imageView.getContext())
+                                    .asDrawable()
+                                    .load(avatar)
+                                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                                    .into(imageView);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
         } catch (Exception e) {
             try {
                 BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
@@ -429,7 +459,27 @@ public class Helper {
             } else {
                 requestBuilder.apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(round)));
             }
-            requestBuilder.into(imageView);
+            requestBuilder.into(new CustomTarget<Drawable>() {
+                @Override
+                public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                    imageView.setImageDrawable(resource);
+                }
+
+                @Override
+                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                    super.onLoadFailed(errorDrawable);
+                    Glide.with(imageView.getContext())
+                            .asDrawable()
+                            .load(R.drawable.missing_peertube)
+                            .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                            .into(imageView);
+                }
+
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                }
+            });
         } catch (Exception e) {
             try {
                 Glide.with(imageView.getContext())
