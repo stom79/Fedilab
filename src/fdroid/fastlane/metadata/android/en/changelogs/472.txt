@@ -5,5 +5,5 @@ Changed:
 - Cross actions with two accounts display a dialog
 
 Fixed:
-
+- Text cleared when adding a media
 - Fix crashes

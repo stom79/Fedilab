@@ -334,7 +334,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.content.setSelection(statusDraft.cursorPosition); //Put cursor at the end
                 buttonVisibility(holder);
             });
-        } else if (mentionedAccount != null) {
+        } else if (mentionedAccount != null && statusDraft.text == null) {
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
             if (capitalize) {
@@ -537,6 +537,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (holder.binding.content.getSelectionStart() > 0 && holder.getLayoutPosition() >= 0) {
                     statusList.get(holder.getLayoutPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 }
+
                 //Copy/past
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
                 if (currentLength > max_car) {
