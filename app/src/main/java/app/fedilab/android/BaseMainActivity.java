@@ -850,6 +850,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         rateThisApp();
 
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
+        binding.compose.setOnLongClickListener(view -> {
+            CrossActionHelper.doCrossAction(BaseMainActivity.this, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
+            return false;
+        });
         headerMenuOpen = false;
 
         PushHelper.startStreaming(BaseMainActivity.this);
@@ -1094,6 +1098,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         String type = intent.getType();
         Bundle extras = intent.getExtras();
         String userIdIntent, instanceIntent, urlOfMessage;
+        if (action != null && action.equalsIgnoreCase("app.fedilab.android.shorcut.compose")) {
+            CrossActionHelper.doCrossAction(BaseMainActivity.this, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
+            intent.replaceExtras(new Bundle());
+            intent.setAction("");
+            intent.setData(null);
+            intent.setFlags(0);
+            return;
+        }
         if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
             userIdIntent = extras.getString(Helper.PREF_USER_ID); //Id of the account in the intent
             instanceIntent = extras.getString(Helper.PREF_USER_INSTANCE);

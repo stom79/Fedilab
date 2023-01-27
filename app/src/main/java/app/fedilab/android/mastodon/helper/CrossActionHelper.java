@@ -135,7 +135,9 @@ public class CrossActionHelper {
     private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.mastodon.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", SearchVM.class);
-        if (targetedAccount != null) {
+        if (actionType == TypeOfCrossAction.COMPOSE) {
+            applyAction(context, actionType, ownerAccount, null, null);
+        } else if (targetedAccount != null) {
             String search;
             if (targetedAccount.acct.contains("@")) { //Not from same instance
                 search = targetedAccount.acct;
@@ -246,6 +248,11 @@ public class CrossActionHelper {
                 intent.putExtra(Helper.ARG_STATUS_REPLY, targetedStatus);
                 intent.putExtra(Helper.ARG_ACCOUNT, ownerAccount);
                 context.startActivity(intent);
+                break;
+            case COMPOSE:
+                Intent intentCompose = new Intent(context, ComposeActivity.class);
+                intentCompose.putExtra(Helper.ARG_ACCOUNT, ownerAccount);
+                context.startActivity(intentCompose);
                 break;
         }
     }
@@ -530,7 +537,8 @@ public class CrossActionHelper {
         UNBOOKMARK_ACTION,
         REBLOG_ACTION,
         UNREBLOG_ACTION,
-        REPLY_ACTION
+        REPLY_ACTION,
+        COMPOSE
     }
 
 

@@ -1,5 +1,7 @@
 Changed:
 - Peertube support
+- Compose shortcut
+- Long press compose button to write with another account
 
 Changed:
 - Cross actions with two accounts display a dialog

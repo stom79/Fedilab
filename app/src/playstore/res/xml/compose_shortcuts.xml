@@ -1,0 +1,19 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_add_comment_24"
+        android:shortcutId="compose"
+        android:shortcutShortLabel="@string/compose_shortcut_short_label1"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="app.fedilab.android.shorcut.compose"
+            android:targetClass="app.fedilab.android.activities.MainActivity"
+            android:targetPackage="app.fedilab.android" />
+
+        <categories android:name="android.shortcut.conversation" />
+        <capability-binding android:key="actions.intent.CREATE_MESSAGE" />
+    </shortcut>
+
+
+</shortcuts>

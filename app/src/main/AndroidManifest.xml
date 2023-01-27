@@ -80,9 +80,14 @@
             android:roundIcon="@mipmap/ic_launcher_bubbles_round"
             android:targetActivity=".activities.MainActivity">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
         <activity-alias
@@ -96,6 +101,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
         <activity-alias
@@ -109,6 +117,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
         <activity-alias
@@ -122,6 +133,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
         <activity-alias
@@ -135,6 +149,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
         <activity-alias
@@ -148,6 +165,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
         </activity-alias>
 
 

@@ -306,11 +306,20 @@ public class NotificationsWorker extends Worker {
             notificationManager.createNotificationChannel(channel);
         }
         Intent myIntent = new Intent(getApplicationContext(), PeertubeMainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                getApplicationContext(),
-                0,
-                myIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(
+                    getApplicationContext(),
+                    0,
+                    myIntent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            pendingIntent = PendingIntent.getActivity(
+                    getApplicationContext(),
+                    0,
+                    myIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), FETCH_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(title)
                 .setTicker(title)
