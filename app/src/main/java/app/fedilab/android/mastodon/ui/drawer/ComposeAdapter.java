@@ -953,22 +953,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int position = statusList.size() - 1;
         statusList.get(position).text = "";
         if (title != null && title.trim().length() > 0) {
-            statusList.get(position).text += title + "\n\n";
+            statusList.get(position).text += title + " ";
         } else if (subject != null && subject.trim().length() > 0) {
-            statusList.get(position).text += subject + "\n\n";
+            statusList.get(position).text += subject + " ";
         }
         if (description != null && description.trim().length() > 0) {
-            statusList.get(position).text += description + "\n\n";
             if (url != null && !description.contains(url)) {
-                statusList.get(position).text += url;
+                statusList.get(position).text += url + "\n";
             }
+            statusList.get(position).text += ">" + description + "\n\n";
         } else if (content != null && content.trim().length() > 0) {
-            statusList.get(position).text += content + "\n\n";
             if (!content.contains(url)) {
-                statusList.get(position).text += url;
+                statusList.get(position).text += url + "\n";
             }
+            statusList.get(position).text += ">" + content + "\n\n";
         } else {
-            statusList.get(position).text += url;
+            statusList.get(position).text += url + "\n\n";
         }
         if (saveFilePath != null) {
             Attachment attachment = new Attachment();

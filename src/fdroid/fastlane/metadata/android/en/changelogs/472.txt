@@ -5,6 +5,7 @@ Changed:
 
 Changed:
 - Cross actions with two accounts display a dialog
+- Order & compact og values when sharing > title - url - content
 
 Fixed:
 - Text cleared when adding a media
