@@ -401,7 +401,7 @@ public class CrossActionHelper {
     public static void doCrossShare(final Context context, final Bundle bundle) {
         List<BaseAccount> accounts;
         try {
-            accounts = new Account(context).getAll();
+            accounts = new Account(context).getCrossAccounts();
             List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
             for (BaseAccount account : accounts) {
                 account.mastodon_account.acct += "@" + account.instance;

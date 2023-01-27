@@ -358,13 +358,30 @@ public class Account extends BaseAccount implements Serializable {
      *
      * @return BaseAccount List<{@link BaseAccount}>
      */
-    public List<BaseAccount> getCrossAccounts() throws DBException {
+    public List<BaseAccount> getOtherAccounts() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, null, null, null, null, null, null);
             return cursorToListUser(c);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns all accounts that allows cross-account actions
+     *
+     * @return BaseAccount List<{@link BaseAccount}>
+     */
+    public List<BaseAccount> getCrossAccounts() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        try {
+            Cursor c = db.query(Sqlite.TABLE_USER_ACCOUNT, null, null, null, null, null, null, null);
+            return cursorToListMastodonUser(c);
         } catch (Exception e) {
             return null;
         }
@@ -454,6 +471,27 @@ public class Account extends BaseAccount implements Serializable {
         c.close();
         return accountList;
     }
+
+
+    private List<BaseAccount> cursorToListMastodonUser(Cursor c) {
+        //No element found
+        if (c.getCount() == 0) {
+            c.close();
+            return null;
+        }
+        List<BaseAccount> accountList = new ArrayList<>();
+        while (c.moveToNext()) {
+            BaseAccount account = convertCursorToAccount(c);
+            //We don't add in the list the current connected account
+            if (account.mastodon_account != null) {
+                accountList.add(account);
+            }
+        }
+        //Close the cursor
+        c.close();
+        return accountList;
+    }
+
 
     private List<BaseAccount> cursorToListUserWithOwner(Cursor c) {
         //No element found
