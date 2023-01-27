@@ -248,12 +248,16 @@ public class MastodonHelper {
             String targetedUrl = disableGif ? (type == MediaAccountType.AVATAR ? account.avatar_static : account.header_static) : (type == MediaAccountType.AVATAR ? account.avatar : account.header);
             if (targetedUrl != null) {
                 if (disableGif || (!targetedUrl.endsWith(".gif"))) {
-                    Glide.with(activity != null ? activity : context)
-                            .asDrawable()
-                            .load(targetedUrl)
-                            .thumbnail(0.1f)
-                            .placeholder(placeholder)
-                            .into(view);
+                    try {
+                        Glide.with(activity != null ? activity : context)
+                                .asDrawable()
+                                .load(targetedUrl)
+                                .thumbnail(0.1f)
+                                .placeholder(placeholder)
+                                .into(view);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Glide.with(activity != null ? activity : context)
                             .asGif()

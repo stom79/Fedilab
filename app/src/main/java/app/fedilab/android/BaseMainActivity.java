@@ -81,6 +81,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
@@ -88,6 +89,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -603,10 +605,375 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     protected abstract void rateThisApp();
 
+    /**
+     * Open notifications tab when coming from a notification device
+     *
+     * @param intent - Intent intent that will be cancelled
+     */
+    private static void openNotifications(Activity activity, Intent intent) {
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+            boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+            BottomNavigationView bottomNavigationView = activity.findViewById(R.id.bottom_nav_view);
+            TabLayout tabLayout = activity.findViewById(R.id.tabLayout);
+            ViewPager viewPager = activity.findViewById(R.id.view_pager);
+
+            if (bottomNavigationView != null && tabLayout != null && viewPager != null) {
+                if (!singleBar) {
+                    bottomNavigationView.setSelectedItemId(R.id.nav_notifications);
+                } else {
+                    int position = 0;
+                    for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                        TabLayout.Tab tab = tabLayout.getTabAt(i);
+                        if (tab != null && tab.getTag() != null && tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
+                            break;
+                        }
+                        position++;
+                    }
+                    viewPager.setCurrentItem(position);
+                }
+            }
+        }, 1000);
+        intent.removeExtra(Helper.INTENT_ACTION);
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public static void mamageNewIntent(Activity activity, Intent intent) {
+        if (intent == null)
+            return;
+        String action = intent.getAction();
+        String type = intent.getType();
+        Bundle extras = intent.getExtras();
+        String userIdIntent, instanceIntent, urlOfMessage;
+        if (action != null && action.equalsIgnoreCase("app.fedilab.android.shorcut.compose")) {
+            if (!activity.isFinishing()) {
+                CrossActionHelper.doCrossAction(activity, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
+                intent.replaceExtras(new Bundle());
+                intent.setAction("");
+                intent.setData(null);
+                intent.setFlags(0);
+                return;
+            }
+        }
+        if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
+            userIdIntent = extras.getString(Helper.PREF_USER_ID); //Id of the account in the intent
+            instanceIntent = extras.getString(Helper.PREF_USER_INSTANCE);
+            urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
+            if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
+                if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
+                    openNotifications(activity, intent);
+                } else {
+                    try {
+                        BaseAccount account = new Account(activity).getUniqAccount(userIdIntent, instanceIntent);
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                        headerMenuOpen = false;
+                        Toasty.info(activity, activity.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                        BaseMainActivity.currentToken = account.token;
+                        BaseMainActivity.currentUserID = account.user_id;
+                        api = account.api;
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(PREF_USER_TOKEN, account.token);
+                        editor.putString(PREF_USER_SOFTWARE, account.software);
+                        editor.commit();
+                        Intent mainActivity = new Intent(activity, MainActivity.class);
+                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
+                        activity.startActivity(mainActivity);
+                        activity.finish();
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
+                openNotifications(activity, intent);
+            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_WITH_ANOTHER_ACCOUNT) {
+                CrossActionHelper.fetchRemoteStatus(activity, MainActivity.currentAccount, urlOfMessage, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        if (status != null) {
+                            Intent intent = new Intent(activity, ContextActivity.class);
+                            intent.putExtra(Helper.ARG_STATUS, status);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            activity.startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
+
+                    }
+                });
+            }
+        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                final String[] url = {null};
+                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                //SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+                //boolean shouldRetrieveMetaData = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                if (sharedText != null) {
+                    /* Some apps don't send the URL as the first part of the EXTRA_TEXT,
+                        the BBC News app being one such, in this case find where the URL
+                        is and strip that out into sharedText.
+                     */
+                    Matcher matcher;
+                    matcher = Patterns.WEB_URL.matcher(sharedText);
+                    int count = 0;
+                    while (matcher.find()) {
+                        int matchStart = matcher.start(1);
+                        int matchEnd = matcher.end();
+                        if (matchStart < matchEnd && sharedText.length() >= matchEnd) {
+                            url[0] = sharedText.substring(matchStart, matchEnd);
+                            count++;
+                        }
+                    }
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                    boolean fetchSharedMedia = sharedpreferences.getBoolean(activity.getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
+                    boolean fetchShareContent = sharedpreferences.getBoolean(activity.getString(R.string.SET_SHARE_DETAILS), true);
+                    if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
+                        String originalUrl = url[0];
+                        new Thread(() -> {
+                            if (!url[0].matches("^https?://.*")) url[0] = "http://" + url[0];
+                            Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
+                            String potentialUrl = null;
+                            while (matcherPattern.find()) {
+                                int matchStart = matcherPattern.start(1);
+                                int matchEnd = matcherPattern.end();
+                                if (matchStart < matchEnd && url[0].length() >= matchEnd)
+                                    potentialUrl = url[0].substring(matchStart, matchEnd);
+                            }
+                            // If we actually have a URL then make use of it.
+                            if (potentialUrl != null && potentialUrl.length() > 0) {
+
+
+                                try {
+                                    OkHttpClient client = new OkHttpClient.Builder()
+                                            .connectTimeout(10, TimeUnit.SECONDS)
+                                            .writeTimeout(10, TimeUnit.SECONDS)
+                                            .proxy(Helper.getProxy(activity.getApplication().getApplicationContext()))
+                                            .readTimeout(10, TimeUnit.SECONDS).build();
+                                    Request request = new Request.Builder()
+                                            .url(potentialUrl)
+                                            .build();
+                                    client.newCall(request).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                            e.printStackTrace();
+                                            activity.runOnUiThread(() -> Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NonNull Call call, @NonNull final Response response) {
+                                            if (response.isSuccessful()) {
+                                                try {
+                                                    String data = response.body().string();
+                                                    Document html = Jsoup.parse(data);
+
+                                                    Element titleEl = html.selectFirst("meta[property='og:title']");
+                                                    Element descriptionEl = html.selectFirst("meta[property='og:description']");
+                                                    Element imageUrlEl = html.selectFirst("meta[property='og:image']");
+
+                                                    String title = "";
+                                                    String description = "";
+
+                                                    if (titleEl != null) {
+                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                            title = Html.fromHtml(titleEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
+                                                        } else {
+                                                            title = Html.fromHtml(titleEl.attr("content")).toString();
+                                                        }
+                                                    }
+
+                                                    if (descriptionEl != null) {
+                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                                            description = Html.fromHtml(descriptionEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
+                                                        } else {
+                                                            description = Html.fromHtml(descriptionEl.attr("content")).toString();
+                                                        }
+                                                    }
+
+                                                    String imageUrl = "";
+                                                    if (imageUrlEl != null) {
+                                                        imageUrl = imageUrlEl.attr("content");
+                                                    }
+
+                                                    StringBuilder titleBuilder = new StringBuilder();
+
+                                                    if (!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
+                                                        // If the shared text is not just the URL, add it to the top
+                                                        String toAppend = sharedText.replaceAll("\\s*" + Pattern.quote(originalUrl) + "\\s*", "");
+                                                        titleBuilder.append(toAppend);
+                                                    }
+
+                                                    if (title.length() > 0) {
+                                                        // OG title fetched from source
+                                                        if (titleBuilder.length() > 0)
+                                                            titleBuilder.append("\n\n");
+                                                        titleBuilder.append(title);
+                                                    }
+
+                                                    String finalImage = imageUrl;
+                                                    String finalTitle = titleBuilder.toString();
+                                                    String finalDescription = description;
+
+                                                    activity.runOnUiThread(() -> {
+                                                        Bundle b = new Bundle();
+                                                        b.putString(Helper.ARG_SHARE_URL, url[0]);
+                                                        if (fetchSharedMedia) {
+                                                            b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
+                                                        }
+                                                        b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
+                                                        b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
+                                                        b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
+                                                        b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
+                                                        CrossActionHelper.doCrossShare(activity, b);
+                                                    });
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } else {
+                                                activity.runOnUiThread(() -> Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                            }
+                                        }
+                                    });
+                                } catch (IndexOutOfBoundsException e) {
+                                    Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }).start();
+                    } else {
+                        Bundle b = new Bundle();
+                        b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);
+                        b.putString(Helper.ARG_SHARE_DESCRIPTION, sharedText);
+                        CrossActionHelper.doCrossShare(activity, b);
+                    }
+
+
+                }
+            } else if (type.startsWith("image/") || type.startsWith("video/")) {
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    Bundle b = new Bundle();
+                    List<Uri> uris = new ArrayList<>();
+                    uris.add(imageUri);
+                    Helper.createAttachmentFromUri(activity, uris, attachments -> {
+                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
+                        CrossActionHelper.doCrossShare(activity, b);
+                    });
+                } else {
+                    Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/") || type.startsWith("video/")) {
+                ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if (imageList != null) {
+                    Bundle b = new Bundle();
+                    Helper.createAttachmentFromUri(activity, imageList, attachments -> {
+                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
+                        CrossActionHelper.doCrossShare(activity, b);
+                    });
+                } else {
+                    Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else if (Intent.ACTION_VIEW.equals(action)) {
+            String url = intent.getDataString();
+
+            if (url == null) {
+                intent.replaceExtras(new Bundle());
+                intent.setAction("");
+                intent.setData(null);
+                intent.setFlags(0);
+                return;
+            }
+            Matcher matcher;
+            matcher = Patterns.WEB_URL.matcher(url);
+            boolean isUrl = false;
+            while (matcher.find()) {
+                isUrl = true;
+            }
+            if (!isUrl) {
+                intent.replaceExtras(new Bundle());
+                intent.setAction("");
+                intent.setData(null);
+                intent.setFlags(0);
+                return;
+            }
+            //Here we know that the intent contains a valid URL
+            if (!url.contains("medium.com")) {
+                Pattern link = Pattern.compile("https?://([\\da-z.-]+[à-ü]?\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                Matcher matcherLink;
+                matcherLink = link.matcher(url);
+                if (matcherLink.find()) {
+                    if (currentAccount == null) {
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+                        if (currentToken == null || currentToken.trim().isEmpty()) {
+                            currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                        }
+                        try {
+                            currentAccount = new Account(activity).getConnectedAccount();
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+                        CrossActionHelper.fetchRemoteStatus(activity, currentAccount, url, new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                                if (status != null) {
+                                    Intent intent = new Intent(activity, ContextActivity.class);
+                                    intent.putExtra(Helper.ARG_STATUS, status);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(intent);
+                                } else {
+                                    Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
+                            }
+                        });
+                    } else {//It's an account
+                        CrossActionHelper.fetchRemoteAccount(activity, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                            @Override
+                            public void federatedStatus(Status status) {
+                            }
+
+                            @Override
+                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
+                                if (account != null) {
+                                    Intent intent = new Intent(activity, ProfileActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putSerializable(Helper.ARG_ACCOUNT, account);
+                                    intent.putExtras(b);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    activity.startActivity(intent);
+                                } else {
+                                    Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Helper.forwardToBrowser(activity, intent);
+                }
+            } else {
+                Helper.forwardToBrowser(activity, intent);
+            }
+        }
+        intent.replaceExtras(new Bundle());
+        intent.setAction("");
+        intent.setData(null);
+        intent.setFlags(0);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mamageNewIntent(intent);
+        mamageNewIntent(BaseMainActivity.this, intent);
     }
 
     @Override
@@ -639,7 +1006,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         new Thread(() -> {
             try {
                 if (currentToken == null) {
-                    currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+                    currentToken = sharedpreferences.getString(PREF_USER_TOKEN, null);
                 }
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
             } catch (DBException e) {
@@ -647,13 +1014,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             if (currentAccount != null && currentAccount.peertube_account != null) {
                 //It is a peertube user
+                Intent intent = getIntent();
                 Intent myIntent = new Intent(this, PeertubeMainActivity.class);
+                if (intent.getExtras() != null) {
+                    Bundle currentExtra = myIntent.getExtras();
+                    if (currentExtra == null) {
+                        currentExtra = new Bundle();
+                    }
+                    Bundle bundleToForward = intent.getExtras();
+                    currentExtra.putAll(bundleToForward);
+                    myIntent.putExtras(currentExtra);
+                }
+                if (intent.getAction() != null) {
+                    myIntent.setAction(intent.getAction());
+                }
                 startActivity(myIntent);
                 finish();
                 return;
             }
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
-            if (currentAccount != null && currentAccount.mastodon_account == null && currentAccount.peertube_account == null) {
+            if (currentAccount != null && currentAccount.mastodon_account == null) {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .readTimeout(60, TimeUnit.SECONDS)
                         .connectTimeout(60, TimeUnit.SECONDS)
@@ -830,12 +1210,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 }).start();
                             }
                         });
+                mamageNewIntent(this, getIntent());
 
             };
             mainHandler.post(myRunnable);
         }).start();
         filteredAccounts = new ArrayList<>();
-        mamageNewIntent(getIntent());
+
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
@@ -1060,364 +1441,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }).start();
         }
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
-    }
-
-    /**
-     * Open notifications tab when coming from a notification device
-     *
-     * @param intent - Intent intent that will be cancelled
-     */
-    private void openNotifications(Intent intent) {
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-            boolean singleBar = sharedpreferences.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
-            if (!singleBar) {
-                binding.bottomNavView.setSelectedItemId(R.id.nav_notifications);
-            } else {
-                int position = 0;
-                for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
-                    TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
-                    if (tab != null && tab.getTag() != null && tab.getTag().equals(Timeline.TimeLineEnum.NOTIFICATION.getValue())) {
-                        break;
-                    }
-                    position++;
-                }
-                binding.viewPager.setCurrentItem(position);
-            }
-        }, 1000);
-        intent.removeExtra(Helper.INTENT_ACTION);
-    }
-
-
-    @SuppressLint("ApplySharedPref")
-    private void mamageNewIntent(Intent intent) {
-        if (intent == null)
-            return;
-        String action = intent.getAction();
-        String type = intent.getType();
-        Bundle extras = intent.getExtras();
-        String userIdIntent, instanceIntent, urlOfMessage;
-        if (action != null && action.equalsIgnoreCase("app.fedilab.android.shorcut.compose")) {
-            CrossActionHelper.doCrossAction(BaseMainActivity.this, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
-            intent.replaceExtras(new Bundle());
-            intent.setAction("");
-            intent.setData(null);
-            intent.setFlags(0);
-            return;
-        }
-        if (extras != null && extras.containsKey(Helper.INTENT_ACTION)) {
-            userIdIntent = extras.getString(Helper.PREF_USER_ID); //Id of the account in the intent
-            instanceIntent = extras.getString(Helper.PREF_USER_INSTANCE);
-            urlOfMessage = extras.getString(Helper.PREF_MESSAGE_URL);
-            if (extras.getInt(Helper.INTENT_ACTION) == Helper.NOTIFICATION_INTENT) {
-                if (userIdIntent != null && instanceIntent != null && userIdIntent.equals(currentUserID) && instanceIntent.equals(currentInstance)) {
-                    openNotifications(intent);
-                } else {
-                    try {
-                        BaseAccount account = new Account(BaseMainActivity.this).getUniqAccount(userIdIntent, instanceIntent);
-                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                        headerMenuOpen = false;
-                        Toasty.info(BaseMainActivity.this, getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
-                        BaseMainActivity.currentToken = account.token;
-                        BaseMainActivity.currentUserID = account.user_id;
-                        api = account.api;
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(PREF_USER_TOKEN, account.token);
-                        editor.putString(PREF_USER_SOFTWARE, account.software);
-                        editor.commit();
-                        Intent mainActivity = new Intent(this, MainActivity.class);
-                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
-                        startActivity(mainActivity);
-                        finish();
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
-                openNotifications(intent);
-            } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_WITH_ANOTHER_ACCOUNT) {
-                CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, MainActivity.currentAccount, urlOfMessage, new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                        if (status != null) {
-                            Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
-                            intent.putExtra(Helper.ARG_STATUS, status);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
-
-                    }
-                });
-            }
-        } else if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                final String[] url = {null};
-                String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-                //SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                //boolean shouldRetrieveMetaData = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
-                if (sharedText != null) {
-                    /* Some apps don't send the URL as the first part of the EXTRA_TEXT,
-                        the BBC News app being one such, in this case find where the URL
-                        is and strip that out into sharedText.
-                     */
-                    Matcher matcher;
-                    matcher = Patterns.WEB_URL.matcher(sharedText);
-                    int count = 0;
-                    while (matcher.find()) {
-                        int matchStart = matcher.start(1);
-                        int matchEnd = matcher.end();
-                        if (matchStart < matchEnd && sharedText.length() >= matchEnd) {
-                            url[0] = sharedText.substring(matchStart, matchEnd);
-                            count++;
-                        }
-                    }
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                    boolean fetchSharedMedia = sharedpreferences.getBoolean(getString(R.string.SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL), true);
-                    boolean fetchShareContent = sharedpreferences.getBoolean(getString(R.string.SET_SHARE_DETAILS), true);
-                    if (url[0] != null && count == 1 && (fetchShareContent || fetchSharedMedia)) {
-                        String originalUrl = url[0];
-                        new Thread(() -> {
-                            if (!url[0].matches("^https?://.*")) url[0] = "http://" + url[0];
-                            Matcher matcherPattern = Patterns.WEB_URL.matcher(url[0]);
-                            String potentialUrl = null;
-                            while (matcherPattern.find()) {
-                                int matchStart = matcherPattern.start(1);
-                                int matchEnd = matcherPattern.end();
-                                if (matchStart < matchEnd && url[0].length() >= matchEnd)
-                                    potentialUrl = url[0].substring(matchStart, matchEnd);
-                            }
-                            // If we actually have a URL then make use of it.
-                            if (potentialUrl != null && potentialUrl.length() > 0) {
-
-
-                                try {
-                                    OkHttpClient client = new OkHttpClient.Builder()
-                                            .connectTimeout(10, TimeUnit.SECONDS)
-                                            .writeTimeout(10, TimeUnit.SECONDS)
-                                            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                                            .readTimeout(10, TimeUnit.SECONDS).build();
-                                    Request request = new Request.Builder()
-                                            .url(potentialUrl)
-                                            .build();
-                                    client.newCall(request).enqueue(new Callback() {
-                                        @Override
-                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                            e.printStackTrace();
-                                            runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
-                                        }
-
-                                        @Override
-                                        public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                                            if (response.isSuccessful()) {
-                                                try {
-                                                    String data = response.body().string();
-                                                    Document html = Jsoup.parse(data);
-
-                                                    Element titleEl = html.selectFirst("meta[property='og:title']");
-                                                    Element descriptionEl = html.selectFirst("meta[property='og:description']");
-                                                    Element imageUrlEl = html.selectFirst("meta[property='og:image']");
-
-                                                    String title = "";
-                                                    String description = "";
-
-                                                    if (titleEl != null) {
-                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                            title = Html.fromHtml(titleEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
-                                                        } else {
-                                                            title = Html.fromHtml(titleEl.attr("content")).toString();
-                                                        }
-                                                    }
-
-                                                    if (descriptionEl != null) {
-                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                                            description = Html.fromHtml(descriptionEl.attr("content"), Html.FROM_HTML_MODE_LEGACY).toString();
-                                                        } else {
-                                                            description = Html.fromHtml(descriptionEl.attr("content")).toString();
-                                                        }
-                                                    }
-
-                                                    String imageUrl = "";
-                                                    if (imageUrlEl != null) {
-                                                        imageUrl = imageUrlEl.attr("content");
-                                                    }
-
-                                                    StringBuilder titleBuilder = new StringBuilder();
-
-                                                    if (!originalUrl.trim().equalsIgnoreCase(sharedText.trim())) {
-                                                        // If the shared text is not just the URL, add it to the top
-                                                        String toAppend = sharedText.replaceAll("\\s*" + Pattern.quote(originalUrl) + "\\s*", "");
-                                                        titleBuilder.append(toAppend);
-                                                    }
-
-                                                    if (title.length() > 0) {
-                                                        // OG title fetched from source
-                                                        if (titleBuilder.length() > 0)
-                                                            titleBuilder.append("\n\n");
-                                                        titleBuilder.append(title);
-                                                    }
-
-                                                    String finalImage = imageUrl;
-                                                    String finalTitle = titleBuilder.toString();
-                                                    String finalDescription = description;
-
-                                                    runOnUiThread(() -> {
-                                                        Bundle b = new Bundle();
-                                                        b.putString(Helper.ARG_SHARE_URL, url[0]);
-                                                        if (fetchSharedMedia) {
-                                                            b.putString(Helper.ARG_SHARE_URL_MEDIA, finalImage);
-                                                        }
-                                                        b.putString(Helper.ARG_SHARE_TITLE, finalTitle);
-                                                        b.putString(Helper.ARG_SHARE_DESCRIPTION, finalDescription);
-                                                        b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
-                                                        b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
-                                                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                                                    });
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            } else {
-                                                runOnUiThread(() -> Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
-                                            }
-                                        }
-                                    });
-                                } catch (IndexOutOfBoundsException e) {
-                                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                        }).start();
-                    } else {
-                        Bundle b = new Bundle();
-                        b.putString(Helper.ARG_SHARE_TITLE, sharedSubject);
-                        b.putString(Helper.ARG_SHARE_DESCRIPTION, sharedText);
-                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                    }
-
-
-                }
-            } else if (type.startsWith("image/") || type.startsWith("video/")) {
-                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if (imageUri != null) {
-                    Bundle b = new Bundle();
-                    List<Uri> uris = new ArrayList<>();
-                    uris.add(imageUri);
-                    Helper.createAttachmentFromUri(BaseMainActivity.this, uris, attachments -> {
-                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
-                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                    });
-                } else {
-                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/") || type.startsWith("video/")) {
-                ArrayList<Uri> imageList = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-                if (imageList != null) {
-                    Bundle b = new Bundle();
-                    Helper.createAttachmentFromUri(BaseMainActivity.this, imageList, attachments -> {
-                        b.putSerializable(Helper.ARG_MEDIA_ATTACHMENTS, new ArrayList<>(attachments));
-                        CrossActionHelper.doCrossShare(BaseMainActivity.this, b);
-                    });
-                } else {
-                    Toasty.warning(BaseMainActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else if (Intent.ACTION_VIEW.equals(action)) {
-            String url = intent.getDataString();
-
-            if (url == null) {
-                intent.replaceExtras(new Bundle());
-                intent.setAction("");
-                intent.setData(null);
-                intent.setFlags(0);
-                return;
-            }
-            Matcher matcher;
-            matcher = Patterns.WEB_URL.matcher(url);
-            boolean isUrl = false;
-            while (matcher.find()) {
-                isUrl = true;
-            }
-            if (!isUrl) {
-                intent.replaceExtras(new Bundle());
-                intent.setAction("");
-                intent.setData(null);
-                intent.setFlags(0);
-                return;
-            }
-            //Here we know that the intent contains a valid URL
-            if (!url.contains("medium.com")) {
-                Pattern link = Pattern.compile("https?://([\\da-z.-]+[à-ü]?\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                Matcher matcherLink;
-                matcherLink = link.matcher(url);
-                if (matcherLink.find()) {
-                    if (currentAccount == null) {
-                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
-                        if (currentToken == null || currentToken.trim().isEmpty()) {
-                            currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
-                        }
-                        try {
-                            currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                        CrossActionHelper.fetchRemoteStatus(BaseMainActivity.this, currentAccount, url, new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                                if (status != null) {
-                                    Intent intent = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                    intent.putExtra(Helper.ARG_STATUS, status);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                } else {
-                                    Toasty.error(BaseMainActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
-                            }
-                        });
-                    } else {//It's an account
-                        CrossActionHelper.fetchRemoteAccount(BaseMainActivity.this, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                            }
-
-                            @Override
-                            public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
-                                if (account != null) {
-                                    Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                } else {
-                                    Toasty.error(BaseMainActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Helper.forwardToBrowser(BaseMainActivity.this, intent);
-                }
-            } else {
-                Helper.forwardToBrowser(BaseMainActivity.this, intent);
-            }
-        }
-        intent.replaceExtras(new Bundle());
-        intent.setAction("");
-        intent.setData(null);
-        intent.setFlags(0);
     }
 
     private void manageFilters(int position) {

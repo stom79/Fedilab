@@ -17,9 +17,11 @@ package app.fedilab.android.peertube.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.fetchRecentAccounts;
 import static app.fedilab.android.BaseMainActivity.headerMenuOpen;
 import static app.fedilab.android.BaseMainActivity.headerOptionInfoClick;
+import static app.fedilab.android.BaseMainActivity.mamageNewIntent;
 import static app.fedilab.android.BaseMainActivity.manageDrawerMenu;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
@@ -201,6 +203,15 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     currentToken = sharedpreferences.getString(app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN, null);
                 }
                 currentAccount = new Account(PeertubeMainActivity.this).getConnectedAccount();
+                if (currentAccount == null) {
+                    if (currentUserID == null) {
+                        currentUserID = sharedpreferences.getString(PREF_USER_ID, null);
+                    }
+                    if (currentInstance == null) {
+                        currentInstance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
+                    }
+                    currentAccount = new Account(PeertubeMainActivity.this).getUniqAccount(currentUserID, currentInstance);
+                }
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -211,7 +222,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 finish();
                 return;
             }
-
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
             if (currentAccount != null && currentAccount.peertube_account == null) {
                 try {
@@ -221,7 +231,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     e.printStackTrace();
                 }
             }
-
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
@@ -240,6 +249,13 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     headerMenuOpen = !headerMenuOpen;
                     manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
                 });
+                if (Helper.isLoggedIn()) {
+                    binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
+                    refreshToken();
+
+                } else {
+                    binding.navView.inflateMenu(R.menu.bottom_nav_menu);
+                }
             };
             mainHandler.post(myRunnable);
         }).start();
@@ -353,13 +369,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         setTitleCustom(R.string.title_home);
 
-        if (Helper.isLoggedIn()) {
-            binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
-            refreshToken();
 
-        } else {
-            binding.navView.inflateMenu(R.menu.bottom_nav_menu);
-        }
         peertubeInformation = new PeertubeInformation();
         peertubeInformation.setCategories(new LinkedHashMap<>());
         peertubeInformation.setLanguages(new LinkedHashMap<>());
@@ -396,8 +406,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
                     null, null, FragmentLoginPickInstancePeertube.class.getName());
         }
-
+        mamageNewIntent(PeertubeMainActivity.this, getIntent());
         fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
+
     }
 
     public DisplayVideosFragment getSubscriptionFragment() {
@@ -656,8 +667,18 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 recreate();
             }
         }
+        mamageNewIntent(PeertubeMainActivity.this, intent);
     }
 
+    /*public static void mamageNewIntent(Activity activity,
+                                       Intent intent) {
+        if (intent == null)
+            return;
+        String action = intent.getAction();
+        if (action != null && action.equalsIgnoreCase("app.fedilab.android.shorcut.compose")) {
+            CrossActionHelper.doCrossAction(activity, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
+        }
+    }*/
 
     @SuppressLint("ApplySharedPref")
     private void showRadioButtonDialog() {
