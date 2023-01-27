@@ -2,6 +2,7 @@ package de.timfreiheit.mathjax.android;
 
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -90,6 +91,17 @@ public class MathJaxView extends FrameLayout {
         }
     }
 
+    public static String getProcessName(Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
+            if (processInfo.pid == android.os.Process.myPid()) {
+                return processInfo.processName;
+            }
+        }
+
+        return null;
+    }
+
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void init(Context context, AttributeSet attrSet, MathJaxConfig config) {
         mWebView = new WebView(context);
@@ -155,6 +167,12 @@ public class MathJaxView extends FrameLayout {
         mWebView.setHorizontalScrollBarEnabled(horizontalScrollbarsEnabled);
         mWebView.setBackgroundColor(0);
         mWebView.getSettings().setLoadWithOverviewMode(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String process = getProcessName(context);
+            if (!context.getPackageName().equals(process))
+                WebView.setDataDirectorySuffix(process);
+        }
     }
 
     /**

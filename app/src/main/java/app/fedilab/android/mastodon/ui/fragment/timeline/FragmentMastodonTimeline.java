@@ -1067,7 +1067,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
                         @Override
                         public void federatedAccount(Account account) {
-                            if (account != null && !requireActivity().isFinishing() && isAdded()) {
+                            if (account != null && isAdded() && !requireActivity().isFinishing()) {
                                 accountIDInRemoteInstance = account.id;
                                 accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
                                         .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance, null, accountIDInRemoteInstance, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
