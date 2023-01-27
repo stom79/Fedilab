@@ -1,0 +1,9 @@
+Changed:
+- Peertube support
+
+Changed:
+- Cross actions with two accounts display a dialog
+
+Fixed:
+
+- Fix crashes

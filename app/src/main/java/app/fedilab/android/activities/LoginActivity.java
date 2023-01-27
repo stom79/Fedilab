@@ -15,6 +15,8 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -70,6 +72,7 @@ public class LoginActivity extends BaseActivity {
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(Helper.PREF_USER_TOKEN, account.token);
+                editor.putString(PREF_USER_SOFTWARE, BaseMainActivity.api.name());
                 editor.commit();
                 //The user is now authenticated, it will be redirected to MainActivity
                 Runnable myRunnable = () -> {

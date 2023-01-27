@@ -905,7 +905,7 @@ public class Helper {
         if (newAccount == null) {
             editor.putString(PREF_USER_TOKEN, null);
             editor.putString(PREF_USER_INSTANCE, null);
-            //   editor.putString(PREF_USER_SOFTWARE, null);
+            editor.putString(PREF_USER_SOFTWARE, null);
             editor.putString(PREF_USER_ID, null);
             editor.commit();
             Intent loginActivity = new Intent(activity, LoginActivity.class);

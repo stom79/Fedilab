@@ -72,6 +72,7 @@ import java.util.regex.Pattern;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.activities.PeertubeBaseMainActivity;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
@@ -203,9 +204,16 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            if (currentAccount != null && currentAccount.mastodon_account != null) {
+                //It is a Mastodon User
+                Intent myIntent = new Intent(PeertubeMainActivity.this, MainActivity.class);
+                startActivity(myIntent);
+                finish();
+                return;
+            }
 
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
-            if (currentAccount != null && currentAccount.mastodon_account == null && currentAccount.peertube_account == null) {
+            if (currentAccount != null && currentAccount.peertube_account == null) {
                 try {
                     userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, currentInstance, currentToken).verifyCredentials();
                     currentAccount.peertube_account = userMe.getAccount();
@@ -213,6 +221,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     e.printStackTrace();
                 }
             }
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
                 headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));

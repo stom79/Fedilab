@@ -17,6 +17,7 @@ package app.fedilab.android.peertube.helper;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
@@ -575,7 +576,7 @@ public class Helper {
         editor.putString(CLIENT_SECRET, null);
         editor.putString(PREF_USER_ID, null);
         editor.putString(PREF_USER_INSTANCE, null);
-        // editor.putString(PREF_USER_SOFTWARE, null);
+        editor.putString(PREF_USER_SOFTWARE, null);
         editor.apply();
         Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
         activity.startActivity(loginActivity);

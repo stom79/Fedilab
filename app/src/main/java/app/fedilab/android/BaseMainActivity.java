@@ -623,11 +623,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
         }
         String software = sharedpreferences.getString(PREF_USER_SOFTWARE, null);
-        if (software != null && software.equalsIgnoreCase("peertube")) {
-            startActivity(new Intent(this, PeertubeMainActivity.class));
-            finish();
-            return;
-        }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -648,6 +644,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
             } catch (DBException e) {
                 e.printStackTrace();
+            }
+            if (currentAccount != null && currentAccount.peertube_account != null) {
+                //It is a peertube user
+                Intent myIntent = new Intent(this, PeertubeMainActivity.class);
+                startActivity(myIntent);
+                finish();
+                return;
             }
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
             if (currentAccount != null && currentAccount.mastodon_account == null && currentAccount.peertube_account == null) {
