@@ -1,4 +1,4 @@
-Changed:
+Added:
 - Edit description and focus for media (for the next Mastodon release)
 
 Changed:
