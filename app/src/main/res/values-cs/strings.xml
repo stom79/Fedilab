@@ -995,4 +995,6 @@
     <string name="proxy_protocol_socks">SOCKS</string>
     <string name="proxy_protocol">Protokol</string>
     <string name="proxy_protocol_http">HTTP</string>
+    <string name="about_peertube">„PeerTube je nástroj pro sdílení videa vyvinutý francouzskou neziskovou organizací Framasoft.…PeerTube umožňuje, aby byly platformy vzájemně propojeny a vytvořily tak velkou síť platforem, které jsou zároveň autonomní i propojené.“</string>
+    <string name="following">Sledující</string>
 </resources>
