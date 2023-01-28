@@ -33,6 +33,8 @@ import android.webkit.URLUtil;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.preference.PreferenceManager;
 
+import com.google.gson.JsonSyntaxException;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1188,9 +1190,9 @@ public class RetrofitPeertubeAPI {
                 }
                 throw error;
             }
-        } catch (IOException e) {
+        } catch (IOException | JsonSyntaxException e) {
             Error error = new Error();
-            error.setError(_context.getString(R.string.toast_error));
+            error.setError(_context.getString(R.string.toast_error_peertube_not_supported));
             apiResponse.setError(error);
             e.printStackTrace();
         }

@@ -2228,4 +2228,7 @@
     <string name="action_change_subscribed_language">Change subscribed languages</string>
     <string name="filter_languages">Filter languages</string>
     <string name="translate_in">Translate in</string>
+
+    <string name="compose_shortcut_short_label1">Compose</string>
+    <string name="toast_error_peertube_not_supported">Your Peertube is too old and cannot be supported by the app.</string>
 </resources>
