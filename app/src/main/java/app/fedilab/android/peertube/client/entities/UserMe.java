@@ -55,8 +55,8 @@ public class UserMe {
     private NotificationSettings notificationSettings;
     @SerializedName("nsfwPolicy")
     private String nsfwPolicy;
-    @SerializedName("role")
-    private Role role;
+    /* @SerializedName("role")
+     private Role role;*/
     @SerializedName("roleLabel")
     private String roleLabel;
     @SerializedName("username")
@@ -74,13 +74,13 @@ public class UserMe {
     @SerializedName("webTorrentEnabled")
     private boolean webTorrentEnabled;
 
-    public Role getRole() {
+   /* public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
+    }*/
 
     public PeertubeAccount getAccount() {
         return account;

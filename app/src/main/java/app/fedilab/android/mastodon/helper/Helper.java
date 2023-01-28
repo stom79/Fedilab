@@ -18,6 +18,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.mastodon.helper.LogoHelper.getNotificationIcon;
+import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -42,6 +43,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -89,6 +91,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -1062,9 +1065,25 @@ public class Helper {
         if (account.mastodon_account != null) {
             targetedUrl = disableGif ? account.mastodon_account.avatar_static : account.mastodon_account.avatar;
         } else if (account.peertube_account != null) {
-            targetedUrl = account.peertube_account.getAvatar().getPath();
-            if (targetedUrl != null && targetedUrl.startsWith("/")) {
-                targetedUrl = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+            if (account.peertube_account.getAvatar() != null) {
+                targetedUrl = account.peertube_account.getAvatar().getPath();
+                if (targetedUrl != null && targetedUrl.startsWith("/")) {
+                    targetedUrl = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+                }
+            } else {
+                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                        .setLabel(account.peertube_account.getAcct())
+                        .setAvatarSize(120)
+                        .setTextSize(30)
+                        .toSquare()
+                        .setBackgroundColor(fetchAccentColor(activity))
+                        .build();
+                Glide.with(activity)
+                        .asDrawable()
+                        .load(avatar)
+                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                        .into(view);
+                return;
             }
         }
 

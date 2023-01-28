@@ -33,6 +33,7 @@ import android.webkit.URLUtil;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonSyntaxException;
 
 import org.jetbrains.annotations.NotNull;
@@ -94,6 +95,7 @@ import app.fedilab.android.peertube.viewmodel.CommentVM;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
 import app.fedilab.android.peertube.viewmodel.TimelineVM;
 import app.fedilab.android.sqlite.Sqlite;
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -158,7 +160,18 @@ public class RetrofitPeertubeAPI {
             String instance = host;
             try {
                 UserMe userMe = new RetrofitPeertubeAPI(activity, instance, token).verifyCredentials();
-
+                if (userMe == null) {
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    Runnable myRunnable = () -> {
+                        MaterialButton login = activity.findViewById(R.id.login_button);
+                        if (login != null) {
+                            login.setEnabled(true);
+                        }
+                        Toasty.error(activity, activity.getString(R.string.toast_error_peertube_not_supported), Toasty.LENGTH_SHORT).show();
+                    };
+                    mainHandler.post(myRunnable);
+                    return;
+                }
                 peertubeAccount = userMe.getAccount();
             } catch (Error error) {
                 Error.displayError(activity, error);
