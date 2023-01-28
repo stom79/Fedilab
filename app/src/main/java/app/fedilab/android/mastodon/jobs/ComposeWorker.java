@@ -158,6 +158,9 @@ public class ComposeWorker extends Worker {
             }
             dataPost.messageToSend = statuses.size() - startingPosition;
             dataPost.messageSent = 0;
+            List<String> media_edit_id = null;
+            List<String> media_edit_description = null;
+            List<String> media_edit_focus = null;
             for (int i = startingPosition; i < statuses.size(); i++) {
                 if (dataPost.notificationBuilder != null) {
                     dataPost.notificationBuilder.setProgress(100, dataPost.messageSent * 100 / dataPost.messageToSend, true);
@@ -170,7 +173,15 @@ public class ComposeWorker extends Worker {
                     attachmentIds = new ArrayList<>();
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         if (attachment.id != null) {
+                            if (media_edit_id == null) {
+                                media_edit_id = new ArrayList<>();
+                                media_edit_description = new ArrayList<>();
+                                media_edit_focus = new ArrayList<>();
+                            }
                             attachmentIds.add(attachment.id);
+                            media_edit_id.add(attachment.id);
+                            media_edit_description.add(attachment.description);
+                            media_edit_focus.add(attachment.focus);
                         } else {
                             MultipartBody.Part fileMultipartBody;
                             if (watermark && attachment.mimeType != null && attachment.mimeType.contains("image")) {
@@ -221,13 +232,16 @@ public class ComposeWorker extends Worker {
                 if (statuses.get(i).local_only) {
                     statuses.get(i).text += " \uD83D\uDC41";
                 }
+
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
                                 poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language, statuses.get(i).quote_id, statuses.get(i).content_type);
                     } else { //Status is edited
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive,
+                                statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language,
+                                media_edit_id, media_edit_description, media_edit_focus);
                     }
                     try {
                         Response<Status> statusResponse = statusCall.execute();

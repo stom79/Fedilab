@@ -1046,12 +1046,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
-                    if (editMessageId != null && attachment.url != null) {
+                   /* if (editMessageId != null && attachment.url != null) {
                         composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
                         composeAttachmentItemBinding.buttonDescription.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
                         composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                    }
+                    }*/
                     String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
                     if (attachment.type != null || attachment.mimeType != null) {
                         if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
