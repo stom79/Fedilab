@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.16.1",
+    "code": "473",
+    "note": "Changed:\n- Edit description and focus for media (for the next Mastodon release)\n\nChanged:\n- Peertube: remove role support to avoid crashes with older instances\n\nFixed:\n- Fix some crashes"
+  },
+  {
     "version": "3.16.0",
     "code": "472",
     "note": "Changed:\n- Peertube support\n- Compose shortcut\n- Long press compose button to write with another account\n\nChanged:\n- Cross actions with two accounts display a dialog\n- Order & compact og values when sharing > title - url - content\n\nFixed:\n- Text cleared when adding a media\n- Fix crashes"
