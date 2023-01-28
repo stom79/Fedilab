@@ -928,7 +928,7 @@
     <string name="add_all_users_home_muted">Engadir tódolas usuarias ao inicio acalado</string>
     <string name="put_all_accounts_in_home_muted">Tódalas contas serán acaladas para a cronoloxía de Inicio.</string>
     <string name="mute_them_all">Acalalas todas</string>
-    <string name="muted_menu_home">Usuarias acalas en Inicio</string>
+    <string name="muted_menu_home">Usuarias acaladas no Inicio</string>
     <string name="group_reblogs">Comparticións para o grupo no Inicio</string>
     <string name="manage_accounts">Xestionar contas</string>
     <string name="set_remove_left_margin_title">Eliminar marxe esquerda</string>
@@ -980,4 +980,5 @@
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol">Protocolo</string>
     <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="about_peertube">\"PeerTube é unha ferramenta desenvolta por Framasoft (organización sen ánimo de lucro) para compartir vídeos en internet. PeerTube permite que unhas plataformas se conecten con outras, creando unha gran rede na que as partes son autónomas e están interconectadas.\"</string>
 </resources>
