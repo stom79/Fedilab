@@ -22,6 +22,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
+import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
 
 import android.Manifest;
@@ -35,6 +36,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -83,9 +85,13 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -459,16 +465,42 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                         }
                                     } else if (account.peertube_account != null) {
                                         acct = account.peertube_account.getAcct();
-                                        url = account.peertube_account.getAvatar().getPath();
-                                        if (url != null && url.startsWith("/")) {
-                                            url = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+                                        if (account.peertube_account.getAvatar() != null) {
+                                            url = account.peertube_account.getAvatar().getPath();
+                                            if (url != null && url.startsWith("/")) {
+                                                url = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
+                                            }
                                         }
                                     }
 
                                     final MenuItem item = currentSubmenu.add("@" + acct);
                                     item.setIcon(R.drawable.ic_person);
                                     if (!activity.isDestroyed() && !activity.isFinishing() && url != null) {
-                                        if (url.contains(".gif")) {
+                                        if (url.trim().isEmpty()) {
+                                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                                                    .setLabel(account.peertube_account.getAcct())
+                                                    .setAvatarSize(120)
+                                                    .setTextSize(30)
+                                                    .toSquare()
+                                                    .setBackgroundColor(fetchAccentColor(activity))
+                                                    .build();
+                                            Glide.with(activity)
+                                                    .asDrawable()
+                                                    .load(avatar)
+                                                    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                                                    .into(new CustomTarget<Drawable>() {
+                                                        @Override
+                                                        public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                                            item.setIcon(resource);
+                                                            item.getIcon().setColorFilter(0xFFFFFFFF, PorterDuff.Mode.MULTIPLY);
+                                                        }
+
+                                                        @Override
+                                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                        }
+                                                    });
+                                        } else if (url.contains(".gif")) {
                                             Glide.with(activity)
                                                     .asGif()
                                                     .load(url)
@@ -668,7 +700,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         BaseAccount account = new Account(activity).getUniqAccount(userIdIntent, instanceIntent);
                         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                         headerMenuOpen = false;
-                        Toasty.info(activity, activity.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                        String acct = "";
+                        if (account.mastodon_account != null) {
+                            acct = "@" + account.mastodon_account.username + "@" + account.instance;
+                        } else if (account.peertube_account != null) {
+                            acct = "@" + account.peertube_account.getUsername() + "@" + account.instance;
+                        }
+                        Toasty.info(activity, activity.getString(R.string.toast_account_changed, acct), Toasty.LENGTH_LONG).show();
                         BaseMainActivity.currentToken = account.token;
                         BaseMainActivity.currentUserID = account.user_id;
                         api = account.api;
