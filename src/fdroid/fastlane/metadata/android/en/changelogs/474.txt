@@ -1,6 +1,6 @@
 Added:
 - Peertube support
-- Compose shortcut
+- Compose shortcut (long press launcher)
 - Long press compose button to write with another account
 - Edit description and focus for media (for the next Mastodon release)
 
@@ -11,4 +11,5 @@ Changed:
 
 Fixed:
 - Text cleared when adding a media
+- Fix Maths not working with quotes
 - Fix crashes

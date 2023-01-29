@@ -167,7 +167,9 @@ public class MathJaxView extends FrameLayout {
         mWebView.setHorizontalScrollBarEnabled(horizontalScrollbarsEnabled);
         mWebView.setBackgroundColor(0);
         mWebView.getSettings().setLoadWithOverviewMode(true);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             String process = getProcessName(context);
             if (!context.getPackageName().equals(process))
