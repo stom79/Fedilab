@@ -1,0 +1,14 @@
+Added:
+- Peertube support
+- Compose shortcut
+- Long press compose button to write with another account
+- Edit description and focus for media (for the next Mastodon release)
+
+Changed:
+- Cross actions with two accounts display a dialog
+- Order & compact og values when sharing > title - url - content
+- Tap on top message (user info) open threads
+
+Fixed:
+- Text cleared when adding a media
+- Fix crashes

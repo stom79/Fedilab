@@ -841,7 +841,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
             holder.binding.actionButtonFavorite.setChecked(statusToDeal.favourited);
-            holder.binding.statusUserInfo.setOnClickListener(v -> {
+            holder.binding.avatar.setOnClickListener(v -> {
                 if (remote) {
                     Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
@@ -1657,6 +1657,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
         if (!minified && canBeFederated) {
             holder.binding.mainContainer.setOnClickListener(v -> holder.binding.statusContent.callOnClick());
+            holder.binding.statusUserInfo.setOnClickListener(v -> {
+                holder.binding.statusContent.callOnClick();
+            });
             holder.binding.statusContent.setOnClickListener(v -> {
                 if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
                     if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
