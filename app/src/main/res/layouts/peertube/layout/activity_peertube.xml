@@ -56,6 +56,7 @@
                     android:layout_height="match_parent"
                     android:animateLayoutChanges="true"
                     app:dtpv_controller="@+id/media_video"
+                    app:controller_layout_id="@layout/peertube_exo_player_control_view"
                     app:use_controller="true" />
 
                 <com.github.vkay94.dtpv.youtube.YouTubeOverlay

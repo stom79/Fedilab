@@ -63,6 +63,8 @@ public class BasePeertubeActivity extends BaseBarActivity {
         binding = ActivityPeertubeBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+
         binding.minController.castPlay.setOnClickListener(v -> {
             binding.minController.castLoader.setVisibility(View.VISIBLE);
             if (PeertubeBaseMainActivity.chromeCast != null) {
