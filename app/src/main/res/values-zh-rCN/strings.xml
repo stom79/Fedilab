@@ -569,4 +569,9 @@
     <string name="no_distributors_explanation">要接收推送通知你需要一个分发商。\n你将在%1$s找到更多详情。\n\n你也可以在设置中禁用推送通知，以忽略该消息。</string>
     <string name="select_distributors">选择一个分发商</string>
     <string name="show_anyway">仍要显示</string>
+    <string name="toast_bookmark">该消息已添加到您的书签！</string>
+    <string name="icon_size">图标大小</string>
+    <string name="toots_visibility_title">默认情况下消息的可见性：</string>
+    <string name="toast_unbookmark">该消息已从您的书签中删除！</string>
+    <string name="show_privates">显示私信</string>
 </resources>
