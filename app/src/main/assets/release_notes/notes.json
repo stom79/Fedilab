@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.16.3",
+    "code": "475",
+    "note": "Added:\n- Peertube 2FA support\n\nFixed:\n- Dynamic color for Android 12+"
+  },
+  {
     "version": "3.16.2",
     "code": "474",
     "note": "Added:\n- Peertube support\n- Compose shortcut (long press launcher)\n- Long press compose button to write with another account\n- Edit description and focus for media (for the next Mastodon release)\n\nChanged:\n- Cross actions with two accounts display a dialog\n- Order & compact og values when sharing > title - url - content\n- Tap on top message (user info) open threads\n\nFixed:\n- Text cleared when adding a media\n- Fix Maths not working with quotes\n- Fix crashes"
