@@ -17,18 +17,12 @@ package app.fedilab.android.peertube.activities;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.updateCredential;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -160,6 +154,7 @@ public class LoginActivity extends BaseBarActivity {
         oauthParams.setClient_secret(client_secret);
         oauthParams.setGrant_type("password");
         oauthParams.setScope("user");
+        oauthParams.x_peertube_otp = binding.loginOtp.getText().toString().isEmpty() ? null : binding.loginOtp.getText().toString();
         if (binding.loginUid.getText() != null) {
             oauthParams.setUsername(binding.loginUid.getText().toString().trim());
         }
@@ -169,22 +164,21 @@ public class LoginActivity extends BaseBarActivity {
         try {
             Token token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
             proceedLogin(token, finalInstance);
-        } catch (final Exception e) {
-            oauthParams.setUsername(binding.loginUid.getText().toString().toLowerCase().trim());
-            Token token = null;
-            try {
-                token = new RetrofitPeertubeAPI(LoginActivity.this, finalInstance, null).manageToken(oauthParams);
-            } catch (Error ex) {
-                ex.printStackTrace();
-            }
-            proceedLogin(token, finalInstance);
         } catch (Error e) {
-            runOnUiThread(() -> {
-                Toasty.error(LoginActivity.this, e.getError() != null && !e.getError().isEmpty() ? e.getError() : getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                binding.loginButton.setEnabled(true);
-            });
-
-            e.printStackTrace();
+            if (e.getError() != null && e.getError().contains("missing_two_factor")) {
+                runOnUiThread(() -> {
+                    binding.loginOtpContainer.setVisibility(View.VISIBLE);
+                    binding.loginOtp.setFocusable(true);
+                    binding.loginOtp.requestFocus();
+                    binding.loginButton.setEnabled(true);
+                });
+            } else {
+                runOnUiThread(() -> {
+                    Toasty.error(LoginActivity.this, e.getError() != null && !e.getError().isEmpty() ? e.getError() : getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                    binding.loginButton.setEnabled(true);
+                });
+                e.printStackTrace();
+            }
         }
     }
 

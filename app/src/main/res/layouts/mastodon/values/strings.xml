@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="otp_message">Two factor authentication token</string>
+</resources>

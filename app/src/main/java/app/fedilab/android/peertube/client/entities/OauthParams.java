@@ -44,6 +44,9 @@ public class OauthParams {
     private String code;
     @SerializedName("redirect_uri")
     private String redirect_uri;
+    @SerializedName("x_peertube_otp")
+    public String x_peertube_otp;
+
 
     public String getClient_secret() {
         return client_secret;

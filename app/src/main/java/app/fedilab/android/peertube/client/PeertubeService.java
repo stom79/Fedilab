@@ -122,6 +122,18 @@ public interface PeertubeService {
             @Field("password") String password,
             @Field("externalAuthToken") String externalAuthToken);
 
+    @FormUrlEncoded
+    @POST("users/token")
+    Call<Token> otpConnetion(
+            @Header("x-peertube-otp") String externalAuthToken,
+            @Field("client_id") String client_id,
+            @Field("client_secret") String client_secret,
+            @Field("response_type") String response_type,
+            @Field("grant_type") String grant_type,
+            @Field("scope") String scope,
+            @Field("username") String username,
+            @Field("password") String password);
+
     //TOKEN
     //Refresh
     @FormUrlEncoded

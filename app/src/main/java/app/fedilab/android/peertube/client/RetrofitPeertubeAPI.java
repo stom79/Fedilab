@@ -267,7 +267,9 @@ public class RetrofitPeertubeAPI {
     public Token manageToken(OauthParams oauthParams) throws Error {
         PeertubeService peertubeService = init();
         Call<Token> refreshTokenCall = null;
-        if (oauthParams.getGrant_type().compareTo("password") == 0) {
+        if (oauthParams.x_peertube_otp != null) {
+            refreshTokenCall = peertubeService.otpConnetion(oauthParams.x_peertube_otp, oauthParams.getClient_id(), oauthParams.getClient_secret(), "code", oauthParams.getGrant_type(), "upload", oauthParams.getUsername(), oauthParams.getPassword());
+        } else if (oauthParams.getGrant_type().compareTo("password") == 0) {
             refreshTokenCall = peertubeService.createToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getGrant_type(), oauthParams.getUsername(), oauthParams.getPassword());
         } else if (oauthParams.getGrant_type().compareTo("refresh_token") == 0) {
             refreshTokenCall = peertubeService.refreshToken(oauthParams.getClient_id(), oauthParams.getClient_secret(), oauthParams.getRefresh_token(), oauthParams.getGrant_type());
